@@ -56,7 +56,7 @@ def list_ideas(environ,start_response):
   bag = Bag("ideas")
   store = environ['tiddlyweb.store']
   bag = store.get(bag)
-  tiddlers = control.get_tiddlers_from_bag(bag)
+  tiddlers = control.filter_tiddlers_from_bag(bag,environ['tiddlyweb.filters'])
   
   template = template_env.get_template('listideas.html')
   return generate_template(template,tiddlers,environ)

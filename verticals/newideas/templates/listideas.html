@@ -1,5 +1,6 @@
 {% set order_direction = "-" %}
-by <a href='?sortby={{order_direction}}created'>date</a> <a href='?sortby={{order_direction}}points'>points</a> <a href='?sortby={{order_direction}}name'>name</a>
+{% set qs = environ['QUERY_STRING'] %}
+by <a href='?{{qs}}&sortby={{order_direction}}created'>date</a> <a href='?{{qs}}&sortby={{order_direction}}points'>points</a> <a href='?{{qs}}&sortby={{order_direction}}name'>name</a>
 
 {% if environ['tiddlyweb.query']['sortby'] %}
 {% set sort_attr = environ['tiddlyweb.query']['sortby'][0] %}

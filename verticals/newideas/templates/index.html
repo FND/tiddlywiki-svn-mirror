@@ -35,7 +35,7 @@ You can also view, comment and collaborate on the ideas of others. Share your op
 
 <div class='tags'>
 <p>tags:</p>
-{{"/ideas/tags/ideas"|load_from_url}}
+{{"/ideas/tags/ideas"|load_from_url(qs=environ['QUERY_STRING'])}}
 </div>
 
 <p>send an e-mail to myidea@jonrobson.me.uk

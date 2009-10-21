@@ -9,22 +9,15 @@ def get_tags_from_bag(environ,start_response):
         limit = int(environ['tiddlyweb.query']['max'][0])
     except KeyError:
         limit = 0
+    store = environ['tiddlyweb.store']    
+    bag = store.get(Bag(bagName))
+    tiddlers = control.filter_tiddlers_from_bag(bag,environ['tiddlyweb.filters'])
     
-    bagfilter = ""
-    try:
-      bagfilter = "select="+environ['tiddlyweb.query']['filter'][0] +";"
-    except KeyError:   
-      bagfilter = ""
-    recipe = create_dynamic_recipe(environ,[[bagName, bagfilter]])
-    logging.debug("owch %s"%bagfilter)
-    bag = Bag("tempbag",tmpbag=True)
-      
-    bag.add_tiddlers(control.get_tiddlers_from_recipe(recipe))
     #bag = Bag(bagName)
-    store = environ['tiddlyweb.store']
+
     #bag = store.get(bag)
     tags = {}
-    for tiddler in bag.list_tiddlers():
+    for tiddler in tiddlers:
         tiddler = store.get(tiddler)
         for tag in tiddler.tags:
             try:
@@ -39,9 +32,9 @@ def get_tags_from_bag(environ,start_response):
     for key, value in tags:
         view = environ['tiddlyweb.query'].get("view", None) or ['list']
         if  view[0]== "cloud":
-            tagList.append(key+' '+str(value))
+            tagList.append("<a href='/ideas?select=tag:"+key+"'>"+key+"</a>"+' '+str(value))
         else:
-            tagList.append(key+' ('+str(value)+')<br/>')
+            tagList.append("<a href='/ideas?select=tag:"+key+"''>"+key+'</a> ('+str(value)+')<br/>')
             
         
     tagList = list(set(tagList))
