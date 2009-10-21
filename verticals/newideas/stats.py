@@ -287,10 +287,12 @@ FILTER_PARSERS["sort"] = sort_parse
 
 def string_to_float(x):
     return float(x)
+def int_to_float(x):
+    return int(x)
 
 sort.ATTRIBUTE_SORT_KEY["rating_average"] = string_to_float
 sort.ATTRIBUTE_SORT_KEY["reports"] = string_to_float        
-        
+sort.ATTRIBUTE_SORT_KEY["points"] = int_to_float              
         
 def init(config_in):
     global config

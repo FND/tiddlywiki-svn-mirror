@@ -1,5 +1,13 @@
+{% set order_direction = "-" %}
+by <a href='?sortby={{order_direction}}created'>date</a> <a href='?sortby={{order_direction}}points'>points</a> <a href='?sortby={{order_direction}}name'>name</a>
 
-  {% for idea in tiddlers%}
+{% if environ['tiddlyweb.query']['sortby'] %}
+{% set sort_attr = environ['tiddlyweb.query']['sortby'][0] %}
+{% else%} 
+{% set sort_attr ="-points" %} 
+{% endif %}
+
+  {% for idea in tiddlers|tiddlersort(sort_attr)%}
 <h2><a href='/ideas/idea/{{idea.title}}'>{{idea.title}}</a></h2>
 <div class='points'><div class='number'>{{idea.fields.points}}</div></div>
 tagged with: {% for tag in idea.tags %}{{tag}} {% endfor %}{% if idea.tags|length == 0%}no tags{%endif%}

@@ -35,22 +35,7 @@ def load_from_url(url,method="GET",qs=False):
   else:
     return ""
 
-def grouplist(str,separator=";"):
-  
-  goodones = []
-  for i in str.split(separator):
-    if i != "":
-      goodones.append(i)
-  uniques = set(goodones)
-  
-  outstr = ""
-  num =1
-  for i in uniques:
-    outstr += i
-    if num < len(uniques):
-      outstr +=" & "
-    num += 1
-  return outstr
+
     
 def template_exists(path):
   try:
@@ -68,10 +53,9 @@ def unquote(str):
   return urllib.unquote(str)
 
 
-def sort_those_tiddlers(listoftiddlers,attribute,reverse=False):
+def sort_those_tiddlers(listoftiddlers,attribute):
   from stats import sort_parse
   return sort_parse(attribute)(listoftiddlers)
-template_env.filters['grouplist'] = grouplist 
 template_env.filters['template_exists'] = template_exists
 template_env.filters['dateformat'] = dateformat
 template_env.filters['asratingid'] = asratingid

@@ -22,7 +22,7 @@ You can also view, comment and collaborate on the ideas of others. Share your op
 {% block stream %}
 
 <div class='stream'>
-{{"/ideas/list"|load_from_url}}
+{{"/ideas/list"|load_from_url(qs=environ['QUERY_STRING'])}}
 </div>
 {% endblock %}
 
