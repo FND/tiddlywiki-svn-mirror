@@ -17,24 +17,22 @@ $a = $pluginsLoader1->readPlugins($cct_base);
 
 class PluginFetcher extends Plugin
   {
-	public function run() {
-		global $pluginsLoader;  
-		foreach ($this->phpEvents as $eventnames=>$eventArray) {
-			echo 'boooo';
-			
-			
-			foreach ($eventArray as $event)
-				$pluginsLoader->addEvent($eventnames,$event);
-		}
-		foreach ($this->tiddlers as $tiddler) {
-			//$pluginsLoader->addTiddler($tiddler);
-			var_dump($tiddler);
-		}
+	public function addTiddler($data, $path=null) {
+		if(is_file($path))
+			$tiddler = $this->tiddlerFromFile($path);
+		else 
+			$tiddler = array();
+		if(is_array($data)) 
+			$tiddler = array_merge_recursive($data,$tiddler);
+		$this->tiddlers[$tiddler['title']] = $tiddler;
+		var_dump($tiddler);
+
 	}
+
   }
 
 
-	$p = new PluginFetcher('ccTiddly', '0.1', 'simonmcmanus.com');
+$p = new PluginFetcher('ccTiddly', '0.1', 'simonmcmanus.com');
 
 foreach($a as $b){
 		$pluginIndex = file_get_contents($b);
