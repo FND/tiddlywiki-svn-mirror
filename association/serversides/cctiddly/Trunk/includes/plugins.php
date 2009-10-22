@@ -3,27 +3,27 @@ global $Plugins;
 global $tiddlyCfg;
 $Plugins = array();
 	
-	// takes a path to a .tid file and returns a tiddler object.
-	function tiddler_parse_tid_file($file)
-	{	
-		$file = trim($file);
-		$fh = @fopen($file, 'r');
-		$tiddly_body = @fread($fh, filesize($file));		
-//		$tiddly_body = file_get_contents($file);		
-		$position = strpos($tiddly_body, "\n\n");
-		$top = substr($tiddly_body, 0, $position);
-	 	$file_slash_position = strrpos($file, "/");
-		$tiddler['title'] = substr($file,$file_slash_position+1,-4);
-		$tiddler['body'] = substr($tiddly_body, $position+1);
-		$fields = explode("\n", $top);
-		foreach($fields as $field)
-		{
-			$pairs = explode(":", $field);
-			$tiddler[$pairs[0]] = trim($pairs[1]);
-		}
-		return $tiddler;
+// takes a path to a .tid file and returns a tiddler object.
+function tiddler_parse_tid_file($file)
+{	
+	$file = trim($file);
+	$fh = @fopen($file, 'r');
+	$tiddly_body = @fread($fh, filesize($file));		
+	//	$tiddly_body = file_get_contents($file);		
+	$position = strpos($tiddly_body, "\n\n");
+	$top = substr($tiddly_body, 0, $position);
+ 	$file_slash_position = strrpos($file, "/");
+	$tiddler['title'] = substr($file,$file_slash_position+1,-4);
+	$tiddler['body'] = substr($tiddly_body, $position+1);
+	$fields = explode("\n", $top);
+	foreach($fields as $field)
+	{
+		$pairs = explode(":", $field);
+		$tiddler[$pairs[0]] = trim($pairs[1]);
 	}
-	
+	return $tiddler;
+}
+
 class Plugin {
 	public $phpEvents;
 	public $tiddlers;

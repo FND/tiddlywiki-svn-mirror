@@ -17,6 +17,5 @@ $tiddlyCfg['privilege']['non_admin']['document'] = "AUAA";
 
 
 $p = new Plugin('docuweb','0.1','simonmcmanus.com');
-//$p->addTiddlersFolder(getcwd().'/plugins/TiddlyDocs/files');
 $p->addRecipe(getcwd().'/plugins/docuweb/files/docuweb.recipe');
 ?>
