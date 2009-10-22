@@ -13,26 +13,25 @@
     document.documentElement.className = 'scripted';
   </script>
 
-  <p><a href="{{ server_prefix }}/trails/{{ tiddler.owner }}/{{ tiddler.title }}.player">Play Trail</a></p>
+  <h1>Scrumptious - Edit Trail</h1>
+
+  <div id="main">
 
   <form method="post" action="{{ server_prefix }}/trails/{{ tiddler.owner }}/{{ tiddler.title }}">
 
-    <p>
-      Name (hidden - need to separate from ID)<br/>
-      <input type="hidden" id="name" name="name" value="{{trail.name}}"></input>
-    </p>
+    <h2><span id="trailTitle">{{tiddler.title}}</span> <a id="play" href="{{ server_prefix }}/trails/{{ tiddler.owner }}/{{ tiddler.title }}.player">play this trail</a></h2>
 
-    <p>
-      Resources:<br/>
       <textarea rows="20" cols="80" id="resources" name="resources">
 {% for resource in trail.resources %}{{ resource.url }}|{{ resource.name }}|{{ resource.note }}
 {% endfor %}
       </textarea>
-    </p>
+      <div id="instruction">On each line, enter: <tt>URL|title|note</tt> (title and note are optional)</div>
 
     <input type="submit" value="Update!"></input>
 
   </form>
+
+  </div>
 
 </body>
 </html>
