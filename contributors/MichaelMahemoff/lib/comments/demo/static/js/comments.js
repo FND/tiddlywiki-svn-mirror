@@ -32,6 +32,7 @@
     $.fn.comments.updateLoginUI(context);
     $.fn.comments.wireEvents(context);
     $.fn.comments.loadData(context);
+    $.fn.comments.jumpToFragmentID(context);
     return $(this);
   }
 
@@ -124,7 +125,6 @@
   plugin.updateLoginUI = function(context, fadeEffect) {
 
     var userID = plugin.findUserID();
-    log("fe", fadeEffect);
 
     if (userID) {
       $(".userIDArea").show();
@@ -160,6 +160,13 @@
         plugin.treeify(context);
         plugin.refreshComments(context.ui.comments, rootTiddler, comment.title);
     });
+  }
+
+  plugin.jumpToFragmentID = function(context) {
+    var hash = document.location.hash;
+    if (hash.length<1) return;
+    document.location.hash = "#_"; // dummy
+    setTimeout(function() { document.location.hash = hash; }, 100);
   }
 
   //################################################################################
@@ -313,7 +320,6 @@
   }
 
   plugin.createComment = function(context, text, customFields, daddy) {
-    log("daddy", daddy);
     var title = "comment_"+plugin.makeGUID();
 
     var modifier = plugin.findUserID() || "GUEST";
@@ -373,7 +379,6 @@
   plugin.makeGUID = function() { return ""+(new Date()).getTime(); }
 
   plugin.putTiddler = function(context, tiddler) {
-    log("put tiddler", tiddler);
     $.ajax({type:"POST",
     url: context.options.path+"/"+tiddler.fields["server.workspace"]+"/tiddlers/"+encodeURIComponent(tiddler.title)
          + "?http_method=PUT",

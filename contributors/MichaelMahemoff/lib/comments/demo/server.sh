@@ -1,3 +1,7 @@
 #!/bin/bash
-twanager server comments.dev 8080
-echo 'started server at http://comments.dev:8080/demo.html'
+if [ "$tiddlyweb_port" == "" ] ; then tiddlyweb_port=8080 ; fi
+echo '******************************************************************************'
+echo 'Comments Plugin Demo'
+echo "Point your browser at http://comments.dev:${tiddlyweb_port}/static/demo.html"
+echo '******************************************************************************'
+twanager wserver comments.dev $tiddlyweb_port

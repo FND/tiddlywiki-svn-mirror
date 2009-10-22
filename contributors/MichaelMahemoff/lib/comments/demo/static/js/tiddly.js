@@ -24,17 +24,14 @@
     var _date=new Date();
     var hh = d.substr(8,2) || "00";
     var mm = d.substr(10,2) || "00";
-    console.log("ddddd", d);
     _date.setUTCFullYear(parseInt(d.substr(0,4),10), parseInt(d.substr(4,2),10), parseInt(d.substr(6,2),10));
     _date.setUTCHours(hh);
     _date.setUTCMinutes(mm);
-    console.log("d", d);
     return _date;
   }
 */
 
   plugin.renderTiddler = function(tiddler) {
-    console.log("mod", tiddler.modified);
     return $("<div class='tiddler'></div>")
            .append($("<div class='title'></div>")
                       .html(tiddler.title)
@@ -168,9 +165,7 @@ function createCookie(name,value,days) {
     var expires = "; expires="+date.toGMTString();
   }
   else var expires = "";
-  console.log(document.cookie);
   document.cookie = name+"="+value+expires+"; path=/";
-  console.log(document.cookie);
 }
 
 function readCookie(name) {
