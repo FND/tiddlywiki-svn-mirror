@@ -2,9 +2,11 @@ body { padding: 0; margin: 0; font-family: sans-serif; }
 h1 { margin: 0; padding: 20px; background: #bbb; border-bottom: 2px solid #666; color: #67c; }
 a, a:visited { color: #008; }
 
+#main { width: 500px; padding: 20px; }
 div#instruction { font-size: small; margin: 5px 0; }
-div#instruction, textarea { width: 500px; }
+textarea { width: 500px; }
 textarea { padding: 5px; margin: 0; }
 #trailTitle { font-size: 2em; }
-#play { font-size: 14px; background: #ccf; padding: 3px; text-decoration: none; color: black; border: 1px solid #999; margin-left: 6px; font-weight: normal; }
-#main { padding: 20px; }
+#play { font-size: 14px; }
+#bookmarklet { font-size: 14px; background: #ccf; padding: 3px; text-decoration: none; color: black; border: 1px solid #999; margin-left: 6px; font-weight: normal; }
+td { text-align: justify; }

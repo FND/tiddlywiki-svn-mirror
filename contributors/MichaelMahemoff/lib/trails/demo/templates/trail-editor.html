@@ -5,6 +5,7 @@
 	<link rel="stylesheet" href="{{ server_prefix }}/static/css/trail-editor.css" type="text/css" media="screen" title="no title" charset="utf-8"/>
   <link rel="shortcut icon" href="{{ server_prefix }}/static/images/favicon.ico" type="image/x-icon" /> 
 	<script type="text/javascript" src="{{ server_prefix }}/static/js/jquery-1.3.2.js"></script>
+	<script type="text/javascript" src="{{ server_prefix }}/static/js/trailEditor.js"></script>
 </head>
 
 <body>
@@ -30,6 +31,13 @@
     <input type="submit" value="Update!"></input>
 
   </form>
+
+  <table>
+    <tr>
+      <td><strong>Bookmarklet!</strong> Make trail building easier - drag the bookmarklet on the right to your browser toolbar. Or, in IE6, right-click on the button, and choose "Add To Favorites&nbsp;...". Then when dialog appears, choose "Links" for the "create in" field.</td>
+      <td id="bookmarkletWrapper"><p><a id="bookmarklet" href='javascript:(function(){ window.scrumptiousServerRoot="{{ server_root }}"; window.scrumptiousTrailTitle="{{ tiddler.title }}"; window.scrumptiousTrailOwner="{{ tiddler.owner }}"; var script=document.createElement("script");script.type="text/javascript";script.src="{{ server_root }}static/js/addResourceBookmarklet.js";document.body.appendChild(script);var loadTimer=setInterval(function(){if(window.openScrumptiousComments){window.openScrumptiousComments();clearTimeout(loadTimer);}},100);})();'>Add&nbsp;To&nbsp;{{ tiddler.title }}&nbsp;Trail</a></p></td>
+    </tr>
+  </table>
 
   </div>
 
