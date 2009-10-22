@@ -1,13 +1,12 @@
 <?php
-$cct_base = '../';
+$cct_base = '';
 $tiddlyCfg['plugins_disabled'] =  array();
 echo 'fetching tidlers..';
 
 
-include_once('../includes/pluginsLoaderClass.php');
-	
-	
-	
+include_once('includes/functions.php');
+
+include_once('includes/pluginsLoaderClass.php');
 
 
 global $pluginsLoader1;
@@ -18,31 +17,34 @@ $a = $pluginsLoader1->readPlugins($cct_base);
 
 class PluginFetcher extends Plugin
   {
-
 	public function run() {
 		global $pluginsLoader;  
 		foreach ($this->phpEvents as $eventnames=>$eventArray) {
+			echo 'boooo';
+			
+			
 			foreach ($eventArray as $event)
 				$pluginsLoader->addEvent($eventnames,$event);
 		}
 		foreach ($this->tiddlers as $tiddler) {
-			$pluginsLoader->addTiddler($tiddler);
+			//$pluginsLoader->addTiddler($tiddler);
+			var_dump($tiddler);
 		}
 	}
   }
 
 
-
+	$p = new PluginFetcher('ccTiddly', '0.1', 'simonmcmanus.com');
 
 foreach($a as $b){
 		$pluginIndex = file_get_contents($b);
-		$pluginLines = explode('\n', $pluginIndex);
+		$pluginLines = explode("\n", $pluginIndex);
 		foreach($pluginLines as $pluginLine){
 			if(stristr($pluginLine, 'addRecipe'))
 			{
 				$code = str_replace('?>', '', $pluginLine);
 				echo '<br /><b>'.$code.'</b><br/>';
-//				eval($code);
+				eval($code);
 			}
 			
 		}
