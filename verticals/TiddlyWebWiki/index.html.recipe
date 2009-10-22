@@ -1,6 +1,2 @@
-tiddler: ../../association/adaptors/TiddlyWebAdaptor.js
-tiddler: ../../association/plugins/TiddlyWebConfig.js
-tiddler: ../../association/plugins/ServerSideSavingPlugin.js
-
-tiddler: ../../association/plugins/RevisionsCommandPlugin.js
-tiddler: ../..//contributors/MartinBudden/formatters/DiffFormatterPlugin.js
+recipe: ../../core/tiddlywiki.html.recipe
+recipe: plugins.recipe
