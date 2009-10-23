@@ -39,6 +39,7 @@ def trail_player(environ, start_response):
 def trail_editor(environ, start_response):
   tiddler = make_trail_tiddler(environ)
   if (not tiddler):
+    # tiddler = Tiddler(title=environ['wsgiorg.routing_args'][1]['trail_id'], text='{"resources": []}')
     tiddler = Tiddler(title=environ['wsgiorg.routing_args'][1]['trail_id'], text='{"resources": []}')
   trail = json.loads(tiddler.text)
   template = Environment(loader=FileSystemLoader('templates')).get_template("trail-editor.html")
@@ -49,14 +50,12 @@ def make_bookmarklet_source(tiddler, trail):
 
 def make_resource(line):
   parts = line.split('|')
-  print "parts", parts
   return {"url": parts[0], "name": parts[1], "note": parts[2]}
 
 def trail_updater(environ, start_response):
   # http://is.gd/1GTCG
   tiddler = make_trail_tiddler(environ)
   trail = dict()
-  print '*** query', environ['tiddlyweb.query']
   # trail['resources'] = environ['tiddlyweb.query']['resources'][0].split(whitespace)
   trail['resources'] = map(make_resource, environ['tiddlyweb.query']['resources'][0].strip().splitlines())
 
