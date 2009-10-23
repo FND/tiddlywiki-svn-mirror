@@ -36,55 +36,57 @@ $(function() {
 
   params = parseGetVars();
 
-  // alert("starting");
   var serverRoot=document.location.href.replace(/^(.*\/)static.*$/, "$1");
   var trailTitle = params.trailTitle;
   var trailOwner = params.trailOwner;
-  console.log(document.location.href, "params", params, serverRoot, trailOwner, trailTitle);
 
   var loggedIn = buildLoginArea(serverRoot, trailOwner);
-  if (!loggedIn) return;
+  if (!loggedIn||!trailTitle) return;
 
-  jQuery.fn.attach = function(html) { return this.append(html).children(":last"); };
-  var form = $("<div id='trailResource'/>")
-    .attach("<table/>")
-      .attach("<tr/>")
+  jQuery.fn.attach = function(html) { return $(html).appendTo(this); }
+  var form = $("<div id='trailResource'></div>")
+    .append($("<table></table>")
+      .append($("<tr></tr/>")
         .append("<td class='label'>Trail:</td>")
         .append("<td class='value'>"+trailTitle+"</td>")
-      .end()
-      .attach("<tr/>")
+      )
+      .append($("<tr/>")
         .append("<td class='label'>URL:</td>")
-        .attach("<td class='value' />")
-          .attach("<input id='resourceURL'/>").val(params.url).end()
-        .end()
-      .end()
-      .attach("<tr/>")
+        .append($("<td class='value' />")
+          .append($("<input id='resourceURL'/>").val(params.url))
+        )
+      )
+      .append($("<tr/>")
         .append("<td class='label'>Name:</td>")
-        .attach("<td class='value' />")
-          .attach("<input id='resourceName'/>").val(params.name).end()
-        .end()
-      .end()
-      .attach("<tr/>")
+        .append($("<td class='value' />")
+          .append($("<input id='resourceName'/>").val(params.name))
+        )
+      )
+      .append($("<tr/>")
         .append("<td class='label'>Note:</td>")
-        .attach("<td class='value' />")
-          .attach("<textarea cols='40' rows='4' id='resourceNote'/>").end()
-        .end()
-      .end()
-      .attach("<tr/>")
+        .append($("<td class='value' />")
+          .append("<textarea cols='40' rows='4' id='resourceNote'/>")
+        )
+      )
+      .append($("<tr/>")
         .append("<td>&nbsp;</td>")
-        .attach("<td/>")
-          .attach("<button>Add To Trail</button>")
-            .click(function() { addToTrail(serverRoot, trailOwner, trailTitle); })
-          .end()
-        .end()
-      .end()
-    .end();
+        .append($("<td/>")
+          .append($("<button>Add To Trail</button>")
+            .click(function() {
+               addToTrail(serverRoot, trailOwner, trailTitle);
+               $(this).parent().append("<status style='margin:5px;'>Added! Reloading ...</status>");
+            })
+          )
+        )
+      )
+  );
   $("body").append(form);
 
 });
 
 function buildLoginArea(serverRoot, trailOwner) {
   var cookie = $.cookie("tiddlyweb_user");
+  // alert("cookie " + cookie);
   var loginArea = $("<div/>")
     .css("marginBottom", "10px") 
     .appendTo($("body"));
@@ -112,7 +114,10 @@ function buildLoginArea(serverRoot, trailOwner) {
       .html("you're not logged in")
       .appendTo(loginArea);
     $("<a/>")
-      .attr("href", serverRoot+"challenge/cookie_form?tiddlyweb_redirect="+encodeURI(document.location.pathname+document.location.search))
+      // .attr("href", serverRoot+"challenge/cookie_form?tiddlyweb_redirect="+encodeURI(document.location.pathname+document.location.search))
+      // .attr("href", serverRoot+"challenge/cookie_form?tiddlyweb_redirect="+document.location.pathname+document.location.search)
+      .attr("href", serverRoot+"challenge/cookie_form?tiddlyweb_redirect")
+      .attr("target", "scrumptiousLogin") // IE6 doesn't like opening inside the form (good anti-phishing anyway)
       .html("please login to manage your trail")
       .appendTo(loginArea);
     return false;
@@ -120,6 +125,7 @@ function buildLoginArea(serverRoot, trailOwner) {
 }
 
 function addToTrail(serverRoot, trailOwner, trailTitle) {
+
   getTiddler(serverRoot, "trails-"+trailOwner, trailTitle, function(trailTiddler) {
     var resources = $.parseJSON(trailTiddler.text).resources;
     var resource = {
@@ -141,7 +147,6 @@ function addToTrail(serverRoot, trailOwner, trailTitle) {
 
 // functon addToTrail() {
   // getTiddler("trails", id, function(trailTiddler) {
-    // console.log("this is handler");
   // });
 // }
 
