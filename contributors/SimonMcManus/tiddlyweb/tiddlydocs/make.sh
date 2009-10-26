@@ -42,7 +42,7 @@ EOF
 		curl http://github.com/tiddlyweb/tiddlyweb-plugins/raw/master/atom/atom.py > atom.py
 		curl http://github.com/tiddlyweb/tiddlyweb-plugins/raw/master/atom/atomplugin.py > atomplugin.py
 		curl http://github.com/tiddlyweb/tiddlyweb-plugins/raw/master/atom/htmlatom.py > htmlatom.py
-		curl http://github.com/tiddlyweb/tiddlyweb-plugins/raw/master/twstatic/static.py > static.py
+		curl http://github.com/tiddlyweb/tiddlyweb-plugins/raw/master/twstatic/tiddlywebplugins/static.py > static.py
 		curl http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlydocs/tiddlyeditor_plus.py > tiddlyeditor_plus.py
 		curl http://svn.tiddlywiki.org/Trunk/contributors/BenGillies/TiddlyDocs/gadget.py > gadget.py
 		curl http://svn.tiddlywiki.org/Trunk/contributors/BenGillies/TiddlyDocs/room_script.py > room_script.py
