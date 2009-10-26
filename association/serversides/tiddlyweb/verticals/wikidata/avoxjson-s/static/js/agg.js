@@ -748,6 +748,13 @@ ISO_3166.usa = ISO_3166["2:US"];DependentInputs = {
 		$row.val.get(0).className = className;
 		var currVal = $inp.val();
 		if(currVal) {
+			if($row.valueMap) {
+				for(var i in $row.valueMap) {
+					if($row.valueMap[i]===currVal) {
+						currVal = i; // the map is a reverse map in this context
+					}
+				}
+			}
 			$row.val.val(currVal);
 			$row.val.trigger("change");
 		}
@@ -763,17 +770,19 @@ ISO_3166.usa = ISO_3166["2:US"];DependentInputs = {
 	},
 	checkRow: function(i,changed) {
 		var $row = this.rows[i];
+		var matched = false;
 		var values;
 		for(var d=0; d<this.dependencies.length; d++) {
 			values = this.dependencies[d]($row,changed);
 			if(values) {
+				matched = true;
 				if(!$row.values) {
 					this.replaceValues(i,values);
 				}
-				break;
+				//break;
 			}
 		}
-		if(!values && $row.values && changed==="field") {
+		if(!matched && $row.values && changed==="field") {
 			delete $row.values;
 			delete $row.valuesMap;
 			$row.val.remove();
@@ -873,8 +882,8 @@ DependentInputs.addDependency(function($row,changed) {
 
 DependentInputs.addDependency(function($row,changed) {
 	if(changed==="value") {
-		var hidVal = $row.val.val();
-		$row.find('input:hidden').val($row.valueMap[hidVal]);
+		var inpVal = $row.val.val();
+		$row.find('input:hidden').val($row.valueMap[inpVal]);
 	}
 });
 
@@ -959,7 +968,7 @@ function addAdvSearchLine() {
 		$container.slideDown(250);
 		/* have to put this here until FixedHeader can cope with the page changing length after it's been initialised - it's after a timeout because the revealAdvancedSearch function takes that long to complete */
 		window.setTimeout(function() {
-			if(oTable) {
+			if(oTable && oTable.fixedHeader) {
 				oTable.fixedHeader.fnUpdate(true);
 			}
 		} ,300);
@@ -986,12 +995,12 @@ $(document).ready(function() { try {
 				var val = params[i.replace('_field', '_value')];
 				if(val && val[0]) {
 					addAdvSearchLine()
-						.find('select')
-						.val(params[i].join(" "))
-						.next()
+						.find('input')
 						.val(val[0])
-						.end()
+						.prev()
+						.val(params[i].join(" "))
 						.change();
+					console.log('set '+params[i].join(" ")+' to: ',val[0]);
 				}
 			}
 		}

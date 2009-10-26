@@ -119,7 +119,8 @@ jQuery(document).ready(function() {
 		var i = DependentInputs.createRow('#test-form');
 		var $row = DependentInputs.rows[i];
 		var expected = "United States";
-		$row.val.val(expected);
+		var code = "USA";
+		$row.val.val(code);
 		$row.field.val('Operational Country');
 		$row.field.trigger('change');
 		same($row.val.val(),expected);

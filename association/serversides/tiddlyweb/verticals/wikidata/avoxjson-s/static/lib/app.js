@@ -61,7 +61,7 @@ function addAdvSearchLine() {
 		$container.slideDown(250);
 		/* have to put this here until FixedHeader can cope with the page changing length after it's been initialised - it's after a timeout because the revealAdvancedSearch function takes that long to complete */
 		window.setTimeout(function() {
-			if(oTable) {
+			if(oTable && oTable.fixedHeader) {
 				oTable.fixedHeader.fnUpdate(true);
 			}
 		} ,300);
@@ -88,12 +88,12 @@ $(document).ready(function() { try {
 				var val = params[i.replace('_field', '_value')];
 				if(val && val[0]) {
 					addAdvSearchLine()
-						.find('select')
-						.val(params[i].join(" "))
-						.next()
+						.find('input')
 						.val(val[0])
-						.end()
+						.prev()
+						.val(params[i].join(" "))
 						.change();
+					console.log('set '+params[i].join(" ")+' to: ',val[0]);
 				}
 			}
 		}
