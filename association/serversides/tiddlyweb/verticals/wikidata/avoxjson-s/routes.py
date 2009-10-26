@@ -2,7 +2,7 @@ import templating
 import logging
 
 from tiddlyweb.web.http import HTTP404
-from tiddlywebplugins import replace_handler
+from tiddlywebplugins.utils import replace_handler, remove_handler
 from emailAvox import emailAvox
 
 def index(environ, start_response):
@@ -90,3 +90,9 @@ def init(config):
     config['selector'].add('/verify', POST=verify)
     config['selector'].add('/env', GET=env)
     replace_handler(config['selector'], '/', dict(GET=index))
+    remove_handler(config['selector'], '/recipes')
+    remove_handler(config['selector'], '/recipes/{recipe_name}')
+    remove_handler(config['selector'], '/recipes/{recipe_name}/tiddlers')
+    remove_handler(config['selector'], '/bags')
+    remove_handler(config['selector'], '/bags/{bag_name}')
+    remove_handler(config['selector'], '/bags/{bag_name}/tiddlers')
