@@ -16,8 +16,9 @@ $a = $pluginsLoader1->readPlugins($cct_base);
 
 
 class PluginFetcher extends Plugin
-  {
+{
 	public function addTiddler($data, $path=null) {
+echo $path;
 		if(is_file($path))
 			$tiddler = $this->tiddlerFromFile($path);
 		else 
@@ -25,11 +26,9 @@ class PluginFetcher extends Plugin
 		if(is_array($data)) 
 			$tiddler = array_merge_recursive($data,$tiddler);
 		$this->tiddlers[$tiddler['title']] = $tiddler;
-		var_dump($tiddler);
-
+		//	var_dump($tiddler);
 	}
-
-  }
+}
 
 
 $p = new PluginFetcher('ccTiddly', '0.1', 'simonmcmanus.com');

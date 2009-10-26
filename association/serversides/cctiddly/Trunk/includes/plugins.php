@@ -46,6 +46,7 @@ class Plugin {
 		if(is_array($data)) 
 			$tiddler = array_merge_recursive($data,$tiddler);
 		$this->tiddlers[$tiddler['title']] = $tiddler;
+		var_dump($tiddler);
 		
 	}
 	

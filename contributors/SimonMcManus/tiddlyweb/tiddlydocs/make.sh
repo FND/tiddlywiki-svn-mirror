@@ -30,6 +30,10 @@ twanager bag tdocs<<EOF
 {"policy": {"write": ["ADMIN"]}}
 EOF
 
+twanager bag system<<EOF
+{"policy": {"write": ["ADMIN"]}}
+EOF
+
 twanager bag documents<<EOF
 {"policy": {"accept": ["NONE"]}}
 EOF
