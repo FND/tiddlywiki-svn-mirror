@@ -6,7 +6,6 @@ tiddler: Plugins/newDocument.js
 tiddler: Plugins/saveNewSection.js
 tiddler: Plugins/tdocsButtons.js
 tiddler: Plugins/tdocsDelete.js
-#tiddler: Plugins/tdocsDocumentSwitch.js
 tiddler: Plugins/tdocsDocumentTabs.js
 tiddler: Plugins/tdocsMenu.js
 tiddler: Plugins/tdocsSectionButtons.js
@@ -34,15 +33,12 @@ tiddler: content/TiddlyDocs Introduction.tid
 tiddler: content/DefaultTiddlers.tid
 tiddler: content/Getting Started with MyDocs.tid
 tiddler: content/Settings.tid
-#tiddler: content/TiddlyDocsLinks.tid
 tiddler: content/feedback.tid
 tiddler: content/Simon McManus.tid      
 tiddler: content/ToolbarCommands.tid
 tiddler: content/issues.tid  
 tiddler: content/SiteSubtitle.tid
 tiddler: content/UserDefinitions.tid
-
-
 
 tiddler: ../../contributors/PhilHawksworth/verticals/TeamTasks/core/plugins/ValueSwitcherPlugin.js
 tiddler: ../../contributors/MichaelMahemoff/plugins/CommentsPlugin/CommentsPlugin.js
@@ -54,17 +50,16 @@ tiddler: ../../contributors/SimonMcManus/plugins/secretBackstage.js
 tiddler: ../../contributors/SimonMcManus/plugins/failedSaveNotification.js
 tiddler: ../../contributors/SimonMcManus/plugins/commentSlider.js
 
-
-# using local version with unix line breaks
-#tiddler: Plugins/SinglePageModePlugin_DOS2UNIX.js
-#tiddler: ../../contributors/EricShulman/plugins/SinglePageModePlugin.js
 tiddler: ../../contributors/PaulDowney/plugins/WikifiedMessagesPlugin/WikifiedMessagesPlugin.js
 tiddler: ../../contributors/PaulDowney/plugins/FadingMessagesPlugin/FadingMessagesPlugin.js
-tiddler: ../../contributors/PaulDowney/plugins/FadingMessagesPlugin/tiddlers/GrowlStyle.tiddler
 tiddler: ../../contributors/EricShulman/plugins/TaggedTemplateTweak.js
-
 
 recipe: ../ckeditor/split.recipe
 
 tiddler: content/MarkupPreHead.tid
+
+
+
+#tiddler: ../../contributors/PaulDowney/plugins/FadingMessagesPlugin/tiddlers/GrowlStyle.tiddler
+#tiddler: Plugins/tdocsDocumentSwitch.js
 
