@@ -68,7 +68,7 @@ function addAdvSearchLine() {
 	}
 	return $row;
 }
-$(document).ready(function() { try {
+$(document).ready(function() {
 	// set advanced search on a slider
 	$('#search a.advanced').click(function() {
 		addAdvSearchLine();
@@ -93,9 +93,8 @@ $(document).ready(function() { try {
 						.prev()
 						.val(params[i].join(" "))
 						.change();
-					console.log('set '+params[i].join(" ")+' to: ',val[0]);
 				}
 			}
 		}
 	}
-} catch(ex) { console.log(ex); } });
+});
