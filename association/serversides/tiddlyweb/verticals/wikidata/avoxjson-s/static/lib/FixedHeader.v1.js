@@ -174,26 +174,39 @@ $.fn.dataTableExt.FixedHeader = function ( oTable )
 				parseInt($(this).css('width'))+"px";
 		} );
 		
+		/*var passThrough = function(type,wrapUp) {
+			var handler = function(event) {
+				var iTrigger = $('thead th', _nCTable).index(this);
+				$('body').prepend(iTrigger+' '+event.type);
+				$('thead th:eq('+iTrigger+')', _oSettings.nTable).trigger(event);
+				if(wrapUp) {
+					wrapUp();
+				}
+			};
+			$('thead th', _nCTable)[type](handler);
+		};
+		passThrough('click',_fnCloneThead);
+		passThrough('mousedown');*/
+		
 		/* Add the event handlers for sorting */
 		$('thead th', _nCTable).click( function () {
 			/* Don't try and do the sort ourselves - let DataTables take care of the logic */
 			var iTrigger = $('thead th', _nCTable).index(this);
+			//$('body').prepend(iTrigger+' '+event.type);
 			$('thead th:eq('+iTrigger+')', _oSettings.nTable).click();
 			_fnCloneThead();
 			return true;
 		} );
 		
-		$('thead th', _nCTable).mousedown( function (event) {
-			/* JRL: Pass event through to original table header so dragtable.js can pick it up */
-			var iTrigger = $('thead th', _nCTable).index(this);
-			var th = $('thead th:eq('+iTrigger+')', _oSettings.nTable)[0];
-			if (window.event && window.event.srcElement) {
-				window.event.srcElement = th;
-			} else {
-				event.target = th;
-			}
-			th.onmousedown(event);
-		});
+		//$('thead th', _nCTable).mousedown( function (event) { try {
+			/* JRL: Pass event through to original table header so dragColumns.js can pick it up */
+			/*var iTrigger = $('thead th', _nCTable).index(this);
+			$('body').prepend(iTrigger+' '+event.type);
+			var $th = $('thead th:eq('+iTrigger+')', _oSettings.nTable);
+			event.stopPropagation();
+			$th.trigger("mousedown");
+			return false;
+		} catch(ex) { $('body').prepend(ex.message); } });*/
 	}
 	
 	

@@ -682,7 +682,221 @@
 };
 // some aliases
 ISO_3166.countries = ISO_3166["1_ALPHA_3"];
-ISO_3166.usa = ISO_3166["2:US"];/* app.js */
+ISO_3166.usa = ISO_3166["2:US"];DependentInputs = {
+	rows: [],
+	values: {},
+	dependencies: [],
+	addDependency: function(f) {
+		this.dependencies.push(f);
+	},
+	makeSelect: function($container,values) {
+		var $select = $("<select></select>").appendTo($container);
+		for(var i=0; i<values.length; i++) {
+			$select.append($("<option>"+values[i]+"</option>"));
+		}
+		return $select;
+	},
+	makeInput: function($container,attrs) {
+		var $input = $('<input type="text"></input>').appendTo($container);
+		if(attrs) {
+			$input.attr(attrs);
+		}
+		return $input;
+	},
+	createRow: function(container) {
+		var $container = $(container);
+		var $row = $("<div></div>").appendTo($container);
+		var i = this.rows.push($row)-1;
+		var id = "adv_"+i+"_value";
+		$row.addClass("advSearchLine");
+		$row.field = this.makeSelect($row,this.fields);
+		$row.field.addClass("advSearchLineField");
+		$row.val = this.makeInput($row, {
+			"id":id,
+			"name":id,
+			"size":"35"
+		});
+		$row.val.addClass("advSearchLineValue");
+		$row.change(function(event) {
+			var $target = $(event.target);
+			var changed;
+			if($target.hasClass("advSearchLineField")) {
+				changed = "field";
+			} else if ($target.hasClass("advSearchLineValue")) {
+				changed = "value";
+			} else {
+				throw new Error("something changed other than field or value in row, index "+i+", class: "+$target.className);
+			}
+			DependentInputs.checkAll(i,changed);
+		});
+		this.checkAll(i,"field");
+		return i;
+	},
+	replaceValues: function(i,values) {
+		var $row = this.rows[i];
+		$row.values = values;
+		var className = $row.val.get(0).className;
+		var $inp = $row.val.remove();
+		var $hid = $('<input type="hidden"></input>');
+		$hid.attr({
+			"id":$inp.attr("id"),
+			"name":$inp.attr("name")
+		});
+		$row.val = this.makeSelect($row,values);
+		$row.val.attr("name","_ignore");
+		$row.append($hid);
+		$row.val.get(0).className = className;
+		var currVal = $inp.val();
+		if(currVal) {
+			$row.val.val(currVal);
+			$row.val.trigger("change");
+		}
+	},
+	checkAll: function(i,changed) {
+		DependentInputs.checkRow(i,changed);
+		for(var j=0;j<DependentInputs.rows.length;j++) {
+			if(j!==i) {
+				// all other lines are candidates for changing their values, so check their dependencies as if they'd just changed their field to its current value
+				DependentInputs.checkRow(j,"field");
+			}
+		}
+	},
+	checkRow: function(i,changed) {
+		var $row = this.rows[i];
+		var values;
+		for(var d=0; d<this.dependencies.length; d++) {
+			values = this.dependencies[d]($row,changed);
+			if(values) {
+				if(!$row.values) {
+					this.replaceValues(i,values);
+				}
+				break;
+			}
+		}
+		if(!values && $row.values && changed==="field") {
+			delete $row.values;
+			delete $row.valuesMap;
+			$row.val.remove();
+			var $hid = $row.find('input:hidden').remove();
+			$row.val = this.makeInput($row, {
+				id: $hid.attr('id'),
+				name: $hid.attr('name')
+			});
+		}
+	}
+};
+
+DependentInputs.values.countries = (function() {
+	var countries = [];
+	for(var i in ISO_3166.countries.name2iso) {
+		countries.push(i);
+	}
+	return countries;
+})();
+
+DependentInputs.values.us_states = (function() {
+	var states = [];
+	for(var i in ISO_3166.usa.name2iso) {
+		states.push(i);
+	}
+	return states;
+})();
+
+DependentInputs.values.aus_states = (function() {
+	var states = [];
+	for(var i in ISO_3166["2:AU"].name2iso) {
+		states.push(i);
+	}
+	return states;
+})();
+
+DependentInputs.values.ca_states = (function() {
+	var states = [];
+	for(var i in ISO_3166["2:CA"].name2iso) {
+		states.push(i);
+	}
+	return states;
+})();
+
+DependentInputs.addDependency(function($row,changed) {
+	if(changed==="field" && $row.field.val()==="Operational Country") {
+		$row.valueMap = ISO_3166.countries.name2iso;
+		return DependentInputs.values.countries;
+	}
+});
+
+DependentInputs.addDependency(function($row,changed) {
+	if(changed==="field" && $row.field.val()==="Registered Country") {
+		$row.valueMap = ISO_3166.countries.name2iso;
+		return DependentInputs.values.countries;
+	}
+});
+
+DependentInputs.addDependency(function($row,changed) {
+	if(changed==="field" && $row.field.val()==="Operational State") {
+		var $r;
+		for(var i=0;i<DependentInputs.rows.length;i++) {
+			$r = DependentInputs.rows[i];
+			if($r.field.val()==="Operational Country" && $r.val.val()==="United States") {
+				$row.valueMap = ISO_3166.usa.name2iso;
+				return DependentInputs.values.us_states;
+			}
+		}
+	}
+});
+
+DependentInputs.addDependency(function($row,changed) {
+	if(changed==="field" && $row.field.val()==="Operational State") {
+		var $r;
+		for(var i=0;i<DependentInputs.rows.length;i++) {
+			$r = DependentInputs.rows[i];
+			if($r.field.val()==="Operational Country" && $r.val.val()==="Australia") {
+				$row.valueMap = ISO_3166["2:AU"].name2iso;
+				return DependentInputs.values.aus_states;
+			}
+		}
+	}
+});
+
+DependentInputs.addDependency(function($row,changed) {
+	if(changed==="field" && $row.field.val()==="Operational State") {
+		var $r;
+		for(var i=0;i<DependentInputs.rows.length;i++) {
+			$r = DependentInputs.rows[i];
+			if($r.field.val()==="Operational Country" && $r.val.val()==="Canada") {
+				$row.valueMap = ISO_3166["2:CA"].name2iso;
+				return DependentInputs.values.ca_states;
+			}
+		}
+	}
+});
+
+DependentInputs.addDependency(function($row,changed) {
+	if(changed==="value") {
+		var hidVal = $row.val.val();
+		$row.find('input:hidden').val($row.valueMap[hidVal]);
+	}
+});
+
+DependentInputs.fields = [
+	'Legal Name',
+	'Previous Name_s_',
+	'Trades As Name_s_',
+	'Trading Status',
+	'Company Website',
+	'Registered Country',
+	'Operational PO Box',
+	'Operational Floor',
+	'Operational Building',
+	'Operational Street 1',
+	'Operational Street 2',
+	'Operational Street 3',
+	'Operational City',
+	'Operational State',
+	'Operational Country',
+	'Operational Postcode',
+	'CABRE'
+];/* app.js */
 // override search links to use ajax_search as soon as possible
 $('a[href^="/search"]').each(function() {
 	var href = $(this).attr('href');
@@ -711,17 +925,13 @@ function parseQueryString(q) {
 	return params;
 }
 function addAdvSearchLine() {
-	var lines = $('.advSearchLine').length;
-	var i = lines + 1;
-	/* keeping this "Any Field" option back until we can support it in search
-	<option>Any Field</option>\n
-	*/
-	var s = '<div class="advSearchLine">\n<select class="field" name="adv_'+i+'_field">\n<option>Legal Name</option>\n<option>Previous Name(s)</option>\n<option>Trades As Name(s)</option>\n<option>Trading Status</option>\n<option>Company Website</option>\n<option>Country of Registration</option>\n<option>Operational PO Box</option>\n<option>Operational Floor</option>\n<option>Operational Building</option>\n<option>Operational Street 1</option>\n<option>Operational Street 2</option>\n<option>Operational Street 3</option>\n<option>Operational City</option>\n<option>Operational State</option>\n<option>Operational Country</option>\n<option>Operational Postcode</option>\n</select></div>';
-	var t ='<input name="adv_'+i+'_value" id="adv_'+i+'_value" size="35" type="text" />';
-	var u ='<a href="javascript:;" class="advanced" id="add_new_adv_'+i+'"><button onclick="return false;">+</button><!--<img src="/static/images/plus_small.gif" />--></a>';
-	var $advSearchLine = $(s).appendTo($('#advancedSearchLines')).append(t).append(u);
+	var container = '#advancedSearchContainer';
+	
+	var i = DependentInputs.createRow(container);
+	var $row = DependentInputs.rows[i];
+	
 	var filterOnChange = function(elem,selectedIndex) {
-		selectedIndex = selectedIndex || $advSearchLine.find('select')[0].selectedIndex;
+		selectedIndex = selectedIndex || $row.field.get(0).selectedIndex;
 		/* restore these lines when we can support "Any Field"
 		if(selectedIndex===0) { // "Any Field"
 			oTable.fnFilter(this.value);
@@ -731,137 +941,30 @@ function addAdvSearchLine() {
 		}*/
 		if(oTable) {
 			oTable.fnFilter(elem ? elem.value : "",selectedIndex+1);
-			oTable.fixedHeader.fnUpdate();
+			oTable.fixedHeader.fnUpdate(true);
 		}
 	};
-	/****** trying new way of handling events on filter box *****/
-	var countryFields = [
-		"Operational Country",
-		"Country of Registration"
-	];
-	var stateFields = [
-		"Operational State"
-	];
-	var dependencies = {
-		"Operational Country": [
-			"Operational State"
-		]
-	};
-	var statesForCountries = {
-		"Australia": ISO_3166["2:AU"],
-		"Canada": ISO_3166["2:CA"],
-		"United States": ISO_3166.usa
-	};
-	var countryDropDown = "<select>";
-	for(var n in ISO_3166.countries.name2iso) {
-		countryDropDown += "<option>"+n+"</option>";
-	}
-	countryDropDown += "</select>";
-	$advSearchLine.change(function(event) { try {
-		var $target = $(event.target);
-		var selected = $target.val();
-		var $value;
-		var currVal;
-		var name = 'adv_'+i+'_value';
-		var hiddenInputField;
-		if($target.hasClass('field')) {
-			if($.inArray(selected,countryFields)!==-1) {
-				$value = $target.next();
-				// $removed is a drop-down or an input
-				var $removed = $value.replaceWith($(countryDropDown));
-				$target.next().attr('name', '_ignore_'+name);
-				// throw away any hidden inputs as we've changed field
-				var $hidden = $target.parent().find('input:hidden').remove();
-				// take the pre-existing field value and see if we can set the new drop-down with it
-				currVal = $removed.val();
-				var newVal = ISO_3166.countries.iso2name[currVal];
-				if(newVal) {
-					$target.next().val(newVal);
-				}
-				// add in a hidden input field to store the code
-				hiddenInputField = '<input type="hidden" name="'+name+'" id="'+name+'" />';
-				$target.next().after(hiddenInputField).next().val(currVal);
-				// setup a list of fields that need to know about this field
-				var dependentFields = dependencies[selected];
-				$target[0].pendingDependencies = dependentFields;
-				// JRL - can we trigger dependents at this point?
-			} else if($.inArray(selected,stateFields)!==-1) {
-				// look for dependencies
-				$advSearchLine.parent().find('select.field').each(function() {
-					if(this.pendingDependencies) {
-						for(var i=0;i<this.pendingDependencies.length;i++) {
-							if($target.val()===this.pendingDependencies[i]) {
-								$target[0].isDependentOn = $(this).next().val();
-							}
-						}
-					}
-				});
-				if($target[0].isDependentOn && statesForCountries[$target[0].isDependentOn]) {
-					$value = $target.next();
-					currVal = $value.val();
-					var states = statesForCountries[$target[0].isDependentOn];
-					var stateDropDown = "<select>";
-					for(var s in states.name2iso) {
-						stateDropDown += "<option>"+s+"</option>";
-					}
-					stateDropDown += "</select>";
-					$value.replaceWith($(stateDropDown));
-					$target.next().attr('name','_ignore_'+name).val(states.iso2name[currVal]);
-					hiddenInputField = '<input type="hidden" name="'+name+'" id="'+name+'" />';
-					$target.next().after(hiddenInputField);
-					//$target.next().change();
-				} else {
-					if($target.next().is("select")) {
-						$target.parent().find('input:hidden').remove();
-						$target.next().replaceWith(t);
-					}
-				}
-			} else { // normal field
-				if($target.next().is("select")) {
-					$target.parent().find('input:hidden').remove();
-					$target.next().replaceWith(t);
-					filterOnChange(null,$target[0].index);
-				}
-			}
-			$target[0].index = $target[0].selectedIndex;
-		} else { // it's a field value
-			if($target.is("select")) {
-				// figure out which mapping to use to update the display and the hidden input
-				var field = $target.prev().val();
-				var mapping;
-				if($.inArray(field,countryFields)!==-1) {
-					mapping = ISO_3166.countries.name2iso;
-				} else {
-					mapping = statesForCountries[$target.prev()[0].isDependentOn].name2iso;
-				}
-				currVal = $target.val();
-				$target.next().val(mapping[currVal]);
-			} else {
-				// it is an input box, no hidden input to update
-			}
-			filterOnChange(event.target);
-		}
-	} catch(ex) { console.log(ex); } });
-	$advSearchLine.keyup(function(event) {
+	
+	$row.change(function(event) {
+		filterOnChange(event.target);
+	});
+	$row.keyup(function(event) {
 		if($(event.target).is("input")) {
 			filterOnChange(event.target);
 		}
 	});
-	$('#add_new_adv_'+i).click(function() {
-		addAdvSearchLine();
-	});
 	// reveal if not shown
-	var $container = $('#advancedSearchContainer');
+	var $container = $(container);
 	if($container.css('display')==="none") {
 		$container.slideDown(250);
-		if(oTable) {
-			/* have to put this here until FixedHeader can cope with the page changing length after it's been initialised - it's after a timeout because the revealAdvancedSearch function takes that long to complete */
-			window.setTimeout(function() {
-				oTable.fixedHeader.fnUpdate();
-			} ,300);
-		}
+		/* have to put this here until FixedHeader can cope with the page changing length after it's been initialised - it's after a timeout because the revealAdvancedSearch function takes that long to complete */
+		window.setTimeout(function() {
+			if(oTable) {
+				oTable.fixedHeader.fnUpdate(true);
+			}
+		} ,300);
 	}
-	return $advSearchLine;
+	return $row;
 }
 $(document).ready(function() { try {
 	// set advanced search on a slider
@@ -895,566 +998,6 @@ $(document).ready(function() { try {
 	}
 } catch(ex) { console.log(ex); } });
 /*
-  dragtable v1.0
-  June 26, 2008
-  Dan Vanderkam, http://danvk.org/dragtable/
-                 http://code.google.com/p/dragtable/
-
-  Instructions:
-    - Download this file
-    - Add <script src="dragtable.js"></script> to your HTML.
-    - Add class="draggable" to any table you might like to reorder.
-    - Drag the headers around to reorder them.
-
-  This is code was based on:
-    - Stuart Langridge's SortTable (kryogenix.org/code/browser/sorttable)
-    - Mike Hall's draggable class (http://www.brainjar.com/dhtml/drag/)
-    - A discussion of permuting table columns on comp.lang.javascript
-
-  Licensed under the MIT license.
- */
-
-// Here's the notice from Mike Hall's draggable script:
-//*****************************************************************************
-// Do not remove this notice.
-//
-// Copyright 2001 by Mike Hall.
-// See http://www.brainjar.com for terms of use.
-//*****************************************************************************
-dragtable = {
-  // How far should the mouse move before it's considered a drag, not a click?
-  dragRadius2: 100,
-  setMinDragDistance: function(x) {
-    dragtable.dragRadius2 = x * x;
-  },
-
-  // How long should cookies persist? (in days)
-  cookieDays: 365,
-  setCookieDays: function(x) {
-    dragtable.cookieDays = x;
-  },
-
-  // Determine browser and version.
-  // TODO: eliminate browser sniffing except where it's really necessary.
-  Browser: function() {
-    var ua, s, i;
-
-    this.isIE    = false;
-    this.isNS    = false;
-    this.version = null;
-    ua = navigator.userAgent;
-
-    s = "MSIE";
-    if ((i = ua.indexOf(s)) >= 0) {
-      this.isIE = true;
-      this.version = parseFloat(ua.substr(i + s.length));
-      return;
-    }
-
-    s = "Netscape6/";
-    if ((i = ua.indexOf(s)) >= 0) {
-      this.isNS = true;
-      this.version = parseFloat(ua.substr(i + s.length));
-      return;
-    }
-
-    // Treat any other "Gecko" browser as NS 6.1.
-    s = "Gecko";
-    if ((i = ua.indexOf(s)) >= 0) {
-      this.isNS = true;
-      this.version = 6.1;
-      return;
-    }
-  },
-  browser: null,
-
-  // Detect all draggable tables and attach handlers to their headers.
-  init: function() {
-    // Don't initialize twice
-    if (arguments.callee.done) return;
-    arguments.callee.done = true;
-    if (_dgtimer) clearInterval(_dgtimer);
-    if (!document.createElement || !document.getElementsByTagName) return;
-
-    dragtable.dragObj.zIndex = 0;
-    dragtable.browser = new dragtable.Browser();
-    forEach(document.getElementsByTagName('table'), function(table) {
-      if (table.className.search(/\bdraggable\b/) != -1) {
-        dragtable.makeDraggable(table);
-      }
-    });
-  },
-
-  // The thead business is taken straight from sorttable.
-  makeDraggable: function(table) {
-    if (table.getElementsByTagName('thead').length == 0) {
-      the = document.createElement('thead');
-      the.appendChild(table.rows[0]);
-      table.insertBefore(the,table.firstChild);
-    }
-
-    // Safari doesn't support table.tHead, sigh
-    if (table.tHead == null) {
-      table.tHead = table.getElementsByTagName('thead')[0];
-    }
-
-    var headers = table.tHead.rows[0].cells;
-    for (var i = 0; i < headers.length; i++) {
-      headers[i].onmousedown = dragtable.dragStart;
-    }
-
-		// Replay reorderings from cookies if there are any.
-		if (dragtable.cookiesEnabled() && table.id &&
-				table.className.search(/\bforget-ordering\b/) == -1) {
-			dragtable.replayDrags(table);
-		}
-  },
-
-  // Global object to hold drag information.
-  dragObj: new Object(),
-
-  // Climb up the DOM until there's a tag that matches.
-  findUp: function(elt, tag) {
-    do {
-      if (elt.nodeName && elt.nodeName.search(tag) != -1)
-        return elt;
-    } while (elt = elt.parentNode);
-    return null;
-  },
-
-  // clone an element, copying its style and class.
-  fullCopy: function(elt, deep) {
-    var new_elt = elt.cloneNode(deep);
-    new_elt.className = elt.className;
-    forEach(elt.style,
-        function(value, key, object) {
-          if (value == null) return;
-          if (typeof(value) == "string" && value.length == 0) return;
-
-          new_elt.style[key] = elt.style[key];
-        });
-    return new_elt;
-  },
-
-  eventPosition: function(event) {
-    var x, y;
-    if (dragtable.browser.isIE) {
-      x = window.event.clientX + document.documentElement.scrollLeft
-        + document.body.scrollLeft;
-      y = window.event.clientY + document.documentElement.scrollTop
-        + document.body.scrollTop;
-      return {x: x, y: y};
-    }
-    return {x: event.pageX, y: event.pageY};
-  },
-
- // Determine the position of this element on the page. Many thanks to Magnus
- // Kristiansen for help making this work with "position: fixed" elements.
- absolutePosition: function(elt, stopAtRelative) {
-   var ex = 0, ey = 0;
-   do {
-     var curStyle = dragtable.browser.isIE ? elt.currentStyle
-                                           : window.getComputedStyle(elt, '');
-     var supportFixed = !(dragtable.browser.isIE &&
-                          dragtable.browser.version < 7);
-     if (stopAtRelative && curStyle.position == 'relative') {
-       break;
-     } else if (supportFixed && curStyle.position == 'fixed') {
-       // Get the fixed el's offset
-       ex += parseInt(curStyle.left, 10);
-       ey += parseInt(curStyle.top, 10);
-       // Compensate for scrolling
-       ex += document.body.scrollLeft;
-       ey += document.body.scrollTop;
-       // End the loop
-       break;
-     } else {
-       ex += elt.offsetLeft;
-       ey += elt.offsetTop;
-     }
-   } while (elt = elt.offsetParent);
-   return {x: ex, y: ey};
- },
-
-  // MouseDown handler -- sets up the appropriate mousemove/mouseup handlers
-  // and fills in the global dragtable.dragObj object.
-  dragStart: function(event, id) {
-    var el;
-    var x, y;
-    var dragObj = dragtable.dragObj;
-
-    var browser = dragtable.browser;
-    if (browser.isIE)
-      dragObj.origNode = window.event.srcElement;
-    else
-      dragObj.origNode = event.target;
-    var pos = dragtable.eventPosition(event);
-
-    // Drag the entire table cell, not just the element that was clicked.
-    dragObj.origNode = dragtable.findUp(dragObj.origNode, /T[DH]/);
-
-    // Since a column header can't be dragged directly, duplicate its contents
-    // in a div and drag that instead.
-    // TODO: I can assume a tHead...
-    var table = dragtable.findUp(dragObj.origNode, "TABLE");
-    dragObj.table = table;
-    dragObj.startCol = dragtable.findColumn(table, pos.x);
-    if (dragObj.startCol == -1) return;
-
-    var new_elt = dragtable.fullCopy(table, false);
-    new_elt.style.margin = '0';
-
-    // Copy the entire column
-    var copySectionColumn = function(sec, col) {
-      var new_sec = dragtable.fullCopy(sec, false);
-      forEach(sec.rows, function(row) {
-        var cell = row.cells[col];
-        var new_tr = dragtable.fullCopy(row, false);
-        if (row.offsetHeight) new_tr.style.height = row.offsetHeight + "px";
-        var new_td = dragtable.fullCopy(cell, true);
-        if (cell.offsetWidth) new_td.style.width = cell.offsetWidth + "px";
-        new_tr.appendChild(new_td);
-        new_sec.appendChild(new_tr);
-      });
-      return new_sec;
-    };
-
-    // First the heading
-    if (table.tHead) {
-      new_elt.appendChild(copySectionColumn(table.tHead, dragObj.startCol));
-    }
-    forEach(table.tBodies, function(tb) {
-      new_elt.appendChild(copySectionColumn(tb, dragObj.startCol));
-    });
-    if (table.tFoot) {
-      new_elt.appendChild(copySectionColumn(table.tFoot, dragObj.startCol));
-    }
-
-    var obj_pos = dragtable.absolutePosition(dragObj.origNode, true);
-    new_elt.style.position = "absolute";
-    new_elt.style.left = obj_pos.x + "px";
-    new_elt.style.top = obj_pos.y + "px";
-    new_elt.style.width = dragObj.origNode.offsetWidth + "px";
-    new_elt.style.height = dragObj.origNode.offsetHeight + "px";
-    new_elt.style.opacity = 0.7;
-
-    // Hold off adding the element until this is clearly a drag.
-    dragObj.addedNode = false;
-    dragObj.tableContainer = dragObj.table.parentNode || document.body;
-    dragObj.elNode = new_elt;
-
-    // Save starting positions of cursor and element.
-    dragObj.cursorStartX = pos.x;
-    dragObj.cursorStartY = pos.y;
-    dragObj.elStartLeft  = parseInt(dragObj.elNode.style.left, 10);
-    dragObj.elStartTop   = parseInt(dragObj.elNode.style.top,  10);
-
-    if (isNaN(dragObj.elStartLeft)) dragObj.elStartLeft = 0;
-    if (isNaN(dragObj.elStartTop))  dragObj.elStartTop  = 0;
-
-    // Update element's z-index.
-    dragObj.elNode.style.zIndex = ++dragObj.zIndex;
-
-    // Capture mousemove and mouseup events on the page.
-    if (browser.isIE) {
-      document.attachEvent("onmousemove", dragtable.dragMove);
-      document.attachEvent("onmouseup",   dragtable.dragEnd);
-      window.event.cancelBubble = true;
-      window.event.returnValue = false;
-    } else {
-      document.addEventListener("mousemove", dragtable.dragMove, true);
-      document.addEventListener("mouseup",   dragtable.dragEnd, true);
-      event.preventDefault();
-    }
-  },
-
-  // Move the floating column header with the mouse
-  // TODO: Reorder columns as the mouse moves for a more interactive feel.
-  dragMove: function(event) {
-    var x, y;
-    var dragObj = dragtable.dragObj;
-
-    // Get cursor position with respect to the page.
-    var pos = dragtable.eventPosition(event);
-
-    var dx = dragObj.cursorStartX - pos.x;
-    var dy = dragObj.cursorStartY - pos.y;
-    if (!dragObj.addedNode && dx * dx + dy * dy > dragtable.dragRadius2) {
-      dragObj.tableContainer.insertBefore(dragObj.elNode, dragObj.table);
-      dragObj.addedNode = true;
-    }
-
-    // Move drag element by the same amount the cursor has moved.
-    var style = dragObj.elNode.style;
-    style.left = (dragObj.elStartLeft + pos.x - dragObj.cursorStartX) + "px";
-    style.top  = (dragObj.elStartTop  + pos.y - dragObj.cursorStartY) + "px";
-
-    if (dragtable.browser.isIE) {
-      window.event.cancelBubble = true;
-      window.event.returnValue = false;
-    } else {
-      event.preventDefault();
-    }
-  },
-
-  // Stop capturing mousemove and mouseup events.
-  // Determine which (if any) column we're over and shuffle the table.
-  dragEnd: function(event) {
-    if (dragtable.browser.isIE) {
-      document.detachEvent("onmousemove", dragtable.dragMove);
-      document.detachEvent("onmouseup", dragtable.dragEnd);
-    } else {
-      document.removeEventListener("mousemove", dragtable.dragMove, true);
-      document.removeEventListener("mouseup", dragtable.dragEnd, true);
-    }
-
-    // If the floating header wasn't added, the mouse didn't move far enough.
-    var dragObj = dragtable.dragObj;
-    if (!dragObj.addedNode) {
-      return;
-    }
-    dragObj.tableContainer.removeChild(dragObj.elNode);
-
-    // Determine whether the drag ended over the table, and over which column.
-    var pos = dragtable.eventPosition(event);
-    var table_pos = dragtable.absolutePosition(dragObj.table);
-    if (pos.y < table_pos.y ||
-        pos.y > table_pos.y + dragObj.table.offsetHeight) {
-      return;
-    }
-    var targetCol = dragtable.findColumn(dragObj.table, pos.x);
-    if (targetCol != -1 && targetCol != dragObj.startCol) {
-      dragtable.moveColumn(dragObj.table, dragObj.startCol, targetCol);
-      if (dragObj.table.id && dragtable.cookiesEnabled() &&
-					dragObj.table.className.search(/\bforget-ordering\b/) == -1) {
-        dragtable.rememberDrag(dragObj.table.id, dragObj.startCol, targetCol);
-      }
-    }
-    // JRL: making sure fixedHeader redraws after a column move
-    if(oTable && oTable.fixedHeader) {
-	    oTable.fixedHeader.fnUpdate();
-    }
-  },
-
-  // Which column does the x value fall inside of? x should include scrollLeft.
-  findColumn: function(table, x) {
-    var header = table.tHead.rows[0].cells;
-    for (var i = 0; i < header.length; i++) {
-      //var left = header[i].offsetLeft;
-      var pos = dragtable.absolutePosition(header[i]);
-      //if (left <= x && x <= left + header[i].offsetWidth) {
-      if (pos.x <= x && x <= pos.x + header[i].offsetWidth) {
-        return i;
-      }
-    }
-    return -1;
-  },
-
-  // Move a column of table from start index to finish index.
-  // Based on the "Swapping table columns" discussion on comp.lang.javascript.
-  // Assumes there are columns at sIdx and fIdx
-  moveColumn: function(table, sIdx, fIdx) {
-    var row, cA;
-    var i=table.rows.length;
-    while (i--){
-      row = table.rows[i]
-      var x = row.removeChild(row.cells[sIdx]);
-      if (fIdx < row.cells.length) {
-        row.insertBefore(x, row.cells[fIdx]);
-      } else {
-        row.appendChild(x);
-      }
-    }
-
-    // For whatever reason, sorttable tracks column indices this way.
-    // Without a manual update, clicking one column will sort on another.
-    var headrow = table.tHead.rows[0].cells;
-    for (var i=0; i<headrow.length; i++) {
-      headrow[i].sorttable_columnindex = i;
-    }
-    
-    // JRL: we also update a DataTables object named 'oTable'
-    if(oTable && oTable.fnSettings) {
-	    var updateDataTable = function(fromCol,toCol) {
-		    var columns = oTable.fnSettings().aoColumns;
-	    	var visible = [];
-	    	// count the visible columns to make sure we swap the correct columns in aoColumns
-	    	for(var i=0; i<columns.length; i++) {
-				if(columns[i].bVisible===true) {
-					visible.push(i);
-				}
-			}
-			fromCol = visible[fromCol];
-			toCol = visible[toCol];
-			var col = columns.splice(fromCol,1);
-			columns.splice(toCol,0,col[0]);
-	    };
-    	updateDataTable(sIdx,fIdx);
-    }
-  },
-
-  // Are cookies enabled? We should not attempt to set cookies on a local file.
-  cookiesEnabled: function() {
-    return (window.location.protocol != 'file:') && navigator.cookieEnabled;
-  },
-
-  // Store a column swap in a cookie for posterity.
-  rememberDrag: function(id, a, b) {
-    var cookieName = "dragtable-" + id;
-    var prev = dragtable.readCookie(cookieName);
-    var new_val = "";
-    if (prev) new_val = prev + ",";
-    new_val += a + "/" + b;
-    dragtable.createCookie(cookieName, new_val, dragtable.cookieDays);
-  },
-
-	// Replay all column swaps for a table.
-	replayDrags: function(table) {
-		if (!dragtable.cookiesEnabled()) return;
-		var dragstr = dragtable.readCookie("dragtable-" + table.id);
-		if (!dragstr) return;
-		var drags = dragstr.split(',');
-		for (var i = 0; i < drags.length; i++) {
-			var pair = drags[i].split("/");
-			if (pair.length != 2) continue;
-			var a = parseInt(pair[0]);
-			var b = parseInt(pair[1]);
-			if (isNaN(a) || isNaN(b)) continue;
-			dragtable.moveColumn(table, a, b);
-		}
-	},
-
-  // Cookie functions based on http://www.quirksmode.org/js/cookies.html
-  // Cookies won't work for local files.
-  cookiesEnabled: function() {
-    return (window.location.protocol != 'file:') && navigator.cookieEnabled;
-  },
-
-  createCookie: function(name,value,days) {
-    if (days) {
-      var date = new Date();
-      date.setTime(date.getTime()+(days*24*60*60*1000));
-      var expires = "; expires="+date.toGMTString();
-    }
-    else var expires = "";
-
-		var path = document.location.pathname;
-    document.cookie = name+"="+value+expires+"; path="+path
-  },
-
-  readCookie: function(name) {
-    var nameEQ = name + "=";
-    var ca = document.cookie.split(';');
-    for(var i=0;i < ca.length;i++) {
-      var c = ca[i];
-      while (c.charAt(0)==' ') c = c.substring(1,c.length);
-      if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
-    }
-    return null;
-  },
-
-  eraseCookie: function(name) {
-    dragtable.createCookie(name,"",-1);
-  }
-
-}
-
-/* ******************************************************************
-   Supporting functions: bundled here to avoid depending on a library
-   ****************************************************************** */
-
-// Dean Edwards/Matthias Miller/John Resig
-// has a hook for dragtable.init already been added? (see below)
-var dgListenOnLoad = false;
-
-/* for Mozilla/Opera9 */
-if (document.addEventListener) {
-  dgListenOnLoad = true;
-  document.addEventListener("DOMContentLoaded", dragtable.init, false);
-}
-
-/* for Internet Explorer */
-/*@cc_on @*/
-/*@if (@_win32)
-  dgListenOnLoad = true;
-  document.write("<script id=__dt_onload defer src=//0)><\/script>");
-  var script = document.getElementById("__dt_onload");
-  script.onreadystatechange = function() {
-    if (this.readyState == "complete") {
-      dragtable.init(); // call the onload handler
-    }
-  };
-/*@end @*/
-
-/* for Safari */
-if (/WebKit/i.test(navigator.userAgent)) { // sniff
-  dgListenOnLoad = true;
-  var _dgtimer = setInterval(function() {
-    if (/loaded|complete/.test(document.readyState)) {
-      dragtable.init(); // call the onload handler
-    }
-  }, 10);
-}
-
-/* for other browsers */
-/* Avoid this unless it's absolutely necessary (it breaks sorttable) */
-if (!dgListenOnLoad) {
-  window.onload = dragtable.init;
-}
-
-// Dean's forEach: http://dean.edwards.name/base/forEach.js
-/*
-  forEach, version 1.0
-  Copyright 2006, Dean Edwards
-  License: http://www.opensource.org/licenses/mit-license.php
-*/
-
-// array-like enumeration
-if (!Array.forEach) { // mozilla already supports this
-  Array.forEach = function(array, block, context) {
-    for (var i = 0; i < array.length; i++) {
-      block.call(context, array[i], i, array);
-    }
-  };
-}
-
-// generic enumeration
-Function.prototype.forEach = function(object, block, context) {
-  for (var key in object) {
-    if (typeof this.prototype[key] == "undefined") {
-      block.call(context, object[key], key, object);
-    }
-  }
-};
-
-// character enumeration
-String.forEach = function(string, block, context) {
-  Array.forEach(string.split(""), function(chr, index) {
-    block.call(context, chr, index, string);
-  });
-};
-
-// globally resolve forEach enumeration
-var forEach = function(object, block, context) {
-  if (object) {
-    var resolve = Object; // default
-    if (object instanceof Function) {
-      // functions have a "length" property
-      resolve = Function;
-    } else if (object.forEach instanceof Function) {
-      // the object implements a custom forEach method so use that
-      object.forEach(block, context);
-      return;
-    } else if (typeof object == "string") {
-      // the object is a string
-      resolve = String;
-    } else if (typeof object.length == "number") {
-      // the object is array-like
-      resolve = Array;
-    }
-    resolve.forEach(object, block, context);
-  }
-};/*
  * File:        jquery.dataTables.js
  * Version:     1.5.1
  * CVS:         $Id$
@@ -3514,6 +3057,7 @@ var forEach = function(object, block, context) {
 					}
 					
 					$(oSettings.aoColumns[i].nTh).click( function (e) {
+						$('body').prepend('clicked header '); //JRL: debug
 						var iDataIndex;
 						/* Find which column we are sorting on - can't use index() due to colspan etc */
 						for ( var i=0 ; i<oSettings.aoColumns.length ; i++ )
@@ -5739,8 +5283,216 @@ var forEach = function(object, block, context) {
 	};
 })(jQuery);
 /*
+Author: Jonathan Lister (jnthnlstr [at] googlemail [dot] com)
+License: BSD
+Version: 0.3
+
+not done:
+ - figure z-index of dragCol out automatically
+ - column classes not getting copied across
+ - if a sorted column is moved, it doesn't remain registered as sorted, so you have to click twice to sort differently; the column that moved into the vacated place is treated as sorted
+*/
+(function($) {
+
+$.fn.dragColumns = function(selector) {
+
+	var $table = $(selector);
+	var $wrapper = $table.parent();
+	var $thead = $table.find('thead tr');
+	var from, to;
+	var $dragCol;
+	var isMoved = false;
+	
+	// stealing from FixedHeader here
+	if($wrapper.css("position")!="absolute") {
+		$wrapper.css("position","relative");
+	}
+	var findTargetCol = function(event) {
+		var xPos = event.pageX;
+		var target;
+		var left, right;
+		var index;
+		$thead.find('th').each(function(i) {
+			left = $(this).offset().left;
+			right = left+$(this).width();
+			if(left<xPos && right>=xPos) {
+				target = this;
+				index = i;
+			}
+		});
+		return {
+			index:index,
+			elem:target
+		};
+	};
+	var setupDragCol = function(index,elem) {
+		from = index;
+		var pos = $(elem).position();
+		var $cloneTable = $($table[0].cloneNode(false));
+		var getStyle = function(elem,styleProp) {
+			var style;
+			if (elem.currentStyle) {
+				var regexp = new RegExp(/-(\w)/);
+				var matches = regexp.exec(styleProp);
+				if(matches) {
+					styleProp = styleProp.replace(matches[0],matches[1].toUpperCase());
+				}
+				style = elem.currentStyle[styleProp];
+			} else if (window.getComputedStyle) {
+				style = document.defaultView.getComputedStyle(elem,null).getPropertyValue(styleProp);
+			}
+			return style;
+		};
+		var colWidth;
+		var copySection = function(sectionSelector,elemType) {
+			var section = $cloneTable[0].appendChild($table.find(sectionSelector)[0].cloneNode(false));
+			$table.find(sectionSelector+' tr').each(function() {
+				var row = section.appendChild(this.cloneNode(false));
+				var rowHeight = this.offsetHeight;
+				var cellPadding, $newCell;
+				var it;
+				$(this).find(elemType).each(function(i) {
+					if(i===from) {
+						if(!colWidth) {
+							colWidth = this.offsetWidth;
+						}
+						$newCell = $(this.cloneNode(true));
+						cellPadding = {
+							left: parseInt(getStyle(this,"padding-left"),10),
+							right: parseInt(getStyle(this,"padding-right"),10)
+						};
+						if($.browser.msie) { // IE box-model fix
+							cellPadding.top = parseInt(getStyle(this,"padding-top"),10);
+							cellPadding.bottom = parseInt(getStyle(this,"padding-bottom"),10);
+							$newCell.height(rowHeight - cellPadding.top - cellPadding.bottom);
+						}
+						$newCell.css('width',colWidth - cellPadding.left - cellPadding.right);
+						row.appendChild($newCell[0]);
+					}
+				});
+				$(row).height(rowHeight);
+			});
+		};
+		copySection('thead','th');
+		copySection('tfoot','th');
+		copySection('tbody','td');
+		$dragCol = $("<div></div>").append($cloneTable).css({
+			'position': 'absolute',
+			'top': "0px",
+			'left': pos.left,
+			'opacity': 0.7,
+			'zIndex':"2" // TO-DO: would be good to figure this out automatically
+		});
+		$wrapper.append($dragCol);
+	};
+	var updateDataTables = function(targetObj) {
+		to = targetObj.index;
+		var updateDataTable = function(fromCol,toCol) {
+			var settings = oTable.fnSettings();
+			var columns = settings.aoColumns;
+			var visible = [];
+			for(var i=0; i<columns.length; i++) {
+				if(columns[i].bVisible===true) {
+					visible.push(i);
+				}
+			}
+			fromCol = visible[fromCol];
+			toCol = visible[toCol];
+			var col = columns.splice(fromCol,1);
+			columns.splice(toCol,0,col[0]);
+			visible = [];
+			for(var i=0; i<columns.length; i++) {
+				if(columns[i].bVisible===true) {
+					visible.push(i);
+				}
+			}
+			var $ths = $table.find('thead th');
+			var $tfs = $table.find('tfoot th');
+			var visTh, visTf;
+			for(i=0; i<visible.length; i++) {
+				visTh = $ths.get(i);
+				visTf = $tfs.get(i);
+				columns[visible[i]].nTh = visTh;
+				columns[visible[i]].nTf = visTf;
+				columns[visible[i]].iDataSort = visible[i]; // this hard-codes the sorting to the column itself (so you'd need to change this if you were sorting on the contents of other columns)
+				visTh.innerHTML = columns[visible[i]].sTitle;
+			}
+			var rowData = settings.aoData;
+			var row, r, h;
+			for(i=0; i<rowData.length; i++) {
+				row = rowData[i];
+				r = row._aData.splice(fromCol,1);
+				row._aData.splice(toCol,0,r[0]);
+				h = row._anHidden.splice(fromCol,1);
+				row._anHidden.splice(toCol,0,h[0]);
+			}
+			var rowOrder = settings.aiDisplay;
+			var $tds;
+			var j;
+			for(i=0;i<rowOrder.length;i++) {
+				$tds = $(rowData[rowOrder[i]].nTr).find('td');
+				for(j=0;j<visible.length;j++) {
+					$tds.eq(j)[0].innerHTML = rowData[rowOrder[i]]._aData[visible[j]];
+				}
+			}
+		};
+		updateDataTable(from,to);
+		// update FixedHeader - should probably just call an event FixedHeader listens to
+		if(oTable.fixedHeader) {
+			oTable.fixedHeader.fnUpdate();
+		}
+	};
+	var cancelDrag = function() {
+		isMoved = false;
+		$wrapper.unbind("mousemove");
+		$wrapper.unbind("mouseup", endDrag).unbind("mouseleave");
+		if($dragCol) {
+			$dragCol.remove();
+		}
+	};
+	var endDrag = function(event) {
+		if(isMoved) {
+			var targetObj = findTargetCol(event);
+			updateDataTables(targetObj);
+		}
+		cancelDrag();
+	};
+	$(document).ready(function() {
+		$wrapper.mousedown(function(event) {
+			event.preventDefault();
+			if (jQuery.browser.msie) { // IE triggers text-select on selectstart not mousedown
+			    $(document).bind('selectstart', function () { return false; });
+			    $(document).one("mouseup", function() {
+			    	$(document).unbind("selectstart");
+			    });
+		    }
+			var origEvent = event;
+			$wrapper.one("mousemove", function(event) {
+				isMoved = true;
+				var targetObj = findTargetCol(origEvent);
+				setupDragCol(targetObj.index,targetObj.elem);
+				var eventPos = {
+					pageX: origEvent.pageX,
+					pageY: origEvent.pageY
+				};
+				var origPos = $dragCol.position();
+				$wrapper.mousemove(function(event) {
+					var xMoved = event.pageX - eventPos.pageX;
+					$dragCol.css({
+						"left": origPos.left+xMoved
+					});
+				});
+				$wrapper.mouseleave(function(event) {
+					cancelDrag();
+				});
+			}).one("mouseup", endDrag);
+		});
+	});
+};
+
+})(jQuery);/*
  * File:        FixedHeader.js
- * Version:     1.0.0
+ * Version:     1.0.2
  * CVS:         $Id$
  * Description: "Fix" a header at the top of the table, so it scrolls with the table
  * Author:      Allan Jardine (www.sprymedia.co.uk)
@@ -5774,20 +5526,25 @@ $.fn.dataTableExt.FixedHeader = function ( oTable )
 	 * Function: fnUpdate
 	 * Purpose:  Update the floating header from the current state of the DataTable
 	 * Returns:  -
-	 * Inputs:   -
+	 * Inputs:   bool:bUpdateDom - Update offset information (provided for speed options) - default true
 	 * Notes:    This would be used when the DataTables state is changed. For example using 
 	 *   fnSetColumnVis() to change the number of visible columns.
 	 */
-	 
-	 // JRL: moved this here so it was available to fnUpdate
-	 /* The starting x-position of the table on the document */
-	var _iStart;
-	 
-	this.fnUpdate = function ()
+	this.fnUpdate = function ( bUpdateDom )
 	{
-		_iStart = $(_oSettings.nTable).offset().top; // JRL: added this line to check for changes in position of table e.g. due to DOM changes
+		if ( typeof bUpdateDom == 'undefined' )
+		{
+			bUpdateDom = true;
+		}
+		
 		_fnCloneThead();
-	}
+		
+		if ( bUpdateDom )
+		{
+			_iStart = $(_oSettings.nTable).offset().top;
+			_iStartLeft = $(_oSettings.nTable).offset().left;
+		}
+	};
 	
 	
 	
@@ -5805,15 +5562,43 @@ $.fn.dataTableExt.FixedHeader = function ( oTable )
 	/* The cloned table node */
 	var _nCTable;
 	
-	
+	/* The starting x-position of the table on the document */
+	var _iStart;
 	
 	/* The starting x-position of the table relative to it's parent */
 	var _iOffset;
+	
+	/* Current display information, cached so we don't have to query the DOM */
+	var _oCache = {
+		"sPosition": "",
+		"sTop": "",
+		"sLeft": ""
+	};
+	
+	var _bIsIE6;
 	
 	
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 * Private functions
 	 */
+	
+	/*
+	 * Function: _fnUpdateCache
+	 * Purpose:  Check the cache and update cache and value if needed
+	 * Returns:  -
+	 * Inputs:   string:sCache - cache property
+	 *           string:sSet - value to set
+	 *           string:sProperty - object property to set
+	 *           object:oObj - object to update
+	 */
+	function _fnUpdateCache ( sCache, sSet, sProperty, oObj )
+	{
+		if ( _oCache[sCache] != sSet )
+		{
+			oObj[sProperty] = sSet;
+			_oCache[sCache] = sSet;
+		}
+	}
 	
 	/*
 	 * Function: _fnCloneTable
@@ -5852,35 +5637,68 @@ $.fn.dataTableExt.FixedHeader = function ( oTable )
 		 * table will do us nicely though
 		 */
 		_iStart = $(_oSettings.nTable).offset().top;
+		_iStartLeft = $(_oSettings.nTable).offset().left;
 		
 		/* Add the scroll event handler to move the table header */
 		$(window).scroll( function () {
 			var iWindow = $(window).scrollTop();
+			var iNew, iTbodyHeight;
 			
-			if ( _iStart < iWindow )
+			if ( _bIsIE6 )
 			{
-				var iNew = iWindow-_iStart+_iOffset;
-				var iTbodyHeight = _oSettings.nTable.getElementsByTagName('tbody')[0].offsetHeight;
-				
-				if ( iNew < _iOffset+iTbodyHeight )
+				if ( _iStart < iWindow )
 				{
-					/* In the middle of the table */
-					_nCTable.style.top = iNew+"px";
+					iNew = iWindow-_iStart+_iOffset;
+					iTbodyHeight = _oSettings.nTable.getElementsByTagName('tbody')[0].offsetHeight;
+					
+					if ( iNew < _iOffset+iTbodyHeight )
+					{
+						/* In the middle of the table */
+						_fnUpdateCache( 'sTop', iNew+"px", 'top', _nCTable.style );
+					}
+					else
+					{
+						/* At the bottom of the table */
+						_fnUpdateCache( 'sTop', (_iOffset+iTbodyHeight)+"px", 'top', _nCTable.style );
+					}
 				}
 				else
 				{
-					/* At the bottom of the table */
-					_nCTable.style.top = (_iOffset+iTbodyHeight)+"px";
+					/* Above the table */
+					_fnUpdateCache( 'sTop', _iOffset+"px", 'top', _nCTable.style );
 				}
 			}
 			else
 			{
-				/* Above the table */
-				_nCTable.style.top = _iOffset+"px";
+				if ( _iStart < iWindow )
+				{
+					iNew = iWindow-_iStart+_iOffset;
+					iTbodyHeight = _oSettings.nTable.getElementsByTagName('tbody')[0].offsetHeight;
+					if ( iNew < _iOffset+iTbodyHeight )
+					{
+						/* In the middle of the table */
+						_fnUpdateCache( 'sPosition', 'fixed',          'position', _nCTable.style );
+						_fnUpdateCache( 'sTop',      "0px",            'top',      _nCTable.style );
+						_fnUpdateCache( 'sLeft',     _iStartLeft+"px", 'left',     _nCTable.style );
+					}
+					else
+					{
+						/* At the bottom of the table */
+						_fnUpdateCache( 'sPosition', 'absolute',                 'position', _nCTable.style );
+						_fnUpdateCache( 'sTop',      _iOffset+iTbodyHeight+"px", 'top',      _nCTable.style );
+						_fnUpdateCache( 'sLeft',     "0px",                      'left',     _nCTable.style );
+					}
+				}
+				else
+				{
+					/* Above the table */
+					_fnUpdateCache( 'sPosition', 'absolute',    'position', _nCTable.style );
+					_fnUpdateCache( 'sTop',      _iOffset+"px", 'top',      _nCTable.style );
+					_fnUpdateCache( 'sLeft',     "0px",         'left',     _nCTable.style );
+				}
 			}
 		} );
 	}
-	
 	
 	/*
 	 * Function: _fnCloneThead
@@ -5893,47 +5711,30 @@ $.fn.dataTableExt.FixedHeader = function ( oTable )
 		/* Remove any children the cloned table has */
 		while ( _nCTable.childNodes.length > 0 )
 		{
+			$('thead th', _nCTable).unbind( 'click' );
 			_nCTable.removeChild( _nCTable.childNodes[0] );
 		}
 		
 		/* Clone the DataTables header */
-		var nThead = _oSettings.nTable.getElementsByTagName('thead')[0].cloneNode( true );
+		var nThead = $('thead', _oSettings.nTable).clone(false)[0];
 		_nCTable.appendChild( nThead );
 		
 		/* Copy the widths across - apparently a clone isn't good enough for this */
 		$("thead:eq(0)>tr th", _oSettings.nTable).each( function (i) {
-			var width = $(this).width();
-			// JRL: replacing this line as it breaks IE
-			//$("thead:eq(0)>tr th:eq("+i+")", _nCTable)[0].style.width =
-			//	parseInt($(this).css('width'))+"px";
-			$("thead:eq(0)>tr th:eq("+i+")", _nCTable).width(width);
+			$("thead:eq(0)>tr th:eq("+i+")", _nCTable).width( $(this).width() );
 		} );
 		
 		$("thead:eq(0)>tr td", _oSettings.nTable).each( function (i) {
-			$("thead:eq(0)>tr td:eq("+i+")", _nCTable)[0].style.width = 
-				parseInt($(this).css('width'))+"px";
+			$("thead:eq(0)>tr th:eq("+i+")", _nCTable)[0].style.width( $(this).width() );
 		} );
 		
 		/* Add the event handlers for sorting */
-		$('thead th', _nCTable).click( function () {
+		$('thead th', _nCTable).click( function (e) {
 			/* Don't try and do the sort ourselves - let DataTables take care of the logic */
 			var iTrigger = $('thead th', _nCTable).index(this);
 			$('thead th:eq('+iTrigger+')', _oSettings.nTable).click();
 			_fnCloneThead();
-			return true;
 		} );
-		
-		$('thead th', _nCTable).mousedown( function (event) {
-			/* JRL: Pass event through to original table header so dragtable.js can pick it up */
-			var iTrigger = $('thead th', _nCTable).index(this);
-			var th = $('thead th:eq('+iTrigger+')', _oSettings.nTable)[0];
-			if (window.event && window.event.srcElement) {
-				window.event.srcElement = th;
-			} else {
-				event.target = th;
-			}
-			th.onmousedown(event);
-		});
 	}
 	
 	
@@ -5943,9 +5744,12 @@ $.fn.dataTableExt.FixedHeader = function ( oTable )
 	_oTable = oTable;
 	_oSettings = _oTable.fnSettings();
 	
+	//_bIsIE6 = ($.browser.msie && $.browser.version=="6.0");
+	_bIsIE6 = ($.browser.msie && ($.browser.version=="6.0"||$.browser.version=="7.0"));
+	
 	_fnCloneTable();
 	_fnCloneThead();
-}
+};
 
 })(jQuery);
 /* records.js */
@@ -5968,7 +5772,7 @@ $(document).ready(function() {
 				null, // Trading Status
 				{ bVisible: false }, // Company Website
 				{ fnRender: function(data) {
-					return ISO_3166.countries.iso2name[data.aData[data.iDataColumn]] || null;
+					return ISO_3166.countries.iso2name[data.aData[data.iDataColumn]] || "";
 				} }, // Registered Country
 				{ bVisible: false }, // Operational PO Box
 				{ bVisible: false }, // Operational Floor
@@ -5994,11 +5798,10 @@ $(document).ready(function() {
 							// nothing
 							break;
 					}
-					var state = mapping ? mapping.iso2name[data.aData[data.iDataColumn]] : "";
-					return state || null;
+					return state = mapping ? mapping.iso2name[data.aData[data.iDataColumn]] : "";
 				} }, // Operational State
 				{ fnRender: function(data) {
-					return ISO_3166.countries.iso2name[data.aData[data.iDataColumn]] || null;
+					return ISO_3166.countries.iso2name[data.aData[data.iDataColumn]] || "";
 				} }, // Operational Country
 				null, // Operational Postcode
 				{ sClass: "center" },
@@ -6028,6 +5831,7 @@ $(document).ready(function() {
 				oTable.fixedHeader.fnUpdate();
 			}
 			$table.css('visibility',"visible");
+			$.fn.dragColumns('#recordsTable');
 			oTable.fixedHeader = new $.fn.dataTableExt.FixedHeader(oTable);
 			var columns = oTable.fnSettings().aoColumns;
 			$('#recordsTable tfoot th').click(function() {

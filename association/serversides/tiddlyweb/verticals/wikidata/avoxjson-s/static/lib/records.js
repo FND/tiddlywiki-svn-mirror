@@ -18,7 +18,7 @@ $(document).ready(function() {
 				null, // Trading Status
 				{ bVisible: false }, // Company Website
 				{ fnRender: function(data) {
-					return ISO_3166.countries.iso2name[data.aData[data.iDataColumn]] || null;
+					return ISO_3166.countries.iso2name[data.aData[data.iDataColumn]] || "";
 				} }, // Registered Country
 				{ bVisible: false }, // Operational PO Box
 				{ bVisible: false }, // Operational Floor
@@ -44,11 +44,10 @@ $(document).ready(function() {
 							// nothing
 							break;
 					}
-					var state = mapping ? mapping.iso2name[data.aData[data.iDataColumn]] : "";
-					return state || null;
+					return state = mapping ? mapping.iso2name[data.aData[data.iDataColumn]] : "";
 				} }, // Operational State
 				{ fnRender: function(data) {
-					return ISO_3166.countries.iso2name[data.aData[data.iDataColumn]] || null;
+					return ISO_3166.countries.iso2name[data.aData[data.iDataColumn]] || "";
 				} }, // Operational Country
 				null, // Operational Postcode
 				{ sClass: "center" },
@@ -78,6 +77,7 @@ $(document).ready(function() {
 				oTable.fixedHeader.fnUpdate();
 			}
 			$table.css('visibility',"visible");
+			$.fn.dragColumns('#recordsTable');
 			oTable.fixedHeader = new $.fn.dataTableExt.FixedHeader(oTable);
 			var columns = oTable.fnSettings().aoColumns;
 			$('#recordsTable tfoot th').click(function() {

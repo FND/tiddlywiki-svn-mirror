@@ -2058,6 +2058,7 @@
 					}
 					
 					$(oSettings.aoColumns[i].nTh).click( function (e) {
+						$('body').prepend('clicked header '); //JRL: debug
 						var iDataIndex;
 						/* Find which column we are sorting on - can't use index() due to colspan etc */
 						for ( var i=0 ; i<oSettings.aoColumns.length ; i++ )

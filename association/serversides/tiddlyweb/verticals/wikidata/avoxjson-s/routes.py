@@ -3,6 +3,7 @@ import logging
 
 from tiddlyweb.web.http import HTTP404
 from tiddlywebplugins import replace_handler
+from emailAvox import emailAvox
 
 def index(environ, start_response):
     template = templating.generate_template(["index.html","search.html"])
@@ -55,6 +56,8 @@ def env(environ, start_response):
 def verify(environ, start_response):
     from captcha import submit
 
+    logging.debug(environ['tiddlyweb.query'])
+    emailAvox(environ['tiddlyweb.query']) #JRL: debug - remove
     try:
         redirect = environ['tiddlyweb.query']['recaptcha_redirect'][0]
     except:
@@ -70,6 +73,7 @@ def verify(environ, start_response):
     resp = submit(challenge_field, response_field, private_key, ip_addr)
     if resp.is_valid:
         redirect = redirect + '?success=1'
+        emailAvox(environ['tiddlyweb.query'])
     else:
         redirect = redirect + '?success=0&error=' + resp.error_code
 

@@ -12,15 +12,15 @@
 			{% for field, label in labels %}
 			<tr>
 				{% if field == 'operational_country' %}
-				<td><label for="{{field}}">{{label}}</label><span>{{tiddler.fields[field]}}</span></td>
-				<td><select name="operational_country">
+				<td><label for="challenge_{{field}}">{{label}}</label><span>{{tiddler.fields[field]}}</span></td>
+				<td><select name="challenge_{{field}}">
 					{% for country in countries %}
 					<option value="{{country}}">{{country}}</option>
 					{% endfor %}
 					</select></td>
 				{% else %}
-				<td><label for="{{field}}">{{label}}</label><span>{{tiddler.fields[field]}}</span></td>
-				<td><input type="text" size="35" name="{{field}}" /></td>
+				<td><label for="challenge_{{field}}">{{label}}</label><span>{{tiddler.fields[field]}}</span></td>
+				<td><input type="text" size="35" name="challenge_{{field}}" /></td>
 				{% endif %}
 			</tr>
 			{% endfor %}
@@ -43,6 +43,9 @@
 		<input type="text" size="35" name="company" />
 		<label for="source">(Optional) What is your source for this? Please include URL and/or sources used. We will use this to validate your challenge.</label>
 		<textarea cols="35" rows="5" name="source"></textarea>
+		<input type="hidden" name="requestType" value="challenge" />
+		<input type="hidden" name="avid" value="{{tiddler.fields.avid}}" />
+		<input type="hidden" name="legal_name" value="{{tiddler.fields.legal_name}}" />
 		<div>Are you human?</div>
 		<script type="text/javascript" src="http://api.recaptcha.net/challenge?k=6Ld8HAgAAAAAAEIb34cZepZmJ0RlfeP6CmtoMO29"></script>
 		<noscript>
@@ -52,7 +55,7 @@
 		</noscript>
 		{% if captcha.failure %}
 		<div class="captcha_error">
-			<p>Whoops! I think you made a mistake with the CAPTCHA - {{captcha.error}}</p>
+			<p>Whoops! I think you made a mistake with the CAPTCHA. Please try again.</p>
 		</div>
 		{% endif %}
 		<input type="submit" value="Submit challenge" />

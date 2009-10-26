@@ -247,7 +247,7 @@ div.notice {
 table {
 	border-collapse: collapse;
 	background-color: #d5d5d5;
-	width: 100%;
+	width: inherit;
 	overflow: hidden;
 }
 table a, table a:active, table a:hover, table a:visited {
@@ -324,7 +324,7 @@ tfoot th {
 	margin: 1em 0;
 }
 /* challenge, request and suggest_new tables */
-#challenge {
+#challenge, #request, #suggest_new {
 	position: relative;
 }
 #challenge div.left, #request div.left, #suggest_new div.left {

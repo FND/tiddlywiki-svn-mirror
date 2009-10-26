@@ -95,6 +95,7 @@
 		</select>
 		<label for="country">(Optional) Your company</label>
 		<input type="text" size="35" name="company" />
+		<input type="hidden" name="requestType" value="suggest_new" />
 		<div>Are you human?</div>
 		<script type="text/javascript" src="http://api.recaptcha.net/challenge?k=6Ld8HAgAAAAAAEIb34cZepZmJ0RlfeP6CmtoMO29"></script>
 		<noscript>
@@ -104,7 +105,7 @@
 		</noscript>
 		{% if captcha.failure %}
 		<div class="captcha_error">
-			<p>Whoops! I think you made a mistake with the CAPTCHA - {{captcha.error}}</p>
+			<p>Whoops! I think you made a mistake with the CAPTCHA. Please try again.</p>
 		</div>
 		{% endif %}
 		<input type="submit" value="Submit suggestion" />

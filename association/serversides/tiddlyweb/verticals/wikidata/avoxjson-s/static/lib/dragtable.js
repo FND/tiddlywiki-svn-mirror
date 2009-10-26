@@ -188,9 +188,9 @@ dragtable = {
     var dragObj = dragtable.dragObj;
 
     var browser = dragtable.browser;
-    if (browser.isIE)
-      dragObj.origNode = window.event.srcElement;
-    else
+    //if (browser.isIE)
+      //dragObj.origNode = window.event.srcElement;
+    //else
       dragObj.origNode = event.target;
     var pos = dragtable.eventPosition(event);
 
