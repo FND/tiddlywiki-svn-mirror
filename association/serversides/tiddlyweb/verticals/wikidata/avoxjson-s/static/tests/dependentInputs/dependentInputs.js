@@ -136,12 +136,25 @@ jQuery(document).ready(function() {
 		same($row.find('input:hidden').val(),"GBR");
 	});
 
-	test("when a row changes its values to a drop-down, the drop-down's name should have '_ignore' prepended", function() {
+	test("when I add a row, the field drop-down should get a name of adv_i_field, where i is the index of the row, starting at 0", function() {
+		var i = DependentInputs.createRow('#test-form');
+		var $row = DependentInputs.rows[i];
+		same($row.field.attr("name"),"adv_"+i+"_field");
+	});
+	
+	test("when I add a row, the value input should get a name of adv_i_value, where i is the index of the row, starting at 0", function() {
+		var i = DependentInputs.createRow('#test-form');
+		var $row = DependentInputs.rows[i];
+		same($row.val.attr("name"),"adv_"+i+"_value");
+	});
+
+	test("when a row changes its values to a drop-down, the drop-down's name should have '_ignore_' prepended", function() {
 		var i = DependentInputs.createRow('#test-form');
 		var $row = DependentInputs.rows[i];
 		$row.field.val("Operational Country");
 		$row.field.trigger("change");
-		same($row.val.attr("name").indexOf("_ignore"),0);
+		var name = $row.find('input:hidden').attr('name');
+		same($row.val.attr("name"),"_ignore_"+name);
 	});
 	
 	test("dependencies should be triggered no matter which order two inter-dependent rows were added", function() {

@@ -689,10 +689,13 @@ ISO_3166.usa = ISO_3166["2:US"];DependentInputs = {
 	addDependency: function(f) {
 		this.dependencies.push(f);
 	},
-	makeSelect: function($container,values) {
+	makeSelect: function($container,values,attrs) {
 		var $select = $("<select></select>").appendTo($container);
 		for(var i=0; i<values.length; i++) {
 			$select.append($("<option>"+values[i]+"</option>"));
+		}
+		if(attrs) {
+			$select.attr(attrs);
 		}
 		return $select;
 	},
@@ -707,13 +710,13 @@ ISO_3166.usa = ISO_3166["2:US"];DependentInputs = {
 		var $container = $(container);
 		var $row = $("<div></div>").appendTo($container);
 		var i = this.rows.push($row)-1;
-		var id = "adv_"+i+"_value";
 		$row.addClass("advSearchLine");
-		$row.field = this.makeSelect($row,this.fields);
+		$row.field = this.makeSelect($row,this.fields,{
+			"name":"adv_"+i+"_field"
+		});
 		$row.field.addClass("advSearchLineField");
 		$row.val = this.makeInput($row, {
-			"id":id,
-			"name":id,
+			"name":"adv_"+i+"_value",
 			"size":"35"
 		});
 		$row.val.addClass("advSearchLineValue");
@@ -737,13 +740,14 @@ ISO_3166.usa = ISO_3166["2:US"];DependentInputs = {
 		$row.values = values;
 		var className = $row.val.get(0).className;
 		var $inp = $row.val.remove();
+		var inpName = $inp.attr('name');
 		var $hid = $('<input type="hidden"></input>');
 		$hid.attr({
 			"id":$inp.attr("id"),
-			"name":$inp.attr("name")
+			"name":inpName
 		});
 		$row.val = this.makeSelect($row,values);
-		$row.val.attr("name","_ignore");
+		$row.val.attr("name","_ignore_"+inpName);
 		$row.append($hid);
 		$row.val.get(0).className = className;
 		var currVal = $inp.val();
@@ -975,7 +979,7 @@ function addAdvSearchLine() {
 	}
 	return $row;
 }
-$(document).ready(function() { try {
+$(document).ready(function() {
 	// set advanced search on a slider
 	$('#search a.advanced').click(function() {
 		addAdvSearchLine();
@@ -1000,12 +1004,11 @@ $(document).ready(function() { try {
 						.prev()
 						.val(params[i].join(" "))
 						.change();
-					console.log('set '+params[i].join(" ")+' to: ',val[0]);
 				}
 			}
 		}
 	}
-} catch(ex) { console.log(ex); } });
+});
 /*
  * File:        jquery.dataTables.js
  * Version:     1.5.1
