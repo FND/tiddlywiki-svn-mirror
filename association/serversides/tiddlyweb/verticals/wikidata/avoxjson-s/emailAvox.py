@@ -8,11 +8,10 @@ def emailAvox(query):
     email = query['email'][0]
     country = query['country'][0]
     company = query['company'][0]
-    to = 'jnthnlstr@googlemail.com' #JRL: debug
     if requestType == 'request':
         avid = query['avid'][0]
         legal_name = query['legal_name'][0]
-        #to = 'addadatarecord.wiki-data@avox.info'
+        to = 'addadatarecord.wiki-data@avox.info'
         subject = 'Request for more information'
         body = 'SPECIFIC REQUEST re: additional information request\n' \
             'for '+legal_name+' (AVID = '+avid+')\n' \
@@ -24,7 +23,7 @@ def emailAvox(query):
         avid = query['avid'][0]
         legal_name = query['legal_name'][0]
         source = query['source'][0]
-        #to = 'foundanerror.wiki-data@avox.info'
+        to = 'foundanerror.wiki-data@avox.info'
         subject = 'Challenge record'
         body = 'SPECIFIC REQUEST re: correction\n' \
             'for '+legal_name+' (AVID = '+avid+')\n' \
@@ -40,7 +39,7 @@ def emailAvox(query):
            except KeyError:
                pass
     elif requestType == 'suggest_new':
-       #to = ['paul.barlow@avox.info', 'kate.young@avox.info', 'brian.cole@avox.info', 'ken.price@avox.info']
+       to = ['paul.barlow@avox.info', 'kate.young@avox.info', 'brian.cole@avox.info', 'ken.price@avox.info']
        subject = 'Wiki-data AVID record suggestion'
        body = 'Submittor info\n--------------\n' \
            'Name: '+name+'\n' \

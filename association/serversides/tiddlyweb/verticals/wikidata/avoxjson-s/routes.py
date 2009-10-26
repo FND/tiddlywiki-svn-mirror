@@ -57,7 +57,6 @@ def verify(environ, start_response):
     from captcha import submit
 
     logging.debug(environ['tiddlyweb.query'])
-    emailAvox(environ['tiddlyweb.query']) #JRL: debug - remove
     try:
         redirect = environ['tiddlyweb.query']['recaptcha_redirect'][0]
     except:
