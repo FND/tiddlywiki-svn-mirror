@@ -46,6 +46,7 @@ config = {
             'operational_country': ID,
             'country_of_registration': ID,
             'operational_postcode': TEXT,
+            'cabre': TEXT
         },
         'wsearch.default_fields': [
             'legal_name',
