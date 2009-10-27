@@ -733,7 +733,6 @@ ISO_3166.usa = ISO_3166["2:US"];DependentInputs = {
 		$row.button = $("<button>-</button>").appendTo($row).click(function() {
 			// have to figure out i again, as it might have changed
 			var i = $('.advSearchLine').index($(this).parent());
-			console.log('i found:',i);
 			DependentInputs.rows.splice(i,1);
 			var name;
 			$container.find('.advSearchLine:gt('+i+')').each(function(n) {
