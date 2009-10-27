@@ -53,7 +53,6 @@
 		{# this if clause is a temporary hack until we don't supply a 'stub' tiddler #}
 		{% if not (tiddler.title == 'stub') %}
 			<tr>
-				<td><a href="/bags/avox/tiddlers/{{tiddler.title}}.html">{{tiddler.title}}</a></td>
 			{% for field, label in labels %}
 				{% if field == 'avid' %}
 				<td><a href="/bags/avox/tiddlers/{{tiddler.title}}.html">{{tiddler.title}}</a></td>
