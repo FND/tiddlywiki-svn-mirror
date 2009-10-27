@@ -5958,8 +5958,8 @@ $(document).ready(function() {
 						mapped.aaData.push([
 							'<a href="/bags/avox/tiddlers/'+tiddler.title+'.html">'+tiddler.title+'</a>',
 							fields["legal_name"] || "",
-							fields["previous_name(s)"] || "",
-							fields["trades_as_name(s)"] || "",
+							fields["previous_name_s_"] || "",
+							fields["trades_as_name_s_"] || "",
 							fields["trading_status"] || "",
 							fields["company_website"] || "",
 							fields["country_of_registration"] || "",

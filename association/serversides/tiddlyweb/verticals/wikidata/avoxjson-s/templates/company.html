@@ -1,7 +1,7 @@
 <!-- JRL: disabling all comments code until the whole thing works -->
 <!-- <script type="text/javascript">
   $(function() {
-    $("#comments-container").comments({{tiddler.fields.avid}});
+    $("#comments-container").comments({{tiddler.title}});
   });
 </script>-->
 <div class="company">
@@ -11,17 +11,17 @@
 		<div><a href="http://{{ tiddler.fields.company_website }}">{{ tiddler.fields.company_website }}</a></div>
 		{% endif %}
 		<div>Trading status: <span class="trading">{{ tiddler.fields.trading_status }}</span></div>
-		{% if tiddler.fields['trades_as_name(s)'] %}
-		<div>Trades as: <span class="nickname">{{ tiddler.fields['trades_as_name(s)'] }}</span></div>
+		{% if tiddler.fields['trades_as_name_s_'] %}
+		<div>Trades as: <span class="nickname">{{ tiddler.fields['trades_as_name_s_'] }}</span></div>
 		{% endif %}
-		{% if tiddler.fields['previous_name(s)'] %}
-		<div>Previous name(s): {{ tiddler.fields['previous_name(s)'] }}</div>
+		{% if tiddler.fields['previous_name_s_'] %}
+		<div>Previous name(s): {{ tiddler.fields['previous_name_s_'] }}</div>
 		{% endif %}
 		{% if tiddler.fields['country_of_registration'] %}
 		<!-- JRL: this should use tiddler.fields['registered_country'] as soon as it is available -->
 		<div>Registered country: {{ tiddler.fields['country_of_registration'] }}</div>
 		{% endif %}
-		<h2 class="avid">AVID: {{ tiddler.fields.avid }}</h2>
+		<h2 class="avid">AVID: {{ tiddler.title }}</h2>
 	
 		<!--<span class="inc_number">{{ tiddler.fields.reg_inc_number }}</span>/<span class="inc_country_code">{{ tiddler.fields.inc_country_code }}</span>-->
 	
@@ -74,8 +74,8 @@
 	<div id="comments-container"></div>
 	<div class="alt-buttons small">
 	<span class="label">other formats:&nbsp;</span>
-	<a href="{{ tiddler.fields.avid }}.json">json</a> |
-	<a href="{{ tiddler.fields.avid }}.txt">text</a>
-	<!--<a href="{{ tiddler.fields.avid }}.edit">edit</a>-->
+	<a href="{{ tiddler.title }}.json">json</a> |
+	<a href="{{ tiddler.title }}.txt">text</a>
+	<!--<a href="{{ tiddler.title }}.edit">edit</a>-->
 	</div>
 </div>

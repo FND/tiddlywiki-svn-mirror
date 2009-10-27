@@ -4,7 +4,7 @@
 <div class="textArea">
 	<form name='editForm' action='/submit' method='POST'>
 		<table>
-			<tr><td align="right"><b>Avid</b></td><td id="avid">{{ tiddler.fields.avid }}</td><td align="right"><b>Extended Information</b></td><td></td></tr>
+			<tr><td align="right"><b>Avid</b></td><td id="avid">{{ tiddler.title }}</td><td align="right"><b>Extended Information</b></td><td></td></tr>
 			<tr><td align="right">Legal Name</td><td><input style="width:320px" name="legal_name" value="{{ tiddler.fields.legal_name }}"/></td><td align="right">NAICS code</td><td><input style="width:320px" name="legal_name" value="{{ tiddler.fields.legal_name }}"/></td></tr>
 			<tr><td align="right">Website</td><td><input style="width:320px" name="website" value="{{ tiddler.fields.website }}"/></td><td align="right">NAICS description</td><td><input style="width:320px" name="legal_name" value="{{ tiddler.fields.legal_name }}"/></td></tr>
 			<tr><td align="right">Country of Incorporation</td><td><input style="width:320px" name="inc_country_code" value="{{ tiddler.fields.inc_country_code }}"/></td><td align="right">SIC Code</td><td><input style="width:320px" name="legal_name" value="{{ tiddler.fields.legal_name }}"/></td></tr>
