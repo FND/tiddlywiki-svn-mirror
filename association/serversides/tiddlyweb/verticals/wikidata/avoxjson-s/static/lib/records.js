@@ -161,7 +161,7 @@ $(document).ready(function() {
 							fields["operational_state"] || "",
 							fields["operational_country"] || "",
 							fields["operational_postcode"] || "",
-							fields["cabre"] || ""
+							fields["cabre"] || "",
 							'<a href="/bags/avox/tiddlers/'+tiddler.title+'.challenge">go</a>',
 							'<a href="/bags/avox/tiddlers/'+tiddler.title+'.request">go</a>'
 						]);
