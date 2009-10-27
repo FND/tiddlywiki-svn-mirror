@@ -686,16 +686,26 @@ ISO_3166.usa = ISO_3166["2:US"];DependentInputs = {
 	rows: [],
 	values: {},
 	dependencies: [],
+	decoyValue: "Please select...",
 	addDependency: function(f) {
 		this.dependencies.push(f);
 	},
-	makeSelect: function($container,values,attrs) {
-		var $select = $("<select></select>").appendTo($container);
+	makeSelect: function($container,values,attrs,addDecoy) {
+		var $select = $("<select></select>");
+		if(addDecoy) {
+			$select.append($("<option>"+this.decoyValue+"</option>"));
+		}
 		for(var i=0; i<values.length; i++) {
 			$select.append($("<option>"+values[i]+"</option>"));
 		}
+		if(addDecoy) {
+			$select.append($("<option></option>"));
+		}
 		if(attrs) {
 			$select.attr(attrs);
+		}
+		if($container) {
+			$container.append($select);
 		}
 		return $select;
 	},
@@ -720,6 +730,21 @@ ISO_3166.usa = ISO_3166["2:US"];DependentInputs = {
 			"size":"35"
 		});
 		$row.val.addClass("advSearchLineValue");
+		$row.button = $("<button>-</button>").appendTo($row).click(function() {
+			// have to figure out i again, as it might have changed
+			var i = $('.advSearchLine').index($(this).parent());
+			console.log('i found:',i);
+			DependentInputs.rows.splice(i,1);
+			var name;
+			$container.find('.advSearchLine:gt('+i+')').each(function(n) {
+				$(this).find(':input:not(button)').each(function() {
+					name = $(this).attr('name').replace(i+1+n,i+n);
+					$(this).attr('name',name);
+				});
+			});
+			$row.remove();
+			DependentInputs.checkAll(0,"field");
+		});
 		$row.change(function(event) {
 			var $target = $(event.target);
 			var changed;
@@ -735,18 +760,38 @@ ISO_3166.usa = ISO_3166["2:US"];DependentInputs = {
 		this.checkAll(i,"field");
 		return i;
 	},
+	setDecoy: function() {
+		var oldSetDecoy = this.setDecoy;
+		var cancelDecoys = function() {
+			$(this).find('select').each(function(i) {
+				if($(this).val()===DependentInputs.decoyValue) {
+					$(this).val("");
+				}
+			});
+		};
+		var $row = this.rows[0];
+		$row.closest('form').submit(cancelDecoys);
+		this.setDecoy = function() {
+			return false;
+		}
+		this.setDecoy.restore = function() {
+			DependentInputs.setDecoy = oldSetDecoy;
+			$row.closest('form').unbind('submit',cancelDecoys);
+		}
+	},
 	replaceValues: function(i,values) {
 		var $row = this.rows[i];
+		// prep the form for throwing away decoy values on submission
+		this.setDecoy();
 		$row.values = values;
 		var className = $row.val.get(0).className;
 		var $inp = $row.val.remove();
 		var inpName = $inp.attr('name');
 		var $hid = $('<input type="hidden"></input>');
 		$hid.attr({
-			"id":$inp.attr("id"),
 			"name":inpName
 		});
-		$row.val = this.makeSelect($row,values);
+		$row.val = this.makeSelect($row,values,null,true);
 		$row.val.attr("name","_ignore_"+inpName);
 		$row.append($hid);
 		$row.val.get(0).className = className;
@@ -782,19 +827,22 @@ ISO_3166.usa = ISO_3166["2:US"];DependentInputs = {
 				matched = true;
 				if(!$row.values) {
 					this.replaceValues(i,values);
+					$row.button.appendTo($row);
 				}
 				//break;
 			}
 		}
+		// if there are no dependencies matched and we're a drop-down, it's time to change back to an input
 		if(!matched && $row.values && changed==="field") {
 			delete $row.values;
 			delete $row.valuesMap;
-			$row.val.remove();
 			var $hid = $row.find('input:hidden').remove();
+			var className = $row.val.remove().get(0).className;
 			$row.val = this.makeInput($row, {
-				id: $hid.attr('id'),
 				name: $hid.attr('name')
 			});
+			$row.val.addClass(className);
+			$row.button.appendTo($row);
 		}
 	}
 };
