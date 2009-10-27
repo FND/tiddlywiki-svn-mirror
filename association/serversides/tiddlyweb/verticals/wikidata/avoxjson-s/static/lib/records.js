@@ -149,7 +149,7 @@ $(document).ready(function() {
 							fields["trades_as_name_s_"] || "",
 							fields["trading_status"] || "",
 							fields["company_website"] || "",
-							fields["country_of_registration"] || "",
+							fields["registered_country"] || "",
 							fields["operational_po_box"] || "",
 							fields["operational_floor"] || "",
 							fields["operational_building"] || "",
