@@ -2,7 +2,7 @@ jQuery(document).ready(function() {
 
 	jqMock.addShortcut();
 
-	module('DependentInputs', {
+	module('DependentInputs: new rows', {
 		setup: function() {
 			$('body').append('<form id="test-form"><input type="submit" /></form>');
 		},
@@ -143,7 +143,10 @@ jQuery(document).ready(function() {
 	});
 	
 	test("when I remove a row, the row should be removed from the DependentInputs.rows array", function() {
-	
+		DependentInputs.createRow('#test-form');
+		var $row = DependentInputs.rows[DependentInputs.createRow('#test-form')];
+		triggerEvent($row.button[0],"click");
+		same(DependentInputs.rows.length,1);
 	});
 	
 	test("when I change to a drop-down, the remove button should appear after the drop-down", function() {
@@ -153,12 +156,19 @@ jQuery(document).ready(function() {
 		same($row.find("button ~ :visible").length,0);	
 	});
 	
-	test("when I change from a drop-down to an input, the remove button should appear after the input", function() {
-	
+	test("when I change from a drop-down back to an input, the remove button should appear after the input", function() {
+		var $row = DependentInputs.rows[DependentInputs.createRow('#test-form')];
+		$row.field.val("Operational Country").change();
+		$row.field.val("Legal Name").change();
+		ok($row.find('input').next().is('button'));
 	});
 	
-	test("when I change from one drop-down to another, the remove button should appear after the drop-down", function() {
-	
+	test("when I change from one drop-down to another, the remove button should appear after the hidden input", function() {
+		var $row = DependentInputs.rows[DependentInputs.createRow('#test-form')];
+		$row.field.val("Operational Country").change();
+		$row.field.val("Registered Country").change();
+		same($row.val.next().is('input'),true);
+		same($row.val.next().next().is('button'),true);
 	});
 
 	test("when a row changes its values to a drop-down, it should create an empty hidden input field after the values", function() {
@@ -237,6 +247,14 @@ jQuery(document).ready(function() {
 		same($row.find('input:visible').length,1);
 	});
 	
+	test("when a value is changed back to an input from a drop-down, the new input should replace the drop-down in the DOM", function() {
+		var i = DependentInputs.createRow('#test-form');
+		var $row = DependentInputs.rows[i];
+		$row.field.val("Operational Country").change();
+		$row.field.val("CABRE").change();
+		same($row.field.next()[0],$row.val[0]);
+	});
+	
 	test("when a value is changed back to an input from a drop-down, the hidden input field should pass on its name and value to the new input", function() {
 		var i = DependentInputs.createRow('#test-form');
 		var $row = DependentInputs.rows[i];
@@ -290,15 +308,109 @@ jQuery(document).ready(function() {
 	});
 	
 	test("when submitting a form, any drop-downs still with 'Please select...' as their value should be set to a blank value before submission", function() {
-		stop();
+		//stop();
 		var i = DependentInputs.createRow('#test-form');
 		var $row = DependentInputs.rows[i];
 		$row.field.val("Operational Country").change();
 		$('form').submit(function() {
+			alert('like totally starting again');
 			same($row.val.val(),"");
-			start();
+			//start();
 			return false;
 		});
 		triggerEvent($('input:submit')[0],"click");
+	});
+	
+	test("if the last row if removed, no dependency checking happens", function() {
+		var $row = DependentInputs.rows[DependentInputs.createRow('#test-form')];
+		var mock = new jqMock.Mock(DependentInputs.dependencies,0);
+		mock.modify().args(is.anything,is.anything).multiplicity(0);
+		triggerEvent($row.button[0],"click");
+		mock.verify();
+		mock.restore();
+	});
+	
+	module('DependentInputs: converting existing rows', {
+		setup: function() {
+			$('body').append('<form id="test-form"><label for="operational_state">Operational State</label><input type="text" name="operational_state" /><label for="operational_country">Operational Country</label><input type="text" name="operational_country" /><input type="submit" /></form>');
+			DependentInputs.rows = [];
+			DependentInputs.dependencies = [];
+			DependentInputs.addDependency(function($row,changed) {
+				if(changed==="field" && $row.field.val()==="Operational Country") {
+						$row.valueMap = ISO_3166.countries;
+						return DependentInputs.values.countries;
+				}
+			});
+			DependentInputs.addDependency(function($row,changed) {
+				if(changed==="field" && $row.field.val()==="Operational State") {
+					var $r;
+					for(var i=0;i<DependentInputs.rows.length;i++) {
+						$r = DependentInputs.rows[i];
+						if($r.field.val()==="Operational Country" && $r.val.val()==="United States") {
+							$row.valueMap = ISO_3166.usa.name2iso;
+							return DependentInputs.values.us_states;
+						}
+					}
+				}
+			});
+		},
+		teardown: function() {
+			if(DependentInputs.setDecoy.restore) {
+				DependentInputs.setDecoy.restore();
+			}
+			$('#test-form').remove();
+		}
+	});
+	
+	test("when I convert an existing row, I can specify the selectors for the field and val properties", function() {
+		var n = DependentInputs.addRow('#test-form','label','input',0);
+		var $row = DependentInputs.rows[n];
+		var expectedField = $('#test-form label')[0];
+		var expectedVal = $('#test-form :text')[0];
+		same($row.field.get(0),expectedField);
+		same($row.val.get(0),expectedVal);
+		n = DependentInputs.addRow('#test-form','label',':input',1);
+		$row = DependentInputs.rows[n];
+		expectedField = $('#test-form label')[1];
+		expectedVal = $('#test-form select')[0];
+		same($row.field.get(0),expectedField);
+		same($row.val.get(0),expectedVal);
+	});
+	
+	test("when I add a row, all the other row dependencies are checked", function() {
+		var mock = new jqMock.Mock(DependentInputs,"checkAll");
+		mock.modify().args(is.anything,is.anything).multiplicity(1);
+		DependentInputs.addRow('#test-form','label',':input');
+		mock.verify();
+		mock.restore();
+	});
+	
+	test("when I add batch of rows via a selector, the dependencies are all checked afterwards", function() {
+		var mock = new jqMock.Mock(DependentInputs,"checkAll");
+		mock.modify().args(is.anything,is.anything).multiplicity(1);
+		DependentInputs.addRows('#test-form','label',':text');
+		mock.verify();
+		mock.restore();
+	});
+	
+	test("when I add a row with a label as its field, it should set the field.val() to the innerHTML of the label", function() {
+		var i = DependentInputs.addRow('#test-form', 'label', ':text');
+		var $row = DependentInputs.rows[i];
+		same($row.field.val(),$('#test-form label')[0].innerHTML);
+	});
+	
+	test("when I add a batch of rows that includes a field of 'Operational Country', it should replace the input with a country drop-down", function() {
+		var i = DependentInputs.addRows('#test-form','label',':text');
+		var $row = DependentInputs.rows[i];
+		same($('select').length,1);
+		same($row.values,DependentInputs.values.countries);
+	});
+	
+	test("after adding two rows where one has a field of 'Operational State' and the other 'Operational Country', if I change the second value to 'United States', the first value should be replaced with a drop-down of US states", function() {
+		var i = DependentInputs.addRows('#test-form','label',':text');
+		var $row2 = DependentInputs.rows[i];
+		$row2.val.val('United States').change();
+		var $row = DependentInputs.rows[0];
+		same($row.values,DependentInputs.values.us_states);
 	});
 });

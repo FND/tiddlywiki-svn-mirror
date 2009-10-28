@@ -97,4 +97,15 @@ $(document).ready(function() {
 			}
 		}
 	}
+	if($('#suggest_new, #challenge, #request').length!==0) {
+		DependentInputs.addDependency(function($row,changed) {
+			if(changed==="field" && $row.field.attr("for")==="country") {
+				$row.valueMap = ISO_3166.countries.name2iso;
+				console.log($row.valueMap);
+				return DependentInputs.values.countries;
+			}
+		});
+		DependentInputs.addRows('table.fields',"label",":input","tr");
+		DependentInputs.addRow('div.right',"label[for=country]","label[for=country]+input");
+	}
 });

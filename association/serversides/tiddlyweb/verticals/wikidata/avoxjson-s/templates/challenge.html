@@ -1,5 +1,4 @@
 {% from 'labels.html' import labels %}
-{% from 'countries.html' import countries %}
 {% if captcha.success %}
 <div>
 <p>Thanks! We'll be in touch shortly.</p>
@@ -13,11 +12,7 @@
 			<tr>
 				{% if field == 'operational_country' %}
 				<td><label for="challenge_{{field}}">{{label}}</label><span>{{tiddler.fields[field]}}</span></td>
-				<td><select name="challenge_{{field}}">
-					{% for country in countries %}
-					<option value="{{country}}">{{country}}</option>
-					{% endfor %}
-					</select></td>
+				<td><input type="text" size="35" name="challenge_{{field}}" /></td>
 				{% else %}
 				<td><label for="challenge_{{field}}">{{label}}</label><span>{{tiddler.fields[field]}}</span></td>
 				<td><input type="text" size="35" name="challenge_{{field}}" /></td>
@@ -34,12 +29,8 @@
 		<label for="email">Your email address</label>
 		<input type="text" size="35" name="email" />
 		<label for="country">Your country</label>
-		<select name="country">
-			{% for country in countries %}
-			<option value="{{country}}">{{country}}</option>
-			{% endfor %}
-		</select>
-		<label for="country">(Optional) Your company</label>
+		<input type="text" size="35" name="country" />
+		<label for="company">(Optional) Your company</label>
 		<input type="text" size="35" name="company" />
 		<label for="source">(Optional) What is your source for this? Please include URL and/or sources used. We will use this to validate your challenge.</label>
 		<textarea cols="35" rows="5" name="source"></textarea>

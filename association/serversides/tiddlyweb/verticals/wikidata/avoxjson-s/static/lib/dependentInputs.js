@@ -1,8 +1,25 @@
+// bug in IE when using replaceWith - duplicates content, lose event handlers
+// this from http://dev.jquery.com/ticket/2697
+$.fn.replaceWith = function(value) {
+	return this.each(function() {
+		var e = $(this);
+		var s = e.next();
+		var p = e.parent();
+		e.remove();
+		if (s.size())
+			s.before(value);
+		else
+			p.append(value);
+	});
+}
 DependentInputs = {
 	rows: [],
 	values: {},
 	dependencies: [],
 	decoyValue: "Please select...",
+	rowClass: "advSearchLine",
+	fieldClass: "advSearchLineField",
+	valClass: "advSearchLineValue",
 	addDependency: function(f) {
 		this.dependencies.push(f);
 	},
@@ -26,32 +43,91 @@ DependentInputs = {
 		return $select;
 	},
 	makeInput: function($container,attrs) {
-		var $input = $('<input type="text"></input>').appendTo($container);
+		var $input = $('<input type="text" />').appendTo($container);
 		if(attrs) {
 			$input.attr(attrs);
 		}
 		return $input;
 	},
+	addChangeHandler: function($row,i) {
+		$row.change(function(event) {
+			var $target = $(event.target);
+			var changed;
+			if($target.hasClass(DependentInputs.fieldClass)) {
+				changed = "field";
+			} else if ($target.hasClass(DependentInputs.valClass)) {
+				changed = "value";
+			} else {
+				throw new Error("something changed other than field or value in row, index "+i+", class: "+$target.className);
+			}
+			DependentInputs.checkAll(i,changed);
+		});
+	},
+	addRow: function(container,field,val,i) {
+		i = i || 0;
+		var $field = $(container).find(field).eq(i);
+		var $val = $(container).find(val).eq(i);
+		return this.convert($field,$val);
+	},
+	addRows: function(container,field,val,rowSelector) {
+		var $fields = $(container).find(field);
+		var $vals = $(container).find(val);
+		var $rowShells;
+		if(rowSelector) {
+			$rowShells = $(container).find(rowSelector);
+		}
+		return this.convert($fields,$vals,$rowShells);
+	},
+	convert: function($fields,$vals,$rowShells) {
+		if($fields.length!==$vals.length) {
+			throw new Error("error when converting rows - fields and vals not the same length - fields: "+$fields.length+", vals: "+$vals.length);
+		} else if($rowShells && $rowShells.length!==$vals.length) {
+			throw new Error("error when converting rows - rowShells and row-pairs not the same length - rowShells: "+$rowShells.length+", row-pairs: "+$vals.length);
+		}
+		var $field, $val, $rowShell;
+		var $row;
+		var n;
+		for(var i=0;i<$fields.length;i++) {
+			$field = $($fields[i]);
+			$val = $($vals[i]);
+			if($rowShells) {
+				$rowShell = $($rowShells[i]);
+			}
+			$row = $rowShell || $field.parent();
+			$row.field = $field;
+			$row.field.addClass(this.fieldClass);
+			if(!$row.field.val() && $row.field.get(0).innerHTML) {
+				// field is static, not an input
+				$row.field.val($row.field.get(0).innerHTML);
+			}
+			$row.val = $val;
+			$row.val.addClass(this.valClass);
+			n = DependentInputs.rows.push($row)-1;
+			this.addChangeHandler($row,n);
+		}
+		this.checkAll(n,"field");
+		return n;
+	},
 	createRow: function(container) {
 		var $container = $(container);
 		var $row = $("<div></div>").appendTo($container);
 		var i = this.rows.push($row)-1;
-		$row.addClass("advSearchLine");
+		$row.addClass(this.rowClass);
 		$row.field = this.makeSelect($row,this.fields,{
 			"name":"adv_"+i+"_field"
 		});
-		$row.field.addClass("advSearchLineField");
+		$row.field.addClass(this.fieldClass);
 		$row.val = this.makeInput($row, {
 			"name":"adv_"+i+"_value",
 			"size":"35"
 		});
-		$row.val.addClass("advSearchLineValue");
+		$row.val.addClass(this.valClass);
 		$row.button = $("<button>-</button>").appendTo($row).click(function() {
 			// have to figure out i again, as it might have changed
-			var i = $('.advSearchLine').index($(this).parent());
+			var i = $('.'+DependentInputs.rowClass).index($(this).parent());
 			DependentInputs.rows.splice(i,1);
 			var name;
-			$container.find('.advSearchLine:gt('+i+')').each(function(n) {
+			$container.find('.'+DependentInputs.rowClass+':gt('+i+')').each(function(n) {
 				$(this).find(':input:not(button)').each(function() {
 					name = $(this).attr('name').replace(i+1+n,i+n);
 					$(this).attr('name',name);
@@ -60,18 +136,7 @@ DependentInputs = {
 			$row.remove();
 			DependentInputs.checkAll(0,"field");
 		});
-		$row.change(function(event) {
-			var $target = $(event.target);
-			var changed;
-			if($target.hasClass("advSearchLineField")) {
-				changed = "field";
-			} else if ($target.hasClass("advSearchLineValue")) {
-				changed = "value";
-			} else {
-				throw new Error("something changed other than field or value in row, index "+i+", class: "+$target.className);
-			}
-			DependentInputs.checkAll(i,changed);
-		});
+		this.addChangeHandler($row,i);
 		this.checkAll(i,"field");
 		return i;
 	},
@@ -95,22 +160,24 @@ DependentInputs = {
 		}
 	},
 	replaceValues: function(i,values) {
+		// JRL: note - should only create hidden drop-down if there is a $row.valueMap, otherwise it's not needed - the mechanism to update such a thing is currently in the added dependencies - might want to think about bringing that in
 		var $row = this.rows[i];
 		// prep the form for throwing away decoy values on submission
 		this.setDecoy();
 		$row.values = values;
 		var className = $row.val.get(0).className;
-		var $inp = $row.val.remove();
-		var inpName = $inp.attr('name');
-		var $hid = $('<input type="hidden"></input>');
+		var inputName = $row.val.attr('name');
+		var currVal = $row.val.val();
+		var $hid = $('<input type="hidden" />');
 		$hid.attr({
-			"name":inpName
+			"name":inputName
 		});
-		$row.val = this.makeSelect($row,values,null,true);
-		$row.val.attr("name","_ignore_"+inpName);
-		$row.append($hid);
+		var $select = this.makeSelect(null,values,null,true);
+		$row.val.replaceWith($select);
+		$row.val = $select;
+		$row.val.attr("name","_ignore_"+inputName);
+		$row.val.after($hid);
 		$row.val.get(0).className = className;
-		var currVal = $inp.val();
 		if(currVal) {
 			if($row.valueMap) {
 				for(var i in $row.valueMap) {
@@ -124,11 +191,14 @@ DependentInputs = {
 		}
 	},
 	checkAll: function(i,changed) {
-		DependentInputs.checkRow(i,changed);
-		for(var j=0;j<DependentInputs.rows.length;j++) {
-			if(j!==i) {
-				// all other lines are candidates for changing their values, so check their dependencies as if they'd just changed their field to its current value
-				DependentInputs.checkRow(j,"field");
+		// JRL: I am not convinced that checking the 'ith' row first makes any difference to the outcome, nor that this 'i' is updated when rows are removed - suggest removing this use of 'i'
+		if(this.rows.length) {
+			DependentInputs.checkRow(i,changed);
+			for(var j=0;j<DependentInputs.rows.length;j++) {
+				if(j!==i) {
+					// all other lines are candidates for changing their values, so check their dependencies as if they'd just changed their field to its current value
+					DependentInputs.checkRow(j,"field");
+				}
 			}
 		}
 	},
@@ -140,9 +210,11 @@ DependentInputs = {
 			values = this.dependencies[d]($row,changed);
 			if(values) {
 				matched = true;
-				if(!$row.values) {
+				if(!$row.values) { // JRL: should prob be more like if($row.values!==values)
 					this.replaceValues(i,values);
-					$row.button.appendTo($row);
+					if($row.button) {
+						$row.button.appendTo($row);
+					}
 				}
 				//break;
 			}
@@ -152,12 +224,17 @@ DependentInputs = {
 			delete $row.values;
 			delete $row.valuesMap;
 			var $hid = $row.find('input:hidden').remove();
-			var className = $row.val.remove().get(0).className;
-			$row.val = this.makeInput($row, {
-				name: $hid.attr('name')
+			var className = $row.val.get(0).className;
+			var $inp = this.makeInput(null, {
+				name: $hid.attr('name'),
+				"size":"35"
 			});
+			$row.val.replaceWith($inp);
+			$row.val = $inp;
 			$row.val.addClass(className);
-			$row.button.appendTo($row);
+			if($row.button) {
+				$row.button.appendTo($row);
+			}
 		}
 	}
 };
@@ -222,11 +299,37 @@ DependentInputs.addDependency(function($row,changed) {
 });
 
 DependentInputs.addDependency(function($row,changed) {
+	if(changed==="field" && $row.field.val()==="Registered State") {
+		var $r;
+		for(var i=0;i<DependentInputs.rows.length;i++) {
+			$r = DependentInputs.rows[i];
+			if($r.field.val()==="Registered Country" && $r.val.val()==="United States") {
+				$row.valueMap = ISO_3166.usa.name2iso;
+				return DependentInputs.values.us_states;
+			}
+		}
+	}
+});
+
+DependentInputs.addDependency(function($row,changed) {
 	if(changed==="field" && $row.field.val()==="Operational State") {
 		var $r;
 		for(var i=0;i<DependentInputs.rows.length;i++) {
 			$r = DependentInputs.rows[i];
 			if($r.field.val()==="Operational Country" && $r.val.val()==="Australia") {
+				$row.valueMap = ISO_3166["2:AU"].name2iso;
+				return DependentInputs.values.aus_states;
+			}
+		}
+	}
+});
+
+DependentInputs.addDependency(function($row,changed) {
+	if(changed==="field" && $row.field.val()==="Registered State") {
+		var $r;
+		for(var i=0;i<DependentInputs.rows.length;i++) {
+			$r = DependentInputs.rows[i];
+			if($r.field.val()==="Registered Country" && $r.val.val()==="Australia") {
 				$row.valueMap = ISO_3166["2:AU"].name2iso;
 				return DependentInputs.values.aus_states;
 			}
@@ -248,9 +351,23 @@ DependentInputs.addDependency(function($row,changed) {
 });
 
 DependentInputs.addDependency(function($row,changed) {
+	if(changed==="field" && $row.field.val()==="Registered State") {
+		var $r;
+		for(var i=0;i<DependentInputs.rows.length;i++) {
+			$r = DependentInputs.rows[i];
+			if($r.field.val()==="Registered Country" && $r.val.val()==="Canada") {
+				$row.valueMap = ISO_3166["2:CA"].name2iso;
+				return DependentInputs.values.ca_states;
+			}
+		}
+	}
+});
+
+DependentInputs.addDependency(function($row,changed) {
 	if(changed==="value") {
 		var inpVal = $row.val.val();
-		$row.find('input:hidden').val($row.valueMap[inpVal]);
+		var mappedVal = $row.valueMap[inpVal] || "";
+		$row.find('input:hidden').val(mappedVal);
 	}
 });
 

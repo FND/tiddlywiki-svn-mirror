@@ -22,10 +22,9 @@
 	('regstered_state', 'Registered State'),
 	('registered_country', 'Registered Country'),
 	('registered_postcode', 'Registered Postcode'),
-	('registration_number__jurisdiction_', 'Registration Number (Jurisdiction)')
+	('registration_number__jurisdiction_', 'Registration Number (Jurisdiction)'),
 	('cabre','CABRE')
 ] %}
-{% from 'countries.html' import countries %}
 {% if captcha.success %}
 <div>
 <p>Thanks! We'll be in touch shortly.</p>
@@ -37,19 +36,15 @@
 		<h2>Mandatory fields</h2>
 		<table class="fields">
 			<tr>
-				<td>Legal Name</td>
+				<td><label for"legal_name">Legal Name</label></td>
 				<td><input type="text" size="35" name="legal_name" /></td>
 			</tr>
 			<tr>
-				<td>Operational Country</td>
-				<td><select name="operational_country">
-					{% for country in countries %}
-					<option value="{{country}}">{{country}}</option>
-					{% endfor %}
-					</select></td>
+				<td><label for="operational_country">Operational Country</label></td>
+				<td><input type="text" size="35" name="operational_country" /></td>
 			</tr>
 			<tr>
-				<td>Operational State</td>
+				<td><label for="operational_state">Operational State</label></td>
 				<td><input type="text" size="35" name="operational_state" /></td>
 			</tr>
 		</table>
@@ -58,7 +53,7 @@
 			{% for field, label in labels %}
 			<tr>
 				{% if field == 'entity_type' %}
-				<td>{{label}}</td>
+				<td><label for="{{field}}">{{label}}</label></td>
 				<td><select name="{{field}}">
 					<option value="Null">Null</option>
 					<option value="Branch">Branch</option>
@@ -67,14 +62,10 @@
 					<option value="Ultimate Parent">Ultimate Parent</option>
 				</select></td>
 				{% elif field == 'registered_country' %}
-				<td>Registered Country</td>
-				<td><select name="registered_country">
-					{% for country in countries %}
-					<option value="{{country}}">{{country}}</option>
-					{% endfor %}
-					</select></td>
+				<td><label for="{{field}}">Registered Country</label></td>
+				<td><input type="text" size="35" name="{{field}}" /></td>
 				{% else %}
-				<td>{{label}}</td>
+				<td><label for="{{field}}">{{label}}</label></td>
 				<td><input type="text" size="35" name="{{field}}" /></td>
 				{% endif %}
 			</tr>
@@ -89,12 +80,8 @@
 		<label for="email">Your email address</label>
 		<input type="text" size="35" name="email" />
 		<label for="country">Your country</label>
-		<select name="country">
-			{% for country in countries %}
-			<option value="{{country}}">{{country}}</option>
-			{% endfor %}
-		</select>
-		<label for="country">(Optional) Your company</label>
+		<input type="text" size="35" name="country" />
+		<label for="company">(Optional) Your company</label>
 		<input type="text" size="35" name="company" />
 		<input type="hidden" name="requestType" value="suggest_new" />
 		<div>Are you human?</div>
