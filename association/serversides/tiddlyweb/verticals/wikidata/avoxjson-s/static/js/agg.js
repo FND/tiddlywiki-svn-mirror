@@ -682,7 +682,21 @@
 };
 // some aliases
 ISO_3166.countries = ISO_3166["1_ALPHA_3"];
-ISO_3166.usa = ISO_3166["2:US"];DependentInputs = {
+ISO_3166.usa = ISO_3166["2:US"];// bug in IE when using replaceWith - duplicates content, lose event handlers
+// this from http://dev.jquery.com/ticket/2697
+$.fn.replaceWith = function(value) {
+	return this.each(function() {
+		var e = $(this);
+		var s = e.next();
+		var p = e.parent();
+		e.remove();
+		if (s.size())
+			s.before(value);
+		else
+			p.append(value);
+	});
+}
+DependentInputs = {
 	rows: [],
 	values: {},
 	dependencies: [],
@@ -713,14 +727,14 @@ ISO_3166.usa = ISO_3166["2:US"];DependentInputs = {
 		return $select;
 	},
 	makeInput: function($container,attrs) {
-		var $input = $('<input type="text"></input>').appendTo($container);
+		var $input = $('<input type="text" />').appendTo($container);
 		if(attrs) {
 			$input.attr(attrs);
 		}
 		return $input;
 	},
-	addChangeHandler: function($row,i) {
-		$row.change(function(event) {
+	addChangeHandler: function($select,i) {
+		var getChanged = function(event) {
 			var $target = $(event.target);
 			var changed;
 			if($target.hasClass(DependentInputs.fieldClass)) {
@@ -731,7 +745,8 @@ ISO_3166.usa = ISO_3166["2:US"];DependentInputs = {
 				throw new Error("something changed other than field or value in row, index "+i+", class: "+$target.className);
 			}
 			DependentInputs.checkAll(i,changed);
-		});
+		};
+		$select.change(getChanged);
 	},
 	addRow: function(container,field,val,i) {
 		i = i || 0;
@@ -776,7 +791,7 @@ ISO_3166.usa = ISO_3166["2:US"];DependentInputs = {
 			this.addChangeHandler($row,n);
 		}
 		this.checkAll(n,"field");
-		return i;
+		return n;
 	},
 	createRow: function(container) {
 		var $container = $(container);
@@ -806,7 +821,7 @@ ISO_3166.usa = ISO_3166["2:US"];DependentInputs = {
 			$row.remove();
 			DependentInputs.checkAll(0,"field");
 		});
-		this.addChangeHandler($row,i);
+		this.addChangeHandler($row.field,i);
 		this.checkAll(i,"field");
 		return i;
 	},
@@ -823,11 +838,11 @@ ISO_3166.usa = ISO_3166["2:US"];DependentInputs = {
 		$row.closest('form').submit(cancelDecoys);
 		this.setDecoy = function() {
 			return false;
-		}
+		};
 		this.setDecoy.restore = function() {
 			DependentInputs.setDecoy = oldSetDecoy;
 			$row.closest('form').unbind('submit',cancelDecoys);
-		}
+		};
 	},
 	replaceValues: function(i,values) {
 		// JRL: note - should only create hidden drop-down if there is a $row.valueMap, otherwise it's not needed - the mechanism to update such a thing is currently in the added dependencies - might want to think about bringing that in
@@ -838,13 +853,14 @@ ISO_3166.usa = ISO_3166["2:US"];DependentInputs = {
 		var className = $row.val.get(0).className;
 		var inputName = $row.val.attr('name');
 		var currVal = $row.val.val();
-		var $hid = $('<input type="hidden"></input>');
+		var $hid = $('<input type="hidden" />');
 		$hid.attr({
 			"name":inputName
 		});
 		var $select = this.makeSelect(null,values,null,true);
 		$row.val.replaceWith($select);
 		$row.val = $select;
+		this.addChangeHandler($row.val,i);
 		$row.val.attr("name","_ignore_"+inputName);
 		$row.val.after($hid);
 		$row.val.get(0).className = className;
@@ -1036,7 +1052,6 @@ DependentInputs.addDependency(function($row,changed) {
 DependentInputs.addDependency(function($row,changed) {
 	if(changed==="value") {
 		var inpVal = $row.val.val();
-		console.log($row,$row.val,$row.val.val());
 		var mappedVal = $row.valueMap[inpVal] || "";
 		$row.find('input:hidden').val(mappedVal);
 	}
@@ -1109,14 +1124,14 @@ function addAdvSearchLine() {
 		}
 	};
 	
-	$row.change(function(event) {
+	/*$row.change(function(event) {
 		filterOnChange(event.target);
 	});
 	$row.keyup(function(event) {
 		if($(event.target).is("input")) {
 			filterOnChange(event.target);
 		}
-	});
+	});*/
 	// reveal if not shown
 	var $container = $(container);
 	if($container.css('display')==="none") {

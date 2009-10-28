@@ -49,8 +49,8 @@ DependentInputs = {
 		}
 		return $input;
 	},
-	addChangeHandler: function($row,i) {
-		$row.change(function(event) {
+	addChangeHandler: function($select,i) {
+		var getChanged = function(event) {
 			var $target = $(event.target);
 			var changed;
 			if($target.hasClass(DependentInputs.fieldClass)) {
@@ -61,7 +61,8 @@ DependentInputs = {
 				throw new Error("something changed other than field or value in row, index "+i+", class: "+$target.className);
 			}
 			DependentInputs.checkAll(i,changed);
-		});
+		};
+		$select.change(getChanged);
 	},
 	addRow: function(container,field,val,i) {
 		i = i || 0;
@@ -136,7 +137,7 @@ DependentInputs = {
 			$row.remove();
 			DependentInputs.checkAll(0,"field");
 		});
-		this.addChangeHandler($row,i);
+		this.addChangeHandler($row.field,i);
 		this.checkAll(i,"field");
 		return i;
 	},
@@ -153,11 +154,11 @@ DependentInputs = {
 		$row.closest('form').submit(cancelDecoys);
 		this.setDecoy = function() {
 			return false;
-		}
+		};
 		this.setDecoy.restore = function() {
 			DependentInputs.setDecoy = oldSetDecoy;
 			$row.closest('form').unbind('submit',cancelDecoys);
-		}
+		};
 	},
 	replaceValues: function(i,values) {
 		// JRL: note - should only create hidden drop-down if there is a $row.valueMap, otherwise it's not needed - the mechanism to update such a thing is currently in the added dependencies - might want to think about bringing that in
@@ -175,6 +176,7 @@ DependentInputs = {
 		var $select = this.makeSelect(null,values,null,true);
 		$row.val.replaceWith($select);
 		$row.val = $select;
+		this.addChangeHandler($row.val,i);
 		$row.val.attr("name","_ignore_"+inputName);
 		$row.val.after($hid);
 		$row.val.get(0).className = className;

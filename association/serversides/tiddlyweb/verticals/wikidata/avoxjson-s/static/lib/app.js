@@ -47,14 +47,14 @@ function addAdvSearchLine() {
 		}
 	};
 	
-	$row.change(function(event) {
+	/*$row.change(function(event) {
 		filterOnChange(event.target);
 	});
 	$row.keyup(function(event) {
 		if($(event.target).is("input")) {
 			filterOnChange(event.target);
 		}
-	});
+	});*/
 	// reveal if not shown
 	var $container = $(container);
 	if($container.css('display')==="none") {

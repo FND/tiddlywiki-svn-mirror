@@ -14,7 +14,6 @@ jQuery(document).ready(function() {
 			DependentInputs.rows = [];
 		}
 	});
-	
 
 	test("when I add a field, all rows should check for dependencies, starting with the one I just added", function() {
 		var mock = new jqMock.Mock(DependentInputs,"checkAll");
@@ -108,6 +107,13 @@ jQuery(document).ready(function() {
 		$row2.field.trigger("change");
 		same($row2.val.find('option').length-2,DependentInputs.values.ca_states.length);
 		same($row2.find('input:visible').length,0);
+	});
+
+	test("when a row changes its input to a drop-down, it should create a single drop-down and a single remove button", function() {
+		var $row = DependentInputs.rows[DependentInputs.createRow('#test-form')];
+		$row.field.val('Operational Country').change();
+		same($row.find('select').length,2);
+		same($row.find('button').length,1);
 	});
 
 	test("when I create a row, I should create a button after the row that removes it when clicked", function() {
@@ -313,7 +319,6 @@ jQuery(document).ready(function() {
 		var $row = DependentInputs.rows[i];
 		$row.field.val("Operational Country").change();
 		$('form').submit(function() {
-			alert('like totally starting again');
 			same($row.val.val(),"");
 			//start();
 			return false;
