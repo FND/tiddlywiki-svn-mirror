@@ -6,3 +6,7 @@ IE6 seems to perform the correct behaviour for overflow-x and overflow-y.
 .js #recordsTableContainer {
 	overflow-x: hidden;
 }
+button, .button {
+	border: 1px #000000;
+	text-align: center;
+}
