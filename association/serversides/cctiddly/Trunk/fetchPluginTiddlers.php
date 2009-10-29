@@ -16,7 +16,7 @@ class PluginsLoaderReplace extends PluginsLoader
 		foreach($plugins as $plugin)
 		{
 			$pluginPathArray = explode("/", $plugin);
-			echo $pluginPathArray[1];
+			echo "<br/>".$pluginPathArray[1];
 			$pluginContent = file_get_contents($plugin);
 			$newPluginContent  = str_replace("<?php", "", $pluginContent);
 		 	$newPluginContent = str_replace('new Plugin(', 'new PluginFetcher("'.$pluginPathArray[1].'",', $newPluginContent);
