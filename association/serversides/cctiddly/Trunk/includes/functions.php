@@ -343,6 +343,8 @@ function updateTiddler($userArr, $tiddlerArr, $otiddlerArr)
 	}
 }
 
+
+
 //!	@fn string deleteTiddler($userArr,$tiddlerArr)
 //!	@brief delete a tiddler in DB
 //!	@param $userArr user array

@@ -15,8 +15,6 @@ class Plugin {
 	}
 
 	public function addTiddler($data, $path=null) {
-		
-				
 		if(is_file($path))
 			$tiddler = $this->tiddlerFromFile($path);
 		else 
