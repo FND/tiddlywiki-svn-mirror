@@ -2,9 +2,6 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
 
 body { font-family: gill sans; }
 #trail { border-bottom: 2px solid #666; background-image: url('../images/logosmall.png'); background-repeat: no-repeat; background-color: #bbb; }
-/*
-#trail li { list-style-type: none; }
-*/
 
 .scripted body { padding-top: 48px; }
 .scripted #topBar { position: absolute; top: 0; left: 0; width: 100%; height: 46px;
@@ -18,7 +15,6 @@ body { font-family: gill sans; }
 .scripted #metaInfo { float: left; background: #999; border-left: 1px solid #666; border-right: 1px solid #666; padding: 5px 10px; margin-right: 10px; height: 41px; text-align: center; width: 100px; }
 .scripted .unscripted #trail { }
 .scripted #trail li { margin-right: 5px; }
-/* .scripted #trail #resources { display: none; } */
 .scripted #trail #resourceSwitcherWrapper { padding: 12px 0; font-size: 16px; }
 .scripted #closer { font-size: 14px; float: right; padding: 16px 10px; cursor: pointer; width: 16px; height: 46px; background: #aaa; text-align: center; float: right; border-left: 1px solid #666; }
 
@@ -33,20 +29,33 @@ div#resourceView iframe { position: absolute; top: 0; left: 0; width: 100%; heig
 
 a, a:visited { text-decoration: none; color: #00b; }
 
-/*
-.scripted #resourceSwitcherWrapper div#currentResource { font-weight: bold; }
-.scripted #resourceSwitcherWrapper div#nextResource, .scripted #resourceSwitcherWrapper div#prevResource { height: 38px; opacity: 0.3; }
-.scripted #resourceSwitcherWrapper div#nextResource { }
-.scripted #resourceSwitcherWrapper div#prevResource { }
-.scripted #resourceSwitcherWrapper div { overflow: none; width: 200px; height: 38px; text-align: center; font-size: 16px; float: left; }
-*/
+#controls { float: left; padding: 7px 10px 5px 0; text-align: center; }
+#controls div { text-align: center; }
 
-#chooser { width: 300px; float: left; }
+#markersWrapper { float: left; }
+#markers { margin-top: 8px; font-size: 12px; }
+.marker { margin-right: 6px; 
+          color: #ddd; cursor: pointer; }
+
+#navWrapper { margin-top: 1px; text-align: center; }
+#nav { width: 64px; margin: 0 auto; }
+#nav span { cursor: pointer; overflow: hidden; background-repeat: no-repeat; float: left; width: 16px; }
+#nav span#next { background-image: url("../images/next.png"); }
+#nav span#next:hover { background-image: url("../images/next-hovered.png"); }
+#nav span#prev { background-image: url("../images/prev.png"); }
+#nav span#prev:hover { background-image: url("../images/prev-hovered.png"); }
+#nav span#end { background-image: url("../images/end.png"); }
+#nav span#end:hover { background-image: url("../images/end-hovered.png"); }
+#nav span#start { background-image: url("../images/start.png"); }
+#nav span#start:hover { background-image: url("../images/start-hovered.png"); }
+
+.markerSelected { color: #f00; }
+.marker.hovered { color: #ffb; }
+.markerSelected.hovered { color: #f66; }
+#predictedTitle { opacity: 0.5; font-size: small; text-align: center; margin-top: 7px; color: #ff9; }
+
+#chooser { width: 600px; float: left; }
 /* #resources { background: orange; } */
-
-#resources li { overflow: hidden; /* background: #ccc; */ text-align: center; }
-#resources a { color: brown; font-size: 10px; opacity: 0.5; overflow: hidden; width: 100%; }
-#resources a.selected { color: brown; font-size: 14px; opacity: 1; }
 
 #note { color: brown; overflow: hidden; height: 1em; padding: 3px 40px; text-align: center; text-align: center; clear: left; position: relative; }
 #note .name { font-weight: bold; margin-right: 5px; }
