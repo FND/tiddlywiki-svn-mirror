@@ -10,13 +10,11 @@
 		<table class="fields">
 			{% for field, label in labels %}
 			<tr>
-				{% if field == 'operational_country' %}
-				<td><label for="challenge_{{field}}">{{label}}</label><span>{{tiddler.fields[field]}}</span></td>
+				<td><label for="challenge_{{field}}">{{label}}</label>{% if field in ['operational_country', 'operational_state', 'registered_country', 'registered_state'] -%}
+				<span class="{{field}}">
+				{%- else -%}
+				<span>{%- endif %}{{tiddler.fields[field]}}</span></td>
 				<td><input type="text" size="35" name="challenge_{{field}}" /></td>
-				{% else %}
-				<td><label for="challenge_{{field}}">{{label}}</label><span>{{tiddler.fields[field]}}</span></td>
-				<td><input type="text" size="35" name="challenge_{{field}}" /></td>
-				{% endif %}
 			</tr>
 			{% endfor %}
 		</table>

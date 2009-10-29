@@ -97,6 +97,28 @@ $(document).ready(function() {
 			}
 		}
 	}
+	if($('.operational_country, .operational_state, .registered_country, .registered_state').length) {
+		var replaceCode = function(elem,code) {
+			if(code) {
+				var stateMap;
+				stateMap = ISO_3166[code.toLowerCase()] || ISO_3166["2:"+code];
+				if(stateMap) {
+					$(elem).text(stateMap.iso2name[$(elem).text()]);
+				}
+			}
+		};
+		$('.operational_state').each(function() {
+			var code = $.trim($('.operational_country').text());
+			replaceCode(this,code);
+		});
+		$('.registered_state').each(function() {
+			var code = $.trim($('.registered_country').text());
+			replaceCode(this,code);
+		});
+		$('.operational_country, .registered_country').each(function(i) {
+			$(this).text(ISO_3166.countries.iso2name[$(this).text()]);
+		});
+	}
 	if($('#suggest_new, #challenge, #request').length!==0) {
 		DependentInputs.addDependency(function($row,changed) {
 			if(changed==="field" && $row.field.attr("for")==="country") {
@@ -107,32 +129,12 @@ $(document).ready(function() {
 		DependentInputs.addRows('table.fields',"label",":input","tr");
 		DependentInputs.addRow('div.right',"label[for=country]","label[for=country]+input");
 	}
+	var $hiddenWhileRendering = $('div.company, table.fields, div.right');
+	if($hiddenWhileRendering.length) {
+		$hiddenWhileRendering.css("visibility","visible");
+	}
 	var $companyDiv = $('div.company');
 	if($companyDiv.length) {
-		var getStateMap = function(code) {
-			var stateMap;
-			try {
-				stateMap = ISO_3166[code.toLowerCase()].iso2name;
-			} catch(ex) {
-				stateMap = ISO_3166["2:"+code].iso2name;
-			}
-			return stateMap;
-		};
-		$('.operational_state').each(function() {
-			var code = $('.operational_country').text();
-			if(code) {
-				$(this).text(getStateMap(code)[$(this).text()]);
-			}
-		});
-		$('.registered_state').each(function() {
-			var code = $('.registered_country').text();
-			if(code) {
-				$(this).text(getStateMap(code)[$(this).text()]);
-			}
-		});
-		$('.operational_country, .registered_country').each(function(i) {
-			$(this).text(ISO_3166.countries.iso2name[$(this).text()]);
-		});
 		$companyDiv.css("visibility","visible");
 		window.gMaps.op_address = $companyDiv.find('.adr div').text().replace(/[\n|\r]/g,"").replace(/(\s)+/g," ");
 	}

@@ -334,6 +334,9 @@ tfoot th {
 	width: 500px;
 	display: inline-block;
 }
+.js #challenge div.right, #request div.right, #suggest_new div.right {
+	visibility: hidden;
+}
 #challenge div.right, #request div.right, #suggest_new div.right {
 	width: 300px;
 	padding-right: 20px;
@@ -347,6 +350,9 @@ tfoot th {
 }
 #request td {
 	padding: 2px 5px 2px 3px;
+}
+.js table.fields {
+	visibility: hidden;
 }
 table.fields td {
 	vertical-align: middle;
