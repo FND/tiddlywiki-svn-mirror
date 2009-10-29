@@ -309,12 +309,15 @@ tfoot th {
 	color: #EEEEEE;
 }
 /* company page */
+.js div.company {
+	visibility: hidden;
+}
 .company .vcard {
 	background-color: #eeeeff;
 	padding: 10px 20px;
 	width: 650px;
 }
-.comapny .company-name {
+.company .company-name {
 	color: #000099;
 }
 .company .adr {
