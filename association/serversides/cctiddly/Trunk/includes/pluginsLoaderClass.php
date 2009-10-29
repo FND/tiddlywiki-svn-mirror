@@ -1,5 +1,12 @@
 <?php
 
+/*
+PLUGINS LOADER 
+
+
+*/
+
+
 class PluginsLoader {
 	public $events;
 	public $tiddlers;
@@ -43,7 +50,12 @@ class PluginsLoader {
 	public function includePlugins($cct_base) {
 		$plugins = $this->readPlugins($cct_base);
 		foreach($plugins as $plugin)
+		{
+//			echo $plugin;
 			include($plugin);
+			
+		}
+
 	}
 	
 	

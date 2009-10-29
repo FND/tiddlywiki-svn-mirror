@@ -46,8 +46,6 @@ class Plugin {
 		if(is_array($data)) 
 			$tiddler = array_merge_recursive($data,$tiddler);
 		$this->tiddlers[$tiddler['title']] = $tiddler;
-		var_dump($tiddler);
-		
 	}
 	
 	function tiddlerFromFile($file) {
@@ -103,7 +101,7 @@ class Plugin {
 	}
 
 	public function addRecipe($path) {
-		echo $this->preparePath($path);
+		$this->preparePath($path);
 		$file = $this->getContentFromFile($this->preparePath($path));
 		$this->parseRecipe($file, dirname($path));	
 	}
