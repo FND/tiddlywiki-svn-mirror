@@ -136,6 +136,6 @@ $(document).ready(function() {
 	var $companyDiv = $('div.company');
 	if($companyDiv.length) {
 		$companyDiv.css("visibility","visible");
-		window.gMaps.op_address = $companyDiv.find('.adr div').text().replace(/[\n|\r]/g,"").replace(/(\s)+/g," ");
+		window.gMaps.op_address = $.trim($companyDiv.find('.adr div').text().replace(/[\n|\r]/g,"").replace(/(\s)+/g," "));
 	}
 });
