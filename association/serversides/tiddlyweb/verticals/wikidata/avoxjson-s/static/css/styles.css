@@ -176,6 +176,9 @@ div.notice {
 	display: none;
 }
 /* records table */
+.js #recordsTableContainer {
+	overflow: visible;
+}
 #recordsTableContainer {
 	width: 100%;
 	border: 1px solid #000000;
