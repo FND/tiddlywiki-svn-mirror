@@ -66,7 +66,7 @@
 		window.gMaps = {
 			apiKey: "{{ maps_api_key }}",
 			op_company: "{{ tiddler.fields.legal_name }}",
-			op_address: "{{ tiddler.fields.operational_street_1 }}{% if tiddler.fields.operational_street_2 %}, {{ tiddler.fields.operational_street_2 }}{% endif %}{% if tiddler.fields.operational_street_3 %}, {{ tiddler.fields.operational_street_3 }}{% endif %}{% if tiddler.fields.operational_city %}, {{ tiddler.fields.operational_city }}{% endif %}{% if tiddler.fields.operational_state %}, {{ tiddler.fields.operational_state }}{% endif %}{% if tiddler.fields.operational_post_code %}, {{ tiddler.fields.operational_post_code }}{% endif %}"
+			op_address: "" // this gets set by another function
 		};
 	</script>
 	<div id="map" style="width:690px; height:400px"></div>

@@ -134,5 +134,6 @@ $(document).ready(function() {
 			$(this).text(ISO_3166.countries.iso2name[$(this).text()]);
 		});
 		$companyDiv.css("visibility","visible");
+		window.gMaps.op_address = $companyDiv.find('.adr div').text().replace(/[\n|\r]/g,"").replace(/(\s)+/g," ");
 	}
 });
