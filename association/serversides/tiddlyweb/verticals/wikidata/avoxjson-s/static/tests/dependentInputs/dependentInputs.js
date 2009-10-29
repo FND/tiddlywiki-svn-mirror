@@ -2,7 +2,7 @@ jQuery(document).ready(function() {
 
 	jqMock.addShortcut();
 
-	module('DependentInputs: new rows', {
+	module('DependentInputs: creating new rows', {
 		setup: function() {
 			$('body').append('<form id="test-form"><input type="submit" /></form>');
 		},
@@ -108,6 +108,17 @@ jQuery(document).ready(function() {
 		same($row2.val.find('option').length-2,DependentInputs.values.ca_states.length);
 		same($row2.find('input:visible').length,0);
 	});
+	
+	test("given a row with a field of 'Operational State' and another row with a field of 'Operational Country' and a value of 'United States', when I change the country row to a value of 'Australia', the states row should update its drop-down to a drop-down of the states of Australia", function() {
+		var $row = DependentInputs.rows[DependentInputs.createRow('#test-form')];
+		$row.field.val("Operational State").change();
+		var $row2 = DependentInputs.rows[DependentInputs.createRow('#test-form')];
+		$row2.field.val("Operational Country").change();
+		$row2.val.val("United States").change();
+		same($row.values,DependentInputs.values.us_states);
+		$row2.val.val("Australia").change();
+		same($row.values,DependentInputs.values.aus_states);
+	});
 
 	test("when a row changes its input to a drop-down, it should create a single drop-down and a single remove button", function() {
 		var $row = DependentInputs.rows[DependentInputs.createRow('#test-form')];
@@ -175,6 +186,15 @@ jQuery(document).ready(function() {
 		$row.field.val("Registered Country").change();
 		same($row.val.next().is('input'),true);
 		same($row.val.next().next().is('button'),true);
+	});
+	
+	test("when I change from one drop-down to another by changing a field, dependencies should still be checked", function() {
+		var $row = DependentInputs.rows[DependentInputs.createRow('#test-form')];
+		$row.field.val("Operational Country").change();
+		var $row2 = DependentInputs.rows[DependentInputs.createRow('#test-form')];
+		$row2.field.val("Operational State").change();
+		$row.field.val("Registered Country").change();
+		same($row2.val.is("input"),true);
 	});
 
 	test("when a row changes its values to a drop-down, it should create an empty hidden input field after the values", function() {

@@ -604,7 +604,8 @@ function push(result, actual, expected, message) {
  * @param String type
  */
 function triggerEvent( elem, type, event ) {
-	if ( $.browser.mozilla || $.browser.opera ) {
+//	if ( $.browser.mozilla || $.browser.opera ) {
+	if ( !$.browser.msie) {
 		event = document.createEvent("MouseEvents");
 		event.initMouseEvent(type, true, true, elem.ownerDocument.defaultView,
 			0, 0, 0, 0, 0, false, false, false, false, 0, null);

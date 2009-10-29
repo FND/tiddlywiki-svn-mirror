@@ -212,7 +212,7 @@ DependentInputs = {
 			values = this.dependencies[d]($row,changed);
 			if(values) {
 				matched = true;
-				if(!$row.values) { // JRL: should prob be more like if($row.values!==values)
+				if($row.values!==values) {
 					this.replaceValues(i,values);
 					if($row.button) {
 						$row.button.appendTo($row);
