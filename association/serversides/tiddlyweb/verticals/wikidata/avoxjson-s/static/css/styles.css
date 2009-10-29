@@ -351,8 +351,8 @@ tfoot th {
 #challenge div.right label, #request div.right label, #suggest_new div.right label {
 	margin-top: 5px;
 }
-#request td {
-	padding: 2px 5px 2px 3px;
+#request ul {
+	padding: 10px 0;
 }
 .js table.fields {
 	visibility: hidden;
