@@ -1,0 +1,7 @@
+image credits:
+Logo - Amit Dave
+Nav Arrows - fatcow hosting icons
+
+Conversions:
+convert -transparent white -geometry x40 -channel A -evaluate multiply 0.3 slogo.png slogosmall.png
+convert -rotate 90 fatcow-hosting-icons-1000/16x16_0140/bullet_arrow_bottom.png end.png

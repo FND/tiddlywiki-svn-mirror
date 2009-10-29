@@ -1,7 +1,7 @@
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,dd,dl,dt,li,ol,ul,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;font-weight:normal;font-style:normal;text-align:left;font-family:inherit;}table{border-collapse:collapse;border-spacing:0;}ol,ul{list-style:none;}q:before,q:after,blockquote:before,blockquote:after{content:"";}
 
 body { font-family: gill sans; }
-#trail { border-bottom: 2px solid #666; background-image: url('../images/logosmall.png'); background-repeat: no-repeat; background-color: #bbb; }
+#trail { border-bottom: 2px solid #666; xbackground-image: url('../images/logosmall.png'); background-repeat: no-repeat; background-color: #bbb; }
 
 .scripted body { padding-top: 48px; }
 .scripted #topBar { position: absolute; top: 0; left: 0; width: 100%; height: 46px;
@@ -12,7 +12,7 @@ body { font-family: gill sans; }
 #logoWrapper { width: 125px; height: 43px; padding-left: 5px; float: left; }
 #logo { margin-top: 9px; width: 114px; height: 26px; }
 
-.scripted #metaInfo { float: left; background: #999; border-left: 1px solid #666; border-right: 1px solid #666; padding: 5px 10px; margin-right: 10px; height: 41px; text-align: center; width: 100px; }
+.scripted #metaInfo { float: left; background-image: url("../images/slogosmall.png"); background-repeat: no-repeat; background-position: 50% 2px; background-color: #999; border-left: 1px solid #666; border-right: 1px solid #666; padding: 5px 10px; margin-right: 10px; height: 41px; text-align: center; width: 100px; }
 .scripted .unscripted #trail { }
 .scripted #trail li { margin-right: 5px; }
 .scripted #trail #resourceSwitcherWrapper { padding: 12px 0; font-size: 16px; }
@@ -24,20 +24,25 @@ body { font-family: gill sans; }
 .unscripted a { font-weight: normal; }
 .unscripted .closer { display: none; }
 
+#edit { font-size: small; margin-top: 4px; display: block; text-align: center; }
+
 div#resourceView { width: 100%; height: 100%; position: relative; }
 div#resourceView iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
 
 a, a:visited { text-decoration: none; color: #00b; }
 
-#controls { float: left; padding: 7px 10px 5px 0; text-align: center; }
+#controls { float: left; padding: 6px 10px 5px 0; text-align: center; }
 #controls div { text-align: center; }
+#dropdown { text-align: center; }
 
-#markersWrapper { float: left; }
-#markers { margin-top: 8px; font-size: 12px; }
-.marker { margin-right: 6px; 
-          color: #ddd; cursor: pointer; }
+#markersWrapper { padding: 8px 0 0; float: left; }
+#markers { padding-top: 3px; margin-top: 8px; font-size: 12px; clear: left; }
+a.marker { margin-right: 6px; color: #ddd; cursor: pointer; text-decoration: none; outline: none; }
+a.marker:visited { color: #ddd; }
+a.marker:active { outline: none; }
+a.marker:focus { -moz-outline-style: none; }
 
-#navWrapper { margin-top: 1px; text-align: center; }
+#navWrapper { text-align: center; }
 #nav { width: 64px; margin: 0 auto; }
 #nav span { cursor: pointer; overflow: hidden; background-repeat: no-repeat; float: left; width: 16px; }
 #nav span#next { background-image: url("../images/next.png"); }
@@ -49,10 +54,10 @@ a, a:visited { text-decoration: none; color: #00b; }
 #nav span#start { background-image: url("../images/start.png"); }
 #nav span#start:hover { background-image: url("../images/start-hovered.png"); }
 
-.markerSelected { color: #f00; }
-.marker.hovered { color: #ffb; }
-.markerSelected.hovered { color: #f66; }
-#predictedTitle { opacity: 0.5; font-size: small; text-align: center; margin-top: 7px; color: #ff9; }
+a.markerSelected,a.markerSelected:visited { color: #f00; }
+a.marker.hovered,a.marker.hovered:visited { color: #ffb; }
+a.markerSelected.hovered,a.markerSelected.hovered:visited { color: #f66; }
+#predictedTitle { opacity: 0.5; font-size: small; text-align: center; margin-top: 3px; color: #ff9; }
 
 #chooser { width: 600px; float: left; }
 /* #resources { background: orange; } */
