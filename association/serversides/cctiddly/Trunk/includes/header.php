@@ -5,6 +5,7 @@
 if(!isset($cct_base)) 
 	$cct_base= "";
 include_once($cct_base."includes/functions.php");
+include_once($cct_base."includes/tiddler.php");
 include_once($cct_base."includes/config.php");
 include_once($cct_base."includes/pluginsClass.php");
 include_once($cct_base."includes/pluginLoader.php");
