@@ -176,13 +176,13 @@ div.notice {
 	display: none;
 }
 /* records table */
-.js #recordsTableContainer {
-	overflow: visible;
+.js #recordsTableContainer { /* overriden in ie6.css */
+	overflow-x: visible;
 }
 #recordsTableContainer {
 	width: 100%;
 	border: 1px solid #000000;
-	overflow: hidden;
+	overflow-x: auto;
 }
 #results {
 	background-color: #000000;
