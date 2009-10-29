@@ -38,18 +38,18 @@ class PluginFetcher extends Plugin
 		$this->tiddlers = array();
 		array_push($Plugins,$this);
 	}
+	
 	public function createTidFile($path, $tiddler)
 	{
 		@mkdir(dirname($path));
 		$fhandle = fopen($path, 'w') or die("can't open file");
-		
-		var_dump($tiddler);
-		fwrite($fhandle, 'ddfdfd');
+		fwrite($fhandle, "created:".$tiddler['created']."\n");
+		fwrite($fhandle, "modified:".$tiddler['modified']."\n");
+		fwrite($fhandle, "tags:".$tiddler['tags']."\n");
+		fwrite($fhandle, "modifier:".$tiddler['modifier']."\n");
+		fwrite($fhandle, "\n".$tiddler['body']);
 		fclose($fhandle);
-		exit;
-		
 	}
-	
 	
 	public function addTiddler($data, $path=null) {
 		if(is_file($path))
@@ -74,58 +74,5 @@ class PluginFetcher extends Plugin
 
 $pluginsLoader = new PluginsLoaderReplace();
 $pluginsLoader->includePlugins($cct_base);
-
-/*
-global $pluginsLoader1;
-$pluginsLoader1 = new PluginsLoader();
-$a = $pluginsLoader1->readPlugins($cct_base);
-
-foreach($a as $b){
-	
-	$p = new PluginFetcher('ccTiddly', '0.1', 'simonmcmanus.com');
-
-	$pluginIndex = file_get_contents($b);
-	$pluginLines = explode("\n", $pluginIndex);
-	foreach($pluginLines as $pluginLine){
-		if(stristr($pluginLine, 'addRecipe'))
-		{
-			$code = str_replace('?>', '', $pluginLine);
-			echo '<br /><b>'.$code.'</b><br/>';
-			eval($code);
-		}	
-	}
-}
-
-
-*/
-/*
-
-
-public function addRecipe($path) {
-	$file = $this->getContentFromFile($this->preparePath($path));
-	$this->parseRecipe($file, dirname($path));	
-}
-
-*/
-/*
-
-
-	$pluginsLoader = new PluginsLoader();
-	$pluginsLoader->readPlugins($cct_base);
-	$pluginsLoader->runPlugins();
-	
-	
-foreach($plugins as $plugin) {
-	$pluginIndex = readfile($plugin);
-
-	$pluginIndexLines = explode("\n", $pluginIndex);
-	foreach($pluginIndexLines as $pluginIndexLine)
-		echo $pluginIndexLine;
-}
-
-	*/
-
-
-
 
 ?>
