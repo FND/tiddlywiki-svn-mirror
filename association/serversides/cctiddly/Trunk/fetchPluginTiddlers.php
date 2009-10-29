@@ -38,6 +38,17 @@ class PluginFetcher extends Plugin
 		$this->tiddlers = array();
 		array_push($Plugins,$this);
 	}
+	public function createTidFile($path, $tiddler)
+	{
+		@mkdir(dirname($path));
+		$fhandle = fopen($path, 'w') or die("can't open file");
+		
+		var_dump($tiddler);
+		fwrite($fhandle, 'ddfdfd');
+		fclose($fhandle);
+		exit;
+		
+	}
 	
 	
 	public function addTiddler($data, $path=null) {
@@ -48,7 +59,8 @@ class PluginFetcher extends Plugin
 		if(is_array($data)) 
 			$tiddler = array_merge_recursive($data,$tiddler);
 		$this->tiddlers[$tiddler['title']] = $tiddler;
-		var_dump($this->pluginName);
+		$filePath = getcwd().'/plugins/'.$this->pluginName.'/files/importedPlugins/'.$tiddler['title'].'.tid';
+		$this->createTidFile($filePath, $tiddler);
 	}
 	public function addRecipe($path) {
 		
