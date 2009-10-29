@@ -14,6 +14,5 @@ recordFields = [('avid', 'AVID'),
 ('operational_city', 'Operational City'),
 ('operational_state', 'Operational State'),
 ('operational_country', 'Operational Country'),
-('operational_postcode', 'Operational Postcode'),
-('cabre', 'CABRE')
+('operational_postcode', 'Operational Postcode')
 ];

@@ -268,7 +268,7 @@ jQuery(document).ready(function() {
 		$row.field.val("Operational Country");
 		$row.field.trigger("change");
 		same($row.find('input:visible').length,0);
-		$row.field.val("CABRE");
+		$row.field.val("Legal Name");
 		$row.field.trigger("change");
 		same($row.find('input:visible').length,1);
 	});
@@ -277,7 +277,7 @@ jQuery(document).ready(function() {
 		var i = DependentInputs.createRow('#test-form');
 		var $row = DependentInputs.rows[i];
 		$row.field.val("Operational Country").change();
-		$row.field.val("CABRE").change();
+		$row.field.val("Legal Name").change();
 		same($row.field.next()[0],$row.val[0]);
 	});
 	
@@ -291,7 +291,7 @@ jQuery(document).ready(function() {
 			'name': $hid.attr('name'),
 			'val': $hid.val()
 		};
-		$row.field.val("CABRE");
+		$row.field.val("Legal Name");
 		$row.field.trigger("change");
 		same($row.find('input:hidden').length,0);
 		var $vis = $row.find('input:visible');
@@ -308,7 +308,7 @@ jQuery(document).ready(function() {
 		$row.field.val("Operational Country");
 		$row.field.trigger("change");
 		var expected = $row.val.get(0).className;
-		$row.field.val("CABRE");
+		$row.field.val("Legal Name");
 		$row.field.trigger("change");
 		var actual = $row.val.get(0).className;
 		same(expected,actual);

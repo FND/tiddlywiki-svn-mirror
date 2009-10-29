@@ -35,8 +35,7 @@ config = {
              'operational_city',
              'operational_state',
              'operational_country',
-             'operational_postcode',
-             'cabre'
+             'operational_postcode'
         ],
         'mappingsql.default_search_fields': [
              'legal_name',

@@ -50,7 +50,6 @@ $(document).ready(function() {
 					return ISO_3166.countries.iso2name[data.aData[data.iDataColumn]] || "";
 				} }, // Operational Country
 				null, // Operational Postcode
-				null, // CABRE
 				{ sClass: "center" },
 				{ sClass: "center" }
 			],
@@ -161,7 +160,6 @@ $(document).ready(function() {
 							fields["operational_state"] || "",
 							fields["operational_country"] || "",
 							fields["operational_postcode"] || "",
-							fields["cabre"] || "",
 							'<a href="/bags/avox/tiddlers/'+tiddler.title+'.challenge">go</a>',
 							'<a href="/bags/avox/tiddlers/'+tiddler.title+'.request">go</a>'
 						]);
