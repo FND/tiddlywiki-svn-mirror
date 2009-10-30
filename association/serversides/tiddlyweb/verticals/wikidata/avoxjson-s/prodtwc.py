@@ -6,7 +6,7 @@ config = {
         'system_plugins': ['status', 'wikidataSerializer', 'editSerializer', 'challengeSerializer', 'requestSerializer', 'methodhack', 'pathinfohack', 'formreader', 'routes'],
         'server_host': {
             'scheme': 'http',
-            'host': 'tw.wiki-data.com',
+            'host': 'wiki-data.com',
             'port': '80',
             },
         'wikitext_render_map': {
