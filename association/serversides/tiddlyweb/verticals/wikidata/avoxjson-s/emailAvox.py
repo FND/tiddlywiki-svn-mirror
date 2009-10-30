@@ -55,6 +55,6 @@ def emailAvox(query):
     else:
        to = 'jnthnlstr@googlemail.com'
        subject = 'Unknown contact type'
-       body = 'Query: '+' '+requestType+' '+name+' '+email+' '+country+' '+company
-    logging.debug('to:'+to+', subject:'+subject+', '+'body: '+body)
+       body = 'Query: '+repr(query)
+    logging.debug('to:'+repr(to)+', subject:'+subject+', '+'body: '+body)
     send(to,subject,body)
