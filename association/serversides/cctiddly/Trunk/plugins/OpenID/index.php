@@ -1,5 +1,5 @@
 <?php
-$p = new Plugin('OpenID Plugin','0.1','simonmcmanus.com');
+$p = new Plugin('OpenID','0.1','simonmcmanus.com');
 $p->addEvent("postSetLoginPerm", getcwd().'/plugins/OpenID/files/openid/common.php');
 $data['tags'] = 'systemConfig';
 $p->addTiddler($data, getcwd().'/plugins/OpenID/files/OpenIDPlugin.js');

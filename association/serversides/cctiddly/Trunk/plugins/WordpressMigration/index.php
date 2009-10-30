@@ -1,6 +1,6 @@
 <?php
 global $p;
-$p = new Plugin('Wordpress Migration Plugin','0.1','simonmcmanus.com');
+$p = new Plugin('WordpressMigration','0.1','simonmcmanus.com');
 $p->wordpressInstance  = "simonmcmanus.wordpress.com";
 $p->ccTiddlyInstance = "simonmcmanus.com";
 

@@ -1,5 +1,5 @@
 <?php
-$p = new Plugin('FCKEditor Plugin','0.1','simonmcmanus.com');
+$p = new Plugin('FCKEditor','0.1','simonmcmanus.com');
 
 $p->addTiddler($data1, getcwd().'/plugins/FCKEditor/files/ToolbarCommands.tid');
 $p->addTiddler($data1, getcwd().'/plugins/FCKEditor/files/MarkupPreHead.tid');

@@ -16,7 +16,6 @@ class PluginsLoaderReplace extends PluginsLoader
 		foreach($plugins as $plugin)
 		{
 			$pluginPathArray = explode("/", $plugin);
-			echo "<br/>".$pluginPathArray[1];
 			$pluginContent = file_get_contents($plugin);
 			$newPluginContent  = str_replace("<?php", "", $pluginContent);
 		 	$newPluginContent = str_replace('new Plugin(', 'new PluginFetcher("'.$pluginPathArray[1].'",', $newPluginContent);
@@ -27,7 +26,6 @@ class PluginsLoaderReplace extends PluginsLoader
 
 class PluginFetcher extends Plugin
 {
-	
 	public function __construct($pluginName, $author, $version, $website) {
 		global $Plugins;
 		$this->pluginName = $pluginName;
@@ -42,6 +40,7 @@ class PluginFetcher extends Plugin
 	public function createTidFile($path, $tiddler)
 	{
 		@mkdir(dirname($path));
+		// TODO - handle fields
 		$fhandle = fopen($path, 'w') or die("can't open file");
 		fwrite($fhandle, "created:".$tiddler['created']."\n");
 		fwrite($fhandle, "modified:".$tiddler['modified']."\n");
@@ -59,16 +58,9 @@ class PluginFetcher extends Plugin
 		if(is_array($data)) 
 			$tiddler = array_merge_recursive($data,$tiddler);
 		$this->tiddlers[$tiddler['title']] = $tiddler;
-		$filePath = getcwd().'/plugins/'.$this->pluginName.'/files/importedPlugins/'.$tiddler['title'].'.tid';
+		echo $this->pluginName."<br/>";
+ 		$filePath = getcwd().'/plugins/'.$this->pluginName.'/files/importedPlugins/'.$tiddler['title'].'.tid';
 		$this->createTidFile($filePath, $tiddler);
-	}
-	public function addRecipe($path) {
-		
-		$path = str_replace(getcwd()."/plugins/", "", $this->preparePath($path));
-		$path = substr($path, 0, stripos($path, "/"));
-	 	$pluginName = $path;		
-		$file = $this->getContentFromFile($this->preparePath($path));
-		$this->parseRecipe($file, dirname($path));	
 	}
 }
 

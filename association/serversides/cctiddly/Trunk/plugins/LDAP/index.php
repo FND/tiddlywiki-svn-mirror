@@ -1,5 +1,5 @@
 <?php
-$m = new Plugin('LDAP Plugin','0.1','simonmcmanus.com');
+$m = new Plugin('LDAP','0.1','simonmcmanus.com');
 
 
 // Tiddler Definitions : 

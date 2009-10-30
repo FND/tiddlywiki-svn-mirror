@@ -51,10 +51,8 @@ class PluginsLoader {
 		$plugins = $this->readPlugins($cct_base);
 		foreach($plugins as $plugin)
 		{
-			include($plugin);
-			
+			include($plugin);			
 		}
-
 	}
 	
 	

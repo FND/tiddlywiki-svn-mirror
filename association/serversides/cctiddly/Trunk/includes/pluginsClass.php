@@ -4,8 +4,9 @@ class Plugin {
 	public $phpEvents;
 	public $tiddlers;
 		
-	public function __construct($author, $version, $website) {
+	public function __construct($title, $version, $author="", $website="") {
 		global $Plugins;
+		$this->title = $title; // title should be the same as the plugin folder 
 		$this->author = $author;
 		$this->version = $version;
 		$this->website = $website;
@@ -77,9 +78,15 @@ class Plugin {
 	}
 
 	public function addRecipe($path) {
-		$this->preparePath($path);
-		$file = $this->getContentFromFile($this->preparePath($path));
-		$this->parseRecipe($file, dirname($path));	
+		if(is_file($path))
+		{
+			$file = $this->getContentFromFile($this->preparePath($path));
+			$this->parseRecipe($file, dirname($path));	
+		} else {
+			// look for the imported folder
+			$importedPluginsPath = getcwd()."/plugins/".$this->title."/files/importedPlugins";
+			$this->addTiddlersFolder($importedPluginsPath);
+		}
 	}
 
 	public function parseRecipe($string, $recipePath) {

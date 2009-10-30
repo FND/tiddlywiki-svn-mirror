@@ -16,6 +16,6 @@ $tiddlyCfg['privilege']['admin']['document'] = "AAAA";
 $tiddlyCfg['privilege']['non_admin']['document'] = "AUAA";
 
 
-$p = new Plugin('docuweb','0.1','simonmcmanus.com');
+$p = new Plugin('TiddlyDocs','0.1','simonmcmanus.com');
 $p->addRecipe(getcwd().'/plugins/docuweb/files/docuweb.recipe');
 ?>
