@@ -83,7 +83,7 @@ div#resourceView #note { position: absolute; top: 20px; right: 15px; width: 200p
                          padding: 10px; z-index: 9999; color: #fff; font-size: 12px;
                         }
 
-#note h4 { margin: 5px 0; text-align: right; font-style: italic; color: #333; }
+#note h4 { margin: 5px 0; text-align: right; font-style: italic; color: #333; cursor: pointer; }
 #note h5 a, #note h5 a:visited { color: #fff; margin: 10px 0; font-weight: bold; }
 #note h5 a:hover { text-decoration: underline; }
 #note.prediction { height: 200px; overflow: hidden; }
@@ -93,7 +93,7 @@ div#resourceView #note { position: absolute; top: 20px; right: 15px; width: 200p
 
 div#resourceView .triangle { position: absolute; top: 0; width: 0;
                              cursor: pointer; z-index: 99999; }
-div#resourceView .noteTriangle { border-bottom: 22px solid #000; }
+div#resourceView .noteTriangle { border-bottom: 22px solid #000; width: 2px; }
 div#resourceView .invertedTriangle { border-top: 22px solid #000; opacity: 0.2; display: none; }
 div#resourceView .invertedTriangle.existingNote { opacity: 0.6; }
 div#resourceView .leftTriangle { right: 27px; border-left: 10px solid transparent; }

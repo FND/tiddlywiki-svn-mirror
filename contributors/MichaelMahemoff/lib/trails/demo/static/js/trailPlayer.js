@@ -40,7 +40,7 @@ $(function() {
 
   $("#closer").click(function() { document.location.href = $resources[selectedIndex].href; });
 
-  $(".triangle").click(function() {
+  $(".triangle, #note h4").click(function() {
     if ($("#note").isVisible()) {
       $(".noteTriangle,#note").fadeOut();
       $(".invertedTriangle").fadeIn();
