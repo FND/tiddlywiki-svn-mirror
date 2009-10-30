@@ -17,11 +17,11 @@
 
 <div id="unscriptedUI">
 
-  <h1>{{ tiddler.title }}</h1>
+  <h1><span id="title">{{ tiddler.title }}</span></h1>
 
   <ol id="resources">
     {% for resource in trail.resources %}
-      <li><a href="{{ resource.url }}" target="resourceView" title="{{resource.name}}">{{resource.name.replace(" ","&nbsp;")}}</a>
+      <li><a class="url" href="{{ resource.url }}" target="resourceView" title="{{resource.name}}">{{resource.name}}</a>
         <div class="note">{{resource.note}}</div>
       </li>
     {% endfor %}
@@ -31,38 +31,35 @@
 
 <div id="topBar">
 
-  <div id="trail">
+  <div id="metaInfo"><span id="title">{{ tiddler.title }}</span><a id="edit" href="{{ server_prefix }}/trails/{{ tiddler.owner }}/{{ tiddler.title }}.editor">Edit&nbsp;Trail</a></div>
 
-    <div id="metaInfo"><span id="title">{{ tiddler.title }}</span><a id="edit" href="{{ server_prefix }}/trails/{{ tiddler.owner }}/{{ tiddler.title }}.editor">Edit&nbsp;Trail</a></div>
+  <div id="chooser">
 
-    <div id="chooser">
-
-      <div id="controls">
-        <select id="dropdown"></select>
-        <div id="predictedTitle"></div>
-      </div>
-
-      <div id="markersWrapper">
-        <div id="navWrapper">
-          <div id="nav">
-            <span id="start">&nbsp;</span>
-            <span id="prev">&nbsp;</span>
-            <span id="next">&nbsp;</span>
-            <span id="end">&nbsp;</span>
-          </div>
-          <div id="markers"></div>
-        </div>
-      </div>
-
+    <div id="controls">
+      <select id="dropdown"></select>
+      <div id="predictedTitle"></div>
     </div>
 
-    <div id="closer">X</div>
+    <div id="markersWrapper">
+      <div id="navWrapper">
+        <div id="nav">
+          <span id="start">&nbsp;</span>
+          <span id="prev">&nbsp;</span>
+          <span id="next">&nbsp;</span>
+          <span id="end">&nbsp;</span>
+        </div>
+        <div id="markers"></div>
+      </div>
+    </div>
 
   </div>
+
+  <div id="closer">X</div>
 
 </div>
 
 <div id="resourceView">
+  <div id="predictionMask">&nbsp;</div>
   <div id="progressWrapper">
     <img src="{{ server_prefix }}/static/images/progress.gif" />
   </div>
@@ -71,6 +68,7 @@
     <div class="noteTriangle rightTriangle triangle" id="noteTriangle2"></div>
     <div class="invertedTriangle leftTriangle triangle" id="invertedTriangle1"></div>
     <div class="invertedTriangle rightTriangle triangle" id="invertedTriangle2"></div>
+    <div id="noteExpander">x</div>
     <div id="note">
       <div class="existingNote">
         <h4>note from {{ tiddler.owner }}</h4>

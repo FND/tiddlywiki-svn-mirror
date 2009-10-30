@@ -40,31 +40,23 @@ $(function() {
 
   $("#closer").click(function() { document.location.href = $resources[selectedIndex].href; });
 
-  $(".triangle, #note h4").click(function() {
+  $(".triangle, #note h4, #noteExpander").click(function() {
     if ($("#note").isVisible()) {
-      $(".noteTriangle,#note").fadeOut();
+      $(".noteTriangle,#note,#noteExpander").fadeOut();
       $(".invertedTriangle").fadeIn();
     } else {
       $(".invertedTriangle").fadeOut();
-      $(".noteTriangle,#note").fadeIn();
+      $(".noteTriangle,#note,#noteExpander").fadeIn();
     }
   });
-  switchResource(0);
+  switchResourceByIndex(0);
 });
 
 $.fn.wireClickAndHover = function(predictor) {
 
   $(this).data("predictor", predictor);
   return $(this)
-    .click(function() { 
-      var predictedIndex = predictor.apply(this);
-      switchResource(predictedIndex);
-      if ($hovered) {
-        showPrediction.apply($hovered);
-        hidePrediction.apply($hovered);
-      }
-      return false;
-    })
+    .click(switchResource)
     .mouseenter(showPrediction)
     .mouseout(hidePrediction)
 }
@@ -78,44 +70,54 @@ function predictForListItem() {
 }
 
 /*******************************************************************************
- * Changing UI - these update UI in response to user events
+ Event handlers
  *******************************************************************************/
+
+function switchResource() {
+  var predictor = $(this).data("predictor");
+  if (predictor) switchResourceByIndex($(this).data("predictor").apply(this));
+  return false;
+}
 
 function showPrediction() {
 
   $hovered = $(this);
   var predictedIndex = $(this).data("predictor").apply(this);
-  var $predictedResource = $resources.eq(predictedIndex);
-
   $markers.eq(predictedIndex).addClass("hovered");
-
-  // if (selectedIndex==predictedIndex) return;
   updateNote(predictedIndex, true);
-  var resourceTitle = $predictedResource.title();
-  $predictedTitle.html( (predictedIndex < selectedIndex) ?
-    "&laquo; " + resourceTitle : resourceTitle + " &raquo");
 
+  var $predictedResource = $resources.eq(predictedIndex);
+  $predictedTitle.html( (predictedIndex < selectedIndex) ?
+    "&laquo; "+$predictedResource.title() : $predictedResource.title()+" &raquo");
+  if (selectedIndex!=predictedIndex) $("#predictionMask").show();
 }
 
 function hidePrediction() {
   $predictedTitle.empty();
   $markers.removeClass("hovered");
   updateNote(selectedIndex);
+  $("#predictionMask").hide();
 }
 
-function switchResource(index) {
+/*******************************************************************************
+ * Switching resource UI
+ *******************************************************************************/
+
+function switchResourceByIndex(index) {
 
   if (selectedIndex==index) return;
-  $("#progressWrapper").css("display", "block");
-
   updateControls(selectedIndex = index);
 
+  if ($hovered) {
+    hidePrediction.apply($hovered);
+    showPrediction.apply($hovered);
+  }
+
+  $("#progressWrapper").css("display", "block");
+
   var url = $("#resources a").eq(index).attr("href");
-  // $('#resourceView').find("iframe").remove().end().create("<iframe/>").attr("src", url);
-  $('#resourceView').find("iframe").remove().end().create("<iframe/>").src(url);
   $('#resourceView').find("iframe").remove().end().create("<iframe/>")
     .src(url, function() { $("#progressWrapper").css("display", "none"); });
-    // .src(url, null, { onReady: function() { $("#progressWrapper").css("display" "none"); }});
 
   updateNote(index);
 
@@ -123,11 +125,8 @@ function switchResource(index) {
 
 function updateControls(index) {
   $("#dropdown option").eq(index).attr("selected", true);
-
   $(".markerSelected").removeClass("markerSelected")
-  $(".hovered").removeClass("hovered")
   $(".marker").eq(index).addClass("markerSelected");
-
 }
 
 function updateNote(index, isPrediction) {
