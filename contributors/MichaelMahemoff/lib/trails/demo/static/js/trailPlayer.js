@@ -16,6 +16,10 @@ $(function() {
   $predictedTitle = $("#predictedTitle");
   $note = $("#note");
 
+  $("#metaInfoTitle").html($("#trail #title").html());
+  $("#metaInfoEdit").attr("href", $("#trail #edit").attr("href"));
+  $("#noteTrailOwner").html($("#trail #owner").html());
+
   $resources.each(function(count) {
     $resource = $(this);
     (function(count) {

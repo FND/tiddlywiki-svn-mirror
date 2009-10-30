@@ -2,8 +2,10 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
 
 body { font-family: gill sans; }
 
-#unscriptedUI { padding: 10px; }
-.scripted #unscriptedUI { display: none; }
+#trail { padding: 10px; }
+#trail h1 { font-size: 1.5em; margin-bottom: 1em; }
+#trail h1 #ownerWrapper { font-size: small; }
+.scripted #trail { display: none; }
 
 .unscripted #topbar, .unscripted #resourceView { display: none; }
 
@@ -18,12 +20,10 @@ body { font-family: gill sans; }
 #logo { margin-top: 9px; width: 114px; height: 26px; }
 
 #metaInfo { float: left; background-image: url("../images/slogosmall.png"); background-repeat: no-repeat; background-color: #aaa; background-position: 50% 2px; border-left: 1px solid #666; border-right: 1px solid #666; padding: 5px 10px; margin-right: 10px; height: 41px; text-align: center; width: 100px; }
-.unscripted #trail { }
-#trail li { margin-right: 5px; }
-#trail #resourceSwitcherWrapper { padding: 12px 0; font-size: 16px; }
 #closer { font-size: 14px; float: right; padding: 16px 10px; cursor: pointer; width: 16px; height: 46px; background: #aaa; text-align: center; float: right; border-left: 1px solid #666; }
 
-#edit { font-size: small; margin-top: 4px; display: block; text-align: center; }
+#metaInfoTitle { text-align: center; }
+#metaInfoEdit { font-size: small; margin-top: 4px; display: block; text-align: center; }
 
 div#resourceView { width: 100%; height: 100%; position: relative; }
 div#resourceView iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }

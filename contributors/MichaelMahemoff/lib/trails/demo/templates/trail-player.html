@@ -15,9 +15,13 @@
   document.documentElement.className = 'scripted';
 </script>
 
-<div id="unscriptedUI">
+<div id="trail">
 
-  <h1><span id="title">{{ tiddler.title }}</span></h1>
+  <h1>
+    <div id="ownerWrapper">trails by <span id="owner">{{ tiddler.owner }}</span> &raquo;</div>
+    <div id="title">{{ tiddler.title }}</div>
+    <a id="edit" href="{{ server_prefix }}/trails/{{ tiddler.owner }}/{{ tiddler.title }}.editor">Edit&nbsp;Trail</a>
+  </h1>
 
   <ol id="resources">
     {% for resource in trail.resources %}
@@ -31,7 +35,10 @@
 
 <div id="topBar">
 
-  <div id="metaInfo"><span id="title">{{ tiddler.title }}</span><a id="edit" href="{{ server_prefix }}/trails/{{ tiddler.owner }}/{{ tiddler.title }}.editor">Edit&nbsp;Trail</a></div>
+  <div id="metaInfo">
+    <div id="metaInfoTitle"></div>
+    <a id="metaInfoEdit">Edit&nbsp;Trail</a>
+  </div>
 
   <div id="chooser">
 
@@ -71,7 +78,7 @@
     <div id="noteExpander">x</div>
     <div id="note">
       <div class="existingNote">
-        <h4>note from {{ tiddler.owner }}</h4>
+        <h4>note from <span id="noteTrailOwner"></span></h4>
         <h5><a href="#"></a></h4>
         <div class="content"></div>
       </div>
