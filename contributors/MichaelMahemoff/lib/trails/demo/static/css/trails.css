@@ -1,6 +1,12 @@
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,dd,dl,dt,li,ol,ul,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;font-weight:normal;font-style:normal;text-align:left;font-family:inherit;}table{border-collapse:collapse;border-spacing:0;}ol,ul{list-style:none;}q:before,q:after,blockquote:before,blockquote:after{content:"";}
 
 body { font-family: gill sans; }
+
+#unscriptedUI { padding: 10px; }
+.scripted #unscriptedUI { display: none; }
+
+.unscripted #topbar, .unscripted #resourceView { display: none; }
+
 #trail { border-bottom: 2px solid #666; xbackground-image: url('../images/logosmall.png'); background-repeat: no-repeat; background-color: #bbb; }
 
 .scripted body { padding-top: 48px; }
@@ -12,17 +18,11 @@ body { font-family: gill sans; }
 #logoWrapper { width: 125px; height: 43px; padding-left: 5px; float: left; }
 #logo { margin-top: 9px; width: 114px; height: 26px; }
 
-.scripted #metaInfo { float: left; background-image: url("../images/slogosmall.png"); background-repeat: no-repeat; background-position: 50% 2px; background-color: #999; border-left: 1px solid #666; border-right: 1px solid #666; padding: 5px 10px; margin-right: 10px; height: 41px; text-align: center; width: 100px; }
-.scripted .unscripted #trail { }
-.scripted #trail li { margin-right: 5px; }
-.scripted #trail #resourceSwitcherWrapper { padding: 12px 0; font-size: 16px; }
-.scripted #closer { font-size: 14px; float: right; padding: 16px 10px; cursor: pointer; width: 16px; height: 46px; background: #aaa; text-align: center; float: right; border-left: 1px solid #666; }
-
-.unscripted #trail { padding: 30px 10px 10px; }
-.unscripted #metaInfo { font-weight: bold; margin: 0.3em 0; }
-.unscripted #metaInfo #title { font-weight: bold; font-size: 2em; }
-.unscripted a { font-weight: normal; }
-.unscripted .closer { display: none; }
+#metaInfo { float: left; background-image: url("../images/slogosmall.png"); background-repeat: no-repeat; background-position: 50% 2px; background-color: #999; border-left: 1px solid #666; border-right: 1px solid #666; padding: 5px 10px; margin-right: 10px; height: 41px; text-align: center; width: 100px; }
+.unscripted #trail { }
+#trail li { margin-right: 5px; }
+#trail #resourceSwitcherWrapper { padding: 12px 0; font-size: 16px; }
+#closer { font-size: 14px; float: right; padding: 16px 10px; cursor: pointer; width: 16px; height: 46px; background: #aaa; text-align: center; float: right; border-left: 1px solid #666; }
 
 #edit { font-size: small; margin-top: 4px; display: block; text-align: center; }
 
@@ -60,10 +60,43 @@ a.markerSelected.hovered,a.markerSelected.hovered:visited { color: #f66; }
 #predictedTitle { opacity: 0.5; font-size: small; text-align: center; margin-top: 3px; color: #ff9; }
 
 #chooser { width: 600px; float: left; }
+
+#progressWrapper { position: absolute; text-align: center; z-index: 99999; }
+#progressWrapper img { margin: 100px 50%; auto; }
+
 /* #resources { background: orange; } */
 
+/*
 #note { color: brown; overflow: hidden; height: 1em; padding: 3px 40px; text-align: center; text-align: center; clear: left; position: relative; }
 #note .name { font-weight: bold; margin-right: 5px; }
 #note .text { font-style: italic; }
+*/
 /* #note .more { display: inline; font-size: small; text-decoration: underline; margin-left: 5px; float: right; cursor: pointer; font-size: small; }  */
-#note .more { display: inline; font-size: small; text-decoration: underline; margin-left: 5px; position: absolute; right: 0; cursor: pointer; font-size: small; } 
+
+/****************************************************************************
+  NOTE
+ ****************************************************************************/
+#noteWrapper { position: relative; top: 10px; right: 10px; }
+div#resourceView #note { position: absolute; top: 20px; right: 15px; width: 200px; 
+                         background: #000; border: 1px solid #444; opacity: 0.9; 
+                         -moz-border-radius: 5px; -webkit-border-radius: 5px;
+                         padding: 10px; z-index: 9999; color: #fff; font-size: 12px;
+                        }
+
+#note h4 { margin: 5px 0; text-align: right; font-style: italic; color: #333; }
+#note h5 a, #note h5 a:visited { color: #fff; margin: 10px 0; font-weight: bold; }
+#note h5 a:hover { text-decoration: underline; }
+#note.prediction { height: 200px; overflow: hidden; }
+#note.prediction h4 { color: #440; }
+#note.prediction h5 a { color: #772; }
+#note.prediction .content { color: #772; }
+
+div#resourceView .triangle { position: absolute; top: 0; width: 0;
+                             cursor: pointer; z-index: 99999; }
+div#resourceView .noteTriangle { border-bottom: 22px solid #000; }
+div#resourceView .invertedTriangle { border-top: 22px solid #000; opacity: 0.2; display: none; }
+div#resourceView .invertedTriangle.existingNote { opacity: 0.6; }
+div#resourceView .leftTriangle { right: 27px; border-left: 10px solid transparent; }
+div#resourceView .rightTriangle { right: 17px; border-right: 10px solid transparent; }
+div#resourceView #note, div#resourceView .noteTriangle { opacity: 0.95; }
+

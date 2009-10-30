@@ -1,5 +1,5 @@
 
-var $resources, $predictedTitle, $markers, selectedIndex, $hovered;
+var $resources, $predictedTitle, $note, $markers, selectedIndex, $hovered;
 
 /*******************************************************************************
  * Initialise - build and wire the UI
@@ -14,6 +14,7 @@ $(function() {
 
   $resources = $("#resources a");
   $predictedTitle = $("#predictedTitle");
+  $note = $("#note");
 
   $resources.each(function(count) {
     $resource = $(this);
@@ -24,7 +25,7 @@ $(function() {
       .appendTo($("#markers"));
 
       $("<option/>")
-      .html($resource.html())
+      .html($resource.title())
       .wireClickAndHover(predictForListItem)
       .appendTo($("#dropdown"));
     })(count);
@@ -37,8 +38,17 @@ $(function() {
   $("#next").wireClickAndHover(function() { return Math.min(selectedIndex+1, $resources.length-1); });
   $("#end").wireClickAndHover(function() { return $resources.length-1; });
 
-  $("#closer").click(function() { document.location.href = $(".selected").attr("href"); });
+  $("#closer").click(function() { document.location.href = $resources[selectedIndex].href; });
 
+  $(".triangle").click(function() {
+    if ($("#note").isVisible()) {
+      $(".noteTriangle,#note").fadeOut();
+      $(".invertedTriangle").fadeIn();
+    } else {
+      $(".invertedTriangle").fadeOut();
+      $(".noteTriangle,#note").fadeIn();
+    }
+  });
   switchResource(0);
 });
 
@@ -72,27 +82,43 @@ function predictForListItem() {
  *******************************************************************************/
 
 function showPrediction() {
+
   $hovered = $(this);
   var predictedIndex = $(this).data("predictor").apply(this);
+  var $predictedResource = $resources.eq(predictedIndex);
 
   $markers.eq(predictedIndex).addClass("hovered");
 
-  if (selectedIndex==predictedIndex) return;
-  var resourceTitle = $resources[predictedIndex].innerHTML;
+  // if (selectedIndex==predictedIndex) return;
+  updateNote(predictedIndex, true);
+  var resourceTitle = $predictedResource.title();
   $predictedTitle.html( (predictedIndex < selectedIndex) ?
     "&laquo; " + resourceTitle : resourceTitle + " &raquo");
+
 }
 
 function hidePrediction() {
   $predictedTitle.empty();
   $markers.removeClass("hovered");
+  updateNote(selectedIndex);
 }
 
 function switchResource(index) {
+
   if (selectedIndex==index) return;
+  $("#progressWrapper").css("display", "block");
+
   updateControls(selectedIndex = index);
+
   var url = $("#resources a").eq(index).attr("href");
-  $('#resourceView').empty().create("<iframe/>").attr("src", url);
+  // $('#resourceView').find("iframe").remove().end().create("<iframe/>").attr("src", url);
+  $('#resourceView').find("iframe").remove().end().create("<iframe/>").src(url);
+  $('#resourceView').find("iframe").remove().end().create("<iframe/>")
+    .src(url, function() { $("#progressWrapper").css("display", "none"); });
+    // .src(url, null, { onReady: function() { $("#progressWrapper").css("display" "none"); }});
+
+  updateNote(index);
+
 }
 
 function updateControls(index) {
@@ -104,24 +130,17 @@ function updateControls(index) {
 
 }
 
-function renderNote(resource) {
-  var note = selected().attr("note");
-  $("#note")
-    .empty()
-    .create("<div class='more'/>")
-      .text("expand")
-      .click(showFullNote)
-    .end()
-    .create("<span class='text' />")
-      .text(note)
-    .end();
-}
-
-function showFullNote() {
-  var message = $("<div/>")
-    .append("<h1>"+selected().html()+"</h1>")
-    .append(selected().attr("note"));
-  $.modal.show(message);
+function updateNote(index, isPrediction) {
+  $("#note").setClassIf(isPrediction, "prediction");
+  var note = $.trim($("#resources .note").eq(index).html());
+  var resourceLink = $("<a/>").attr("href", $resources[index].href).html($resources.eq(index).title());
+  $("#note h5").html(resourceLink);
+  $('#note .content').html(note);
+  $("#note .existingNote").showIf(note.length);
+  $("#note .absentNote").showIf(!note.length);
+  $(".invertedTriangle").setClassIf(note.length, "existingNote");
+  $('#note .content').html(note);
+  return note;
 }
 
 /*******************************************************************************
@@ -130,3 +149,12 @@ function showFullNote() {
 
 function log() { if (window.console) console.log.apply(console, arguments); }
 $.fn.create = function(html) { return this.append(html).children(":last"); };
+$.fn.showIf = function(bool) { return $(this).css("display", bool ? "block":"none"); }
+$.fn.setClassIf = function(bool, klass) { 
+  return (bool ? $(this).addClass(klass) : $(this).removeClass(klass)); }
+$.fn.isVisible = function() { return $(this).css("display")!="none"; }
+
+$.fn.title = function() { 
+  var title = $.trim($(this).html());
+  return title.length ? title : $(this).attr("href");
+}
