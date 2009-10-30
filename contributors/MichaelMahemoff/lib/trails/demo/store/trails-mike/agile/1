@@ -1,13 +1,4 @@
 modifier: mahemoff
 tags: news mainstream
 
-{
-  "resources": [
-    {"name": "BBC News",    "url": "http://bbc.co.uk",       "note": "One Two Three Four It's auntie Beeb! One Two Three Four It's auntie Beeb! One Two Three Four It's auntie Beeb! One Two Three Four It's auntie Beeb! One Two Three Four It's auntie Beeb! One Two Three Four It's auntie Beeb! One Two Three Four It's auntie Beeb! One Two Three Four It's auntie Beeb! " },
-    {"name": "Google News", "url": "http://news.google.com", "note": "If robots made news. Wait, they do!" },
-    {"name": "Memeorandumeandume", "url": "http://memeorandum.com", "note": "Hipster politics" },
-    {"name": "Slashdot",    "url": "http://slashdot.org",    "note": "We're going back, McFly, WAY back!" },
-    {"name": "Digg",        "url": "http://digg.com",        "note": "among the 37 Greatest News Sites You Have To See." },
-    {"name": "Crikey",      "url": "http://crikey.com",      "note": "Stroof!" }
-  ]
-}
+{"resources": [{"url": "http://agilemanifesto.org/", "note": "A perfect starting point - the principles of agile from many of its pioneers. This came from a summit just as agile was on the tipping point.", "title": "Manifesto"}, {"url": "http://agilecookbook.com/", "note": "A wiki guide to Agile Delivery in the 90 Day Cycle", "title": "Cookbook"}, {"url": "http://www.jera.com/techinfo/xpfaq.html", "note": "Now let's look at some specific methodologies. First off, this is an overview of extreme programming.", "title": "XP FAQ"}, {"url": "http://www.scrumalliance.org/pages/what_is_scrum", "note": "An overview of Scrum, which is more high-level and management-oriented than extreme programming.", "title": "Scrum"}, {"url": "http://softwareas.com/agile-software-riffcast-4-of-4-the-dark-side-of-agile", "note": "A podcast I recorded a long time ago about some traps and caveats with agile.", "title": "Podcast"}, {"url": "http://blog.outsystems.com/aboutagility/2009/09/9-useful-resources-for-people-new-to-agile.html", "note": "More resources to keep you on the agile learning trail.", "title": "Resources"}]}

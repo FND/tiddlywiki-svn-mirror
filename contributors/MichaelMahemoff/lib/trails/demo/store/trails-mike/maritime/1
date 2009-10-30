@@ -6,11 +6,11 @@ tags: maritime
 
 {
   "resources": [
-    {"name": "BBC News",    "url": "http://bbc.co.uk",       "note": "One Two Three Four It's auntie Beeb! One Two Three Four It's auntie Beeb! One Two Three Four It's auntie Beeb! One Two Three Four It's auntie Beeb! One Two Three Four It's auntie Beeb! One Two Three Four It's auntie Beeb! One Two Three Four It's auntie Beeb! One Two Three Four It's auntie Beeb! " },
-    {"name": "Google News", "url": "http://news.google.com", "note": "If robots made news. Wait, they do!" },
-    {"name": "Memeorandumeandume", "url": "http://memeorandum.com", "note": "Hipster politics" },
-    {"name": "Slashdot",    "url": "http://slashdot.org",    "note": "We're going back, McFly, WAY back!" },
-    {"name": "Digg",        "url": "http://digg.com",        "note": "among the 37 Greatest News Sites You Have To See." },
-    {"name": "Crikey",      "url": "http://crikey.com",      "note": "Stroof!" }
+    {"title": "BBC News",    "url": "http://bbc.co.uk",       "note": "One Two Three Four It's auntie Beeb! One Two Three Four It's auntie Beeb! One Two Three Four It's auntie Beeb! One Two Three Four It's auntie Beeb! One Two Three Four It's auntie Beeb! One Two Three Four It's auntie Beeb! One Two Three Four It's auntie Beeb! One Two Three Four It's auntie Beeb! " },
+    {"title": "Google News", "url": "http://news.google.com", "note": "If robots made news. Wait, they do!" },
+    {"title": "Memeorandumeandume", "url": "http://memeorandum.com", "note": "Hipster politics" },
+    {"title": "Slashdot",    "url": "http://slashdot.org",    "note": "We're going back, McFly, WAY back!" },
+    {"title": "Digg",        "url": "http://digg.com",        "note": "among the 37 Greatest News Sites You Have To See." },
+    {"title": "Crikey",      "url": "http://crikey.com",      "note": "Stroof!" }
   ]
 }
