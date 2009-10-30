@@ -17,7 +17,7 @@ $(function() {
   $note = $("#note");
 
   $("#metaInfoTitle").html($("#trail #title").html());
-  $("#metaInfoEdit").attr("href", $("#trail #edit").attr("href"));
+  $("#metaInfoEdit").showIf($("#trail #edit").length).attr("href", $("#trail #edit").attr("href"));
   $("#noteTrailOwner").html($("#trail #owner").html());
 
   $resources.each(function(count) {
@@ -112,6 +112,8 @@ function switchResourceByIndex(index) {
   if (selectedIndex==index) return;
   updateControls(selectedIndex = index);
 
+  updateNote(index);
+
   if ($hovered) {
     hidePrediction.apply($hovered);
     showPrediction.apply($hovered);
@@ -122,8 +124,6 @@ function switchResourceByIndex(index) {
   var url = $("#resources a").eq(index).attr("href");
   $('#resourceView').find("iframe").remove().end().create("<iframe/>")
     .src(url, function() { $("#progressWrapper").css("display", "none"); });
-
-  updateNote(index);
 
 }
 

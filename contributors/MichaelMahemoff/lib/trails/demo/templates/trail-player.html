@@ -1,13 +1,19 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" class="unscripted">
 <head>
+  <!-- Part of Scrumptious Project. http://scrumptious.tv.
+       (c) Michael Mahemoff.
+       BSD License. http://www.opensource.org/licenses/bsd-license.php
+
+       If editing this file to make your own trail, follow the "TRAIL EDITOR" instructions".
+ -->
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<title>Trail - {{ tiddler.title }}</title>
-	<link rel="stylesheet" href="{{ server_prefix }}/static/css/trails.css" type="text/css" media="screen" title="no title" charset="utf-8"/>
-  <link rel="shortcut icon" href="{{ server_prefix }}/static/images/favicon.ico" type="image/x-icon" /> 
-	<script type="text/javascript" src="{{ server_prefix }}/static/js/jquery-1.3.2.js"></script>
-	<script type="text/javascript" src="{{ server_prefix }}/static/js/trailPlayer.js"></script>
-	<script type="text/javascript" src="{{ server_prefix }}/static/js/jquery.modal.js"></script>
-	<script type="text/javascript" src="{{ server_prefix }}/static/js/iframe.jquery.js"></script>
+	<link rel="stylesheet" href="{{ static_path }}/css/trails.css" type="text/css" media="screen" title="no title" charset="utf-8"/>
+  <link rel="shortcut icon" href="{{ static_path }}/images/favicon.ico" type="image/x-icon" /> 
+	<script type="text/javascript" src="{{ static_path }}/js/jquery-1.3.2.js"></script>
+	<script type="text/javascript" src="{{ static_path }}/js/trailPlayer.js"></script>
+	<script type="text/javascript" src="{{ static_path }}/js/jquery.modal.js"></script>
+	<script type="text/javascript" src="{{ static_path }}/js/iframe.jquery.js"></script>
 </head>
 
 <body>
@@ -18,14 +24,19 @@
 <div id="trail">
 
   <h1>
+    <!-- TRAIL EDITOR - Insert your name in the "owner" field below. -->
     <div id="ownerWrapper">trails by <span id="owner">{{ tiddler.owner }}</span> &raquo;</div>
+    <!-- TRAIL EDITOR - Insert your trail title in the title field below. -->
     <div id="title">{{ tiddler.title }}</div>
-    <a id="edit" href="{{ server_prefix }}/trails/{{ tiddler.owner }}/{{ tiddler.title }}.editor">Edit&nbsp;Trail</a>
-  </h1>
+    {% if editable %} 
+      <a id="edit" href="{{ server_prefix }}/trails/{{ tiddler.owner }}/{{ tiddler.title }}.editor">Edit&nbsp;Trail</a>
+    {% endif %}</h1>
 
-  <ol id="resources">
+  <!-- TRAIL EDITOR - Insert your trail here (format follows XOXO microformat).
+       URLs (in the "href" are mandatory), titles and notes are optional. -->
+  <ol id="resources" class="xoxo">
     {% for resource in trail.resources %}
-      <li><a class="url" href="{{ resource.url }}" target="resourceView" title="{{resource.name}}">{{resource.name}}</a>
+      <li><a class="url" href="{{ resource.url }}" target="resourceView" title="{{resource.title}}">{{resource.title}}</a>
         <div class="note">{{resource.note}}</div>
       </li>
     {% endfor %}
@@ -68,7 +79,7 @@
 <div id="resourceView">
   <div id="predictionMask">&nbsp;</div>
   <div id="progressWrapper">
-    <img src="{{ server_prefix }}/static/images/progress.gif" />
+    <img src="{{ static_path }}/images/progress.gif" />
   </div>
   <div id="noteWrapper">
     <div class="noteTriangle leftTriangle triangle" id="noteTriangle1"></div>

@@ -31,7 +31,7 @@ def trail_player(environ, start_response):
     return ['no tiddlers']
   trail = json.loads(tiddler.text)
   template = Environment(loader=FileSystemLoader('templates')).get_template("trail-player.html")
-  return template.generate(tiddler=tiddler, trail=trail, server_prefix=environ['tiddlyweb.config']['server_prefix'])
+  return template.generate(tiddler=tiddler, trail=trail, server_prefix=environ['tiddlyweb.config']['server_prefix'], static_path=environ['tiddlyweb.config']['server_prefix']+"/static", editable=True)
   # TODO say there are no bags
 
 
@@ -43,14 +43,14 @@ def trail_editor(environ, start_response):
     tiddler = Tiddler(title=environ['wsgiorg.routing_args'][1]['trail_id'], text='{"resources": []}')
   trail = json.loads(tiddler.text)
   template = Environment(loader=FileSystemLoader('templates')).get_template("trail-editor.html")
-  return template.generate(tiddler=tiddler, trail=trail, bookmarklet_source=make_bookmarklet_source(tiddler, trail), server_prefix=environ['tiddlyweb.config']['server_prefix'], server_root='http://'+environ['tiddlyweb.config']['server_host']['host']+":"+environ['tiddlyweb.config']['server_host']['port']+'/'+environ['tiddlyweb.config']['server_prefix'])
+  return template.generate(tiddler=tiddler, trail=trail, bookmarklet_source=make_bookmarklet_source(tiddler, trail), server_prefix=environ['tiddlyweb.config']['server_prefix'], static_path=environ['tiddlyweb.config']['server_prefix']+"/static", server_root='http://'+environ['tiddlyweb.config']['server_host']['host']+":"+environ['tiddlyweb.config']['server_host']['port']+'/'+environ['tiddlyweb.config']['server_prefix'])
 
 def make_bookmarklet_source(tiddler, trail):
   return "javascript:alert('yes')";
 
 def make_resource(line):
   parts = line.split('|')
-  return {"url": parts[0], "name": parts[1], "note": parts[2]}
+  return {"url": parts[0], "title": parts[1], "note": parts[2]}
 
 def trail_updater(environ, start_response):
   # http://is.gd/1GTCG
