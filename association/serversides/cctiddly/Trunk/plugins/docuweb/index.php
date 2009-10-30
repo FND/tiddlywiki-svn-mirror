@@ -19,5 +19,5 @@ $tiddlyCfg['privilege']['non_admin']['document'] = "AUAA";
 $tiddlyCfg['show_register_on_login'] = false;
 
 $p = new Plugin('docuweb','0.1','simonmcmanus.com');
-$p->addRecipe(getcwd().'/plugins/docuweb/filesddddocuweb.recipe');
+$p->addRecipe(getcwd().'/plugins/docuweb/files/docuweb.recipe');
 ?>
