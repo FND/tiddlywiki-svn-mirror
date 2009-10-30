@@ -1053,7 +1053,7 @@ DependentInputs.addDependency(function($row,changed) {
 	if(changed==="value") {
 		var inpVal = $row.val.val();
 		var mappedVal = $row.valueMap[inpVal] || "";
-		$row.find('input:hidden').val(mappedVal);
+		$row.find('input:hidden').eq(0).val(mappedVal);
 	}
 });
 
