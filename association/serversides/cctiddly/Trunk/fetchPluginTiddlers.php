@@ -40,7 +40,6 @@ class PluginFetcher extends Plugin
 	public function createTidFile($path, $tiddler)
 	{
 		@mkdir(dirname($path));
-		// TODO - handle fields
 		$fhandle = fopen($path, 'w') or die("can't open file");
 		fwrite($fhandle, "created:".$tiddler['created']."\n");
 		fwrite($fhandle, "modified:".$tiddler['modified']."\n");
@@ -58,7 +57,6 @@ class PluginFetcher extends Plugin
 		if(is_array($data)) 
 			$tiddler = array_merge_recursive($data,$tiddler);
 		$this->tiddlers[$tiddler['title']] = $tiddler;
-		echo $this->pluginName."<br/>";
  		$filePath = getcwd().'/plugins/'.$this->pluginName.'/files/importedPlugins/'.$tiddler['title'].'.tid';
 		$this->createTidFile($filePath, $tiddler);
 	}
