@@ -1,5 +1,6 @@
-<div title="ccTiddly Introduction" modifier="ccTiddly Introduction" tags="ccTiddly excludeSearch excludeLists ">
-<pre>
+tags: ccTiddly excludeSearch excludeLists
+
+
 (this content is a work in progress)
 
 !!!ccTiddly Tiddlers 
@@ -20,6 +21,3 @@ Only administrators of a workspace can read tiddlers tagged private.
 
 !!! Working Offline : 
 To take a copy of a ccTiddly workspace offline add &standalone=1 to the end of the URI and you will be prompted to download an offline file.
-
-</pre>
-</div>

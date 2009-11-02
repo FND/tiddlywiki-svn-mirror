@@ -33,6 +33,7 @@ class Plugin {
 		$ext = substr($file, strrpos($file, '.') + 1);
 		$tiddler['title'] = substr($file, strrpos($file, '/')+1, -strlen($ext)-1); 
 		if($ext=='tiddler') {
+
 			$tiddler['body'] = $this->getContentFromFile($file);	
 			$tiddler['tags'] = "";
 		} elseif($ext=='js') {
@@ -53,7 +54,10 @@ class Plugin {
 		    	while (($file = readdir($dh)) !== false) 
 				{
 				//		$this->addTiddlersFolder($file);
-				if(is_dir($dir."/".$file)){
+		
+		
+	if(is_dir($dir."/".$file)){
+		
 					if(substr($file, 0, 1)!=".")
 						$this->addTiddlersFolder($dir."/".$file);
 					}
@@ -81,8 +85,7 @@ class Plugin {
 
 		if(is_file($path))
 		{
-			echo $file = $this->getContentFromFile($this->preparePath($path));
-			echo "<br />";
+			$file = $this->getContentFromFile($this->preparePath($path));
 			$this->parseRecipe($file, dirname($path));	
 		} else {
 			// look for the imported folder
@@ -93,7 +96,6 @@ class Plugin {
 
 	public function parseRecipe($string, $recipePath) {
 		
-		echo "PR : ".$string."<br/>";
 		$lines = explode("\n", $string);
 		foreach($lines as $line) {
 			$this->parseRecipeLine($line, $recipePath);

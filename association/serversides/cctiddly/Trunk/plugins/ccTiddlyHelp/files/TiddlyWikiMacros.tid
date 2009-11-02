@@ -1,5 +1,6 @@
-<div title="TiddlyWiki Macros" modifier="ccTiddly" tags="ccTiddly excludeSearch excludeLists ">
-<pre>
+tags: ccTiddly excludeSearch excludeLists 
+
+
 !!!{{{<<today>>}}}
 Shows current date.
 
@@ -217,8 +218,3 @@ The standard field names are:
 If your tiddlers contain custom fields, they could be specified as well.
 
 The view macro is used extensively in the standard tiddler rendering templates (ViewTemplate and EditTemplate).
-
-
-
-</pre>
-</div>

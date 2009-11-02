@@ -1,5 +1,5 @@
-<div title="ccTiddly Macros" modifier="ccTiddly" tags="ccTiddly excludeSearch excludeLists ">
-<pre>
+tags: ccTiddly excludeSearch excludeLists
+
 
 !!!{{{<<ccUpload>>}}}
 If enabled on the server users can upload files to the ccTiddly server
@@ -21,5 +21,3 @@ Allows admin users to add and remove admin users for a workspace.
 
 !!!{{{<<ccVersion>>}}}
 Allows users to confirm which version of ccTiddly they are using.
-</pre>
-</div>
