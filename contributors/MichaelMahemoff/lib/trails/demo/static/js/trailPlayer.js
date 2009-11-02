@@ -29,9 +29,15 @@ $(function() {
       .appendTo($("#markers"));
 
       $("<option/>")
-      .html($resource.title())
-      .wireClickAndHover(predictForListItem)
+      .val(count)
+      .html($resources.eq(count).html())
+      .wireHover(predictForListItem)
       .appendTo($("#dropdown"));
+
+      $("select")
+      .data("predictor", function() { return $(this).val(); })
+      .change(switchResource);
+
     })(count);
   });
   $markers = $(".marker");
@@ -46,23 +52,30 @@ $(function() {
 
   $(".triangle, #note h4, #noteExpander").click(function() {
     if ($("#note").isVisible()) {
-      $(".noteTriangle,#note,#noteExpander").fadeOut();
-      $(".invertedTriangle").fadeIn();
+      $(".noteTriangle,#note").fadeOut();
+      $(".invertedTriangle").fadeIn(function() { $("#noteExpander").html("+").addClass("inverted"); });
     } else {
       $(".invertedTriangle").fadeOut();
-      $(".noteTriangle,#note,#noteExpander").fadeIn();
+      $(".noteTriangle,#note,#noteExpander").fadeIn(
+        function() { $("#noteExpander").html("-").removeClass("inverted"); }
+      );
     }
   });
   switchResourceByIndex(0);
 });
 
 $.fn.wireClickAndHover = function(predictor) {
-
   $(this).data("predictor", predictor);
   return $(this)
+    .wireHover(predictor)
     .click(switchResource)
+}
+
+$.fn.wireHover = function(predictor) {
+  $(this).data("predictor", predictor);
+  return $(this)
     .mouseenter(showPrediction)
-    .mouseout(hidePrediction)
+    .mouseout(hidePrediction);
 }
 
 // There's no need to create a new function dynamically for each of the dropdown and 
@@ -84,7 +97,6 @@ function switchResource() {
 }
 
 function showPrediction() {
-
   $hovered = $(this);
   var predictedIndex = $(this).data("predictor").apply(this);
   $markers.eq(predictedIndex).addClass("hovered");
@@ -93,14 +105,12 @@ function showPrediction() {
   var $predictedResource = $resources.eq(predictedIndex);
   $predictedTitle.html( (predictedIndex < selectedIndex) ?
     "&laquo; "+$predictedResource.title() : $predictedResource.title()+" &raquo");
-  if (selectedIndex!=predictedIndex) $("#predictionMask").show();
 }
 
 function hidePrediction() {
   $predictedTitle.empty();
   $markers.removeClass("hovered");
   updateNote(selectedIndex);
-  $("#predictionMask").hide();
 }
 
 /*******************************************************************************
@@ -109,26 +119,38 @@ function hidePrediction() {
 
 function switchResourceByIndex(index) {
 
+  if ($hovered) hidePrediction.apply($hovered);
+
   if (selectedIndex==index) return;
   updateControls(selectedIndex = index);
 
   updateNote(index);
 
-  if ($hovered) {
-    hidePrediction.apply($hovered);
-    showPrediction.apply($hovered);
-  }
+  /*
+    if ($hovered) {
+      hidePrediction.apply($hovered);
+      showPrediction.apply($hovered);
+    }
+  */
 
-  $("#progressWrapper").css("display", "block");
+  $("#progressWrapper").show();
 
   var url = $("#resources a").eq(index).attr("href");
   $('#resourceView').find("iframe").remove().end().create("<iframe/>")
-    .src(url, function() { $("#progressWrapper").css("display", "none"); });
+    .src(url, function() { $("#progressWrapper").hide(); });
 
 }
 
 function updateControls(index) {
-  $("#dropdown option").eq(index).attr("selected", true);
+  setTimeout(function() { $("#dropdown").val(index) }, 1);
+  /*
+  try { // http://is.gd/4KngN
+    // $("#dropdown option").eq(index).attr("selected", true);
+    $("#dropdown").val(index);
+  } catch(ex) {
+    setTimeout(function() { $("#dropdown").val(index) }, 1);
+  }
+  */
   $(".markerSelected").removeClass("markerSelected")
   $(".marker").eq(index).addClass("markerSelected");
 }
