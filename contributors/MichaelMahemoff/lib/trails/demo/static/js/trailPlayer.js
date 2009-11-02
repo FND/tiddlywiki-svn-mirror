@@ -70,20 +70,31 @@ $.fn.wireClickAndHover = function(predictor) {
   $(this).data("predictor", predictor);
   return $(this)
     .wireHover(predictor)
-    .click(switchResource)
-}
+    .click(switchResource);
+};
 
 $.fn.wireHover = function(predictor) {
   $(this).data("predictor", predictor);
   return $(this)
     .mouseenter(showPrediction)
     .mouseout(hidePrediction);
-}
+};
 
 function showAndHideTopBar(shouldShow) {
-  $("#topBar, #noteWrapper").showIf(shouldShow);
-  $("#topBarHidden").setClassIf(!shouldShow, "available");
-  $(".scripted body").css("paddingTop", shouldShow ? "48px":0); // todo klassify
+  var DELAY=300;
+  if (shouldShow) {
+      $("#noteWrapper").css("opacity",0).animate({opacity:1}, DELAY);
+      $("#topBar").slideDown(DELAY);
+      $(".scripted body").animate({"paddingTop": 48}, DELAY, function() {
+        $("#topBarHidden").removeClass("available");
+      });
+  } else {
+      $("#noteWrapper").css("opacity",1).animate({opacity:0}, DELAY);
+      $("#topBar").slideUp(DELAY);
+      $(".scripted body").animate({"paddingTop": 0}, DELAY, function() {
+        $("#topBarHidden").addClass("available");
+      });
+  }
 }
 
 // There's no need to create a new function dynamically for each of the dropdown and 
