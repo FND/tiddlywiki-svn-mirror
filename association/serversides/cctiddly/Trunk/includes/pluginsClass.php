@@ -78,9 +78,11 @@ class Plugin {
 	}
 
 	public function addRecipe($path) {
+
 		if(is_file($path))
 		{
-			$file = $this->getContentFromFile($this->preparePath($path));
+			echo $file = $this->getContentFromFile($this->preparePath($path));
+			echo "<br />";
 			$this->parseRecipe($file, dirname($path));	
 		} else {
 			// look for the imported folder
@@ -90,6 +92,8 @@ class Plugin {
 	}
 
 	public function parseRecipe($string, $recipePath) {
+		
+		echo "PR : ".$string."<br/>";
 		$lines = explode("\n", $string);
 		foreach($lines as $line) {
 			$this->parseRecipeLine($line, $recipePath);
