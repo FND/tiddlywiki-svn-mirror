@@ -5048,3 +5048,1052 @@ NameError: global name 'StoreMethodNotImplemented' is not defined
 2009-10-26 17:24:20,638 DEBUG    simple_cookie looking at cookie string: txtMainTab=All; taggedTabs=; chkBackstage=true; txtUserName=GUEST; chkSliderOptionsPanel=true; chkSinglePageMode=true; chkSliderTabs=true; chkLoginStatus=true; chkSliderGrowth=true; chkOpenEditView=true; txtMoreTab=Missing; chkSliderPluginManager=false
 2009-10-26 17:24:20,638 DEBUG    negotiating for accept and extensions ['image/png', 'image/*', '*/*', '*/*']
 2009-10-26 17:24:20,639 INFO     127.0.0.1 - GUEST [26/Oct/2009:17:24:20 ] "GET /doccollab/static/mydocs_images/new_document.jpg HTTP/1.1" 404 - "http://127.0.0.1:89/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 17:36:43,791 DEBUG    TiddlyWeb starting up as /usr/local/bin/twanager
+2009-10-26 17:36:43,792 DEBUG    attempting to import twanager plugin tiddlywebwiki
+2009-10-26 17:36:44,061 DEBUG    running command server with [u'localhost', u'8080']
+2009-10-26 17:36:44,615 DEBUG    attempt to import system plugin tiddlywebwiki
+2009-10-26 17:36:44,616 DEBUG    wrapping app with <class 'tiddlyweb.web.negotiate.Negotiate'>
+2009-10-26 17:36:44,616 DEBUG    wrapping app with <class 'tiddlyweb.web.wsgi.Header'>
+2009-10-26 17:36:44,616 DEBUG    wrapping app with <class 'tiddlyweb.web.extractor.UserExtract'>
+2009-10-26 17:36:44,616 DEBUG    wrapping app with <class 'tiddlyweb.web.wsgi.StoreSet'>
+2009-10-26 17:36:44,616 DEBUG    wrapping app with <class 'tiddlyweb.web.query.Query'>
+2009-10-26 17:36:44,616 DEBUG    wrapping app with <class 'tiddlyweb.web.serve.Environator'>
+2009-10-26 17:36:44,616 DEBUG    wrapping app with <class 'tiddlyweb.web.serve.Configurator'>
+2009-10-26 17:36:44,616 DEBUG    wrapping app with <class 'tiddlyweb.web.wsgi.HTMLPresenter'>
+2009-10-26 17:36:44,617 DEBUG    wrapping app with <class 'tiddlyweb.web.wsgi.PermissionsExceptor'>
+2009-10-26 17:36:44,617 DEBUG    wrapping app with <class 'tiddlyweb.web.http.HTTPExceptor'>
+2009-10-26 17:36:44,617 DEBUG    wrapping app with <class 'tiddlyweb.web.wsgi.EncodeUTF8'>
+2009-10-26 17:36:44,617 DEBUG    wrapping app with <class 'tiddlyweb.web.wsgi.SimpleLog'>
+2009-10-26 17:36:44,617 DEBUG    starting cherrypy at localhost:8080
+2009-10-26 17:37:46,330 DEBUG    TiddlyWeb starting up as /usr/local/bin/twanager
+2009-10-26 17:37:46,331 DEBUG    attempting to import twanager plugin tiddlywebwiki
+2009-10-26 17:37:46,390 DEBUG    running command server with [u'localhost', u'8080']
+2009-10-26 17:37:46,481 DEBUG    attempt to import system plugin tiddlywebwiki
+2009-10-26 17:37:46,482 DEBUG    wrapping app with <class 'tiddlyweb.web.negotiate.Negotiate'>
+2009-10-26 17:37:46,482 DEBUG    wrapping app with <class 'tiddlyweb.web.wsgi.Header'>
+2009-10-26 17:37:46,482 DEBUG    wrapping app with <class 'tiddlyweb.web.extractor.UserExtract'>
+2009-10-26 17:37:46,482 DEBUG    wrapping app with <class 'tiddlyweb.web.wsgi.StoreSet'>
+2009-10-26 17:37:46,482 DEBUG    wrapping app with <class 'tiddlyweb.web.query.Query'>
+2009-10-26 17:37:46,482 DEBUG    wrapping app with <class 'tiddlyweb.web.serve.Environator'>
+2009-10-26 17:37:46,482 DEBUG    wrapping app with <class 'tiddlyweb.web.serve.Configurator'>
+2009-10-26 17:37:46,482 DEBUG    wrapping app with <class 'tiddlyweb.web.wsgi.HTMLPresenter'>
+2009-10-26 17:37:46,482 DEBUG    wrapping app with <class 'tiddlyweb.web.wsgi.PermissionsExceptor'>
+2009-10-26 17:37:46,483 DEBUG    wrapping app with <class 'tiddlyweb.web.http.HTTPExceptor'>
+2009-10-26 17:37:46,483 DEBUG    wrapping app with <class 'tiddlyweb.web.wsgi.EncodeUTF8'>
+2009-10-26 17:37:46,483 DEBUG    wrapping app with <class 'tiddlyweb.web.wsgi.SimpleLog'>
+2009-10-26 17:37:46,483 DEBUG    starting cherrypy at localhost:8080
+2009-10-26 17:58:38,035 DEBUG    TiddlyWeb starting up as /usr/local/bin/twanager
+2009-10-26 17:58:38,036 DEBUG    attempting to import twanager plugin tiddlywebwiki
+2009-10-26 17:58:38,123 DEBUG    running command server with [u'localhost', u'8']
+2009-10-26 17:58:38,214 DEBUG    attempt to import system plugin tiddlywebwiki
+2009-10-26 17:58:38,214 DEBUG    wrapping app with <class 'tiddlyweb.web.negotiate.Negotiate'>
+2009-10-26 17:58:38,215 DEBUG    wrapping app with <class 'tiddlyweb.web.wsgi.Header'>
+2009-10-26 17:58:38,215 DEBUG    wrapping app with <class 'tiddlyweb.web.extractor.UserExtract'>
+2009-10-26 17:58:38,215 DEBUG    wrapping app with <class 'tiddlyweb.web.wsgi.StoreSet'>
+2009-10-26 17:58:38,215 DEBUG    wrapping app with <class 'tiddlyweb.web.query.Query'>
+2009-10-26 17:58:38,215 DEBUG    wrapping app with <class 'tiddlyweb.web.serve.Environator'>
+2009-10-26 17:58:38,215 DEBUG    wrapping app with <class 'tiddlyweb.web.serve.Configurator'>
+2009-10-26 17:58:38,215 DEBUG    wrapping app with <class 'tiddlyweb.web.wsgi.HTMLPresenter'>
+2009-10-26 17:58:38,215 DEBUG    wrapping app with <class 'tiddlyweb.web.wsgi.PermissionsExceptor'>
+2009-10-26 17:58:38,215 DEBUG    wrapping app with <class 'tiddlyweb.web.http.HTTPExceptor'>
+2009-10-26 17:58:38,216 DEBUG    wrapping app with <class 'tiddlyweb.web.wsgi.EncodeUTF8'>
+2009-10-26 17:58:38,216 DEBUG    wrapping app with <class 'tiddlyweb.web.wsgi.SimpleLog'>
+2009-10-26 17:58:38,216 DEBUG    starting cherrypy at localhost:8
+2009-10-26 17:59:02,887 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/" and query ""
+2009-10-26 17:59:02,920 DEBUG    initializing Dev Store
+2009-10-26 17:59:02,936 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-10-26 17:59:02,936 INFO     ::1 - GUEST [26/Oct/2009:17:59:02 ] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 17:59:02,978 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/favicon.ico" and query ""
+2009-10-26 17:59:02,978 DEBUG    initializing Dev Store
+2009-10-26 17:59:02,978 DEBUG    negotiating for accept and extensions ['image/png', 'image/*', '*/*', '*/*']
+2009-10-26 17:59:02,979 INFO     ::1 - GUEST [26/Oct/2009:17:59:02 ] "GET /favicon.ico HTTP/1.1" 404 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 17:59:05,978 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/favicon.ico" and query ""
+2009-10-26 17:59:05,979 DEBUG    initializing Dev Store
+2009-10-26 17:59:05,979 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-10-26 17:59:05,979 INFO     ::1 - GUEST [26/Oct/2009:17:59:05 ] "GET /favicon.ico HTTP/1.1" 404 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 17:59:07,844 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/recipes" and query ""
+2009-10-26 17:59:07,844 DEBUG    initializing Dev Store
+2009-10-26 17:59:07,844 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-10-26 17:59:07,845 DEBUG    list recipes
+2009-10-26 17:59:07,853 WARNING  Traceback (most recent call last):
+  File "build/bdist.macosx-10.5-i386/egg/tiddlyweb/web/http.py", line 108, in __call__
+    return self.application(environ, start_response)
+  File "build/bdist.macosx-10.5-i386/egg/tiddlyweb/web/wsgi.py", line 220, in __call__
+    output = self.application(environ, start_response)
+  File "build/bdist.macosx-10.5-i386/egg/tiddlyweb/web/wsgi.py", line 47, in __call__
+    output = self.application(environ, start_response)
+  File "build/bdist.macosx-10.5-i386/egg/tiddlyweb/web/serve.py", line 100, in __call__
+    return self.application(environ, start_response)
+  File "build/bdist.macosx-10.5-i386/egg/tiddlyweb/web/serve.py", line 86, in __call__
+    return self.application(environ, start_response)
+  File "build/bdist.macosx-10.5-i386/egg/tiddlyweb/web/query.py", line 28, in __call__
+    return self.application(environ, start_response)
+  File "build/bdist.macosx-10.5-i386/egg/tiddlyweb/web/wsgi.py", line 186, in __call__
+    return self.application(environ, start_response)
+  File "build/bdist.macosx-10.5-i386/egg/tiddlyweb/web/extractor.py", line 27, in __call__
+    return self.application(environ, start_response)
+  File "build/bdist.macosx-10.5-i386/egg/tiddlyweb/web/wsgi.py", line 33, in __call__
+    return self.application(environ, start_response)
+  File "build/bdist.macosx-10.5-i386/egg/tiddlyweb/web/negotiate.py", line 21, in __call__
+    return self.application(environ, start_response)
+  File "build/bdist.macosx-10.5-i386/egg/selector.py", line 161, in __call__
+    return app(environ, start_response)
+  File "build/bdist.macosx-10.5-i386/egg/tiddlyweb/web/handler/recipe.py", line 121, in list
+    recipes = store.list_recipes()
+  File "build/bdist.macosx-10.5-i386/egg/tiddlyweb/store.py", line 134, in list_recipes
+    return list_func()
+  File "/Applications/xampp/xamppfiles/htdocs/tiddlywikicore/contributors/SimonMcManus/tiddlyweb/tiddlydocs-devstore/devstore.py", line 149, in list_recipes
+    raise StoreMethodNotImplemented
+NameError: global name 'StoreMethodNotImplemented' is not defined
+
+2009-10-26 17:59:07,854 INFO     ::1 - GUEST [26/Oct/2009:17:59:07 ] "GET /recipes HTTP/1.1" 500 - "http://localhost:8/" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 17:59:12,180 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/recipes" and query ""
+2009-10-26 17:59:12,180 DEBUG    initializing Dev Store
+2009-10-26 17:59:12,181 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-10-26 17:59:12,181 DEBUG    list recipes
+2009-10-26 17:59:12,182 WARNING  Traceback (most recent call last):
+  File "build/bdist.macosx-10.5-i386/egg/tiddlyweb/web/http.py", line 108, in __call__
+    return self.application(environ, start_response)
+  File "build/bdist.macosx-10.5-i386/egg/tiddlyweb/web/wsgi.py", line 220, in __call__
+    output = self.application(environ, start_response)
+  File "build/bdist.macosx-10.5-i386/egg/tiddlyweb/web/wsgi.py", line 47, in __call__
+    output = self.application(environ, start_response)
+  File "build/bdist.macosx-10.5-i386/egg/tiddlyweb/web/serve.py", line 100, in __call__
+    return self.application(environ, start_response)
+  File "build/bdist.macosx-10.5-i386/egg/tiddlyweb/web/serve.py", line 86, in __call__
+    return self.application(environ, start_response)
+  File "build/bdist.macosx-10.5-i386/egg/tiddlyweb/web/query.py", line 28, in __call__
+    return self.application(environ, start_response)
+  File "build/bdist.macosx-10.5-i386/egg/tiddlyweb/web/wsgi.py", line 186, in __call__
+    return self.application(environ, start_response)
+  File "build/bdist.macosx-10.5-i386/egg/tiddlyweb/web/extractor.py", line 27, in __call__
+    return self.application(environ, start_response)
+  File "build/bdist.macosx-10.5-i386/egg/tiddlyweb/web/wsgi.py", line 33, in __call__
+    return self.application(environ, start_response)
+  File "build/bdist.macosx-10.5-i386/egg/tiddlyweb/web/negotiate.py", line 21, in __call__
+    return self.application(environ, start_response)
+  File "build/bdist.macosx-10.5-i386/egg/selector.py", line 161, in __call__
+    return app(environ, start_response)
+  File "build/bdist.macosx-10.5-i386/egg/tiddlyweb/web/handler/recipe.py", line 121, in list
+    recipes = store.list_recipes()
+  File "build/bdist.macosx-10.5-i386/egg/tiddlyweb/store.py", line 134, in list_recipes
+    return list_func()
+  File "/Applications/xampp/xamppfiles/htdocs/tiddlywikicore/contributors/SimonMcManus/tiddlyweb/tiddlydocs-devstore/devstore.py", line 149, in list_recipes
+    raise StoreMethodNotImplemented
+NameError: global name 'StoreMethodNotImplemented' is not defined
+
+2009-10-26 17:59:12,183 INFO     ::1 - GUEST [26/Oct/2009:17:59:12 ] "GET /recipes HTTP/1.1" 500 - "http://localhost:8/" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 17:59:17,815 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/recipes/tiddlydocs/tiddlers" and query ""
+2009-10-26 17:59:17,816 DEBUG    initializing Dev Store
+2009-10-26 17:59:17,816 DEBUG    negotiating for accept and extensions ['text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-10-26 17:59:17,816 DEBUG    get recipe []
+2009-10-26 17:59:17,817 DEBUG    get bag <tiddlyweb.model.bag.Bag object at 0x10b7b10>
+2009-10-26 17:59:17,817 DEBUG    get tiddler TiddlyWebAdaptor<tiddlyweb.model.tiddler.Tiddler object at 0x10b7a50>
+2009-10-26 17:59:17,818 DEBUG    get tiddler TiddlyWebConfig<tiddlyweb.model.tiddler.Tiddler object at 0x10b7990>
+2009-10-26 17:59:17,818 DEBUG    get tiddler ServerSideSavingPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x10b79b0>
+2009-10-26 17:59:17,819 DEBUG    get tiddler RevisionsCommandPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x10b79d0>
+2009-10-26 17:59:17,819 DEBUG    get tiddler DiffFormatterPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x10b79f0>
+2009-10-26 17:59:17,820 DEBUG    get bag <tiddlyweb.model.bag.Bag object at 0x10b7b10>
+2009-10-26 17:59:17,825 DEBUG    get tiddler tdocsSetTheme<tiddlyweb.model.tiddler.Tiddler object at 0x10b7870>
+2009-10-26 17:59:17,827 DEBUG    get tiddler MyDocsTheme<tiddlyweb.model.tiddler.Tiddler object at 0x10b77b0>
+2009-10-26 17:59:17,832 DEBUG    get tiddler MyDocsStyleSheet<tiddlyweb.model.tiddler.Tiddler object at 0x1032c70>
+2009-10-26 17:59:17,833 DEBUG    get tiddler MyDocsCSSOverride<tiddlyweb.model.tiddler.Tiddler object at 0x1032d50>
+2009-10-26 17:59:17,834 DEBUG    get tiddler loginTheme<tiddlyweb.model.tiddler.Tiddler object at 0x1032d30>
+2009-10-26 17:59:17,836 DEBUG    get tiddler MyDocsCSSConainer<tiddlyweb.model.tiddler.Tiddler object at 0x1032cf0>
+2009-10-26 17:59:17,837 DEBUG    get tiddler A_tiddlywebSpecifics<tiddlyweb.model.tiddler.Tiddler object at 0x1032d70>
+2009-10-26 17:59:17,838 DEBUG    get tiddler newDocument<tiddlyweb.model.tiddler.Tiddler object at 0x1032cd0>
+2009-10-26 17:59:17,839 DEBUG    get tiddler saveNewSection<tiddlyweb.model.tiddler.Tiddler object at 0x1032d10>
+2009-10-26 17:59:17,840 DEBUG    get tiddler tdocsButtons<tiddlyweb.model.tiddler.Tiddler object at 0x1032cb0>
+2009-10-26 17:59:17,841 DEBUG    get tiddler tdocsDelete<tiddlyweb.model.tiddler.Tiddler object at 0x1032c90>
+2009-10-26 17:59:17,842 DEBUG    get tiddler tdocsDocumentTabs<tiddlyweb.model.tiddler.Tiddler object at 0x10c3e10>
+2009-10-26 17:59:17,843 DEBUG    get tiddler tdocsMenu<tiddlyweb.model.tiddler.Tiddler object at 0x10c3e30>
+2009-10-26 17:59:17,844 DEBUG    get tiddler tdocsSectionButtons<tiddlyweb.model.tiddler.Tiddler object at 0x10c3e50>
+2009-10-26 17:59:17,880 DEBUG    get tiddler tdocsPreview<tiddlyweb.model.tiddler.Tiddler object at 0x10c3e70>
+2009-10-26 17:59:17,893 DEBUG    get tiddler tdocsPrint<tiddlyweb.model.tiddler.Tiddler object at 0x10c3e90>
+2009-10-26 17:59:17,911 DEBUG    get tiddler tdocsSettings<tiddlyweb.model.tiddler.Tiddler object at 0x10c3eb0>
+2009-10-26 17:59:17,940 DEBUG    get tiddler HIJACK_saveOptionCookie<tiddlyweb.model.tiddler.Tiddler object at 0x10c3ed0>
+2009-10-26 17:59:17,941 DEBUG    get tiddler 01_jQuery<tiddlyweb.model.tiddler.Tiddler object at 0x10c3ef0>
+2009-10-26 17:59:17,943 DEBUG    get tiddler 09_iNestedSortable<tiddlyweb.model.tiddler.Tiddler object at 0x10c3f10>
+2009-10-26 17:59:17,944 DEBUG    get tiddler JSON<tiddlyweb.model.tiddler.Tiddler object at 0x10c3f30>
+2009-10-26 17:59:17,972 DEBUG    get tiddler aboutTiddlyDocs<tiddlyweb.model.tiddler.Tiddler object at 0x10c3f50>
+2009-10-26 17:59:17,973 DEBUG    get tiddler MainMenu<tiddlyweb.model.tiddler.Tiddler object at 0x10c3fd0>
+2009-10-26 17:59:17,974 DEBUG    get tiddler SiteTitle<tiddlyweb.model.tiddler.Tiddler object at 0x10c3f70>
+2009-10-26 17:59:17,975 DEBUG    get tiddler admin<tiddlyweb.model.tiddler.Tiddler object at 0x10c3f90>
+2009-10-26 17:59:17,976 DEBUG    get tiddler StatusDefinitions<tiddlyweb.model.tiddler.Tiddler object at 0x10c3fb0>
+2009-10-26 17:59:17,977 DEBUG    get tiddler AnonDefaultTiddlers<tiddlyweb.model.tiddler.Tiddler object at 0x10c3ff0>
+2009-10-26 17:59:17,978 DEBUG    get tiddler messageHeading<tiddlyweb.model.tiddler.Tiddler object at 0x10dc030>
+2009-10-26 17:59:17,979 DEBUG    get tiddler TaskTiddlerControls<tiddlyweb.model.tiddler.Tiddler object at 0x10dc050>
+2009-10-26 17:59:17,980 DEBUG    get tiddler Create New Document<tiddlyweb.model.tiddler.Tiddler object at 0x10dc070>
+2009-10-26 17:59:17,981 DEBUG    get tiddler Michael Mahemoff<tiddlyweb.model.tiddler.Tiddler object at 0x10dc090>
+2009-10-26 17:59:17,982 DEBUG    get tiddler TiddlyDocs Introduction<tiddlyweb.model.tiddler.Tiddler object at 0x10dc0b0>
+2009-10-26 17:59:17,983 DEBUG    get tiddler DefaultTiddlers<tiddlyweb.model.tiddler.Tiddler object at 0x10dc0d0>
+2009-10-26 17:59:17,984 DEBUG    get tiddler Getting Started with MyDocs<tiddlyweb.model.tiddler.Tiddler object at 0x10dc0f0>
+2009-10-26 17:59:17,985 DEBUG    get tiddler Settings<tiddlyweb.model.tiddler.Tiddler object at 0x10dc110>
+2009-10-26 17:59:17,986 DEBUG    get tiddler feedback<tiddlyweb.model.tiddler.Tiddler object at 0x10dc130>
+2009-10-26 17:59:17,987 DEBUG    get tiddler Simon McManus<tiddlyweb.model.tiddler.Tiddler object at 0x10dc170>
+2009-10-26 17:59:17,988 DEBUG    get tiddler ToolbarCommands<tiddlyweb.model.tiddler.Tiddler object at 0x10dc150>
+2009-10-26 17:59:17,989 DEBUG    get tiddler issues<tiddlyweb.model.tiddler.Tiddler object at 0x10dc190>
+2009-10-26 17:59:17,990 DEBUG    get tiddler SiteSubtitle<tiddlyweb.model.tiddler.Tiddler object at 0x10dc1b0>
+2009-10-26 17:59:17,990 DEBUG    get tiddler UserDefinitions<tiddlyweb.model.tiddler.Tiddler object at 0x10dc1d0>
+2009-10-26 17:59:17,992 DEBUG    get tiddler ValueSwitcherPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x10dc1f0>
+2009-10-26 17:59:17,993 DEBUG    get tiddler CommentsPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x10dc210>
+2009-10-26 17:59:17,994 DEBUG    get tiddler modal.jquery<tiddlyweb.model.tiddler.Tiddler object at 0x10dc230>
+2009-10-26 17:59:17,995 DEBUG    get tiddler googleButtons<tiddlyweb.model.tiddler.Tiddler object at 0x10dc250>
+2009-10-26 17:59:17,996 DEBUG    get tiddler editDefinitions<tiddlyweb.model.tiddler.Tiddler object at 0x10dc270>
+2009-10-26 17:59:17,997 DEBUG    get tiddler secretBackstage<tiddlyweb.model.tiddler.Tiddler object at 0x10dc290>
+2009-10-26 17:59:17,998 DEBUG    get tiddler failedSaveNotification<tiddlyweb.model.tiddler.Tiddler object at 0x10dc2b0>
+2009-10-26 17:59:17,998 DEBUG    get tiddler commentSlider<tiddlyweb.model.tiddler.Tiddler object at 0x10dc2d0>
+2009-10-26 17:59:17,999 DEBUG    get tiddler WikifiedMessagesPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x10dc2f0>
+2009-10-26 17:59:18,000 DEBUG    get tiddler FadingMessagesPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x10dc310>
+2009-10-26 17:59:18,001 DEBUG    get tiddler TaggedTemplateTweak<tiddlyweb.model.tiddler.Tiddler object at 0x10dc330>
+2009-10-26 17:59:18,002 DEBUG    get tiddler MarkupPreHead<tiddlyweb.model.tiddler.Tiddler object at 0x10dc350>
+2009-10-26 17:59:18,003 DEBUG    get tiddler CKEditorPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x10dc370>
+2009-10-26 17:59:18,004 DEBUG    get tiddler CKEditorSettings<tiddlyweb.model.tiddler.Tiddler object at 0x10dc390>
+2009-10-26 17:59:18,024 DEBUG    get tiddler MarkupPreHead<tiddlyweb.model.tiddler.Tiddler object at 0x10dc3b0>
+2009-10-26 17:59:18,026 DEBUG    get bag <tiddlyweb.model.bag.Bag object at 0x10b7b10>
+2009-10-26 17:59:18,028 DEBUG    get bag <tiddlyweb.model.bag.Bag object at 0x10dc3d0>
+2009-10-26 17:59:18,106 INFO     ::1 - GUEST [26/Oct/2009:17:59:18 ] "GET /recipes/tiddlydocs/tiddlers HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 17:59:20,786 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/recipes/tiddlydocs/tiddlers.wiki" and query ""
+2009-10-26 17:59:20,786 DEBUG    initializing Dev Store
+2009-10-26 17:59:20,787 DEBUG    negotiating for accept and extensions ['text/x-tiddlywiki', 'text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-10-26 17:59:20,787 DEBUG    get recipe []
+2009-10-26 17:59:20,788 DEBUG    get bag <tiddlyweb.model.bag.Bag object at 0x1032cb0>
+2009-10-26 17:59:20,788 DEBUG    get tiddler TiddlyWebAdaptor<tiddlyweb.model.tiddler.Tiddler object at 0x1032cd0>
+2009-10-26 17:59:20,789 DEBUG    get tiddler TiddlyWebConfig<tiddlyweb.model.tiddler.Tiddler object at 0x1032d70>
+2009-10-26 17:59:20,790 DEBUG    get tiddler ServerSideSavingPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x1032d50>
+2009-10-26 17:59:20,791 DEBUG    get tiddler RevisionsCommandPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x1032c70>
+2009-10-26 17:59:20,791 DEBUG    get tiddler DiffFormatterPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x10dcbb0>
+2009-10-26 17:59:20,792 DEBUG    get bag <tiddlyweb.model.bag.Bag object at 0x1032cb0>
+2009-10-26 17:59:20,795 DEBUG    get tiddler tdocsSetTheme<tiddlyweb.model.tiddler.Tiddler object at 0x10dc3d0>
+2009-10-26 17:59:20,796 DEBUG    get tiddler MyDocsTheme<tiddlyweb.model.tiddler.Tiddler object at 0x10dc4d0>
+2009-10-26 17:59:20,797 DEBUG    get tiddler MyDocsStyleSheet<tiddlyweb.model.tiddler.Tiddler object at 0x10dc4b0>
+2009-10-26 17:59:20,798 DEBUG    get tiddler MyDocsCSSOverride<tiddlyweb.model.tiddler.Tiddler object at 0x10dc530>
+2009-10-26 17:59:20,799 DEBUG    get tiddler loginTheme<tiddlyweb.model.tiddler.Tiddler object at 0x10dc510>
+2009-10-26 17:59:20,801 DEBUG    get tiddler MyDocsCSSConainer<tiddlyweb.model.tiddler.Tiddler object at 0x10dc550>
+2009-10-26 17:59:20,802 DEBUG    get tiddler A_tiddlywebSpecifics<tiddlyweb.model.tiddler.Tiddler object at 0x10dc2f0>
+2009-10-26 17:59:20,803 DEBUG    get tiddler newDocument<tiddlyweb.model.tiddler.Tiddler object at 0x10dc350>
+2009-10-26 17:59:20,804 DEBUG    get tiddler saveNewSection<tiddlyweb.model.tiddler.Tiddler object at 0x10dc450>
+2009-10-26 17:59:20,805 DEBUG    get tiddler tdocsButtons<tiddlyweb.model.tiddler.Tiddler object at 0x10dc130>
+2009-10-26 17:59:20,806 DEBUG    get tiddler tdocsDelete<tiddlyweb.model.tiddler.Tiddler object at 0x10dc270>
+2009-10-26 17:59:20,807 DEBUG    get tiddler tdocsDocumentTabs<tiddlyweb.model.tiddler.Tiddler object at 0x10dc330>
+2009-10-26 17:59:20,808 DEBUG    get tiddler tdocsMenu<tiddlyweb.model.tiddler.Tiddler object at 0x10dc050>
+2009-10-26 17:59:20,809 DEBUG    get tiddler tdocsSectionButtons<tiddlyweb.model.tiddler.Tiddler object at 0x10dc430>
+2009-10-26 17:59:20,810 DEBUG    get tiddler tdocsPreview<tiddlyweb.model.tiddler.Tiddler object at 0x10dc1b0>
+2009-10-26 17:59:20,810 DEBUG    get tiddler tdocsPrint<tiddlyweb.model.tiddler.Tiddler object at 0x10dc170>
+2009-10-26 17:59:20,812 DEBUG    get tiddler tdocsSettings<tiddlyweb.model.tiddler.Tiddler object at 0x10dc490>
+2009-10-26 17:59:20,813 DEBUG    get tiddler HIJACK_saveOptionCookie<tiddlyweb.model.tiddler.Tiddler object at 0x10dc230>
+2009-10-26 17:59:20,814 DEBUG    get tiddler 01_jQuery<tiddlyweb.model.tiddler.Tiddler object at 0x10dc190>
+2009-10-26 17:59:20,815 DEBUG    get tiddler 09_iNestedSortable<tiddlyweb.model.tiddler.Tiddler object at 0x10dc310>
+2009-10-26 17:59:20,816 DEBUG    get tiddler JSON<tiddlyweb.model.tiddler.Tiddler object at 0x10dc2d0>
+2009-10-26 17:59:20,817 DEBUG    get tiddler aboutTiddlyDocs<tiddlyweb.model.tiddler.Tiddler object at 0x10dc390>
+2009-10-26 17:59:20,818 DEBUG    get tiddler MainMenu<tiddlyweb.model.tiddler.Tiddler object at 0x10dc2b0>
+2009-10-26 17:59:20,819 DEBUG    get tiddler SiteTitle<tiddlyweb.model.tiddler.Tiddler object at 0x10dc1f0>
+2009-10-26 17:59:20,820 DEBUG    get tiddler admin<tiddlyweb.model.tiddler.Tiddler object at 0x10dc0b0>
+2009-10-26 17:59:20,821 DEBUG    get tiddler StatusDefinitions<tiddlyweb.model.tiddler.Tiddler object at 0x10dc410>
+2009-10-26 17:59:20,822 DEBUG    get tiddler AnonDefaultTiddlers<tiddlyweb.model.tiddler.Tiddler object at 0x10dc290>
+2009-10-26 17:59:20,823 DEBUG    get tiddler messageHeading<tiddlyweb.model.tiddler.Tiddler object at 0x10dc110>
+2009-10-26 17:59:20,824 DEBUG    get tiddler TaskTiddlerControls<tiddlyweb.model.tiddler.Tiddler object at 0x10dc210>
+2009-10-26 17:59:20,825 DEBUG    get tiddler Create New Document<tiddlyweb.model.tiddler.Tiddler object at 0x10dc070>
+2009-10-26 17:59:20,826 DEBUG    get tiddler Michael Mahemoff<tiddlyweb.model.tiddler.Tiddler object at 0x10dc150>
+2009-10-26 17:59:20,827 DEBUG    get tiddler TiddlyDocs Introduction<tiddlyweb.model.tiddler.Tiddler object at 0x10dc0d0>
+2009-10-26 17:59:20,828 DEBUG    get tiddler DefaultTiddlers<tiddlyweb.model.tiddler.Tiddler object at 0x10dc030>
+2009-10-26 17:59:20,829 DEBUG    get tiddler Getting Started with MyDocs<tiddlyweb.model.tiddler.Tiddler object at 0x10dc1d0>
+2009-10-26 17:59:20,830 DEBUG    get tiddler Settings<tiddlyweb.model.tiddler.Tiddler object at 0x10dc250>
+2009-10-26 17:59:20,831 DEBUG    get tiddler feedback<tiddlyweb.model.tiddler.Tiddler object at 0x10dc0f0>
+2009-10-26 17:59:20,832 DEBUG    get tiddler Simon McManus<tiddlyweb.model.tiddler.Tiddler object at 0x10dc370>
+2009-10-26 17:59:20,832 DEBUG    get tiddler ToolbarCommands<tiddlyweb.model.tiddler.Tiddler object at 0x10dc4f0>
+2009-10-26 17:59:20,833 DEBUG    get tiddler issues<tiddlyweb.model.tiddler.Tiddler object at 0x10dc090>
+2009-10-26 17:59:20,834 DEBUG    get tiddler SiteSubtitle<tiddlyweb.model.tiddler.Tiddler object at 0x10dc3f0>
+2009-10-26 17:59:20,835 DEBUG    get tiddler UserDefinitions<tiddlyweb.model.tiddler.Tiddler object at 0x10b7930>
+2009-10-26 17:59:20,836 DEBUG    get tiddler ValueSwitcherPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x10b7bb0>
+2009-10-26 17:59:20,837 DEBUG    get tiddler CommentsPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x10b7bf0>
+2009-10-26 17:59:20,838 DEBUG    get tiddler modal.jquery<tiddlyweb.model.tiddler.Tiddler object at 0x10b7c30>
+2009-10-26 17:59:20,839 DEBUG    get tiddler googleButtons<tiddlyweb.model.tiddler.Tiddler object at 0x10b7cb0>
+2009-10-26 17:59:20,840 DEBUG    get tiddler editDefinitions<tiddlyweb.model.tiddler.Tiddler object at 0x10b7c70>
+2009-10-26 17:59:20,841 DEBUG    get tiddler secretBackstage<tiddlyweb.model.tiddler.Tiddler object at 0x10b7b30>
+2009-10-26 17:59:20,842 DEBUG    get tiddler failedSaveNotification<tiddlyweb.model.tiddler.Tiddler object at 0x10b7ab0>
+2009-10-26 17:59:20,843 DEBUG    get tiddler commentSlider<tiddlyweb.model.tiddler.Tiddler object at 0x10b79f0>
+2009-10-26 17:59:20,844 DEBUG    get tiddler WikifiedMessagesPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x10b7870>
+2009-10-26 17:59:20,845 DEBUG    get tiddler FadingMessagesPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x10b77b0>
+2009-10-26 17:59:20,846 DEBUG    get tiddler TaggedTemplateTweak<tiddlyweb.model.tiddler.Tiddler object at 0x10b7990>
+2009-10-26 17:59:20,847 DEBUG    get tiddler MarkupPreHead<tiddlyweb.model.tiddler.Tiddler object at 0x10b7a50>
+2009-10-26 17:59:20,848 DEBUG    get tiddler CKEditorPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x10b79b0>
+2009-10-26 17:59:20,848 DEBUG    get tiddler CKEditorSettings<tiddlyweb.model.tiddler.Tiddler object at 0x10b79d0>
+2009-10-26 17:59:20,849 DEBUG    get tiddler MarkupPreHead<tiddlyweb.model.tiddler.Tiddler object at 0x10b7a70>
+2009-10-26 17:59:20,850 DEBUG    get bag <tiddlyweb.model.bag.Bag object at 0x10b7a50>
+2009-10-26 17:59:20,853 DEBUG    get bag <tiddlyweb.model.bag.Bag object at 0x10e7070>
+2009-10-26 17:59:21,081 DEBUG    get bag <tiddlyweb.model.bag.Bag object at 0x10e14f0>
+2009-10-26 17:59:21,085 DEBUG    get bag <tiddlyweb.model.bag.Bag object at 0x118bff0>
+2009-10-26 17:59:21,321 INFO     ::1 - GUEST [26/Oct/2009:17:59:21 ] "GET /recipes/tiddlydocs/tiddlers.wiki HTTP/1.1" 200 - "http://localhost:8/recipes/tiddlydocs/tiddlers" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 17:59:21,439 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/ckeditor/ckeditor.js" and query ""
+2009-10-26 17:59:21,439 DEBUG    initializing Dev Store
+2009-10-26 17:59:21,440 DEBUG    negotiating for accept and extensions ['*/*', '*/*']
+2009-10-26 17:59:21,440 INFO     ::1 - GUEST [26/Oct/2009:17:59:21 ] "GET /doccollab/static/ckeditor/ckeditor.js HTTP/1.1" 404 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 17:59:21,778 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/mydocs_images/title_middle.jpg" and query ""
+2009-10-26 17:59:21,778 DEBUG    initializing Dev Store
+2009-10-26 17:59:21,779 DEBUG    negotiating for accept and extensions ['image/png', 'image/*', '*/*', '*/*']
+2009-10-26 17:59:21,779 INFO     ::1 - GUEST [26/Oct/2009:17:59:21 ] "GET /doccollab/static/mydocs_images/title_middle.jpg HTTP/1.1" 404 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 17:59:21,780 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/mydocs_images/title_left_corner.jpg" and query ""
+2009-10-26 17:59:21,780 DEBUG    initializing Dev Store
+2009-10-26 17:59:21,781 DEBUG    negotiating for accept and extensions ['image/png', 'image/*', '*/*', '*/*']
+2009-10-26 17:59:21,781 INFO     ::1 - GUEST [26/Oct/2009:17:59:21 ] "GET /doccollab/static/mydocs_images/title_left_corner.jpg HTTP/1.1" 404 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 17:59:21,782 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/mydocs_images/title_right_corner.jpg" and query ""
+2009-10-26 17:59:21,782 DEBUG    initializing Dev Store
+2009-10-26 17:59:21,782 DEBUG    negotiating for accept and extensions ['image/png', 'image/*', '*/*', '*/*']
+2009-10-26 17:59:21,783 INFO     ::1 - GUEST [26/Oct/2009:17:59:21 ] "GET /doccollab/static/mydocs_images/title_right_corner.jpg HTTP/1.1" 404 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 17:59:21,784 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/mydocs_images/MyDocs.png" and query ""
+2009-10-26 17:59:21,784 DEBUG    initializing Dev Store
+2009-10-26 17:59:21,784 DEBUG    negotiating for accept and extensions ['image/png', 'image/*', '*/*', '*/*']
+2009-10-26 17:59:21,785 INFO     ::1 - GUEST [26/Oct/2009:17:59:21 ] "GET /doccollab/static/mydocs_images/MyDocs.png HTTP/1.1" 404 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 17:59:21,785 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/mydocs_images/BTW_blank.jpg" and query ""
+2009-10-26 17:59:21,786 DEBUG    initializing Dev Store
+2009-10-26 17:59:21,786 DEBUG    negotiating for accept and extensions ['image/png', 'image/*', '*/*', '*/*']
+2009-10-26 17:59:21,786 INFO     ::1 - GUEST [26/Oct/2009:17:59:21 ] "GET /doccollab/static/mydocs_images/BTW_blank.jpg HTTP/1.1" 404 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 17:59:21,788 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/mydocs_images/ajax-loader.gif" and query ""
+2009-10-26 17:59:21,788 DEBUG    initializing Dev Store
+2009-10-26 17:59:21,789 DEBUG    negotiating for accept and extensions ['image/png', 'image/*', '*/*', '*/*']
+2009-10-26 17:59:21,789 INFO     ::1 - GUEST [26/Oct/2009:17:59:21 ] "GET /doccollab/static/mydocs_images/ajax-loader.gif HTTP/1.1" 404 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 17:59:21,796 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/mydocs_images/tabs_bg.png" and query ""
+2009-10-26 17:59:21,796 DEBUG    initializing Dev Store
+2009-10-26 17:59:21,797 DEBUG    negotiating for accept and extensions ['image/png', 'image/*', '*/*', '*/*']
+2009-10-26 17:59:21,797 INFO     ::1 - GUEST [26/Oct/2009:17:59:21 ] "GET /doccollab/static/mydocs_images/tabs_bg.png HTTP/1.1" 404 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 17:59:21,799 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/mydocs_images/new_document.jpg" and query ""
+2009-10-26 17:59:21,799 DEBUG    initializing Dev Store
+2009-10-26 17:59:21,800 DEBUG    negotiating for accept and extensions ['image/png', 'image/*', '*/*', '*/*']
+2009-10-26 17:59:21,800 INFO     ::1 - GUEST [26/Oct/2009:17:59:21 ] "GET /doccollab/static/mydocs_images/new_document.jpg HTTP/1.1" 404 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 18:02:19,267 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/recipes/tiddlydocs/tiddlers.wiki" and query ""
+2009-10-26 18:02:19,267 DEBUG    initializing Dev Store
+2009-10-26 18:02:19,268 DEBUG    simple_cookie looking at cookie string: chkBackstage=false
+2009-10-26 18:02:19,268 DEBUG    negotiating for accept and extensions ['text/x-tiddlywiki', 'text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-10-26 18:02:19,268 DEBUG    get recipe []
+2009-10-26 18:02:19,269 DEBUG    get bag <tiddlyweb.model.bag.Bag object at 0x1416370>
+2009-10-26 18:02:19,270 DEBUG    get tiddler TiddlyWebAdaptor<tiddlyweb.model.tiddler.Tiddler object at 0x14163d0>
+2009-10-26 18:02:19,270 DEBUG    get tiddler TiddlyWebConfig<tiddlyweb.model.tiddler.Tiddler object at 0x14163f0>
+2009-10-26 18:02:19,271 DEBUG    get tiddler ServerSideSavingPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x1416410>
+2009-10-26 18:02:19,272 DEBUG    get tiddler RevisionsCommandPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x1416430>
+2009-10-26 18:02:19,272 DEBUG    get tiddler DiffFormatterPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x1416450>
+2009-10-26 18:02:19,273 DEBUG    get bag <tiddlyweb.model.bag.Bag object at 0x1416370>
+2009-10-26 18:02:19,276 DEBUG    get tiddler tdocsSetTheme<tiddlyweb.model.tiddler.Tiddler object at 0x1416470>
+2009-10-26 18:02:19,277 DEBUG    get tiddler MyDocsTheme<tiddlyweb.model.tiddler.Tiddler object at 0x1416490>
+2009-10-26 18:02:19,278 DEBUG    get tiddler MyDocsStyleSheet<tiddlyweb.model.tiddler.Tiddler object at 0x14164b0>
+2009-10-26 18:02:19,279 DEBUG    get tiddler MyDocsCSSOverride<tiddlyweb.model.tiddler.Tiddler object at 0x14164d0>
+2009-10-26 18:02:19,281 DEBUG    get tiddler loginTheme<tiddlyweb.model.tiddler.Tiddler object at 0x14164f0>
+2009-10-26 18:02:19,282 DEBUG    get tiddler MyDocsCSSConainer<tiddlyweb.model.tiddler.Tiddler object at 0x1416510>
+2009-10-26 18:02:19,283 DEBUG    get tiddler A_tiddlywebSpecifics<tiddlyweb.model.tiddler.Tiddler object at 0x1416530>
+2009-10-26 18:02:19,284 DEBUG    get tiddler newDocument<tiddlyweb.model.tiddler.Tiddler object at 0x1416550>
+2009-10-26 18:02:19,285 DEBUG    get tiddler saveNewSection<tiddlyweb.model.tiddler.Tiddler object at 0x1416570>
+2009-10-26 18:02:19,286 DEBUG    get tiddler tdocsButtons<tiddlyweb.model.tiddler.Tiddler object at 0x1416590>
+2009-10-26 18:02:19,287 DEBUG    get tiddler tdocsDelete<tiddlyweb.model.tiddler.Tiddler object at 0x14165b0>
+2009-10-26 18:02:19,288 DEBUG    get tiddler tdocsDocumentTabs<tiddlyweb.model.tiddler.Tiddler object at 0x14165d0>
+2009-10-26 18:02:19,289 DEBUG    get tiddler tdocsMenu<tiddlyweb.model.tiddler.Tiddler object at 0x14165f0>
+2009-10-26 18:02:19,290 DEBUG    get tiddler tdocsSectionButtons<tiddlyweb.model.tiddler.Tiddler object at 0x1416610>
+2009-10-26 18:02:19,290 DEBUG    get tiddler tdocsPreview<tiddlyweb.model.tiddler.Tiddler object at 0x1416630>
+2009-10-26 18:02:19,291 DEBUG    get tiddler tdocsPrint<tiddlyweb.model.tiddler.Tiddler object at 0x1416650>
+2009-10-26 18:02:19,293 DEBUG    get tiddler tdocsSettings<tiddlyweb.model.tiddler.Tiddler object at 0x1416670>
+2009-10-26 18:02:19,294 DEBUG    get tiddler HIJACK_saveOptionCookie<tiddlyweb.model.tiddler.Tiddler object at 0x1416690>
+2009-10-26 18:02:19,295 DEBUG    get tiddler 01_jQuery<tiddlyweb.model.tiddler.Tiddler object at 0x14166b0>
+2009-10-26 18:02:19,297 DEBUG    get tiddler 09_iNestedSortable<tiddlyweb.model.tiddler.Tiddler object at 0x14166d0>
+2009-10-26 18:02:19,298 DEBUG    get tiddler JSON<tiddlyweb.model.tiddler.Tiddler object at 0x14166f0>
+2009-10-26 18:02:19,299 DEBUG    get tiddler aboutTiddlyDocs<tiddlyweb.model.tiddler.Tiddler object at 0x1416710>
+2009-10-26 18:02:19,300 DEBUG    get tiddler MainMenu<tiddlyweb.model.tiddler.Tiddler object at 0x1416790>
+2009-10-26 18:02:19,301 DEBUG    get tiddler SiteTitle<tiddlyweb.model.tiddler.Tiddler object at 0x1416730>
+2009-10-26 18:02:19,302 DEBUG    get tiddler admin<tiddlyweb.model.tiddler.Tiddler object at 0x1416750>
+2009-10-26 18:02:19,303 DEBUG    get tiddler StatusDefinitions<tiddlyweb.model.tiddler.Tiddler object at 0x1416770>
+2009-10-26 18:02:19,304 DEBUG    get tiddler AnonDefaultTiddlers<tiddlyweb.model.tiddler.Tiddler object at 0x14167b0>
+2009-10-26 18:02:19,305 DEBUG    get tiddler messageHeading<tiddlyweb.model.tiddler.Tiddler object at 0x14167d0>
+2009-10-26 18:02:19,306 DEBUG    get tiddler TaskTiddlerControls<tiddlyweb.model.tiddler.Tiddler object at 0x14167f0>
+2009-10-26 18:02:19,307 DEBUG    get tiddler Create New Document<tiddlyweb.model.tiddler.Tiddler object at 0x1416810>
+2009-10-26 18:02:19,308 DEBUG    get tiddler Michael Mahemoff<tiddlyweb.model.tiddler.Tiddler object at 0x1416830>
+2009-10-26 18:02:19,309 DEBUG    get tiddler TiddlyDocs Introduction<tiddlyweb.model.tiddler.Tiddler object at 0x1416850>
+2009-10-26 18:02:19,310 DEBUG    get tiddler DefaultTiddlers<tiddlyweb.model.tiddler.Tiddler object at 0x1416870>
+2009-10-26 18:02:19,311 DEBUG    get tiddler Getting Started with MyDocs<tiddlyweb.model.tiddler.Tiddler object at 0x1416890>
+2009-10-26 18:02:19,312 DEBUG    get tiddler Settings<tiddlyweb.model.tiddler.Tiddler object at 0x14168b0>
+2009-10-26 18:02:19,313 DEBUG    get tiddler feedback<tiddlyweb.model.tiddler.Tiddler object at 0x14168d0>
+2009-10-26 18:02:19,314 DEBUG    get tiddler Simon McManus<tiddlyweb.model.tiddler.Tiddler object at 0x1416910>
+2009-10-26 18:02:19,315 DEBUG    get tiddler ToolbarCommands<tiddlyweb.model.tiddler.Tiddler object at 0x14168f0>
+2009-10-26 18:02:19,316 DEBUG    get tiddler issues<tiddlyweb.model.tiddler.Tiddler object at 0x1416930>
+2009-10-26 18:02:19,317 DEBUG    get tiddler SiteSubtitle<tiddlyweb.model.tiddler.Tiddler object at 0x1416950>
+2009-10-26 18:02:19,318 DEBUG    get tiddler UserDefinitions<tiddlyweb.model.tiddler.Tiddler object at 0x1416970>
+2009-10-26 18:02:19,319 DEBUG    get tiddler ValueSwitcherPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x1416990>
+2009-10-26 18:02:19,320 DEBUG    get tiddler CommentsPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x14169b0>
+2009-10-26 18:02:19,321 DEBUG    get tiddler modal.jquery<tiddlyweb.model.tiddler.Tiddler object at 0x14169d0>
+2009-10-26 18:02:19,322 DEBUG    get tiddler googleButtons<tiddlyweb.model.tiddler.Tiddler object at 0x14169f0>
+2009-10-26 18:02:19,323 DEBUG    get tiddler editDefinitions<tiddlyweb.model.tiddler.Tiddler object at 0x1416a10>
+2009-10-26 18:02:19,324 DEBUG    get tiddler secretBackstage<tiddlyweb.model.tiddler.Tiddler object at 0x1416a30>
+2009-10-26 18:02:19,325 DEBUG    get tiddler failedSaveNotification<tiddlyweb.model.tiddler.Tiddler object at 0x1416a50>
+2009-10-26 18:02:19,326 DEBUG    get tiddler commentSlider<tiddlyweb.model.tiddler.Tiddler object at 0x1416a70>
+2009-10-26 18:02:19,327 DEBUG    get tiddler WikifiedMessagesPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x1416a90>
+2009-10-26 18:02:19,328 DEBUG    get tiddler FadingMessagesPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x1416ab0>
+2009-10-26 18:02:19,329 DEBUG    get tiddler TaggedTemplateTweak<tiddlyweb.model.tiddler.Tiddler object at 0x1416ad0>
+2009-10-26 18:02:19,330 DEBUG    get tiddler MarkupPreHead<tiddlyweb.model.tiddler.Tiddler object at 0x1416af0>
+2009-10-26 18:02:19,331 DEBUG    get tiddler CKEditorPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x1416b10>
+2009-10-26 18:02:19,332 DEBUG    get tiddler CKEditorSettings<tiddlyweb.model.tiddler.Tiddler object at 0x1416b30>
+2009-10-26 18:02:19,332 DEBUG    get tiddler MarkupPreHead<tiddlyweb.model.tiddler.Tiddler object at 0x1416b50>
+2009-10-26 18:02:19,334 DEBUG    get bag <tiddlyweb.model.bag.Bag object at 0x1416370>
+2009-10-26 18:02:19,336 DEBUG    get bag <tiddlyweb.model.bag.Bag object at 0x1416b70>
+2009-10-26 18:02:19,338 DEBUG    get bag <tiddlyweb.model.bag.Bag object at 0x1416370>
+2009-10-26 18:02:19,341 DEBUG    get bag <tiddlyweb.model.bag.Bag object at 0x1416370>
+2009-10-26 18:02:19,423 INFO     ::1 - GUEST [26/Oct/2009:18:02:19 ] "GET /recipes/tiddlydocs/tiddlers.wiki HTTP/1.1" 200 - "http://localhost:8/recipes/tiddlydocs/tiddlers" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 18:02:19,451 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/ckeditor/ckeditor.js" and query ""
+2009-10-26 18:02:19,451 DEBUG    initializing Dev Store
+2009-10-26 18:02:19,451 DEBUG    simple_cookie looking at cookie string: chkBackstage=false
+2009-10-26 18:02:19,452 DEBUG    negotiating for accept and extensions ['*/*', '*/*']
+2009-10-26 18:02:19,452 INFO     ::1 - GUEST [26/Oct/2009:18:02:19 ] "GET /doccollab/static/ckeditor/ckeditor.js HTTP/1.1" 404 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 18:02:19,810 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/mydocs_images/title_middle.jpg" and query ""
+2009-10-26 18:02:19,810 DEBUG    initializing Dev Store
+2009-10-26 18:02:19,810 DEBUG    simple_cookie looking at cookie string: chkBackstage=false
+2009-10-26 18:02:19,811 DEBUG    negotiating for accept and extensions ['image/png', 'image/*', '*/*', '*/*']
+2009-10-26 18:02:19,811 INFO     ::1 - GUEST [26/Oct/2009:18:02:19 ] "GET /doccollab/static/mydocs_images/title_middle.jpg HTTP/1.1" 404 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 18:02:19,812 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/mydocs_images/title_left_corner.jpg" and query ""
+2009-10-26 18:02:19,812 DEBUG    initializing Dev Store
+2009-10-26 18:02:19,813 DEBUG    simple_cookie looking at cookie string: chkBackstage=false
+2009-10-26 18:02:19,813 DEBUG    negotiating for accept and extensions ['image/png', 'image/*', '*/*', '*/*']
+2009-10-26 18:02:19,813 INFO     ::1 - GUEST [26/Oct/2009:18:02:19 ] "GET /doccollab/static/mydocs_images/title_left_corner.jpg HTTP/1.1" 404 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 18:02:19,814 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/mydocs_images/title_right_corner.jpg" and query ""
+2009-10-26 18:02:19,814 DEBUG    initializing Dev Store
+2009-10-26 18:02:19,815 DEBUG    simple_cookie looking at cookie string: chkBackstage=false
+2009-10-26 18:02:19,815 DEBUG    negotiating for accept and extensions ['image/png', 'image/*', '*/*', '*/*']
+2009-10-26 18:02:19,815 INFO     ::1 - GUEST [26/Oct/2009:18:02:19 ] "GET /doccollab/static/mydocs_images/title_right_corner.jpg HTTP/1.1" 404 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 18:02:19,817 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/mydocs_images/MyDocs.png" and query ""
+2009-10-26 18:02:19,817 DEBUG    initializing Dev Store
+2009-10-26 18:02:19,817 DEBUG    simple_cookie looking at cookie string: chkBackstage=false
+2009-10-26 18:02:19,818 DEBUG    negotiating for accept and extensions ['image/png', 'image/*', '*/*', '*/*']
+2009-10-26 18:02:19,818 INFO     ::1 - GUEST [26/Oct/2009:18:02:19 ] "GET /doccollab/static/mydocs_images/MyDocs.png HTTP/1.1" 404 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 18:02:19,819 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/mydocs_images/BTW_blank.jpg" and query ""
+2009-10-26 18:02:19,819 DEBUG    initializing Dev Store
+2009-10-26 18:02:19,820 DEBUG    simple_cookie looking at cookie string: chkBackstage=false
+2009-10-26 18:02:19,820 DEBUG    negotiating for accept and extensions ['image/png', 'image/*', '*/*', '*/*']
+2009-10-26 18:02:19,820 INFO     ::1 - GUEST [26/Oct/2009:18:02:19 ] "GET /doccollab/static/mydocs_images/BTW_blank.jpg HTTP/1.1" 404 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 18:02:19,821 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/mydocs_images/ajax-loader.gif" and query ""
+2009-10-26 18:02:19,822 DEBUG    initializing Dev Store
+2009-10-26 18:02:19,822 DEBUG    simple_cookie looking at cookie string: chkBackstage=false
+2009-10-26 18:02:19,822 DEBUG    negotiating for accept and extensions ['image/png', 'image/*', '*/*', '*/*']
+2009-10-26 18:02:19,822 INFO     ::1 - GUEST [26/Oct/2009:18:02:19 ] "GET /doccollab/static/mydocs_images/ajax-loader.gif HTTP/1.1" 404 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 18:02:19,828 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/mydocs_images/tabs_bg.png" and query ""
+2009-10-26 18:02:19,828 DEBUG    initializing Dev Store
+2009-10-26 18:02:19,828 DEBUG    simple_cookie looking at cookie string: chkBackstage=false
+2009-10-26 18:02:19,829 DEBUG    negotiating for accept and extensions ['image/png', 'image/*', '*/*', '*/*']
+2009-10-26 18:02:19,829 INFO     ::1 - GUEST [26/Oct/2009:18:02:19 ] "GET /doccollab/static/mydocs_images/tabs_bg.png HTTP/1.1" 404 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 18:02:19,831 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/mydocs_images/new_document.jpg" and query ""
+2009-10-26 18:02:19,831 DEBUG    initializing Dev Store
+2009-10-26 18:02:19,831 DEBUG    simple_cookie looking at cookie string: chkBackstage=false
+2009-10-26 18:02:19,832 DEBUG    negotiating for accept and extensions ['image/png', 'image/*', '*/*', '*/*']
+2009-10-26 18:02:19,832 INFO     ::1 - GUEST [26/Oct/2009:18:02:19 ] "GET /doccollab/static/mydocs_images/new_document.jpg HTTP/1.1" 404 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 18:06:25,696 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/recipes/tiddlydocs/tiddlers.wiki" and query ""
+2009-10-26 18:06:25,697 DEBUG    initializing Dev Store
+2009-10-26 18:06:25,697 DEBUG    simple_cookie looking at cookie string: chkBackstage=false
+2009-10-26 18:06:25,697 DEBUG    negotiating for accept and extensions ['text/x-tiddlywiki', 'text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-10-26 18:06:25,697 DEBUG    get recipe []
+2009-10-26 18:06:25,698 DEBUG    get bag <tiddlyweb.model.bag.Bag object at 0x115ee90>
+2009-10-26 18:06:25,699 DEBUG    get tiddler TiddlyWebAdaptor<tiddlyweb.model.tiddler.Tiddler object at 0x10dc450>
+2009-10-26 18:06:25,699 DEBUG    get tiddler TiddlyWebConfig<tiddlyweb.model.tiddler.Tiddler object at 0x10dc4f0>
+2009-10-26 18:06:25,700 DEBUG    get tiddler ServerSideSavingPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x10dc350>
+2009-10-26 18:06:25,700 DEBUG    get tiddler RevisionsCommandPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x10dc510>
+2009-10-26 18:06:25,701 DEBUG    get tiddler DiffFormatterPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x10dc2d0>
+2009-10-26 18:06:25,702 DEBUG    get bag <tiddlyweb.model.bag.Bag object at 0x115ee90>
+2009-10-26 18:06:25,705 DEBUG    get tiddler tdocsSetTheme<tiddlyweb.model.tiddler.Tiddler object at 0x10dc4b0>
+2009-10-26 18:06:25,706 DEBUG    get tiddler MyDocsTheme<tiddlyweb.model.tiddler.Tiddler object at 0x10dc1d0>
+2009-10-26 18:06:25,707 DEBUG    get tiddler MyDocsStyleSheet<tiddlyweb.model.tiddler.Tiddler object at 0x10dc110>
+2009-10-26 18:06:25,708 DEBUG    get tiddler MyDocsCSSOverride<tiddlyweb.model.tiddler.Tiddler object at 0x10dc530>
+2009-10-26 18:06:25,710 DEBUG    get tiddler loginTheme<tiddlyweb.model.tiddler.Tiddler object at 0x10dc310>
+2009-10-26 18:06:25,711 DEBUG    get tiddler MyDocsCSSConainer<tiddlyweb.model.tiddler.Tiddler object at 0x10dc330>
+2009-10-26 18:06:25,712 DEBUG    get tiddler A_tiddlywebSpecifics<tiddlyweb.model.tiddler.Tiddler object at 0x10dc270>
+2009-10-26 18:06:25,713 DEBUG    get tiddler newDocument<tiddlyweb.model.tiddler.Tiddler object at 0x10dc1f0>
+2009-10-26 18:06:25,714 DEBUG    get tiddler saveNewSection<tiddlyweb.model.tiddler.Tiddler object at 0x10dcbb0>
+2009-10-26 18:06:25,715 DEBUG    get tiddler tdocsButtons<tiddlyweb.model.tiddler.Tiddler object at 0x10dc070>
+2009-10-26 18:06:25,716 DEBUG    get tiddler tdocsDelete<tiddlyweb.model.tiddler.Tiddler object at 0x10dc030>
+2009-10-26 18:06:25,717 DEBUG    get tiddler tdocsDocumentTabs<tiddlyweb.model.tiddler.Tiddler object at 0x10dc290>
+2009-10-26 18:06:25,718 DEBUG    get tiddler tdocsMenu<tiddlyweb.model.tiddler.Tiddler object at 0x10dc550>
+2009-10-26 18:06:25,719 DEBUG    get tiddler tdocsSectionButtons<tiddlyweb.model.tiddler.Tiddler object at 0x10dc410>
+2009-10-26 18:06:25,720 DEBUG    get tiddler tdocsPreview<tiddlyweb.model.tiddler.Tiddler object at 0x10dc430>
+2009-10-26 18:06:25,721 DEBUG    get tiddler tdocsPrint<tiddlyweb.model.tiddler.Tiddler object at 0x10dc250>
+2009-10-26 18:06:25,722 DEBUG    get tiddler tdocsSettings<tiddlyweb.model.tiddler.Tiddler object at 0x10dc210>
+2009-10-26 18:06:25,723 DEBUG    get tiddler HIJACK_saveOptionCookie<tiddlyweb.model.tiddler.Tiddler object at 0x10dc2b0>
+2009-10-26 18:06:25,724 DEBUG    get tiddler 01_jQuery<tiddlyweb.model.tiddler.Tiddler object at 0x10dc170>
+2009-10-26 18:06:25,726 DEBUG    get tiddler 09_iNestedSortable<tiddlyweb.model.tiddler.Tiddler object at 0x10dc0d0>
+2009-10-26 18:06:25,727 DEBUG    get tiddler JSON<tiddlyweb.model.tiddler.Tiddler object at 0x10dc4d0>
+2009-10-26 18:06:25,728 DEBUG    get tiddler aboutTiddlyDocs<tiddlyweb.model.tiddler.Tiddler object at 0x10dc490>
+2009-10-26 18:06:25,729 DEBUG    get tiddler MainMenu<tiddlyweb.model.tiddler.Tiddler object at 0x10dc390>
+2009-10-26 18:06:25,730 DEBUG    get tiddler SiteTitle<tiddlyweb.model.tiddler.Tiddler object at 0x10dc090>
+2009-10-26 18:06:25,731 DEBUG    get tiddler admin<tiddlyweb.model.tiddler.Tiddler object at 0x10dc3d0>
+2009-10-26 18:06:25,732 DEBUG    get tiddler StatusDefinitions<tiddlyweb.model.tiddler.Tiddler object at 0x10dc230>
+2009-10-26 18:06:25,733 DEBUG    get tiddler AnonDefaultTiddlers<tiddlyweb.model.tiddler.Tiddler object at 0x10dc050>
+2009-10-26 18:06:25,734 DEBUG    get tiddler messageHeading<tiddlyweb.model.tiddler.Tiddler object at 0x10dc0f0>
+2009-10-26 18:06:25,735 DEBUG    get tiddler TaskTiddlerControls<tiddlyweb.model.tiddler.Tiddler object at 0x10dc190>
+2009-10-26 18:06:25,736 DEBUG    get tiddler Create New Document<tiddlyweb.model.tiddler.Tiddler object at 0x10dc3f0>
+2009-10-26 18:06:25,737 DEBUG    get tiddler Michael Mahemoff<tiddlyweb.model.tiddler.Tiddler object at 0x10dc370>
+2009-10-26 18:06:25,738 DEBUG    get tiddler TiddlyDocs Introduction<tiddlyweb.model.tiddler.Tiddler object at 0x10dc130>
+2009-10-26 18:06:25,739 DEBUG    get tiddler DefaultTiddlers<tiddlyweb.model.tiddler.Tiddler object at 0x10dc1b0>
+2009-10-26 18:06:25,740 DEBUG    get tiddler Getting Started with MyDocs<tiddlyweb.model.tiddler.Tiddler object at 0x115a610>
+2009-10-26 18:06:25,741 DEBUG    get tiddler Settings<tiddlyweb.model.tiddler.Tiddler object at 0x115a670>
+2009-10-26 18:06:25,742 DEBUG    get tiddler feedback<tiddlyweb.model.tiddler.Tiddler object at 0x1426370>
+2009-10-26 18:06:25,743 DEBUG    get tiddler Simon McManus<tiddlyweb.model.tiddler.Tiddler object at 0x1426050>
+2009-10-26 18:06:25,744 DEBUG    get tiddler ToolbarCommands<tiddlyweb.model.tiddler.Tiddler object at 0x1426590>
+2009-10-26 18:06:25,745 DEBUG    get tiddler issues<tiddlyweb.model.tiddler.Tiddler object at 0x14260b0>
+2009-10-26 18:06:25,746 DEBUG    get tiddler SiteSubtitle<tiddlyweb.model.tiddler.Tiddler object at 0x1426090>
+2009-10-26 18:06:25,747 DEBUG    get tiddler UserDefinitions<tiddlyweb.model.tiddler.Tiddler object at 0x1426470>
+2009-10-26 18:06:25,748 DEBUG    get tiddler ValueSwitcherPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x14260f0>
+2009-10-26 18:06:25,749 DEBUG    get tiddler CommentsPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x1426510>
+2009-10-26 18:06:25,750 DEBUG    get tiddler modal.jquery<tiddlyweb.model.tiddler.Tiddler object at 0x14264d0>
+2009-10-26 18:06:25,751 DEBUG    get tiddler googleButtons<tiddlyweb.model.tiddler.Tiddler object at 0x1426490>
+2009-10-26 18:06:25,752 DEBUG    get tiddler editDefinitions<tiddlyweb.model.tiddler.Tiddler object at 0x14263f0>
+2009-10-26 18:06:25,753 DEBUG    get tiddler secretBackstage<tiddlyweb.model.tiddler.Tiddler object at 0x1426170>
+2009-10-26 18:06:25,754 DEBUG    get tiddler failedSaveNotification<tiddlyweb.model.tiddler.Tiddler object at 0x14265b0>
+2009-10-26 18:06:25,755 DEBUG    get tiddler commentSlider<tiddlyweb.model.tiddler.Tiddler object at 0x14265d0>
+2009-10-26 18:06:25,756 DEBUG    get tiddler WikifiedMessagesPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x14265f0>
+2009-10-26 18:06:25,757 DEBUG    get tiddler FadingMessagesPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x1426610>
+2009-10-26 18:06:25,758 DEBUG    get tiddler TaggedTemplateTweak<tiddlyweb.model.tiddler.Tiddler object at 0x1426630>
+2009-10-26 18:06:25,759 DEBUG    get tiddler MarkupPreHead<tiddlyweb.model.tiddler.Tiddler object at 0x1426650>
+2009-10-26 18:06:25,760 DEBUG    get tiddler CKEditorPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x1426670>
+2009-10-26 18:06:25,761 DEBUG    get tiddler CKEditorSettings<tiddlyweb.model.tiddler.Tiddler object at 0x1426690>
+2009-10-26 18:06:25,762 DEBUG    get tiddler MarkupPreHead<tiddlyweb.model.tiddler.Tiddler object at 0x14266b0>
+2009-10-26 18:06:25,763 DEBUG    get bag <tiddlyweb.model.bag.Bag object at 0x115ee90>
+2009-10-26 18:06:25,766 DEBUG    get bag <tiddlyweb.model.bag.Bag object at 0x14266d0>
+2009-10-26 18:06:25,767 DEBUG    get bag <tiddlyweb.model.bag.Bag object at 0x1426890>
+2009-10-26 18:06:25,770 DEBUG    get bag <tiddlyweb.model.bag.Bag object at 0x1426890>
+2009-10-26 18:06:25,837 INFO     ::1 - GUEST [26/Oct/2009:18:06:25 ] "GET /recipes/tiddlydocs/tiddlers.wiki HTTP/1.1" 200 - "http://localhost:8/recipes/tiddlydocs/tiddlers" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 18:06:25,958 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/ckeditor/ckeditor.js" and query ""
+2009-10-26 18:06:25,959 DEBUG    initializing Dev Store
+2009-10-26 18:06:25,959 DEBUG    simple_cookie looking at cookie string: chkBackstage=false
+2009-10-26 18:06:25,959 DEBUG    negotiating for accept and extensions ['*/*', '*/*']
+2009-10-26 18:06:25,960 INFO     ::1 - GUEST [26/Oct/2009:18:06:25 ] "GET /doccollab/static/ckeditor/ckeditor.js HTTP/1.1" 404 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 18:06:26,557 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/mydocs_images/title_middle.jpg" and query ""
+2009-10-26 18:06:26,557 DEBUG    initializing Dev Store
+2009-10-26 18:06:26,557 DEBUG    simple_cookie looking at cookie string: chkBackstage=false
+2009-10-26 18:06:26,558 DEBUG    negotiating for accept and extensions ['image/png', 'image/*', '*/*', '*/*']
+2009-10-26 18:06:26,558 INFO     ::1 - GUEST [26/Oct/2009:18:06:26 ] "GET /doccollab/static/mydocs_images/title_middle.jpg HTTP/1.1" 404 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 18:06:26,559 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/mydocs_images/title_left_corner.jpg" and query ""
+2009-10-26 18:06:26,559 DEBUG    initializing Dev Store
+2009-10-26 18:06:26,559 DEBUG    simple_cookie looking at cookie string: chkBackstage=false
+2009-10-26 18:06:26,560 DEBUG    negotiating for accept and extensions ['image/png', 'image/*', '*/*', '*/*']
+2009-10-26 18:06:26,560 INFO     ::1 - GUEST [26/Oct/2009:18:06:26 ] "GET /doccollab/static/mydocs_images/title_left_corner.jpg HTTP/1.1" 404 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 18:06:26,561 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/mydocs_images/title_right_corner.jpg" and query ""
+2009-10-26 18:06:26,561 DEBUG    initializing Dev Store
+2009-10-26 18:06:26,561 DEBUG    simple_cookie looking at cookie string: chkBackstage=false
+2009-10-26 18:06:26,562 DEBUG    negotiating for accept and extensions ['image/png', 'image/*', '*/*', '*/*']
+2009-10-26 18:06:26,562 INFO     ::1 - GUEST [26/Oct/2009:18:06:26 ] "GET /doccollab/static/mydocs_images/title_right_corner.jpg HTTP/1.1" 404 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 18:06:26,563 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/mydocs_images/MyDocs.png" and query ""
+2009-10-26 18:06:26,563 DEBUG    initializing Dev Store
+2009-10-26 18:06:26,563 DEBUG    simple_cookie looking at cookie string: chkBackstage=false
+2009-10-26 18:06:26,564 DEBUG    negotiating for accept and extensions ['image/png', 'image/*', '*/*', '*/*']
+2009-10-26 18:06:26,564 INFO     ::1 - GUEST [26/Oct/2009:18:06:26 ] "GET /doccollab/static/mydocs_images/MyDocs.png HTTP/1.1" 404 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 18:06:26,565 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/mydocs_images/BTW_blank.jpg" and query ""
+2009-10-26 18:06:26,565 DEBUG    initializing Dev Store
+2009-10-26 18:06:26,565 DEBUG    simple_cookie looking at cookie string: chkBackstage=false
+2009-10-26 18:06:26,566 DEBUG    negotiating for accept and extensions ['image/png', 'image/*', '*/*', '*/*']
+2009-10-26 18:06:26,566 INFO     ::1 - GUEST [26/Oct/2009:18:06:26 ] "GET /doccollab/static/mydocs_images/BTW_blank.jpg HTTP/1.1" 404 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 18:06:26,568 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/mydocs_images/ajax-loader.gif" and query ""
+2009-10-26 18:06:26,569 DEBUG    initializing Dev Store
+2009-10-26 18:06:26,569 DEBUG    simple_cookie looking at cookie string: chkBackstage=false
+2009-10-26 18:06:26,569 DEBUG    negotiating for accept and extensions ['image/png', 'image/*', '*/*', '*/*']
+2009-10-26 18:06:26,570 INFO     ::1 - GUEST [26/Oct/2009:18:06:26 ] "GET /doccollab/static/mydocs_images/ajax-loader.gif HTTP/1.1" 404 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 18:06:26,578 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/mydocs_images/tabs_bg.png" and query ""
+2009-10-26 18:06:26,579 DEBUG    initializing Dev Store
+2009-10-26 18:06:26,579 DEBUG    simple_cookie looking at cookie string: chkBackstage=false
+2009-10-26 18:06:26,579 DEBUG    negotiating for accept and extensions ['image/png', 'image/*', '*/*', '*/*']
+2009-10-26 18:06:26,579 INFO     ::1 - GUEST [26/Oct/2009:18:06:26 ] "GET /doccollab/static/mydocs_images/tabs_bg.png HTTP/1.1" 404 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 18:06:26,581 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/mydocs_images/new_document.jpg" and query ""
+2009-10-26 18:06:26,581 DEBUG    initializing Dev Store
+2009-10-26 18:06:26,582 DEBUG    simple_cookie looking at cookie string: chkBackstage=false
+2009-10-26 18:06:26,582 DEBUG    negotiating for accept and extensions ['image/png', 'image/*', '*/*', '*/*']
+2009-10-26 18:06:26,582 INFO     ::1 - GUEST [26/Oct/2009:18:06:26 ] "GET /doccollab/static/mydocs_images/new_document.jpg HTTP/1.1" 404 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 18:20:06,135 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/recipes/tiddlydocs/tiddlers.wiki" and query ""
+2009-10-26 18:20:06,135 DEBUG    initializing Dev Store
+2009-10-26 18:20:06,135 DEBUG    simple_cookie looking at cookie string: chkBackstage=false
+2009-10-26 18:20:06,136 DEBUG    negotiating for accept and extensions ['text/x-tiddlywiki', 'text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-10-26 18:20:06,136 DEBUG    get recipe []
+2009-10-26 18:20:06,176 DEBUG    get bag <tiddlyweb.model.bag.Bag object at 0x14161d0>
+2009-10-26 18:20:06,184 DEBUG    get tiddler TiddlyWebAdaptor<tiddlyweb.model.tiddler.Tiddler object at 0x14163b0>
+2009-10-26 18:20:06,185 DEBUG    get tiddler TiddlyWebConfig<tiddlyweb.model.tiddler.Tiddler object at 0x14167f0>
+2009-10-26 18:20:06,185 DEBUG    get tiddler ServerSideSavingPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x1416bf0>
+2009-10-26 18:20:06,201 DEBUG    get tiddler RevisionsCommandPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x1416450>
+2009-10-26 18:20:06,232 DEBUG    get tiddler DiffFormatterPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x14164f0>
+2009-10-26 18:20:06,233 DEBUG    get bag <tiddlyweb.model.bag.Bag object at 0x14161d0>
+2009-10-26 18:20:06,236 DEBUG    get tiddler tdocsSetTheme<tiddlyweb.model.tiddler.Tiddler object at 0x14168d0>
+2009-10-26 18:20:06,258 DEBUG    get tiddler MyDocsTheme<tiddlyweb.model.tiddler.Tiddler object at 0x1416cb0>
+2009-10-26 18:20:06,259 DEBUG    get tiddler MyDocsStyleSheet<tiddlyweb.model.tiddler.Tiddler object at 0x1416cd0>
+2009-10-26 18:20:06,260 DEBUG    get tiddler MyDocsCSSOverride<tiddlyweb.model.tiddler.Tiddler object at 0x1426eb0>
+2009-10-26 18:20:06,261 DEBUG    get tiddler loginTheme<tiddlyweb.model.tiddler.Tiddler object at 0x14266d0>
+2009-10-26 18:20:06,262 DEBUG    get tiddler MyDocsCSSConainer<tiddlyweb.model.tiddler.Tiddler object at 0x14267d0>
+2009-10-26 18:20:06,263 DEBUG    get tiddler A_tiddlywebSpecifics<tiddlyweb.model.tiddler.Tiddler object at 0x14267b0>
+2009-10-26 18:20:06,264 DEBUG    get tiddler newDocument<tiddlyweb.model.tiddler.Tiddler object at 0x1426830>
+2009-10-26 18:20:06,265 DEBUG    get tiddler saveNewSection<tiddlyweb.model.tiddler.Tiddler object at 0x1426810>
+2009-10-26 18:20:06,266 DEBUG    get tiddler tdocsButtons<tiddlyweb.model.tiddler.Tiddler object at 0x1426850>
+2009-10-26 18:20:06,267 DEBUG    get tiddler tdocsDelete<tiddlyweb.model.tiddler.Tiddler object at 0x14265f0>
+2009-10-26 18:20:06,268 DEBUG    get tiddler tdocsDocumentTabs<tiddlyweb.model.tiddler.Tiddler object at 0x1426650>
+2009-10-26 18:20:06,269 DEBUG    get tiddler tdocsMenu<tiddlyweb.model.tiddler.Tiddler object at 0x1426750>
+2009-10-26 18:20:06,279 DEBUG    get tiddler tdocsSectionButtons<tiddlyweb.model.tiddler.Tiddler object at 0x1426370>
+2009-10-26 18:20:06,280 DEBUG    get tiddler tdocsPreview<tiddlyweb.model.tiddler.Tiddler object at 0x14263f0>
+2009-10-26 18:20:06,281 DEBUG    get tiddler tdocsPrint<tiddlyweb.model.tiddler.Tiddler object at 0x1426630>
+2009-10-26 18:20:06,282 DEBUG    get tiddler tdocsSettings<tiddlyweb.model.tiddler.Tiddler object at 0x1426730>
+2009-10-26 18:20:06,283 DEBUG    get tiddler HIJACK_saveOptionCookie<tiddlyweb.model.tiddler.Tiddler object at 0x1426090>
+2009-10-26 18:20:06,284 DEBUG    get tiddler 01_jQuery<tiddlyweb.model.tiddler.Tiddler object at 0x1426050>
+2009-10-26 18:20:06,286 DEBUG    get tiddler 09_iNestedSortable<tiddlyweb.model.tiddler.Tiddler object at 0x1426790>
+2009-10-26 18:20:06,314 DEBUG    get tiddler JSON<tiddlyweb.model.tiddler.Tiddler object at 0x14264d0>
+2009-10-26 18:20:06,315 DEBUG    get tiddler aboutTiddlyDocs<tiddlyweb.model.tiddler.Tiddler object at 0x14260b0>
+2009-10-26 18:20:06,315 DEBUG    get tiddler MainMenu<tiddlyweb.model.tiddler.Tiddler object at 0x14260f0>
+2009-10-26 18:20:06,316 DEBUG    get tiddler SiteTitle<tiddlyweb.model.tiddler.Tiddler object at 0x1426610>
+2009-10-26 18:20:06,317 DEBUG    get tiddler admin<tiddlyweb.model.tiddler.Tiddler object at 0x14265d0>
+2009-10-26 18:20:06,318 DEBUG    get tiddler StatusDefinitions<tiddlyweb.model.tiddler.Tiddler object at 0x1426690>
+2009-10-26 18:20:06,319 DEBUG    get tiddler AnonDefaultTiddlers<tiddlyweb.model.tiddler.Tiddler object at 0x1426710>
+2009-10-26 18:20:06,320 DEBUG    get tiddler messageHeading<tiddlyweb.model.tiddler.Tiddler object at 0x14265b0>
+2009-10-26 18:20:06,321 DEBUG    get tiddler TaskTiddlerControls<tiddlyweb.model.tiddler.Tiddler object at 0x1426170>
+2009-10-26 18:20:06,324 DEBUG    get tiddler Create New Document<tiddlyweb.model.tiddler.Tiddler object at 0x1426510>
+2009-10-26 18:20:06,325 DEBUG    get tiddler Michael Mahemoff<tiddlyweb.model.tiddler.Tiddler object at 0x1426590>
+2009-10-26 18:20:06,326 DEBUG    get tiddler TiddlyDocs Introduction<tiddlyweb.model.tiddler.Tiddler object at 0x1426470>
+2009-10-26 18:20:06,327 DEBUG    get tiddler DefaultTiddlers<tiddlyweb.model.tiddler.Tiddler object at 0x1426490>
+2009-10-26 18:20:06,328 DEBUG    get tiddler Getting Started with MyDocs<tiddlyweb.model.tiddler.Tiddler object at 0x14267f0>
+2009-10-26 18:20:06,329 DEBUG    get tiddler Settings<tiddlyweb.model.tiddler.Tiddler object at 0x1426670>
+2009-10-26 18:20:06,330 DEBUG    get tiddler feedback<tiddlyweb.model.tiddler.Tiddler object at 0x1426770>
+2009-10-26 18:20:06,331 DEBUG    get tiddler Simon McManus<tiddlyweb.model.tiddler.Tiddler object at 0x1426ad0>
+2009-10-26 18:20:06,333 DEBUG    get tiddler ToolbarCommands<tiddlyweb.model.tiddler.Tiddler object at 0x1426f10>
+2009-10-26 18:20:06,334 DEBUG    get tiddler issues<tiddlyweb.model.tiddler.Tiddler object at 0x1426970>
+2009-10-26 18:20:06,335 DEBUG    get tiddler SiteSubtitle<tiddlyweb.model.tiddler.Tiddler object at 0x1426930>
+2009-10-26 18:20:06,336 DEBUG    get tiddler UserDefinitions<tiddlyweb.model.tiddler.Tiddler object at 0x14269f0>
+2009-10-26 18:20:06,337 DEBUG    get tiddler ValueSwitcherPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x14269b0>
+2009-10-26 18:20:06,338 DEBUG    get tiddler CommentsPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x1426a70>
+2009-10-26 18:20:06,339 DEBUG    get tiddler modal.jquery<tiddlyweb.model.tiddler.Tiddler object at 0x1426890>
+2009-10-26 18:20:06,340 DEBUG    get tiddler googleButtons<tiddlyweb.model.tiddler.Tiddler object at 0x1426c70>
+2009-10-26 18:20:06,341 DEBUG    get tiddler editDefinitions<tiddlyweb.model.tiddler.Tiddler object at 0x1426c10>
+2009-10-26 18:20:06,342 DEBUG    get tiddler secretBackstage<tiddlyweb.model.tiddler.Tiddler object at 0x1426af0>
+2009-10-26 18:20:06,343 DEBUG    get tiddler failedSaveNotification<tiddlyweb.model.tiddler.Tiddler object at 0x1426c30>
+2009-10-26 18:20:06,344 DEBUG    get tiddler commentSlider<tiddlyweb.model.tiddler.Tiddler object at 0x1426fb0>
+2009-10-26 18:20:06,345 DEBUG    get tiddler WikifiedMessagesPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x1426f70>
+2009-10-26 18:20:06,370 DEBUG    get tiddler FadingMessagesPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x1426ef0>
+2009-10-26 18:20:06,387 DEBUG    get tiddler TaggedTemplateTweak<tiddlyweb.model.tiddler.Tiddler object at 0x1426cd0>
+2009-10-26 18:20:06,388 DEBUG    get tiddler MarkupPreHead<tiddlyweb.model.tiddler.Tiddler object at 0x1433030>
+2009-10-26 18:20:06,413 DEBUG    get tiddler CKEditorPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x1433050>
+2009-10-26 18:20:06,414 DEBUG    get tiddler CKEditorSettings<tiddlyweb.model.tiddler.Tiddler object at 0x1433070>
+2009-10-26 18:20:06,415 DEBUG    get tiddler MarkupPreHead<tiddlyweb.model.tiddler.Tiddler object at 0x1433090>
+2009-10-26 18:20:06,416 DEBUG    get bag <tiddlyweb.model.bag.Bag object at 0x14161d0>
+2009-10-26 18:20:06,419 DEBUG    get bag <tiddlyweb.model.bag.Bag object at 0x14330b0>
+2009-10-26 18:20:06,420 DEBUG    get bag <tiddlyweb.model.bag.Bag object at 0x1433270>
+2009-10-26 18:20:06,424 DEBUG    get bag <tiddlyweb.model.bag.Bag object at 0x1433270>
+2009-10-26 18:20:06,491 INFO     ::1 - GUEST [26/Oct/2009:18:20:06 ] "GET /recipes/tiddlydocs/tiddlers.wiki HTTP/1.1" 200 - "http://localhost:8/recipes/tiddlydocs/tiddlers" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 18:20:06,596 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/ckeditor/ckeditor.js" and query ""
+2009-10-26 18:20:06,596 DEBUG    initializing Dev Store
+2009-10-26 18:20:06,596 DEBUG    simple_cookie looking at cookie string: chkBackstage=false
+2009-10-26 18:20:06,596 DEBUG    negotiating for accept and extensions ['*/*', '*/*']
+2009-10-26 18:20:06,597 INFO     ::1 - GUEST [26/Oct/2009:18:20:06 ] "GET /doccollab/static/ckeditor/ckeditor.js HTTP/1.1" 404 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 18:20:07,203 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/mydocs_images/title_middle.jpg" and query ""
+2009-10-26 18:20:07,204 DEBUG    initializing Dev Store
+2009-10-26 18:20:07,204 DEBUG    simple_cookie looking at cookie string: chkBackstage=false
+2009-10-26 18:20:07,204 DEBUG    negotiating for accept and extensions ['image/png', 'image/*', '*/*', '*/*']
+2009-10-26 18:20:07,205 INFO     ::1 - GUEST [26/Oct/2009:18:20:07 ] "GET /doccollab/static/mydocs_images/title_middle.jpg HTTP/1.1" 404 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 18:20:07,206 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/mydocs_images/title_left_corner.jpg" and query ""
+2009-10-26 18:20:07,206 DEBUG    initializing Dev Store
+2009-10-26 18:20:07,206 DEBUG    simple_cookie looking at cookie string: chkBackstage=false
+2009-10-26 18:20:07,206 DEBUG    negotiating for accept and extensions ['image/png', 'image/*', '*/*', '*/*']
+2009-10-26 18:20:07,295 INFO     ::1 - GUEST [26/Oct/2009:18:20:07 ] "GET /doccollab/static/mydocs_images/title_left_corner.jpg HTTP/1.1" 404 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 18:20:07,296 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/mydocs_images/new_document.jpg" and query ""
+2009-10-26 18:20:07,296 DEBUG    initializing Dev Store
+2009-10-26 18:20:07,296 DEBUG    simple_cookie looking at cookie string: chkBackstage=false
+2009-10-26 18:20:07,297 DEBUG    negotiating for accept and extensions ['image/png', 'image/*', '*/*', '*/*']
+2009-10-26 18:20:07,297 INFO     ::1 - GUEST [26/Oct/2009:18:20:07 ] "GET /doccollab/static/mydocs_images/new_document.jpg HTTP/1.1" 404 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 18:20:07,211 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/mydocs_images/BTW_blank.jpg" and query ""
+2009-10-26 18:20:07,298 DEBUG    initializing Dev Store
+2009-10-26 18:20:07,298 DEBUG    simple_cookie looking at cookie string: chkBackstage=false
+2009-10-26 18:20:07,299 DEBUG    negotiating for accept and extensions ['image/png', 'image/*', '*/*', '*/*']
+2009-10-26 18:20:07,299 INFO     ::1 - GUEST [26/Oct/2009:18:20:07 ] "GET /doccollab/static/mydocs_images/BTW_blank.jpg HTTP/1.1" 404 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 18:20:07,226 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/mydocs_images/tabs_bg.png" and query ""
+2009-10-26 18:20:07,300 DEBUG    initializing Dev Store
+2009-10-26 18:20:07,300 DEBUG    simple_cookie looking at cookie string: chkBackstage=false
+2009-10-26 18:20:07,300 DEBUG    negotiating for accept and extensions ['image/png', 'image/*', '*/*', '*/*']
+2009-10-26 18:20:07,300 INFO     ::1 - GUEST [26/Oct/2009:18:20:07 ] "GET /doccollab/static/mydocs_images/tabs_bg.png HTTP/1.1" 404 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 18:20:07,207 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/mydocs_images/title_right_corner.jpg" and query ""
+2009-10-26 18:20:07,301 DEBUG    initializing Dev Store
+2009-10-26 18:20:07,302 DEBUG    simple_cookie looking at cookie string: chkBackstage=false
+2009-10-26 18:20:07,302 DEBUG    negotiating for accept and extensions ['image/png', 'image/*', '*/*', '*/*']
+2009-10-26 18:20:07,302 INFO     ::1 - GUEST [26/Oct/2009:18:20:07 ] "GET /doccollab/static/mydocs_images/title_right_corner.jpg HTTP/1.1" 404 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 18:20:07,210 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/mydocs_images/MyDocs.png" and query ""
+2009-10-26 18:20:07,303 DEBUG    initializing Dev Store
+2009-10-26 18:20:07,303 DEBUG    simple_cookie looking at cookie string: chkBackstage=false
+2009-10-26 18:20:07,304 DEBUG    negotiating for accept and extensions ['image/png', 'image/*', '*/*', '*/*']
+2009-10-26 18:20:07,304 INFO     ::1 - GUEST [26/Oct/2009:18:20:07 ] "GET /doccollab/static/mydocs_images/MyDocs.png HTTP/1.1" 404 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 18:20:07,216 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/mydocs_images/ajax-loader.gif" and query ""
+2009-10-26 18:20:07,305 DEBUG    initializing Dev Store
+2009-10-26 18:20:07,305 DEBUG    simple_cookie looking at cookie string: chkBackstage=false
+2009-10-26 18:20:07,305 DEBUG    negotiating for accept and extensions ['image/png', 'image/*', '*/*', '*/*']
+2009-10-26 18:20:07,306 INFO     ::1 - GUEST [26/Oct/2009:18:20:07 ] "GET /doccollab/static/mydocs_images/ajax-loader.gif HTTP/1.1" 404 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 18:21:06,197 DEBUG    TiddlyWeb starting up as /usr/local/bin/twanager
+2009-10-26 18:21:06,198 DEBUG    attempting to import twanager plugin tiddlywebwiki
+2009-10-26 18:21:06,327 DEBUG    running command server with [u'localhost', u'8']
+2009-10-26 18:21:06,483 DEBUG    attempt to import system plugin tiddlywebwiki
+2009-10-26 18:21:06,483 DEBUG    attempt to import system plugin static
+2009-10-26 18:21:52,372 DEBUG    TiddlyWeb starting up as /usr/local/bin/twanager
+2009-10-26 18:21:52,373 DEBUG    attempting to import twanager plugin tiddlywebwiki
+2009-10-26 18:21:52,433 DEBUG    running command server with [u'localhost', u'8']
+2009-10-26 18:21:52,523 DEBUG    attempt to import system plugin tiddlywebwiki
+2009-10-26 18:21:52,523 DEBUG    attempt to import system plugin static
+2009-10-26 18:24:04,636 DEBUG    TiddlyWeb starting up as /usr/local/bin/twanager
+2009-10-26 18:24:04,637 DEBUG    attempting to import twanager plugin tiddlywebwiki
+2009-10-26 18:24:04,694 DEBUG    running command server with [u'localhost', u'8']
+2009-10-26 18:24:04,781 DEBUG    attempt to import system plugin tiddlywebwiki
+2009-10-26 18:24:04,781 DEBUG    attempt to import system plugin static
+2009-10-26 18:24:04,785 DEBUG    wrapping app with <class 'tiddlyweb.web.negotiate.Negotiate'>
+2009-10-26 18:24:04,785 DEBUG    wrapping app with <class 'tiddlyweb.web.wsgi.Header'>
+2009-10-26 18:24:04,785 DEBUG    wrapping app with <class 'tiddlyweb.web.extractor.UserExtract'>
+2009-10-26 18:24:04,785 DEBUG    wrapping app with <class 'tiddlyweb.web.wsgi.StoreSet'>
+2009-10-26 18:24:04,785 DEBUG    wrapping app with <class 'tiddlyweb.web.query.Query'>
+2009-10-26 18:24:04,785 DEBUG    wrapping app with <class 'tiddlyweb.web.serve.Environator'>
+2009-10-26 18:24:04,785 DEBUG    wrapping app with <class 'tiddlyweb.web.serve.Configurator'>
+2009-10-26 18:24:04,785 DEBUG    wrapping app with <class 'tiddlyweb.web.wsgi.HTMLPresenter'>
+2009-10-26 18:24:04,786 DEBUG    wrapping app with <class 'tiddlyweb.web.wsgi.PermissionsExceptor'>
+2009-10-26 18:24:04,786 DEBUG    wrapping app with <class 'tiddlyweb.web.http.HTTPExceptor'>
+2009-10-26 18:24:04,786 DEBUG    wrapping app with <class 'tiddlyweb.web.wsgi.EncodeUTF8'>
+2009-10-26 18:24:04,786 DEBUG    wrapping app with <class 'tiddlyweb.web.wsgi.SimpleLog'>
+2009-10-26 18:24:04,786 DEBUG    starting cherrypy at localhost:8
+2009-10-26 18:24:09,313 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/recipes/tiddlydocs/tiddlers.wiki" and query ""
+2009-10-26 18:24:09,315 DEBUG    initializing Dev Store
+2009-10-26 18:24:09,518 DEBUG    simple_cookie looking at cookie string: chkBackstage=false
+2009-10-26 18:24:09,519 DEBUG    negotiating for accept and extensions ['text/x-tiddlywiki', 'text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-10-26 18:24:09,519 DEBUG    get recipe []
+2009-10-26 18:24:09,519 DEBUG    get bag <tiddlyweb.model.bag.Bag object at 0x10b7a70>
+2009-10-26 18:24:09,520 DEBUG    get tiddler TiddlyWebAdaptor<tiddlyweb.model.tiddler.Tiddler object at 0x10b7ad0>
+2009-10-26 18:24:09,521 DEBUG    get tiddler TiddlyWebConfig<tiddlyweb.model.tiddler.Tiddler object at 0x10b7af0>
+2009-10-26 18:24:09,521 DEBUG    get tiddler ServerSideSavingPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x10b7b10>
+2009-10-26 18:24:09,521 DEBUG    get tiddler RevisionsCommandPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x10b7b30>
+2009-10-26 18:24:09,522 DEBUG    get tiddler DiffFormatterPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x10b7b50>
+2009-10-26 18:24:09,522 DEBUG    get bag <tiddlyweb.model.bag.Bag object at 0x10b7a70>
+2009-10-26 18:24:09,525 DEBUG    get tiddler tdocsSetTheme<tiddlyweb.model.tiddler.Tiddler object at 0x10b7b70>
+2009-10-26 18:24:09,526 DEBUG    get tiddler MyDocsTheme<tiddlyweb.model.tiddler.Tiddler object at 0x10b7b90>
+2009-10-26 18:24:09,528 DEBUG    get tiddler MyDocsStyleSheet<tiddlyweb.model.tiddler.Tiddler object at 0x10b7bb0>
+2009-10-26 18:24:09,530 DEBUG    get tiddler MyDocsCSSOverride<tiddlyweb.model.tiddler.Tiddler object at 0x10b7bd0>
+2009-10-26 18:24:09,531 DEBUG    get tiddler loginTheme<tiddlyweb.model.tiddler.Tiddler object at 0x10b7bf0>
+2009-10-26 18:24:09,532 DEBUG    get tiddler MyDocsCSSConainer<tiddlyweb.model.tiddler.Tiddler object at 0x10b7c10>
+2009-10-26 18:24:09,533 DEBUG    get tiddler A_tiddlywebSpecifics<tiddlyweb.model.tiddler.Tiddler object at 0x10b7c30>
+2009-10-26 18:24:09,534 DEBUG    get tiddler newDocument<tiddlyweb.model.tiddler.Tiddler object at 0x10b7c50>
+2009-10-26 18:24:09,535 DEBUG    get tiddler saveNewSection<tiddlyweb.model.tiddler.Tiddler object at 0x10b7c70>
+2009-10-26 18:24:09,536 DEBUG    get tiddler tdocsButtons<tiddlyweb.model.tiddler.Tiddler object at 0x10b7c90>
+2009-10-26 18:24:09,537 DEBUG    get tiddler tdocsDelete<tiddlyweb.model.tiddler.Tiddler object at 0x10b7cb0>
+2009-10-26 18:24:09,538 DEBUG    get tiddler tdocsDocumentTabs<tiddlyweb.model.tiddler.Tiddler object at 0x10b7cd0>
+2009-10-26 18:24:09,539 DEBUG    get tiddler tdocsMenu<tiddlyweb.model.tiddler.Tiddler object at 0x10b7cf0>
+2009-10-26 18:24:09,540 DEBUG    get tiddler tdocsSectionButtons<tiddlyweb.model.tiddler.Tiddler object at 0x10b7d10>
+2009-10-26 18:24:09,541 DEBUG    get tiddler tdocsPreview<tiddlyweb.model.tiddler.Tiddler object at 0x10b7d30>
+2009-10-26 18:24:09,542 DEBUG    get tiddler tdocsPrint<tiddlyweb.model.tiddler.Tiddler object at 0x10b7d50>
+2009-10-26 18:24:09,543 DEBUG    get tiddler tdocsSettings<tiddlyweb.model.tiddler.Tiddler object at 0x10b7d70>
+2009-10-26 18:24:09,544 DEBUG    get tiddler HIJACK_saveOptionCookie<tiddlyweb.model.tiddler.Tiddler object at 0x10b7d90>
+2009-10-26 18:24:09,545 DEBUG    get tiddler 01_jQuery<tiddlyweb.model.tiddler.Tiddler object at 0x10b7db0>
+2009-10-26 18:24:09,547 DEBUG    get tiddler 09_iNestedSortable<tiddlyweb.model.tiddler.Tiddler object at 0x10b7dd0>
+2009-10-26 18:24:09,548 DEBUG    get tiddler JSON<tiddlyweb.model.tiddler.Tiddler object at 0x10b7df0>
+2009-10-26 18:24:09,549 DEBUG    get tiddler aboutTiddlyDocs<tiddlyweb.model.tiddler.Tiddler object at 0x10b7e10>
+2009-10-26 18:24:09,550 DEBUG    get tiddler MainMenu<tiddlyweb.model.tiddler.Tiddler object at 0x10b7e90>
+2009-10-26 18:24:09,551 DEBUG    get tiddler SiteTitle<tiddlyweb.model.tiddler.Tiddler object at 0x10b7e30>
+2009-10-26 18:24:09,552 DEBUG    get tiddler admin<tiddlyweb.model.tiddler.Tiddler object at 0x10b7e50>
+2009-10-26 18:24:09,553 DEBUG    get tiddler StatusDefinitions<tiddlyweb.model.tiddler.Tiddler object at 0x10b7e70>
+2009-10-26 18:24:09,554 DEBUG    get tiddler AnonDefaultTiddlers<tiddlyweb.model.tiddler.Tiddler object at 0x10b7eb0>
+2009-10-26 18:24:09,555 DEBUG    get tiddler messageHeading<tiddlyweb.model.tiddler.Tiddler object at 0x10b7ed0>
+2009-10-26 18:24:09,556 DEBUG    get tiddler TaskTiddlerControls<tiddlyweb.model.tiddler.Tiddler object at 0x10b7ef0>
+2009-10-26 18:24:09,557 DEBUG    get tiddler Create New Document<tiddlyweb.model.tiddler.Tiddler object at 0x10b7f10>
+2009-10-26 18:24:09,558 DEBUG    get tiddler Michael Mahemoff<tiddlyweb.model.tiddler.Tiddler object at 0x10b7f30>
+2009-10-26 18:24:09,559 DEBUG    get tiddler TiddlyDocs Introduction<tiddlyweb.model.tiddler.Tiddler object at 0x10b7f50>
+2009-10-26 18:24:09,560 DEBUG    get tiddler DefaultTiddlers<tiddlyweb.model.tiddler.Tiddler object at 0x10b7f70>
+2009-10-26 18:24:09,561 DEBUG    get tiddler Getting Started with MyDocs<tiddlyweb.model.tiddler.Tiddler object at 0x10b7f90>
+2009-10-26 18:24:09,562 DEBUG    get tiddler Settings<tiddlyweb.model.tiddler.Tiddler object at 0x10b7fb0>
+2009-10-26 18:24:09,562 DEBUG    get tiddler feedback<tiddlyweb.model.tiddler.Tiddler object at 0x10b7fd0>
+2009-10-26 18:24:09,563 DEBUG    get tiddler Simon McManus<tiddlyweb.model.tiddler.Tiddler object at 0x10b7ff0>
+2009-10-26 18:24:09,564 DEBUG    get tiddler ToolbarCommands<tiddlyweb.model.tiddler.Tiddler object at 0x10c3030>
+2009-10-26 18:24:09,565 DEBUG    get tiddler issues<tiddlyweb.model.tiddler.Tiddler object at 0x10c3050>
+2009-10-26 18:24:09,566 DEBUG    get tiddler SiteSubtitle<tiddlyweb.model.tiddler.Tiddler object at 0x10c3070>
+2009-10-26 18:24:09,567 DEBUG    get tiddler UserDefinitions<tiddlyweb.model.tiddler.Tiddler object at 0x10c3090>
+2009-10-26 18:24:09,568 DEBUG    get tiddler ValueSwitcherPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x10c30b0>
+2009-10-26 18:24:09,569 DEBUG    get tiddler CommentsPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x10c30d0>
+2009-10-26 18:24:09,570 DEBUG    get tiddler modal.jquery<tiddlyweb.model.tiddler.Tiddler object at 0x10c30f0>
+2009-10-26 18:24:09,571 DEBUG    get tiddler googleButtons<tiddlyweb.model.tiddler.Tiddler object at 0x10c3110>
+2009-10-26 18:24:09,572 DEBUG    get tiddler editDefinitions<tiddlyweb.model.tiddler.Tiddler object at 0x10c3130>
+2009-10-26 18:24:09,573 DEBUG    get tiddler secretBackstage<tiddlyweb.model.tiddler.Tiddler object at 0x10c3150>
+2009-10-26 18:24:09,574 DEBUG    get tiddler failedSaveNotification<tiddlyweb.model.tiddler.Tiddler object at 0x10c3170>
+2009-10-26 18:24:09,575 DEBUG    get tiddler commentSlider<tiddlyweb.model.tiddler.Tiddler object at 0x10c3190>
+2009-10-26 18:24:09,576 DEBUG    get tiddler WikifiedMessagesPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x10c31b0>
+2009-10-26 18:24:09,577 DEBUG    get tiddler FadingMessagesPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x10c31d0>
+2009-10-26 18:24:09,578 DEBUG    get tiddler TaggedTemplateTweak<tiddlyweb.model.tiddler.Tiddler object at 0x10c31f0>
+2009-10-26 18:24:09,579 DEBUG    get tiddler MarkupPreHead<tiddlyweb.model.tiddler.Tiddler object at 0x10c3210>
+2009-10-26 18:24:09,580 DEBUG    get tiddler CKEditorPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x10c3230>
+2009-10-26 18:24:09,581 DEBUG    get tiddler CKEditorSettings<tiddlyweb.model.tiddler.Tiddler object at 0x10c3250>
+2009-10-26 18:24:09,582 DEBUG    get tiddler MarkupPreHead<tiddlyweb.model.tiddler.Tiddler object at 0x10c3270>
+2009-10-26 18:24:09,583 DEBUG    get bag <tiddlyweb.model.bag.Bag object at 0x10b7a70>
+2009-10-26 18:24:09,586 DEBUG    get bag <tiddlyweb.model.bag.Bag object at 0x10c3290>
+2009-10-26 18:24:09,930 DEBUG    get bag <tiddlyweb.model.bag.Bag object at 0x11cf410>
+2009-10-26 18:24:09,933 DEBUG    get bag <tiddlyweb.model.bag.Bag object at 0x11cf410>
+2009-10-26 18:24:10,177 INFO     ::1 - GUEST [26/Oct/2009:18:24:10 ] "GET /recipes/tiddlydocs/tiddlers.wiki HTTP/1.1" 200 - "http://localhost:8/recipes/tiddlydocs/tiddlers" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 18:24:10,246 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/ckeditor/ckeditor.js" and query ""
+2009-10-26 18:24:10,247 DEBUG    initializing Dev Store
+2009-10-26 18:24:10,247 DEBUG    simple_cookie looking at cookie string: chkBackstage=false
+2009-10-26 18:24:10,247 DEBUG    negotiating for accept and extensions ['*/*', '*/*']
+2009-10-26 18:24:10,248 INFO     ::1 - GUEST [26/Oct/2009:18:24:10 ] "GET /doccollab/static/ckeditor/ckeditor.js HTTP/1.1" 200 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 18:24:11,194 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/mydocs_images/title_middle.jpg" and query ""
+2009-10-26 18:24:11,195 DEBUG    initializing Dev Store
+2009-10-26 18:24:11,195 DEBUG    simple_cookie looking at cookie string: chkBackstage=false
+2009-10-26 18:24:11,195 DEBUG    negotiating for accept and extensions ['image/png', 'image/*', '*/*', '*/*']
+2009-10-26 18:24:11,196 INFO     ::1 - GUEST [26/Oct/2009:18:24:11 ] "GET /doccollab/static/mydocs_images/title_middle.jpg HTTP/1.1" 404 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 18:24:11,197 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/mydocs_images/title_left_corner.jpg" and query ""
+2009-10-26 18:24:11,198 DEBUG    initializing Dev Store
+2009-10-26 18:24:11,198 DEBUG    simple_cookie looking at cookie string: chkBackstage=false
+2009-10-26 18:24:11,198 DEBUG    negotiating for accept and extensions ['image/png', 'image/*', '*/*', '*/*']
+2009-10-26 18:24:11,198 INFO     ::1 - GUEST [26/Oct/2009:18:24:11 ] "GET /doccollab/static/mydocs_images/title_left_corner.jpg HTTP/1.1" 404 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 18:24:11,200 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/mydocs_images/title_right_corner.jpg" and query ""
+2009-10-26 18:24:11,200 DEBUG    initializing Dev Store
+2009-10-26 18:24:11,200 DEBUG    simple_cookie looking at cookie string: chkBackstage=false
+2009-10-26 18:24:11,200 DEBUG    negotiating for accept and extensions ['image/png', 'image/*', '*/*', '*/*']
+2009-10-26 18:24:11,201 INFO     ::1 - GUEST [26/Oct/2009:18:24:11 ] "GET /doccollab/static/mydocs_images/title_right_corner.jpg HTTP/1.1" 404 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 18:24:11,202 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/mydocs_images/MyDocs.png" and query ""
+2009-10-26 18:24:11,202 DEBUG    initializing Dev Store
+2009-10-26 18:24:11,202 DEBUG    simple_cookie looking at cookie string: chkBackstage=false
+2009-10-26 18:24:11,202 DEBUG    negotiating for accept and extensions ['image/png', 'image/*', '*/*', '*/*']
+2009-10-26 18:24:11,203 INFO     ::1 - GUEST [26/Oct/2009:18:24:11 ] "GET /doccollab/static/mydocs_images/MyDocs.png HTTP/1.1" 404 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 18:24:11,204 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/mydocs_images/BTW_blank.jpg" and query ""
+2009-10-26 18:24:11,204 DEBUG    initializing Dev Store
+2009-10-26 18:24:11,205 DEBUG    simple_cookie looking at cookie string: chkBackstage=false
+2009-10-26 18:24:11,205 DEBUG    negotiating for accept and extensions ['image/png', 'image/*', '*/*', '*/*']
+2009-10-26 18:24:11,205 INFO     ::1 - GUEST [26/Oct/2009:18:24:11 ] "GET /doccollab/static/mydocs_images/BTW_blank.jpg HTTP/1.1" 404 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 18:24:11,206 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/mydocs_images/ajax-loader.gif" and query ""
+2009-10-26 18:24:11,206 DEBUG    initializing Dev Store
+2009-10-26 18:24:11,207 DEBUG    simple_cookie looking at cookie string: chkBackstage=false
+2009-10-26 18:24:11,207 DEBUG    negotiating for accept and extensions ['image/png', 'image/*', '*/*', '*/*']
+2009-10-26 18:24:11,207 INFO     ::1 - GUEST [26/Oct/2009:18:24:11 ] "GET /doccollab/static/mydocs_images/ajax-loader.gif HTTP/1.1" 404 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 18:24:11,216 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/mydocs_images/tabs_bg.png" and query ""
+2009-10-26 18:24:11,216 DEBUG    initializing Dev Store
+2009-10-26 18:24:11,216 DEBUG    simple_cookie looking at cookie string: chkBackstage=false
+2009-10-26 18:24:11,216 DEBUG    negotiating for accept and extensions ['image/png', 'image/*', '*/*', '*/*']
+2009-10-26 18:24:11,217 INFO     ::1 - GUEST [26/Oct/2009:18:24:11 ] "GET /doccollab/static/mydocs_images/tabs_bg.png HTTP/1.1" 404 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 18:24:11,219 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/mydocs_images/new_document.jpg" and query ""
+2009-10-26 18:24:11,219 DEBUG    initializing Dev Store
+2009-10-26 18:24:11,220 DEBUG    simple_cookie looking at cookie string: chkBackstage=false
+2009-10-26 18:24:11,220 DEBUG    negotiating for accept and extensions ['image/png', 'image/*', '*/*', '*/*']
+2009-10-26 18:24:11,220 INFO     ::1 - GUEST [26/Oct/2009:18:24:11 ] "GET /doccollab/static/mydocs_images/new_document.jpg HTTP/1.1" 404 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 18:39:22,823 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/recipes/tiddlydocs/tiddlers.wiki" and query ""
+2009-10-26 18:39:22,823 DEBUG    initializing Dev Store
+2009-10-26 18:39:22,824 DEBUG    simple_cookie looking at cookie string: chkBackstage=false
+2009-10-26 18:39:22,824 DEBUG    negotiating for accept and extensions ['text/x-tiddlywiki', 'text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-10-26 18:39:22,824 DEBUG    get recipe []
+2009-10-26 18:39:22,825 DEBUG    get bag <tiddlyweb.model.bag.Bag object at 0x132c210>
+2009-10-26 18:39:22,826 DEBUG    get tiddler TiddlyWebAdaptor<tiddlyweb.model.tiddler.Tiddler object at 0x132c270>
+2009-10-26 18:39:22,827 DEBUG    get tiddler TiddlyWebConfig<tiddlyweb.model.tiddler.Tiddler object at 0x132c290>
+2009-10-26 18:39:22,828 DEBUG    get tiddler ServerSideSavingPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x132c2b0>
+2009-10-26 18:39:22,828 DEBUG    get tiddler RevisionsCommandPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x132c2d0>
+2009-10-26 18:39:22,829 DEBUG    get tiddler DiffFormatterPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x132c2f0>
+2009-10-26 18:39:22,829 DEBUG    get bag <tiddlyweb.model.bag.Bag object at 0x132c210>
+2009-10-26 18:39:22,832 DEBUG    get tiddler tdocsSetTheme<tiddlyweb.model.tiddler.Tiddler object at 0x132c310>
+2009-10-26 18:39:22,833 DEBUG    get tiddler MyDocsTheme<tiddlyweb.model.tiddler.Tiddler object at 0x132c330>
+2009-10-26 18:39:22,836 DEBUG    get tiddler MyDocsStyleSheet<tiddlyweb.model.tiddler.Tiddler object at 0x132c350>
+2009-10-26 18:39:22,839 DEBUG    get tiddler MyDocsCSSOverride<tiddlyweb.model.tiddler.Tiddler object at 0x132c370>
+2009-10-26 18:39:22,840 DEBUG    get tiddler loginTheme<tiddlyweb.model.tiddler.Tiddler object at 0x132c390>
+2009-10-26 18:39:22,841 DEBUG    get tiddler MyDocsCSSConainer<tiddlyweb.model.tiddler.Tiddler object at 0x132c3b0>
+2009-10-26 18:39:22,843 DEBUG    get tiddler A_tiddlywebSpecifics<tiddlyweb.model.tiddler.Tiddler object at 0x132c3d0>
+2009-10-26 18:39:22,844 DEBUG    get tiddler newDocument<tiddlyweb.model.tiddler.Tiddler object at 0x132c3f0>
+2009-10-26 18:39:22,845 DEBUG    get tiddler saveNewSection<tiddlyweb.model.tiddler.Tiddler object at 0x132c410>
+2009-10-26 18:39:22,845 DEBUG    get tiddler tdocsButtons<tiddlyweb.model.tiddler.Tiddler object at 0x132c430>
+2009-10-26 18:39:22,847 DEBUG    get tiddler tdocsDelete<tiddlyweb.model.tiddler.Tiddler object at 0x132c450>
+2009-10-26 18:39:22,847 DEBUG    get tiddler tdocsDocumentTabs<tiddlyweb.model.tiddler.Tiddler object at 0x132c470>
+2009-10-26 18:39:22,848 DEBUG    get tiddler tdocsMenu<tiddlyweb.model.tiddler.Tiddler object at 0x132c490>
+2009-10-26 18:39:22,849 DEBUG    get tiddler tdocsSectionButtons<tiddlyweb.model.tiddler.Tiddler object at 0x132c4b0>
+2009-10-26 18:39:22,850 DEBUG    get tiddler tdocsPreview<tiddlyweb.model.tiddler.Tiddler object at 0x132c4d0>
+2009-10-26 18:39:22,851 DEBUG    get tiddler tdocsPrint<tiddlyweb.model.tiddler.Tiddler object at 0x132c4f0>
+2009-10-26 18:39:22,852 DEBUG    get tiddler tdocsSettings<tiddlyweb.model.tiddler.Tiddler object at 0x132c510>
+2009-10-26 18:39:22,853 DEBUG    get tiddler HIJACK_saveOptionCookie<tiddlyweb.model.tiddler.Tiddler object at 0x132c530>
+2009-10-26 18:39:22,854 DEBUG    get tiddler 01_jQuery<tiddlyweb.model.tiddler.Tiddler object at 0x132c550>
+2009-10-26 18:39:22,856 DEBUG    get tiddler 09_iNestedSortable<tiddlyweb.model.tiddler.Tiddler object at 0x132c570>
+2009-10-26 18:39:22,857 DEBUG    get tiddler JSON<tiddlyweb.model.tiddler.Tiddler object at 0x132c590>
+2009-10-26 18:39:22,858 DEBUG    get tiddler aboutTiddlyDocs<tiddlyweb.model.tiddler.Tiddler object at 0x132c5b0>
+2009-10-26 18:39:22,859 DEBUG    get tiddler MainMenu<tiddlyweb.model.tiddler.Tiddler object at 0x132c630>
+2009-10-26 18:39:22,860 DEBUG    get tiddler SiteTitle<tiddlyweb.model.tiddler.Tiddler object at 0x132c5d0>
+2009-10-26 18:39:22,861 DEBUG    get tiddler admin<tiddlyweb.model.tiddler.Tiddler object at 0x132c5f0>
+2009-10-26 18:39:22,862 DEBUG    get tiddler StatusDefinitions<tiddlyweb.model.tiddler.Tiddler object at 0x132c610>
+2009-10-26 18:39:22,863 DEBUG    get tiddler AnonDefaultTiddlers<tiddlyweb.model.tiddler.Tiddler object at 0x132c650>
+2009-10-26 18:39:22,864 DEBUG    get tiddler messageHeading<tiddlyweb.model.tiddler.Tiddler object at 0x132c670>
+2009-10-26 18:39:22,865 DEBUG    get tiddler TaskTiddlerControls<tiddlyweb.model.tiddler.Tiddler object at 0x132c690>
+2009-10-26 18:39:22,866 DEBUG    get tiddler Create New Document<tiddlyweb.model.tiddler.Tiddler object at 0x132c6b0>
+2009-10-26 18:39:22,867 DEBUG    get tiddler Michael Mahemoff<tiddlyweb.model.tiddler.Tiddler object at 0x132c6d0>
+2009-10-26 18:39:22,868 DEBUG    get tiddler TiddlyDocs Introduction<tiddlyweb.model.tiddler.Tiddler object at 0x132c6f0>
+2009-10-26 18:39:22,869 DEBUG    get tiddler DefaultTiddlers<tiddlyweb.model.tiddler.Tiddler object at 0x132c710>
+2009-10-26 18:39:22,870 DEBUG    get tiddler Getting Started with MyDocs<tiddlyweb.model.tiddler.Tiddler object at 0x132c730>
+2009-10-26 18:39:22,871 DEBUG    get tiddler Settings<tiddlyweb.model.tiddler.Tiddler object at 0x132c750>
+2009-10-26 18:39:22,872 DEBUG    get tiddler feedback<tiddlyweb.model.tiddler.Tiddler object at 0x132c770>
+2009-10-26 18:39:22,873 DEBUG    get tiddler Simon McManus<tiddlyweb.model.tiddler.Tiddler object at 0x132c7b0>
+2009-10-26 18:39:22,874 DEBUG    get tiddler ToolbarCommands<tiddlyweb.model.tiddler.Tiddler object at 0x132c790>
+2009-10-26 18:39:22,875 DEBUG    get tiddler issues<tiddlyweb.model.tiddler.Tiddler object at 0x132c7d0>
+2009-10-26 18:39:22,876 DEBUG    get tiddler SiteSubtitle<tiddlyweb.model.tiddler.Tiddler object at 0x132c7f0>
+2009-10-26 18:39:22,877 DEBUG    get tiddler UserDefinitions<tiddlyweb.model.tiddler.Tiddler object at 0x132c810>
+2009-10-26 18:39:22,878 DEBUG    get tiddler ValueSwitcherPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x132c830>
+2009-10-26 18:39:22,879 DEBUG    get tiddler CommentsPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x132c850>
+2009-10-26 18:39:22,880 DEBUG    get tiddler modal.jquery<tiddlyweb.model.tiddler.Tiddler object at 0x132c870>
+2009-10-26 18:39:22,881 DEBUG    get tiddler googleButtons<tiddlyweb.model.tiddler.Tiddler object at 0x132c890>
+2009-10-26 18:39:22,882 DEBUG    get tiddler editDefinitions<tiddlyweb.model.tiddler.Tiddler object at 0x132c8b0>
+2009-10-26 18:39:22,883 DEBUG    get tiddler secretBackstage<tiddlyweb.model.tiddler.Tiddler object at 0x132c8d0>
+2009-10-26 18:39:22,884 DEBUG    get tiddler failedSaveNotification<tiddlyweb.model.tiddler.Tiddler object at 0x132c8f0>
+2009-10-26 18:39:22,885 DEBUG    get tiddler commentSlider<tiddlyweb.model.tiddler.Tiddler object at 0x132c910>
+2009-10-26 18:39:22,886 DEBUG    get tiddler WikifiedMessagesPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x132c930>
+2009-10-26 18:39:22,887 DEBUG    get tiddler FadingMessagesPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x132c950>
+2009-10-26 18:39:22,888 DEBUG    get tiddler TaggedTemplateTweak<tiddlyweb.model.tiddler.Tiddler object at 0x132c970>
+2009-10-26 18:39:22,889 DEBUG    get tiddler MarkupPreHead<tiddlyweb.model.tiddler.Tiddler object at 0x132c990>
+2009-10-26 18:39:22,890 DEBUG    get tiddler CKEditorPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x132c9b0>
+2009-10-26 18:39:22,891 DEBUG    get tiddler CKEditorSettings<tiddlyweb.model.tiddler.Tiddler object at 0x132c9d0>
+2009-10-26 18:39:22,892 DEBUG    get tiddler MarkupPreHead<tiddlyweb.model.tiddler.Tiddler object at 0x132c9f0>
+2009-10-26 18:39:22,893 DEBUG    get bag <tiddlyweb.model.bag.Bag object at 0x132c210>
+2009-10-26 18:39:22,896 DEBUG    get bag <tiddlyweb.model.bag.Bag object at 0x132ca10>
+2009-10-26 18:39:22,897 DEBUG    get bag <tiddlyweb.model.bag.Bag object at 0x132c210>
+2009-10-26 18:39:22,900 DEBUG    get bag <tiddlyweb.model.bag.Bag object at 0x132c210>
+2009-10-26 18:39:22,982 INFO     ::1 - GUEST [26/Oct/2009:18:39:22 ] "GET /recipes/tiddlydocs/tiddlers.wiki HTTP/1.1" 200 - "http://localhost:8/recipes/tiddlydocs/tiddlers" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 18:39:23,069 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/ckeditor/ckeditor.js" and query ""
+2009-10-26 18:39:23,069 DEBUG    initializing Dev Store
+2009-10-26 18:39:23,074 DEBUG    simple_cookie looking at cookie string: chkBackstage=false
+2009-10-26 18:39:23,074 DEBUG    negotiating for accept and extensions ['*/*', '*/*']
+2009-10-26 18:39:23,075 INFO     ::1 - GUEST [26/Oct/2009:18:39:23 ] "GET /doccollab/static/ckeditor/ckeditor.js HTTP/1.1" 200 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 18:39:23,972 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/mydocs_images/title_middle.jpg" and query ""
+2009-10-26 18:39:23,973 DEBUG    initializing Dev Store
+2009-10-26 18:39:23,973 DEBUG    simple_cookie looking at cookie string: chkBackstage=false
+2009-10-26 18:39:23,973 DEBUG    negotiating for accept and extensions ['image/png', 'image/*', '*/*', '*/*']
+2009-10-26 18:39:23,974 INFO     ::1 - GUEST [26/Oct/2009:18:39:23 ] "GET /doccollab/static/mydocs_images/title_middle.jpg HTTP/1.1" 404 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 18:39:23,975 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/mydocs_images/title_left_corner.jpg" and query ""
+2009-10-26 18:39:23,975 DEBUG    initializing Dev Store
+2009-10-26 18:39:23,975 DEBUG    simple_cookie looking at cookie string: chkBackstage=false
+2009-10-26 18:39:23,976 DEBUG    negotiating for accept and extensions ['image/png', 'image/*', '*/*', '*/*']
+2009-10-26 18:39:23,976 INFO     ::1 - GUEST [26/Oct/2009:18:39:23 ] "GET /doccollab/static/mydocs_images/title_left_corner.jpg HTTP/1.1" 404 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 18:39:23,977 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/mydocs_images/title_right_corner.jpg" and query ""
+2009-10-26 18:39:23,977 DEBUG    initializing Dev Store
+2009-10-26 18:39:23,977 DEBUG    simple_cookie looking at cookie string: chkBackstage=false
+2009-10-26 18:39:23,978 DEBUG    negotiating for accept and extensions ['image/png', 'image/*', '*/*', '*/*']
+2009-10-26 18:39:23,978 INFO     ::1 - GUEST [26/Oct/2009:18:39:23 ] "GET /doccollab/static/mydocs_images/title_right_corner.jpg HTTP/1.1" 404 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 18:39:23,979 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/mydocs_images/MyDocs.png" and query ""
+2009-10-26 18:39:23,979 DEBUG    initializing Dev Store
+2009-10-26 18:39:23,980 DEBUG    simple_cookie looking at cookie string: chkBackstage=false
+2009-10-26 18:39:23,980 DEBUG    negotiating for accept and extensions ['image/png', 'image/*', '*/*', '*/*']
+2009-10-26 18:39:23,980 INFO     ::1 - GUEST [26/Oct/2009:18:39:23 ] "GET /doccollab/static/mydocs_images/MyDocs.png HTTP/1.1" 404 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 18:39:23,981 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/mydocs_images/BTW_blank.jpg" and query ""
+2009-10-26 18:39:23,981 DEBUG    initializing Dev Store
+2009-10-26 18:39:23,982 DEBUG    simple_cookie looking at cookie string: chkBackstage=false
+2009-10-26 18:39:23,982 DEBUG    negotiating for accept and extensions ['image/png', 'image/*', '*/*', '*/*']
+2009-10-26 18:39:23,982 INFO     ::1 - GUEST [26/Oct/2009:18:39:23 ] "GET /doccollab/static/mydocs_images/BTW_blank.jpg HTTP/1.1" 404 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 18:39:23,983 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/mydocs_images/ajax-loader.gif" and query ""
+2009-10-26 18:39:23,983 DEBUG    initializing Dev Store
+2009-10-26 18:39:23,984 DEBUG    simple_cookie looking at cookie string: chkBackstage=false
+2009-10-26 18:39:23,984 DEBUG    negotiating for accept and extensions ['image/png', 'image/*', '*/*', '*/*']
+2009-10-26 18:39:23,984 INFO     ::1 - GUEST [26/Oct/2009:18:39:23 ] "GET /doccollab/static/mydocs_images/ajax-loader.gif HTTP/1.1" 404 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 18:39:23,992 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/mydocs_images/tabs_bg.png" and query ""
+2009-10-26 18:39:23,992 DEBUG    initializing Dev Store
+2009-10-26 18:39:23,993 DEBUG    simple_cookie looking at cookie string: chkBackstage=false
+2009-10-26 18:39:23,993 DEBUG    negotiating for accept and extensions ['image/png', 'image/*', '*/*', '*/*']
+2009-10-26 18:39:23,993 INFO     ::1 - GUEST [26/Oct/2009:18:39:23 ] "GET /doccollab/static/mydocs_images/tabs_bg.png HTTP/1.1" 404 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 18:39:23,996 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/mydocs_images/new_document.jpg" and query ""
+2009-10-26 18:39:23,996 DEBUG    initializing Dev Store
+2009-10-26 18:39:23,996 DEBUG    simple_cookie looking at cookie string: chkBackstage=false
+2009-10-26 18:39:23,996 DEBUG    negotiating for accept and extensions ['image/png', 'image/*', '*/*', '*/*']
+2009-10-26 18:39:23,997 INFO     ::1 - GUEST [26/Oct/2009:18:39:23 ] "GET /doccollab/static/mydocs_images/new_document.jpg HTTP/1.1" 404 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 18:44:18,336 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/recipes/tiddlydocs/tiddlers.wiki" and query ""
+2009-10-26 18:44:18,337 DEBUG    initializing Dev Store
+2009-10-26 18:44:18,337 DEBUG    simple_cookie looking at cookie string: chkBackstage=false
+2009-10-26 18:44:18,337 DEBUG    negotiating for accept and extensions ['text/x-tiddlywiki', 'text/html', 'application/xhtml+xml', 'application/xml', '*/*', '*/*']
+2009-10-26 18:44:18,338 DEBUG    get recipe []
+2009-10-26 18:44:18,338 DEBUG    get bag <tiddlyweb.model.bag.Bag object at 0x10b7c70>
+2009-10-26 18:44:18,339 DEBUG    get tiddler TiddlyWebAdaptor<tiddlyweb.model.tiddler.Tiddler object at 0x10b7e90>
+2009-10-26 18:44:18,340 DEBUG    get tiddler TiddlyWebConfig<tiddlyweb.model.tiddler.Tiddler object at 0x10b7df0>
+2009-10-26 18:44:18,341 DEBUG    get tiddler ServerSideSavingPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x10b7fd0>
+2009-10-26 18:44:18,342 DEBUG    get tiddler RevisionsCommandPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x10b7b90>
+2009-10-26 18:44:18,342 DEBUG    get tiddler DiffFormatterPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x10b7ff0>
+2009-10-26 18:44:18,342 DEBUG    get bag <tiddlyweb.model.bag.Bag object at 0x10b7c70>
+2009-10-26 18:44:18,345 DEBUG    get tiddler tdocsSetTheme<tiddlyweb.model.tiddler.Tiddler object at 0x10b7d50>
+2009-10-26 18:44:18,346 DEBUG    get tiddler MyDocsTheme<tiddlyweb.model.tiddler.Tiddler object at 0x10b7b70>
+2009-10-26 18:44:18,347 DEBUG    get tiddler MyDocsStyleSheet<tiddlyweb.model.tiddler.Tiddler object at 0x10b7db0>
+2009-10-26 18:44:18,348 DEBUG    get tiddler MyDocsCSSOverride<tiddlyweb.model.tiddler.Tiddler object at 0x10b7cf0>
+2009-10-26 18:44:18,350 DEBUG    get tiddler loginTheme<tiddlyweb.model.tiddler.Tiddler object at 0x10b7d70>
+2009-10-26 18:44:18,351 DEBUG    get tiddler MyDocsCSSConainer<tiddlyweb.model.tiddler.Tiddler object at 0x10b7b50>
+2009-10-26 18:44:18,352 DEBUG    get tiddler A_tiddlywebSpecifics<tiddlyweb.model.tiddler.Tiddler object at 0x10b7e10>
+2009-10-26 18:44:18,353 DEBUG    get tiddler newDocument<tiddlyweb.model.tiddler.Tiddler object at 0x1314d30>
+2009-10-26 18:44:18,354 DEBUG    get tiddler saveNewSection<tiddlyweb.model.tiddler.Tiddler object at 0x1314d90>
+2009-10-26 18:44:18,355 DEBUG    get tiddler tdocsButtons<tiddlyweb.model.tiddler.Tiddler object at 0x133a030>
+2009-10-26 18:44:18,355 DEBUG    get tiddler tdocsDelete<tiddlyweb.model.tiddler.Tiddler object at 0x133a050>
+2009-10-26 18:44:18,356 DEBUG    get tiddler tdocsDocumentTabs<tiddlyweb.model.tiddler.Tiddler object at 0x133a070>
+2009-10-26 18:44:18,357 DEBUG    get tiddler tdocsMenu<tiddlyweb.model.tiddler.Tiddler object at 0x133a090>
+2009-10-26 18:44:18,358 DEBUG    get tiddler tdocsSectionButtons<tiddlyweb.model.tiddler.Tiddler object at 0x133a0b0>
+2009-10-26 18:44:18,359 DEBUG    get tiddler tdocsPreview<tiddlyweb.model.tiddler.Tiddler object at 0x133a0d0>
+2009-10-26 18:44:18,360 DEBUG    get tiddler tdocsPrint<tiddlyweb.model.tiddler.Tiddler object at 0x133a0f0>
+2009-10-26 18:44:18,361 DEBUG    get tiddler tdocsSettings<tiddlyweb.model.tiddler.Tiddler object at 0x133a110>
+2009-10-26 18:44:18,362 DEBUG    get tiddler HIJACK_saveOptionCookie<tiddlyweb.model.tiddler.Tiddler object at 0x133a130>
+2009-10-26 18:44:18,363 DEBUG    get tiddler 01_jQuery<tiddlyweb.model.tiddler.Tiddler object at 0x133a150>
+2009-10-26 18:44:18,364 DEBUG    get tiddler 09_iNestedSortable<tiddlyweb.model.tiddler.Tiddler object at 0x133a170>
+2009-10-26 18:44:18,366 DEBUG    get tiddler JSON<tiddlyweb.model.tiddler.Tiddler object at 0x133a190>
+2009-10-26 18:44:18,367 DEBUG    get tiddler aboutTiddlyDocs<tiddlyweb.model.tiddler.Tiddler object at 0x133a1b0>
+2009-10-26 18:44:18,367 DEBUG    get tiddler MainMenu<tiddlyweb.model.tiddler.Tiddler object at 0x133a230>
+2009-10-26 18:44:18,368 DEBUG    get tiddler SiteTitle<tiddlyweb.model.tiddler.Tiddler object at 0x133a1d0>
+2009-10-26 18:44:18,369 DEBUG    get tiddler admin<tiddlyweb.model.tiddler.Tiddler object at 0x133a1f0>
+2009-10-26 18:44:18,370 DEBUG    get tiddler StatusDefinitions<tiddlyweb.model.tiddler.Tiddler object at 0x133a210>
+2009-10-26 18:44:18,372 DEBUG    get tiddler AnonDefaultTiddlers<tiddlyweb.model.tiddler.Tiddler object at 0x133a250>
+2009-10-26 18:44:18,374 DEBUG    get tiddler messageHeading<tiddlyweb.model.tiddler.Tiddler object at 0x133a270>
+2009-10-26 18:44:18,375 DEBUG    get tiddler TaskTiddlerControls<tiddlyweb.model.tiddler.Tiddler object at 0x133a290>
+2009-10-26 18:44:18,376 DEBUG    get tiddler Create New Document<tiddlyweb.model.tiddler.Tiddler object at 0x133a2b0>
+2009-10-26 18:44:18,377 DEBUG    get tiddler Michael Mahemoff<tiddlyweb.model.tiddler.Tiddler object at 0x133a2d0>
+2009-10-26 18:44:18,378 DEBUG    get tiddler TiddlyDocs Introduction<tiddlyweb.model.tiddler.Tiddler object at 0x133a2f0>
+2009-10-26 18:44:18,379 DEBUG    get tiddler DefaultTiddlers<tiddlyweb.model.tiddler.Tiddler object at 0x133a310>
+2009-10-26 18:44:18,380 DEBUG    get tiddler Getting Started with MyDocs<tiddlyweb.model.tiddler.Tiddler object at 0x133a330>
+2009-10-26 18:44:18,380 DEBUG    get tiddler Settings<tiddlyweb.model.tiddler.Tiddler object at 0x133a350>
+2009-10-26 18:44:18,381 DEBUG    get tiddler feedback<tiddlyweb.model.tiddler.Tiddler object at 0x133a370>
+2009-10-26 18:44:18,382 DEBUG    get tiddler Simon McManus<tiddlyweb.model.tiddler.Tiddler object at 0x133a3b0>
+2009-10-26 18:44:18,383 DEBUG    get tiddler ToolbarCommands<tiddlyweb.model.tiddler.Tiddler object at 0x133a390>
+2009-10-26 18:44:18,384 DEBUG    get tiddler issues<tiddlyweb.model.tiddler.Tiddler object at 0x133a3d0>
+2009-10-26 18:44:18,385 DEBUG    get tiddler SiteSubtitle<tiddlyweb.model.tiddler.Tiddler object at 0x133a3f0>
+2009-10-26 18:44:18,386 DEBUG    get tiddler UserDefinitions<tiddlyweb.model.tiddler.Tiddler object at 0x133a410>
+2009-10-26 18:44:18,387 DEBUG    get tiddler ValueSwitcherPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x133a430>
+2009-10-26 18:44:18,388 DEBUG    get tiddler CommentsPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x133a450>
+2009-10-26 18:44:18,389 DEBUG    get tiddler modal.jquery<tiddlyweb.model.tiddler.Tiddler object at 0x133a470>
+2009-10-26 18:44:18,390 DEBUG    get tiddler googleButtons<tiddlyweb.model.tiddler.Tiddler object at 0x133a490>
+2009-10-26 18:44:18,391 DEBUG    get tiddler editDefinitions<tiddlyweb.model.tiddler.Tiddler object at 0x133a4b0>
+2009-10-26 18:44:18,392 DEBUG    get tiddler secretBackstage<tiddlyweb.model.tiddler.Tiddler object at 0x133a4d0>
+2009-10-26 18:44:18,393 DEBUG    get tiddler failedSaveNotification<tiddlyweb.model.tiddler.Tiddler object at 0x133a4f0>
+2009-10-26 18:44:18,393 DEBUG    get tiddler commentSlider<tiddlyweb.model.tiddler.Tiddler object at 0x133a510>
+2009-10-26 18:44:18,394 DEBUG    get tiddler WikifiedMessagesPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x133a530>
+2009-10-26 18:44:18,395 DEBUG    get tiddler FadingMessagesPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x133a550>
+2009-10-26 18:44:18,396 DEBUG    get tiddler TaggedTemplateTweak<tiddlyweb.model.tiddler.Tiddler object at 0x133a570>
+2009-10-26 18:44:18,397 DEBUG    get tiddler MarkupPreHead<tiddlyweb.model.tiddler.Tiddler object at 0x133a590>
+2009-10-26 18:44:18,398 DEBUG    get tiddler CKEditorPlugin<tiddlyweb.model.tiddler.Tiddler object at 0x133a5b0>
+2009-10-26 18:44:18,399 DEBUG    get tiddler CKEditorSettings<tiddlyweb.model.tiddler.Tiddler object at 0x133a5d0>
+2009-10-26 18:44:18,400 DEBUG    get tiddler MarkupPreHead<tiddlyweb.model.tiddler.Tiddler object at 0x133a5f0>
+2009-10-26 18:44:18,401 DEBUG    get bag <tiddlyweb.model.bag.Bag object at 0x10b7c70>
+2009-10-26 18:44:18,404 DEBUG    get bag <tiddlyweb.model.bag.Bag object at 0x10b7a90>
+2009-10-26 18:44:18,406 DEBUG    get bag <tiddlyweb.model.bag.Bag object at 0x10b7f30>
+2009-10-26 18:44:18,408 DEBUG    get bag <tiddlyweb.model.bag.Bag object at 0x10b7f30>
+2009-10-26 18:44:18,476 INFO     ::1 - GUEST [26/Oct/2009:18:44:18 ] "GET /recipes/tiddlydocs/tiddlers.wiki HTTP/1.1" 200 - "http://localhost:8/recipes/tiddlydocs/tiddlers" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 18:44:18,556 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/ckeditor/ckeditor.js" and query ""
+2009-10-26 18:44:18,561 DEBUG    initializing Dev Store
+2009-10-26 18:44:18,562 DEBUG    simple_cookie looking at cookie string: chkBackstage=false
+2009-10-26 18:44:18,562 DEBUG    negotiating for accept and extensions ['*/*', '*/*']
+2009-10-26 18:44:18,562 INFO     ::1 - GUEST [26/Oct/2009:18:44:18 ] "GET /doccollab/static/ckeditor/ckeditor.js HTTP/1.1" 200 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 18:44:19,557 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/mydocs_images/title_middle.jpg" and query ""
+2009-10-26 18:44:19,557 DEBUG    initializing Dev Store
+2009-10-26 18:44:19,557 DEBUG    simple_cookie looking at cookie string: chkBackstage=false
+2009-10-26 18:44:19,558 DEBUG    negotiating for accept and extensions ['image/png', 'image/*', '*/*', '*/*']
+2009-10-26 18:44:19,558 INFO     ::1 - GUEST [26/Oct/2009:18:44:19 ] "GET /doccollab/static/mydocs_images/title_middle.jpg HTTP/1.1" 404 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 18:44:19,559 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/mydocs_images/title_left_corner.jpg" and query ""
+2009-10-26 18:44:19,560 DEBUG    initializing Dev Store
+2009-10-26 18:44:19,560 DEBUG    simple_cookie looking at cookie string: chkBackstage=false
+2009-10-26 18:44:19,560 DEBUG    negotiating for accept and extensions ['image/png', 'image/*', '*/*', '*/*']
+2009-10-26 18:44:19,561 INFO     ::1 - GUEST [26/Oct/2009:18:44:19 ] "GET /doccollab/static/mydocs_images/title_left_corner.jpg HTTP/1.1" 404 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 18:44:19,562 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/mydocs_images/title_right_corner.jpg" and query ""
+2009-10-26 18:44:19,562 DEBUG    initializing Dev Store
+2009-10-26 18:44:19,562 DEBUG    simple_cookie looking at cookie string: chkBackstage=false
+2009-10-26 18:44:19,562 DEBUG    negotiating for accept and extensions ['image/png', 'image/*', '*/*', '*/*']
+2009-10-26 18:44:19,563 INFO     ::1 - GUEST [26/Oct/2009:18:44:19 ] "GET /doccollab/static/mydocs_images/title_right_corner.jpg HTTP/1.1" 404 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 18:44:19,564 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/mydocs_images/MyDocs.png" and query ""
+2009-10-26 18:44:19,564 DEBUG    initializing Dev Store
+2009-10-26 18:44:19,564 DEBUG    simple_cookie looking at cookie string: chkBackstage=false
+2009-10-26 18:44:19,565 DEBUG    negotiating for accept and extensions ['image/png', 'image/*', '*/*', '*/*']
+2009-10-26 18:44:19,565 INFO     ::1 - GUEST [26/Oct/2009:18:44:19 ] "GET /doccollab/static/mydocs_images/MyDocs.png HTTP/1.1" 404 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 18:44:19,566 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/mydocs_images/BTW_blank.jpg" and query ""
+2009-10-26 18:44:19,566 DEBUG    initializing Dev Store
+2009-10-26 18:44:19,566 DEBUG    simple_cookie looking at cookie string: chkBackstage=false
+2009-10-26 18:44:19,567 DEBUG    negotiating for accept and extensions ['image/png', 'image/*', '*/*', '*/*']
+2009-10-26 18:44:19,567 INFO     ::1 - GUEST [26/Oct/2009:18:44:19 ] "GET /doccollab/static/mydocs_images/BTW_blank.jpg HTTP/1.1" 404 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 18:44:19,568 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/mydocs_images/ajax-loader.gif" and query ""
+2009-10-26 18:44:19,568 DEBUG    initializing Dev Store
+2009-10-26 18:44:19,569 DEBUG    simple_cookie looking at cookie string: chkBackstage=false
+2009-10-26 18:44:19,569 DEBUG    negotiating for accept and extensions ['image/png', 'image/*', '*/*', '*/*']
+2009-10-26 18:44:19,569 INFO     ::1 - GUEST [26/Oct/2009:18:44:19 ] "GET /doccollab/static/mydocs_images/ajax-loader.gif HTTP/1.1" 404 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 18:44:19,577 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/mydocs_images/tabs_bg.png" and query ""
+2009-10-26 18:44:19,577 DEBUG    initializing Dev Store
+2009-10-26 18:44:19,578 DEBUG    simple_cookie looking at cookie string: chkBackstage=false
+2009-10-26 18:44:19,578 DEBUG    negotiating for accept and extensions ['image/png', 'image/*', '*/*', '*/*']
+2009-10-26 18:44:19,578 INFO     ::1 - GUEST [26/Oct/2009:18:44:19 ] "GET /doccollab/static/mydocs_images/tabs_bg.png HTTP/1.1" 404 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
+2009-10-26 18:44:19,580 DEBUG    starting "GET" request with uri "None", script_name "", path_info "/doccollab/static/mydocs_images/new_document.jpg" and query ""
+2009-10-26 18:44:19,581 DEBUG    initializing Dev Store
+2009-10-26 18:44:19,581 DEBUG    simple_cookie looking at cookie string: chkBackstage=false
+2009-10-26 18:44:19,581 DEBUG    negotiating for accept and extensions ['image/png', 'image/*', '*/*', '*/*']
+2009-10-26 18:44:19,582 INFO     ::1 - GUEST [26/Oct/2009:18:44:19 ] "GET /doccollab/static/mydocs_images/new_document.jpg HTTP/1.1" 404 - "http://localhost:8/recipes/tiddlydocs/tiddlers.wiki" "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.3) Gecko/20090824 Firefox/3.5.3"
