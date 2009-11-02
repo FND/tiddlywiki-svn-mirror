@@ -1,0 +1,19 @@
+latest install : 
+
+Assuming that you have already installed Tiddlyd
+
+curl http://svn.tiddlywiki.org/Trunk/contributors/SimonMcManus/tiddlyweb/tiddlydocs/install.sh >install.sh
+
+run : 
+
+sudo sh install.sh
+
+cd tiddlydocs
+
+twanager server 127.0.0.1 8080
+
+
+
+
+offline Install : 
+
