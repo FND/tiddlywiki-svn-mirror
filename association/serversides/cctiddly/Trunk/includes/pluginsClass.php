@@ -53,24 +53,21 @@ class Plugin {
 			{
 		    	while (($file = readdir($dh)) !== false) 
 				{
-				//		$this->addTiddlersFolder($file);
+					if(is_dir($dir."/".$file)){
 		
-		
-	if(is_dir($dir."/".$file)){
-		
-					if(substr($file, 0, 1)!=".")
-						$this->addTiddlersFolder($dir."/".$file);
-					}
-					if(substr($file,0,1)!=".") 
-					{ // do not include system/hidden files. 
-						$tiddler = $this->tiddlerFromFile($dir."/".$file);
-						if(is_array($data))
-							$tiddler = array_merge($tiddler, $data); // allows users to add extra data.
-						$this->addTiddler($tiddler);			
+						if(substr($file, 0, 1)!=".")
+							$this->addTiddlersFolder($dir."/".$file);
+						}
+						if(substr($file,0,1)!=".") 
+						{ // do not include system/hidden files. 
+							$tiddler = $this->tiddlerFromFile($dir."/".$file);
+							if(is_array($data))
+								$tiddler = array_merge($tiddler, $data); // allows users to add extra data.
+							$this->addTiddler($tiddler);			
+						}
 					}
 				}
 			}
-		}
 	}
 
 	public function preparePath($path) {
