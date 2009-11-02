@@ -20,13 +20,13 @@ body { font-family: gill sans; }
 #logo { margin-top: 9px; width: 114px; height: 26px; }
 
 #metaInfo { float: left; background-image: url("../images/slogosmall.gif"); background-repeat: no-repeat; background-color: #aaa; background-position: 50% 2px; border-left: 1px solid #666; border-right: 1px solid #666; padding: 5px 10px; margin-right: 10px; height: 41px; text-align: center; width: 100px; }
-#closer { font-size: 14px; float: right; padding: 16px 10px; cursor: pointer; width: 16px; height: 46px; background: #aaa; text-align: center; float: right; border-left: 1px solid #666; }
+#closer { font-size: 14px; float: right; padding: 2px 1px; cursor: pointer; width: 44px; height: 46px; background: #aaa; text-align: center; float: right; border-left: 1px solid #666; }
 
 #metaInfoTitle { text-align: center; }
 #metaInfoEdit { font-size: small; margin-top: 4px; display: block; text-align: center; }
 
 div#resourceView { width: 100%; height: 100%; position: relative; }
-div#resourceView iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
+div#resourceView iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; overflow: visible; }
 
 a, a:visited { text-decoration: none; color: #00b; }
 
@@ -71,6 +71,28 @@ a.markerSelected.hovered,a.markerSelected.hovered:visited { color: #f66; }
 #note .text { font-style: italic; }
 */
 /* #note .more { display: inline; font-size: small; text-decoration: underline; margin-left: 5px; float: right; cursor: pointer; font-size: small; }  */
+
+/****************************************************************************
+  CLOSER
+ ****************************************************************************/
+
+.prompt { font-size: x-small; }
+#closer div { text-align: center; cursor: pointer; }
+#closer .prompt { visibility: hidden; }
+#closer:hover .prompt { visibility: visible; }
+#close { margin-top: 5px; }
+#close:hover, #close:hover div { font-weight: bold; }
+#hideBar:hover, #hideBar:hover span { font-weight: bold; }
+#hideBar .arrowShadow, #hideBar .arrow { visibility: hidden; }
+#hideBar:hover .arrow { visibility: visible; }
+
+#topBarHidden { position: absolute; top: 0; right: 0;
+                text-align: right; z-index: 1; } 
+#topBarHidden.available { z-index: 99999; opacity: 0.00001; }
+#topBarHidden.available:hover { opacity: 0.8; }
+#topBarHidden #controls { background: #000; color: #fff; opacity: 0.8; padding: 4px; }
+#topBarHidden #controls span:hover { color: #ff4; }
+#topBarHidden #controls span { margin: 0 4px; cursor: pointer; }
 
 /****************************************************************************
   NOTE

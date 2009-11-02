@@ -44,11 +44,13 @@ $(function() {
   $resources.hide();
 
   $("#start").wireClickAndHover(function() { return 0; });
-  $("#prev").wireClickAndHover(function() { return Math.max(0, selectedIndex-1); });
-  $("#next").wireClickAndHover(function() { return Math.min(selectedIndex+1, $resources.length-1); });
+  $("#prev,#quickPrev").wireClickAndHover(function() { return Math.max(0, selectedIndex-1); });
+  $("#next,#quickNext").wireClickAndHover(function() { return Math.min(selectedIndex+1, $resources.length-1); });
   $("#end").wireClickAndHover(function() { return $resources.length-1; });
 
-  $("#closer").click(function() { document.location.href = $resources[selectedIndex].href; });
+  $("#closer #close").click(function() { document.location.href = $resources[selectedIndex].href; });
+  $("#closer #hideBar").click(function() { showAndHideTopBar(false); });
+  $("#topBarHidden #restore").click(function() { showAndHideTopBar(true); });
 
   $(".triangle, #note h4, #noteExpander").click(function() {
     if ($("#note").isVisible()) {
@@ -76,6 +78,12 @@ $.fn.wireHover = function(predictor) {
   return $(this)
     .mouseenter(showPrediction)
     .mouseout(hidePrediction);
+}
+
+function showAndHideTopBar(shouldShow) {
+  $("#topBar, #noteWrapper").showIf(shouldShow);
+  $("#topBarHidden").setClassIf(!shouldShow, "available");
+  $(".scripted body").css("paddingTop", shouldShow ? "48px":0); // todo klassify
 }
 
 // There's no need to create a new function dynamically for each of the dropdown and 
