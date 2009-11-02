@@ -32,13 +32,11 @@ config.macros.taggedTabs.handler=function(place,macroName,params,wikifier,paramS
 	".tabsetWrapper .wizard h1 {display:none}"+
 	".tabsetWrapper .wizard h2 {padding:0.5em}"+
 	".viewer {float:right; width:90%;}"+
-
-"div.viewer  div.tabsetWrapper{width:90%}"+
+	"div.viewer  div.tabsetWrapper{width:90%}"+
 	"a.tabSelected{ filter:'alpha(opacity:60)'; }"+
 	"div.tabset {padding:0px}"+
 	"div.tabContents {padding:0px; background:transparent}",
 	 "taggedTabs");
-	
 };
 
 
