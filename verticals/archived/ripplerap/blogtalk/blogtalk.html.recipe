@@ -1,9 +1,0 @@
-recipe: ../ripplerap.recipe
-recipe: ../images.recipe
-
-tiddler: settings.js
-
-recipe: shadows/split.recipe
-recipe: content/split.recipe
-recipe: session/split.recipe
-recipe: feeds/split.recipe

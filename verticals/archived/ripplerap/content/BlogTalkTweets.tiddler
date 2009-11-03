@@ -1,5 +1,0 @@
-<div title="BlogTalkTweets" modifier="PhilHawksworth" created="200802221734" changecount="1">
-<pre>
-{{description{These are all the [[Twitter|http://www.twitter.com]] updates mentioning ~BlogTalk we found using the rather nifty [[Terraminds|http://terraminds.com/]] Twitter Search tool. Terraminds updates its database every 15 minutes, so that's how often we refresh this page. You can also <<Microblog Twitter refreshButton>> the display right now.}}}
-{{twitterStream{<<Microblog Terraminds_BlogTalk listen all avatars makeTiddlers TwitterItemsTemplate>>}}}</pre>
-</div>

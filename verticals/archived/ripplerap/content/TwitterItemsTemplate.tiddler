@@ -1,4 +1,0 @@
-<div title="TwitterItemsTemplate" modifier="Phil" created="200711280945">
-<pre>{{microblog_update{
-	<<LinkMaker type:img display:profile_image_url linkto:user_link >> {{user{<<LinkMaker type:text display:modifier linkto:user_link>>}}}{{date{<<LinkMaker type:text display:created linkto:status_link dateformat:'MMM DD at 0hh:0mm'>>}}} {{text{<<view text>>}}}}}}</pre>
-</div>
