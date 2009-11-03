@@ -1,6 +1,0 @@
-# build demo TiddlyWiki
-recipe: ../../../../core/tiddlywiki.html.recipe
-tiddler: QRCodePlugin.js
-tiddler: DefaultTiddlers.tiddler
-tiddler: QRCode.tiddler
-tiddler: MainMenu.tiddler
