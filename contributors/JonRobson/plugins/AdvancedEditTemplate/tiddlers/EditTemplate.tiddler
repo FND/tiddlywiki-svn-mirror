@@ -17,6 +17,12 @@ assigned by (search for a name from our list):
 <span macro='aet type:search metaDataName:assignby valuesSource:DropDownData'></span>
 </p>
 
+<h2>Locations</h2>
+<p>
+Search for a city and get back a long latitude coordinate.
+<div macro='aet type:location metaDataName:place'></div>
+</p>
+
 <h2>Radio boxes</h2>
 <p>
 rate

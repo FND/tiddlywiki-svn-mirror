@@ -12,16 +12,16 @@ tags:<span class='editor' macro='niceTagger'></span>
 </div>
 <h1>Family Tree Specific</h1>
 sex (M or F): <div class='editor' macro='AdvancedEditTemplate metaDataName:sex type:radio valuesSource:sexDefinition'></div>
-date of birth:<div class='editor' macro='edit dob'></div>
+date of birth:<div class='editor' macro='aet type:date metaDataName:dob'></div>
 place of birth:<div class='editor' macro='edit placeofbirth'></div>
 mother:<div class='editor' macro='aet type:search metaDataName:mother valuesSource:ListOfWomen wikify:yes'></div>
 father:<div class='editor' macro='aet type:search metaDataName:father valuesSource:ListOfMen wikify:yes'></div>
-spouse:<div class='editor' macro='edit spouse'></div>
+spouse:<div class='editor' macro='niceTagger field:spouse'></div>
 date of marriage: <div class='editor' macro='aet type:date metaDataName:dom'></div>
 where did they get married: <div class='editor' macro='edit placeofmarriage'></div>
-
+where did they live?: <div class='editor' macro='edit home'></div>
 occupation:<div class='editor' macro='edit occupation'></div>
-date of death:<div class='editor' macro='edit dod'></div>
+date of death:<div class='editor' macro='aet type:date metaDataName:dod'></div>
 What did he/she die of?<div class='editor' macro='edit causeofdeath'></div>
 where did they die?<div class='editor' macro='edit placeofdeath'></div>
 </div>

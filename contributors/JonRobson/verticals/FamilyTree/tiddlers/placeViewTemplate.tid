@@ -1,0 +1,10 @@
+title: placeViewTemplate
+tags: excludeTree
+
+<div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
+<div><span class='title' macro='view title'></span> (place)</div>
+<div class='tagging' macro='tagging'></div>
+<div class='tagged' macro='tags'></div>
+<div macro='view text wikified'></div>
+<div class='tagClear'></div>
+

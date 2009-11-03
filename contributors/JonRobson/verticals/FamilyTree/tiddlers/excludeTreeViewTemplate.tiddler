@@ -2,7 +2,7 @@
 <pre>
 <!--{{{-->
 <div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
-<div class='title' macro='view title'></div>
+<div><span class='title' macro='view title'></span> (excluded from tree)</div>
 
 <div class='tagging' macro='tagging'></div>
 <div class='tagged' macro='tags'></div>

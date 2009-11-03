@@ -3,7 +3,7 @@ var VismoCanvas = function(element,options){
     this._referenceid = Math.random();
     Vismo.store.Canvas[this._referenceid] = this;
     this._lastTransformation = {scale:{}};
-
+    //jQuery(element).parent()
     if(element.length){ //for jquery
         var result = [];
         for(var i=0; i < element.length; i++){
@@ -73,7 +73,7 @@ var VismoCanvas = function(element,options){
 	
 	jQuery(hideoverflow).css({width:width, height:height,position:"absolute",overflow:"hidden",left:"0px",top:"0px"});
 	var labels =  document.createElement("div");
-    jQuery(labels).css({position:"absolute",width:"100%",height:"100%","z-index":9});      
+    jQuery(labels).css({position:"relative",width:"100%",height:"100%","z-index":9});      
     labels.className = "VismoLabels";
     hideoverflow.appendChild(labels);
     this.labelHolder = labels;
@@ -86,7 +86,7 @@ var VismoCanvas = function(element,options){
     jQuery(this.canvas).mousedown(function(e){e.preventDefault();});
 
 	this.wrapper = wrapper;
-
+   
 	this._setupMouse();
 
     var vc = this;
@@ -98,7 +98,7 @@ var VismoCanvas = function(element,options){
 	    }
 	    this.vismoController = new VismoController(this.getDomElement(),options.vismoController);
 	}
-	
+
 	this.mouse({down:options.mousedown,up:options.mouseup,move:options.move,dblclick:options.dblclick,keypress:options.keypress});
 	var tooltipfunction;
 	if(options.tooltipfunction){
@@ -211,13 +211,13 @@ VismoCanvas.prototype = {
 		return VismoTransformations.getXY(e,this.getTransformation());
 	}
 	,mouse: function(args){
-	  
+	    
 	    if(!args){
 	        return {up: this.onmouseup, down: this.onmousedown, move: this.onmousemove, dblclick: this.ondblclick,keypress:this.onkeypress};
 	    }
 	    else{
 	        var args = arguments[0];
-	        
+	        //console.log(args.up,args.down);
 	        if(args.down)this.onmousedown = args.down;
     		if(args.up)this.onmouseup = args.up;
     		if(args.move)this.onmousemove=  args.move;
@@ -404,6 +404,9 @@ VismoCanvas.prototype = {
 	}
 	,resize: function(args){
 		var width = arguments[0]; var height=arguments[1];
+		if(!height) height = jQuery(this.wrapper).height();
+		if(!width) width = jQuery(this.wrapper).width();
+	
 		if(this.canvas.getAttribute("width")){
 			this.canvas.width = width;
 			this.canvas.height = height;
@@ -411,6 +414,12 @@ VismoCanvas.prototype = {
 		jQuery(this.hideoverflow).css({height:height,width:width});
 		jQuery(this.wrapper).css({height:height,width:width});
 		jQuery(this.canvas).css({height:height,width:width});
+		if(this.vismoController){
+		    var t = this.vismoController.getTransformation();
+		    t.origin.x= width/2;
+		    t.origin.h = height/2;
+		    this.vismoController.setTransformation(t);
+		}
 	}
 	,setTransparency: function(args){	
 	    var alpha = arguments[0];
@@ -434,9 +443,11 @@ VismoCanvas.prototype = {
 		this._maxY = 0;
         
 		
-		if(!this.canvas.getContext) {
+		if(this.canvas && !this.canvas.getContext) {
 			return;
 		}
+		jQuery(".VismoLabels",this.wrapper).html("");
+		this.setTransformation(this.getTransformation());
 		var ctx = this.canvas.getContext('2d');
 		ctx.clearRect(0,0,this.canvas.width,this.canvas.height);		
 		
@@ -535,22 +546,25 @@ VismoCanvas.prototype = {
 			var s = transformation.scale;
 			var r = transformation.rotate;
 			if(o && s && tr){
-				ctx.translate(o.x,o.y);
-				ctx.scale(s.x,s.y);
-				ctx.translate(tr.x,tr.y);
+				if(o.x)ctx.translate(o.x,o.y);
+				if(s.x)ctx.scale(s.x,s.y);
+				if(tr.x)ctx.translate(tr.x,tr.y);
 			}
 			if(r && r.x)ctx.rotate(r.x);
 		}
 	
 		appendTo = that.canvas;
-		
+	
 		for(var i=0; i < mem.length; i++){
-		    var st = mem[i].getShape();
-	        if(mem[i].optimise(that.canvas,transformation,projection)){
+		    var sh = mem[i];
+		    var st = sh.getShape();
+	        if(sh.optimise(that.canvas,transformation,projection)){
 			    if(st == 'domElement')tran = transformation;
-				mem[i].render(that.canvas,tran,projection,true,that.settings.browser,ps);        
-				if(mem[i].vmlfill && that.settings.globalAlpha) {
-					mem[i].vmlfill.opacity =that.settings.globalAlpha;
+			    
+			    sh.render(that.canvas,tran,projection,true,that.settings.browser,ps);
+			    
+				if(sh.vmlfill && that.settings.globalAlpha) {
+					sh.vmlfill.opacity =that.settings.globalAlpha;
 				}
 			}
 		}
@@ -633,11 +647,14 @@ VismoCanvas.prototype = {
             f(labels[i]);
         }
     }
-    ,centerOn: function(x,y){
+    ,centerOn: function(x,y,animate){
        
         var t=  this.getTransformation();
+        
+        
         t.translate.x = -x;
         t.translate.y = -y;
+
         if(this.vismoController){
             this.vismoController.setTransformation(t);
         }
@@ -645,6 +662,27 @@ VismoCanvas.prototype = {
             this.setTransformation(t);
         }
         this.render();
+        /*
+           var steps = 10;
+            var stepx = xdelta/steps;
+            var stepy = ydelta/steps;
+            //t.translate.x = -x;
+            //t.translate.y = -y;
+            var animation = function(){
+                t.translate.x += stepx;
+                t.translate.y += stepy;
+                if(this.vismoController){
+                    this.vismoController.setTransformation(t);
+                }
+                else{
+                    this.setTransformation(t);
+                }
+                this.render();
+                if(t.translate.x != -x){
+                    win
+                }
+            };
+            animation();*/
     }
 	,remove: function(args){
         var vismoShape = arguments[0];
@@ -789,14 +827,15 @@ VismoCanvas.prototype = {
 			}
 			
 		}
-
+        
 		var target = VismoClickingUtils.resolveTargetWithVismo(e);
-	    target =el;
+	    if(el)target =el;
+	    //console.log(target);
 		if(!target) return;
 		
 		var offset = jQuery(target).offset();
 
-                var xy= VismoClickingUtils.scrollXY();
+        var xy= VismoClickingUtils.scrollXY();
 		x = e.clientX + xy.x - offset.left;
 		y = e.clientY + xy.y - offset.top;
 
@@ -931,8 +970,8 @@ VismoCanvas.prototype = {
 		var a =((x - bb.center.x)*(x - bb.center.x)) + ((y - bb.center.y)*(y - bb.center.y));
 		var dim = vismoShape.getDimensions();
 		
-		var w = dim.width;
-		var h = dim.height;
+		var w = dim.width /2;
+		var h = dim.height/2;
 		
 		var inCircleOne;
 		var inCircleTwo;

@@ -9,7 +9,7 @@ tags: systemConfig
 try{
   config.shadowTiddlers.VGraphStyle = "/*{{{*/\n" +
   ".changeAlgorithm {z-index:10;position:absolute;right:0px;bottom:0px;}\n"+
-  ".VGraph {height:400px;width:800px;}\n"+
+  ".VGraph {height:400px;width:800px;position:relative;}\n"+
   "/*}}}*/"
 store.addNotification("VGraphStyle", refreshStyles);
 }catch(e){};
@@ -35,7 +35,7 @@ config.macros.VGraph= {
         if(!options){
             options = {};
         }
-        
+        options.pointsize = 20;
         merge(options,{nodeWidth:20,nodeHeight:10,defaultNodeColor:"rgb(200,200,200)",lineColor:"rgb(200,200,200)",lineWidth:"2"});
         
         if(!paramString)paramString = "";
@@ -49,7 +49,7 @@ config.macros.VGraph= {
             options.lineType = 'bezier';
         }
         if(!options.parentFields) {
-            options.parentFields = ["father","mother"];
+            options.parentFields = ["tags"];
         }
         
         if(!options.excludeTags){
@@ -60,12 +60,26 @@ config.macros.VGraph= {
                 json.properties.label = json.id;
             }
         }
-        if(options.labelMacro && config.macros[options.labelMacro]){
-            options.plotNode = function(el,shape){
-                var tiddler =store.getTiddler(shape.properties.id);
-                if(!tiddler)tiddler = {title:shape.properties.id,tags:[],fields:{}};
-                tiddler.vismoShape = shape;
-                config.macros[options.labelMacro].handler(el,false,false,false,false,tiddler);
+        if(options.labelMacro){
+            var paramStart = options.labelMacro.indexOf(" ");
+            var paramString = options.labelMacro.substr(paramStart+1);
+            if(paramStart == -1){
+                paramStart = options.labelMacro.length;
+            }
+            var macro = options.labelMacro.substr(0,paramStart);
+            
+            
+        
+            var params = paramString.split(" ");
+            //console.log("macro",macro,paramString);
+            
+            if(config.macros[macro]){
+                options.plotNode = function(el,shape){
+                    var tiddler =store.getTiddler(shape.properties.id);
+                    if(!tiddler)tiddler = {title:shape.properties.id,tags:[],fields:{}};
+                    tiddler.vismoShape = shape;
+                    config.macros[macro].handler(el,false,params,false,paramString,tiddler);
+                }
             }
         }
    
@@ -127,6 +141,7 @@ config.macros.VGraph= {
     }
     ,constructGraph: function(tiddlers,options){
         var parentFields =options.parentFields;
+        var childFields = options.childFields;
         var ignoreTags = options.excludeTags;
         var prepNode = options.styleNode;
         var n = [];
@@ -148,6 +163,7 @@ config.macros.VGraph= {
             if(this._includeTiddlerInGraph(node,ignoreTags)){ 
               if(!tempnodes[id1])tempnodes[id1] = this.makeNode(id1,options);
               /*define parents of that tiddler */
+             
               for(var j=0; j < parentFields.length; j++){
                 var field = parentFields[j];
                 var isOrphan = true;
@@ -160,6 +176,7 @@ config.macros.VGraph= {
                        if(!tempnodes[tag])tempnodes[tag] =this.makeNode(tag,options);
                        edges.push([tag,id1]);
                        isOrphan = false;
+                       
                        var tagTiddler = store.getTiddler(tag);
                        if(!tagTiddler && !anOrphan[tag]){
                            edges.push(["_VGraphBridge_",tag]);
@@ -175,8 +192,9 @@ config.macros.VGraph= {
                     edges.push([node.fields[field],id1]);
                     isOrphan = false;
                 }
-                
+                //console.log(id1,isOrphan);
                 if(isOrphan && options.connectOrphans){
+                    //console.log("orphan");
                     edges.push(["_VGraphBridge_",id1]);
                 }
               }
@@ -196,9 +214,13 @@ config.macros.VGraph= {
         this.setuptooltip(place);
         var that = this;
         options.dblclick = function(e,s){if(!s)return;story.displayTiddler(null,s.properties.name);};
-       
+        this.options.mousedown = function(e,s){
+            if(s){
+                that.vgr.centerOn(s.properties.id);
+            }
+        };
         this.options.vismoController = {labels:true,controlFill:options.lineColor,controlShape: "circle",controlStroke:"rgb(255,255,255)"};
-       
+     
         this.vgr = new VismoGraphRenderer(place,options);
        
         return this.vgr;

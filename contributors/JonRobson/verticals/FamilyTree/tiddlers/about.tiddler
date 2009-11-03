@@ -13,5 +13,13 @@ Tagging a tiddler with excludeTree will stop it from appearing in the family tre
 
 !Feedback
 I would love to hear your feedback - please post it [[here|http://groups.google.com/group/TiddlyWiki/topics]] or contact me through [[one of these mediums|http://www.jonrobson.me.uk/posts/AboutMe%20and%20Contact%20Me]]
+
+!Dev
+V1.2:
+*can toggle between different graph algorithms
+*tagging a tiddler place allows you to show places as well as people
+*improved ui/design
+*spouses now stored just as tags are.
+
 </pre>
 </div>

@@ -133,13 +133,13 @@
      inkscape:pageshadow="2"
      inkscape:zoom="0.32"
      inkscape:cx="4756.3757"
-     inkscape:cy="-1725.2231"
+     inkscape:cy="-2928.6039"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:window-width="1440"
      inkscape:window-height="776"
-     inkscape:window-x="4"
-     inkscape:window-y="66"
+     inkscape:window-x="258"
+     inkscape:window-y="47"
      showguides="true"
      inkscape:guide-bbox="true">
     <sodipodi:guide
@@ -2637,7 +2637,7 @@
        id="path4491" />
     <g
        id="g4662"
-       transform="matrix(0.6773233,0.2244939,-0.2170777,0.7004632,3555.8688,595.54919)">
+       transform="matrix(0.6773233,0.2244939,-0.2170777,0.7004632,2818.3688,389.29919)">
       <g
          transform="matrix(1.0269626,0,0,0.9932136,-568.31415,-119.10667)"
          id="g4514">
@@ -4344,7 +4344,7 @@
        sodipodi:nodetypes="ccc" />
     <path
        style="opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:8;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-       d="M 4399.8256,3677.509 C 4399.8256,3677.509 4602.08,3546.7961 4585.9444,3778.4068 C 4568.3498,4019.4199 4432.6701,3905.6256 4432.6701,3905.6256 L 4425.3713,3914.3993"
+       d="M 1887.3256,3552.509 C 1887.3256,3552.509 2089.58,3421.7961 2073.4444,3653.4068 C 2055.8498,3894.4199 1920.1701,3780.6256 1920.1701,3780.6256 L 1912.8713,3789.3993"
        id="path2996"
        sodipodi:nodetypes="cccc"
        inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/graphics/latest_tw.png"
@@ -4352,7 +4352,7 @@
        inkscape:export-ydpi="16.167574" />
     <path
        style="opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:8;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-       d="M 4433.5057,3907.7095 C 4433.5057,3907.7095 4201.091,4018.1315 4198.2828,3785.9763 C 4196.9657,3660.355 4391.6541,3681.0724 4391.6541,3681.0724 L 4398.5998,3672.0165"
+       d="M 1921.0057,3782.7095 C 1921.0057,3782.7095 1688.591,3893.1315 1685.7828,3660.9763 C 1684.4657,3535.355 1879.1541,3556.0724 1879.1541,3556.0724 L 1886.0998,3547.0165"
        id="path2998"
        sodipodi:nodetypes="cccc"
        inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/graphics/latest_tw.png"
@@ -4382,7 +4382,7 @@
     </g>
     <path
        style="opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:8;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-       d="M 4300.0064,3679.5967 L 4243.4378,3509.8911 L 4384.8592,3481.6068 L 4390.5161,3679.5967 L 4396.1729,3673.9398"
+       d="M 1787.5064,3554.5967 L 1730.9378,3384.8911 L 1872.3592,3356.6068 L 1878.0161,3554.5967 L 1883.6729,3548.9398"
        id="path2994"
        inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/graphics/latest_tw.png"
        inkscape:export-xdpi="16.167574"
@@ -4511,5 +4511,75 @@
          id="tspan3821"
          x="3756.1511"
          y="2404.3503" /></text>
+    <rect
+       style="opacity:1;fill:#ff0000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:5.44170617999999973;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect2401"
+       width="401.64529"
+       height="63.749702"
+       x="3867.0232"
+       y="-3803.3123"
+       ry="31.874851"
+       rx="7.100153"
+       transform="scale(1,-1)" />
+    <rect
+       style="opacity:1;fill:#ff0000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:4.52322196999999981;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect3173"
+       width="157.68362"
+       height="14.30208"
+       x="2584.1062"
+       y="-4737.8384"
+       ry="5.6935129"
+       rx="0"
+       transform="matrix(0.9525575,-0.3043588,-0.3043588,-0.9525575,0,0)" />
+    <text
+       xml:space="preserve"
+       style="font-size:188.64433289px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Monaco;-inkscape-font-specification:Monaco"
+       x="4368.8013"
+       y="3773.4207"
+       id="text5012"
+       inkscape:export-filename="/Users/Jon/Documents/TiddlyWiki/Trunk/contributors/JonRobson/graphics/latest_tw.png"
+       inkscape:export-xdpi="16.167574"
+       inkscape:export-ydpi="16.167574"><tspan
+         sodipodi:role="line"
+         id="tspan5014"
+         x="4368.8013"
+         y="3773.4207">TiddlyWeb</tspan></text>
+    <g
+       id="g5028"
+       transform="matrix(-0.3280364,-0.3213064,0.4249717,-0.248017,3702.7556,5655.24)">
+      <path
+         sodipodi:nodetypes="cccc"
+         id="path5018"
+         d="M 3371.6116,3685.229 C 3371.6116,3685.229 3082.2835,3668.4011 3236.3322,3697.7437 C 3404.3322,3729.7437 3480.3322,3849.7437 3480.3322,3849.7437 C 3440.4781,3748.8177 3518.9249,3754.3331 3371.6116,3685.229 z"
+         style="fill:#ff0000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:12;stroke-linecap:butt;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+      <path
+         id="path5020"
+         d="M 3280.3322,3725.7437 L 3208.3322,3817.7437 L 3248.3322,3841.7437 L 3328.3322,3749.7437 L 3280.3322,3725.7437 z"
+         style="fill:#ff0000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:12;stroke-linecap:butt;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+      <path
+         id="path5026"
+         d="M 3368.25,3775.6122 L 3296.25,3867.6122 L 3336.25,3891.6122 L 3416.25,3799.6122 L 3368.25,3775.6122 z"
+         style="fill:#ff0000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:12;stroke-linecap:butt;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+    </g>
+    <rect
+       style="opacity:1;fill:#ff0000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:4.52322196999999981;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect5033"
+       width="245.66472"
+       height="12.435782"
+       x="2531.4609"
+       y="-4656.5942"
+       ry="5.7423306"
+       rx="0"
+       transform="matrix(0.9525575,-0.3043588,-0.3043588,-0.9525575,0,0)" />
+    <rect
+       style="opacity:1;fill:#ff0000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:4.52322197;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect5035"
+       width="261.75391"
+       height="11.818117"
+       x="2529.4985"
+       y="-4699.0386"
+       ry="0"
+       rx="5.9017467"
+       transform="matrix(0.9525575,-0.3043588,-0.3043588,-0.9525575,0,0)" />
   </g>
 </svg>

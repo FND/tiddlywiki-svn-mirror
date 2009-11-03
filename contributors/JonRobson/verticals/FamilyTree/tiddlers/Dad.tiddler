@@ -1,6 +1,10 @@
-<div title="Dad" tags="rootTree teacher" spouse="Mum" sex="M" >
+<div title="Dad" photo="images/homer.png" tags="rootTree teacher" spouse="Mum [[Step Mum]]" sex="M" dob="19550000">
 <pre>
+!todo
+spouses to be saved like tags (issue saving)
+labelMacro needs to accept params in form "x:y z:s"
+
 Enter some details about your dad here.
-< <VGraph algorithm:hyperbolic parentFields:{{['tags']}} root:teacher> >
+Tag things 'place' to show places. Like [[Springfield]] for instance.
 </pre>
 </div>

@@ -1,3 +1,17 @@
+config.macros.view.views.year= function(value,place,params,wikifier,paramString,tiddler) {
+	    var year = value.substr(0,4);
+		wikify(year,place);
+};
+
+config.macros.view.views.bracketedlist= function(value,place,params,wikifier,paramString,tiddler) {
+	    var  links = value.readBracketedList();
+	    for(var i=0; i < links.length;i++){
+	        config.macros.view.views.link(links[i],place,params,wikifier,paramString,tiddler);
+	        wikify(" ",place);
+	    }
+};
+
+
 TiddlyWiki.prototype.familytree_saveTiddler = TiddlyWiki.prototype.saveTiddler;
 TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modified,tags,fields,clearChangeCount,created)
 {
@@ -62,6 +76,40 @@ TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modi
     
     this.familytree_saveTiddler(title,newTitle,newBody,modifier,modified,tags,fields,clearChangeCount,created);
 
+};
+config.macros.age ={
+    handler: function(place, macroName, params, wikifier, paramString, tiddler){
+        var d1 = tiddler.fields["dob"];
+        var d2=  tiddler.fields["dod"];
+        if(!d2){
+            d2 = new Date().convertToLocalYYYYMMDDHHMM();
+        }
+        var y1 = parseInt(d1.substr(0,4));
+        var y2 = parseInt(d2.substr(0,4));
+        
+        var m1 = parseInt(d1.substr(4,2));
+        var m2 = parseInt(d2.substr(4,2));
+        
+        var day1 = parseInt(d1.substr(6,2));
+        var day2 = parseInt(d2.substr(6,2));
+    
+        var ageY = y2-y1;
+        var ageM = m2 - m1;
+        if(m2 > m1){
+            ageM = m2 - m1;
+        }
+        else if(m2 < m1){
+            ageM = 12 -(m1- m2);
+            ageY -=1;
+        }
+     
+        var html =ageY + " years";
+        if(ageM != 0){
+             html+=" and "+ ageM+" months";
+        }
+        jQuery(place).html(html);
+        
+    }
 };
 config.macros.familytreelist = {
     handler: function(place, macroName, params, wikifier, paramString, tiddler){
@@ -276,6 +324,7 @@ config.commands.addChild = {
                 
         }
 };
+
 config.commands.addFather = {
         text: "Add Father",
         tooltip: "add a father",

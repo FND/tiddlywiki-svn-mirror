@@ -1,7 +1,11 @@
+tags: systemConfig
+title: VismoCanvasEditorPlugin
+
+
 var VismoCanvasEditor = function(vismoCanvas,options){
         //var toolbar = "<div class='VismoCanvasToolbar' style='position:relative;z-index:400;'><div class='selectshape button'>&nbsp;</div><div class='newshape button'>&nbsp;</div><div class='newline button'>&nbsp;</div><div class='newfreeline button'>&nbsp;</div></div>";
         var rightmenu = "<div class='RightMenu' style='position:absolute; z-index:99999;'><div class='content'>node:</div><div class='closer'>close me</div></div>";
-        var toolbar = "<div class='VismoCanvasToolbar' style='position: absolute; right:0;z-index:999999;'><div class='togglemode button editor'>EDIT MODE</div></div>";
+        var toolbar = "<div class='VismoCanvasToolbar' style='position: absolute; right:0;z-index:999999;'><div class='togglemode button editor'>EDIT</div></div>";
         var toolsettings = "<div class='VismoToolSettings' style='position:absolute;bottom:0;z-index:999999;'></div>";
         if(!options) options = {};
         if(!options.tools) options.tools = ["selectshape","newcircle","newrectangle","newline","fillshape","save"];
@@ -210,13 +214,13 @@ init_toolsettings: function(){
       if(el){
           el.addClass("editor");
           el.removeClass("viewer");
-          el.text("EDIT MODE");
+          el.text("VIEW");
           el.siblings().show();
           
       }
       
-      if(this._vismoController){
-          this._vismoController.disable();
+      if(this._vc){
+          this._vc.disable();
 
           
       }
@@ -228,14 +232,13 @@ init_toolsettings: function(){
       if(el){
          el.removeClass("editor");
          el.addClass("viewer");
-         el.text("VIEW MODE");
+         el.text("EDIT");
          el.siblings().hide();
       }
       
       
-      if(this._vismoController){
-          
-          this._vismoController.enable();                  
+      if(this._vc){
+          this._vc.enable();                  
       }
       this.enabled = false;
   }
@@ -583,7 +586,7 @@ init_toolsettings: function(){
       if(!this.tempLine.getProperty("edge") && this.options.graphmode) return; //return in the case that we are not drawing an edge and graphmode is on
       
       if(this._startAt && e.button == cancelButton || terminate){ //right mouse  
-              //if(this._vismoController)this._vismoController.enable();
+              
                         if(tool == 'newline'){
                                 var c = this.tempLine.getCoordinates();   
                                 this.tempLine.setCoordinates(c.slice(0,c.length-2));       
@@ -727,6 +730,7 @@ var VismoShapeManipulator = function(vismoCanvas,options){
         this.options = options;
         var element  = vismoCanvas.getDomElement();
         this.vismoCanvas = vismoCanvas;
+        this._vc = this.vismoCanvas.vismoController;
         jQuery(element).append("<div class='VismoShapeManipulator' style='position:absolute;border:solid 1px black;z-index:400;'></div><div class='brResizer' style='display:none;position:absolute;z-index:1000;'></div>");
         this.el = jQuery(".VismoShapeManipulator",element);
         //jQuery(element).mousedown(function(e){e.preventDefault(); return false;}); //stops default drag behaviour
@@ -869,10 +873,14 @@ VismoShapeManipulator.prototype = {
         }
         
         ,stopmoving: function(vismoShape){
+                jQuery(this.el).css({display:""});
                 if(this.options.onmovecomplete)this.options.onmovecomplete(vismoShape);
                 this._moveshape = false;
+                if(this._vc)this._vc.enable();
         }
         ,startmoving: function(vismoShape){
+                if(this._vc)this._vc.disable();
+                jQuery(this.el).css({display:"none"});
                 this._moveshape = vismoShape;
         }
         ,selectShape: function(vismoShape){
@@ -903,9 +911,12 @@ VismoShapeManipulator.prototype = {
 
                 var t = this.vismoCanvas.getTransformation();
                 var bb = vismoShape.getBoundingBox();
-                vismoShape.setProperty("onmousedown",function(e){if(that.lastSelected)that.startmoving(vismoShape);});
-                vismoShape.setProperty("onmouseup",function(e){if(that.lastSelected)that.stopmoving(vismoShape);});
-              
+                var md = function(e){e.preventDefault();var s = that.vismoCanvas.getShapeAtClick(e);console.log("mouse downx!",s);if(that.lastSelected)that.startmoving(s);};
+                var mu = function(e){e.preventDefault();var s = that.vismoCanvas.getShapeAtClick(e);console.log("mouse upx!",s);if(that.lastSelected)that.stopmoving(s);e.preventDefault();};
+
+                var manip = jQuery(".VismoShapeManipulator");
+                manip.mousedown(md);
+                manip.mouseup(mu);
                 var tl = VismoTransformations.applyTransformation(bb.x1,bb.y1,t);
                 var br = VismoTransformations.applyTransformation(bb.x2,bb.y2,t);
                 this.brResizer.css({display:"",top:br.y,left:br.x});

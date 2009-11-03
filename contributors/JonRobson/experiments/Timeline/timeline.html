@@ -2,20 +2,21 @@
   <head>
     <title>CSS Timeline</title>
     <script type='text/javascript' src='timeline.js'></script>
-    <script type='text/javascript' src='../../Library/jquery.js'></script>
+    <script type='text/javascript' src='jquery.js'></script>
     <style type='text/css'>
     .clear_arrow {clear:both;}
-    .arrow_tail {background-color:maroon;position:relative;color:white;}
+    .arrow_tail {position:relative;color:white;background-color:maroon;}
     .holder {position:relative;}
     .arrow {}
     .arrow_head {cursor:pointer;border-color:white white white maroon;border-style:solid;width:0px;height:0px;position:relative;}
-    .timeSpanner {position:absolute;background-color:black;color:white;overflow:hidden;height:20px;}
+    .axis {position:absolute;background-color:black;color:white;overflow:hidden;height:20px;}
     .timelineContainer {overflow-x:scroll;overflow-y:hidden;position:relative;}
-    .unit {border-left:solid 1px white;float:left;position:relative;}
+    .unit {height:20px;float:left;position:relative;}
     .timelineContainer .start {position:absolute;width:10px;background-color:black;height:500px;}
-    .nowPoint {top:0px;margin-left:10px;width:2px;z-index:2;background-color:red;position:absolute;height:100%;}
+    .nowPoint {top:0px;width:2px;z-index:2;background-color:red;position:absolute;height:100%;}
     /* extra stuff for the purpose of this tutorial */
-    
+    .timelinetooltip {background-color:white;padding:5px;}
+    .axis1 {font-size:0.5em;}
     </style>
     <!--[if IE]>
     <style type='text/css'>
@@ -31,7 +32,9 @@
     </div>
     <div class='timelinetooltip'></div>
     <script type='text/javascript'>
-    var defs = [{label:"Get out of bed",t1:2,t2:6,t3:50},{label:"Have shower",t1:6,t2:8,t3:32,t4:34},{label:"Get dressed",t1:8,t2:9,t3:32},{label:"Eat breakfast",t1:9,t2:12,t3:12},{label:"Brush teeth",t1:13,t2:20,t3:32},{label:"Get early train",t1:20,t2:30,t3:32},{label:"Arrive at work",t1:30,t2:32,t3:32}];
+  
+    var defs = [{heading:"Carphone Warehouse", arrows:[{label:"6. Services Delivered",t1:32,t2:200,arrowColor:"yellow"},{label:"8. PIR Complete",t1:14,t2:108,arrowColor:"green"}]},
+    {heading:"Seagull", arrows:[{label:"7. Phase 3 Delivery",t1:30,t2:78},{label:"12. PIR",t1:204,t2:218},{label:"13. BAU Management",t1:104,t2:114,t3:190}]}];
 
     var move = function(e,p){
       if(!p) return;
@@ -44,10 +47,14 @@
         }
         
       }
-        jQuery(".timelinetooltip").html(text);
+      var tt = jQuery(".timelinetooltip");
+      tt.html(text);
     
+      var x =  e.screenX+50;
+      var y =e.clientY + 50;
+      tt.css({left:x,top:y,position:"absolute"});
     };
-    var options = {now:"10",range:["0"],definition:defs,move: move,click: function(e,t){alert(t.label);}};
+   var options = {now:"10",range:[0,365],arrowColor:{},definition:defs,move: move,click: function(e,t){alert(t.label);}};
     
     var timeline = new CSSTimeline(".holder",options);
     

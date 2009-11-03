@@ -380,10 +380,12 @@ VismoController.prototype = {
 		
 	}
 	,disable: function(){
+	    //console.log("disabled");
         jQuery(".vismoControls",this.wrapper).css({display:"none"});	    
 		this.enabled = false;
 	}
 	,enable: function(){
+	    //console.log("enabled");
 		this.enabled = true;
 		jQuery(".vismoControls",this.wrapper).css({display:""});
 	}
@@ -669,80 +671,80 @@ VismoController.prototype = {
 		this.createButton(12,180,{x:-6,y:42},{'actiontype':'out','name':'zoom out','buttonType': 'minus'});	
 	        this.applyLayer();
 	}	
-	    ,zoom: function(x,y){
-	         var t = this.getTransformation();
-	         t.scale.x = x;
-	         if(!y) y=  x;
-	         t.scale.y = y;
-	         this.setTransformation(t);
-	    }
-        ,panTo: function(x,y){
-                //if(!this.enabled) return;
-                var t = this.getTransformation();
-                
-                var finalX = -x;
-                var finalY = -y;
-                var thisx,thisy;
-                var direction = {};
-                var difference = {};
-                
-                thisx = t.translate.x;
-                thisy = t.translate.y;
-                
-                difference.x=  thisx - finalX;
-                difference.y = thisy - finalY;
-                
-                direction.x = -difference.x / 5;
-                direction.y = -difference.y / 5;
+	,zoom: function(x,y){
+         var t = this.getTransformation();
+         t.scale.x = x;
+         if(!y) y=  x;
+         t.scale.y = y;
+         this.setTransformation(t);
+    }
+    ,panTo: function(x,y){
+            //if(!this.enabled) return;
+            var t = this.getTransformation();
+            
+            var finalX = -x;
+            var finalY = -y;
+            var thisx,thisy;
+            var direction = {};
+            var difference = {};
+            
+            thisx = t.translate.x;
+            thisy = t.translate.y;
+            
+            difference.x=  thisx - finalX;
+            difference.y = thisy - finalY;
+            
+            direction.x = -difference.x / 5;
+            direction.y = -difference.y / 5;
 
-                var change = true;
-                
-                var that = this;
-                var f = function(){
-                   
-                        change= {x: false,y:false};
-                        if(thisx > finalX && thisx + direction.x > finalX) {thisx += direction.x;change.x=true;}
-                        else if(thisx < finalX && thisx + direction.x < finalX) {thisx += direction.x;change.x=true;}
-                        else{
-                                t.translate.x = finalX;
-                        }
-                
-                        if(thisy > finalY && thisy + direction.y > finalY) {thisy += direction.y;change.y=true;}
-                        else if(thisy < finalY && thisy + direction.y < finalY) {thisy += direction.y;change.y=true;}
-                        else{
-                                change.x = true;
-                                t.translate.y =finalY;
-                        }
-                
-                        if(change.x){
-                                t.translate.x = thisx;
-                        }
-                        else{
-                                t.translate.x = finalX;
-                        }
-                        if(change.y){
-                                t.translate.y = thisy;
-                        }
-                        else{
-                                t.translate.y = finalY;
-                        }
-    
-                        if(t.translate.x != finalX && t.translate.y != finalY){
-                                that.setTransformation(t); 
-                                window.setTimeout(f,5);
-                        }
-                        else{
-                                that.setTransformation(t);
-                        }
-  
-                };
-                
-                f();
-                                       
+            var change = true;
+            
+            var that = this;
+            var f = function(){
                
+                    change= {x: false,y:false};
+                    if(thisx > finalX && thisx + direction.x > finalX) {thisx += direction.x;change.x=true;}
+                    else if(thisx < finalX && thisx + direction.x < finalX) {thisx += direction.x;change.x=true;}
+                    else{
+                            t.translate.x = finalX;
+                    }
+            
+                    if(thisy > finalY && thisy + direction.y > finalY) {thisy += direction.y;change.y=true;}
+                    else if(thisy < finalY && thisy + direction.y < finalY) {thisy += direction.y;change.y=true;}
+                    else{
+                            change.x = true;
+                            t.translate.y =finalY;
+                    }
+            
+                    if(change.x){
+                            t.translate.x = thisx;
+                    }
+                    else{
+                            t.translate.x = finalX;
+                    }
+                    if(change.y){
+                            t.translate.y = thisy;
+                    }
+                    else{
+                            t.translate.y = finalY;
+                    }
 
-                //window.setTimeout(pan,200);
-        }
+                    if(t.translate.x != finalX && t.translate.y != finalY){
+                            that.setTransformation(t); 
+                            window.setTimeout(f,5);
+                    }
+                    else{
+                            that.setTransformation(t);
+                    }
+
+            };
+            
+            f();
+                                   
+           
+
+            //window.setTimeout(pan,200);
+    }
 	,transform: function(){
 		if(this.enabled){
 			var t = this.getTransformation();

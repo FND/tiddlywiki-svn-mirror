@@ -1,2 +1,3 @@
 tiddler: macro.js
+#tiddler: ../../../Library/Vismo/source/experimental/VismoCanvasEditor.tid
 recipe: ../../VismoLibrary/split.recipe

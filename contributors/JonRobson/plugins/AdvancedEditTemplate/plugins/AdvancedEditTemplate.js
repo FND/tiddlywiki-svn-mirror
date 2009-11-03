@@ -10,7 +10,7 @@ try{
   ".dp-nav-prev {float:left;}\n"+
   ".dp-nav-next {float:right;}\n"+
   ".dp-calendar {clear:both;}\n"+
-  ".dp-popup {padding:10px;border:solid 1px black;}\n"+
+  ".dp-popup {padding:10px;border:solid 1px black;z-index:4;}\n"+
   ".jCalendar .selected {background-color:gray;}\n"+
   "/*}}}*/"
 store.addNotification("AdvancedEditTemplateStyle", refreshStyles);
@@ -232,6 +232,56 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			
 			}
 		}
+		,setupLocationFinder: function(place,tiddlerobj){
+		    var searchurl = "http://ajax.googleapis.com/ajax/services/search/local?v=1.0&q=";
+		    var saveAs ={};
+		    var that = this;
+		    
+		    var place_to_ll = {};
+		    var handler = function(savethis){
+		        if(place_to_ll(savethis)){
+		            var lng = place_to_ll['longitude'];
+		            var lat = place_to_ll['latitude'];
+		            that.setMetaData(tiddlerobj.title,"longitude",lng);
+		            that.setMetaData(tiddlerobj.title,"latitude",lat);
+		        }
+		        that.setMetaData(tiddlerobj.title,"place",savethis);
+		    };
+		    var sdata = ["foo"];
+		    var options = {matchContains: true,selectFirst:false};
+		    var ac = jQuery("<input type='text' value=\"type name of place\"/>").autocomplete(sdata,options);
+		    ac.result(handler).appendTo(place);
+            var keysSinceQuery =0;
+            
+            
+            jQuery("input",place).keypress(function(e){
+                keysSinceQuery += 1;
+                if(keysSinceQuery > 1){
+                    keysSinceQuery = 0;
+                    ajaxReq({url:searchurl+this.value,success:function(r){
+                        var results = eval("("+r+")");
+                        var data = results.responseData;
+                        var results =[];
+                        for(var i=0; i < data.length;i++){
+                            var res = data[i];
+                            var lat =res.lat;
+                            var lon = res.lgn;
+                            var city = res.city;
+                            var country = res.country;
+                            var res = city +", "+ country;
+                            results.push(res);
+                            place_to_ll[res] = {longitude:lon,latitude:lat};
+                            
+                        }
+                        
+                    }});
+                }
+                
+                //console.log("cool",this.value);
+            });
+            
+            console.log(jQuery("input",place));
+		}
 		,setupDropdown: function(place,tiddlerobj,metaDataName,valueSource){
 				if(!valueSource) {
 					displayMessage("Please provide a parameter valuesSource telling me the name of the tiddler where your drop down is defined.");
@@ -334,6 +384,10 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			
 			if(ctrlType == 'dropdown') {
 			    this.setupDropdown(place,tiddlerobj,metaDataName,valueSource);
+			}
+			else if(ctrlType =='location'){
+			    //http://ajax.googleapis.com/ajax/services/search/local?v=1.0&q=
+			    this.setupLocationFinder(place,tiddlerobj);
 			}
 			else if(ctrlType == 'embedvideo'){
 			    this.setupEmbeddedVideo(place,tiddlerobj,metaDataName,valueSource);

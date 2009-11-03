@@ -1,8 +1,9 @@
 <div title="StyleSheet" tags="excludeTree">
 <pre>
-
+.ftLabelText {float:left;}
+.ftLabelImage {height:25px;float:left;}
 .VGraph {height:400px;width:400px;}
-
+.changeAlgorithm {right:65px;}
 .canvasLabel {position:absolute; font-size:0.7em;color:black;cursor:pointer;}
 .fromRoot0 {font-size:1.2em;}
 .fromRoot1 {font-size:1.1em;}

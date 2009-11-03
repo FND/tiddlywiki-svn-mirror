@@ -4,6 +4,7 @@ var VismoCanvasRenderer = {
 	    var ctx = canvas.getContext('2d');
 		var shapetype =vismoShape.properties.shape;
 		if(vismoShape.properties["lineWidth"]){
+			
 			ctx.lineWidth = vismoShape.getProperty("lineWidth");
 			
 		}
@@ -44,7 +45,7 @@ var VismoCanvasRenderer = {
 	        
 	}
 	,renderPath: function(ctx,vismoShape,join){
-	    
+
 		var move = true,quadraticCurve = false,bezierCurve = false;
 		var c = vismoShape.getCoordinates();
 		var t =vismoShape.getProperty("transformation");
@@ -134,6 +135,7 @@ var VismoCanvasRenderer = {
 		    //ctx.scale(1,radiusy/radiusx)
 		    //ctx.restore();
 		}
+		var pt =vismoShape.properties.pointType;
 		ctx.arc(bb.center.x, bb.center.y, radiusx, 0, Math.PI*2,true);
 	    
 	}

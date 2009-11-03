@@ -628,7 +628,7 @@ Also see [[AdvancedOptions]]</pre>
 </div>
 <!--POST-SHADOWAREA-->
 <div id="storeArea">
-<div title="AdvancedEditTemplatePlugin" modifier="JonRobson" created="200909091028" modified="20090223153811" tags="systemConfig">
+<div title="AdvancedEditTemplatePlugin" modifier="JonRobson" created="200910201027" modified="20090223153811" tags="systemConfig">
 <pre>/***
 |''Name:''|AdvancedEditTemplatePlugin based on ValueSwitcherPlugin|
 |''Description:''|Gather values from a definition tiddler, and present the user with a UI for setting a value from those available options as an extende field |
@@ -648,7 +648,8 @@ Allows the adding of multiple level drop down menus and checkboxes to the edit t
 // create macro object
 (function($) { // set up alias
 
-config.shadowTiddlers.AdvancedEditTemplateStyle = &quot;/*{{{*/\n&quot; +
+try{
+  config.shadowTiddlers.AdvancedEditTemplateStyle = &quot;/*{{{*/\n&quot; +
   &quot;.clearboth {clear:both;}\n&quot;+
   &quot;.aet_radioboxes label {width:auto;float:left;}\n&quot;+
   &quot;.aet_radioboxes input {width:auto;float:left;}\n&quot;+
@@ -659,11 +660,11 @@ config.shadowTiddlers.AdvancedEditTemplateStyle = &quot;/*{{{*/\n&quot; +
   &quot;.dp-nav-prev {float:left;}\n&quot;+
   &quot;.dp-nav-next {float:right;}\n&quot;+
   &quot;.dp-calendar {clear:both;}\n&quot;+
-  &quot;.dp-popup {padding:10px;border:solid 1px black;}\n&quot;+
+  &quot;.dp-popup {padding:10px;border:solid 1px black;z-index:4;}\n&quot;+
   &quot;.jCalendar .selected {background-color:gray;}\n&quot;+
   &quot;/*}}}*/&quot;
 store.addNotification(&quot;AdvancedEditTemplateStyle&quot;, refreshStyles);
-
+}catch(e){};
 
 config.macros.viewimage ={    
      handler: function(place,macroName,params,wikifier,paramString,tiddler){
@@ -881,6 +882,56 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			
 			}
 		}
+		,setupLocationFinder: function(place,tiddlerobj){
+		    var searchurl = &quot;http://ajax.googleapis.com/ajax/services/search/local?v=1.0&amp;q=&quot;;
+		    var saveAs ={};
+		    var that = this;
+		    
+		    var place_to_ll = {};
+		    var handler = function(savethis){
+		        if(place_to_ll(savethis)){
+		            var lng = place_to_ll['longitude'];
+		            var lat = place_to_ll['latitude'];
+		            that.setMetaData(tiddlerobj.title,&quot;longitude&quot;,lng);
+		            that.setMetaData(tiddlerobj.title,&quot;latitude&quot;,lat);
+		        }
+		        that.setMetaData(tiddlerobj.title,&quot;place&quot;,savethis);
+		    };
+		    var sdata = [&quot;foo&quot;];
+		    var options = {matchContains: true,selectFirst:false};
+		    var ac = jQuery(&quot;&lt;input type='text' value=\&quot;type name of place\&quot;/&gt;&quot;).autocomplete(sdata,options);
+		    ac.result(handler).appendTo(place);
+            var keysSinceQuery =0;
+            
+            
+            jQuery(&quot;input&quot;,place).keypress(function(e){
+                keysSinceQuery += 1;
+                if(keysSinceQuery &gt; 1){
+                    keysSinceQuery = 0;
+                    ajaxReq({url:searchurl+this.value,success:function(r){
+                        var results = eval(&quot;(&quot;+r+&quot;)&quot;);
+                        var data = results.responseData;
+                        var results =[];
+                        for(var i=0; i &lt; data.length;i++){
+                            var res = data[i];
+                            var lat =res.lat;
+                            var lon = res.lgn;
+                            var city = res.city;
+                            var country = res.country;
+                            var res = city +&quot;, &quot;+ country;
+                            results.push(res);
+                            place_to_ll[res] = {longitude:lon,latitude:lat};
+                            
+                        }
+                        
+                    }});
+                }
+                
+                //console.log(&quot;cool&quot;,this.value);
+            });
+            
+            console.log(jQuery(&quot;input&quot;,place));
+		}
 		,setupDropdown: function(place,tiddlerobj,metaDataName,valueSource){
 				if(!valueSource) {
 					displayMessage(&quot;Please provide a parameter valuesSource telling me the name of the tiddler where your drop down is defined.&quot;);
@@ -911,34 +962,51 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 				}
 		}
 		
-		,doifstatement: function(place,stmt,tiddler){
-		    var params = stmt.split(&quot;&amp;&quot;);
-            var finalEval = true;
-            for(var i=0; i &lt; params.length; i++){
-                 var evaluatesTo = true;
-                var arg = params[i];
+		,_doStatement: function(stmt,tiddler,or){
+		        var delimiter = &quot;&amp;&quot;;
+		        if(or){
+		            delimiter = &quot;|&quot;;
+		        }
+		       var params = stmt.split(delimiter);
+                var finalEval = true;
+                if(or) finalEval = false;
+                for(var i=0; i &lt; params.length; i++){
+                     var evaluatesTo = true;
+                    var arg = params[i];
 
 
-                if(arg.indexOf(&quot;!&quot;) == 0){
-                    var x = tiddler.fields[arg.substr(1)];
-                    //console.log(&quot;cool&quot;);
-                    if(x){
-                        evaluatesTo = false;
+                    if(arg.indexOf(&quot;!&quot;) == 0){
+                        var x = tiddler.fields[arg.substr(1)];
+                        //console.log(&quot;cool&quot;);
+                        if(x){
+                            evaluatesTo = false;
+                        }
+                        else{
+                            evaluatesTo = true;
+                        }
                     }
                     else{
-                        evaluatesTo = true;
+                        var x = tiddler.fields[arg];
+                        if(!x){
+                            evaluatesTo = false;
+                        }
                     }
-                }
-                else{
-                    var x = tiddler.fields[arg];
-                    if(!x){
-                        evaluatesTo = false;
+                    if(or){
+                        finalEval = evaluatesTo || finalEval;
                     }
+                    else{
+                        finalEval = evaluatesTo &amp;&amp; finalEval;
+                    }//console.log(arg,evaluatesTo,finalEval);
+
                 }
-                finalEval = evaluatesTo &amp;&amp; finalEval;
-                //console.log(arg,evaluatesTo,finalEval);
-                
-            }
+                return finalEval;
+		}
+		,doifstatement: function(place,stmt,tiddler){
+		    var or = false;
+		    if(stmt.indexOf(&quot;|&quot;) &gt; -1){
+		        or= true;
+		    }
+		    var finalEval = config.macros.aet._doStatement(stmt,tiddler,or);
             
             if(!finalEval){
                 place.innerHTML = &quot;&quot;;
@@ -967,6 +1035,10 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			if(ctrlType == 'dropdown') {
 			    this.setupDropdown(place,tiddlerobj,metaDataName,valueSource);
 			}
+			else if(ctrlType =='location'){
+			    //http://ajax.googleapis.com/ajax/services/search/local?v=1.0&amp;q=
+			    this.setupLocationFinder(place,tiddlerobj);
+			}
 			else if(ctrlType == 'embedvideo'){
 			    this.setupEmbeddedVideo(place,tiddlerobj,metaDataName,valueSource);
 			}
@@ -989,10 +1061,12 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 	    	    var aet = this;
                 var handler = function(e){
 		            var newval = this.value;
-		            console.log(title,metaDataName,newval);
+		            //console.log(title,metaDataName,newval);
     		        aet.setMetaData(title,metaDataName,newval);
 		        }
-            	var selected = tiddlerobj.fields[metaDataName];
+		        
+            	var selected;
+            	if(tiddlerobj)selected= tiddlerobj.fields[metaDataName];
 			    this.setupRadioboxes(place,source,selected,handler);
 			}
 			else if(ctrlType == 'date'){
@@ -1342,7 +1416,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 		
 		,setMetaData: function(title,extField,extFieldVal){
 		   
-		    console.log(&quot;saving&quot;,title,extField,extFieldVal);
+		    //console.log(&quot;saving&quot;,title,extField,extFieldVal);
 			extField = extField.toLowerCase();
 			if(extFieldVal == &quot;null&quot;) {
 				extFieldVal = &quot;&quot;;
@@ -1370,11 +1444,27 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
                         jQuery(place).append(div);
                         $(function()
                         {
-                                var start =config.macros.AdvancedEditTemplate.getMetaData(title,metaDataName);
-                                if(!start)start=&quot;&quot;;
-                        	$(input).datePicker({yearRange: '2000:2010'}).val(start).trigger('change');
+                          var start =config.macros.AdvancedEditTemplate.getMetaData(title,metaDataName);
+                          if(!start)start=&quot;&quot;;
+                          else {
+                            var y =start.substr(0,4);
+                            var m = start.substr(4,2);
+                            var d = start.substr(6,2)
+                            start = d+&quot;/&quot;+m+&quot;/&quot;+y;
+                          }
+                          
+                        	$(input).datePicker({startDate: '01/01/1600'}).val(start).trigger('change');
                         	$(input).change(function(e){
-                        	        config.macros.AdvancedEditTemplate.setMetaData(title,metaDataName,this.value);
+                        	    //console.log(this.value,&quot;before&quot;);
+                        	    var dmy = this.value.split(&quot;/&quot;);
+                        	    //console.log(dmy,&quot;after&quot;);
+                        	    var d = dmy[0];
+                        	    var m = dmy[1];
+                        	    var y = dmy[2];
+                        	    if(d.length == 1) d= &quot;0&quot;+d;
+                        	    if(m.length == 1) m= &quot;0&quot;+m;
+                        	    //console.log(y,m,d,&quot;togo&quot;);
+                        	    config.macros.AdvancedEditTemplate.setMetaData(title,metaDataName,y+m+d+&quot;0000&quot;);
                         	
                         	});
                         });
@@ -3683,6 +3773,12 @@ assigned by (search for a name from our list):
 &lt;span macro='aet type:search metaDataName:assignby valuesSource:DropDownData'&gt;&lt;/span&gt;
 &lt;/p&gt;
 
+&lt;h2&gt;Locations&lt;/h2&gt;
+&lt;p&gt;
+Search for a city and get back a long latitude coordinate.
+&lt;div macro='aet type:location metaDataName:place'&gt;&lt;/div&gt;
+&lt;/p&gt;
+
 &lt;h2&gt;Radio boxes&lt;/h2&gt;
 &lt;p&gt;
 rate
@@ -3776,6 +3872,22 @@ Lizard
 <div title="StyleSheet">
 <pre>
 
+.ac_results {	padding: 0px;	border: 1px solid black;	background-color: white;	overflow: hidden;	z-index: 99999;}
+.ac_results ul {	width: 100%;	list-style-position: outside;	list-style: none;	padding: 0;	margin: 0;}
+.ac_results li {	margin: 0px;	padding: 2px 5px;	cursor: default;	display: block;	/* 
+	if width will be 100% horizontal scrollbar will apear 
+	when scroll mode will be used
+	*/
+	/*width: 100%;*/
+	font: menu;	font-size: 12px;	/* 
+	it is very important, if line-height not setted or setted 
+	in relative units scroll will be broken in firefox
+	*/
+	line-height: 16px;	overflow: hidden;}
+.ac_loading {	background: white url('indicator.gif') right center no-repeat;}
+.ac_odd {	background-color: #eee;}
+.ac_over {background-color:#4DA6C9;color: white;}
+
 
 </pre>
 </div>
@@ -3795,6 +3907,22 @@ Lizard
 </div>
 <div title="StyleSheet">
 <pre>
+
+.ac_results {	padding: 0px;	border: 1px solid black;	background-color: white;	overflow: hidden;	z-index: 99999;}
+.ac_results ul {	width: 100%;	list-style-position: outside;	list-style: none;	padding: 0;	margin: 0;}
+.ac_results li {	margin: 0px;	padding: 2px 5px;	cursor: default;	display: block;	/* 
+	if width will be 100% horizontal scrollbar will apear 
+	when scroll mode will be used
+	*/
+	/*width: 100%;*/
+	font: menu;	font-size: 12px;	/* 
+	it is very important, if line-height not setted or setted 
+	in relative units scroll will be broken in firefox
+	*/
+	line-height: 16px;	overflow: hidden;}
+.ac_loading {	background: white url('indicator.gif') right center no-repeat;}
+.ac_odd {	background-color: #eee;}
+.ac_over {background-color:#4DA6C9;color: white;}
 
 
 </pre>
@@ -4493,7 +4621,7 @@ merge(config.shadowTiddlers,{
 	MainMenu: "[[GettingStarted]]",
 	SiteTitle: "My TiddlyWiki",
 	SiteSubtitle: "a reusable non-linear personal web notebook",
-	SiteUrl: "http://www.tiddlywiki.com/",
+	SiteUrl: "",
 	SideBarOptions: '<<search>><<closeAll>><<permaview>><<newTiddler>><<newJournal "DD MMM YYYY" "journal">><<saveChanges>><<slider chkSliderOptionsPanel OptionsPanel "options \u00bb" "Change TiddlyWiki advanced options">>',
 	SideBarTabs: '<<tabs txtMainTab "Timeline" "Timeline" TabTimeline "All" "All tiddlers" TabAll "Tags" "All tags" TabTags "More" "More lists" TabMore>>',
 	TabMore: '<<tabs txtMoreTab "Missing" "Missing tiddlers" TabMoreMissing "Orphans" "Orphaned tiddlers" TabMoreOrphans "Shadowed" "Shadowed tiddlers" TabMoreShadowed>>'

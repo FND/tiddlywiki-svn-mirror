@@ -161,7 +161,7 @@ VismoGraph.prototype = {
     } 
     ,addNode: function(nodejson){
         var id = nodejson.id;
-     
+        if(!id) throw "error in addNode: node must have id to addNode to graph.";
         if(!nodejson.properties){
             nodejson.properties = {};
         }
@@ -170,6 +170,7 @@ VismoGraph.prototype = {
     }
     ,addEdge: function(a,b){
         //not working properly with new lines
+        //console.log(a,"to",b);
         if(typeof(a) !="string"||typeof(b) != "string") return;
         a = a.replace(/\n/,"");
         b= b.replace(/\n/,"");
@@ -181,8 +182,11 @@ VismoGraph.prototype = {
         }
         /* cannot set a as a parent of b if b is a parent of a */
         if(this._parents[a] && this._parents[a].indexOf(b) > -1){
+            //doens't work for tree algorithm
+            //console.log("aahhahah cycle");
             return; //can't do this! this would create nasty loop
         }
+        //console.log("ok");
         var p = this.getNode(a);
         var c = this.getNode(b);
         if(!p) this.addNode({id:a,properties:{name:a}});
@@ -205,7 +209,9 @@ algorithm: name of an algorithm defined in VismoGraphAlgorithms
 
 */
 var VismoGraphRenderer = function(place,options){
-
+    if(!options.nodeShape){
+        options.nodeShape="point";
+    }
     if(!options.lineColor){
         options.lineColor = "rgb(0,0,0)";
     }
@@ -248,14 +254,19 @@ var VismoGraphRenderer = function(place,options){
     else{
         canvasopts.vismoController = options.vismoController;
     }
-    if(options.move)canvasopts.move = options.move;
-    if(options.dblclick)canvasopts.dblclick = options.dblclick;
-    
+    var for_canvas = ["move","dbclick","mouseup","mousedown","pointsize"];
+    var arg;
+    for(arg in options){
+        if(for_canvas.indexOf(arg) != -1) canvasopts[arg] =options[arg];
+    }
+    canvasopts.scaleXY = true;
+
     this._canvas = new VismoCanvas(place,canvasopts);
     this.options.canvas_width = this._canvas.width();
     this.options.canvas_height = this._canvas.height(); 
     if(options.root){
-        this.compute(options.root,this.options);  
+        this.compute(options.root,this.options); 
+        
     }
     if(options.centerOn){
         this.centerOn(options.centerOn);
@@ -292,7 +303,8 @@ VismoGraphRenderer.prototype = {
         return this._graph;
     }
     ,compute: function(root){
-        this.reset();
+         
+         this.reset();
         
         if(!root) root = this.options.root;
         var graph = this._graph;
@@ -312,13 +324,28 @@ VismoGraphRenderer.prototype = {
         var node = graph.getNode(root);
         var half_height = this._canvas.height() /2;
         this._canvas.centerOn(node.XPosition,node.YPosition + half_height);
-
+        //console.log("computed")
     }
-    ,centerOn: function(id){
+    ,centerOn: function(id,animate){
         var node = this._graph.getNode(id);
-        this._canvas.centerOn(node.XPosition,node.YPosition);
+        var finishAt = {x:node.XPosition,y:-node.YPosition};
+        this._canvas.centerOn(finishAt.x,finishAt.y,animate);
     }
+    ,_plotted: {}
     ,plot: function(id){
+        this._plot(id);
+        var i;
+        for(i in this._plotted){
+            delete this._plotted[i];
+        }
+    }
+    ,_plot: function(id){
+        if(this._plotted[id]) {
+            //console.log("cant plot",id);
+            return false;
+        }
+        this._plotted[id] = true;
+        
         var lineType = this.options.lineType;
         var node = this._graph.getNode(id);
         var y = -node.YPosition;
@@ -326,57 +353,69 @@ VismoGraphRenderer.prototype = {
         var shape = this.plotNode(id,{x:x,y:y});
         
         var children = this._graph.getChildren(id);
+        //console.log(id,"has children",children.length);
         for(var i=0; i < children.length; i++){
+            //console.log(id,"plotting child",i);
             var parentpos = {x:x,y:y};
             var ch =children[i];
             var child_shape = this.plot(ch);
-            var bb = child_shape.getBoundingBox();
-            var childxy = {x:bb.center.x,y:bb.center.y};
-            if(parentpos && childxy){
+            if(!child_shape) child_shape = this._canvas.getShapeWithID(ch);
+            if(child_shape){            
+                var bb = child_shape.getBoundingBox();
+                var childxy = {x:bb.center.x,y:bb.center.y};
+                if(parentpos && childxy){
                  
-                if(shape.properties.hidden){
-                    //do nowt
-                }
-                else if(lineType == 'quadratic'){
-                    this._edgeShapeCoordinates=this._edgeShapeCoordinates.concat(["M",parentpos.x,parentpos.y,"q",childxy.x,parentpos.y,childxy.x,childxy.y]);                    
-                }
-                else if(lineType == 'normal'){
-                    this._edgeShapeCoordinates=this._edgeShapeCoordinates.concat(["M",parentpos.x,parentpos.y,childxy.x,childxy.y]);                    
-                }
-                else if(lineType =='bezier'){
-                    var hdistance = parentpos.x - childxy.x;
-                    var vdistance = parentpos.y - childxy.y;
-                    var b1,b2;
-                    b2 = -vdistance/2;
-                    b1 = -hdistance/10;
-                   
-                    if(hdistance == 0){
-                        b1 = 0;
-                        b2 = 0;
+                    if(shape.properties.hidden){
+                        //do nowt
                     }
+                    else if(lineType == 'quadratic'){
+                        this._edgeShapeCoordinates=this._edgeShapeCoordinates.concat(["M",parentpos.x,parentpos.y,"q",childxy.x,parentpos.y,childxy.x,childxy.y]);                    
+                    }
+                    else if(lineType == 'normal'){
+                        this._edgeShapeCoordinates=this._edgeShapeCoordinates.concat(["M",parentpos.x,parentpos.y,childxy.x,childxy.y]);                    
+                    }
+                    else if(lineType =='bezier'){
+                        var hdistance = parentpos.x - childxy.x;
+                        var vdistance = parentpos.y - childxy.y;
+                        var b1,b2;
+                        b2 = -vdistance/2;
+                        b1 = -hdistance/10;
+                   
+                        if(hdistance == 0){
+                            b1 = 0;
+                            b2 = 0;
+                        }
                     
                     
-                    var coords = ["M",parentpos.x,parentpos.y,"c",parentpos.x +b1, parentpos.y, childxy.x, childxy.y-b2,childxy.x,childxy.y];
-                    this._edgeShapeCoordinates=this._edgeShapeCoordinates.concat(coords);
-                }
+                        var coords = ["M",parentpos.x,parentpos.y,"c",parentpos.x +b1, parentpos.y, childxy.x, childxy.y-b2,childxy.x,childxy.y];
+                        this._edgeShapeCoordinates=this._edgeShapeCoordinates.concat(coords);
+                    }
+                }   
             }
+            
         }
+        //console.log("done plotting");
         
         return shape;
     }
     
     ,plotNode: function(id,pos){
         var exists = this._canvas.getShapeWithID(id);
-        
+        var options = this.options;
         if(!exists){
             var st,coords;
-            st= "polygon";
+            st= options.nodeShape;
             var hr = this.options.nodeWidth /2;
             var vr=this.options.nodeHeight /2;
-            coords = [pos.x-hr,pos.y-vr,pos.x+hr,pos.y-vr,pos.x+hr,pos.y+vr,pos.x-hr,pos.y+vr];
-            
+            if(options.nodeShape != "point" && options.nodeShape != "circle"){
+                coords = [pos.x-hr,pos.y-vr,pos.x+hr,pos.y-vr,pos.x+hr,pos.y+vr,pos.x-hr,pos.y+vr];
+            }
+            else{
+                coords = [pos.x,pos.y,hr];
+            }
             var node= this._graph.getNode(id);
             node.properties.shape = st;
+            node.properties.staticSize = true;
             node.properties.coordinates = coords;
             node.properties.id = id;
             if(!node.properties.fill)node.properties.fill = this.options.defaultNodeColor;

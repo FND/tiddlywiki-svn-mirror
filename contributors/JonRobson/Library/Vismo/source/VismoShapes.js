@@ -273,7 +273,7 @@ var VismoShape = function(properties,coordinates){
 	this.currentResolution = false;
 	this.vml = false;
 	this.unique_id = Math.random() + "_" + this.properties.id;
-    this.scale = {x:1,y:1};
+    this._scale = {x:1,y:1};
 };
 
 
@@ -342,8 +342,8 @@ VismoShape.prototype={
 	    var newHeight = y * bb.height;
 	    var offsetx = (bb.center.x * x) - bb.center.x;
 	    var offsety = (bb.center.y * y)- bb.center.y;
-	    this.scale.x = x;
-	    this.scale.y = y;
+	    this._scale.x = x;
+	    this._scale.y = y;
 	    var c = this.getCoordinates("normal");
 
 	    var newc = [];
@@ -418,7 +418,7 @@ VismoShape.prototype={
 	    VismoTimer.start("VismoShape.render");
         var lw = this.properties.lineWidth;
         if(lw && transformation && transformation.scale && transformation.scale.x){
-            this.properties.lineWidth = lw / transformation.scale.x;
+            //this.properties.lineWidth = lw / transformation.scale.x;
         }
         this.setPointSize(pointsize); 
 		var mode = this.getRenderMode(canvas);
@@ -466,11 +466,11 @@ VismoShape.prototype={
 			var tr = transformation.translate;
 			var s = transformation.scale;
 			var r = transformation.rotate;
-			if(o && s && tr){
-				ctx.translate(o.x,o.y);
-				ctx.scale(s.x,s.y);
-				ctx.translate(tr.x,tr.y);
-			}
+	
+				if(o)ctx.translate(o.x,o.y);
+				if(s)ctx.scale(s.x,s.y);
+				if(tr)ctx.translate(tr.x,tr.y);
+			
 			if(r && r.x)ctx.rotate(r.x);
 		}
 
@@ -535,7 +535,6 @@ VismoShape.prototype={
 		if(this.vml) this.vml.path = false; //reset path so recalculation will occur
 		var st = this.getShape();
 		if(st== 'circle' || st == 'point'){
-		    
 		    if(coordinates[2] && coordinates[3]) this.setRadius(coordinates[2],coordinates[3]);
 		    else this.setDimensions(this.options.pointsize,this.options.pointsize);
 		}
@@ -680,13 +679,7 @@ VismoShape.prototype={
 		//this.grid.y2 *= transform.scale.y;
 		this.grid.width = (this.grid.x2 - this.grid.x1);
 		this.grid.height = (this.grid.y2 - this.grid.y1);
-		/*var transform = this.getTransformation();
-		if(transform && transform.scale){
-		        var scale = transform.scale;
-		        this.grid.width *= scale.x;
-		        this.grid.height *= scale.y;
-		        
-		}*/
+
 		this.grid.center = {};
 		this.grid.center.x = (this.grid.x2 - this.grid.x1) / 2 + this.grid.x1;
 		this.grid.center.y = (this.grid.y2 - this.grid.y1) / 2 + this.grid.y1;
@@ -740,6 +733,7 @@ VismoShape.prototype={
 		if(this.properties.shape == 'point'){
 		    this.options.pointsize = width;
 		}
+		
 		this._calculateBounds();
 	    
 	}
@@ -869,10 +863,10 @@ VismoShape.prototype={
 	    var cid = transformation["cache"]["id1"];
 	    var cid2 =transformation["cache"]["id2"];
 	    
-	    if(this.scale.x > 1){
+	    if(this._scale.x > 1){
 	        var newx,newy;
-	        newx = this.scale.x  * transformation.scale.x;
-	        newy = this.scale.y  * transformation.scale.y;
+	        newx = this._scale.x  * transformation.scale.x;
+	        newy = this._scale.y  * transformation.scale.y;
 	        cid = newx + ","+newy;
 	    }
 	    if(!ocache[cid]) ocache[cid] = {};
