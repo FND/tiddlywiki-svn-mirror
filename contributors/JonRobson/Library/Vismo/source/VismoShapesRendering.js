@@ -60,7 +60,7 @@ var VismoCanvasRenderer = {
 		if(!t.translate.x) t.translate.x = 0;
 		if(!t.scale.x) t.scale.x = 1;
 		if(!t.scale.y) t.scale.y = 1;
-
+        
 		var bb = vismoShape.grid;
 		if(bb.center){
 		    ctx.translate(bb.center.x-(bb.center.x*t.scale.x),bb.center.y-(bb.center.y*t.scale.y));

@@ -545,10 +545,11 @@ VismoCanvas.prototype = {
 			var tr = transformation.translate;
 			var s = transformation.scale;
 			var r = transformation.rotate;
-			if(o && s && tr){
-				if(o.x)ctx.translate(o.x,o.y);
-				if(s.x)ctx.scale(s.x,s.y);
-				if(tr.x)ctx.translate(tr.x,tr.y);
+			//console.log("zeroissue",transformation.toSource());
+			if(o || s || tr){
+				if(o.x || o.y)ctx.translate(o.x,o.y);
+				if(s.x || s.y)ctx.scale(s.x,s.y);
+				if(tr.x || tr.y)ctx.translate(tr.x,tr.y);
 			}
 			if(r && r.x)ctx.rotate(r.x);
 		}
@@ -592,8 +593,9 @@ VismoCanvas.prototype = {
 	}
 	
 	,setTransformation: function(args){
+	    
 	    var transformation = arguments[0];
-	    this._transformLabels(transformation);
+	    
         //console.log(transformation.origin.x,transformation.translate.x,transformation.translate.y);
         if(!transformation.origin){
                 transformation.origin = {};
@@ -602,13 +604,14 @@ VismoCanvas.prototype = {
         }
       
 		if(transformation) this.transformation = transformation;
+		//console.log("setting transformation",transformation.toSource());
 		var t = transformation.translate, s = transformation.scale;	
 	    transformation.cache = {id1:[s.x,",",s.y].join(""),id2:[t.x,",",t.y].join("")};
-	  
+	  this._transformLabels(transformation);
 	    
 	}
     ,_transformLabels: function(transformation){
-        //console.log("in transformLabels");
+        //console.log("in transformLabels",transformation.toSource());
         
         var translate = transformation.translate;
         var scale = transformation.scale;
@@ -648,13 +651,14 @@ VismoCanvas.prototype = {
         }
     }
     ,centerOn: function(x,y,animate){
-       
+      
         var t=  this.getTransformation();
         
-        
-        t.translate.x = -x;
-        t.translate.y = -y;
-
+        if(x !==0)t.translate.x = -x;
+        else t.translate.x = 0;
+        if(y !==0)t.translate.y = -y;
+        else t.translate.y = 0;
+     
         if(this.vismoController){
             this.vismoController.setTransformation(t);
         }

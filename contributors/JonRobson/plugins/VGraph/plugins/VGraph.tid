@@ -60,6 +60,7 @@ config.macros.VGraph= {
                 json.properties.label = json.id;
             }
         }
+       
         if(options.labelMacro){
             var paramStart = options.labelMacro.indexOf(" ");
             var paramString = options.labelMacro.substr(paramStart+1);
@@ -214,9 +215,9 @@ config.macros.VGraph= {
         this.setuptooltip(place);
         var that = this;
         options.dblclick = function(e,s){if(!s)return;story.displayTiddler(null,s.properties.name);};
-        this.options.mousedown = function(e,s){
+        options.mousedown = function(e,s){
             if(s){
-                that.vgr.centerOn(s.properties.id);
+                //that.vgr.centerOn(s.properties.id);
             }
         };
         this.options.vismoController = {labels:true,controlFill:options.lineColor,controlShape: "circle",controlStroke:"rgb(255,255,255)"};
