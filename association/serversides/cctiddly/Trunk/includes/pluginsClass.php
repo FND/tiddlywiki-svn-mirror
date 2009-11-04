@@ -33,7 +33,6 @@ class Plugin {
 		$ext = substr($file, strrpos($file, '.') + 1);
 		$tiddler['title'] = substr($file, strrpos($file, '/')+1, -strlen($ext)-1); 
 		if($ext=='tiddler') {
-
 			$tiddler['body'] = $this->getContentFromFile($file);	
 			$tiddler['tags'] = "";
 		} elseif($ext=='js') {

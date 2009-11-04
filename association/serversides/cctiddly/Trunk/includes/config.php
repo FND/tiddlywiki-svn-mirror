@@ -15,10 +15,12 @@ $tiddlyCfg['db']['allow_override'] = true;
 // Allows you to disable a plugin in your /plugins/ directory. 
 $tiddlyCfg['plugins_disabled'] = array(
 	"createPackages",
+	"docuweb",
  	"Portlet",
  	"lifestream",
  	"ckeditor",
  	"LDAP",
+"themes",
 	"FCKEditor",
 	"TiddlyDocs", 
 	"announcements",

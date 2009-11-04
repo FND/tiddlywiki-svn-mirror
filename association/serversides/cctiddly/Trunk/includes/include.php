@@ -67,7 +67,7 @@ config.macros.ccOptions.handler=function(place,macroName,params,wikifier,paramSt
 </div>
 <div title="loginStatus">
 <pre>
-You are viewing the file on offline mode.
+You are viewing the file in offline mode.
 
 To update your changes please log into ccTiddly in a seperate window and then press the sync button.
 
