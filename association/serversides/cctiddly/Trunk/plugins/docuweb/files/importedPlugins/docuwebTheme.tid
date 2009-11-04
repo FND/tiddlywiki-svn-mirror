@@ -1,0 +1,163 @@
+created:
+modified:
+tags:systemTheme  excludeLists excludeSearch
+modifier:
+
+
+/***
+|''Name:''|docuwebTheme|
+|''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
+|''~CoreVersion:''|2.4.0|
+|''~PageTemplate:''|##PageTemplate|
+|''~ViewTemplate:''|##ViewTemplate|
+|''~StyleSheet:''|##StyleSheet|
+***/
+
+!PageTemplate
+<!--{{{-->
+<br/>
+	<div id="container">
+	<div id="top">
+		<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>
+		<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>		
+		
+		<div macro='search' class='float-right'></div>
+	</div>
+	<div id="leftnav">
+		<div div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
+	</div>
+	<div id="content">
+		<div id='tiddlerDisplay'></div>
+	</div>
+	<div id="footer">
+	Footer
+	</div>
+	</div>
+<!--}}}-->
+
+
+!ViewTemplate
+<!--{{{-->
+<div class='title' macro='view title'></div>
+<div class='toolbar right' macro='toolbar [[ToolbarCommands::viewToolbar]]'></div>
+<div class='viewer' macro='view text wikified'></div>
+<div macro='commentSlider'></div>
+<!--}}}-->
+
+
+!StyleSheet
+
+body {
+	background:#aaa;
+}
+
+.siteTitle {
+	font-size:2em;
+}
+
+#container
+{
+width: 90%;
+margin: 10px auto;
+background-color: #fff;
+color: #333;
+border: 1px solid gray;
+line-height: 130%;
+}
+
+#top
+{
+padding: 1.4em;
+background-color: #fff;
+}
+
+#top h1
+{
+padding: 0;
+margin: 0;
+}
+
+#leftnav
+{
+float: left;
+width: 160px;
+margin: 0;
+padding: 1em;
+}
+
+#content
+{
+margin-left: 200px;
+padding: 1em;
+}
+
+#footer
+{
+clear: both;
+margin: 0;
+padding: .5em;
+color: #333;
+background-color: #ddd;
+}
+
+#leftnav p { margin: 0 0 1em 0; }
+#content h2 { margin: 0 0 .5em 0; }
+
+
+/* TiddlyWiki CSS */
+
+#mainMenu {
+		position:relative;
+		padding:0em;
+		text-align:left;
+	
+}
+
+.toolbar {
+	position:relative;
+	top:-2em;
+}
+.tiddler {
+	margin: 1em;
+	padding:2em;
+	padding-top:1.4em;
+	background:#EEEEEE none repeat scroll 0 0;
+	border:1px solid #DDDDDD;
+}
+
+.title {
+	color:#666;
+	padding-bottom:.3em;
+	padding-top:0em;
+}
+
+.siteTitle, .siteSubtitle {
+	font-family:tahoma;
+}
+
+/* END TiddlWiki CSS */
+
+/* Comments CSS */
+
+
+
+html body .comment .heading {
+	border:0px;
+	background-color:#ddd;
+}
+html body .comment {
+	border:1px solid #ddd;
+	margin:1em 1em 1em 0em;
+}
+
+
+html body .comment .reply {
+	padding-right:2em;
+}
+
+
+.float-right, .right {
+	float:right;
+}
+
+/* END Comments CSS */
