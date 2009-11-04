@@ -1,0 +1,9 @@
+<div title="SomeContacts" modifier="PaulDowney" created="200706111326" modified="200706201643">
+<pre><<contactLoadCSV "ZimbraCSV">>
+<<contact "PaulDowney">>
+<<contact "JeremyRuston">>
+<<contact "WhartonWest">>
+<<contact WestinStFrancis>>
+
+</pre>
+</div>
