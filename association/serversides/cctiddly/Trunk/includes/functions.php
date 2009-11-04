@@ -238,9 +238,6 @@ function getAllVersionTiddly($title)
 }
 
 
-
-
-
 function getTiddler($title, $workspace)
 {
 		global $tiddlyCfg;
