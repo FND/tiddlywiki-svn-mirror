@@ -164,7 +164,7 @@ config.commands.revisions.getTiddlerRevision = function(title,modified,revision)
 	var tiddler = store.fetchTiddler(title);
 	var context = {modified:modified};
 	return invokeAdaptor('getTiddlerRevision',title,revision,context,null,config.commands.revisions.getTiddlerRevisionCallback,tiddler.fields);
-};
+ };
 
 config.commands.revisions.getTiddlerRevisionCallback = function(context,userParams)
 {
@@ -421,11 +421,15 @@ config.commands.deleteTiddlerHosted.callback = function(context,userParams)
 					context.tiddler.tags = info['tags'].split(" ");
 	                context.tiddler.fields['server.page.revision'] = info['server.page.revision'];
 					context.tiddler.fields['server.id'] = info['id'];
-					context.tiddler.fields = merge(info['fields'], context.tiddler.fields);
+					if(info['fields'])
+						context.tiddler.fields = merge(info['fields'], context.tiddler.fields);
+					else
+						context.tiddler.fields = context.tiddler.fields;
 				    context.tiddler.modifier = info['modifier'];
 	                context.tiddler.modified = Date.convertFromYYYYMMDDHHMM(info['modified']);
 	                context.tiddler.created = Date.convertFromYYYYMMDDHHMM(info['created']);
 	                context.status = true;
+	
 	        }else{
 	                context.statusText = xhr.statusText;
 	                if(context.callback)
