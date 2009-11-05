@@ -77,7 +77,7 @@ array(	"themes/smmTheme",
 		"taggedTemplateTweak"
 	);
 
-$tiddlyCfg['pref']['offline']['js'] = array("plugins/ccTiddlyAdaptor");
+$tiddlyCfg['pref']['offline']['js'] = array("001_ccTiddlyAdaptor");
 
 //Proxy Allowed Servers
 
