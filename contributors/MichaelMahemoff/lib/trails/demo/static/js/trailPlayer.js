@@ -1,5 +1,5 @@
 
-var $resources, $predictedTitle, $note, $markers, selectedIndex, $hovered;
+var $resources, $predictedTitle, $note, $markers, selectedIndex, $hovered, $tooltip;
 
 /*******************************************************************************
  * Initialise - build and wire the UI
@@ -15,6 +15,7 @@ $(function() {
   $resources = $("#resources a");
   $predictedTitle = $("#predictedTitle");
   $note = $("#note");
+  $tooltip = $("<div class='tooltip'/>").appendTo("body");
 
   $("#metaInfoTitle").html($("#trail #title").html());
   $("#metaInfoEdit").showIf($("#trail #edit").length).attr("href", $("#trail #edit").attr("href"));
@@ -48,8 +49,8 @@ $(function() {
   $("#next,#quickNext").wireClickAndHover(function() { return Math.min(selectedIndex+1, $resources.length-1); });
   $("#end").wireClickAndHover(function() { return $resources.length-1; });
 
-  $("#closer #close").click(function() { document.location.href = $resources[selectedIndex].href; });
-  $("#closer #hideBar").click(function() { toggleTopBar(false); });
+  $("#close").click(function() { document.location.href = $resources[selectedIndex].href; });
+  $("#hide").click(function() { toggleTopBar(false); });
   $("#topBarHidden #restore").click(function() { toggleTopBar(true); });
 
   $(".noteToggle").click(toggleNote);
@@ -86,16 +87,16 @@ $.fn.wireHover = function(predictor) {
 function toggleTopBar(shouldShow) {
   var DELAY=300;
   if (shouldShow) {
-      $("#noteWrapper").css("opacity",0).animate({opacity:1}, DELAY);
+      $("#note").css("opacity",0).animate({opacity:1}, DELAY);
       $("#topBar").slideDown(DELAY);
       $(".scripted body").animate({"paddingTop": 48}, DELAY, function() {
-        $("#topBarHidden").removeClass("available");
+        // $("#topBarHidden").removeClass("available");
       });
   } else {
-      $("#noteWrapper").css("opacity",1).animate({opacity:0}, DELAY);
+      $("#note").css("opacity",1).animate({opacity:0}, DELAY);
       $("#topBar").slideUp(DELAY);
       $(".scripted body").animate({"paddingTop": 0}, DELAY, function() {
-        $("#topBarHidden").addClass("available");
+        // $("#topBarHidden").addClass("available");
       });
   }
 }
@@ -130,7 +131,9 @@ function switchResource() {
   return false;
 }
 
-function showPrediction() {
+var tooltipTimer;
+function showPrediction(ev) {
+  /*
   $hovered = $(this);
   var predictedIndex = $(this).data("predictor").apply(this);
   $markers.eq(predictedIndex).addClass("hovered");
@@ -139,9 +142,26 @@ function showPrediction() {
   var $predictedResource = $resources.eq(predictedIndex);
   $predictedTitle.html( (predictedIndex < selectedIndex) ?
     "&laquo; "+$predictedResource.title() : $predictedResource.title()+" &raquo");
+  */
+
+  var predictedIndex = $(this).data("predictor").apply(this);
+  if (predictedIndex==selectedIndex) return;
+  var $predictedResource = $resources.eq(predictedIndex);
+
+  if ($tooltip.data("predictor")==this && $tooltip.isDisplayed()) return;
+  clearTimeout(tooltipTimer);
+  log("cleared timeout");
+  $tooltip
+    .data("predictor", this)
+    .html(spacify($predictedResource.title()))
+    .css({left: ev.pageX+5, top: ev.pageY+5})
+    .show();
 }
 
 function hidePrediction() {
+  tooltipTimer = setTimeout(function() {
+    $tooltip.hide();
+  }, 500);
   $predictedTitle.empty();
   $markers.removeClass("hovered");
   updateNote(selectedIndex);
@@ -206,6 +226,10 @@ function updateNote(index, isPrediction) {
 }
 
 /*******************************************************************************
+ * MINI TOP BAR 
+ *******************************************************************************/
+
+/*******************************************************************************
  * Utils
  *******************************************************************************/
 
@@ -234,3 +258,5 @@ $.fn.title = function() {
   var title = $.trim($(this).html());
   return title.length ? title : $(this).attr("href");
 }
+
+function spacify(s) { return s.replace(" ", "&nbsp;"); }
