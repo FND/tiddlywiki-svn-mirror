@@ -52,66 +52,67 @@
   </div>
 </div>
 
+<div id="note">
+  <div class="noteToggle" id="noteHide">&uarr; hide note and comments &uarr;</div>
+  <div class="existingNote">
+    <h4>note from <span id="noteTrailOwner"></span></h4>
+    <h5><a href="#"></a></h5>
+      <div class="content"></div>
+    {% if commentable %} 
+      <h4>comments</h4>
+        <div id="comments">
+    {% endif %}
+  </div>
+  <div class="absentNote">
+    <h4>[no note]</h4>
+  </div>
+</div>
+
+
 <div id="topBar">
+
+  <!-- FLOATING LEFT -->
 
   <div id="metaInfo">
     <div id="metaInfoTitle"></div>
     <a id="metaInfoEdit">Edit&nbsp;Trail</a>
   </div>
 
-  <div id="chooser">
-
-    <div id="controls">
-      <select id="dropdown"></select>
-      <div id="predictedTitle"></div>
-    </div>
-
-    <div id="markersWrapper">
-      <div id="navWrapper">
-        <div id="nav">
-          <span id="start">&nbsp;</span>
-          <span id="prev">&nbsp;</span>
-          <span id="next">&nbsp;</span>
-          <span id="end">&nbsp;</span>
-        </div>
-        <div id="markers"></div>
-      </div>
-    </div>
-
+  <div id="nav">
+    <span id="start">&nbsp;</span>
+    <span id="prev">&nbsp;</span>
+    <span id="next">&nbsp;</span>
+    <span id="end">&nbsp;</span>
   </div>
 
-  <div id="closer">
-    <div class="prompt" id="hideBar"><span class='arrowShadow'>&uarr;</span>hide<span class='arrow'>&uarr;</span></div>
-    <div id="close">
-      <div id="closerX">X</div>
-      <div class="prompt" id="closeBar">close</div>
-    </div>
+  <!-- FLOATING RIGHT -->
+
+  <div id="close" class="closer">
+    <div class="icon">X</div>
+    <div class="prompt" id="closeBar">close</div>
+  </div>
+
+  <div id="hide" class="closer">
+    <div class="icon">&uarr;</div>
+    <div class="prompt" id="hideBar">hide</div>
+  </div>
+
+  <div id="noteControl">
+    <div class="stat">250 word note from trail author</div>
+    <div class="stat">28 comments from users</div>
+    <div class="noteToggle" id="noteExpand">&darr; show note and comments &darr;</div>
+  </div>
+
+  <!-- ELASTIC -->
+
+  <div id="stretchy">
+    <select id="dropdown"></select>
+    <div id="progress">&nbsp;</div>
   </div>
 
 </div>
 
 <div id="resourceView">
-  <div id="progressWrapper">
-    <img src="{{ static_path }}/images/progress.gif" />
-  </div>
-  <div id="noteWrapper">
-    <div class="noteTriangle leftTriangle triangle" id="noteTriangle1"></div>
-    <div class="noteTriangle rightTriangle triangle" id="noteTriangle2"></div>
-    <div class="invertedTriangle leftTriangle triangle" id="invertedTriangle1"></div>
-    <div class="invertedTriangle rightTriangle triangle" id="invertedTriangle2"></div>
-    <div id="noteExpander">-</div>
-    <div id="note">
-      <div class="existingNote">
-        <h4>note from <span id="noteTrailOwner"></span></h4>
-        <h5><a href="#"></a></h4>
-        <div class="content"></div>
-      </div>
-      <div class="absentNote">
-        <h4>[no note]</h4>
-      </div>
-    </div>
-  </div>
 </div>
-
 </body>
 </html>

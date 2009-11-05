@@ -25,13 +25,13 @@ $(function() {
     (function(count) {
       $("<a class='marker'>&#9679;</a>")
       .attr("href", $resources.eq(count).attr("href"))
-      .wireClickAndHover(predictForListItem)
+      // .wireClickAndHover(predictForListItem)
       .appendTo($("#markers"));
 
       $("<option/>")
       .val(count)
       .html($resources.eq(count).html())
-      .wireHover(predictForListItem)
+      // .wireHover(predictForListItem)
       .appendTo($("#dropdown"));
 
       $("select")
@@ -49,20 +49,23 @@ $(function() {
   $("#end").wireClickAndHover(function() { return $resources.length-1; });
 
   $("#closer #close").click(function() { document.location.href = $resources[selectedIndex].href; });
-  $("#closer #hideBar").click(function() { showAndHideTopBar(false); });
-  $("#topBarHidden #restore").click(function() { showAndHideTopBar(true); });
+  $("#closer #hideBar").click(function() { toggleTopBar(false); });
+  $("#topBarHidden #restore").click(function() { toggleTopBar(true); });
 
+  $(".noteToggle").click(toggleNote);
+  /*
   $(".triangle, #note h4, #noteExpander").click(function() {
-    if ($("#note").isVisible()) {
+    if ($("#note").isDisplayed()) {
       $(".noteTriangle,#note").fadeOut();
       $(".invertedTriangle").fadeIn(function() { $("#noteExpander").html("+").addClass("inverted"); });
     } else {
       $(".invertedTriangle").fadeOut();
       $(".noteTriangle,#note,#noteExpander").fadeIn(
-        function() { $("#noteExpander").html("-").removeClass("inverted"); }
+        function() { $("#noteExpander").html("hide").removeClass("inverted"); }
       );
     }
   });
+  */
   switchResourceByIndex(0);
 });
 
@@ -80,7 +83,7 @@ $.fn.wireHover = function(predictor) {
     .mouseout(hidePrediction);
 };
 
-function showAndHideTopBar(shouldShow) {
+function toggleTopBar(shouldShow) {
   var DELAY=300;
   if (shouldShow) {
       $("#noteWrapper").css("opacity",0).animate({opacity:1}, DELAY);
@@ -95,6 +98,18 @@ function showAndHideTopBar(shouldShow) {
         $("#topBarHidden").addClass("available");
       });
   }
+}
+
+function toggleNote() {
+  console.log($("#note").css("display"));
+  var willBeHidden = $("#note").isDisplayed();
+  if (willBeHidden) {
+    $("#noteExpand").animate({opacity: 1});
+  } else {
+    $("#noteExpand").animate({opacity: 0});
+    $("#noteHide").css("opacity", 1);
+  }
+  $("#note").slideToggle();
 }
 
 // There's no need to create a new function dynamically for each of the dropdown and 
@@ -152,11 +167,14 @@ function switchResourceByIndex(index) {
     }
   */
 
-  $("#progressWrapper").show();
+  $("#progress").visible(true);
 
-  var url = $("#resources a").eq(index).attr("href");
+  var $resource  = $("#resources a").eq(index);
+  var url  = $resource.attr("href");
+  var name = $resource.html();
+  document.title = name + "'" + $("#trail #title").html() + "' trail - ";
   $('#resourceView').find("iframe").remove().end().create("<iframe/>")
-    .src(url, function() { $("#progressWrapper").hide(); });
+    .src(url, function() { $("#progress").visible(false); });
 
 }
 
@@ -196,7 +214,21 @@ $.fn.create = function(html) { return this.append(html).children(":last"); };
 $.fn.showIf = function(bool) { return $(this).css("display", bool ? "block":"none"); }
 $.fn.setClassIf = function(bool, klass) { 
   return (bool ? $(this).addClass(klass) : $(this).removeClass(klass)); }
-$.fn.isVisible = function() { return $(this).css("display")!="none"; }
+$.fn.isDisplayed = function() { return $(this).css("display")!="none"; }
+$.fn.visible = function(visible) { 
+  if (!arguments.length) return $(this).css("visibility")=="visible";
+  for (var i=0; i<this.length; i++) {
+    $(this).eq(i).css("visibility", visible ? "visible":"hidden");
+  }
+  return $(this);
+}
+$.fn.toggleVisibility = function() {
+  for (var i=0; i<$(this).length; i++) {
+    $(this).eq(i).visible(!$(this).visible());
+  }
+  return $(this);
+}
+$.fn.slideToggle = function() { return $(this)[$(this).isDisplayed() ? "slideUp":"slideDown"](); }
 
 $.fn.title = function() { 
   var title = $.trim($(this).html());
