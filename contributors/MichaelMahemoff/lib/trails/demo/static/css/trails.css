@@ -1,6 +1,6 @@
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,dd,dl,dt,li,ol,ul,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;font-weight:normal;font-style:normal;text-align:left;font-family:inherit;}table{border-collapse:collapse;border-spacing:0;}ol,ul{list-style:none;}q:before,q:after,blockquote:before,blockquote:after{content:"";}
 
-body { font-family: gill sans; }
+body { font-family: gill sans; overflow: hidden; }
 
 #trail { padding: 10px; }
 #trail h1 { font-size: 1.5em; margin-bottom: 1em; }
@@ -27,7 +27,7 @@ body { font-family: gill sans; }
 #metaInfoTitle { text-align: center; }
 #metaInfoEdit { font-size: small; margin-top: 4px; display: block; text-align: center; }
 
-div#resourceView { width: 100%; height: 100%; position: relative; }
+div#resourceView { width: 100%; height: 100%; position: absolute; overflow: visible; }
 div#resourceView iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; overflow: visible; }
 
 a, a:visited { text-decoration: none; color: #00b; }
@@ -74,17 +74,20 @@ a.markerSelected.hovered,a.markerSelected.hovered:visited { color: #f66; }
 
 .closer { width: 40px; height: 100%; float: right; text-align: center; padding-top: 5px; }
 div.closer:hover { background: #ddd; }
-.closer div { text-align: center; font-size: small; }
+.closer div, .closer a { text-align: center; font-size: small; color: #000; }
 .closer div.icon { font-size: 20px; margin-bottom: 5px; }
 #hide { border-left: 1px solid #666; }
 
-#topBarHidden { position: absolute; top: 0; right: 0;
-                text-align: right; z-index: 1; height: 100px; }
-#topBarHidden.available { z-index: 99999; opacity: 0.00001; }
-#topBarHidden.available:hover { opacity: 0.8; }
-#topBarHidden #controls { background: #000; color: #666; opacity: 0.8; padding: 4px; }
-#topBarHidden #controls span:hover { color: #ff4; }
-#topBarHidden #controls span { margin: 0 4px; cursor: pointer; }
+#miniBar { position: absolute; top: 0; right: 0;
+           text-align: right; z-index: 1; height: 100px;
+           }
+#miniBar.available { z-index: 99999; opacity: 0.00001; }
+#miniBar.available:hover { opacity: 0.9; }
+#miniBar #controls { background: #000; opacity: 0.9; padding: 4px;
+                     border: 2px solid #fff; border-top-width: 0; border-right-width: 0; }
+#miniBar #controls, #miniBar a { color: #666; }
+#miniBar #controls span:hover { color: #ff4; }
+#miniBar #controls span { margin: 0 4px; cursor: pointer; }
 
 /****************************************************************************
   NOTECONTROL

@@ -15,7 +15,7 @@ $(function() {
   $resources = $("#resources a");
   $predictedTitle = $("#predictedTitle");
   $note = $("#note");
-  $tooltip = $("<div class='tooltip'/>").appendTo("body");
+  $tooltip = $("<div class='tooltip'/>").hide().appendTo("body");
 
   $("#metaInfoTitle").html($("#trail #title").html());
   $("#metaInfoEdit").showIf($("#trail #edit").length).attr("href", $("#trail #edit").attr("href"));
@@ -45,13 +45,14 @@ $(function() {
   $resources.hide();
 
   $("#start").wireClickAndHover(function() { return 0; });
-  $("#prev,#quickPrev").wireClickAndHover(function() { return Math.max(0, selectedIndex-1); });
-  $("#next,#quickNext").wireClickAndHover(function() { return Math.min(selectedIndex+1, $resources.length-1); });
+  $("#prev,#miniPrev").wireClickAndHover(function() { return Math.max(0, selectedIndex-1); });
+  $("#next,#miniNext").wireClickAndHover(function() { return Math.min(selectedIndex+1, $resources.length-1); });
   $("#end").wireClickAndHover(function() { return $resources.length-1; });
 
   $("#close").click(function() { document.location.href = $resources[selectedIndex].href; });
   $("#hide").click(function() { toggleTopBar(false); });
-  $("#topBarHidden #restore").click(function() { toggleTopBar(true); });
+  $("#miniBar #restore").click(function() { toggleTopBar(true); });
+  $("#miniLink").click(function() { return false; });
 
   $(".noteToggle").click(toggleNote);
   /*
@@ -90,13 +91,13 @@ function toggleTopBar(shouldShow) {
       $("#note").css("opacity",0).animate({opacity:1}, DELAY);
       $("#topBar").slideDown(DELAY);
       $(".scripted body").animate({"paddingTop": 48}, DELAY, function() {
-        // $("#topBarHidden").removeClass("available");
+        $("#miniBar").removeClass("available");
       });
   } else {
       $("#note").css("opacity",1).animate({opacity:0}, DELAY);
       $("#topBar").slideUp(DELAY);
       $(".scripted body").animate({"paddingTop": 0}, DELAY, function() {
-        // $("#topBarHidden").addClass("available");
+        $("#miniBar").addClass("available");
       });
   }
 }
@@ -150,11 +151,11 @@ function showPrediction(ev) {
 
   if ($tooltip.data("predictor")==this && $tooltip.isDisplayed()) return;
   clearTimeout(tooltipTimer);
-  log("cleared timeout");
+  var xPos = (ev.pageX+55 < $("body").width()) ? ev.pageX+5 : $("body").width()-55; // crude
   $tooltip
     .data("predictor", this)
     .html(spacify($predictedResource.title()))
-    .css({left: ev.pageX+5, top: ev.pageY+5})
+    .css({left: xPos, top: ev.pageY+5})
     .show();
 }
 
@@ -195,6 +196,8 @@ function switchResourceByIndex(index) {
   document.title = name + "'" + $("#trail #title").html() + "' trail - ";
   $('#resourceView').find("iframe").remove().end().create("<iframe/>")
     .src(url, function() { $("#progress").visible(false); });
+
+  $("#close,#miniLink").attr("href", url);
 
 }
 
