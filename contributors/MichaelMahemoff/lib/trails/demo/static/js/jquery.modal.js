@@ -2,7 +2,7 @@
   $.modal = {}
   $.modal.show  = function(message, options) {
 
-    $.fn.push = function(html) { return this.append(html).children(":last"); };
+    $.fn.attach = function(html) { return this.append(html).children(":last"); };
 
     var defaults = {
       dialogWidth: 400,
@@ -43,13 +43,13 @@
         top: $(window.body).scrollTop()+$(window).height()/2-settings.dialogHeight/2,
         left: $(window).width()/2-settings.dialogWidth/2
       })
-      .push("<div/>")
+      .attach("<div/>")
         .css({
           margin: "10px"
         })
         .append(message)
       .end()
-      .push("<div/>")
+      .attach("<div/>")
         .css({
           position: "absolute",
           top: "-1.2em",

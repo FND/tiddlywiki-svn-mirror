@@ -11,7 +11,7 @@ body { font-family: gill sans; overflow: hidden; }
 
 .scripted body { padding-top: 48px; }
 #topBar { position: absolute; top: 0; left: 0; width: 100%; height: 46px;
-          z-index: 999999;
+          z-index: 90000;
           background-color: #bbb;
           border-bottom: 2px solid #666;
           line-height: 1; overflow: hidden; }
@@ -132,7 +132,7 @@ div.closer:hover { background: #ddd; }
  ****************************************************************************/
  .tooltip { position: absolute; 
             background: #ff9; border: 1px solid #cc6; padding: 3px; 
-            z-index: 99999;
+            z-index: 900500;
             font-size: x-small; }
 
 /****************************************************************************

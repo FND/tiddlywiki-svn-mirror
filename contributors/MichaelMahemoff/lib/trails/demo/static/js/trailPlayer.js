@@ -74,27 +74,11 @@ $(function() {
 
 function showWelcome() {
  var welcomeMessage = $("#welcomeTemplate").clone();
- $(welcomeMessage).html(
-    $("#welcomeTemplate").html()
+ welcomeMessage.html(welcomeMessage.html()
     .replace("[[username]]", $("#owner").html())
     .replace(/\[\[title\]\]/g, $("#title").html())
     .replace(/\[\[resources\]\]/g, $("#resources").html())
   );
-  /*
-  var welcomeDiv = $("<div/>").load(function() {
-    log("loaded");
-    $("button", welcomeDiv).click(function() {
-      $.modal.close();
-    });
-  }).html(welcomeContent);
-  */
-  /*
-  (function updateWelcomeResources() {
-    var welcomeResources = $("#welcomeResources");
-    if (!welcomeResources.length) setTimeout(updateWelcomeResources, 500);
-    welcomeResources.replace($("#resources").clone());
-  })();
-  */
   $("button", welcomeMessage).live("click", function() { $.modal.close(); });
   $.modal.show(welcomeMessage, {
     dialogWidth: 600,
@@ -220,7 +204,7 @@ function switchResourceByIndex(index) {
 
   $("#progress").visible(true);
 
-  var $resource  = $("#resources a").eq(index);
+  var $resource  = $resources.eq(index);
   var url  = $resource.attr("href");
   var name = $resource.html();
   document.title = name + "'" + $("#trail #title").html() + "' trail - ";
@@ -232,7 +216,7 @@ function switchResourceByIndex(index) {
 }
 
 function updateControls(index) {
-  setTimeout(function() { $("#dropdown").val(index) }, 1);
+  setTimeout(function() { $("#dropdown").val(index); }, 1);
   /*
   try { // http://is.gd/4KngN
     // $("#dropdown option").eq(index).attr("selected", true);
