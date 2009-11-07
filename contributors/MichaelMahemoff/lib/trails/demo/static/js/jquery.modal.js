@@ -1,13 +1,17 @@
 (function($) {
   $.modal = {}
-  $.modal.show  = function(message) {
+  $.modal.show  = function(message, options) {
 
     $.fn.push = function(html) { return this.append(html).children(":last"); };
 
-    var DIALOG_WIDTH = 400;
-    var DIALOG_HEIGHT = 300;
+    var defaults = {
+      dialogWidth: 400,
+      dialogHeight: 300
+    }
+    var settings = $.extend(defaults, options);
+
     var CUSHION_LENGTH = 20000;
-    FADE_DURATION = 400;
+    FADE_DURATION = 500;
     var mask = $("<div/>")
       .animate({opacity: 0.85}, FADE_DURATION)
       .css({
@@ -15,33 +19,35 @@
         top: -CUSHION_LENGTH,
         left: -CUSHION_LENGTH,
         background: "#999",
-        zIndex: 999998,
+        zIndex: 9999998,
         height: 2*CUSHION_LENGTH+$(window).height(),
         width: 2*CUSHION_LENGTH+$(window).width(),
         opacity: 0.01
       })
       .click(function(ev) {
-        close(ev);
+        $.modal.close(ev);
       })
       .appendTo($(document.body));
 
-    var dialog = $("<div/>")
+    var dialog = $("<div class='modal'/>")
       .fadeIn(FADE_DURATION)
       .css({
         position: "absolute",
         background: "#fff",
         border: "1px solid #666",
-        width: DIALOG_WIDTH,
-        height: DIALOG_HEIGHT,
-        zIndex: 999999,
-        top: $(window.body).scrollTop()+$(window).height()/2-DIALOG_HEIGHT/2,
-        left: $(window).width()/2-DIALOG_WIDTH/2
+        "-moz-border-radius": 5,
+        "-webkit-border-radius": 5,
+        width: settings.dialogWidth,
+        height: settings.dialogHeight,
+        zIndex: 9999999,
+        top: $(window.body).scrollTop()+$(window).height()/2-settings.dialogHeight/2,
+        left: $(window).width()/2-settings.dialogWidth/2
       })
       .push("<div/>")
         .css({
           margin: "10px"
         })
-        .html(message)
+        .append(message)
       .end()
       .push("<div/>")
         .css({
@@ -52,20 +58,21 @@
         })
         .html("X")
         .click(function(ev) {
-          close(ev);
+          $.modal.close(ev);
         })
       .end()
       .appendTo($(document.body));
 
     $(window.body).keyup(function(ev) { 
-      if (ev.charCode==27 || ev.keyCode==27) close(ev);
+      if (ev.charCode==27 || ev.keyCode==27) $.modal.close(ev);
     });
 
-    function close(ev) {
-      ev.stopPropagation();
+    $.modal.close = function(ev) {
+      if (ev) ev.stopPropagation();
       dialog.slideUp(FADE_DURATION, function() { dialog.remove(); });
       mask.fadeOut(FADE_DURATION, function() { mask.remove(); });
     }
+    return dialog;
 
   }
 })(jQuery);

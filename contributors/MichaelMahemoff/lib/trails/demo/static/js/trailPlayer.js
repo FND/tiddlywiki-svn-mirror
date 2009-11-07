@@ -42,7 +42,6 @@ $(function() {
     })(count);
   });
   $markers = $(".marker");
-  $resources.hide();
 
   $("#start").wireClickAndHover(function() { return 0; });
   $("#prev,#miniPrev").wireClickAndHover(function() { return Math.max(0, selectedIndex-1); });
@@ -51,6 +50,7 @@ $(function() {
 
   $("#close").click(function() { document.location.href = $resources[selectedIndex].href; });
   $("#hide").click(function() { toggleTopBar(false); });
+  $("#info").click(showWelcome);
   $("#miniBar #restore").click(function() { toggleTopBar(true); });
   $("#miniLink").click(function() { return false; });
 
@@ -69,7 +69,38 @@ $(function() {
   });
   */
   switchResourceByIndex(0);
+  showWelcome();
 });
+
+function showWelcome() {
+ var welcomeMessage = $("#welcomeTemplate").clone();
+ $(welcomeMessage).html(
+    $("#welcomeTemplate").html()
+    .replace("[[username]]", $("#owner").html())
+    .replace(/\[\[title\]\]/g, $("#title").html())
+    .replace(/\[\[resources\]\]/g, $("#resources").html())
+  );
+  /*
+  var welcomeDiv = $("<div/>").load(function() {
+    log("loaded");
+    $("button", welcomeDiv).click(function() {
+      $.modal.close();
+    });
+  }).html(welcomeContent);
+  */
+  /*
+  (function updateWelcomeResources() {
+    var welcomeResources = $("#welcomeResources");
+    if (!welcomeResources.length) setTimeout(updateWelcomeResources, 500);
+    welcomeResources.replace($("#resources").clone());
+  })();
+  */
+  $("button", welcomeMessage).live("click", function() { $.modal.close(); });
+  $.modal.show(welcomeMessage, {
+    dialogWidth: 600,
+    dialogHeight: 600
+  });
+}
 
 $.fn.wireClickAndHover = function(predictor) {
   $(this).data("predictor", predictor);
@@ -103,7 +134,6 @@ function toggleTopBar(shouldShow) {
 }
 
 function toggleNote() {
-  console.log($("#note").css("display"));
   var willBeHidden = $("#note").isDisplayed();
   if (willBeHidden) {
     $("#noteExpand").animate({opacity: 1});
@@ -242,6 +272,7 @@ $.fn.showIf = function(bool) { return $(this).css("display", bool ? "block":"non
 $.fn.setClassIf = function(bool, klass) { 
   return (bool ? $(this).addClass(klass) : $(this).removeClass(klass)); }
 $.fn.isDisplayed = function() { return $(this).css("display")!="none"; }
+$.fn.replaceWith = function(el) { $(this).after(el).remove(); return el; };
 $.fn.visible = function(visible) { 
   if (!arguments.length) return $(this).css("visibility")=="visible";
   for (var i=0; i<this.length; i++) {

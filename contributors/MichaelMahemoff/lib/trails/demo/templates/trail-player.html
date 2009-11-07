@@ -13,16 +13,20 @@
 	<link rel="stylesheet" href="{{ static_path }}/css/trails.css" type="text/css" media="screen" title="no title" charset="utf-8"/>
   <link rel="shortcut icon" href="{{ static_path }}/images/favicon.ico" type="image/x-icon" /> 
 	<script type="text/javascript" src="{{ static_path }}/js/jquery-1.3.2.js"></script>
-	<script type="text/javascript" src="{{ static_path }}/js/trailPlayer.js"></script>
 	<script type="text/javascript" src="{{ static_path }}/js/jquery.modal.js"></script>
 	<script type="text/javascript" src="{{ static_path }}/js/jquery.iframe.js"></script>
+	<script type="text/javascript" src="{{ static_path }}/js/trailPlayer.js"></script>
 </head>
 
 <body>
+
 <script type="text/javascript">
   document.documentElement.className = 'scripted';
 </script>
 
+<!-- ********************************************************************** -->
+<!-- OK HERE THE TRAIL BEGINS - THIS IS THE IMPORTANT DATA BIT -->
+<!-- ********************************************************************** -->
 <div id="trail">
 
   <h1>
@@ -38,20 +42,23 @@
        URLs (in the "href" are mandatory), titles and notes are optional. -->
   <ol id="resources" class="xoxo">
     {% for resource in trail.resources %}
-      <li><a class="url" href="{{ resource.url }}" target="resourceView" title="{{resource.title}}">{{resource.title}}</a>
+      <li class="resourceItem"><a class="resource" href="{{ resource.url }}" target="resourceView" title="{{resource.title}}">{{resource.title}}</a>
         <div class="note">{{resource.note}}</div>
       </li>
     {% endfor %}
   </ol>
 
 </div>
+<!-- ********************************************************************** -->
+<!-- OK HERE THE TRAIL ENDS - ALL BELOW IS FOR THE INTERACTIVE APPLICATION -->
+<!-- ********************************************************************** -->
 
 <div id="miniBar">
   <div id="controls">
     <span id="restore">&darr;trail</span>
     <span id="miniPrev">&laquo;</span>
     <span id="miniNext">&raquo;</span>
-    <a id="miniLink">#</a>
+    <!-- <a id="miniLink">#</a> -->
   </div>
 </div>
 
@@ -92,13 +99,18 @@
 
   <a id="close" class="closer">
     <div class="icon">X</div>
-    <div class="prompt" id="closeBar">close</div>
+    <div class="prompt">close</div>
   </a>
 
   <div id="hide" class="closer">
     <div class="icon">&uarr;</div>
-    <div class="prompt" id="hideBar">hide</div>
+    <div class="prompt">hide</div>
   </div>
+
+  <a id="info" class="closer">
+    <div class="icon">i</div>
+    <div class="prompt" id="showInfo">info</div>
+  </a>
 
   <div id="noteControl">
     <div class="stat">250 word note from trail author</div>
@@ -117,5 +129,17 @@
 
 <div id="resourceView">
 </div>
+
+<div id="welcomeTemplate">
+  <h2>[[title]] - website trail</h2>
+
+  <p id="explanation">[[username]] has created the following list of websites about "[[title]]" for you to explore.</p>
+
+  <button>Start the trail</button>
+
+  [[resources]]
+
+</div>
+
 </body>
 </html>
