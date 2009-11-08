@@ -1,192 +1,194 @@
 <h1>Using the wiki-data API</h1>
-<p>wiki-data exposes its data in several formats through an API. To use the public data fields, you do not need a developer account. Non-public fields (as described in the <a href="http://www.avox.info/pdfs/wikidata_field_specs.pdf">field spec</a>) are available with a developer account. At the moment, developer accounts are invite-only; if you would like to take advantage of the non-public fields, please get in touch at <a href="mailto:support@wiki-data.com">support@wiki-data.com</a></p>
-<h2>Search request</h2>
-<p>You can request data in XML, JSON, text or HTML format. Requesting in HTML format produces the same result as visiting the website in a browser. A JSONP wrapper is available to enable cross-domain data requests.</p>
-<p>The endpoint for a search request is:</p>
-<pre>http://wiki-data.com/search</pre>
-<p>You can use the <code>Accept</code> HTTP header to choose the format of the response; alternatively, you can specify the format in the extension to the endpoint:</p>
-<table>
-	<thead>
-		<tr>
-			<th><strong>eormat</strong></th>
-			<th><strong>Accept header</strong></th>
-			<th><strong>endpoint</strong></th>
-		</tr>
-	</thead>
-	</tbody>
-		<tr>
-			<td>XML</td>
-			<td>application/xml</td>
-			<td>/search.xml</td>
-		</tr>
-		<tr>
-			<td>JSON</td>
-			<td>application/json</td>
-			<td>/search.json</td>
-		</tr>
-		<tr>
-			<td>text</td>
-			<td>text/plain</td>
-			<td>/search.txt</td>
-		</tr>
-		<tr>
-			<td>HTML</td>
-			<td>text/html</td>
-			<td>/search</td>
-		</tr>
-	</tbody>
-</table>
-<h3>JSONP requests</h3>
-<p>You can make cross-domain JSON search requests by specifying a <code>jsonp_callback</code> parameter in the query string. This wraps the returned data with a function call to whatever you choose as the value of the <code>jsonp_callback</code> parameter.</p>
-<p>The API understands query string parameters delimited by either "&" or ";" characters, so both these requests are equivalent:</p>
-<pre><code>http://wiki-data.com/search.json?q=mycompany&jsonp_callback=myCallback
-http://wiki-data.com/search.json?q=mycompany;jsonp_callback=myCallback</code></pre>
-<p>To make use of the JSONP callback, add a <code>script</code> tag to your page with the search query as the <code>src</code> - the callback will be executed as soon as the code is loaded:</p>
-<pre><code>var myCallback = function(response) {
-	// do something
-};
-var s = document.createElement('script');
-s.src = "http://wiki-data.com/search.json?q=mycompany&jsonp_callback=myCallback";
-document.head.appendChild(s);</code></pre>
-<p>If you use jQuery in your application, you can make use of its in-built JSONP handling:</p>
-<pre><code>$.getJSON(
-	"http://wiki-data.com/search.json?q=mycompany&jsonp_callback=?",
-	function(response) {
+<div id="api">
+	<p>wiki-data exposes its data in several formats through an API. To use the public data fields, you do not need a developer account. Non-public fields (as described in the <a href="http://www.avox.info/pdfs/wikidata_field_specs.pdf">field spec</a>) are available with a developer account. At the moment, developer accounts are invite-only; if you would like to take advantage of the non-public fields, please get in touch at <a href="mailto:support@wiki-data.com">support@wiki-data.com</a></p>
+	<h2>Search request</h2>
+	<p>You can request data in XML, JSON, text or HTML format. Requesting in HTML format produces the same result as visiting the website in a browser. A JSONP wrapper is available to enable cross-domain data requests.</p>
+	<p>The endpoint for a search request is:</p>
+	<pre>http://wiki-data.com/search</pre>
+	<p>You can use the <code>Accept</code> HTTP header to choose the format of the response; alternatively, you can specify the format in the extension to the endpoint:</p>
+	<table>
+		<thead>
+			<tr>
+				<th><strong>eormat</strong></th>
+				<th><strong>Accept header</strong></th>
+				<th><strong>endpoint</strong></th>
+			</tr>
+		</thead>
+		</tbody>
+			<tr>
+				<td>XML</td>
+				<td>application/xml</td>
+				<td>/search.xml</td>
+			</tr>
+			<tr>
+				<td>JSON</td>
+				<td>application/json</td>
+				<td>/search.json</td>
+			</tr>
+			<tr>
+				<td>text</td>
+				<td>text/plain</td>
+				<td>/search.txt</td>
+			</tr>
+			<tr>
+				<td>HTML</td>
+				<td>text/html</td>
+				<td>/search</td>
+			</tr>
+		</tbody>
+	</table>
+	<h3>JSONP requests</h3>
+	<p>You can make cross-domain JSON search requests by specifying a <code>jsonp_callback</code> parameter in the query string. This wraps the returned data with a function call to whatever you choose as the value of the <code>jsonp_callback</code> parameter.</p>
+	<p>The API understands query string parameters delimited by either "&" or ";" characters, so both these requests are equivalent:</p>
+	<pre><code>http://wiki-data.com/search.json?q=mycompany&jsonp_callback=myCallback
+	http://wiki-data.com/search.json?q=mycompany;jsonp_callback=myCallback</code></pre>
+	<p>To make use of the JSONP callback, add a <code>script</code> tag to your page with the search query as the <code>src</code> - the callback will be executed as soon as the code is loaded:</p>
+	<pre><code>var myCallback = function(response) {
 		// do something
-	}
-);</code></pre>
-<h3>Fields to search data by</h3>
-<p>The simplest query you can make is by using the <code>q</code> parameter in the query string. This searches <em>Legal Name</em>, <em>Previous Name(s)</em> and <em>Trades As Names(s)</em> fields for a match</p>
-<p>You can search the public data by any of the following fields. The query string parameter is the human-readable field name transformed to lower-case with " ", "(" and ")" replaced by "_":</p>
-<table>
-	<thead>
-		<tr>
-			<td><strong>field<strong></td>
-			<td><strong>query string parameter</strong></td>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td>AVID</td>
-			<td>avid</td>
-		</tr>
-		<tr>
-			<td>Legal Name</td>
-			<td>legal_name</td>
-		</tr>
-		<tr>
-			<td>Previous Name(s)</td>
-			<td>previous_name_s_</td>
-		</tr>
-		<tr>
-			<td>Trades As Names(s)</td>
-			<td>trades_as_name_s_</td>
-		</tr>
-		<tr>
-			<td>Trading Status</td>
-			<td>trading_status</td>
-		</tr>
-		<tr>
-			<td>Company Website</td>
-			<td>company_website</td>
-		</tr>
-		<tr>
-			<td>Registered Country</td>
-			<td>registered_country</td>
-		</tr>
-		<tr>
-			<td>Operational PO Box</td>
-			<td>operational_po_box</td>
-		</tr>
-		<tr>
-			<td>Operational Street 1</td>
-			<td>operational_street_1</td>
-		</tr>
-		<tr>
-			<td>Operational Street 2</td>
-			<td>operational_street_2</td>
-		</tr>
-		<tr>
-			<td>Operational Street 3</td>
-			<td>operational_street_3</td>
-		</tr>
-		<tr>
-			<td>Operational City</td>
-			<td>operational_city</td>
-		</tr>
-		<tr>
-			<td>Operational Country</td>
-			<td>operational_country</td>
-		</tr>
-		<tr>
-			<td>Operational Postcode</td>
-			<td>operational_postcode</td>
-		</tr>
-	</tbody>
-</table>
-<h3>Country/state codes</h3>
-<p>For the state and country fields mentioned below, you need to provide the 2 or 3 letter <a href="http://en.wikipedia.org/wiki/ISO_3166">ISO 3166</a> codes for the country/state you want.</p>
-<p>There is a JavaScript helper library at <a href="http://github.com/jayfresh/ISO_3166">http://github.com/jayfresh/ISO_3166</a> which contains the mappings you need.</p>
-<table>
-	<thead>
-		<tr>
-			<th><strong>field</strong></th>
-			<th><strong>code to use</strong></th>
-			<th><strong>reference</strong></th>
-		</tr>
-		<tr>
-			<td>registered_country</td>
-			<td>ISO 3166-1 alpha 3</td>
-			<td><a href="http://en.wikipedia.org/wiki/ISO_3166-1_alpha-3">http://en.wikipedia.org/wiki/ISO_3166-1_alpha-3</a></td>
-		</tr>
-		<tr>
-			<td>operational_country</td>
-			<td>ISO 3166-1 alpha 3</td>
-			<td><a href="http://en.wikipedia.org/wiki/ISO_3166-1_alpha-3">http://en.wikipedia.org/wiki/ISO_3166-1_alpha-3</a></td>
-		</tr>
-		<tr>
-			<td>operational_state</td>
-			<td>ISO 3166-2</td>
-			<td><a href="http://en.wikipedia.org/wiki/ISO_3166-1_alpha-3">http://en.wikipedia.org/wiki/ISO_3166-2</a></td>
-		</tr>
-	</thead>
-</table>
-<h3>Request query format</h3>
-<p>You can specify the fields to filter on in two different ways:</p>
-<h4>key/value pairs</h4>
-<p>This is standard form of creating a search string e.g. to search for all companies with the word "bank" in their name, operating in London, England, you can issue this query:</p>
-<pre><code>http://wiki-data.com/search?q=bank&operational_city=London&operational_country=GBR</code></pre>
-<h4>field/value mapping</h4>
-<p>If you find that it is difficult to provide the key/value pair structure as described above, you might find it easier to use an indirect mapping of the fields to the values. For example, you might be presenting seperate inputs for someone to choose a field and provide a value (see the search filters on <a href="http://wiki-data.com/index.html">wiki-data.com</a>).</p>
-<p>To issue the same query as before, using the field/value mappping:</p>
-<pre><code>http://wiki-data.com/search?q=bank&adv_0_field=operational_city&adv_0_value=London&adv_1_field=operational_country&adv_1_value=GBR</code></pre>
-<p>For each extra field/value you want to search by, increase the index after <code>adv_</code> by 1.</p>
-<h2>Search response</h2>
-<p>The data that is returned from a search always has the same structure, whichever format it is represented in. The exception is the HTML format, which returns the same webpage you would see if you performed the search on wiki-data.com.</p>
-<p>As an example, a JSON search returns this structure:</p>
-<pre><code>[
-   {
-      title: 12345678, // AVID
-      fields: {
-         legal_name,
-         previous_name_s_,
-         trades_as_name_s_,
-         trading_status,
-         company_website,
-         registered_country,
-         operational_po_box,
-         operational_floor,
-         operational_building,
-         operational_street_1,
-         operational_street_2,
-         operational_street_3,
-         operational_city,
-         operational_state,
-         operational_country,
-         operational_postcode
-      },
-      // other meta-data fields about the record itself
-   },
-   ...
-]</code></pre>
-<p>The other meta-fields referred to come from the internal structure of the <a href="http://tiddlyweb.peermore.com">TiddlyWeb</a> instance running the system. We don't remove these as they may prove useful in some applications.</p>
+	};
+	var s = document.createElement('script');
+	s.src = "http://wiki-data.com/search.json?q=mycompany&jsonp_callback=myCallback";
+	document.head.appendChild(s);</code></pre>
+	<p>If you use jQuery in your application, you can make use of its in-built JSONP handling:</p>
+	<pre><code>$.getJSON(
+		"http://wiki-data.com/search.json?q=mycompany&jsonp_callback=?",
+		function(response) {
+			// do something
+		}
+	);</code></pre>
+	<h3>Fields to search data by</h3>
+	<p>The simplest query you can make is by using the <code>q</code> parameter in the query string. This searches <em>Legal Name</em>, <em>Previous Name(s)</em> and <em>Trades As Names(s)</em> fields for a match</p>
+	<p>You can search the public data by any of the following fields. The query string parameter is the human-readable field name transformed to lower-case with " ", "(" and ")" replaced by "_":</p>
+	<table>
+		<thead>
+			<tr>
+				<td><strong>field<strong></td>
+				<td><strong>query string parameter</strong></td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>AVID</td>
+				<td>avid</td>
+			</tr>
+			<tr>
+				<td>Legal Name</td>
+				<td>legal_name</td>
+			</tr>
+			<tr>
+				<td>Previous Name(s)</td>
+				<td>previous_name_s_</td>
+			</tr>
+			<tr>
+				<td>Trades As Names(s)</td>
+				<td>trades_as_name_s_</td>
+			</tr>
+			<tr>
+				<td>Trading Status</td>
+				<td>trading_status</td>
+			</tr>
+			<tr>
+				<td>Company Website</td>
+				<td>company_website</td>
+			</tr>
+			<tr>
+				<td>Registered Country</td>
+				<td>registered_country</td>
+			</tr>
+			<tr>
+				<td>Operational PO Box</td>
+				<td>operational_po_box</td>
+			</tr>
+			<tr>
+				<td>Operational Street 1</td>
+				<td>operational_street_1</td>
+			</tr>
+			<tr>
+				<td>Operational Street 2</td>
+				<td>operational_street_2</td>
+			</tr>
+			<tr>
+				<td>Operational Street 3</td>
+				<td>operational_street_3</td>
+			</tr>
+			<tr>
+				<td>Operational City</td>
+				<td>operational_city</td>
+			</tr>
+			<tr>
+				<td>Operational Country</td>
+				<td>operational_country</td>
+			</tr>
+			<tr>
+				<td>Operational Postcode</td>
+				<td>operational_postcode</td>
+			</tr>
+		</tbody>
+	</table>
+	<h3>Country/state codes</h3>
+	<p>For the state and country fields mentioned below, you need to provide the 2 or 3 letter <a href="http://en.wikipedia.org/wiki/ISO_3166">ISO 3166</a> codes for the country/state you want.</p>
+	<p>There is a JavaScript helper library at <a href="http://github.com/jayfresh/ISO_3166">http://github.com/jayfresh/ISO_3166</a> which contains the mappings you need.</p>
+	<table>
+		<thead>
+			<tr>
+				<th><strong>field</strong></th>
+				<th><strong>code to use</strong></th>
+				<th><strong>reference</strong></th>
+			</tr>
+			<tr>
+				<td>registered_country</td>
+				<td>ISO 3166-1 alpha 3</td>
+				<td><a href="http://en.wikipedia.org/wiki/ISO_3166-1_alpha-3">http://en.wikipedia.org/wiki/ISO_3166-1_alpha-3</a></td>
+			</tr>
+			<tr>
+				<td>operational_country</td>
+				<td>ISO 3166-1 alpha 3</td>
+				<td><a href="http://en.wikipedia.org/wiki/ISO_3166-1_alpha-3">http://en.wikipedia.org/wiki/ISO_3166-1_alpha-3</a></td>
+			</tr>
+			<tr>
+				<td>operational_state</td>
+				<td>ISO 3166-2</td>
+				<td><a href="http://en.wikipedia.org/wiki/ISO_3166-1_alpha-3">http://en.wikipedia.org/wiki/ISO_3166-2</a></td>
+			</tr>
+		</thead>
+	</table>
+	<h3>Request query format</h3>
+	<p>You can specify the fields to filter on in two different ways:</p>
+	<h4>key/value pairs</h4>
+	<p>This is standard form of creating a search string e.g. to search for all companies with the word "bank" in their name, operating in London, England, you can issue this query:</p>
+	<pre><code>http://wiki-data.com/search?q=bank&operational_city=London&operational_country=GBR</code></pre>
+	<h4>field/value mapping</h4>
+	<p>If you find that it is difficult to provide the key/value pair structure as described above, you might find it easier to use an indirect mapping of the fields to the values. For example, you might be presenting seperate inputs for someone to choose a field and provide a value (see the search filters on <a href="http://wiki-data.com/index.html">wiki-data.com</a>).</p>
+	<p>To issue the same query as before, using the field/value mappping:</p>
+	<pre><code>http://wiki-data.com/search?q=bank&adv_0_field=operational_city&adv_0_value=London&adv_1_field=operational_country&adv_1_value=GBR</code></pre>
+	<p>For each extra field/value you want to search by, increase the index after <code>adv_</code> by 1.</p>
+	<h2>Search response</h2>
+	<p>The data that is returned from a search always has the same structure, whichever format it is represented in. The exception is the HTML format, which returns the same webpage you would see if you performed the search on wiki-data.com.</p>
+	<p>As an example, a JSON search returns this structure:</p>
+	<pre><code>[
+	   {
+	      title: 12345678, // AVID
+	      fields: {
+	         legal_name,
+	         previous_name_s_,
+	         trades_as_name_s_,
+	         trading_status,
+	         company_website,
+	         registered_country,
+	         operational_po_box,
+	         operational_floor,
+	         operational_building,
+	         operational_street_1,
+	         operational_street_2,
+	         operational_street_3,
+	         operational_city,
+	         operational_state,
+	         operational_country,
+	         operational_postcode
+	      },
+	      // other meta-data fields about the record itself
+	   },
+	   ...
+	]</code></pre>
+	<p>The other meta-fields referred to come from the internal structure of the <a href="http://tiddlyweb.peermore.com">TiddlyWeb</a> instance running the system. We don't remove these as they may prove useful in some applications.</p>
+</div>

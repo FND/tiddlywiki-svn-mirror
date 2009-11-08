@@ -85,10 +85,6 @@ a, a:visited, a:hover, a:active {
 strong {
 	font-weight: bold;
 }
-p {
-	padding-bottom: 4px;
-	line-height: 17px;
-}
 h1 {
 	padding: 0;
 	margin-bottom: 10px;
@@ -406,4 +402,8 @@ table.fields td span {
 }
 #partners ul {
 	margin-left: 50px;
+}
+#api p {
+	padding-bottom: 4px;
+	line-height: 17px;
 }
