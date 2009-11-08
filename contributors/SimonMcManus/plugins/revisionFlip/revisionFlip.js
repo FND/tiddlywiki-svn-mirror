@@ -13,7 +13,9 @@ config.commands.revisionsFlip = {};
 		jQuery(revdiv).hide();
 		var tiddler = store.getTiddler(title);
 		jQuery('#tiddler'+title).after(revdiv);
-		jQuery('#tiddler'+title).flip({ direction: 'tb', color: '#eee', content:jQuery("#tiddler"+title+"Revisions") }); 		
+		jQuery('#tiddler'+title).flip({ direction: 'bt', color: '#eee', content:jQuery("#tiddler"+title+"Revisions") }); 		
+		
+		// start revisions specific code
 		var type = tiddler.fields['server.type'];
 		var params = {origin: title};
 		var context = {
@@ -29,8 +31,7 @@ config.commands.revisionsFlip = {};
 		var containerId = "#tiddler"+params.origin+"Revisions";
 		var html = [];
 		for(var g=0; g<results.revisions.length; g++) {
-			console.log("ccc ",results.revisions[g],  results.revisions[g].fields['server.page.revision']);
-			html.push("<b>"+results.revisions[g].fields['server.page.revision']+"</b>: 	"+results.revisions[g].modifier+" @ "+results.revisions[g].modified+'<br/>');
+			html.push("<b>"+results.revisions[g].fields['server.page.revision']+"</b>: 	"+results.revisions[g].modifier+" "+humane_date(results.revisions[g].modified)+'<hr/>');
 		}
 		jQuery(containerId).html(html.join('\n'));		
 	}
