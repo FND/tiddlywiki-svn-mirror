@@ -55,6 +55,19 @@ body {
 	font-size: 14px;
 	background-color: #fffef0;
 }
+pre {
+	line-height: 150%;
+	border: 1px solid #999999;
+	padding: 10px;
+	margin: 10px 0;
+}
+pre, code {
+	font-family: monospace;
+	background-color: #D5D5D5;
+}
+em {
+	font-style: italic;
+}
 #wrapper {
 	width: 960px;
 	margin: auto;
@@ -74,18 +87,24 @@ strong {
 }
 p {
 	padding-bottom: 4px;
+	line-height: 17px;
 }
 h1 {
 	padding: 0;
-	margin: 0;
+	margin-bottom: 10px;
 	display: inline-block;
 	font-size: 24px;
 }
 h2 {
 	font-size: 20px;
+	margin-bottom: 10px;
 }
 h3 {
 	font-size: 16px;
+	margin-bottom: 10px;
+}
+h4 {
+	margin-bottom: 10px;
 }
 button {
 	cursor: pointer;
@@ -252,6 +271,7 @@ table {
 	background-color: #d5d5d5;
 	width: inherit;
 	overflow: hidden;
+	margin: 10px 0;
 }
 table a, table a:active, table a:hover, table a:visited {
 	color: #777777;
