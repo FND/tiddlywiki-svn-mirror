@@ -144,6 +144,11 @@ button {
 	padding: 17px;
 	line-height: 17px;
 }
+#header .right img { /* JRL: temporary banner */
+	position: absolute;
+	right: 0px;
+	margin-top: 20px;
+}
 .definition {
 	letter-spacing: 2px;
 }
