@@ -2,7 +2,7 @@
 <div id="api">
 	<p>wiki-data exposes its data in several formats through an API. To use the public data fields, you do not need a developer account. Non-public fields (as described in the <a href="http://www.avox.info/pdfs/wikidata_field_specs.pdf">field spec</a>) are available with a developer account. At the moment, developer accounts are invite-only; if you would like to take advantage of the non-public fields, please get in touch at <a href="mailto:support@wiki-data.com">support@wiki-data.com</a></p>
 	<h2>Search request</h2>
-	<p>You can request data in XML, JSON, text or HTML format. Requesting in HTML format produces the same result as visiting the website in a browser. A JSONP wrapper is available to enable cross-domain data requests.</p>
+	<p>You can request data in JSON, text or HTML format. Requesting in HTML format produces the same result as visiting the website in a browser. A JSONP wrapper is available to enable cross-domain data requests.</p>
 	<p>The endpoint for a search request is:</p>
 	<pre>http://wiki-data.com/search</pre>
 	<p>You can use the <code>Accept</code> HTTP header to choose the format of the response; alternatively, you can specify the format in the extension to the endpoint:</p>
@@ -15,11 +15,6 @@
 			</tr>
 		</thead>
 		</tbody>
-			<tr>
-				<td>XML</td>
-				<td>application/xml</td>
-				<td>/search.xml</td>
-			</tr>
 			<tr>
 				<td>JSON</td>
 				<td>application/json</td>
@@ -163,8 +158,8 @@
 	<pre><code>http://wiki-data.com/search?q=bank&adv_0_field=operational_city&adv_0_value=London&adv_1_field=operational_country&adv_1_value=GBR</code></pre>
 	<p>For each extra field/value you want to search by, increase the index after <code>adv_</code> by 1.</p>
 	<h2>Search response</h2>
-	<p>The data that is returned from a search always has the same structure, whichever format it is represented in. The exception is the HTML format, which returns the same webpage you would see if you performed the search on wiki-data.com.</p>
-	<p>As an example, a JSON search returns this structure:</p>
+	<p>Requesting a search in JSON format returns data in the structure shown below. If you request data in HTML format, it returns the same webpage you would see if you performed the search on wiki-data.com. Searching in text format produces only a list of matching AVID's.</p>
+	<p>JSON search returns data in this structure:</p>
 	<pre><code>[
 	   {
 	      title: 12345678, // AVID
@@ -191,4 +186,10 @@
 	   ...
 	]</code></pre>
 	<p>The other meta-fields referred to come from the internal structure of the <a href="http://tiddlyweb.peermore.com">TiddlyWeb</a> instance running the system. We don't remove these as they may prove useful in some applications.</p>
+	<h2>Requesting individual records</h2>
+	<p>Individual company records are stored by AVID, which is an 8-digit identifier. A typical URL for a company record - in this case <a href="http://avox.info">Avox Ltd</a> - is:</p>
+	<pre><code>http://wiki-data.com/bags/avox/tiddlers/16835057</code></pre>
+	<p>The URL reveals the internal structure of wiki-data as set up by <a href="http://tiddlyweb.peermore.com">TiddlyWeb</a> - a collection of "tiddlers" (data entities) in a "bag" called "avox".</p>
+	<p>Records can be requested in different formats using the same mechanisms as for search - either by adding an extension to the URL or by setting an HTTP request Accept header to the appropriate value.</p>
+	<p>The formats available are the same as for search: JSON, text and HTML. Setting a JSONP callback for a record is supported in the same way as for search.</p>
 </div>
