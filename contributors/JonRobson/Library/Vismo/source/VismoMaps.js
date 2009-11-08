@@ -10,6 +10,21 @@ var GeoTag = function(longitude,latitude,properties){
 	geo.properties = properties;
 	return geo;	
 };
+var GeoPath = function(coords,properties){
+    var geo = {geometry:{type:"LineString"},type:"feature",properties:properties};
+    if(coords && coords[0].length > 1){
+        geo.geometry.coordinates = coords;
+    }
+    else{
+        var newcoords = [];
+        for(var i=0; i < coords.length; i+=2){
+            newcoords.push([coords[i],coords[i+1]]);
+        }
+        //console.log("built",newcoords,"from",coords);
+        geo.geometry.coordinates = newcoords;
+    }
+    return geo;
+}
 
 var VismoMap = function(wrapper,options){  
     
@@ -409,7 +424,10 @@ VismoMap.Feature.prototype = {
 		if(type == 'multipolygon'){
 			this._drawGeoJsonMultiPolygonFeature(feature.geometry.coordinates,feature);
 		}
-		else if(type == 'linestring' || type=='multilinestring' || type == 'multipoint' || type=='geometrycollection'){
+		else if(type =='linestring'){
+		    this._drawGeoJsonLineStringFeature(feature);
+		}
+		else if(type=='multilinestring' || type == 'multipoint' || type=='geometrycollection'){
 			console.log(type + " not supported yet");
 		}
 
@@ -420,7 +438,7 @@ VismoMap.Feature.prototype = {
 			this._drawGeoJsonPointFeature(feature.geometry.coordinates,feature);				
 		}
 		else {	
-			console.log("unsupported geojson geometry type " + geometry.type);
+			//console.log("unsupported geojson geometry type " + geometry.type);
 		}		
         var x = this.getVismoShapes();
         var f;
@@ -445,6 +463,25 @@ VismoMap.Feature.prototype = {
 	}
 	,getVismoShapes: function(args){
 		return this.vismoShapes;
+	}
+	,_drawGeoJsonLineStringFeature: function(args){
+	    var feature = arguments[0];
+	    var coordinates = feature.geometry.coordinates;
+	    var p = feature.properties;
+	    if(!p) p = {};
+	    p.shape = "path";
+	    p.coordinates = [];
+	    //console.log(feature,":)");
+	    for(var i=0; i < coordinates.length;i++){
+	        var xy =coordinates[i];
+	        p.coordinates.push(xy[0]);
+	        p.coordinates.push(-xy[1]);
+	        
+	    } 
+	    var s = new VismoShape(p);
+	    this.addVismoShape(s);
+	    return s;
+	    
 	}
 	,_drawGeoJsonMultiPolygonFeature: function(args){
 	    var coordinates=  arguments[0];

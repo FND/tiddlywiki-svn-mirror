@@ -111,6 +111,7 @@ var VismoOptimisations = {
 	}
 	
 	,vismoShapeIsTooSmall: function(vismoShape,transformation){
+	    
 	    VismoTimer.start("VismoOptimisations.vismoShapeIsTooSmall");
 
 		if(!transformation ||!transformation.scale) {

@@ -254,7 +254,7 @@ var VismoGraphRenderer = function(place,options){
     else{
         canvasopts.vismoController = options.vismoController;
     }
-    var for_canvas = ["move","dbclick","mouseup","mousedown","pointsize"];
+    var for_canvas = ["move","dbclick","mouseup","mousedown","pointsize","pointType","lineWidth"];
     var arg;
     for(arg in options){
         if(for_canvas.indexOf(arg) != -1) canvasopts[arg] =options[arg];
@@ -316,7 +316,7 @@ VismoGraphRenderer.prototype = {
         this.plot(root);
         
         if(this._edgeShapeCoordinates.length > 0){
-            var edge = new VismoShape({"z-index":"-1",shape:"path",stroke:this.options.lineColor,lineWidth:this.options.lineWidth,coordinates:this._edgeShapeCoordinates});
+            var edge = new VismoShape({"z-index":"-1",shape:"path",stroke:this.options.lineColor,coordinates:this._edgeShapeCoordinates});
             this._canvas.add(edge);
         }
         this._canvas.render();

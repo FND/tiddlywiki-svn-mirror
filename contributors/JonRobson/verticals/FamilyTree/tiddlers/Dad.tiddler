@@ -1,10 +1,5 @@
-<div title="Dad" photo="images/homer.png" tags="rootTree teacher" spouse="Mum [[Step Mum]]" sex="M" dob="19550000">
+<div title="Dad" photo="images/homer.png" placeofbirth="Springfield" tags="rootTree teacher" spouse="Mum [[Step Mum]]" sex="M" dob="19550000">
 <pre>
-!todo
-spouses to be saved like tags (issue saving)
-labelMacro needs to accept params in form "x:y z:s"
-
-Enter some details about your dad here.
-Tag things 'place' to show places. Like [[Springfield]] for instance.
+Enter details about your Dad here.
 </pre>
 </div>

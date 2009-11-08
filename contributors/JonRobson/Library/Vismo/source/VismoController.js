@@ -419,7 +419,10 @@ VismoController.prototype = {
 		var panning_status = false;	
 		//alert('here');
 		//jQuery(document).mouseup(function(e){alert("cool");}); //doesn't work?!
+		var intervalMS = 1;
+		var interval;
 		var cancelPanning = function(e){
+		    if(interval)window.clearInterval(interval);
 			panning_status = false;
 			that.transform();
 			if(!VismoUtils.browser.isIE6){jQuery(that.wrapper).removeClass("panning");}
@@ -428,7 +431,7 @@ VismoController.prototype = {
 			return false;
 		};
 		jQuery(that.controlDiv).mousedown(function(e){
-
+        
 		    cancelPanning();
 		});
 		var onmousemove = function(e){
@@ -458,7 +461,6 @@ VismoController.prototype = {
                 jQuery(that.wrapper).removeClass("zooming");
                 that.transform();
             }
-			that.transform();
 			
 			if(pos.x > 5  || pos.y > 5) panning_status.isClick = false;
 			if(pos.x < 5|| pos.y < 5) panning_status.isClick = false;
@@ -466,6 +468,8 @@ VismoController.prototype = {
 		};
      
 		jQuery(this.wrapper).mousedown(function(e){
+		    e.preventDefault();
+		    
 		    var jqw = jQuery(that.wrapper);
 			if(panning_status){
 				return;
@@ -473,6 +477,7 @@ VismoController.prototype = {
 			
 			if(md) {md(e);}
 			if(!that.enabled) return;
+			interval =window.setInterval(function(){that.transform();},intervalMS);
 			if(!VismoUtils.browser.isIE6){
 			    jqw.addClass("panning");
 			}
@@ -496,6 +501,7 @@ VismoController.prototype = {
 		});
 			
 		jQuery(document).mouseup(function(e){
+		    e.preventDefault();
 			if(panning_status.isClick && mu){
 			    mu(e);
 			};
@@ -517,7 +523,7 @@ VismoController.prototype = {
 				//if(parent != that.wrapper)cancelPanning(e); (not a good idea for tooltips)
 			}
 		});
-	
+	    
 	},
 
 	setTransformation: function(t){

@@ -107,12 +107,12 @@ var VismoFileUtils= {
 				if(dothiswhenloadedfromweb){
 					dothiswhenloadedfromweb(url);
 				}
-				//console.log("VismoFileUtil.saveFile doesnt work for iamges it might seem",savePath);
+				////console.log("VismoFileUtil.saveFile doesnt work for iamges it might seem",savePath);
 				VismoFileUtils.saveFile(savePath,responseText);
 		
 			}
 			catch(e){
-				console.log("error saving locally.."+ e);
+				//console.log("error saving locally.."+ e);
 			}
 
 		};
@@ -127,8 +127,10 @@ var VismoFileUtils= {
 		
 
 		try{
+		    //console.log("do get",dest);
 			var r = jQuery.get(dest,null,onloadlocally);
-			if(r.status == 404) throw "404 error";
+			//console.log("done get",r);
+			if(r.status == 404 || r.status ==0) throw "404 error";
 		
 		}
 		catch(e){//couldnt load probably doesn't exist!
@@ -193,7 +195,7 @@ var VismoFileUtils= {
 		x.overrideMimeType('text/plain; charset=x-user-defined');
 			x.send(data);
 		} catch(ex) {
-			//console.log(ex);
+			////console.log(ex);
 			//throw ex;
 		}
 		return x;

@@ -31,12 +31,12 @@
 <span macro='aet if:!dob&!placeofbirth&!occupation&!dod&!placeofdeath'>No facts.</span>
   <span macro='aet if:dob'>
   born <span macro='view dob date'></span> </span>
-  <span macro='aet if:placeofbirth'>in </span> <span macro='view placeofbirth'></span></div>
+  <span macro='aet if:placeofbirth'>in </span> <span macro='view placeofbirth link'></span></div>
 
 <div><span macro='aet if:occupation'>occupation </span><span macro='view occupation'></span></div>
 <div>
 <span macro='aet if:dod'>died </span><span macro='view dod date'></span>
-<span macro='aet if:placeofdeath'> in </span><span macro='view placeofdeath'></span>
+<span macro='aet if:placeofdeath'> in </span><span macro='view placeofdeath link'></span>
 <span macro='aet if:dod&dob'> aged <span macro='age'></span>
 
 </div>

@@ -1,4 +1,5 @@
 <div title="StyleSheet">
 <pre>
+.wrapper {height:400px;}
 </pre>
 </div>

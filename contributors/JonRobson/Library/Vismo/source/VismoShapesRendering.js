@@ -126,17 +126,10 @@ var VismoCanvasRenderer = {
 		
 		var transform = vismoShape.getTransformation();
 		if(transform && transform.scale) radiusx*= transform.scale.x;
-		//ctx.save();
-		if(radiusx > radiusy) {
-		    //ctx.scale(radiusx/radiusy,1)
-		}
-		else if(radiusy > radiusx){
-		    //
-		    //ctx.scale(1,radiusy/radiusx)
-		    //ctx.restore();
-		}
 		var pt =vismoShape.properties.pointType;
-		ctx.arc(bb.center.x, bb.center.y, radiusx, 0, Math.PI*2,true);
+		var c = vismoShape.getCoordinates();
+		
+		ctx.arc(c[0],c[1], radiusx, 0, Math.PI*2,true);
 	    
 	}
 	,renderImage: function(ctx,vismoShape){

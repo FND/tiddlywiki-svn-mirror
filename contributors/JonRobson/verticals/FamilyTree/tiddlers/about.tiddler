@@ -20,6 +20,7 @@ V1.2:
 *tagging a tiddler place allows you to show places as well as people
 *improved ui/design
 *spouses now stored just as tags are.
+* can shorten labels by setting parameter 'nodeLabel nodeType:polygon showinitials:y'
 
 </pre>
 </div>

@@ -117,7 +117,9 @@ VismoGlobe.prototype = {
 
 var VismoSlippyMap = function(vismoMap){	
 	//vismoMap.resize(512,512);
+	//console.log("in setup",vismoMap);
 	this.loadedurls = {};
+	this.tileserverurl = "http://tile.openstreetmap.org/";
 	this.setupSlippyStaticMapLayer(vismoMap);
 
         vismoMap.oldDrawFromGeojson = vismoMap.drawFromGeojson
@@ -192,9 +194,10 @@ VismoSlippyMap.prototype = {
 	}
 	,setupSlippyStaticMapLayer: function(eMap){
 		/*Filename(url) format is /zoom/x/y.png */
-		
+		//console.log("here",eMap);
 		var projection = this.getGoogleMercatorProjection(eMap);
 		//var projection = {};
+		
 		eMap.setTransparency(0.7);
 		eMap.settings.projection = projection;
 		var that = this;
@@ -206,6 +209,7 @@ VismoSlippyMap.prototype = {
 		var eMap = eMap;
 		
 		eMap.settings.afterRender = function(transformation){
+		    //console.log("doing afterRender!");
 		        var origin = transformation.origin;
 			jQuery(that.tilesWrapper).css({top: origin.y, left: origin.x});
 			var zoomOut = false;
@@ -235,6 +239,7 @@ VismoSlippyMap.prototype = {
 				}
 				zoomL = 0;
 				tilex = 0;tiley=0;
+				//console.log("url",projection.getTileServerUrl())
 				var slippyurl =projection.getTileServerUrl()+zoomL +"/"+tilex+"/"+tiley+".png";
 				that.renderTile(slippyurl,zoomL,tilex,tiley,tile);					
 			}
@@ -297,6 +302,7 @@ VismoSlippyMap.prototype = {
 		
 	}
 	,renderTile: function(weburl,zoomlevel,x,y,tile){
+	    //console.log("doing renderTile with",weburl,zoomlevel,x,y,tile);
 		var that = this;
 		var renderTile = function(dest){
 			tile.style.backgroundImage = "none";
@@ -307,6 +313,7 @@ VismoSlippyMap.prototype = {
 
 		};
 		var renderTileWeb = function(url){
+		    //console.log("Render title from web");
 			var style ="url('"+url+"')";
 			tile.style.backgroundImage = "none";
 			if(style == tile.style.backgroundImage) return;
@@ -317,10 +324,12 @@ VismoSlippyMap.prototype = {
 			var localurl = zoomlevel+ "_"+ x + "_" + y + ".png";
 			if(localurl != tile.style.backgroundImage){
 				if(that.loadedurls[localurl]){
+				    //console.log("renderTile from local",localurl);
 					renderTile(localurl);
 				}
 				else{
 					tile.style.backgroundImage = "none";
+					//console.log("loading from web and save image locally",weburl,localurl);
 					VismoFileUtils.saveImageLocally(weburl,localurl,renderTile,renderTileWeb);
 					that.loadedurls[localurl] = true;
 				}
@@ -328,7 +337,7 @@ VismoSlippyMap.prototype = {
 		}
 		catch(e){
 			tile.style.backgroundImage = "none";
-			//console.log("unable to cache static image for this map view. ("+e+")")
+			////console.log("unable to cache static image for this map view. ("+e+")")
 		}
 	}
 	,_createTiles: function(eMap,numtilesx,numtilesy){

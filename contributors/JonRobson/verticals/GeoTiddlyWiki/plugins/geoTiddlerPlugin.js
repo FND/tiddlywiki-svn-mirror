@@ -70,18 +70,18 @@ function getElementChild(el,tag){
 			return geomaps[id];
 		}
 
-        	,addGeoTiddler: function(easyMap,name,ll,fill,text,tags){
-        		if(!tags) var tags = [];
-        		if(text) var text = "";
-        		var fields= {longitude:ll.longitude,latitude:ll.latitude,fill:"#000000"};
-        		if(fill) fields.fill = fill;
+    	,addGeoTiddler: function(easyMap,name,ll,fill,text,tags){
+    		if(!tags) var tags = [];
+    		if(text) var text = "";
+    		var fields= {longitude:ll.longitude,latitude:ll.latitude,fill:"#000000"};
+    		if(fill) fields.fill = fill;
 
-        		store.saveTiddler(name,name,text,null,new Date(),tags,fields);
+    		store.saveTiddler(name,name,text,null,new Date(),tags,fields);
 
-        		var tag =GeoTag(ll.longitude,ll.latitude,{name: name,fill: fields.fill});
-        		easyMap.drawGeoJsonFeature(tag);
-        		easyMap.redraw();	
-        	}
+    		var tag =GeoTag(ll.longitude,ll.latitude,{name: name,fill: fields.fill});
+    		easyMap.drawGeoJsonFeature(tag);
+    		easyMap.redraw();	
+    	}
 		,handler: function(place,macroName,params,wikifier,paramString,tiddler) {
 					
 			 var prms = paramString.parseParams(null, null, true);
@@ -216,7 +216,7 @@ function getElementChild(el,tag){
 			if(!hidegeotiddlerdata){
 		 		store.forEachTiddler(function(title,tiddler) {
 					//add geotags
-					var longc,latc,fill;
+					var longc,latc,path,fill,longc2,latc2;
 					if(tiddler.fields.geo){
 						var latlong =tiddler.fields.geo;
 						latlong = latlong.replace(" ","");
@@ -228,7 +228,15 @@ function getElementChild(el,tag){
 					if(tiddler.fields.longitude && tiddler.fields.latitude){
 						longc =parseFloat(tiddler.fields.longitude);
 						latc =parseFloat(tiddler.fields.latitude);
+					    if(tiddler.fields.geolink){
+                            var dest = store.getTiddler(tiddler.fields.geolink);
+                            var longc2 = parseFloat(dest.fields.longitude);
+                            var latc2 = parseFloat(dest.fields.latitude);
+                            if(longc2 && latc2)path = [longc,latc,longc2,latc2];
+    					}
+    					
 					}
+					
 			
 					if(tiddler.fields.fill){
 						fill = tiddler.fields.fill;
@@ -240,6 +248,11 @@ function getElementChild(el,tag){
 						var prop = {name: title,fill:fill};
 						var geotagfeature = new GeoTag(longc,latc,prop);
 						data.features.push(geotagfeature); //add the tagging feature
+					    if(path){
+					       
+					        data.features.push(new GeoPath(path,{}));
+					         path = false;
+					    }
 					}
 				}	
 				);

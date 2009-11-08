@@ -245,7 +245,7 @@ coordinates are a string consisting of floats and move commands (M)
 
 var VismoShape = function(properties,coordinates){
     this._isVismoShape = true;
-    this.options = {pointsize:5};
+    this.options = {};
     if(!coordinates) {
         coordinates = properties.coordinates;
         delete properties["coordinates"];
@@ -403,24 +403,14 @@ VismoShape.prototype={
 	,getBoundingBox: function(){ /* returns untransformed bounding box */
 	    return this.grid;
 	}
-	,setPointSize: function(pointsize){
-	    VismoTimer.start("VismoShape.setPointSize");
-	    var st = this.properties.shape;
-	    if(st != "point") return;
-	    if(pointsize) {
-		    this.options.pointsize = pointsize;
-		    var bb= this.getBoundingBox();
-		    this.setCoordinates([bb.center.x,bb.center.y,pointsize/2,pointsize/2]);
-		}
-		VismoTimer.end("VismoShape.setPointSize");
-	}
-	,render: function(canvas,transformation,projection,optimisations, browser,pointsize){
+
+	,render: function(canvas,transformation,projection,optimisations, browser){
 	    VismoTimer.start("VismoShape.render");
         var lw = this.properties.lineWidth;
+        if(projection) {this._applyProjection(projection,transformation);}
         if(lw && transformation && transformation.scale && transformation.scale.x){
             //this.properties.lineWidth = lw / transformation.scale.x;
         }
-        this.setPointSize(pointsize); 
 		var mode = this.getRenderMode(canvas);
 		if(mode == 'ie'){
 		     this.render_ie(canvas,transformation,projection,optimisations, browser);    
@@ -515,8 +505,7 @@ VismoShape.prototype={
         coordinates = good;
                 
                 
-		if(type == 'projected'){ 
-		    this.coordinates.projected = coordinates;return;}
+		if(type == 'projected'){this.coordinates.projected = coordinates;this._calculateBounds(coordinates);return;}
 		
 		this.coordinates.normal = coordinates;
 	
@@ -535,13 +524,19 @@ VismoShape.prototype={
 		if(this.vml) this.vml.path = false; //reset path so recalculation will occur
 		var st = this.getShape();
 		if(st== 'circle' || st == 'point'){
-		    if(coordinates[2] && coordinates[3]) this.setRadius(coordinates[2],coordinates[3]);
-		    else this.setDimensions(this.options.pointsize,this.options.pointsize);
+		    this.setRadius(coordinates[2],coordinates[3]);
+		    //else this.setDimensions(this.options.pointsize,this.options.pointsize);
 		}
 		this._calculateBounds();
 
 	}
 	,getCoordinates: function(type){
+	    if(!type){
+	        if(this.coordinates.projected){
+	            return this.coordinates.projected;
+	        }
+	        else return this.coordinates.normal;
+	    }
 		if(type == 'normal') return this.coordinates.normal;
 	    if(type == 'projected') return this.coordinates.projected;
 		
@@ -635,6 +630,7 @@ VismoShape.prototype={
 				var newy = this.grid.center.y;
 				var radiusw = dim.width / 2;
 				var radiush = dim.height / 2;
+				
 				this.grid ={x1: newx -radiusw ,x2: newx + radiusw, y1: newy - radiush, y2: newy + radiush,center:{x:newx,y:newy},width: dim.width,height:dim.height};	
 
 				
@@ -730,9 +726,19 @@ VismoShape.prototype={
 	,setDimensions: function(width,height){
 		this.width = width;
 		this.height = height;
-		if(this.properties.shape == 'point'){
-		    this.options.pointsize = width;
+		if(this.properties.shape=='circle'){
+		    for(var j in this.coordinates){
+		        var c = this.coordinates[j];
+		        if(c){
+		            c[2] = width/2;
+		        }
+		    }
+		    //console.log(this);
 		}
+		else{
+		    
+		}
+		if(this.vml) this.vml.path = false;
 		
 		this._calculateBounds();
 	    
@@ -748,7 +754,7 @@ VismoShape.prototype={
 		if(shapetype == 'point' || shapetype == 'circle'){
 			var radiusw,radiush;
 			if(coordinates[2]) radiusw = coordinates[2];
-			else radiusw = this.options.pointsize/2;
+			else radiusw = 2.5;
 			
 			if(coordinates[3]) radiush= coordinates[3];
 			else radiush = radiusw;
@@ -801,6 +807,7 @@ VismoShape.prototype={
 	}	
 
 	,_applyProjection: function(projection,transformation){
+        console.log("apply projection to",this.properties.shape);
 	    VismoTimer.start("VismoShapes._applyProjection");
 		var c = this.getCoordinates('normal');
 	
@@ -849,6 +856,7 @@ VismoShape.prototype={
 		if(newc.length < 2) return;
 		this.setCoordinates(newc,"projected");
 		this._calculateBounds(newc);
+		
 		VismoTimer.end("VismoShapes._applyProjection");
 		return newc;
 	}
@@ -856,6 +864,7 @@ VismoShape.prototype={
 
 	
 	,optimise: function(canvas,transformation,projection,justcompute){
+	    
 	    VismoTimer.start("VismoShapes.optimise");
 	    var ocache = this._optimise_cache;
 
@@ -884,7 +893,7 @@ VismoShape.prototype={
 		if(transformation && transformation.scale) {
 		    this.currentResolution = Math.min(transformation.scale.x, transformation.scale.y);
 		}
-		if(projection) {this._applyProjection(projection,transformation);}
+		
 		
 		if(shapetype != 'point' && shapetype != 'path' && shapetype !="domElement"){ //check if worth drawing				
 			if(VismoOptimisations.vismoShapeIsTooSmall(this,transformation)) {

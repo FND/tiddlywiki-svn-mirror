@@ -3,7 +3,7 @@
 <!--{{{-->
 <div class='ftTitle' refresh='content' force='true' tiddler='SiteTitle'></div>
 <div class='ftSubTitle' refresh='content' force='true' tiddler='SiteSubtitle'></div>
-<div macro="FamilyTree algorithm:walkers lineType:bezier labelMacro:'FamilyTreeLabel nodeType:polygon showinitials:y' excludeTags:{{['excludeTree','place','systemConfig']}}">
+<div macro="FamilyTree algorithm:walkers lineType:bezier labelMacro:'FamilyTreeLabel' pointType:polygon excludeTags:{{['excludeTree','place','systemConfig']}}">
 
 </div>
 

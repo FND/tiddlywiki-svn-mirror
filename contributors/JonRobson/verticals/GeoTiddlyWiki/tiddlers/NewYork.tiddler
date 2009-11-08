@@ -1,4 +1,4 @@
-<div title="New York" modifier="JonRobson" created="200811111722" latitude="40.756054" longitude="-73.986951" tags="excludeLists">
+<div title="New York" modifier="JonRobson" created="200811111722" latitude="40.756054" longitude="-73.986951" tags="excludeLists" geolink="London">
 <pre>
 !Geo tiddlers
 This tiddler has geo data. Have a look at the map in [[The Map]]. The map has now changed to show New York in the centre and zoomed in. This is because another macro has been used called {{{geogoto}}}.
