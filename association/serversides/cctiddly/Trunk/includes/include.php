@@ -41,11 +41,11 @@ if (isset($_REQUEST["standalone"]) && $_REQUEST["standalone"]==1)
 <div title='ccAdaptorSaveLocal' modifier='ccTiddly' tags='systemConfig excludeLists excludeSearch ccTiddly'>
 <pre>
 	
-config.macros.saveChanges.handler=function(place,macroName,params,wikifier,paramString,tiddler){
+//config.macros.saveChanges.handler=function(place,macroName,params,wikifier,paramString,tiddler){
 //	if(isLoggedIn()){
-	//	wikify("[[sync]]", place);
+//		wikify("[[sync]]", place);
 //	}
-}	
+//}	
 		
 config.backstageTasks.remove("upgrade");
 config.macros.ccLogin={};
@@ -59,7 +59,7 @@ if (config.options.txtTheme == "")
 config.options.txtTheme = '<?php echo $tiddlyCfg['txtTheme'];?>';
 config.options.chkAutoSave = true;
 window.offline = true;
-config.defaultCustomFields = {"server.host":"<?php echo dirname(getUrl());?>", "server.type":"cctiddly", "server.workspace":"<?php echo $_REQUEST['workspace']?>"};
+config.defaultCustomFields = {"server.host":"http://127.0.0.1", "server.type":"cctiddly", "server.workspace":"<?php echo $_REQUEST['workspace']?>"};
 config.macros.ccOptions={};	
 config.macros.ccOptions.handler=function(place,macroName,params,wikifier,paramString,tiddler){};
 </pre>

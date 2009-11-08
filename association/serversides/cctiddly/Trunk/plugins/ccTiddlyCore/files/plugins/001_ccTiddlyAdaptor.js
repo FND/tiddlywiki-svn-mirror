@@ -374,7 +374,7 @@ config.commands.deleteTiddlerHosted.callback = function(context,userParams)
 		var bag = tiddler.fields['server.bag']
 		var workspace = tiddler.fields['server.workspace']
 		var uriTemplate = '%0/%1/#%2';
-		info.uri = uriTe  .format([host,workspace,tiddler.title]);
+		info.uri = uriTemplate.format([host,workspace,tiddler.title]);
 		return info;
 	};
 

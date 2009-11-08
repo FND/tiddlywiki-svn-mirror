@@ -71,13 +71,9 @@ $tiddlyCfg['pref']['openid_enabled'] = 1;  // openid not fully implented yet.
 // .tiddler and .js files to be loaded from the tiddlers directory when the user is takes ccTiddly in offline mode. 
 
 
-$tiddlyCfg['pref']['offline']['tiddler'] = 
-array(	"themes/smmTheme", 
-		"themes/purpleTheme", 
-		"taggedTemplateTweak"
-	);
+$tiddlyCfg['pref']['offline']['tiddler'] = array();
 
-$tiddlyCfg['pref']['offline']['js'] = array("001_ccTiddlyAdaptor");
+$tiddlyCfg['pref']['offline']['js'] = array("files/plugins/001_ccTiddlyAdaptor", "files/plugins/serverConfig");
 
 //Proxy Allowed Servers
 

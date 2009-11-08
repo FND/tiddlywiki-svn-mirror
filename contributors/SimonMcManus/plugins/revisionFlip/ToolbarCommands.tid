@@ -1,0 +1,4 @@
+modifier: Simon McManus 
+
+|~ViewToolbar|+revisionsFlip editTiddler|
+|~EditToolbar|+saveTiddler -cancelTiddler deleteTiddlerHosted|
