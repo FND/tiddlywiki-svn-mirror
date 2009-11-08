@@ -267,7 +267,6 @@ table {
 	background-color: #d5d5d5;
 	width: inherit;
 	overflow: hidden;
-	margin: 10px 0;
 }
 table a, table a:active, table a:hover, table a:visited {
 	color: #777777;
@@ -406,4 +405,7 @@ table.fields td span {
 #api p {
 	padding-bottom: 4px;
 	line-height: 17px;
+}
+#api table {
+	margin: 10px 0;
 }
