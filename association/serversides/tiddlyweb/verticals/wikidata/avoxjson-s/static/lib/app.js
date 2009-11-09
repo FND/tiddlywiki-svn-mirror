@@ -9,12 +9,11 @@ function parseQueryString(q) {
 	if(q.charAt(0)==="?") {
 		q=q.substring(1);
 	}
-	q=decodeURIComponent(q);
 	q=q.replace(/\+/g," ");
 	var pairs = q.split("&");
 	var pair, key, value;
 	for(var i=0; i<pairs.length; i++) {
-		pair = pairs[i].split("=");
+		pair = decodeURIComponent(pairs[i]).split("=");
 		key = pair[0];
 		value = pair[1];
 		if(value!=="") {
