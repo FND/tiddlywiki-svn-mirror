@@ -60,7 +60,7 @@ def verify(environ, start_response):
     try:
         redirect = environ['tiddlyweb.query']['recaptcha_redirect'][0]
     except:
-       redirect = environ['HTTP_REFERER']
+       redirect = environ['HTTP_REFERER'].split('?',1)[0]
     challenge_field = environ['tiddlyweb.query']['recaptcha_challenge_field'][0]
     logging.debug('challenge_field: '+challenge_field)
     response_field = environ['tiddlyweb.query']['recaptcha_response_field'][0]
