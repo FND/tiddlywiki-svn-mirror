@@ -97,6 +97,14 @@
 
   <!-- FLOATING RIGHT -->
 
+  <div id="noteControl">
+    <div id="noteStat" class="stat"><span id="expandedWordCount"><span id="wordCount"></span> note from trail author</div>
+    {% if commentable %} 
+      <div id="commentStat" class="stat"><span id="commentCount">--</span> comments from users</div>
+    {% endif %}
+    <div class="noteToggle" id="noteExpand">&darr; show note and comments &darr;</div>
+  </div>
+
   <a id="close" class="closer">
     <div class="icon">X</div>
     <div class="prompt">close</div>
@@ -107,15 +115,9 @@
     <div class="prompt">hide</div>
   </div>
 
-  <a id="info" class="closer">
+  <div id="info" class="closer">
     <div class="icon">i</div>
     <div class="prompt" id="showInfo">info</div>
-  </a>
-
-  <div id="noteControl">
-    <div class="stat">250 word note from trail author</div>
-    <div class="stat">28 comments from users</div>
-    <div class="noteToggle" id="noteExpand">&darr; show note and comments &darr;</div>
   </div>
 
   <!-- ELASTIC -->
@@ -128,6 +130,7 @@
 </div>
 
 <div id="resourceView">
+  <div id="initialBacking">Loading ...</div>
 </div>
 
 <div id="welcomeTemplate">
@@ -138,6 +141,10 @@
   <button>Start the trail</button>
 
   [[resources]]
+
+  <div id="options">
+    <input type="checkbox" checked="true"></input> <span class='caption'>show notes</span>
+  </div>
 
 </div>
 

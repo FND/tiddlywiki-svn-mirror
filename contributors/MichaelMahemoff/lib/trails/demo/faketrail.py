@@ -20,7 +20,8 @@ class Resource:
 
 class FakeTrail:
   resources=[
-    Resource("http://odeo.com", "Odeo", "Before you make a podcast, first familiarise yourself with the podcasts that are out there already. A good place to start is Odeo. Navigate around the site, find some episodes, and listen to them in the browser."),
+    Resource("http://ajaxify.com", "Ajaxify", "good ajaxify"),
+    Resource("http://www.bbc.co.uk/podcasts/", "BBC Podcasts", "Before you make a podcast, first familiarise yourself with the podcasts that are out there already. A good place to start is the BBC, a pioneer of podcasting. Navigate around the site, find some episodes, and listen to them right from your browser."),
     Resource("http://infopeople.org/resources/itunespodcasting.html", "ITunes Podcasting", "I know you're eager to get started, but I recommend you spend a few weeks listening to podcasts first. Get a feel for the medium. This tutorial will show you the easiest way to do that, which is to subscribe via iTunes."),
     Resource("http://audioboo.fm/", "AudioBoo", "Alright already! Let's get going. If you have an iPhone, AudioBoo is a great way to dip your toes - you can record straight from the phone and publish podcast episodes automatically. The catch is you can only record short episodes and you can't edit them later, control metadata, or provide your own landing page."),
     Resource("http://www.wikihow.com/Record-a-Podcast-with-Audacity", "Recording", "Let's now go the full monty, with a manually recorded podcast. This tutorial shows you how to make a recording, and you'll end up with an MP3 file."),
@@ -36,5 +37,5 @@ env = Environment(loader=FileSystemLoader(['.']))
 (in_file, out_file) = (argv[1], argv[2])
 template = env.get_template(in_file)
 file = open(out_file, "w")
-file.write(template.render(tiddler=FakeTiddler(), trail=FakeTrail(), editable=False, static_path="static"))
+file.write(template.render(tiddler=FakeTiddler(), trail=FakeTrail(), static_path="static", editable=False, commentable=False))
 file.close()

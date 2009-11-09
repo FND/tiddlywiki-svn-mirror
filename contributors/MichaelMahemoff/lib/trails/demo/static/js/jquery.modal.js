@@ -6,7 +6,8 @@
 
     var defaults = {
       dialogWidth: 400,
-      dialogHeight: 300
+      dialogHeight: 300,
+      close: function() { return $(this); }
     }
     var settings = $.extend(defaults, options);
 
@@ -35,8 +36,8 @@
         position: "absolute",
         background: "#fff",
         border: "1px solid #666",
-        "-moz-border-radius": 5,
-        "-webkit-border-radius": 5,
+        // "-moz-border-radius": 5,
+        // "-webkit-border-radius": 5,
         width: settings.dialogWidth,
         height: settings.dialogHeight,
         zIndex: 9999999,
@@ -70,7 +71,7 @@
     $.modal.close = function(ev) {
       if (ev) ev.stopPropagation();
       dialog.slideUp(FADE_DURATION, function() { dialog.remove(); });
-      mask.fadeOut(FADE_DURATION, function() { mask.remove(); });
+      mask.fadeOut(FADE_DURATION, function() { mask.remove(); settings.close.apply(dialog);});
     }
     return dialog;
 
