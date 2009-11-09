@@ -6051,7 +6051,7 @@ $(document).ready(function() {
 			$.fn.dragColumns('#recordsTable');
 			oTable.fixedHeader = new $.fn.dataTableExt.FixedHeader(oTable);
 			var columns = oTable.fnSettings().aoColumns;
-			$('#recordsTable tfoot th').click(function() {
+			$('#recordsTable tfoot th').live("click",function() {
 				var i = $('#recordsTable tfoot th').index(this);
 				var head = $('#recordsTable thead th')[i];
 				var title = head.innerHTML;
