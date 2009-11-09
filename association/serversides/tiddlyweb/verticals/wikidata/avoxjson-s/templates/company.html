@@ -8,7 +8,7 @@
 	<div class="vcard">
 		<h1 class="fn org company-name">{{ tiddler.fields.legal_name }}</h1>
 		{% if tiddler.fields.company_website %}
-		<div><a href="http://{{ tiddler.fields.company_website }}">{{ tiddler.fields.company_website }}</a></div>
+		<div><a href="http://{{ tiddler.fields.company_website }}" target="_blank">{{ tiddler.fields.company_website }}</a></div>
 		{% endif %}
 		<div>Trading status: <span class="trading">{{ tiddler.fields.trading_status }}</span></div>
 		{% if tiddler.fields['trades_as_name_s_'] %}
