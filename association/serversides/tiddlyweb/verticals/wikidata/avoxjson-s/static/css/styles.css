@@ -144,10 +144,11 @@ button {
 	padding: 17px;
 	line-height: 17px;
 }
-#header .right img { /* JRL: temporary banner */
-	position: absolute;
-	right: 0px;
-	margin-top: 20px;
+#header img { /* JRL: temporary banner */
+	float: right;
+	position: relative;
+	top: 17px;
+	right: 17px;
 }
 .definition {
 	letter-spacing: 2px;
