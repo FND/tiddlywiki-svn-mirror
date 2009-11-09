@@ -129,7 +129,7 @@ button {
 	margin: 4px;
 	text-indent: -9999px;
 	overflow: hidden;
-	background: url('../images/WikiDataLogo.gif') no-repeat top left;
+	background: url('../images/wiki-data-beta-logo.gif') no-repeat top left;
 	/* I need to check out whether the next line is needed - it's here because I think IE doesn't change the cursor to a pointer if the header is the thing being hovered over */
 	cursor: pointer;
 }
