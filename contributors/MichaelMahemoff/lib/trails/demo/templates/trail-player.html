@@ -6,7 +6,7 @@
        (c) Michael Mahemoff.
        BSD License. http://www.opensource.org/licenses/bsd-license.php
 
-       If editing this file to make your own trail, follow the "TRAIL EDITOR" instructions".
+       If editing this file to make your own trail, follow the "TRAIL OWNER" instructions".
  -->
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<title>Trail - {{ tiddler.title }}</title>
@@ -30,15 +30,14 @@
 <div id="trail">
 
   <h1>
-    <!-- TRAIL EDITOR - Insert your name in the "owner" field below. -->
+    <!-- TRAIL OWNER - Insert your name in the "owner" field below. -->
     <div id="ownerWrapper">trails by <span id="owner">{{ tiddler.owner }}</span> &raquo;</div>
-    <!-- TRAIL EDITOR - Insert your trail title in the title field below. -->
+    <!-- TRAIL OWNER - Insert your trail title in the title field below. -->
     <div id="title">{{ tiddler.title }}</div>
-    {% if editable %} 
-      <a id="edit" href="{{ server_prefix }}/trails/{{ tiddler.owner }}/{{ tiddler.title }}.editor">Edit&nbsp;Trail</a>
-    {% endif %}</h1>
 
-  <!-- TRAIL EDITOR - Insert your trail here (format follows XOXO microformat).
+    <a id="edit" href="{{ server_prefix }}/trails/{{ tiddler.owner }}/{{ tiddler.title }}.editor">Edit&nbsp;Trail</a>
+
+  <!-- TRAIL OWNER - Insert your trail here (format follows XOXO microformat).
        URLs (in the "href" are mandatory), titles and notes are optional. -->
   <ol id="resources" class="xoxo">
     {% for resource in trail.resources %}
@@ -49,6 +48,7 @@
   </ol>
 
 </div>
+
 <!-- ********************************************************************** -->
 <!-- OK HERE THE TRAIL ENDS - ALL BELOW IS FOR THE INTERACTIVE APPLICATION -->
 <!-- ********************************************************************** -->
@@ -85,7 +85,7 @@
 
   <div id="metaInfo">
     <div id="metaInfoTitle"></div>
-    <a id="metaInfoEdit">Edit&nbsp;Trail</a>
+    <div id="info" class="pseudoLink">trail&nbsp;info</div>
   </div>
 
   <div id="nav">
@@ -97,28 +97,30 @@
 
   <!-- FLOATING RIGHT -->
 
-  <div id="noteControl">
-    <div id="noteStat" class="stat"><span id="expandedWordCount"><span id="wordCount"></span> note from trail author</div>
-    {% if commentable %} 
-      <div id="commentStat" class="stat"><span id="commentCount">--</span> comments from users</div>
-    {% endif %}
-    <div class="noteToggle" id="noteExpand">&darr; show note and comments &darr;</div>
-  </div>
-
-  <a id="close" class="closer">
+  <a id="close" class="clickster">
     <div class="icon">X</div>
     <div class="prompt">close</div>
   </a>
 
-  <div id="hide" class="closer">
+  <div id="hide" class="clickster">
     <div class="icon">&uarr;</div>
     <div class="prompt">hide</div>
   </div>
 
-  <div id="info" class="closer">
+  <div id="noteControl" class="clickster showing">
+    <div class="icon">N</div>
+    <div class="prompt">note</div>
+    {% if false %} 
+      <div id="commentStat" class="stat"><span id="commentCount">--</span> comments from users</div>
+    {% endif %}
+  </div>
+
+  <!--
+  <div id="info" class="clickster">
     <div class="icon">i</div>
     <div class="prompt" id="showInfo">info</div>
   </div>
+  -->
 
   <!-- ELASTIC -->
 
@@ -130,17 +132,27 @@
 </div>
 
 <div id="resourceView">
-  <div id="initialBacking">Loading ...</div>
+  <div id="initialBacking">&nbsp;</div>
 </div>
+
+<!-- ********************************************************************** -->
+<!-- WELCOME TEMPLATE                                                       -->
+<!-- ********************************************************************** -->
 
 <div id="welcomeTemplate">
   <h2>[[title]] - website trail</h2>
+
+  {% if editable %} 
+    <a id="edit" href="{{ server_prefix }}/trails/{{ tiddler.owner }}/{{ tiddler.title }}.editor">Edit&nbsp;Trail</a>
+  {% endif %} 
 
   <p id="explanation">[[username]] has created the following list of websites about "[[title]]" for you to explore.</p>
 
   <button>Start the trail</button>
 
-  [[resources]]
+  <ol class="xoxo">
+    [[resources]]
+  </ol>
 
   <div id="options">
     <input type="checkbox" checked="true"></input> <span class='caption'>show notes</span>

@@ -54,7 +54,7 @@ $(function() {
   $("#miniBar #restore").click(function() { toggleTopBar(true); });
   $("#miniLink").click(function() { return false; });
 
-  $(".noteToggle").click(toggleNote);
+  $(".noteToggle,#noteControl").click(toggleNote);
   /*
   $(".triangle, #note h4, #noteExpander").click(function() {
     if ($("#note").isDisplayed()) {
@@ -92,6 +92,18 @@ function showWelcome(isLaunching) {
     ev.preventDefault();
     $("input[type=checkbox]", welcomeMessage).click();
   });
+  //
+  // hijack resource links
+  $("ol", welcomeMessage).live("click", function(ev) {
+    var $target = $(ev.target);
+    if ($target.is("a.resource")) {
+      $(".modal").data("close", null);
+      $.modal.close();
+      switchResourceByIndex($target.parent("li").prevAll().length);
+      return false;
+    }
+  });
+
   var modalOptions = {
     dialogWidth: 600,
     dialogHeight: 600
@@ -140,9 +152,9 @@ function toggleTopBar(shouldShow) {
 function toggleNote() {
   var willBeHidden = $("#note").isDisplayed();
   if (willBeHidden) {
-    $("#noteExpand").animate({opacity: 1});
+    $("#noteControl").removeClass("showing");
   } else {
-    $("#noteExpand").animate({opacity: 0});
+    $("#noteControl").addClass("showing");
     $("#noteHide").css("opacity", 1);
   }
   $("#note").slideToggle();
@@ -228,7 +240,7 @@ function switchResourceByIndex(index) {
   var url  = $resource.attr("href");
   var name = $resource.html();
   document.title = name + "'" + $("#trail #title").html() + "' - trail - Scrumptious";
-  $('#resourceView').removeChildren("#initialBacking").find("iframe").remove().end().create("<iframe/>").src(url, function() { $("#progress").visible(false); });
+  $('#resourceView').removeChildren("#ZZZinitialBacking").find("iframe").remove().end().create("<iframe/>").src(url, function() { $("#progress").visible(false); });
 
   $("#close,#miniLink").attr("href", url);
 
