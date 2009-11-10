@@ -23,7 +23,6 @@
 
     init: function() {
       var stylesheet = store.getTiddlerText(tiddler.title + "##StyleSheet");
-      console.log("tid", tiddler);
       config.shadowTiddlers["StyleSheetAppFramePlugin"] = stylesheet;
       store.addNotification("StyleSheetAppFramePlugin", refreshStyles);
     },
@@ -31,7 +30,7 @@
     handler: function(place,macroName,params,wikifier,paramString,tiddler) {
       $(place).addClass("app");
       var macroParams = paramString.parseParams();
-      var app = getParam(macroParams, "app");
+      var app = getParam(macroParams, "app") || tiddler.title;
       var $iframe = $("<iframe class='appFrame' />").appendTo(place);
       setTimeout(function() { $iframe.inject(composeHTML(app)); }, 1);
       makeAppPanel(app, place);
@@ -47,18 +46,39 @@
   }
 
   function composeHTML(app) {
-    log("about");
     var htmlTemplate = store.getTiddlerText("AppFramePlugin##HTMLTemplate");
-    log("htm", htmlTemplate);
-    var coreHTML = store.getTiddlerText(app+"HTML");
-    var coreCSS = store.getTiddlerText(app+"CSS");
-    var coreScript = store.getTiddlerText(app+"Script");
-    // return coreHTML+coreCSS+coreScript;
-    var appHTML = htmlTemplate
-      .replace("[[app]]", app)
-      .replace("[[coreScript]]", coreScript)
-      .replace("[[coreCSS]]", coreCSS)
-      .replace("[[coreHTML]]", coreHTML);
+    var appHTML = htmlTemplate.replace("[[app]]", app);
+    $.each(componentTypes, function(i, componentType) { 
+      var component = store.getTiddlerText(app+componentType);
+      appHTML = appHTML.replace("[["+componentType+"]]", component);
+    });
+
+    var linkedScripts = "";
+    $.each(strip(getField(app+"Script", "scripts")).split(","), function(i, script) { 
+      if (isURL(script)) linkedScripts +=
+        "<script type='text/javascript' src='"+script+"'></script>";
+      else {
+        var scriptTiddler = store.getTiddler(script);
+        if (scriptTiddler) linkedScripts +=
+          "<script type='text/javascript'>\n"+scriptTiddler.text+"</script>\n";
+      }
+    });
+    appHTML = appHTML.replace("[[linkedScripts]]", "\n"+linkedScripts+"\n");
+
+    var linkedStylesheets = "";
+    $.each(strip(getField(app+"CSS", "stylesheets")).split(","), function(i, stylesheet) { 
+      log("sty", stylesheet);
+      if (isURL(stylesheet)) linkedStylesheets +=
+        "<link rel='stylesheet' type='text/css' href='"+stylesheet+"'></link>";
+      else {
+        var stylesheetTiddler = store.getTiddler(stylesheet);
+        if (stylesheetTiddler) linkedStylesheets +=
+          "<style>\n"+stylesheetTiddler.text+"</style>\n\n";
+      }
+    });
+    appHTML = appHTML.replace("[[linkedStylesheets]]", "\n"+linkedStylesheets+"\n");
+    log("lss", linkedStylesheets);
+
     return appHTML;
   }
 
@@ -67,15 +87,26 @@
     return $(this).filter("iframe").each(function() {
       var doc = this.contentDocument || this.document || this.contentWindow.document;
       doc.open();
-      doc.writeln(content)
+      doc.writeln(content);
       doc.close();
     });
 
-  }
+  };
 
-  function log() {
-    if (console && console.log) console.log.apply(console, arguments);
+//################################################################################
+//# UTILS
+//################################################################################
+
+  function isURL(s) { return (/^\S+:\/\/.+/).test(s); }
+
+  function getField(tiddler, field) {
+    tiddler = store.getTiddler(tiddler)||tiddler;
+    return tiddler && tiddler.fields ? tiddler.fields[field] : "";
   }
+  g=getField;
+
+  function log() { if (console && console.log) console.log.apply(console, arguments); }
+  function strip(s) { return s ? s.replace(/\s+/, "") : ""; }
 
 })(jQuery);
 
@@ -88,11 +119,15 @@
 <html>
   <head>
     <title>[[app]]</title>
-    <script>[[coreScript]]</script>
-    <style>[[coreCSS]]</style>
+    [[linkedScripts]]
+    [[linkedStylesheets]]
+    <script type="text/javascript">
+      [[Script]]
+    </script>
+    <style>[[CSS]]</style>
   </head>
   <body>
-    [[coreHTML]]
+    [[HTML]]
   </body>
 </html>
 !StyleSheet

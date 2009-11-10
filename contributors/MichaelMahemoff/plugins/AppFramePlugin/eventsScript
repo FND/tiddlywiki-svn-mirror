@@ -1,7 +1,6 @@
 modifier:mahemoff
+scripts: http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js, effects
 
-window.onload = function() {
-  document.getElementsByTagName("button")[0].onclick = function() {
-    alert("i got clicked :)");
-  }
-}
+$(function() {
+  $("button").click(function() { $(this).blink(); });
+});
