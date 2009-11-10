@@ -22,6 +22,9 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 :focus {
 	outline: 0;
 }
+p {
+	padding-bottom: 1em;
+}
 body {
 	line-height: 1;
 	color: black;
@@ -146,9 +149,9 @@ button {
 }
 #header img { /* JRL: temporary banner */
 	float: right;
-	position: relative;
-	top: 17px;
-	right: 17px;
+	position: absolute;
+	top: 24px;
+	right: 274px;
 }
 .definition {
 	letter-spacing: 2px;
