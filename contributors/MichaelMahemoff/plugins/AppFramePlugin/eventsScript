@@ -1,6 +1,8 @@
 modifier:mahemoff
-scripts: http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js, effects
+scripts: _jQuery_, http://mahemoff.com/test/script.js, effects
 
 $(function() {
-  $("button").click(function() { $(this).blink(); });
+  jQuery("button").click(function() { $(this).blink(); });
+  // console.log("d", dojo.query("button"));
+  // dojo.query("button").fadeOut().play();
 });

@@ -54,9 +54,12 @@
     });
 
     var linkedScripts = "";
+    // log("jslib", $("#jslibArea").html());
     $.each(strip(getField(app+"Script", "scripts")).split(","), function(i, script) { 
-      if (isURL(script)) linkedScripts +=
-        "<script type='text/javascript' src='"+script+"'></script>";
+      if (script=="_jQuery_") linkedScripts+= // special value
+        "<script type='text/javascript'>"+$("#jslibArea").html()+"</script>\n";
+      else if (isURL(script)) linkedScripts +=
+        "<script type='text/javascript' src='"+script+"'></script>\n";
       else {
         var scriptTiddler = store.getTiddler(script);
         if (scriptTiddler) linkedScripts +=
@@ -77,7 +80,6 @@
       }
     });
     appHTML = appHTML.replace("[[linkedStylesheets]]", "\n"+linkedStylesheets+"\n");
-    log("lss", linkedStylesheets);
 
     return appHTML;
   }
@@ -103,10 +105,9 @@
     tiddler = store.getTiddler(tiddler)||tiddler;
     return tiddler && tiddler.fields ? tiddler.fields[field] : "";
   }
-  g=getField;
 
   function log() { if (console && console.log) console.log.apply(console, arguments); }
-  function strip(s) { return s ? s.replace(/\s+/, "") : ""; }
+  function strip(s) { return s ? s.replace(/\s+/g, "") : ""; }
 
 })(jQuery);
 
