@@ -29,6 +29,7 @@ body {
 #tiddler7,
 #tiddler6 {
 	-webkit-transform: translate(15.5mm, -15.5mm) rotate(-90deg);
+	-moz-transform: translate(15.5mm, -15.5mm) rotate(-90deg);
 }
 
 /* rotated right */
@@ -37,6 +38,7 @@ body {
 #tiddler4,
 #tiddler5 {
 	-webkit-transform: translate(-15.5mm, -15.5mm) rotate(90deg);
+	-moz-transform: translate(-15.5mm, -15.5mm) rotate(90deg);
 }	
 /* cover */
 #tiddler1 {
