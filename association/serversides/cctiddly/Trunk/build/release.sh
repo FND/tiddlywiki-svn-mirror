@@ -24,8 +24,8 @@ select i in $OPTIONS; do
 		rm -f fetchPluginTiddlers.php
 		cd ../
 		svn copy Trunk-$1/Trunk http://svn.tiddlywiki.org/Tags/association/serversides/cctiddly/$1 -m 'ccTiddly - Automated Release - $1 '
-		svn export http://svn.tiddlywiki.org/Tags/association/serversides/cctiddly/$1 $1
-		zip -r $1.zip $1
+#		svn export http://svn.tiddlywiki.org/Tags/association/serversides/cctiddly/$1 $1
+#		zip -r $1.zip $1
 ##  Upload File to a server 
 ## Post a message to the google groups and blogs.
 
