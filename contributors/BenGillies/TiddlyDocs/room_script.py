@@ -21,14 +21,12 @@ BAGS=[
     ('comments', '{"policy":{"read": ["R:GROUP", "R:ADMIN"], "create": ["R:GROUP", "R:ADMIN"], "manage": ["R:ADMIN"], "accept": ["NONE"], "write": ["R:GROUPADMIN", "R:ADMIN"], "owner": null, "delete": ["R:ADMIN"]}}'),
     ('documents', '{"policy":{"read": ["R:GROUP", "R:ADMIN"], "create": ["R:GROUP", "R:ADMIN"], "manage": ["R:ADMIN"], "accept": ["NONE"], "write": ["R:GROUP", "R:ADMIN"], "owner": null, "delete": ["R:GROUP", "R:ADMIN"]}}')
     ]
-RECIPE='{"policy":{"read": ["R:GROUP", "R:ADMIN"], "create": ["R:GROUP", "R:ADMIN"], "manage": ["R:ADMIN"], "accept": ["NONE"], "write": ["R:GROUP", "R:ADMIN"], "owner": null, "delete": ["R:GROUP", "R:ADMIN"]}}'
+
+recipe_content = '[["system",""],["tdocs",""],["documents",""]]'
+RECIPE='{"policy":{"read": ["R:GROUP", "R:ADMIN"], "create": ["R:GROUP", "R:ADMIN"], "manage": ["R:ADMIN"], "accept": ["NONE"], "write": ["R:GROUP", "R:ADMIN"], "owner": null, "delete": ["R:GROUP", "R:ADMIN"]}, "desc": "", "recipe": "%s"}' % recipe_content
 
 def create_room_elements(room_name):
-    recipe_content = [
-        ['system',''],
-        ['tdocs',''],
-        ['documents','']
-        ]
+    
     
     for bag_type, policy in BAGS:
         bag_name = '%s_%s' % (room_name, bag_type)
@@ -38,9 +36,8 @@ def create_room_elements(room_name):
         recipe_content.append([bag_name, ''])
         
     recipe = Recipe(room_name)
-    recipe.set_recipe(recipe_content)
-    recipe_policy = RECIPE.replace('GROUP', room_name)
-    _put(recipe, recipe_policy, 'json')
+    recipe_final = RECIPE.replace('GROUP', room_name)
+    _put(recipe, recipe_final, 'json')
 
 def set_form(environ):
     if environ['tiddlyweb.type'] == 'application/x-www-form-urlencoded':
