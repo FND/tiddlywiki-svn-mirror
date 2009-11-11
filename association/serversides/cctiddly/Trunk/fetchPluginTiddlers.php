@@ -68,11 +68,11 @@ class PluginFetcher extends Plugin
 	}
 	
 	public function addRecipe($path) {
-		echo 'recipe: '.$path."\n";
+		echo 'recipe2: '.$path."\n";
 		if(is_file($path))
 		{
-			$file = $this->getContentFromFile(dirname(dirname($this->preparePath($path))));
-			$this->parseRecipe($file, dirname(dirname(dirname($path))));	
+			$file = $this->getContentFromFile($this->preparePath($path));
+			$this->parseRecipe($file, dirname($path));	
 		} else {
 			// look for the imported folder
 			$importedPluginsPath = getcwd()."/plugins/".$this->title."/files/importedPlugins";

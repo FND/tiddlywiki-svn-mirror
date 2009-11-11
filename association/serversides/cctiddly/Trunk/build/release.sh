@@ -11,13 +11,14 @@ PS3=""
 OPTIONS="y n"
 select i in $OPTIONS; do
     if [ "$i" = "y" ]; then
-#		svn copy http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/Trunk/ http://svn.tiddlywiki.org/Tags/association/serversides/cctiddly/$1 -m 'Automated ccTiddly release :'$1
-		svn export http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/Trunk/ $1
-		echo 'made it to here '
-
-		cd $1
+		svn up
 		php fetchPluginTiddlers.php
-		cd ../
+
+		#svn copy ../Trunk http://svn.tiddlywiki.org/Tags/association/serversides/cctiddly/$1 -m 'Automated ccTiddly release :'$1
+
+#		svn export http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/Trunk/ $1
+
+
 #		zip -r $1.zip $1
 ##  Upload File to a server 
 ## Post a message to the google groups and blogs.
