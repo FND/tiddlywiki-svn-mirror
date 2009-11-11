@@ -78,7 +78,7 @@ class Plugin {
 	}
 
 	public function addRecipe($path) {
-
+echo 'rec: '.$path."\n";
 		if(is_file($path))
 		{
 			$file = $this->getContentFromFile($this->preparePath($path));
