@@ -19,11 +19,11 @@ select i in $OPTIONS; do
 		echo "copying folder..."
 		ditto -V Trunk Trunk-$1
 		cd Trunk-$1
-		rm -R -f build
-		rm -R -f tests
-		rm -f fetchPluginTiddlers.php
+#		rm -R -f build
+#		rm -R -f tests
+#		rm -f fetchPluginTiddlers.php
 		cd ../
-		svn copy Trunk-$1/Trunk http://svn.tiddlywiki.org/Tags/association/serversides/cctiddly/$1 -m 'ccTiddly - Automated Release - $1 '
+		svn copy Trunk-$1 http://svn.tiddlywiki.org/Tags/association/serversides/cctiddly/$1 -m 'ccTiddly - Automated Release - $1 '
 #		svn export http://svn.tiddlywiki.org/Tags/association/serversides/cctiddly/$1 $1
 #		zip -r $1.zip $1
 ##  Upload File to a server 
