@@ -9,11 +9,40 @@
 |~CoreVersion|2.2|
 ***/
 
-  version.extensions.AppFramePlugin = {installed:true};
+//################################################################################
+//# CONFIGURABLE STUFF
+//################################################################################
+
+/***
+!HTMLTemplate
+<html>
+  <head>
+    <title>[[app]]</title>
+    [[linkedScripts]]
+    [[linkedStylesheets]]
+    <script type="text/javascript">
+      [[javascript]]
+    </script>
+    <style>[[css]]</style>
+  </head>
+  <body>
+    [[htm]]
+  </body>
+</html>
+
+!StyleSheet
+.appFrame { width: 100%; height: 300px; }
+.appPanel { margin: 10px 0; }
+.appPanel .tiddlyLink { background: #ffe; margin-right: 5px; border: 1px solid #ffc; padding: 2px; }
+.appPanel a.tiddlyLink:hover { color: #008; }
+pre.component { font-size: normal; }
+
+!The plugin
+***/
 
 (function($) {
 
-  var componentTypes = ["HTML", "CSS", "Script"];
+  version.extensions.AppFramePlugin = {installed:true};
 
   config.macros.appFrame = {
 
@@ -25,58 +54,76 @@
       var stylesheet = store.getTiddlerText(tiddler.title + "##StyleSheet");
       config.shadowTiddlers["StyleSheetAppFramePlugin"] = stylesheet;
       store.addNotification("StyleSheetAppFramePlugin", refreshStyles);
+
+      // config.shadowTiddlers["AppFramePreHTML"] = store.getTiddlerText(tiddler.title + "##StyleSheet");
+      // config.shadowTiddlers["AppFramePostHTML"] = store.getTiddlerText(tiddler.title + "##StyleSheet");
     },
 
     handler: function(place,macroName,params,wikifier,paramString,tiddler) {
-      $(place).addClass("app");
       var macroParams = paramString.parseParams();
       var app = getParam(macroParams, "app") || tiddler.title;
+
+      $(place).addClass("app").append(makeAppPanel(app));
       var $iframe = $("<iframe class='appFrame' />").appendTo(place);
-      setTimeout(function() { $iframe.inject(composeHTML(app)); }, 1);
-      makeAppPanel(app, place);
+      setTimeout(function() { $iframe.inject(composeHTML(app)); }, 0);
     }
 
   };
 
+  //################################################################################
+  //# DECORATE THE FRAME
+  //################################################################################
+
   function makeAppPanel(app, place) {
-    var $panel = $("<div class='appPanel' />").appendTo(place);
-    $.each(componentTypes, function(i, componentType) {
-      createTiddlyLink($panel[0], "events"+componentType, true);
+    log("making ", app);
+    var $panel = $("<div class='appPanel' />");
+    $.each(getComponents(app), function(i, component) {
+      log("comp", component);
+      createTiddlyLink($panel[0], component.title, true);
     });
+    return $panel;
   }
+
+  //################################################################################
+  // COMPOSE THE HTML
+  // This is the guts of the plugin. Takes the template from this very plugin,
+  // and the linked scripts/stylesheets from the app tiddler; and puts it all
+  // together.
+  //################################################################################
 
   function composeHTML(app) {
     var htmlTemplate = store.getTiddlerText("AppFramePlugin##HTMLTemplate");
     var appHTML = htmlTemplate.replace("[[app]]", app);
     $.each(componentTypes, function(i, componentType) { 
-      var component = store.getTiddlerText(app+componentType);
+      var component = store.getTiddlerText(app+"."+componentType);
       appHTML = appHTML.replace("[["+componentType+"]]", component);
     });
 
-    var linkedScripts = "";
-    // log("jslib", $("#jslibArea").html());
-    $.each(strip(getField(app+"Script", "scripts")).split(","), function(i, script) { 
+    var matches, linkedScripts = "";
+    $.each(strip(store.getTiddlerText(app+"::linkedScripts")).split(","), function(i, script) { 
       if (script=="_jQuery_") linkedScripts+= // special value
         "<script type='text/javascript'>"+$("#jslibArea").html()+"</script>\n";
       else if (isURL(script)) linkedScripts +=
         "<script type='text/javascript' src='"+script+"'></script>\n";
-      else {
-        var scriptTiddler = store.getTiddler(script);
-        if (scriptTiddler) linkedScripts +=
-          "<script type='text/javascript'>\n"+scriptTiddler.text+"</script>\n";
+      else if (matches=script.match(/\[\[(.*)\]\]/)) {
+        var text = store.getTiddlerText(matches[1]);
+        if (text && strip(text).length) linkedScripts +=
+          "<script type='text/javascript'>\n"+text+"</script>\n";
       }
     });
     appHTML = appHTML.replace("[[linkedScripts]]", "\n"+linkedScripts+"\n");
 
     var linkedStylesheets = "";
-    $.each(strip(getField(app+"CSS", "stylesheets")).split(","), function(i, stylesheet) { 
-      log("sty", stylesheet);
-      if (isURL(stylesheet)) linkedStylesheets +=
-        "<link rel='stylesheet' type='text/css' href='"+stylesheet+"'></link>";
-      else {
-        var stylesheetTiddler = store.getTiddler(stylesheet);
-        if (stylesheetTiddler) linkedStylesheets +=
-          "<style>\n"+stylesheetTiddler.text+"</style>\n\n";
+    $.each(strip(store.getTiddlerText(app+"::linkedStylesheets")).split(","), function(i, stylesheet) {
+      var matches;
+      if (isURL(stylesheet)) {
+        linkedStylesheets +=
+          "<link rel='stylesheet' type='text/css' href='"+stylesheet+"'></link>";
+      } else if (matches=stylesheet.match(/\[\[(.*)\]\]/)) {
+        log("matches", matches);
+        var text = store.getTiddlerText(matches[1]);
+        if (text && strip(text).length) linkedStylesheets +=
+          "<style>\n"+text+"</style>\n\n";
       }
     });
     appHTML = appHTML.replace("[[linkedStylesheets]]", "\n"+linkedStylesheets+"\n");
@@ -84,16 +131,36 @@
     return appHTML;
   }
 
-  $.fn.inject = function(content) {
+//################################################################################
+//# CHANGE PRESENTATION OF COMPONENT TIDDLERS (use <pre/> tag)
+//################################################################################
 
-    return $(this).filter("iframe").each(function() {
-      var doc = this.contentDocument || this.document || this.contentWindow.document;
-      doc.open();
-      doc.writeln(content);
-      doc.close();
-    });
+  config.shadowTiddlers.ComponentViewTemplate = config.shadowTiddlers.ViewTemplate.replace(
+    /<div.*class='viewer'.*<\/div>/,
+    "<pre class='component' macro='view text'></pre>");
 
+  var chooseTemplateForTiddler = Story.prototype.chooseTemplateForTiddler;
+  c=Story.prototype.chooseTemplateForTiddler = function(title, template) {
+    var parts = title.split(".");
+    var suffix = parts[parts.length-1];
+    if ((!template||template==DEFAULT_VIEW_TEMPLATE)
+        && parts.length>1 && componentTypes.indexOf(suffix)!=-1) {
+      return "ComponentViewTemplate";
+    }
+    return chooseTemplateForTiddler.apply(this, arguments);
   };
+
+//################################################################################
+//# COMPONENTS
+//################################################################################
+//
+  var componentTypes = ["htm", "css", "javascript"];
+  // if i implement hierarchies, this might climb up the inheritance tree until a match is found
+  function getComponents(app) {
+    return $.map(componentTypes, function(componentType) {
+      return store.getTiddler(app+"."+componentType);
+    });
+  }
 
 //################################################################################
 //# UTILS
@@ -109,36 +176,14 @@
   function log() { if (console && console.log) console.log.apply(console, arguments); }
   function strip(s) { return s ? s.replace(/\s+/g, "") : ""; }
 
+  $.fn.inject = function(content) {
+    return $(this).filter("iframe").each(function() {
+      var doc = this.contentDocument || this.document || this.contentWindow.document;
+      doc.open();
+      doc.writeln(content);
+      doc.close();
+    });
+  };
+
 })(jQuery);
-
-//################################################################################
-//# CUSTOM STYLESHEET
-//################################################################################
-
-/***
-!HTMLTemplate
-<html>
-  <head>
-    <title>[[app]]</title>
-    [[linkedScripts]]
-    [[linkedStylesheets]]
-    <script type="text/javascript">
-      [[Script]]
-    </script>
-    <style>[[CSS]]</style>
-  </head>
-  <body>
-    [[HTML]]
-  </body>
-</html>
-!StyleSheet
-
-.appFrame { width: 100%; height: 300px; }
-.appPanel { margin: 5px 0; }
-.appPanel .tiddlyLink { background: #ffe; margin-right: 5px; border: 1px solid #ffc; padding: 2px; }
-.appPanel a.tiddlyLink:hover { color: #008; }
-
-!(end of StyleSheet)
-***/
-
 /*}}}*/

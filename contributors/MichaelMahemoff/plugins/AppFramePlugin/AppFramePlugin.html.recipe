@@ -9,10 +9,14 @@ tiddler: DefaultTiddlers.tiddler
 tiddler: cake.tiddler
 tiddler: SiteTitle.tiddler
 tiddler: SiteSubtitle.tiddler
+
 tiddler: events
-tiddler: eventsHTML
-tiddler: eventsCSS
-tiddler: eventsScript
+tiddler: events.htm
+tiddler: events.css
+tiddler: events.javascript
+
+tiddler: block
+tiddler: block.htm
 
 tiddler: jQuery
 tiddler: effects

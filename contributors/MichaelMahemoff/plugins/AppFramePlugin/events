@@ -1,5 +1,8 @@
 modifier: mahemoff
 
+|linkedScripts|_jQuery_, http://tiddlywiki.mahemoff.com/lib/test.js, [[effects]]|
+|linkedStylesheets|http://tiddlywiki.org/skins/monobook/main.css, [[glitzyColors]]|
+
 This is a demo of the appFrame plugin. Let's explore Javascript events here.
 
 <<appFrame>>
