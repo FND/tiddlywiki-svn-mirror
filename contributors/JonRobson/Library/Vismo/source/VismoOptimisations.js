@@ -80,21 +80,23 @@ var VismoOptimisations = {
                 return false;
             }
     }
-	,vismoShapeIsInVisibleArea: function(vismoShape,canvas,transformation){
-	    var t1= new Date();
+	,vismoShapeIsInVisibleArea: function(vismoShape,canvas,transformation,projection){
 		var left = 0,top = 0;
 		var right =  parseInt(canvas.width) + left; 
 		var bottom = parseInt(canvas.height) + top;
 		var topleft =  VismoClickingUtils.undotransformation(left,top,transformation);
-		var bottomright =  VismoClickingUtils.undotransformation(right,bottom,transformation);				
+		var bottomright =  VismoClickingUtils.undotransformation(right,bottom,transformation);		
+		if(projection){
+		    topleft = projection.xy(topleft);	
+		    bottomright = projection.xy(bottomright);	
+		}
 		var frame = {};
 		frame.top = topleft.y;
 		frame.bottom = bottomright.y;
 		frame.right = bottomright.x;
 		frame.left = topleft.x;
+
 		var g = vismoShape.getBoundingBox();
-		var t2 = new Date();
-        VismoTimer["shape_visiblearea"] += (t2-t1);
            
 		if(g.x2 < frame.left) {
 			return false;}

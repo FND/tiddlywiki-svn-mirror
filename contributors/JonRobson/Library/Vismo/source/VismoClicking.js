@@ -533,7 +533,7 @@ VismoCanvas.prototype = {
 	    	    //console.log(this.getDomElement(),this.transformation);
 	    var projection = arguments[0];
 	    
-	    this.render = this.canvas_render;
+	    //this.render = this.canvas_render;
 	    var that = this;
 		var transformation = this.getTransformation();
 		if(this.options.beforeRender) this.options.beforeRender(this);	
@@ -570,7 +570,9 @@ VismoCanvas.prototype = {
 		for(var i=0; i < mem.length; i++){
 		    var sh = mem[i];
 		    var st = sh.getShape();
-	        if(sh.optimise(that.canvas,transformation,projection)){
+		    var yes = sh.optimise(that.canvas,transformation,projection);
+		    
+	        if(yes){
 			    if(st == 'domElement')tran = transformation;
 	            
 			    sh.render(that.canvas,tran,projection,true,that.settings.browser,ps);
@@ -585,7 +587,9 @@ VismoCanvas.prototype = {
 	,_tweakPoints: function(){
 	    var t = this.getTransformation();
 	    var scale = t.scale;
-	    var newPointSize = this.options.pointsize / scale.x;
+	    var newPointSize = this.options.pointsize;
+	    if(scale.x > 1) newPointSize /= scale.x;
+	    
 	    var pt= this.options.pointType;
 	    //console.log("new point size",newPointSize,this._points);
         if(pt =='circle'){
@@ -607,7 +611,7 @@ VismoCanvas.prototype = {
 	,render: function(args){
 	    
 	    var projection = arguments[0];
-
+      
 		if(this.settings.browser == 'good'){
             this.canvas_render(projection);
 		}
@@ -629,7 +633,6 @@ VismoCanvas.prototype = {
 	,setTransformation: function(args){
 	    
 	    var transformation = arguments[0];
-	    
         //console.log(transformation.origin.x,transformation.translate.x,transformation.translate.y);
         if(!transformation.origin){
                 transformation.origin = {};
@@ -641,18 +644,20 @@ VismoCanvas.prototype = {
 		//console.log("setting transformation",transformation.toSource());
 		var t = transformation.translate, s = transformation.scale;	
 	    transformation.cache = {id1:[s.x,",",s.y].join(""),id2:[t.x,",",t.y].join("")};
+	    
+	
 	  this._transformLabels(transformation);
 	    
 	}
-    ,_transformLabels: function(transformation){
-        //console.log("in transformLabels",transformation.toSource());
-        
+    ,_transformLabels: function(transformation){ 
+        //console.log("in transform labels",this.wrapper,transformation.toSource());  
         var translate = transformation.translate;
         var scale = transformation.scale;
-        var o = {x:this.width()/2,y:this.height()/2};
-         jQuery(this.labelHolder).css({top:parseInt(translate.y*scale.y),left:parseInt(translate.x *scale.x)});
+        var o = transformation.origin;
+        //var o = {x:this.width()/2,y:this.height()/2};
         
-        //console.log("labels",translate.x,translate.y,scale.x,scale.y);
+        jQuery(this.labelHolder).css({top:parseInt(translate.y*scale.y),left:parseInt(translate.x *scale.x)});
+        
         this._eachLabel(function(label){
             
             var jql = jQuery(label);
@@ -660,6 +665,7 @@ VismoCanvas.prototype = {
             var x = jql.attr("v_x");
             var y = jql.attr("v_y");
             if(!x || !y){
+                jQuery(label).css({display:"none"});
                 return;
             }
             else{
@@ -671,15 +677,18 @@ VismoCanvas.prototype = {
           
           var l =o.x + (x * scale.x);
           var t = o.y+(y*scale.y);
+          //console.log("setting top left in transformLabels",t,l);
           
             var cssStr = {top:t,left: l};
-            
+            //console.log(jQuery(label).text(),t,"=",o.y,y,scale.y);
             jql.css(cssStr);
             
         });
     }
     ,_eachLabel: function(f){
-        var labels = jQuery("*",this.labelHolder);
+        //console.log(this.labelHolder);
+        if(!this.labelHolder)return;
+        var labels = jQuery(".canvasLabel",this.labelHolder);
         for(var i=0 ; i < labels.length; i++){
             f(labels[i]);
         }
@@ -688,15 +697,17 @@ VismoCanvas.prototype = {
       
         var t=  this.getTransformation();
         
-        if(x !==0)t.translate.x = -x;
+        if(x !==0)t.translate.x = x;
         else t.translate.x = 0;
         if(y !==0)t.translate.y = -y;
         else t.translate.y = 0;
      
         if(this.vismoController){
+            
             this.vismoController.setTransformation(t);
         }
         else{
+           
             this.setTransformation(t);
         }
         this.render();
@@ -750,6 +761,7 @@ VismoCanvas.prototype = {
             isPoint = true;
             var pt= this.options.pointType;
             var ps = this.options.pointsize/2;
+            
             vismoShape.properties.shape = pt;
           
             if(pt =='polygon'){
@@ -793,13 +805,18 @@ VismoCanvas.prototype = {
 	    var h = jQuery(domElement).height();
 	    var w= jQuery(domElement).width();	    
 	    var top, left;
-	    left = x+ (this.width() /2) + w/2;
-	    top = (this.height()/2) + y + h/2 ;
+	    var t= this.getTransformation();
+	    var s = t.scale;
+	    var o = t.origin;
+	    left = o.x+ (x * s.x);
+	    top = o.y + (y *s.y);
+	    //console.log(t.toSource());
 	    jQuery(domElement).attr("v_x",x);
 	    jQuery(domElement).attr("v_y",y);
 
 	    jQuery(domElement).attr("v_w",w);
 	    jQuery(domElement).attr("v_h",h);
+	    //console.log("setting top left in addLabel",top,left);
 	    jQuery(domElement).css({position:"absolute",top:top,left:left});
 	    var that = this;
 	

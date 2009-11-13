@@ -1,4 +1,6 @@
 try{
+    config.locationData = [];
+    config.geoData = {};
   config.shadowTiddlers.AdvancedEditTemplateStyle = "/*{{{*/\n" +
   ".clearboth {clear:both;}\n"+
   ".aet_radioboxes label {width:auto;float:left;}\n"+
@@ -232,55 +234,80 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			
 			}
 		}
-		,setupLocationFinder: function(place,tiddlerobj){
+		,setupLocationFinder: function(place,tiddlerobj,initial){
 		    var searchurl = "http://ajax.googleapis.com/ajax/services/search/local?v=1.0&q=";
 		    var saveAs ={};
 		    var that = this;
 		    
-		    var place_to_ll = {};
-		    var handler = function(savethis){
-		        if(place_to_ll(savethis)){
-		            var lng = place_to_ll['longitude'];
-		            var lat = place_to_ll['latitude'];
+		    var place_to_ll = config.geoData;
+		    var saver = function(savethis){
+
+		        if(place_to_ll[savethis]){
+		            var lng = place_to_ll[savethis]['longitude'];
+		            var lat = place_to_ll[savethis]['latitude'];
 		            that.setMetaData(tiddlerobj.title,"longitude",lng);
 		            that.setMetaData(tiddlerobj.title,"latitude",lat);
+		            that.setMetaData(tiddlerobj.title,"place",savethis);
 		        }
-		        that.setMetaData(tiddlerobj.title,"place",savethis);
+		        
+		        
 		    };
-		    var sdata = ["foo"];
-		    var options = {matchContains: true,selectFirst:false};
-		    var ac = jQuery("<input type='text' value=\"type name of place\"/>").autocomplete(sdata,options);
-		    ac.result(handler).appendTo(place);
+		    var handler = function(event,values){
+		        if(values.length == 0) return;
+    			var name = values[0]
+    		    saver(name);
+		    }
+		    var suggestions = config.locationData;
+		    var options = {matchContains: true,selectFirst:false,matchContains:true};
+		    if(!initial)initial = "{type name of place}";
+		    var ac = jQuery("<input type='text' value=\""+initial+"\"/>").autocomplete(suggestions,options).result(handler).appendTo(place);
             var keysSinceQuery =0;
             
             
             jQuery("input",place).keypress(function(e){
+                if(e.which == 13){
+                    handler(this.value);
+                    return;
+                }
                 keysSinceQuery += 1;
                 if(keysSinceQuery > 1){
                     keysSinceQuery = 0;
+                    var that = this;
                     ajaxReq({url:searchurl+this.value,success:function(r){
                         var results = eval("("+r+")");
-                        var data = results.responseData;
-                        var results =[];
+                        var data = results.responseData.results;
+                        
                         for(var i=0; i < data.length;i++){
                             var res = data[i];
                             var lat =res.lat;
-                            var lon = res.lgn;
+                            var lon = res.lng;
                             var city = res.city;
+                            var address = res.addressLines.join(", ");
                             var country = res.country;
-                            var res = city +", "+ country;
-                            results.push(res);
-                            place_to_ll[res] = {longitude:lon,latitude:lat};
+                           
+                            if(!place_to_ll[address]){
+                                
+                                suggestions.push(address);
+                                place_to_ll[address] = {longitude:lon,latitude:lat};
+                            }
+                            
+                            
+                            
                             
                         }
+                        options.data = suggestions;
+                        ac.setOptions(options);
                         
                     }});
+                    
+                    
+                    
                 }
                 
                 //console.log("cool",this.value);
             });
             
-            console.log(jQuery("input",place));
+ 
 		}
 		,setupDropdown: function(place,tiddlerobj,metaDataName,valueSource){
 				if(!valueSource) {
@@ -387,7 +414,9 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			}
 			else if(ctrlType =='location'){
 			    //http://ajax.googleapis.com/ajax/services/search/local?v=1.0&q=
-			    this.setupLocationFinder(place,tiddlerobj);
+			    var selected = tiddlerobj.fields[metaDataName];
+			    
+			    this.setupLocationFinder(place,tiddlerobj,selected);
 			}
 			else if(ctrlType == 'embedvideo'){
 			    this.setupEmbeddedVideo(place,tiddlerobj,metaDataName,valueSource);
@@ -776,7 +805,11 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 				store.saveTiddler(title,title,null,true,null,[],config.defaultCustomFields,null);
 				tiddler =  store.getTiddler(title);
 			}
+			
 			store.setValue(tiddler,extField,extFieldVal);	
+			story.setDirty(title,true);
+			//console.log("set to dirty",title,story.isDirty(title));
+            
 			
 		
 		}

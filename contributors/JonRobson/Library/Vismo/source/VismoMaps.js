@@ -179,7 +179,11 @@ VismoMap.prototype = {
 			this.render();
 			
 	},
-	drawFromGeojsonFile: function(args){
+	add: function(feature){
+	    this.drawGeoJsonFeature(feature,feature.properties);
+	    this.render();
+	}
+	,drawFromGeojsonFile: function(args){
 	    var file = arguments[0];
 		var that = this;
 		var callback = function(status,params,responseText,url,xhr){

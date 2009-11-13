@@ -6,30 +6,38 @@ title: VGraphPlugin
 tags: systemConfig
 
 
-try{
-  config.shadowTiddlers.VGraphStyle = "/*{{{*/\n" +
-  ".changeAlgorithm {z-index:10;position:absolute;right:0px;bottom:0px;}\n"+
-  ".VGraph {height:400px;width:800px;position:relative;}\n"+
-  "/*}}}*/"
-store.addNotification("VGraphStyle", refreshStyles);
-}catch(e){};
-
-config.macros.VGraph= {
-    
+  if(!config.shadowTiddlers.VGraphStyle){
+      config.shadowTiddlers.VGraphStyle = "/*{{{*/\n" +
+      ".changeAlgorithm {z-index:10;position:absolute;right:0px;bottom:0px;}\n"+
+      ".VGraph {height:400px;width:600px;position:relative;border:solid 1px black;}\n"+
+      "#contentWrapper .VGraph {margin-left:150px;}\n#contentWrapper #tiddlerDisplay .VGraph {margin-left:0px;}\n"+
+      "/*}}}*/"
+    store.addNotification("VGraphStyle", refreshStyles);
+  }   
+config.macros.VGraphDefaultLabelMacro = {
     handler: function(place,macroName,params,wikifier,paramString,tiddler,options){
+        wikify("[["+tiddler.title+"]]",place);
+    }
+};
+config.macros.VGraph= {
+    _vgrs: {}
+    ,handler: function(place,macroName,params,wikifier,paramString,tiddler,options){
         /*setup options */
         
-        if(jQuery(place).hasClass("viewer")){
+        var newplace= document.createElement("div");
+        newplace.className = "VGraph"
+        place.appendChild(newplace);
+        place = newplace;
             var div = document.createElement("div");
-               place.className = "VGraph"
+               
                place.appendChild(div);
                var w = jQuery(place).width();
                var h = jQuery(place).height();
-               if(!w) w = 700;
+               if(!w) w = 500;
                if(!h) h= 300;
                jQuery(div).css({width:w,height:h,"position":"relative"});
                place = div;
-        }
+     
        
         var nodes = store.getTiddlers();
         if(!options){
@@ -37,7 +45,7 @@ config.macros.VGraph= {
         }
         options.pointsize = 20;
         merge(options,{nodeWidth:20,nodeHeight:10,defaultNodeColor:"rgb(200,200,200)",lineColor:"rgb(200,200,200)",lineWidth:"2"});
-        
+     
         if(!paramString)paramString = "";
         var namedprms = paramString.parseParams(null, null, true);
         for(var i=0; i < namedprms.length;i++){
@@ -60,7 +68,7 @@ config.macros.VGraph= {
                 json.properties.label = json.id;
             }
         }
-       
+        if(!options.labelMacro)options.labelMacro = "VGraphDefaultLabelMacro";
         if(options.labelMacro){
             var paramStart = options.labelMacro.indexOf(" ");
             var paramString = options.labelMacro.substr(paramStart+1);
@@ -89,6 +97,7 @@ config.macros.VGraph= {
             options.connectOrphans = true;
         }
         var graph = this.constructGraph(nodes,options);
+           
         options.graph = graph;
         
 
@@ -206,6 +215,8 @@ config.macros.VGraph= {
         for(var l in tempnodes){
             n.push(tempnodes[l]);
         }
+        
+     
         //console.log(tempnodes,n,edges);
         var graph = new VismoGraph({nodes:n,edges:edges});
         return graph;
@@ -214,17 +225,19 @@ config.macros.VGraph= {
         this.options = options;
         this.setuptooltip(place);
         var that = this;
+        var vgr_id = Math.random();
         options.dblclick = function(e,s){if(!s)return;story.displayTiddler(null,s.properties.name);};
         options.mousedown = function(e,s){
-            if(s){
-                //that.vgr.centerOn(s.properties.id);
+          
+            if(s && that._vgrs){
+                that._vgrs[vgr_id].centerOn(s.properties.id);
             }
         };
         this.options.vismoController = {labels:true,controlFill:options.lineColor,controlShape: "circle",controlStroke:"rgb(255,255,255)"};
      
-        this.vgr = new VismoGraphRenderer(place,options);
-       
-        return this.vgr;
+        
+        this._vgrs[vgr_id] =  new VismoGraphRenderer(place,options);
+        return this._vgrs[vgr_id];
     }
     ,graph: function(){
         return this.vgr.graph();

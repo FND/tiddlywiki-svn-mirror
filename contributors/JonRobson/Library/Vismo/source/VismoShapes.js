@@ -807,7 +807,7 @@ VismoShape.prototype={
 	}	
 
 	,_applyProjection: function(projection,transformation){
-        console.log("apply projection to",this.properties.shape);
+        //console.log("apply projection to",this.properties.shape);
 	    VismoTimer.start("VismoShapes._applyProjection");
 		var c = this.getCoordinates('normal');
 	
@@ -904,7 +904,7 @@ VismoShape.prototype={
 			}	
 		}
 		
-		if(!VismoOptimisations.vismoShapeIsInVisibleArea(this,canvas,transformation)){
+		if(!VismoOptimisations.vismoShapeIsInVisibleArea(this,canvas,transformation,projection)){
 			if(!justcompute && this.vml)this.vml.clear();
 			ocache[cid][cid2] = false;
 			VismoTimer.end("VismoShapes.optimise");

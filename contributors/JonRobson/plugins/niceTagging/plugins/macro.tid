@@ -1,4 +1,5 @@
 tags: systemConfig viewidea
+title: NiceTaggingPlugin
 
 /***
 |''Name:''| NiceTaggingPlugin|
@@ -30,9 +31,19 @@ config.macros.niceTagger = {
 	,twtags: {}
 	,initialised:{}
 	,init: function(field){
-	    if(this.initialised[field])return;
-	    if(!field)field = 'tags';
 	    
+	    if(!field)field = 'tags';
+
+	    if(this.initialised[field]){
+	        if(field =='tags'){
+	            
+    	        var numTags= store.getTags();
+    	        if(numTags.length == this.twtags[field].length) return;
+    	    }
+    	    else{
+    	        return;
+	        }
+	    }
 	    var tiddlers= store.getTiddlers();
 	    config.macros.niceTagger.twtags[field] = [];
 	    
@@ -45,13 +56,13 @@ config.macros.niceTagger = {
         	    values=tid.fields[field]
         	    if(!values)values="";
         	    values = values.readBracketedList();
-        	;}
+        	}
         	config.macros.niceTagger.twtags[field]= dest.concat(values);
         }
         this.initialised[field] =true;
 	}
     ,save: function(title,field,list){
-        console.log("save",title,field,list);
+        //console.log("save",title,field,list);
 		var tiddler =  store.getTiddler(title);
 		if(!tiddler) {
 		    var tags = [];
@@ -62,7 +73,7 @@ config.macros.niceTagger = {
 		    else{
 		        fields[field]=list;
 		    }
-		
+		    
 			store.saveTiddler(title,title,null,true,null,tags,fields,null);
 			tiddler =  store.getTiddler(title);
 		}
@@ -74,12 +85,16 @@ config.macros.niceTagger = {
 		else{
 		    strVal= String.encodeTiddlyLinkList(list);
 		} 
-		console.log("saving to field",field,strVal);
-		store.setValue(tiddler,field,strVal);
-        console.log("finished save tags",tiddler.tags,"field",tiddler.fields[field]);
+		//tiddler.fields[field] = strVal
+		//store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,null,null,tiddler.tags,tiddler.fields,null);
+		store.setValue(tiddler.title,field,strVal);
+		story.saveTiddler(tiddler.title);
+		//story.setDirty(title,true);
+		
+        //console.log("finished save tags",tiddler.tags,"field",tiddler.fields[field]);
     }
     ,refreshFieldDisplay: function(place,tiddler,field){
-        console.log("refresh tasgs",field,tiddler.fields[field]);
+        //console.log("refresh tasgs",field,tiddler.fields[field]);
         jQuery(place).html("");
         var tags;
         if(!field ||field=='tags'){
@@ -179,13 +194,15 @@ config.macros.niceTagger = {
 		
 		
 		var uniqueSuggestions = [];
+		var ignoreList = getParam(params,"exclude");
+		if(!ignoreList) ignoreList = ["excludeList"];
 		for(var i=0; i < suggestions.length; i++){
 			var s =suggestions[i];
 			if(s){
 			//rtrim then ltrim
 			s = s.replace(new RegExp("[\\s]+$", "g"), "").replace(new RegExp("^[\\s]+", "g"), "");
 			//console.log(uniqueSuggestions.toString(),s,uniqueSuggestions.indexOf(s));
-				if(uniqueSuggestions.indexOf(s) ==-1){
+				if(uniqueSuggestions.indexOf(s) ==-1 && ignoreList.indexOf(s) ==-1){
 					uniqueSuggestions.push(s);
 				}
 			}

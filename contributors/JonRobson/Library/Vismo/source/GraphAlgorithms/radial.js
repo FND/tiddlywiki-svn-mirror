@@ -268,7 +268,7 @@ VismoGraphAlgorithms.radial = {
         }
     }
     ,compute: function (graph,options,property) {	
-
+       
         var root = options.root;
 
 

@@ -14,6 +14,7 @@ VismoGraphAlgorithms.walkers ={
        }
     }
     ,compute: function (graph,options) {	
+        console.log("in compute walkers");
         var root = options.root;
         this.nodeWidth = options.nodeWidth | 40;
         this.nodeHeight = options.nodeHeight | 40;

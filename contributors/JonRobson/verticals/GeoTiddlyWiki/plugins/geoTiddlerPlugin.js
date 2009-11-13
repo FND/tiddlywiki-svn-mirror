@@ -105,7 +105,19 @@ function getElementChild(el,tag){
 			else {	
 				eMap.drawFromGeojson(geodata);
 			}
+			if(navigator && navigator.geolocation){
+    			var whereami = navigator.geolocation.getCurrentPosition(function(r){
+    			    var c=r.coords;
+    			    var lat =c.latitude;
+    			    var lng = c.longitude;
+    			    var point = GeoTag(lng,lat,{name:"your location",fill:"rgb(255,255,0)"});
+    			    eMap.add(point);
+    			    console.log("cool",lat,lng);
+    			});
+			}
+			
 
+            
 
 			//}
 		}	
@@ -230,9 +242,11 @@ function getElementChild(el,tag){
 						latc =parseFloat(tiddler.fields.latitude);
 					    if(tiddler.fields.geolink){
                             var dest = store.getTiddler(tiddler.fields.geolink);
-                            var longc2 = parseFloat(dest.fields.longitude);
-                            var latc2 = parseFloat(dest.fields.latitude);
-                            if(longc2 && latc2)path = [longc,latc,longc2,latc2];
+                            if(dest){
+                                var longc2 = parseFloat(dest.fields.longitude);
+                                var latc2 = parseFloat(dest.fields.latitude);
+                                if(longc2 && latc2)path = [longc,latc,longc2,latc2];
+                            }
     					}
     					
 					}

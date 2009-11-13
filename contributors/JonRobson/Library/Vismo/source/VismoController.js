@@ -547,7 +547,6 @@ VismoController.prototype = {
 		if(this.enabled){
 			if(!t.scale && !t.translate && !t.rotate) alert("bad transformation applied - any call to setTransformation must contain translate,scale and rotate");
 			this.transformation = t;
-			
 			try{this.handler(t);}catch(e){};
 		}
 		//console.log("transformation set to ",t);

@@ -323,13 +323,14 @@ VismoGraphRenderer.prototype = {
 
         var node = graph.getNode(root);
         var half_height = this._canvas.height() /2;
-        this._canvas.centerOn(node.XPosition,node.YPosition + half_height);
+        //this._canvas.centerOn(node.XPosition,node.YPosition + half_height);
         //console.log("computed")
     }
     ,centerOn: function(id,animate){
         var node = this._graph.getNode(id);
-        var finishAt = {x:node.XPosition,y:-node.YPosition};
+        var finishAt = {x:-node.XPosition,y:-node.YPosition};
         this._canvas.centerOn(finishAt.x,finishAt.y,animate);
+        
     }
     ,_plotted: {}
     ,plot: function(id){
@@ -358,7 +359,7 @@ VismoGraphRenderer.prototype = {
             //console.log(id,"plotting child",i);
             var parentpos = {x:x,y:y};
             var ch =children[i];
-            var child_shape = this.plot(ch);
+            var child_shape = this._plot(ch);
             if(!child_shape) child_shape = this._canvas.getShapeWithID(ch);
             if(child_shape){            
                 var bb = child_shape.getBoundingBox();
