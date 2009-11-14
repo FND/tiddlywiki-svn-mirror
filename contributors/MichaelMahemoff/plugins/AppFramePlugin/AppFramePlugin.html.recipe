@@ -21,3 +21,5 @@ tiddler: block.htm
 tiddler: jQuery
 tiddler: effects
 tiddler: glitzyColors
+
+tiddler: lib/app.js
