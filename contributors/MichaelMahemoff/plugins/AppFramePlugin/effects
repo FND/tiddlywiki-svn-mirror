@@ -1,0 +1,3 @@
+modifier: mahemoff
+
+$.fn.blink = function() { return $(this).fadeOut().fadeIn().fadeOut().fadeIn(); }
