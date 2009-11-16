@@ -22,12 +22,13 @@ BAGS=[
     ('documents', '{"policy":{"read": ["R:GROUP", "R:ADMIN"], "create": ["R:GROUP", "R:ADMIN"], "manage": ["R:ADMIN"], "accept": ["NONE"], "write": ["R:GROUP", "R:ADMIN"], "owner": null, "delete": ["R:GROUP", "R:ADMIN"]}}')
     ]
 
-recipe_content = '[["system",""],["tdocs",""],["documents",""]]'
-RECIPE='{"policy":{"read": ["R:GROUP", "R:ADMIN"], "create": ["R:GROUP", "R:ADMIN"], "manage": ["R:ADMIN"], "accept": ["NONE"], "write": ["R:GROUP", "R:ADMIN"], "owner": null, "delete": ["R:GROUP", "R:ADMIN"]}, "desc": "", "recipe": "%s"}' % recipe_content
+recipe_content = [
+    ["system",""],
+    ["tdocs",""],
+    ["documents",""]
+]
 
 def create_room_elements(room_name):
-    
-    
     for bag_type, policy in BAGS:
         bag_name = '%s_%s' % (room_name, bag_type)
         bag = Bag(bag_name)
@@ -36,8 +37,18 @@ def create_room_elements(room_name):
         recipe_content.append([bag_name, ''])
         
     recipe = Recipe(room_name)
-    recipe_final = RECIPE.replace('GROUP', room_name)
-    _put(recipe, recipe_final, 'json')
+    group_role = 'R:%s' % room_name
+    recipe.policy.__dict__ = {
+        'read': [group_role, 'R:ADMIN'],
+        'create': [group_role, 'R:ADMIN'],
+        'manage': ['R:ADMIN'],
+        'accept': ['NONE'],
+        'write': [group_role, 'R:ADMIN'],
+        'owner': None,
+        'delete': [group_role, 'R:ADMIN']
+    }
+    recipe.set_recipe(recipe_content)
+    _put(recipe)
 
 def set_form(environ):
     if environ['tiddlyweb.type'] == 'application/x-www-form-urlencoded':
