@@ -11,7 +11,7 @@ from tiddlyweb.web.http import HTTP403
 from cgi import FieldStorage
 from tiddlyweb.model.bag import Bag
 from tiddlyweb.model.recipe import Recipe
-from tiddlyweb.manage import _put
+from tiddlyweb.manage import _put, _store
 
 
 
@@ -48,7 +48,7 @@ def create_room_elements(room_name):
         'delete': [group_role, 'R:ADMIN']
     }
     recipe.set_recipe(recipe_content)
-    _put(recipe)
+    _store.put(recipe)
 
 def set_form(environ):
     if environ['tiddlyweb.type'] == 'application/x-www-form-urlencoded':
