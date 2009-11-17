@@ -11,6 +11,17 @@
     scripts: { pre: '<script type="text/javascript">\n', post: '\n</script>\n' }
   }
 
+  var DEFAULT_TEMPLATE = "\
+<html>\n\
+  <head>\n\
+    <title>[[title]]</title>\n\
+    [[components]]\n\
+  </head>\n\
+  <body>\n\
+    [[core]]\n\
+  </body>\n\
+</html>";
+
 //******************************************************************************
 // Basic setup
 //******************************************************************************
@@ -22,7 +33,11 @@
   app = function(options) {
 
     options = options || {};
-    this.template = options.template || "";
+    this.settings = $.extend({
+      template: DEFAULT_TEMPLATE,
+      decode: function(s) { return s; }
+    }, options);
+    this.components = [];
     this.htmlSegments = {};
 
     var thisApp=this;
@@ -39,14 +54,20 @@
   app.prototype.asHTML = function() { 
 
     var app = this;
-    var html = this.template;
+    var html = this.settings.template;
+
+    var componentsHTML = "";
+    $.each(this.components, function(i, component) {
+      componentsHTML += component.type.pre+component.val+component.type.post;
+    });
 
     var html = html.replace(/\[\[(.+?)\]\]/g, function (s, componentToken) {
-      var componentType = componentTypes[componentToken];
-      if (componentType)
-        return makeComponentHTML(app[componentToken], componentType.pre, componentType.post);
+      var output;
+      if (componentToken=="components")
+        output = componentsHTML;
       else
-        return app.htmlSegments[componentToken];
+        output = app.htmlSegments[componentToken] || "";
+      return app.settings.decode(output);
     });
 
     return html;
@@ -78,16 +99,16 @@
 
   $.each(componentTypes, function(componentType) {
     app.prototype["attach"+nominalize(componentType)] = function() {
-      for (var i=0; i<arguments.length; i++) { this[componentType].push(arguments[i]); }
+      for (var i=0; i<arguments.length; i++) {
+        this.components.push({
+          type: componentTypes[componentType],
+          val: arguments[i]
+        });
+      }
     }
+    // app.components.push("aaa");
   });
-
-//******************************************************************************
-// Manipulators - Basic
-//******************************************************************************
-  
- app.prototype.setTemplate = function(template) { this.template = template; }
-
+ 
 //******************************************************************************
 // Utils
 //******************************************************************************

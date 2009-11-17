@@ -22,4 +22,4 @@ tiddler: jQuery
 tiddler: effects
 tiddler: glitzyColors
 
-tiddler: lib/app.js
+tiddler: lib/jquery.app.js

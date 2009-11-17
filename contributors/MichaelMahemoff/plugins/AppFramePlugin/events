@@ -1,8 +1,14 @@
 modifier: mahemoff
 
-|linkedScripts|_jQuery_, http://tiddlywiki.mahemoff.com/lib/test.js, [[effects]]|
-|linkedStylesheets|http://tiddlywiki.org/skins/monobook/main.css, [[glitzyColors]]|
+This is a demo of the AppFrame plugin, a plugin to let you build small web apps to be embedded directly in a TiddlyWiki. Note these are just normal web apps, nothing to do with TiddlyWiki; they just happen to be edited and viewed inside a TiddlyWiki for convenience; it means you can keep all your code in a single file. You can use AppFrame in different ways as a playground to experiment with aspects of web programming, or as a tool to teach others aspects of web programming. You could use it to show off an API you've built, and invite others to experiment with it. Or you could use it to demonstrate some principles and patterns of UI design.
 
-This is a demo of the appFrame plugin. Let's explore Javascript events here.
+In this (trivial) example, called the "events" app, we use it to show someone how Javascript events work.
+
+To begin with, you can optionally specify some library scripts and stylesheets. These can be contained inside the TiddlyWiki - as tiddlers or tiddler sections/slices. Or they can be referenced by URL, so they could be sitting anywhere on the web. This is particularly useful in conjunction with [[Javascript CDNs|http://code.google.com/apis/ajaxlibs/]]. There is also a special third type of library - you can use the special token, "_jQuery_", to include the same jQuery that ships with TiddlyWiki. (It was already in there, so I thought why not make it available?)
+
+|libraryScripts|_jQuery_, http://tiddlywiki.mahemoff.com/lib/test.js, [[effects]]|
+|libraryStylesheets|http://tiddlywiki.org/skins/monobook/main.css, [[glitzyColors]]|
+
+The main thing, though, is that each app consists of three parts: some HTML, some CSS, and some Javascript. Each lives in its own tiddler and the tiddlers are "magically" located using a simple naming convention: [appName].htm, [appName.css], and [appName].javascript. They are all optional.
 
 <<appFrame>>

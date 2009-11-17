@@ -4,6 +4,7 @@
 |Source||
 |Documentation||
 |Version|0.1|
+|Requires|jquery.app|
 |Author|Michael Mahemoff, Osmosoft|
 |''License:''|[[BSD open source license]]|
 |~CoreVersion|2.2|
@@ -14,28 +15,15 @@
 //################################################################################
 
 /***
-!HTMLTemplate
-<html>
-  <head>
-    <title>[[app]]</title>
-    [[linkedScripts]]
-    [[linkedStylesheets]]
-    <script type="text/javascript">
-      [[javascript]]
-    </script>
-    <style>[[css]]</style>
-  </head>
-  <body>
-    [[htm]]
-  </body>
-</html>
-
 !StyleSheet
-.appFrame { width: 100%; height: 300px; }
+.appFrame { width: 100%; height: 400px; }
 .appPanel { margin: 10px 0; }
-.appPanel .tiddlyLink { background: #ffe; margin-right: 5px; border: 1px solid #ffc; padding: 2px; }
+.appPanel a.tiddlyLink { background: #ffe; margin-right: 5px; border: 1px solid #ffc; padding: 2px; }
 .appPanel a.tiddlyLink:hover { color: #008; }
+.appPanel span { cursor: pointer; }
 pre.component { font-size: normal; }
+
+.appSource { display: none; width: 100%; height: 400px; }
 
 !The plugin
 ***/
@@ -44,6 +32,8 @@ pre.component { font-size: normal; }
 
   version.extensions.AppFramePlugin = {installed:true};
 
+  var componentTiddlerTypes = ["htm", "css", "javascript"];
+
   config.macros.appFrame = {
 
 //################################################################################
@@ -51,84 +41,69 @@ pre.component { font-size: normal; }
 //################################################################################
 
     init: function() {
-      var stylesheet = store.getTiddlerText(tiddler.title + "##StyleSheet");
+      var stylesheet = store.getTiddlerText("AppFramePlugin##StyleSheet");
       config.shadowTiddlers["StyleSheetAppFramePlugin"] = stylesheet;
       store.addNotification("StyleSheetAppFramePlugin", refreshStyles);
-
-      // config.shadowTiddlers["AppFramePreHTML"] = store.getTiddlerText(tiddler.title + "##StyleSheet");
-      // config.shadowTiddlers["AppFramePostHTML"] = store.getTiddlerText(tiddler.title + "##StyleSheet");
     },
 
     handler: function(place,macroName,params,wikifier,paramString,tiddler) {
-      var macroParams = paramString.parseParams();
-      var app = getParam(macroParams, "app") || tiddler.title;
 
-      $(place).addClass("app").append(makeAppPanel(app));
+      var macroParams = paramString.parseParams();
+      var appTiddlerTitle = getParam(macroParams, "app") || tiddler.title;
+      var app = makeApp(appTiddlerTitle);
+      var appHTML = app.asHTML();
+
+      $(place).addClass("app").append(makeAppPanel(appTiddlerTitle));
+      $("<pre class='appSource'/>").text(appHTML).appendTo(place);
+
       var $iframe = $("<iframe class='appFrame' />").appendTo(place);
-      setTimeout(function() { $iframe.inject(composeHTML(app)); }, 0);
+      setTimeout(function() { $iframe.inject(appHTML); }, 0);
+
     }
 
   };
+
+  function makeApp(appTiddlerTitle) {
+    var app = $.app();
+
+    $.each(strip(store.getTiddlerText(appTiddlerTitle+"::libraryScripts")).split(","), function(i, script) { 
+      if (script=="_jQuery_") app.attachScripts($("#jslibArea").html().replace(/^\/\/.*/mg, ""));
+      else if (isURL(script)) app.attachLinkedScripts(script);
+      else if (matches=script.match(/\[\[(.*)\]\]/)) app.attachScripts(extractCode(matches[1]));
+    });
+
+    $.each(strip(store.getTiddlerText(appTiddlerTitle+"::libraryStylesheets")).split(","), function(i, stylesheet) { 
+      if (isURL(stylesheet)) app.attachLinkedStylesheets(stylesheet);
+      else if (matches=stylesheet.match(/\[\[(.*)\]\]/)) app.attachStylesheets(extractCode(matches[1]));
+    });
+
+    app.attachHTML("core", extractCode(appTiddlerTitle+".htm"));
+    app.attachHTML("title", appTiddlerTitle);
+    app.attachStylesheets(extractCode(appTiddlerTitle+".css"));
+    app.attachScripts(extractCode(appTiddlerTitle+".javascript"));
+
+    return app;
+  }
+
+  function extractCode(tiddler) {
+    var text = store.getTiddlerText(tiddler) || "";
+    return text.replace(/(\s\S)*\n$/, "$1");
+  }
 
   //################################################################################
   //# DECORATE THE FRAME
   //################################################################################
 
-  function makeAppPanel(app, place) {
-    log("making ", app);
+  function makeAppPanel(appTiddlerTitle, place) {
     var $panel = $("<div class='appPanel' />");
-    $.each(getComponents(app), function(i, component) {
-      log("comp", component);
-      createTiddlyLink($panel[0], component.title, true);
+    $.each(componentTiddlerTypes, function(i, componentTiddlerType) {
+      createTiddlyLink($panel[0], appTiddlerTitle+"."+componentTiddlerType, true);
     });
+    $("<input type='checkbox' />")
+    .click(function() { $(place).find(".appSource").toggleSlide(); })
+    .appendTo($panel)
+    .after($("<span>view source</span>").click(function() { $(this).prev().click(); }))
     return $panel;
-  }
-
-  //################################################################################
-  // COMPOSE THE HTML
-  // This is the guts of the plugin. Takes the template from this very plugin,
-  // and the linked scripts/stylesheets from the app tiddler; and puts it all
-  // together.
-  //################################################################################
-
-  function composeHTML(app) {
-    var htmlTemplate = store.getTiddlerText("AppFramePlugin##HTMLTemplate");
-    var appHTML = htmlTemplate.replace("[[app]]", app);
-    $.each(componentTypes, function(i, componentType) { 
-      var component = store.getTiddlerText(app+"."+componentType);
-      appHTML = appHTML.replace("[["+componentType+"]]", component);
-    });
-
-    var matches, linkedScripts = "";
-    $.each(strip(store.getTiddlerText(app+"::linkedScripts")).split(","), function(i, script) { 
-      if (script=="_jQuery_") linkedScripts+= // special value
-        "<script type='text/javascript'>"+$("#jslibArea").html()+"</script>\n";
-      else if (isURL(script)) linkedScripts +=
-        "<script type='text/javascript' src='"+script+"'></script>\n";
-      else if (matches=script.match(/\[\[(.*)\]\]/)) {
-        var text = store.getTiddlerText(matches[1]);
-        if (text && strip(text).length) linkedScripts +=
-          "<script type='text/javascript'>\n"+text+"</script>\n";
-      }
-    });
-    appHTML = appHTML.replace("[[linkedScripts]]", "\n"+linkedScripts+"\n");
-
-    var linkedStylesheets = "";
-    $.each(strip(store.getTiddlerText(app+"::linkedStylesheets")).split(","), function(i, stylesheet) {
-      var matches;
-      if (isURL(stylesheet)) {
-        linkedStylesheets +=
-          "<link rel='stylesheet' type='text/css' href='"+stylesheet+"'></link>";
-      } else if (matches=stylesheet.match(/\[\[(.*)\]\]/)) {
-        log("matches", matches);
-        var text = store.getTiddlerText(matches[1]);
-        if (text && strip(text).length) linkedStylesheets +=
-          "<style>\n"+text+"</style>\n\n";
-      }
-    });
-    appHTML = appHTML.replace("[[linkedStylesheets]]", "\n"+linkedStylesheets+"\n");
-
-    return appHTML;
   }
 
 //################################################################################
@@ -144,23 +119,11 @@ pre.component { font-size: normal; }
     var parts = title.split(".");
     var suffix = parts[parts.length-1];
     if ((!template||template==DEFAULT_VIEW_TEMPLATE)
-        && parts.length>1 && componentTypes.indexOf(suffix)!=-1) {
+        && parts.length>1 && componentTiddlerTypes.indexOf(suffix)!=-1) {
       return "ComponentViewTemplate";
     }
     return chooseTemplateForTiddler.apply(this, arguments);
   };
-
-//################################################################################
-//# COMPONENTS
-//################################################################################
-//
-  var componentTypes = ["htm", "css", "javascript"];
-  // if i implement hierarchies, this might climb up the inheritance tree until a match is found
-  function getComponents(app) {
-    return $.map(componentTypes, function(componentType) {
-      return store.getTiddler(app+"."+componentType);
-    });
-  }
 
 //################################################################################
 //# UTILS
@@ -184,6 +147,10 @@ pre.component { font-size: normal; }
       doc.close();
     });
   };
+
+  $.fn.toggleSlide = function() {
+    $(this).css("display")=="none" ? $(this).slideDown() : $(this).slideUp();
+  }
 
 })(jQuery);
 /*}}}*/
