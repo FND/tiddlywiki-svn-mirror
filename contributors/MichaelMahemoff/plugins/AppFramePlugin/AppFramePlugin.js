@@ -21,6 +21,7 @@
 .appPanel a.tiddlyLink { background: #ffe; margin-right: 5px; border: 1px solid #ffc; padding: 2px; }
 .appPanel a.tiddlyLink:hover { color: #008; }
 .appPanel span { cursor: pointer; }
+.appPanel button { margin-left: 10px; }
 pre.component { font-size: normal; }
 
 .appSource { display: none; width: 100%; height: 400px; }
@@ -50,18 +51,22 @@ pre.component { font-size: normal; }
 
       var macroParams = paramString.parseParams();
       var appTiddlerTitle = getParam(macroParams, "app") || tiddler.title;
-      var app = makeApp(appTiddlerTitle);
-      var appHTML = app.asHTML();
 
       $(place).addClass("app").append(makeAppPanel(appTiddlerTitle));
-      $("<pre class='appSource'/>").text(appHTML).appendTo(place);
-
+      $("<pre class='appSource'/>").appendTo(place);
       var $iframe = $("<iframe class='appFrame' />").appendTo(place);
-      setTimeout(function() { $iframe.inject(appHTML); }, 1000);
+      populate(appTiddlerTitle, place);
 
     }
 
   };
+
+  function populate(appTiddlerTitle, place) {
+    var app = makeApp(appTiddlerTitle);
+    var appHTML = app.asHTML();
+    $(place).find(".appFrame").inject(appHTML);
+    $(place).find(".appSource").text(appHTML);
+  }
 
   function makeApp(appTiddlerTitle) {
     var app = $.app();
@@ -95,15 +100,24 @@ pre.component { font-size: normal; }
   //################################################################################
 
   function makeAppPanel(appTiddlerTitle, place) {
+
     var $panel = $("<div class='appPanel' />");
+
     $.each(componentTiddlerTypes, function(i, componentTiddlerType) {
       createTiddlyLink($panel[0], appTiddlerTitle+"."+componentTiddlerType, true);
     });
+
     $("<input type='checkbox' />")
     .click(function() { $(place).find(".appSource").toggleSlide(); })
     .appendTo($panel)
-    .after($("<span>view source</span>").click(function() { $(this).prev().click(); }))
+    .after($("<span>view source</span>").click(function() { $(this).prev().click(); }));
+
+    $("<button>Reload</button>")
+    .click(function() { populate(appTiddlerTitle, place); })
+    .appendTo($panel);
+
     return $panel;
+
   }
 
 //################################################################################
