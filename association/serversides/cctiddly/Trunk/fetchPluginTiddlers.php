@@ -49,7 +49,7 @@ class PluginFetcher extends Plugin
 		fclose($fhandle);
 	}
 	
-	public function addTiddler($data, $path=null) {
+	public function createTiddler($data, $path=null) {
 		if(is_file($path))
 			$tiddler = $this->tiddlerFromFile($path);
 		else 
@@ -77,6 +77,9 @@ class PluginFetcher extends Plugin
 	public function parseRecipeLine($line, $recipePath) {
 
 		//if(stristr($line, "../")) 
+		$semi_colon_pos = stripos($line, ":");
+		$linePath = substr($line, $semi_colon_pos+1);
+		$realPath = realpath($recipePath."/".$linePath);
 		
 			$ext = trim(end(explode(".", $line)));
 			switch ($ext) {
@@ -85,19 +88,15 @@ class PluginFetcher extends Plugin
 					$this->addRecipe($path);
 				break;
 				case 'js' :
-					$tiddler['title'] = substr(basename(str_replace('tiddler: ', '', $line)), 0, -strlen($ext)-1);
-					$tiddler['tags'] = 'systemConfig';
-					$tiddler['body'] = $this->getContentFromFile(str_replace('tiddler: ', '', $recipePath.'/'.$line));
-					$this->addTiddler($tiddler);		
+						$tiddler['title'] = substr(basename(str_replace('tiddler: ', '', $line)), 0, -strlen($ext)-1);
+						$tiddler['tags'] = 'systemConfig';
+						$tiddler['body'] = $this->getContentFromFile(str_replace('tiddler: ', '', $recipePath.'/'.$line));
+						$this->createTiddler($tiddler);		
 				break;
 				case 'tid' :
-					$semi_colon_pos = stripos($line, ":");
-					$linePath = substr($line, $semi_colon_pos+1);
-					echo "real path : ";
-					echo $realPath = realpath($recipePath."/".$linePath);
 					if($realPath && !stristr(getcwd(), $realPath) ) {
 						echo "IMPORT THIS ONE : ".$realPath."<hr />";
-						$this->addTiddler($this->tiddlerFromFile($this->preparePath(str_replace('tiddler: ', '', $recipePath.'/'.$line))));	
+						$this->createTiddler($this->tiddlerFromFile($this->preparePath(str_replace('tiddler: ', '', $recipePath.'/'.$line))));	
 					}
 				break;
 				default: 
