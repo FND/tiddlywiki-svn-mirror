@@ -2,7 +2,6 @@ $(function() {
 
   test("empty app", function() {
     var app = $.app();
-    console.log("app", app.asHTML());
     testRE(app, /<html>/);
   });
 
@@ -16,7 +15,6 @@ $(function() {
   test("app with body", function() {
     var app = $.app();
     app.attachHTML("core", "hello world!");
-    console.log(app.asHTML());
     testRE(app, /<body>\s*hello world!\s*<\/body>/);
   });
 

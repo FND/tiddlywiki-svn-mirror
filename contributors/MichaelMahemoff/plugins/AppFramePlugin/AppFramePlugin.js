@@ -153,19 +153,23 @@ pre.component { font-size: normal; }
   function log() { if (console && console.log) console.log.apply(console, arguments); }
   function strip(s) { return s ? s.replace(/\s+/g, "") : ""; }
 
-  var TIMEOUT = 5000, TRIES=50;
+  var TRIES=10, RETRY_INTERVAL=100;
   $.fn.inject = function(content) {
     return $(this).filter("iframe").each(function() {
       remaining = TRIES;
       var iframe = this;
       (function inject() {
-        var doc = iframe.contentDocument || iframe.document || iframe.contentWindow.document;
+        var doc = iframe.document;
+        if (iframe.contentDocument)
+          doc = iframe.contentDocument; // For NS6
+        else if(iframe.contentWindow)
+          doc = iframe.contentWindow.document;
         if (doc) {
           doc.open();
           doc.writeln(content);
           doc.close();
         } else {
-          if (remaining--) setTimeout(inject, TIMEOUT/TRIES);
+          if (remaining-- > 0) setTimeout(inject, RETRY_INTERVAL);
         }
       })();
     });

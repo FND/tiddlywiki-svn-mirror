@@ -92,7 +92,7 @@
 //******************************************************************************
 // Manipulators - Define functions like app.attachLinkedStylesheets
 //******************************************************************************
-//
+
   app.prototype.attachHTML = function(id, html) { 
     this.htmlSegments[id] = html;
   };
@@ -106,7 +106,6 @@
         });
       }
     }
-    // app.components.push("aaa");
   });
  
 //******************************************************************************
@@ -114,7 +113,7 @@
 //******************************************************************************
 
   function nominalize(s) {
-    return s[0].toUpperCase() + s.substr(1);
+    return s.substr(0,1).toUpperCase() + s.substr(1);
   }
 
 })(jQuery);
