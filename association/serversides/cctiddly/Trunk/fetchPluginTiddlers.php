@@ -4,11 +4,6 @@ $tiddlyCfg['plugins_disabled'] =  array();
 echo 'fetching tidlers..';
 
 include_once('includes/functions.php');
-$cct_base = '';
-$tiddlyCfg['plugins_disabled'] =  array();
-echo 'fetching tidlers..';
-
-include_once('includes/functions.php');
 include_once('includes/tiddler.php');
 include_once('includes/pluginsClass.php');
 include_once('includes/pluginsLoaderClass.php');
@@ -19,7 +14,7 @@ class PluginsLoaderReplace extends PluginsLoader
 		$plugins = $this->readPlugins($cct_base);
 		foreach($plugins as $plugin)
 		{
-			echo ':: reading plugin : '.$plugin."\n";
+			echo ':: reading plugin : '.$plugin."\n<br/>";
 			$pluginPathArray = explode("/", $plugin);
 			$pluginContent = file_get_contents($plugin);
 			$newPluginContent  = str_replace("<?php", "", $pluginContent);
@@ -61,23 +56,54 @@ class PluginFetcher extends Plugin
 			$tiddler = array();
 		if(is_array($data)) 
 			$tiddler = array_merge_recursive($data,$tiddler);
-		echo "importing tiddler: ".$tiddler['title']."\n";
+		echo "importing tiddler: ".$tiddler['title']."\n<br/>";
 		$this->tiddlers[$tiddler['title']] = $tiddler;
  		$filePath = getcwd().'/plugins/'.$this->pluginName.'/files/importedPlugins/'.$tiddler['title'].'.tid';
-		$this->createTidFile($filePath, $tiddler);
+			$this->createTidFile($filePath, $tiddler);
 	}
 	
 	public function addRecipe($path) {
-		echo 'recipe2: '.$path."\n";
+		echo 'recipe: '.$path."\n<br/>";
 		if(is_file($path))
 		{
 			$file = $this->getContentFromFile($this->preparePath($path));
 			$this->parseRecipe($file, dirname($path));	
-		} else {
+		} else {	
 			// look for the imported folder
 			$importedPluginsPath = getcwd()."/plugins/".$this->title."/files/importedPlugins";
 			$this->addTiddlersFolder($importedPluginsPath);
 		}
+	}
+	public function parseRecipeLine($line, $recipePath) {
+
+		//if(stristr($line, "../")) 
+		
+			$ext = trim(end(explode(".", $line)));
+			switch ($ext) {
+				case 'recipe':
+					$path = $recipePath.'/'.str_replace('recipe: ', '', $line);
+					$this->addRecipe($path);
+				break;
+				case 'js' :
+					$tiddler['title'] = substr(basename(str_replace('tiddler: ', '', $line)), 0, -strlen($ext)-1);
+					$tiddler['tags'] = 'systemConfig';
+					$tiddler['body'] = $this->getContentFromFile(str_replace('tiddler: ', '', $recipePath.'/'.$line));
+					$this->addTiddler($tiddler);		
+				break;
+				case 'tid' :
+					$semi_colon_pos = stripos($line, ":");
+					$linePath = substr($line, $semi_colon_pos+1);
+					echo "real path : ";
+					echo $realPath = realpath($recipePath."/".$linePath);
+					if($realPath && !stristr(getcwd(), $realPath) ) {
+						echo "IMPORT THIS ONE : ".$realPath."<hr />";
+						$this->addTiddler($this->tiddlerFromFile($this->preparePath(str_replace('tiddler: ', '', $recipePath.'/'.$line))));	
+					}
+				break;
+				default: 
+			break;
+			}
+				
 	}
 }
 
