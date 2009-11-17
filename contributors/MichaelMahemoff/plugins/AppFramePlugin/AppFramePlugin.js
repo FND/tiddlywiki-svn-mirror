@@ -57,7 +57,7 @@ pre.component { font-size: normal; }
       $("<pre class='appSource'/>").text(appHTML).appendTo(place);
 
       var $iframe = $("<iframe class='appFrame' />").appendTo(place);
-      setTimeout(function() { $iframe.inject(appHTML); }, 0);
+      setTimeout(function() { $iframe.inject(appHTML); }, 1000);
 
     }
 
@@ -139,12 +139,21 @@ pre.component { font-size: normal; }
   function log() { if (console && console.log) console.log.apply(console, arguments); }
   function strip(s) { return s ? s.replace(/\s+/g, "") : ""; }
 
+  var TIMEOUT = 5000, TRIES=50;
   $.fn.inject = function(content) {
     return $(this).filter("iframe").each(function() {
-      var doc = this.contentDocument || this.document || this.contentWindow.document;
-      doc.open();
-      doc.writeln(content);
-      doc.close();
+      remaining = TRIES;
+      var iframe = this;
+      (function inject() {
+        var doc = iframe.contentDocument || iframe.document || iframe.contentWindow.document;
+        if (doc) {
+          doc.open();
+          doc.writeln(content);
+          doc.close();
+        } else {
+          if (remaining--) setTimeout(inject, TIMEOUT/TRIES);
+        }
+      })();
     });
   };
 
