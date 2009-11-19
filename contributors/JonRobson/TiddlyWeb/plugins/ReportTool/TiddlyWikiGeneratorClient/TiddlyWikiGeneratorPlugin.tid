@@ -12,23 +12,25 @@ config.macros.TiddlyWikiGenerator ={
       jQuery(place).append(html);
     });    
   }
-  ,_loadBags: function(place,host){
+  ,_loadBags: function(place,host,args){
+    var excludeBagList = args[0]["exclude"];
+    if(!excludeBagList)excludeBagList = [];
     var url = host+"/bags.txt";
     jQuery.get(url,function(r){
       var bagNames = r.split("\n");
       for(var i=0; i < bagNames.length;i++){
         var bag = bagNames[i];
-        config.macros.TiddlyWikiGenerator._loadTiddlers(place,host,bag);
+        if(excludeBagList.indexOf(bag) == -1)config.macros.TiddlyWikiGenerator._loadTiddlers(place,host,bag);
       }
     });
   }
   ,handler: function(place, macroName, params, wikifier, paramString, tiddler){
     var destination = params[0];
-    
+    var args = paramString.parseParams("name",null,true,false,true);
     var host = config.defaultCustomFields["server.host"];
     var action = host+"/report/"+destination;
     jQuery(place).append("<form action=\""+action+"\" method=\"POST\"><input type='button' class='GenerateTWButton' name='Generate' value='Generate'/></form>")
-    if(host)config.macros.TiddlyWikiGenerator._loadBags(jQuery("form",place),host);
+    if(host)config.macros.TiddlyWikiGenerator._loadBags(jQuery("form",place),host,args);
     else alert("don't know what server host is");
 
     jQuery(".GenerateTWButton",place).click(function(){
