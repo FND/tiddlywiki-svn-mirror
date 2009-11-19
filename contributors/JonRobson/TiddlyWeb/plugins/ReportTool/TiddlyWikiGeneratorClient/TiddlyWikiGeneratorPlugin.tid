@@ -1,0 +1,39 @@
+tags: systemConfig
+
+config.macros.TiddlyWikiGenerator ={
+  _loadTiddlers: function(place,host,bag){
+    jQuery.get(host+"/bags/"+bag+"/tiddlers.txt",function(r){
+      var tiddlerNames = r.split("\n");
+      var html = "<h1 class='BagName'>Bag: "+bag+"</h1>";
+      for(var i=0; i < tiddlerNames.length;i++){
+        var tiddler = tiddlerNames[i];
+        if(tiddler && tiddler.length !=0)html += "<div class='tiddler'>"+tiddler+"<input type='checkbox' name='resource[]' value=\""+bag+"/"+tiddler+"\"></div>";
+      }
+      jQuery(place).append(html);
+    });    
+  }
+  ,_loadBags: function(place,host){
+    var url = host+"/bags.txt";
+    jQuery.get(url,function(r){
+      var bagNames = r.split("\n");
+      for(var i=0; i < bagNames.length;i++){
+        var bag = bagNames[i];
+        config.macros.TiddlyWikiGenerator._loadTiddlers(place,host,bag);
+      }
+    });
+  }
+  ,handler: function(place, macroName, params, wikifier, paramString, tiddler){
+    var destination = params[0];
+    
+    var host = config.defaultCustomFields["server.host"];
+    var action = host+"/report/"+destination;
+    jQuery(place).append("<form action=\""+action+"\" method=\"POST\"><input type='button' class='GenerateTWButton' name='Generate' value='Generate'/></form>")
+    if(host)config.macros.TiddlyWikiGenerator._loadBags(jQuery("form",place),host);
+    else alert("don't know what server host is");
+
+    jQuery(".GenerateTWButton",place).click(function(){
+      jQuery(this).parent().submit();
+    });
+  }
+  
+}
