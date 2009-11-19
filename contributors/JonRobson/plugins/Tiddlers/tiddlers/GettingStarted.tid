@@ -1,0 +1,12 @@
+tags: 
+
+!Using the tiddler Macro
+<<tiddler ExampleTemplate data:[[Alice in Wonderland]] with:"Jon books">>
+
+!Using the tiddlers Macro (note the s)
+<<tiddlers ExampleTemplate filter:[tag[classic]] with:"Jon books" with:classic>>
+
+!Dealing with empty lists
+<<tiddlers ExampleTemplate filter:[tag[horror]] ifNone:EmptyTemplate>>
+
+For the last source this is checked into [[here|http://svn.tiddlywiki.org/Trunk/contributors/JonRobson/plugins/Tiddlers]]

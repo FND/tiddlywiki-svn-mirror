@@ -1,0 +1,4 @@
+tags: tiddlerTemplate
+
+''$1'' is selling ''<<view title>>'' - a book by ''<<view author>>''
+<<tags>>

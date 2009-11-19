@@ -1,0 +1,25 @@
+tags: systemConfig
+
+config.macros.tiddlers = {
+    handler: function(place,macroName,params,wikifier,paramString,tiddler){
+        var args = paramString.parseParams("name",null,true,false,true);
+        var tiddlers;
+        var filter = args[0]["filter"];
+        var ifNone = args[0]["ifNone"];
+        if(!filter) tiddlers = store.getTiddlers();
+        else tiddlers = store.filterTiddlers(filter);
+        
+        for(var i=0; i < tiddlers.length;i++){
+            var tid = tiddlers[i];
+            var newParamString = paramString+" data:\""+tid.title +"\"";
+            config.macros.tiddler.handler(place,macroName,params,wikifier,newParamString,tid);
+        }
+        if(tiddlers.length ==0){
+            if(ifNone){
+                var newParamString = "\""+ifNone +"\" " +paramString;                
+                config.macros.tiddler.handler(place,macroName,params,wikifier,newParamString,store.getTiddler(ifNone));
+            }
+        }
+        
+    }
+}

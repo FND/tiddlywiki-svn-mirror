@@ -808,7 +808,6 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			
 			store.setValue(tiddler,extField,extFieldVal);	
 			story.setDirty(title,true);
-			//console.log("set to dirty",title,story.isDirty(title));
             
 			
 		
