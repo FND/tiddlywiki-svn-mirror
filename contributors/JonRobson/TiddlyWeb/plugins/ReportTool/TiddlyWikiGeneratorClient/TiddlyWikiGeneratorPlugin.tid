@@ -7,7 +7,7 @@ config.macros.TiddlyWikiGenerator ={
       var html = "<h1 class='BagName'>Bag: "+bag+"</h1>";
       for(var i=0; i < tiddlerNames.length;i++){
         var tiddler = tiddlerNames[i];
-        if(tiddler && tiddler.length !=0)html += "<div class='tiddler'>"+tiddler+"<input type='checkbox' name='resource[]' value=\""+bag+"/"+tiddler+"\"></div>";
+        if(tiddler && tiddler.length !=0)html += "<div class='tiddler'>"+tiddler+"<input type='checkbox' name='resource' value=\""+bag+"/"+tiddler+"\"></div>";
       }
       jQuery(place).append(html);
     });    
@@ -29,12 +29,13 @@ config.macros.TiddlyWikiGenerator ={
     var args = paramString.parseParams("name",null,true,false,true);
     var host = config.defaultCustomFields["server.host"];
     var action = host+"/report/"+destination;
-    jQuery(place).append("<form action=\""+action+"\" method=\"POST\"><input type='button' class='GenerateTWButton' name='Generate' value='Generate'/></form>")
+    jQuery(place).append("<form action=\""+action+"\" method=\"POST\"><input type='button' class='GenerateTWButton' name='Generate' value='Generate'/><div class='status_message'></div></form>")
     if(host)config.macros.TiddlyWikiGenerator._loadBags(jQuery("form",place),host,args);
     else alert("don't know what server host is");
 
     jQuery(".GenerateTWButton",place).click(function(){
-      jQuery(this).parent().submit();
+      var form = jQuery(this).parent();
+      form.submit(function(){jQuery(".status_message",form).html("Thank you!");});
     });
   }
   
