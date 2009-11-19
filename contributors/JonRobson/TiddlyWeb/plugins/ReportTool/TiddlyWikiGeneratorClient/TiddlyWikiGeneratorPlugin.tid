@@ -7,7 +7,7 @@ config.macros.TiddlyWikiGenerator ={
       var html = "<h1 class='BagName'>Bag: "+bag+"</h1>";
       for(var i=0; i < tiddlerNames.length;i++){
         var tiddler = tiddlerNames[i];
-        if(marked.indexOf(tiddler) != -1){
+        if(marked.indexOf(tiddler) != -1 || marked.indexOf(bag+"/"+tiddler) != -1){
           checked = true;
         }
         else{
