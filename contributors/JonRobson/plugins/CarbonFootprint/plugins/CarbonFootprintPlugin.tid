@@ -1,0 +1,85 @@
+tags: systemConfig
+
+config.macros.CarbonFootprintForm ={
+  kgco2perkm:{
+    car:0.114,
+    train:0.052
+  }
+  ,addParticipant: function(place){
+    var html = "<div class='participant'>name: <input type='text' name='participant'> location (postcode): <input type='text' name='location'> mode of transport: <select name='transport'><option value='train' selected>train</option><option value='car'>car</option><option value='plane'>plane</option></div>";
+    jQuery(".participantArea",place).append(html);
+  }
+  ,constructForm: function(place){
+    var html ="<form><h1>participants</h1><div class='participantArea'></div><input type='button' class='addParticipant' value='add participant'>"+
+    "<h1>Meeting</h1>"+
+    "Where is the meeting? (postcode)<input type='text' name='meeting_location'/><br\>"+
+    "<div class='carbonFootprint'></div><input type='button' class='generator' value='Get Carbon Footprint'>"+
+    "</form>"+
+    "</html>";
+    jQuery(place).html(html);
+  }
+  ,handler: function(place,macroName,params,wikifier,paramString,tiddler){
+
+    config.macros.CarbonFootprintForm.constructForm(place);
+    config.macros.CarbonFootprintForm.addParticipant(place);
+    jQuery(".addParticipant",place).click(function(){config.macros.CarbonFootprintForm.addParticipant(place);});
+    jQuery(".generator",place).click(function(){config.macros.CarbonFootprintForm.calculate(place);});
+  }
+  ,calculate:function(place){
+    var startLocation = jQuery("input[name=meeting_location]",place).val();
+    
+    ajaxReq({url:"http://ajax.googleapis.com/ajax/services/search/local?v=1.0&q="+startLocation, success:function(r){
+      var data = eval("("+r+")");
+      var topResult = data["responseData"].results[0];
+      if(!topResult){
+        alert("Couldn't find "+ postcode + " check this is a valid postcode.");
+      }
+      var lon = topResult.lng
+      var lat = topResult.lat;
+      config.macros.CarbonFootprintForm.calculateDistances(place,lon,lat);
+  
+    }});
+  }
+  ,calculateDistances: function(place,fromLng,fromLat){
+    var participants = jQuery(".participant",place);
+    var totalMiles = {};
+    for(var i=0; i < participants.length; i++){
+      var participant = participants[i];
+      var name = jQuery("input[name=participant]",participant).val();
+      var postcode = jQuery("input[name=location]",participant).val();
+      ajaxReq({url:"http://ajax.googleapis.com/ajax/services/search/local?v=1.0&q="+postcode, success:function(r){
+        var transport = jQuery("select[name=transport]",participant).val();
+        var data = eval("("+r+")");
+        var topResult = data["responseData"].results[0];
+        if(!topResult){
+          alert("Couldn't find "+ postcode + " check this is a valid postcode.");
+        }
+        var lng = topResult.lng
+        var lat = topResult.lat;
+        if(!totalMiles[transport])totalMiles[transport]= 0;
+        totalMiles[transport] += config.macros.CarbonFootprintForm.calculateMiles(fromLat,fromLng,lat,lng);
+  
+  
+        var calculator = config.macros.CarbonFootprintForm.kgco2perkm;
+        var resultHtml= "";
+        for(var modeTransport in totalMiles){
+            var cft = calculator[transport] * totalMiles[transport];
+            resultHtml += "total miles by "+modeTransport+": "+totalMiles[transport].toFixed(2) +" ("+cft.toFixed(3)+" kg co2)<br/>";
+        
+        }
+        jQuery(".carbonFootprint",place).html(resultHtml);
+        
+      },fail:function(){alert("something went wrong.. make sure you are connected to the internet..");}});
+    }
+    
+  }
+  ,calculateMiles: function(fromLat,fromLng, lat,lng){
+    if(fromLat == lat && fromLng == lng) return 0;
+    var a1 = Math.PI /180 * (fromLat);
+    var b1 = Math.PI /180 * (fromLng);
+    var a2 = Math.PI /180 * (lat);
+    var b2 = Math.PI /180 * (lng);
+    var radius =  6378; //in km
+    return Math.acos(Math.cos(a1)*Math.cos(b1)*Math.cos(a2)*Math.cos(b2) + Math.cos(a1)*Math.sin(b1)*Math.cos(a2)*Math.sin(b2) + Math.sin(a1)*Math.sin(a2)) * radius;
+  }
+};

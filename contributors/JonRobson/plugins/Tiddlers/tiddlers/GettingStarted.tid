@@ -9,4 +9,5 @@ tags:
 !Dealing with empty lists
 <<tiddlers ExampleTemplate filter:[tag[horror]] ifNone:EmptyTemplate>>
 
+This requires an improvement to the tiddler macro to support a data parameter. See [[trac ticket|http://trac.tiddlywiki.org/ticket/1187]]
 For the last source this is checked into [[here|http://svn.tiddlywiki.org/Trunk/contributors/JonRobson/plugins/Tiddlers]]
