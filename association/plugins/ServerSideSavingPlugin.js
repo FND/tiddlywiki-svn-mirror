@@ -2,7 +2,7 @@
 |''Name''|ServerSideSavingPlugin|
 |''Description''|server-side saving|
 |''Author''|FND|
-|''Version''|0.5.2|
+|''Version''|0.5.3|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/plugins/ServerSideSavingPlugin.js|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
@@ -43,7 +43,8 @@ plugin.locale = {
 	deleted: "Removed %0",
 	deleteError: "Error removing %0: %1",
 	deleteLocalError: "Error removing %0 locally",
-	removedNotice: "This tiddler has been deleted."
+	removedNotice: "This tiddler has been deleted.",
+	connectionError: "connection could not be established"
 };
 
 plugin.sync = function() {
@@ -129,7 +130,8 @@ plugin.reportSuccess = function(msg, tiddler) {
 
 plugin.reportFailure = function(msg, tiddler, context) {
 	context = context || {};
-	displayMessage(plugin.locale[msg].format([tiddler.title, context.statusText]));
+	var desc = context.httpStatus ? context.statusText : plugin.locale.connectionError;
+	displayMessage(plugin.locale[msg].format([tiddler.title, desc]));
 };
 
 config.macros.saveToWeb = { // XXX: hijack existing sync macro?
