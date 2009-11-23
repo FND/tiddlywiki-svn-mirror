@@ -4,6 +4,7 @@ import templating
 
 from tiddlyweb.serializations import SerializationInterface
 from tiddlyweb.model.bag import Bag
+from recordFields import getFields
 
 EXTENSION_TYPES = { 'challenge': 'text/x-challenge-html' }
 SERIALIZERS = {
@@ -35,4 +36,4 @@ class Serialization(SerializationInterface):
                    captcha['error'] = "Error not supplied"
         except:
             pass
-        return template.render(tiddler=tiddler,captcha=captcha)
+        return template.render(tiddler=tiddler,captcha=captcha,fields = getFields(self.environ))

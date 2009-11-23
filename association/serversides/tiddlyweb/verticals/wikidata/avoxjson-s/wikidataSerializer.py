@@ -4,6 +4,7 @@ import templating
 
 from tiddlyweb.serializations.html import Serialization as HTML_Serializer
 from tiddlyweb.model.bag import Bag
+from recordFields import getFields
 
 EXTENSION_TYPES = { 'wd': 'text/html' }
 SERIALIZERS = {
@@ -30,11 +31,11 @@ class Serialization(HTML_Serializer):
         logging.debug('in list_tiddlers')
         tiddlers = bag.list_tiddlers()
         template = templating.generate_template(["collection.html"])
-        return template.render(tiddlers=tiddlers)
+        return template.render(tiddlers=tiddlers,fields = getFields(self.environ))
 
     def tiddler_as(self, tiddler):
         logging.debug('in tiddler_as')
         bag = Bag('tmpbag', tmpbag=True)
         bag.add_tiddler(tiddler)
         template = templating.generate_template(["company.html"])
-        return template.render(tiddler=tiddler, maps_api_key=self.maps_api_key)
+        return template.render(tiddler=tiddler, maps_api_key=self.maps_api_key,fields = getFields(self.environ))

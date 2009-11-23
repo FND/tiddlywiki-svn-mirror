@@ -1,7 +1,64 @@
 /* records.js */
 var oTable;
+var defaultView = [
+	"avid",
+	"legal_name",
+	"trading_status",
+	"registered_country",
+	"operational_street_1",
+	"operational_city",
+	"operational_state",
+	"operational_country",
+	"operational_postcode"	
+];
+var aoColumnsRenderMap = {
+	"registered_country": function(data) {
+		return ISO_3166.countries.iso2name[data.aData[data.iDataColumn]] || "";
+	},
+	"operational_state": function(data) {
+		var country = ISO_3166.countries.iso2name[data.aData[15]];
+		var mapping;
+		switch(country) {
+			case "Australia":
+				mapping = ISO_3166["2:AU"];
+				break;
+			case "Canada":
+				mapping = ISO_3166["2:CA"];
+				break;
+			case "United States":
+				mapping = ISO_3166.usa;
+				break;
+			default:
+				// nothing
+				break;
+		}
+		return state = mapping ? mapping.iso2name[data.aData[data.iDataColumn]] : "";
+	},
+	"operational_country": function(data) {
+		return ISO_3166.countries.iso2name[data.aData[data.iDataColumn]] || "";
+	}
+};
 $(document).ready(function() {
 	// set up records table
+	var aoColumns = [
+		null // AVID
+	];
+	var field, options;
+	for(var i=0, il=recordFields.length; i<il; i++) {
+		field = recordFields[i][0];
+		options = {};
+		if(defaultView.indexOf(field)===-1) {
+			options.bVisible = false;
+		}
+		if(field in aoColumnsRenderMap) {
+			options.fnRender = aoColumnsRenderMap[field];
+		}
+		aoColumns.push(options);
+	}
+	aoColumns.push(
+		{ sClass: "center" }, // challenge
+		{ sClass: "center" }  // request more information
+	);
 	var $table = $('#recordsTable');
 	if($table.length!==0) {
 		var options = {
@@ -10,49 +67,7 @@ $(document).ready(function() {
 			bSortClasses: false,
 			bInfo: false,
 			aaSorting: [[1, 'asc']],
-			aoColumns: [
-				null, // AVID
-				null, // Legal Name
-				{ bVisible: false }, // Previous Names(s)
-				{ bVisible: false }, // Trades As Name(s)
-				null, // Trading Status
-				{ bVisible: false }, // Company Website
-				{ fnRender: function(data) {
-					return ISO_3166.countries.iso2name[data.aData[data.iDataColumn]] || "";
-				} }, // Registered Country
-				{ bVisible: false }, // Operational PO Box
-				{ bVisible: false }, // Operational Floor
-				{ bVisible: false }, // Operational Buidling
-				null, // Operational Street 1
-				{ bVisible: false }, // Operational Street 2
-				{ bVisible: false }, // Operational Street 3
-				null, // Operational City
-				{ fnRender: function(data) {
-					var country = ISO_3166.countries.iso2name[data.aData[15]];
-					var mapping;
-					switch(country) {
-						case "Australia":
-							mapping = ISO_3166["2:AU"];
-							break;
-						case "Canada":
-							mapping = ISO_3166["2:CA"];
-							break;
-						case "United States":
-							mapping = ISO_3166.usa;
-							break;
-						default:
-							// nothing
-							break;
-					}
-					return state = mapping ? mapping.iso2name[data.aData[data.iDataColumn]] : "";
-				} }, // Operational State
-				{ fnRender: function(data) {
-					return ISO_3166.countries.iso2name[data.aData[data.iDataColumn]] || "";
-				} }, // Operational Country
-				null, // Operational Postcode
-				{ sClass: "center" },
-				{ sClass: "center" }
-			],
+			aoColumns: aoColumns,
 			sDom: 't'
 		};
 		

@@ -15,6 +15,7 @@ def index(environ, start_response):
     return template.render()
 
 def template_route(environ, start_response):
+    from recordFields import getFields
     template_name = environ['wsgiorg.routing_args'][1]['template_file']
     
     if '../' in template_name:
@@ -25,9 +26,11 @@ def template_route(environ, start_response):
        
     template = templating.generate_template([template_name])
     
+    fields = getFields(environ)
+    
+    captcha = {}
     try:
         query = environ['tiddlyweb.query']
-        captcha = {}
         success = query['success'][0]
         if success == '1':
             captcha['success'] = True
@@ -44,8 +47,18 @@ def template_route(environ, start_response):
         ('Content-Type', 'text/html')
         ])
     
-    return template.render(captcha=captcha)
+    return template.render(fields=fields,captcha=captcha)
     
+
+def get_fields_js(environ, start_response):
+    from recordFields import getFields
+    template = templating.generate_plain_template(['fields.js.html'])
+    fields = getFields(environ)
+    start_response('200 OK', [
+        ('Content-Type', 'application/javascript')
+    ])
+    return template.render(fields=fields)
+
 def env(environ, start_response):
 
     from pprint import pformat
@@ -87,6 +100,7 @@ def init(config):
     config['selector'].add('/pages/{template_file:segment}', GET=template_route)
     config['selector'].add('/index.html', GET=index)
     config['selector'].add('/verify', POST=verify)
+    config['selector'].add('/lib/fields.js', GET=get_fields_js)
     config['selector'].add('/env', GET=env)
     replace_handler(config['selector'], '/', dict(GET=index))
     remove_handler(config['selector'], '/recipes')

@@ -2,13 +2,12 @@
 <script type="text/javascript">
 	window.asyncSearch = true;
 </script>
-{% from 'labels.html' import labels %}
 <div id="recordsTableContainer">
 	<div id="results">
 		<p class="small" id="results_count">Loading results...</p>
 		<div class="right small" id="columnPicker">
 			<div class="label">hide/show columns</div>
-			{% for field, label in labels %}
+			{% for field, label in fields %}
 			<div class="columns">
 				<span class="label">{{label}}</span>
 				<span class="controls">
@@ -21,7 +20,8 @@
 	<div id="recordsTable_wrapper" class="dataTables_wrapper"><table class="draggable forget-ordering" id="recordsTable">
 		<thead>
 			<tr>
-			{% for field, label in labels %}
+				<th>AVID</th>
+			{% for field, label in fields %}
 				<th>{{label}}</th>
 			{% endfor %}
 				<th>Challenge</th>
@@ -30,7 +30,8 @@
 		</thead>
 		<tfoot class="dark">
 			<tr>
-			{% for field, label in labels %}
+				<th><a href="javascript:;">hide</a></th>
+			{% for field, label in fields %}
 				<th><a href="javascript:;">hide</a></th>
 			{% endfor %}
 				<th><a href="javascript:;">hide</a></th>
@@ -39,7 +40,8 @@
 		</tfoot>
 		<tbody>	
 			<tr>
-			{% for field, label in labels %}
+				<td></td>
+			{% for field, label in fields %}
 				<td></td>
 			{% endfor %}
 				<td></td>

@@ -116,6 +116,7 @@ class Store(StorageInterface):
 
     def search(self, search_query=''):
         full_access = self._determine_user_access()
+        logging.debug('full_access: '+str(full_access))
         open_fields = self.environ[
                 'tiddlyweb.config'].get(
                         'mappingsql.open_fields', [])

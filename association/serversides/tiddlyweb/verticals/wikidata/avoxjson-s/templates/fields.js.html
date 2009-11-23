@@ -1,0 +1,6 @@
+var recordFields = [
+{%- for field, label in fields %}
+	["{{field}}", "{{label}}"]
+{%- if not(loop.last) %},{% endif -%}
+	{%- endfor %}
+];

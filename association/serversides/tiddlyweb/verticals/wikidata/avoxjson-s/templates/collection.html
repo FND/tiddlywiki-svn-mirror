@@ -1,5 +1,4 @@
 {% include 'search.html' %}
-{% from 'labels.html' import labels %}
 <div id="recordsTableContainer">
 	<div id="results">
 		{% set count = tiddlers|count %}
@@ -19,7 +18,7 @@
 		</p>
 		<div class="right small" id="columnPicker">
 			<div class="label">hide/show columns</div>
-			{% for field, label in labels %}
+			{% for field, label in fields %}
 			<div class="columns">
 				<span class="label">{{label}}</span>
 				<span class="controls">
@@ -32,7 +31,8 @@
 	<table class="draggable forget-ordering" id="recordsTable">
 		<thead>
 			<tr>
-			{% for field, label in labels %}
+				<th>AVID</th>
+			{% for field, label in fields %}
 				<th>{{label}}</th>
 			{% endfor %}
 				<th>Challenge</th>
@@ -41,29 +41,24 @@
 		</thead>
 		<tfoot class="dark">
 			<tr>
-			{% for field, label in labels %}
+				<th><a href="javascript:;">hide</a></th>
+			{% for field, label in fields %}
 				<th><a href="javascript:;">hide</a></th>
 			{% endfor %}
 				<th><a href="javascript:;">hide</a></th>
 				<th><a href="javascript:;">hide</a></th>
 			</tr>
 		</tfoot>
-		<tbody>	
+		<tbody>
 		{% for tiddler in tiddlers %}
-		{# this if clause is a temporary hack until we don't supply a 'stub' tiddler #}
-		{% if not (tiddler.title == 'stub') %}
 			<tr>
-			{% for field, label in labels %}
-				{% if field == 'avid' %}
 				<td><a href="/bags/avox/tiddlers/{{tiddler.title}}.html">{{tiddler.title}}</a></td>
-				{% else %}
+			{% for field, label in fields %}
 				<td>{{tiddler.fields[field]}}</td>
-				{% endif %}
 			{% endfor %}
 				<td><a href="/bags/avox/tiddlers/{{ tiddler.title }}.challenge">go</a></td>
 				<td><a href="/bags/avox/tiddlers/{{ tiddler.title }}.request">go</a></td>
 			</tr>
-		{% endif %}
 		{% endfor %}
 		</tbody>
 	</table>
