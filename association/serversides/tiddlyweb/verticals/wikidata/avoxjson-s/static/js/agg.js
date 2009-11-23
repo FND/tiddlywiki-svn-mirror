@@ -6011,14 +6011,12 @@ var aoColumnsRenderMap = {
 };
 $(document).ready(function() {
 	// set up records table
-	console.log(recordFields.length);
 	var aoColumns = [
 		null // AVID
 	];
 	var field, options;
 	for(var i=0, il=recordFields.length; i<il; i++) {
 		field = recordFields[i][0];
-		console.log(field);
 		options = {};
 		if(defaultView.indexOf(field)===-1) {
 			options.bVisible = false;
@@ -6032,9 +6030,7 @@ $(document).ready(function() {
 		{ sClass: "center" }, // challenge
 		{ sClass: "center" }  // request more information
 	);
-	console.log("aoColumns",aoColumns);
 	var $table = $('#recordsTable');
-	console.log($table[0]);
 	if($table.length!==0) {
 		var options = {
 			bAutoWidth: false,
