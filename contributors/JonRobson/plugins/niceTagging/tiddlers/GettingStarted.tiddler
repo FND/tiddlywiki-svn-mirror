@@ -8,5 +8,7 @@ NiceTaggingPlugin takes out the complicated bits and even makes some suggestions
 So now no need to know TiddlyWiki tagging syntax. No longer being expected to know that to tag two words you have to create a tag {{{[two words]]}}} and if you want tags two words and three words you have to write {{{[[two words]] [[three words]] }}} rather than {{{two words, three words}}}.
 
 Click edit and see for yourself.
+or try it out here:
+<<niceTagger>>
 </pre>
 </div>

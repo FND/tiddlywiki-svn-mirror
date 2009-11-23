@@ -88,9 +88,8 @@ config.macros.niceTagger = {
 		//tiddler.fields[field] = strVal
 		//store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,null,null,tiddler.tags,tiddler.fields,null);
 		store.setValue(tiddler.title,field,strVal);
-		story.saveTiddler(tiddler.title);
 		//story.setDirty(title,true);
-		
+		return tiddler;
         //console.log("finished save tags",tiddler.tags,"field",tiddler.fields[field]);
     }
     ,refreshFieldDisplay: function(place,tiddler,field){
@@ -111,24 +110,24 @@ config.macros.niceTagger = {
         }
         
         jQuery(".deleter",place).click(function(e){
+            //console.log("gonna delete");
             var todelete = jQuery(this).attr("deletes");
             var newtags = [];
+            //console.log("delete",todelete);
             for(var i=0; i < tags.length; i++){
                 if(escape(tags[i]) != todelete){
                    newtags.push(tags[i]);
                 }
             }
-            /*
-              if(!field ||field=='tags'){
-                    tiddler.tags =newtags;
-               }
-               else{
-                   tiddler.fields[field] = newtags;
-               }
-                */
-            config.macros.niceTagger.save(tiddler.title,field,newtags);
-            
+            //console.log("Save",tiddler.title,field,newtags);
+            tiddler = config.macros.niceTagger.save(tiddler.title,field,newtags);
+           
+         
+            //console.log("Refresh",tiddler,field);
             config.macros.niceTagger.refreshFieldDisplay(place,tiddler,field);
+            store.saveTiddler(tiddler.title, tiddler.title, tiddler.text, tiddler.modifier, tiddler.modified, tiddler.tags, tiddler.fields, false, tiddler.created)
+            autoSaveChanges()
+            //console.log("done refresh")
         });
     }
     ,handler: function(place,macroName,paramlist,wikifier,paramString,tiddler){
@@ -159,12 +158,11 @@ config.macros.niceTagger = {
                 saveThis = val.readBracketedList();
             }
             
-          if(value.replace(" ","").length == 0) return;
-		  if(saveThis.indexOf(value) != -1) return;
-	
+            if(value.replace(" ","").length == 0) return;
+            if(saveThis.indexOf(value) != -1) return;
             saveThis.push(value);
             
-            config.macros.niceTagger.save(tiddler.title,options.field,saveThis);
+            tiddler= config.macros.niceTagger.save(tiddler.title,options.field,saveThis);
             
             config.macros.niceTagger.refreshFieldDisplay(displayer,tiddler,options.field);
             adder.value = "";
@@ -238,7 +236,7 @@ config.macros.niceTagger = {
             saveNewTag(val);
         });
         
-        
+        jQuery(place).attr("dirty","true");
         
     }
     
