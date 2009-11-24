@@ -1,0 +1,383 @@
+tags: systemConfig
+title: ArrowTimelinePlugin
+
+config.macros.ArrowTimeline = {
+    handler: function(place,macroName,params,wikifier,paramString,tiddler,options){
+        var holder = document.createElement("div");
+        holder.className ="holder";
+        var today = new Date().convertToYYYYMMDDHHMM();
+        var now = TimeLineUtils.YYYYMMDD_toDay(today);
+        var options = {now:now,arrowColor:{},definition:[],renderArrowLabel:wikify,click: function(e,t){alert(t.label);}};
+
+        
+        var namedprms = paramString.parseParams(null, null, true);
+        for(var i=0; i < namedprms.length;i++){
+                var nameval = namedprms[i];
+                options[nameval.name] = nameval.value;
+        }
+        var milestones=options.milestones.split(",");
+        var tiddlers = store.getTaggedTiddlers(options.tag);
+        for(var i=0; i < tiddlers.length;i++){
+            var tiddler =tiddlers[i];
+            var def = {arrows:[]};
+            var arrow = {};
+            arrow.label ="[["+tiddler.title+"]]";
+            arrow.arrowColor = tiddler.fields[options.fillField];
+            
+            for(var j=0; j < milestones.length;j++){
+                var val =tiddler.fields[milestones[j]];
+                if(val){
+                    arrow["t"+parseInt(j+1)] = TimeLineUtils.YYYYMMDD_toDay(val);
+                    
+                }
+            }
+            def.arrows.push(arrow);
+            //console.log(def);
+            options.definition.push(def);
+        }
+        
+        jQuery(place).append(holder);
+        options.unitWidth =2;
+        var timeline = new CSSTimeline(holder,options);
+    }
+};
+var TimeLineUtils = {
+    removeLeadingZeros: function(str){
+      while(str[0] == '0'){
+        str = str.substr(1);
+      }
+      return str;
+    }
+    ,YYYYMMDD_toDay: function(str){
+        var yyyy=str.substr(0,4);
+        var mm = str.substr(4,2);
+        var dd = str.substr(6,2);
+        var day = 0;
+        var month = parseInt(TimeLineUtils.removeLeadingZeros(mm));
+        for(var i=1; i < month; i++){
+            day +=this.daysinmonth(i);
+        }
+        day += parseInt(TimeLineUtils.removeLeadingZeros(dd));        
+        
+        day += (365.242199 * parseInt(TimeLineUtils.removeLeadingZeros(yyyy)));
+        return day;
+    }
+    ,dayinyear: function(day,leapyear){
+        var dayofyear = parseInt(day);
+        var days_in_months = [31,28,31,30,31,30,31,31,30,31,31,31];
+        if(leapyear) days_in_months[1] = 29;
+        //console.log("work out",day);
+        
+        for(var i=0; i < days_in_months.length;i++){
+            var days_in_month= days_in_months[i];
+            //console.log("in month",i);
+            //console.log("Daysinmonth",days_in_month);
+            if(dayofyear >=0){
+                dayofyear -= days_in_month;
+            }
+            else {
+                //console.log("below 0",dayofyear,days_in_month);
+                var date = dayofyear +1+days_in_month;
+                return dayofyear+days_in_months[i-1] +1;
+            }
+        }
+        return dayofyear+days_in_months[i-1] +1;
+      
+    }
+    
+    ,daysinmonth: function(month){
+        var days_in_months = [31,28,31,30,31,30,31,31,30,31,31,31];
+        return days_in_months[month-1];   
+    }
+    ,monthinyear: function(day){
+        var days_in_months = [];
+        for(var i=1; i < 13; i++){
+            days_in_months.push(this.daysinmonth(i))
+        }
+        var month = 0;
+        var d = TimeLineUtils.dayinyear(day);
+        for(var i=0; i < days_in_months.length;i++){
+            day -= days_in_months[i];
+            if(day < 0) return month;
+            month +=1;
+        }
+        return month;
+    }
+};
+var MONTHAXIS =function(day,startday){
+    var dd = day % 365.242199;
+    var m = TimeLineUtils.monthinyear(dd);
+  
+    var d = TimeLineUtils.dayinyear(dd);
+    
+    var months = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
+    var mid =m%12;
+     
+    if(d==1 || day == startday)return months[mid];
+    else return false;
+};
+var QUARTERAXIS =function(day,startday){
+      var dd = day % 365.242199;
+    var d = TimeLineUtils.dayinyear(dd);
+    var m = TimeLineUtils.monthinyear(dd);
+    var quarters = ["Q1","Q2","Q3","Q4"];
+    var q;
+    if(day == startday){
+      switch(m)
+      {
+        case 3,4,5:
+          q = 4
+          break;
+        case 6,7,8:
+          q = 1;
+          break
+        case 9,10,11:
+          q = 2;
+          break
+        case 0,1,2:
+          q = 3;
+          break
+        default:
+          return false;
+      }
+    }
+    else if(d !=1) return false;
+    else if(m ==3) q = 0;
+    else if(m==6)q=1;
+    else if(m==9)q=2;
+    else if(m==0 )q=3;
+    else return false;
+    
+    return quarters[q];
+    
+};
+var DAYAXIS= function(day){
+    day %=365.242199;
+    var date= TimeLineUtils.dayinyear(day);
+    
+    if(date%3 == 0) return date;
+    else return "!";
+};
+
+var CSSTimeline = function(place,options){
+    var place = jQuery(place);
+    this.holder = place;
+    this.options = options;
+    if(!this.options.unitWidth)this.options.unitWidth = 2;
+    //this.doAxis(options.range,DAYAXIS);
+    console.log(options.range);
+    this.doAxis(options.range,MONTHAXIS);
+    this.doAxis(options.range,QUARTERAXIS);
+    
+    
+    var def = options.definition;
+    jQuery(place).append("<div class='nowPoint'></div><div class='timelineContainer' style='position:relative;'></div>");
+
+    this.place = jQuery(".timelineContainer",place);
+
+    this.arrow_head_width = this.arrow_height /2;
+    var ahw = this.arrow_head_width;
+    this.arrow_tail_margintop = ahw/2;
+    this.arrow_tail_height = ahw ;
+    for(var i=0; i < def.length; i++){
+        var d = def[i];
+        if(d.heading)jQuery(this.place).append("<h1>"+d.heading+"</h1>");
+        var arrows = d.arrows;
+        for(var j=0; j < arrows.length;j++){
+            this.line(arrows[j]);
+        }
+    }
+    
+    jQuery(".arrow",this.place).css({position:"absolute"});
+    
+    jQuery(".arrow_head").css({"border-width":ahw+"px 0px "+ahw+"px "+ahw+"px"})
+    jQuery(".arrow_tail").css({"height":this.arrow_tail_height,"margin-top": this.arrow_tail_margintop});
+    jQuery(".clear_arrow").css({height:50});
+    jQuery(".nowPoint").css({left:this.date_to_pixel(options.now)-1});
+    
+    var that = this;
+    var scrollHandler= function(e){
+        var sx = e.currentTarget.scrollLeft;
+        jQuery(".axis").css({left:-sx});
+        var newleft = that.date_to_pixel(options.now) - sx;
+        jQuery(".nowPoint").css({left:newleft});
+    };
+    jQuery(".timelineContainer").scroll(scrollHandler);
+};
+CSSTimeline.prototype = {
+    arrow_height: 30,
+    _range:{}
+
+    ,label_to_unit: function(){
+        
+    }
+    ,doAxis: function(range,unit_to_label){
+        if(!this.axisID) this.axisID = 0;
+        this.axisID +=1;
+        var start,end;
+        var defs = this.options.definition;
+        for(var i=0 ; i <defs.length;i++){
+            var def = defs[i];
+            for(var k=0; k < def.arrows.length;k++){
+                var arrow = def.arrows[k];
+                var j = 0;
+
+                while(arrow["t"+j] || (j < 2)){
+                    var t = arrow["t"+j];
+
+                    if(!start){
+                        start = t;
+                    }
+                    else if(t < start){
+                        start = t;
+                    }
+                    if(!end){
+                        end = t;
+                    }
+                    else if(t > end){
+                        end = t;
+                    }
+                    j+=1;
+                }
+            }
+
+        }
+        this._range = {start:start,end:end};
+        console.log(start,end);
+        /*if(range){
+            this._range.start = range[0];
+            if(range[1]) this._range.end = range[1];
+        }*/
+   
+        jQuery(this.holder).prepend("<div class='axis axis"+this.axisID+"'></div><div class='clear_arrow'></div>");
+        var axis = jQuery(".axis",this.holder);
+        var axi = axis[0];
+        var w = jQuery(".axis",this.holder).width();
+        //console.log(this._range);
+        var perunit = this.options.unitWidth;
+        var currentWidth = perunit;
+        for(var u = this._range.start; u < this._range.end; u++){
+            var label = unit_to_label(u,start);
+            var active = false;
+            if(!label) {
+                label = "&nbsp;"
+                currentWidth += perunit;
+            }
+            else {
+                active = true;
+                currentWidth =perunit;
+            }
+            
+            if(active){
+                var html = "<div class='unit ";
+                if(active)html +="active_unit";
+                html +="'>"+label+"</div>";
+                jQuery(axi).append(html);
+                //jQuery(".unit").css({"width":perunit});
+            }
+            else{
+                
+                
+            }
+            var units = jQuery(".unit",axi);
+            jQuery(units[units.length-1]).css({"width":currentWidth});
+        }
+        
+        
+    }
+    ,date_to_pixel: function(time){
+        
+        return (parseInt(time) - parseInt(this._range.start)) * this.options.unitWidth;
+    }
+    ,make_arrow: function(start,end,properties){
+        //console.log("from",start,end,this.arrow_head_width);
+
+              
+        start = this.date_to_pixel(start);
+        end = this.date_to_pixel(end);
+        var arrow_tail_width = (end-start) - this.arrow_head_width;
+        var arrow_head_start = arrow_tail_width;
+        if(arrow_tail_width < 0){
+            arrow_tail_width = 0;
+        }
+        jQuery(this.place).append("<div class='arrow'><div class='arrow_tail'></div><div class='arrow_head'></div></div>");
+
+        var labels=jQuery(".arrow_tail",this.place);
+        var labelPlace = labels[labels.length-1];
+        if(this.options.renderArrowLabel){
+           this.options.renderArrowLabel(properties.label,labelPlace) 
+        }
+        else{
+            jQuery(labelPlace).html(properties.label);
+        }
+
+        var arrowheads =jQuery(".arrow_head",this.place);
+        var arrows = jQuery(".arrow",this.place);
+        
+        var this_arrowhead =jQuery(arrowheads[arrowheads.length-1]); 
+        var this_arrow = jQuery(arrows[arrows.length-1]);
+
+        
+        this_arrowhead.css({left:arrow_head_start,top:-this.arrow_height*3/4});
+        //console.log(properties.label,start,end,arrow_tail_width,this.arrow_tail_height);
+        this_arrow.css({left:start,width:arrow_tail_width});
+        
+        jQuery(this_arrowhead).click(function(e){options.click(e,properties);});
+        jQuery(this_arrowhead).mousemove(function(e){options.move(e,properties);});
+        jQuery(this_arrow).mousemove(function(e){options.move(e,properties);});
+        return this_arrow;
+        
+    }
+    ,line: function(properties){
+        var fullwidth = Math.random() * 500;
+        var t = 1;
+        var start_t=false;
+        while(properties["t"+t] || (t < 2)){
+            var end_t = properties["t"+(t+1)];
+            
+            if(!start_t) {
+                start_t =properties["t"+t];
+                
+                
+            }
+            if(start_t && end_t){
+                //console.log("make arrow from ", t,"to",t+1);
+                //console.log("make arrow from",start_t,end_t,t)
+      
+                    var arrow = this.make_arrow(start_t,end_t,properties);
+                    var arrowColor;
+                    if(properties.arrowColor){
+                        arrowColor = properties.arrowColor;
+                    }
+                    else{
+                        arrowColor = this.options.arrowColor;
+                    }
+                    if(arrowColor){
+                        var color = arrowColor["t"+t];
+                        if(typeof(arrowColor) == 'string'){
+                            color = arrowColor;
+                        }
+                        
+                        if(color){
+                            jQuery(".arrow_tail",arrow).addClass(color+"Arrow");
+                            jQuery(".arrow_head",arrow).addClass(color+"Arrow");
+                            jQuery(".arrow_tail",arrow).css({"background-color":color});
+                            jQuery(".arrow_head",arrow).css({"border-color":"white white white "+color});
+                        }
+                    }
+            }
+            else{
+                //console.log("nothing to make from t",(t-1),t);
+            }
+            start_t = end_t;
+            
+            t += 1;
+            //console.log("t now",t)
+        }
+        //console.log("exit loop");
+     
+
+        jQuery(this.place).append("<div class='clear_arrow'></div>");
+    }
+    
+};

@@ -6,22 +6,55 @@ config.macros.CarbonFootprintForm ={
     train:0.052
   }
   ,addParticipant: function(place){
-    var html = "<div class='participant'>name: <input type='text' name='participant'> location (postcode): <input type='text' name='location'> mode of transport: <select name='transport'><option value='train' selected>train</option><option value='car'>car</option><option value='plane'>plane</option></div>";
+    var transportOptionsHtml = "";
+    var transportData = config.macros.CarbonFootprintForm.kgco2perkm;
+    for(var i in transportData){
+      transportOptionsHtml += "<option value=\""+ i+"\">"+ i +" ("+transportData[i]+" kg co2 per km)</option>";
+    }
+    var html = "<div class='participant'>name: <input type='text' name='participant'/> location (postcode): <input type='text' name='location'/> mode of transport: <select name='transport'>"+transportOptionsHtml+"</select></div>";
     jQuery(".participantArea",place).append(html);
   }
   ,constructForm: function(place){
-    var html ="<form><h1>participants</h1><div class='participantArea'></div><input type='button' class='addParticipant' value='add participant'>"+
+    var html ="<input type='button' class='loadData' value='Load data'/><form><h1>participants</h1><div class='participantArea'></div><input type='button' class='addParticipant' value='add participant'>"+
     "<h1>Meeting</h1>"+
     "Where is the meeting? (postcode)<input type='text' name='meeting_location'/><br\>"+
-    "<div class='carbonFootprint'></div><input type='button' class='generator' value='Get Carbon Footprint'>"+
-    "</form>"+
-    "</html>";
-    jQuery(place).html(html);
+    "<div class='carbonFootprint'></div>"+
+    "<input type='button' class='generator' value='Get Carbon Footprint'><br/>"+
+    "<div class='codeStringPlace' style='display:none'>Below is a unique code that can be used to retrieve your trip:<br/>"+
+    "<textarea class='codeString'></textarea></form>"+
+    "</div>";
+    jQuery(place).append(html);
   }
   ,handler: function(place,macroName,params,wikifier,paramString,tiddler){
 
     config.macros.CarbonFootprintForm.constructForm(place);
     config.macros.CarbonFootprintForm.addParticipant(place);
+    jQuery(".loadData",place).click(function(e){
+      var p = prompt("Please paste your unique code into the box below.");
+      var linesData = p.split("::");
+      var rows = linesData.length;
+      var actualRows = jQuery(".participant",place).length;
+      var neededRows =rows -1 - actualRows;
+      for(var i=0; i < neededRows;i++){
+        config.macros.CarbonFootprintForm.addParticipant(place);
+      }
+      
+      actualRows = jQuery(".participant",place);
+      for(var i=0; i < rows-1; i++){
+        
+        var lineData =linesData[i].split("||");
+        
+        var name = lineData[0];
+        var transport = lineData[1];
+        var location = lineData[2];
+        jQuery("input[name=participant]",actualRows[i]).val(name);
+        jQuery("input[name=location]",actualRows[i]).val(location);
+        jQuery("option[value="+transport+"]",actualRows[i]).attr("selected", "selected");
+        
+      }
+      jQuery("input[name=meeting_location]").val(linesData[linesData.length-1]);
+      config.macros.CarbonFootprintForm.calculate(place);
+    })
     jQuery(".addParticipant",place).click(function(){config.macros.CarbonFootprintForm.addParticipant(place);});
     jQuery(".generator",place).click(function(){config.macros.CarbonFootprintForm.calculate(place);});
   }
@@ -32,23 +65,27 @@ config.macros.CarbonFootprintForm ={
       var data = eval("("+r+")");
       var topResult = data["responseData"].results[0];
       if(!topResult){
-        alert("Couldn't find "+ postcode + " check this is a valid postcode.");
+        alert("Couldn't find "+ startLocation + " check this is a valid postcode.");
       }
       var lon = topResult.lng
       var lat = topResult.lat;
-      config.macros.CarbonFootprintForm.calculateDistances(place,lon,lat);
+      config.macros.CarbonFootprintForm.calculateDistances(place,lon,lat,startLocation);
   
     }});
   }
-  ,calculateDistances: function(place,fromLng,fromLat){
+  ,calculateDistances: function(place,fromLng,fromLat,startLocation){
     var participants = jQuery(".participant",place);
-    var totalMiles = {};
+    var totalKms = {};
+    var codeString=startLocation;
     for(var i=0; i < participants.length; i++){
       var participant = participants[i];
       var name = jQuery("input[name=participant]",participant).val();
       var postcode = jQuery("input[name=location]",participant).val();
-      ajaxReq({url:"http://ajax.googleapis.com/ajax/services/search/local?v=1.0&q="+postcode, success:function(r){
-        var transport = jQuery("select[name=transport]",participant).val();
+      var transport = jQuery("select[name=transport]",participant).val()
+      ajaxReq({params:{transport:transport,name:name,postcode:postcode},url:"http://ajax.googleapis.com/ajax/services/search/local?v=1.0&q="+postcode, success:function(r){
+        var transport = this.params['transport'];
+        var nameParticipant = this.params['name'];
+        var postcode = this.params['postcode'];
         var data = eval("("+r+")");
         var topResult = data["responseData"].results[0];
         if(!topResult){
@@ -56,24 +93,36 @@ config.macros.CarbonFootprintForm ={
         }
         var lng = topResult.lng
         var lat = topResult.lat;
-        if(!totalMiles[transport])totalMiles[transport]= 0;
-        totalMiles[transport] += config.macros.CarbonFootprintForm.calculateMiles(fromLat,fromLng,lat,lng);
+        var kmTravelled = config.macros.CarbonFootprintForm.calculateKm(fromLat,fromLng,lat,lng);
+        
+        if(!totalKms[transport])totalKms[transport]= 0;
+        totalKms[transport] += kmTravelled;
   
   
         var calculator = config.macros.CarbonFootprintForm.kgco2perkm;
-        var resultHtml= "";
-        for(var modeTransport in totalMiles){
-            var cft = calculator[transport] * totalMiles[transport];
-            resultHtml += "total miles by "+modeTransport+": "+totalMiles[transport].toFixed(2) +" ("+cft.toFixed(3)+" kg co2)<br/>";
-        
+        var resultHtml= "<table class='carbonFootprintTable'><tr><td>Mode Transport</td><td>Kms</td><td>carbon footprint (kg co2)</td></tr>";
+        var grandTotalKms = 0;
+        var totalcft = 0;
+        for(var modeTransport in totalKms){
+            var transportKms = totalKms[modeTransport];
+            grandTotalKms += transportKms;
+            var cft = calculator[modeTransport] * transportKms;
+            totalcft+= cft;
+            resultHtml += "<td>"+modeTransport+"</td><td>"+transportKms.toFixed(2) +"</td><td>"+cft.toFixed(3)+"</td></tr>";
         }
+        
+        resultHtml += "<tr class='total'><td>*</td><td>"+grandTotalKms+"</td><td>"+totalcft.toFixed(3)+"</td></tr></table>";
+        
+        codeString = nameParticipant+"||"+transport+"||"+postcode + "::"+codeString;
         jQuery(".carbonFootprint",place).html(resultHtml);
+        jQuery(".codeString",place).val(codeString);
+        jQuery(".codeStringPlace",place).css({display:"block"});
         
       },fail:function(){alert("something went wrong.. make sure you are connected to the internet..");}});
     }
     
   }
-  ,calculateMiles: function(fromLat,fromLng, lat,lng){
+  ,calculateKm: function(fromLat,fromLng, lat,lng){
     if(fromLat == lat && fromLng == lng) return 0;
     var a1 = Math.PI /180 * (fromLat);
     var b1 = Math.PI /180 * (fromLng);
