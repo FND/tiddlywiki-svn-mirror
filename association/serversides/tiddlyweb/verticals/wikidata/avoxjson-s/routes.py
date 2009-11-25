@@ -12,10 +12,10 @@ def index(environ, start_response):
         ('Content-Type', 'text/html')
         ])
     
-    return template.render()
+    commonVars = templating.getCommonVars(environ)
+    return template.render(commonVars=commonVars)
 
 def template_route(environ, start_response):
-    from recordFields import getFields
     template_name = environ['wsgiorg.routing_args'][1]['template_file']
     
     if '../' in template_name:
@@ -25,29 +25,13 @@ def template_route(environ, start_response):
        template_name = template_name + '.html'
        
     template = templating.generate_template([template_name])
-    
-    fields = getFields(environ)
-    
-    captcha = {}
-    try:
-        query = environ['tiddlyweb.query']
-        success = query['success'][0]
-        if success == '1':
-            captcha['success'] = True
-        elif success == '0':
-            captcha['failure'] = True
-            try:
-               captcha['error'] = query['error'][0]
-            except:
-               captcha['error'] = "Error not supplied"
-    except:
-        pass
-    
+        
     start_response('200 OK', [
         ('Content-Type', 'text/html')
         ])
     
-    return template.render(fields=fields,captcha=captcha)
+    commonVars = templating.getCommonVars(environ)
+    return template.render(commonVars=commonVars)
     
 
 def get_fields_js(environ, start_response):

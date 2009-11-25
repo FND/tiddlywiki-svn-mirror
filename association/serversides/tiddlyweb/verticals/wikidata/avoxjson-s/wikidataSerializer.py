@@ -31,11 +31,13 @@ class Serialization(HTML_Serializer):
         logging.debug('in list_tiddlers')
         tiddlers = bag.list_tiddlers()
         template = templating.generate_template(["collection.html"])
-        return template.render(tiddlers=tiddlers,fields = getFields(self.environ))
+        commonVars = templating.getCommonVars(self.environ)
+        return template.render(tiddlers=tiddlers, commonVars=commonVars)
 
     def tiddler_as(self, tiddler):
         logging.debug('in tiddler_as')
         bag = Bag('tmpbag', tmpbag=True)
         bag.add_tiddler(tiddler)
         template = templating.generate_template(["company.html"])
-        return template.render(tiddler=tiddler, maps_api_key=self.maps_api_key,fields = getFields(self.environ))
+        commonVars = templating.getCommonsVars(self.environ)
+        return template.render(tiddler=tiddler, maps_api_key=self.maps_api_key, commonVars=commonVars)

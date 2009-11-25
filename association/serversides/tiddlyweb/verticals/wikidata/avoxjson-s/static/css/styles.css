@@ -108,6 +108,20 @@ h4 {
 button {
 	cursor: pointer;
 }
+/* backstage */
+#backstage {
+	position: absolute;
+	top: 0;
+	right: 0;
+	height: 16px;
+	width: 100%;
+	padding: 2px;
+	text-align: right;
+	font-size: small;
+}
+#backstage .loggedIn {
+	background-color: #ffff66;
+}
 /* header */
 #header {
 	width: 100%;

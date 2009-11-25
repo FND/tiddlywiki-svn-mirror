@@ -1,4 +1,5 @@
-{% from 'labels.html' import labels %}
+{% set fields = commonVars.fields %}
+{% set captcha = commonVars.captcha %}
 {% if captcha.success %}
 <div>
 <p>Thanks! We'll be in touch shortly.</p>
