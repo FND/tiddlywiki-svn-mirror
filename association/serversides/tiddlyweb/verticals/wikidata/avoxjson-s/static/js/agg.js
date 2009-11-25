@@ -6011,10 +6011,9 @@ var aoColumnsRenderMap = {
 };
 $(document).ready(function() {
 	// set up records table
-	var aoColumns = [
-		null // AVID
-	];
+	var aoColumns = [];
 	var field, options;
+	aoColumns.push({}); // AVID
 	for(var i=0, il=recordFields.length; i<il; i++) {
 		field = recordFields[i][0];
 		options = {};
@@ -6043,6 +6042,7 @@ $(document).ready(function() {
 		};
 		
 		var setUpTable = function() {
+			var columns;
 			function getTitles() {
 				var titles = [];
 				for(var i=0;i<columns.length;i++) {
@@ -6065,7 +6065,7 @@ $(document).ready(function() {
 			$table.css('visibility',"visible");
 			$.fn.dragColumns('#recordsTable');
 			oTable.fixedHeader = new $.fn.dataTableExt.FixedHeader(oTable);
-			var columns = oTable.fnSettings().aoColumns;
+			columns = oTable.fnSettings().aoColumns;
 			$('#recordsTable tfoot th').live("click",function() {
 				var i = $('#recordsTable tfoot th').index(this);
 				var head = $('#recordsTable thead th')[i];
@@ -6125,30 +6125,19 @@ $(document).ready(function() {
 					var mapped = {"aaData":[]};
 					var tiddler, fields;
 					var count = json.length;
+					var row;
 					for(var i=0; i<count; i++) {
 						tiddler = json[i];
 						fields = tiddler.fields;
-						mapped.aaData.push([
-							'<a href="/bags/avox/tiddlers/'+tiddler.title+'.html">'+tiddler.title+'</a>',
-							fields["legal_name"] || "",
-							fields["previous_name_s_"] || "",
-							fields["trades_as_name_s_"] || "",
-							fields["trading_status"] || "",
-							fields["company_website"] || "",
-							fields["registered_country"] || "",
-							fields["operational_po_box"] || "",
-							fields["operational_floor"] || "",
-							fields["operational_building"] || "",
-							fields["operational_street_1"] || "",
-							fields["operational_street_2"] || "",
-							fields["operational_street_3"] || "",
-							fields["operational_city"] || "",
-							fields["operational_state"] || "",
-							fields["operational_country"] || "",
-							fields["operational_postcode"] || "",
-							'<a href="/bags/avox/tiddlers/'+tiddler.title+'.challenge">go</a>',
-							'<a href="/bags/avox/tiddlers/'+tiddler.title+'.request">go</a>'
-						]);
+						row = [];
+						row.push('<a href="/bags/avox/tiddlers/'+tiddler.title+'.html">'+tiddler.title+'</a>'); // AVID
+						for(var j=0, jl=recordFields.length; j<jl; j++) {
+							field = recordFields[j][0];
+							row.push(fields[field] || "");
+						}
+						row.push('<a href="/bags/avox/tiddlers/'+tiddler.title+'.challenge">go</a>');
+						row.push('<a href="/bags/avox/tiddlers/'+tiddler.title+'.request">go</a>');
+						mapped.aaData.push(row);
 					}
 					var str = 'There are '+count+' results';
 					switch(count) {

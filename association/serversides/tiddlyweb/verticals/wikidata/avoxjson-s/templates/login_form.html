@@ -1,13 +1,11 @@
-<div class="error">
-{% if error %}
-	<span>Oops. Your username or password didn't match our records, please try again</span>
-{% endif %}
-</div>
 <pre>
-	<form action="#" method="POST">
+	<form method="POST">
 		<label for="username">Login ID:</label>&nbsp;<input name="username" id="username" size="40" />
 		<label for="password">Password:</label>&nbsp;<input type="password" id="password" name="password" size="40" />
 		<input type="hidden" name="tiddlyweb_redirect" value="{{redirect}}" />
 		<input type="submit" value="Login" />
+		{% if error %}
+		<span class="error">Oops. Your username or password didn't match our records, please try again</span>
+		{%- endif %}
 	</form>
 </pre>

@@ -32,7 +32,7 @@ class Challenger(ChallengerInterface):
             ('Content-Type', 'text/html')
             ])
 
-        commonVars = temlpating.getCommonVars(environ)
+        commonVars = templating.getCommonVars(environ)
         return template.render(redirect=redirect, commonVars=commonVars)
 
     def challenge_post(self, environ, start_response):
@@ -51,8 +51,14 @@ class Challenger(ChallengerInterface):
             return self._validate_and_redirect(environ, start_response,
                     username, password, redirect)
         except KeyError:
-            return self._send_cookie_form(environ, start_response,
-                    redirect, '401 Unauthorized')
+            template = templating.generate_template(["login_form.html"])
+        
+            start_response('401 Unauthorized', [
+                ('Content-Type', 'text/html')
+                ])
+
+            commonVars = templating.getCommonVars(environ)
+            return template.render(redirect=redirect, commonVars=commonVars, error=True)
 
     def _validate_and_redirect(self, environ, start_response, username,
             password, redirect):
@@ -80,6 +86,7 @@ class Challenger(ChallengerInterface):
         except KeyError:
             pass
         except NoUserError:
+            logging.debug('NoUserError for: '+username)
             pass
         template = templating.generate_template(["login_form.html"])
         
@@ -87,5 +94,5 @@ class Challenger(ChallengerInterface):
             ('Content-Type', 'text/html')
             ])
 
-        commonVars = temlpating.getCommonVars(environ)
+        commonVars = templating.getCommonVars(environ)
         return template.render(redirect=redirect, commonVars=commonVars, error=True)

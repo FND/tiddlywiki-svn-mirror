@@ -39,5 +39,5 @@ class Serialization(HTML_Serializer):
         bag = Bag('tmpbag', tmpbag=True)
         bag.add_tiddler(tiddler)
         template = templating.generate_template(["company.html"])
-        commonVars = templating.getCommonsVars(self.environ)
+        commonVars = templating.getCommonVars(self.environ)
         return template.render(tiddler=tiddler, maps_api_key=self.maps_api_key, commonVars=commonVars)
