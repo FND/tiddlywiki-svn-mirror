@@ -22,3 +22,29 @@ def _get_template(name):
     contents = f.read()
     f.close() # XXX: not required?
     return contents
+    
+def getCommonVars(environ): # JRL: to make sure that templates have access to common fields
+    from recordFields import getFields
+    fields = getFields(environ)
+    usersign = environ['tiddlyweb.usersign']
+    
+    captcha = {}
+    try:
+        query = environ['tiddlyweb.query']
+        success = query['success'][0]
+        if success == '1':
+            captcha['success'] = True
+        elif success == '0':
+            captcha['failure'] = True
+            try:
+               captcha['error'] = query['error'][0]
+            except:
+               captcha['error'] = "Error not supplied"
+    except:
+        pass
+
+    return {
+        'fields':fields,
+        'usersign':usersign,
+        'captcha':captcha
+    }
