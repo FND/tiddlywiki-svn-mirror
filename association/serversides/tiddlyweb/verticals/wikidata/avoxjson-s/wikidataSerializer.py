@@ -40,4 +40,5 @@ class Serialization(HTML_Serializer):
         bag.add_tiddler(tiddler)
         template = templating.generate_template(["company.html"])
         commonVars = templating.getCommonVars(self.environ)
-        return template.render(tiddler=tiddler, maps_api_key=self.maps_api_key, commonVars=commonVars)
+        open_fields = self.environ['tiddlyweb.config']['mappingsql.open_fields']
+        return template.render(tiddler=tiddler, maps_api_key=self.maps_api_key, commonVars=commonVars, open_fields=open_fields)

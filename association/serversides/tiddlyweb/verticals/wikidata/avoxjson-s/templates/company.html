@@ -86,4 +86,20 @@
 	<span>&nbsp;<a href="{{ tiddler.title }}.challenge">challenge company details</a></span>
 	<!--<a href="{{ tiddler.title }}.edit">edit</a>-->
 	</div>
+	{%- if usersign.name != "GUEST" %}
+	{% set fields = commonVars.fields %}
+	<div class="complete">
+	<h2>Private fields</h2>
+		<table class="fields">
+			{%- for field, label in fields -%}
+			{%- if tiddler.fields[field] and field not in open_fields %}
+			<tr>
+				<td>{{label}}</td>
+				<td>{{tiddler.fields[field]}}</td>
+			</tr>
+			{% endif -%}
+			{%- endfor -%}
+		</table>
+	</div>
+	{% endif -%}
 </div>

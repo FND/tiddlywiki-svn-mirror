@@ -119,7 +119,7 @@ button {
 	text-align: right;
 	font-size: small;
 }
-#backstage .loggedIn {
+#backstage.loggedIn {
 	background-color: #ffff66;
 }
 /* header */
@@ -368,6 +368,17 @@ tfoot th {
 }
 #map {
 	margin: 1em 0;
+}
+.company .complete {
+	float:right;
+	padding-right:60px;
+	position:absolute;
+	right:0;
+	top:150px;
+	width:240px;
+}
+.company table td {
+	background-color: #FFFF66;
 }
 /* challenge, request and suggest_new tables */
 #challenge, #request, #suggest_new {
