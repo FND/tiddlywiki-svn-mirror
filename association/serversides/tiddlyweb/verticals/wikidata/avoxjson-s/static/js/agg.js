@@ -6019,7 +6019,7 @@ $(document).ready(function() {
 	for(var i=0, il=recordFields.length; i<il; i++) {
 		field = recordFields[i][0];
 		options = {};
-		if(defaultView.indexOf(field)===-1) {
+		if(!$.inArray(field,defaultView)) {
 			options.bVisible = false;
 		}
 		if(field in aoColumnsRenderMap) {
