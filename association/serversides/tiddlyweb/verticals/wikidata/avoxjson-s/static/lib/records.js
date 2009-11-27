@@ -48,7 +48,7 @@ $(document).ready(function() {
 	for(var i=0, il=recordFields.length; i<il; i++) {
 		field = recordFields[i][0];
 		options = {};
-		if(!$.inArray(field,defaultView)) {
+		if($.inArray(field,defaultView)===-1) {
 			options.bVisible = false;
 		}
 		if(field in aoColumnsRenderMap) {
