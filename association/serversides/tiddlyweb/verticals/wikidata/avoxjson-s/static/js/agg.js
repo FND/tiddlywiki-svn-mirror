@@ -5989,6 +5989,7 @@ var aoColumnsRenderMap = {
 	"operational_state": function(data) {
 		var country = ISO_3166.countries.iso2name[data.aData[15]];
 		var mapping;
+		var state;
 		switch(country) {
 			case "Australia":
 				mapping = ISO_3166["2:AU"];
@@ -6003,7 +6004,8 @@ var aoColumnsRenderMap = {
 				// nothing
 				break;
 		}
-		return state = mapping ? mapping.iso2name[data.aData[data.iDataColumn]] : "";
+		state = mapping ? mapping.iso2name[data.aData[data.iDataColumn]] : "";
+		return state;
 	},
 	"operational_country": function(data) {
 		return ISO_3166.countries.iso2name[data.aData[data.iDataColumn]] || "";
@@ -6031,7 +6033,7 @@ $(document).ready(function() {
 	);
 	var $table = $('#recordsTable');
 	if($table.length!==0) {
-		var options = {
+		options = {
 			bAutoWidth: false,
 			bPaginate: false,
 			bSortClasses: false,
