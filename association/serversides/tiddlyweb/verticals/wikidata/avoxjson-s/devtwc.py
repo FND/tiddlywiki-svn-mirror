@@ -1,4 +1,3 @@
-from whoosh.fields import Schema, ID, KEYWORD, TEXT
 config = {
         'auth_systems': ['login_form'],
         'server_store': ['diststore', { 

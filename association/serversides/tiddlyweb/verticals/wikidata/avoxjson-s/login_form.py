@@ -29,7 +29,8 @@ class Challenger(ChallengerInterface):
         template = templating.generate_template(["login_form.html"])
     
         start_response('200 OK', [
-            ('Content-Type', 'text/html')
+            ('Content-Type', 'text/html'),
+            ('Pragma', 'no-cache')
             ])
 
         commonVars = templating.getCommonVars(environ)
@@ -81,7 +82,8 @@ class Challenger(ChallengerInterface):
                 logging.debug('303 to %s', uri)
                 start_response('303 Other',
                         [('Set-Cookie', cookie_header_string),
-                            ('Location', uri.encode('utf-8'))])
+                            ('Location', uri.encode('utf-8')),
+                            ('Pragma', 'no-cache')])
                 return [uri]
         except KeyError:
             pass
@@ -91,7 +93,8 @@ class Challenger(ChallengerInterface):
         template = templating.generate_template(["login_form.html"])
         
         start_response(status, [
-            ('Content-Type', 'text/html')
+            ('Content-Type', 'text/html'),
+            ('Pragma', 'no-cache')
             ])
 
         commonVars = templating.getCommonVars(environ)

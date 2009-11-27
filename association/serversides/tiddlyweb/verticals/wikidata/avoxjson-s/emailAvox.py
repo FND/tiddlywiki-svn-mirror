@@ -39,7 +39,7 @@ def emailAvox(query):
            except KeyError:
                pass
     elif requestType == 'suggest_new':
-       to = ['paul.barlow@avox.info', 'kate.young@avox.info', 'brian.cole@avox.info', 'ken.price@avox.info', 'jnthnlstr@googlemail.com']
+       to = ['adam.edwards@avox.info', 'daniel.dunn@avox.info', 'paul.barlow@avox.info', 'kate.young@avox.info', 'brian.cole@avox.info', 'ken.price@avox.info', 'jnthnlstr@googlemail.com']
        subject = 'Wiki-data AVID record suggestion'
        body = 'Submittor info\n--------------\n' \
            'Name: '+name+'\n' \

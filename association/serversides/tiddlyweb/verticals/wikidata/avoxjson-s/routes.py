@@ -9,7 +9,8 @@ def index(environ, start_response):
     template = templating.generate_template(["index.html","search.html"])
     
     start_response('200 OK', [
-        ('Content-Type', 'text/html')
+        ('Content-Type', 'text/html'),
+        ('Pragma', 'no-cache')
         ])
     
     commonVars = templating.getCommonVars(environ)
@@ -27,7 +28,8 @@ def template_route(environ, start_response):
     template = templating.generate_template([template_name])
         
     start_response('200 OK', [
-        ('Content-Type', 'text/html')
+        ('Content-Type', 'text/html'),
+        ('Pragma', 'no-cache')
         ])
     
     commonVars = templating.getCommonVars(environ)
@@ -39,7 +41,8 @@ def get_fields_js(environ, start_response):
     template = templating.generate_plain_template(['fields.js.html'])
     fields = getFields(environ)
     start_response('200 OK', [
-        ('Content-Type', 'application/javascript')
+        ('Content-Type', 'application/javascript'),
+        ('Pragma', 'no-cache')
     ])
     return template.render(fields=fields)
 
@@ -75,7 +78,8 @@ def verify(environ, start_response):
 
     start_response('302 Found', [
             ('Content-Type', 'text/html'),
-            ('Location', redirect)
+            ('Location', redirect),
+            ('Pragma', 'no-cache')
             ])
     
     return ""

@@ -6,7 +6,8 @@ def status(environ, start_response):
     data = _gather_data(environ)
     output = simplejson.dumps(data)
     start_response('200 OK', [
-        ('Content-Type', 'application/json')
+        ('Content-Type', 'application/json'),
+        ('Pragma', 'no-cache')
         ])
     return [output]
 
