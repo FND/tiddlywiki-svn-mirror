@@ -355,6 +355,9 @@ tfoot th {
 .js div.company {
 	visibility: hidden;
 }
+div.company {
+	position: relative;
+}
 .company .vcard {
 	background-color: #eeeeff;
 	padding: 10px 20px;
@@ -371,10 +374,9 @@ tfoot th {
 }
 .company .complete {
 	float:right;
-	padding-right:60px;
 	position:absolute;
 	right:0;
-	top:150px;
+	top:0;
 	width:240px;
 }
 .company table td {
