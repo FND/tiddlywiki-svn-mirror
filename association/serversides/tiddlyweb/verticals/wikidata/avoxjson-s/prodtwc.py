@@ -1,9 +1,8 @@
-from whoosh.fields import Schema, ID, KEYWORD, TEXT
 config = {
         'server_store': ['mappingsql', {'db_config': 'mysql://avox@localhost/avox?charset=utf8'}],
         'css_uri': 'http://peermore.com/tiddlyweb.css',
         'secret': 'the bees are in the what',
-        'system_plugins': ['status', 'wikidataSerializer', 'editSerializer', 'challengeSerializer', 'requestSerializer', 'methodhack', 'pathinfohack', 'formreader', 'routes'],
+        'system_plugins': ['status', 'wikidataSerializer', 'editSerializer', 'challengeSerializer', 'requestSerializer', 'methodhack', 'pathinfohack', 'formreader', 'routes', 'tiddlywebplugins.jsonp'],
         'server_host': {
             'scheme': 'http',
             'host': 'wiki-data.com',

@@ -163,7 +163,8 @@ class Store(StorageInterface):
         return tiddlers
 
 
-def query_dict_to_search_tuple(query_dict):
+def query_dict_to_search_tuple(original_query_dict):
+    query_dict = dict(original_query_dict)
     main_terms = []
     field_terms = {}
     while query_dict:
@@ -203,10 +204,11 @@ def query_dict_to_search_tuple(query_dict):
                 continue
 
             for value in values:
-                try:
-                    field_terms[key].append(value.lower())
-                except KeyError:
-                    field_terms[key] = [value.lower()]
+                if len(value):
+                    try:
+                        field_terms[key].append(value.lower())
+                    except KeyError:
+                        field_terms[key] = [value.lower()]
     def quote_term(term):
         if ' ' in term:
             return '"%s"' % term
