@@ -25,7 +25,7 @@ def logout(environ, start_response):
         ('Set-Cookie', cookie.output(header='')),
         #('Vary', 'Cookie'), JRL: one option
         ("Pragma", "no-cache"),
-        ('Location', uri)
+        ('Location', '/') # JRL: uri replaced with '/' until caching problem goes away - this is just to make the experience better
         ])
     return [uri]
 
