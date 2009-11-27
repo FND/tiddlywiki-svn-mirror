@@ -74,7 +74,7 @@ em {
 #wrapper {
 	width: 960px;
 	margin: auto;
-	margin-top: 20px;
+	padding-top: 20px;
 }
 .right {
 	float: right;
