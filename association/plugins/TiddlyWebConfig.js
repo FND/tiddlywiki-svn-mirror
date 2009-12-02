@@ -2,7 +2,7 @@
 |''Name''|TiddlyWebConfig|
 |''Description''|configuration settings for TiddlyWebWiki|
 |''Author''|FND|
-|''Version''|0.7.3|
+|''Version''|0.7.4|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/plugins/TiddlyWebConfig.js|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
@@ -43,7 +43,7 @@ var recipe = tiddler.fields["server.recipe"];
 var workspace = recipe ? "recipes/" + recipe : "bags/common";
 config.defaultCustomFields = {
 	"server.type": tiddler.getServerType(),
-	"server.host": adaptor.fullHostName(host),
+	"server.host": host,
 	"server.workspace": workspace
 };
 
