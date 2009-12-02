@@ -37,4 +37,4 @@ class Serialization(SerializationInterface):
         except:
             pass
         commonVars = templating.getCommonVars(self.environ)
-        return template.render(tiddler=tiddler, commonVars=commonVars)
+        return template.render(tiddler=tiddler, captcha=captcha, commonVars=commonVars)

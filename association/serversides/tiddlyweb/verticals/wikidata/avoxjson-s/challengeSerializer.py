@@ -36,5 +36,5 @@ class Serialization(SerializationInterface):
                    captcha['error'] = "Error not supplied"
         except:
             pass
-        commonVars = templating.getCommonVars(environ)
+        commonVars = templating.getCommonVars(self.environ)
         return template.render(tiddler=tiddler, commonVars=commonVars)
