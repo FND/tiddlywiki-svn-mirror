@@ -9,7 +9,7 @@
 	<div class="left">
 		<p>Please correct any information by adding to the right-hand column</p>
 		<table class="fields">
-			{% for field, label in labels %}
+			{% for field, label in fields %}
 			<tr>
 				<td><label for="challenge_{{field}}">{{label}}</label>{% if field in ['operational_country', 'operational_state', 'registered_country', 'registered_state'] -%}
 				<span class="{{field}}">
