@@ -1,7 +1,13 @@
 tags:
+modifier: JonRobson
+title: CarbonFootprintCalculator
 
+To use this please download to your local machine by right clicking and saving on [[this link|index.html]].
 The following tool will allow you to calculate your carbon offset for a given meeting. Simply let us know the participants who will be attending the meeting, where they are coming from and where the meeting is and the tool will tell you how naughty you are being.
+
+Locations are found using Google's local search api. For greatest accuracy you should use a postcode. If you do not know the postcode include the country name and county, eg. for Swindon set your location as "Swindon, Wiltshire, England"
 
 <<CarbonFootprintForm>>
 
+To give you an idea of the relative importance of One Kg of CO2, the total UK emissions for today will correspond to about 25 Kg of CO2 per person per day. By 2050 this will need to have been reduced to 5 Kg of CO2 per person per day, to meet UK climate change reduction targets.
 [[How is this calculated?]]

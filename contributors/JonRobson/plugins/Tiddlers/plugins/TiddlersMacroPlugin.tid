@@ -1,25 +1,84 @@
 tags: systemConfig
 
+
+/***
+|''Name''|Tiddlers|
+|''Description''|provide ability to loop through filtered list of tiddlers|
+|''Author''|Jon Robson|
+|''Version''|0.7|
+|''Date''||
+|''Status''||
+|''License''|BSD|
+|''CoreVersion''|<...>|
+|''Documentation''|<...>|
+|''Keywords''||
+!Description
+Bring loops
+*/
 config.macros.tiddlers = {
     handler: function(place,macroName,params,wikifier,paramString,tiddler){
         var args = paramString.parseParams("name",null,true,false,true);
         var tiddlers;
         var filter = args[0]["filter"];
-        var ifNone = args[0]["ifNone"];
+        var ifEmpty = args[0]["ifEmpty"];
         if(!filter) tiddlers = store.getTiddlers();
         else tiddlers = store.filterTiddlers(filter);
         
         for(var i=0; i < tiddlers.length;i++){
             var tid = tiddlers[i];
             var newParamString = paramString+" data:\""+tid.title +"\"";
+            //console.log("tiddlers",newParamString);
             config.macros.tiddler.handler(place,macroName,params,wikifier,newParamString,tid);
         }
         if(tiddlers.length ==0){
-            if(ifNone){
-                var newParamString = "\""+ifNone +"\" " +paramString;                
-                config.macros.tiddler.handler(place,macroName,params,wikifier,newParamString,store.getTiddler(ifNone));
+            if(ifEmpty){
+                var newParamString = "\""+ifEmpty +"\" " +paramString;                
+                config.macros.tiddler.handler(place,macroName,params,wikifier,newParamString,store.getTiddler(ifEmpty));
             }
         }
         
     }
 }
+
+/* requires update of tiddler macro */
+config.macros.tiddler.handler = function(place,macroName,params,wikifier,paramString,tiddler)
+{
+    var namedprms = paramString.parseParams(null, null, true);
+      var options ={};
+      for(var i=0; i < namedprms.length;i++){
+          var nameval = namedprms[i];
+          options[nameval.name] = nameval.value;
+      }
+	params = paramString.parseParams("name",null,true,false,true);
+	var names = params[0]["name"];
+	var tiddlerName = names[0];
+	var className = names[1] || null;
+	var args = params[0]["with"];
+	var wrapper = createTiddlyElement(place,"span",null,className);
+	if(!args && !options.data) {
+		wrapper.setAttribute("refresh","content");
+		wrapper.setAttribute("tiddler",tiddlerName);
+	}
+	var text = store.getTiddlerText(tiddlerName);
+	
+	//if(text) {
+		var stack = config.macros.tiddler.tiddlerStack;
+		if(stack.indexOf(tiddlerName) !== -1)
+			return;
+		stack.push(tiddlerName);
+		try {
+			var n = args ? Math.min(args.length,9) : 0;
+			for(var i=0; i<n; i++) {
+				var placeholderRE = new RegExp("\\$" + (i + 1),"mg");
+				text = text.replace(placeholderRE,args[i]);
+			}
+			if(options.data){
+			  tiddlerName = options.data;
+			}
+			//console.log(tiddlerName,store.getTiddler(tiddlerName));
+			config.macros.tiddler.renderText(wrapper,text,tiddlerName,params);
+		} finally {
+			stack.pop();
+		}
+	//}
+};

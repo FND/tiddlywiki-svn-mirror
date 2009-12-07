@@ -1,4 +1,4 @@
-tags: systemConfig viewidea
+tags: systemConfig
 title: NiceTaggingPlugin
 
 /***
@@ -88,6 +88,9 @@ config.macros.niceTagger = {
 		//tiddler.fields[field] = strVal
 		//store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,null,null,tiddler.tags,tiddler.fields,null);
 		store.setValue(tiddler.title,field,strVal);
+		     store.saveTiddler(tiddler.title, tiddler.title, tiddler.text, tiddler.modifier, tiddler.modified, tiddler.tags, tiddler.fields, false, tiddler.created)
+          autoSaveChanges()
+          
 		//story.setDirty(title,true);
 		return tiddler;
         //console.log("finished save tags",tiddler.tags,"field",tiddler.fields[field]);
@@ -121,12 +124,9 @@ config.macros.niceTagger = {
             }
             //console.log("Save",tiddler.title,field,newtags);
             tiddler = config.macros.niceTagger.save(tiddler.title,field,newtags);
-           
-         
             //console.log("Refresh",tiddler,field);
             config.macros.niceTagger.refreshFieldDisplay(place,tiddler,field);
-            store.saveTiddler(tiddler.title, tiddler.title, tiddler.text, tiddler.modifier, tiddler.modified, tiddler.tags, tiddler.fields, false, tiddler.created)
-            autoSaveChanges()
+       
             //console.log("done refresh")
         });
     }
@@ -196,9 +196,9 @@ config.macros.niceTagger = {
 		if(!ignoreList) ignoreList = ["excludeList"];
 		for(var i=0; i < suggestions.length; i++){
 			var s =suggestions[i];
-			if(s){
+			if(s && typeof(s) =='string'){
 			//rtrim then ltrim
-			s = s.replace(new RegExp("[\\s]+$", "g"), "").replace(new RegExp("^[\\s]+", "g"), "");
+			  s = s.replace(new RegExp("[\\s]+$", "g"), "").replace(new RegExp("^[\\s]+", "g"), "");
 			//console.log(uniqueSuggestions.toString(),s,uniqueSuggestions.indexOf(s));
 				if(uniqueSuggestions.indexOf(s) ==-1 && ignoreList.indexOf(s) ==-1){
 					uniqueSuggestions.push(s);

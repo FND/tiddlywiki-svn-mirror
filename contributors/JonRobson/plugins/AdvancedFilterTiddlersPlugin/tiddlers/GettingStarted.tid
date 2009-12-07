@@ -1,0 +1,33 @@
+tags: 
+
+You have now improved your filter syntax.
+
+DefaultTiddlers is now more kick ass and using the list macro is now much more powerful as I can do things like list everything tagged with 'todo' and 'today' using the following syntax
+{{{[tag[todo]tag[today]]}}}
+<<list filter [tag[todo]tag[today]]>>
+
+I can also show things tagged with todo or today with a subtle change of syntax.
+{{{[tag[todo]][tag[today]]}}}
+<<list filter [tag[todo]][tag[today]]>>
+
+I can return everything not tagged with todo
+{{{[tag[!todo]]}}}
+
+<<list filter [tag[!todo]]>>
+
+I can invent a field priority storing an integer value and show a list of tiddlers sorted by priority with most important at the top like so
+{{{[tag[priority]][sort(int)[priority]]}}} or {{{[tag[priority]][sort(int)[+priority]]}}} 
+
+<<list filter [tag[todo]][sort(int)[priority]]>>
+
+I can show least important at the top by doing
+{{{[tag[priority]][sort(int)[-priority]]}}}
+<<list filter [tag[todo]][sort(int)[-priority]]>>
+
+I can chain as many of these commands as I want with standard ones like so.
+{{{[tag[systemConfig]modifier[jon]] [tag[todo]] [[GettingStarted]] DefaultTiddlers [sort[title]]}}}
+<<list filter '[tag[systemConfig]modifier[jon]] [tag[todo]] [[GettingStarted]] ViewTemplate [sort[title]]'>>
+
+I can then use this in [[DefaultTiddlers]]. So below this tiddler is a list of my things todo with the highest priority at the top. For this I used the rule:
+{{{GettingStarted [tag[todo]sort(int)[+priority]]}}}
+Here the sorting only applies to the tiddlers with tag todo.

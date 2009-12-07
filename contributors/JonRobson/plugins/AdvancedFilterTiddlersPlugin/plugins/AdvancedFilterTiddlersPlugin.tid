@@ -1,0 +1,218 @@
+title: AdvancedFilterTiddlersPlugin
+tags: systemConfig
+modifier: jon
+
+/***
+|''Name''|FilterTiddlersPlugin|
+|''Description''|Overrides the core filterTiddlers to provide a more complete syntax compatible with default tiddlers|
+|''Author''|Jon Robson|
+|''Version''|0.8|
+|''Date''|Nov 2008|
+|''Status''|@@experimental@@;|
+|''License''|BSD|
+|''CoreVersion''|<...>|
+|''Documentation''|<...>|
+|''Usage''|
+
+*OR syntax [field[value]] 
+eg. [tag[foo]] [tag[bar]]
+gives you all tiddlers tagged with foo or bar
+*AND syntax
+[tag[foo]tag[bar]]
+gives you all tiddlers tagged with foo and bar
+* more powerful sorting
+allows you to sort by an integer field
+ [tag[foo]sort(int)[priority]]
+
+Great for improving usage of the list macro and defaultTiddlers
+***/
+
+Array.prototype.concatUnique = function(items,unique){
+  for(var i=0; i < items.length;i++){
+    var item = items[i];
+    this.pushUnique(item);
+  }
+  return this;
+}
+
+//filter tiddlers 2 [[bar bar]]awesome HelloWorld Foo [[great]]
+//[tag[foo]] [tag[val]sort(int)[val]][fieldor[or1]][field[or2]][field[or3]][field[and1]field[and2]] [field1[val1]field2[val2]field3[value3]] [field4[val4]field5[val5]]
+TiddlyWiki.prototype.sortTiddlers = function(tiddlers,field,fieldType)
+{
+	var asc = +1;
+	if(!fieldType)fieldType ="";
+	var convert;
+	console.log("sorting by ",field,"with ",fieldType);
+	switch(fieldType.toLowerCase()){
+	    case "int":
+	        convert = function(v){if(!v) return 0; else return parseInt(v);}
+	        break;
+	    case "float":
+	        convert = function(v){if(!v) return 0; else return parseInt(v)};
+	        break;
+	    default:
+	        convert = function(v){return v;};
+	}
+	switch(field.substr(0,1)) {
+	case "-":
+		asc = -1;
+		// Note: this fall-through is intentional
+		/*jsl:fallthru*/
+	case "+":
+		field = field.substr(1);
+		break;
+	}
+	if(TiddlyWiki.standardFieldAccess[field])
+		tiddlers.sort(function(a,b) {return a[field] < b[field] ? -asc : (a[field] == b[field] ? 0 : asc);});
+	else{
+	    
+		tiddlers.sort(function(a,b) {return convert(a.fields[field]) < convert(b.fields[field]) ? -asc : (a.fields[field] == b.fields[field] ? 0 : +asc);});
+	}return tiddlers;
+};
+
+
+
+//makes filterTiddlers support custom fields
+//to do: add syntax (int)
+//to do: add AND OR [tag[foo]] [tag[blah]] or [tag[foo] tag[blah]]
+TiddlyWiki.prototype.getValueTiddlers = function(fieldName,value,tiddlers){
+  var negationMode = false;
+  if(value[0] =="!") {
+    value = value.substr(1);
+    negationMode= true;
+  }
+  var filterResult = [];
+  if(!tiddlers) tiddlers = store.getTiddlers();
+  if(fieldName == 'tag') fieldName = "tags";
+
+  for(var i=0; i < tiddlers.length; i++){
+    var tiddler = tiddlers[i];
+    var values;
+    //console.log(fieldName,tiddler[fieldName]);
+    if(tiddler[fieldName]){
+      values = tiddler[fieldName]
+    }
+    else if(tiddler.fields[fieldName]){
+      values = tiddler.fields[fieldName];
+    }
+    else{
+      values = false;
+    }
+    
+    if(values){
+      //console.log(negationMode, values,value);
+      if(typeof(values)== 'string' && ((values == value && !negationMode) || (negationMode && values !=value))){
+        filterResult.pushUnique(tiddler);
+      }
+      else if((!negationMode && values.indexOf(value) >-1) || (negationMode && values.indexOf(value) == -1)) {
+        filterResult.pushUnique(tiddler);
+      }
+    }
+  }
+  return filterResult;
+}
+TiddlyWiki.prototype.filterTiddlers = function(filter)
+{
+	var filterResult = [];
+	var open = 0;
+	var current_state = 'A';
+	
+	var value = "",field="", mem ="";
+	var arg1 = "",arg2="";
+	var andFilter = [];
+	var write_to_arg1 = function(ch){
+	  if(ch != ']' && ch != "[" && ch != "\n")arg1 +=ch;
+	}
+	var write_to_arg2 = function(ch){
+	  if(ch != ']' && ch != "[" && ch != "\n")arg2 +=ch;
+	}
+	var restart = function(){
+    arg1 = "";arg2= "";andFilter = [];
+    return "A";
+  }
+  var addTiddler= function(){
+	  arg1 =arg1.trim();
+	  console.log("Add tiddler","'"+arg1+"'");
+	  var tid = store.getTiddler(arg1);
+	  if(tid)filterResult.pushUnique(tid);
+	  return restart();
+	}
+	var tw = this;
+	var sort = function(tiddlers,arg1,arg2){
+	  var stype = false;
+    var startType = arg1.indexOf("(") + 1;
+    if(startType >0)  stype = arg1.substr(startType,arg1.length-startType-1);
+    tiddlers =tw.sortTiddlers(tiddlers,arg2,stype)
+    return tiddlers;
+	}
+  var applyORFilter = function(ch){
+    console.log("apply or filter",arg1,arg2);
+    arg1 = arg1.trim();
+    arg2 = arg2.trim();
+    if(arg1.indexOf("sort") == 0) filterResult= sort(filterResult,arg1,arg2);
+    else {
+      filterResult = filterResult.concatUnique(tw.getValueTiddlers(arg1,arg2));
+    }
+    return restart();
+  }
+  var applyAndFilter = function(ch){
+    saveAndFilterArg(ch);
+    console.log("applying and filter",andFilter);
+    var andResult = false;
+    for(var i=0; i < andFilter.length; i++){
+      var filter = andFilter[i];
+      if(andResult && filter[0].indexOf("sort") == 0) andResult =sort(andResult,filter[0],filter[1])
+      else andResult = tw.getValueTiddlers(filter[0],filter[1],andResult);
+    }
+    filterResult = filterResult.concat(andResult);
+    return restart();
+  }
+  var saveAndFilterArg = function(ch){
+    //console.log("saving filter",arg1,arg2)
+    andFilter.push([arg1.trim(),arg2.trim()])
+    arg1= "";
+    write_to_arg1(ch);
+    arg2= "";
+    return "I";
+  }
+  
+  var states ={
+    'A': {'[':'B',' ':'A','\n':'A','default':'Z',action:write_to_arg1},
+    'Z': {'default':'Z',' ': addTiddler,action:write_to_arg1},
+    'B': {'[':'C','default':'F',action:write_to_arg1},
+    'C': {']':'D','default':'C',action:write_to_arg1},
+    'D': {']':addTiddler},
+    'F':{'[':'G','default':'F',action:write_to_arg1},
+    'G':{']':'H','default':'G',action:write_to_arg2},
+    'H':{']':applyORFilter,'default':saveAndFilterArg},
+    'I':{'[':'J','default':'I',action:write_to_arg1},
+    'J':{']':'K','default':'J',action:write_to_arg2},
+    'K':{'default':saveAndFilterArg,']':applyAndFilter}
+  };
+  var changeState = function(ch){
+    var state = states[current_state];
+    if(state){
+      var s;
+      if(state[ch]){
+         s= state[ch]
+      }
+      else if(state['default']){
+       s = state['default'];
+      }
+      if(typeof(s) == 'function') current_state = s(ch); 
+      else current_state = s;
+      
+      if(state["action"])state["action"](ch);
+    }
+  };
+	for(var i=0; i < filter.length;i++){
+    var charThis = filter[i];
+    //console.log("in state",current_state,"with","'"+charThis+"'..",arg1,":",arg2)
+    changeState(charThis);
+	}
+	console.log("fini",filterResult);
+	return filterResult;
+};
+
+
+/*** tests ***/
