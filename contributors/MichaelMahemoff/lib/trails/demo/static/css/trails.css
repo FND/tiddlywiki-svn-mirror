@@ -23,26 +23,42 @@ li { list-style-type: none; }
 
 .scripted body { padding-top: 48px; }
 
+/*
+d5d3df
+bdb9d6
+*/
 #topBar { position: absolute; top: 0; left: 0; width: 100%; height: 46px;
           z-index: 90000;
-          background-color: #bbb;
+          /* background: #a8dae5; -moz-linear-gradient(top, #d3d3df, #a8dae5);   */
+          background: #a8dae5;
+          background-image: -webkit-gradient(linear, left top, left bottom, from(#d3d3d3), to(#a8dae5));
+          background-image: -moz-linear-gradient(top, #d3d3df, #a8dae5);
           border-bottom: 2px solid #666;
-          line-height: 1; overflow: hidden; }
+          line-height: 1; overflow: hidden;
+          filter:progid:DXImageTransform.Microsoft.Gradient (GradientType=1, StartColorStr='#d3d3df', EndColorStr='#a8dae5') }
 
-#metaInfo { float: left; width: 100px; height: 41px; padding: 5px 10px 5px 50px; }
+#logo { float: left; width: 65px; height: 42px; }
+
+#metaInfo { float: left; width: 150px; height: 100%; padding: 5px 10px 5px 0; }
 
 #resourceView { position: absolute; width: 100%; height: 100%; overflow: visible; }
 
-.clickster { font-size: 14px; float: right; padding: 2px 1px; cursor: pointer; width: 44px; height: 46px; background: #aaa; text-align: center; float: right; }
+.clickster { font-size: 14px; float: right; padding: 2px 1px; cursor: pointer; width: 44px; height: 46px; text-align: center; float: right; }
 
 #noteWrapper { position: absolute; top: 25px; right: 10px; z-index: 99999; }
 
 #controls { float: left; padding: 0 10px 0; text-align: center; }
 #controls div { text-align: center; }
 
-#stretchy { margin-right: 50px; height: 100%; padding: 14px; }
+#stretchy { margin-right: 50px; height: 100%; padding: 10px; }
 #dropdown { float: left; text-align: center; font-size: 12px; font-weight: bold; }
 #progress { width: 25px; height: 20px; background-image: url('../images/progress.gif'); background-position: 10px 0; background-repeat: no-repeat; float: left; visibility: hidden; }
+
+/******************************************************************************
+ * logo *
+ ******************************************************************************/
+
+#logo { background-image: url("../images/slogosmall.png"); background-repeat: no-repeat; background-position: 15px 6px; }
 
 /******************************************************************************
  * resourceView *
@@ -56,12 +72,15 @@ li { list-style-type: none; }
  * metaInfo *
  ******************************************************************************/
 
-#metaInfo { background-image: url("../images/slogosmall.gif"); background-repeat: no-repeat; background-color: #aaa; background-position: 10px 50%; border-left: 1px solid #666; border-right: 1px solid #666; text-align: center; }
+#metaInfo { border-left: 1px solid #666; border-right: 1px solid #666; text-align: center; font-size: small; position: relative; padding: 3px 0 0; }
 #metaInfoTitle { text-align: center; }
+#infoLink { background-image: url(../images/info16.png); background-position: 5px 0; background-repeat: no-repeat; width:25px; float: left; height: 36px; margin-top: 4px; cursor: pointer; }
+#text { margin-left: 25px; text-align: center; }
 #metaInfoEdit { font-size: small; margin-top: 4px; display: block; text-align: center; }
-#logoWrapper { width: 125px; height: 43px; padding-left: 5px; float: left; }
-#logo { margin-top: 9px; width: 114px; height: 26px; }
-#info { font-size: x-small; text-align: center; margin-top: 5px; }
+#info { position: absolute; bottom: 0; text-align: center; width: 100%;
+        background: #38626b; color: #a8dae5; height: 1.2em; padding-top: 0.1em; }
+#strut { float: left; width: 25px; height: 1.2em; }
+#infoTrailOwnerWrapper { text-align: center; }
 
 /******************************************************************************
  * nav *
@@ -70,15 +89,14 @@ li { list-style-type: none; }
 #navWrapper { text-align: center; }
 #nav { float: left; margin: 0 auto; height: 100%; }
 #nav span { cursor: pointer; overflow: hidden; background-repeat: no-repeat; float: left; width: 16px; height: 100%; width: 36px; position: relative; background-position: 0 6px; }
-#nav span:hover { background-color: #ddd; }
 #nav span#next { background-image: url("../images/next.gif"); }
-#nav span#next:hover { xbackground-image: url("../images/next-hovered.gif"); }
+#nav span#next:hover { background-image: url("../images/next-hovered.gif"); }
 #nav span#prev { background-image: url("../images/prev.gif"); }
-#nav span#prev:hover { xbackground-image: url("../images/prev-hovered.gif"); }
+#nav span#prev:hover { background-image: url("../images/prev-hovered.gif"); }
 #nav span#end { background-image: url("../images/end.gif"); }
-#nav span#end:hover { xbackground-image: url("../images/end-hovered.gif"); }
+#nav span#end:hover { background-image: url("../images/end-hovered.gif"); }
 #nav span#start { background-image: url("../images/start.gif"); }
-#nav span#start:hover { xbackground-image: url("../images/start-hovered.gif"); }
+#nav span#start:hover { background-image: url("../images/start-hovered.gif"); }
 
 /* REMOVE
 a.markerSelected,a.markerSelected:visited { color: #f00; }
@@ -102,27 +120,26 @@ a.markerSelected.hovered,a.markerSelected.hovered:visited { color: #f66; }
  ****************************************************************************/
 
 .clickster { width: 40px; height: 100%; float: right; text-align: center; padding-top: 5px; }
-.clickster:hover,a.clickster:hover { background: #ddd; }
+.clickster:hover,a.clickster:hover { background: #5081b2; }
 .clickster div, .clickster a { text-align: center; font-size: small; color: #000; }
 .clickster div.icon { font-size: 20px; margin-bottom: 5px; }
-#noteControl { border-left: 1px solid #666; }
 
 #miniBar { position: absolute; top: 0; right: 0;
            text-align: right; z-index: 1; }
 /* #miniBar.available { z-index: 99999; opacity: 0.00001; } */
 /* #miniBar.available:hover { opacity: 0.9; } */
-#miniBar #controls { background: #000; opacity: 0.9; padding: 4px;
-                     border: 2px solid #fff; border-top-width: 0; border-right-width: 0; }
-#miniBar #controls, #miniBar a { color: #666; }
-#miniBar #controls span:hover { color: #ff4; }
+#miniBar #controls { background: #a8dae5; opacity: 0.9; padding: 4px;
+                     border: 2px solid #38626b; border-top-width: 0; border-right-width: 0; }
+#miniBar #controls, #miniBar a { color: #000; }
+#miniBar #controls span:hover { color: #0000dd; }
 #miniBar #controls span { margin: 0 4px; cursor: pointer; }
 
 /****************************************************************************
   NOTECONTROL
  ****************************************************************************/
 
-#noteControl { float: right; }
-#noteControl.showing, #noteControl.showing div { background: #000; color: #333; }
+/* #noteControl { float: right; border-left: 1px solid #666; } */
+#noteControl.showing, #noteControl.showing div { background: #5bbac7; color: #333; }
 .stat { color: #777; text-align: right; padding-right: 5px; }
 
 #noteExpand { position: absolute; top: 28px; height: 16px; opacity: 0; }
@@ -178,9 +195,8 @@ a.markerSelected.hovered,a.markerSelected.hovered:visited { color: #f66; }
 #welcome button:hover { background: #dd7; }
 #welcome .selected { background: #fed; }
 #welcome #options { margin: 10px 10px 0 0; font-size: x-small; font-family: serif; text-align: right; }
-#welcome .caption { cursor: pointer; }
 #welcome .note { background: #000; color: #fff; padding: 10px; font-size: small;
                  -moz-border-radius: 5px; -webkit-border-radius: 5px;
                  margin: 5px 10px 10px; }
-.resourceItem { padding: 5px; }
-
+.resourceItem { padding: 5px; cursor: pointer; }
+.resourceItem:hover { background: #e9e9ff; }

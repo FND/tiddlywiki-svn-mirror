@@ -3,7 +3,7 @@ from tiddlyweb.model.tiddler import Tiddler
 from tiddlyweb.store import NoUserError, NoRecipeError, NoBagError, NoTiddlerError
 from tiddlyweb.serializer import Serializer
 from tiddlyweb.model.tiddler import Tiddler
-from tiddlywebplugins import do_html, entitle
+from tiddlywebplugins.utils import do_html, entitle
 from jinja2 import Environment, FileSystemLoader
 from urllib import unquote_plus
 from string import whitespace

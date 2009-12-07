@@ -17,9 +17,9 @@ $(function() {
   $note = $("#note");
   $tooltip = $("<div class='tooltip'/>").hide().appendTo("body");
 
-  $("#metaInfoTitle").html($("#trail #title").html());
+  $("#metaInfoTitle #text").html($("#trail #title").html());
   $("#metaInfoEdit").showIf($("#trail #edit").length).attr("href", $("#trail #edit").attr("href"));
-  $("#noteTrailOwner").html($("#trail #owner").html());
+  $("#infoTrailOwner,#noteTrailOwner").html($("#trail #owner").html());
 
   $resources.each(function(count) {
     $resource = $(this);
@@ -50,7 +50,7 @@ $(function() {
 
   $("#close").click(function() { document.location.href = $resources[selectedIndex].href; });
   $("#hide").click(function() { toggleTopBar(false); });
-  $("#info").click(showWelcome);
+  $("#infoLink").click(showWelcome);
   $("#miniBar #restore").click(function() { toggleTopBar(true); });
   $("#miniLink").click(function() { return false; });
 
@@ -68,8 +68,9 @@ $(function() {
     }
   });
   */
-  // switchResourceByIndex(0);
-  showWelcome(true);
+  switchResourceByIndex(0);
+  //
+  // showWelcome(true);
 });
 
 var welcomeMessage;
@@ -95,11 +96,12 @@ function showWelcome(isLaunching) {
   //
   // hijack resource links
   $("ol", welcomeMessage).live("click", function(ev) {
-    var $target = $(ev.target);
-    if ($target.is("a.resource")) {
+    if (ev.which!=1) return; // left button only
+    var $target = $(ev.target).closest("li");
+    if ($target.length) {
       $(".modal").data("close", null);
       $.modal.close();
-      switchResourceByIndex($target.parent("li").prevAll().length);
+      switchResourceByIndex($target.prevAll().length);
       return false;
     }
   });

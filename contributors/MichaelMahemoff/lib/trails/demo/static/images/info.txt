@@ -1,6 +1,7 @@
 image credits:
 Logo - Amit Dave
-Nav Arrows - fatcow hosting icons
+Nav Arrows - Amit Dave
+Info - Wikimedia Commons
 Progress - ajaxload.info
 
 Conversions:
