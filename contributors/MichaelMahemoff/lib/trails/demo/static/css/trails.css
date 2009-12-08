@@ -89,14 +89,14 @@ bdb9d6
 #navWrapper { text-align: center; }
 #nav { float: left; margin: 0 auto; height: 100%; }
 #nav span { cursor: pointer; overflow: hidden; background-repeat: no-repeat; float: left; width: 16px; height: 100%; width: 36px; position: relative; background-position: 0 6px; }
-#nav span#next { background-image: url("../images/next.gif"); }
-#nav span#next:hover { background-image: url("../images/next-hovered.gif"); }
-#nav span#prev { background-image: url("../images/prev.gif"); }
-#nav span#prev:hover { background-image: url("../images/prev-hovered.gif"); }
-#nav span#end { background-image: url("../images/end.gif"); }
-#nav span#end:hover { background-image: url("../images/end-hovered.gif"); }
-#nav span#start { background-image: url("../images/start.gif"); }
-#nav span#start:hover { background-image: url("../images/start-hovered.gif"); }
+#nav span#next { background-image: url("../images/next.png"); }
+#nav span#next:hover { background-image: url("../images/next-hovered.png"); }
+#nav span#prev { background-image: url("../images/prev.png"); }
+#nav span#prev:hover { background-image: url("../images/prev-hovered.png"); }
+#nav span#end { background-image: url("../images/end.png"); }
+#nav span#end:hover { background-image: url("../images/end-hovered.png"); }
+#nav span#start { background-image: url("../images/start.png"); }
+#nav span#start:hover { background-image: url("../images/start-hovered.png"); }
 
 /* REMOVE
 a.markerSelected,a.markerSelected:visited { color: #f00; }
@@ -139,7 +139,8 @@ a.markerSelected.hovered,a.markerSelected.hovered:visited { color: #f66; }
  ****************************************************************************/
 
 /* #noteControl { float: right; border-left: 1px solid #666; } */
-#noteControl.showing, #noteControl.showing div { background: #5bbac7; color: #333; }
+#noteControl .icon { background-image: url("../images/note.png"); background-repeat: no-repeat; background-position: 9px 0; }
+#noteControl.showing, #noteControl.showing div { background-color: #5bbac7; color: #333; }
 .stat { color: #777; text-align: right; padding-right: 5px; }
 
 #noteExpand { position: absolute; top: 28px; height: 16px; opacity: 0; }
