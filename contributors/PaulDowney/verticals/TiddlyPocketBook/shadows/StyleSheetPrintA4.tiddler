@@ -1,4 +1,4 @@
-<div title="StyleSheetPrintA4" modifier="Paul Downey" created="200801300000" tags="excludeSearch">
+<div title="StyleSheetPrintA4" modifier="Paul Downey" created="200801300000" tags="excludeSearch printPage">
 <pre>
 body { 
 	background-color: #FFF;

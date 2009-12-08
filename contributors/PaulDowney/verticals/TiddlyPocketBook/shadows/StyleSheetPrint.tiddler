@@ -18,7 +18,7 @@ body {
 	display: none ! important; 
 }
 
-[[StyleSheetPrintA4]]
+[[StyleSheetPrintPage]]
 
 }
 /*}}}*/

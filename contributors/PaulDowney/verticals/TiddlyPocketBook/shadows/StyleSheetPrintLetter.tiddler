@@ -1,0 +1,87 @@
+<div title="StyleSheetPrintLetter" modifier="Paul Downey" created="200912080000" tags="excludeSearch printPage">
+<pre>
+/*{{*/
+body { 
+        background-color: #FFF; 
+} 
+
+#book { 
+        position: relative; 
+        height: 279mm; 
+        width: 216mm; 
+        margin: 0; 
+        margin-left: 1mm; 
+} 
+
+.tiddler, .page { 
+        position: absolute; 
+        float: none; 
+        margin: 0 ! important; 
+        padding: 0 ! important; 
+        height: 108mm; 
+        width: 69.7mm; 
+        overflow: hidden; 
+        outline: 1px solid #C7C7C7; 
+} 
+
+/* rotated left */ 
+#tiddler1, 
+#tiddler8, 
+#tiddler7, 
+#tiddler6 { 
+        -moz-transform: translate(19.2mm, -19.2mm) rotate(-90deg); 
+} 
+
+/* rotated right */ 
+#tiddler2, 
+#tiddler3, 
+#tiddler4, 
+#tiddler5 { 
+        -moz-transform: translate(-19.2mm, -19.2mm) rotate(90deg); 
+} 
+
+/* cover */ 
+#tiddler1 { 
+        top: 0.1mm; 
+        left: 0.1m; 
+} 
+
+#tiddler2 { 
+        top: 0.1mm; 
+        right: 0.1mm; 
+} 
+
+#tiddler3 { 
+        top: 70.0mm; 
+        right: 0.1mm; 
+} 
+
+#tiddler4 { 
+        top: 140.0mm; 
+        right: 0.1mm; 
+} 
+
+#tiddler5 { 
+        top: 210.0mm; 
+        right: 0.1mm; 
+} 
+
+#tiddler6 { 
+        top: 210.0mm; 
+        left: 0.1mm; 
+} 
+
+#tiddler7 { 
+        top: 140.0mm; 
+        left: 0.1mm; 
+} 
+
+/* back page */ 
+#tiddler8 { 
+        top: 70.0mm; 
+        left: 0.1mm; 
+} 
+
+/*}}}*/ 
+</pre>
+</div>
