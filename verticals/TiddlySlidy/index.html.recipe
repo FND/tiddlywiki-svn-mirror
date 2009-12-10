@@ -1,6 +1,7 @@
 recipe: TiddlySlidy.recipe
 
-recipe: slideshows/GettysburgAddress/split.recipe
+#recipe: slideshows/GettysburgAddress/split.recipe
+recipe: slideshows/TiddlySlidy/split.recipe
 
 
 

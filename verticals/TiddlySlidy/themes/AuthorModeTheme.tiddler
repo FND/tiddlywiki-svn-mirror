@@ -1,0 +1,298 @@
+<div title="PresenterTheme" modifier="PhilHawksworth" created="200801300000" tags="systemTheme excludeSearch TiddlySlidyTheme">
+<pre>
+|''PageTemplate''|##PageTemplate|
+|''StyleSheet''|##StyleSheet|
+|''template1ViewTemplate''|##template1ViewTemplate|
+|''template2ViewTemplate''|##template2ViewTemplate|
+|''template3ViewTemplate''|##template3ViewTemplate|
+|''backgroundViewTemplate''|##backgroundViewTemplate|
+|''contentViewTemplate''|##contentViewTemplate|
+|''GettysbergTemplate''|##GettysbergTemplate|
+
+
+!PageTemplate
+
+<div title="PageTemplate" modifier="PhilHawksworth" created="200709041656" modified="200709111157" tags="excludeLists">
+	<div id='pres'>
+		<div id='pres_header'>
+			<h1 id='pres_title'>title</h1>
+		</div>
+		<div id='pres_body'>
+			<div id='tiddlerDisplay'> display</div>
+		</div>
+		<div id='pres_footer'>
+			<div id='pres_controls'>
+				<ul class='buttons'>
+					<li><a href='#'>Main Menu</a></li>
+				</ul>
+			</div>
+			<div id='pres_nav'>
+				<ul class='buttons'>
+					<li macro='firstSlide'></li>
+					<li macro='prevSlide'></li>
+					<li macro="toggleThemeButton Done" class="SlideShowButton" ></li>
+					<li macro='nextSlide'></li>
+					<li macro='lastSlide'></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+!StyleSheet
+/*{{{*/
+	
+
+a.button {
+	border-style:none;
+}
+a.button:active {
+	border-style:none;
+}
+
+
+
+body {
+	font: normal 1em/1.5em Arial, sans-serif;
+	color:#333;
+	padding:20px 0;
+	margin:0;
+}
+
+div#mainArea {
+	text-align:center;
+	padding:0;
+	margin:0;
+}
+
+div#pres {
+	width:900px;
+	margin:0 auto;
+	padding:0;
+	text-align:center;
+	background:transparent url(./images/header_left.png) no-repeat top left;
+}
+
+
+div#pres_header {
+	text-align:center;
+	margin:0;
+	padding:0;
+	height:65px;
+	background:transparent url(./images/header_right.png) no-repeat top right;
+}
+	div#pres_header h1 {
+		font-size:1.4em;
+		color:#333;
+		padding:20px;
+		border-style:none;
+	}
+
+div#pres_body {
+	background:transparent url(./images/border_left.png) repeat-y top left;
+}
+
+	div#tiddlerDisplay {
+		background:transparent url(./images/border_right.png) repeat-y top right;
+		height:450px;
+		padding:20px;
+	}
+
+
+div#pres_footer {
+	position:relative;
+	margin:0;
+	padding:0;
+	height:65px;
+	background:#fff url(./images/footer_controls_bottom.png) repeat-x bottom left;
+}
+	div#pres_nav {
+		position:absolute;
+		bottom:0;
+		right:0;
+		padding-right:20px;
+		height:75px;
+		background:transparent url(./images/footer_controls_right.png) no-repeat bottom right;
+	}
+	div#pres_controls {
+		position:absolute;
+		bottom:0px;
+		left:0px;
+		height:75px;
+		background:transparent url(./images/footer_controls_left.png) no-repeat bottom left;
+	}
+
+ul.buttons {
+	list-style:none;
+}
+
+ul.buttons li {
+	display:inline;
+	float:left;
+	background:transparent url(./images/button_right.gif) no-repeat top right;
+	height:40px;
+}
+
+ul.buttons li a:link, ul.buttons li a:visited {
+	display:block;
+	background:transparent url(./images/button_left.gif) no-repeat top left;
+	line-height:40px;
+	margin:0;
+	padding:0 30px;
+	font-weight:bold;
+}
+
+ul.buttons li a:hover, ul.buttons li a:focus {
+	color:#2C2B63;
+}
+
+
+/*  Slide templates. */
+
+
+	.template1 .viewer {text-align:center;}
+	.template1  {
+		color:red;
+	}
+
+	/*Template 2*/
+	.template2 img {margin-left:20px;float:right;}
+
+	/* Content template */
+	.template_content .viewer {text-align:left;}
+	.template_content {
+		font-family: Helvetica, Arial, Sans-serif;
+		color: #ffcccc;
+		font-size: 18px; 
+		line-height: 1.4;
+		margin: 2em 3em;
+		position:relative;
+	}
+
+	.template_content h1 {
+	border: none;
+		font-size: 108px;
+		font-weight: 700;
+		color: #cc6666;
+		margin-bottom:auto;
+		margin-top:auto;
+		padding-bottom:auto;
+	}
+
+	.template_content .container {
+		position: absolute;
+		width:92.5%;
+		height: auto;
+		top: 70px;
+		background-color:#cc6666;
+		color: #ffcccc;
+		margin:0 auto;
+		clear:left;
+	}
+
+	.template_content .contentpagebullets {
+		font-size: 24px;
+		font-weight: 400;
+		color: #ffcccc;
+		margin: 2em;
+	}
+	
+	.template3  {
+		color:green;
+	}
+	
+	
+	/* gettysberg theme */
+	.slide {
+		position: relative;
+	}
+
+	#container {
+		position: absolute;
+		background-color:#CC6666;
+		color:#FFCCCC;
+		min-height: 0;
+		height: 400px;
+		width: 95%;
+		margin: 2em;
+		left:0;
+		top:2em;
+	}
+	
+	#contentpagetitle {
+		position: absolute;
+		text-align: left;
+		right: 300px;
+		bottom: 150px;
+		width: 30%;
+		font-size: 6em;
+		font-weight: 700;
+		line-height: 92px;
+		color: #ffcccc;
+	}
+	
+	#contentpagesubtitle {
+		position: relative;
+		text-align: left;
+		font-size: 0.2em;
+		line-height: 15px;
+		width: 150%;
+		font-weight: 400;
+		color: #ffcccc;
+	}
+
+/*}}}*/
+
+!template1ViewTemplate
+<!--{{{-->
+<div class='template1'>
+<div class='viewer' macro='view text wikified'></div>
+</div>
+<!--}}}-->
+
+
+!template2ViewTemplate
+<!--{{{-->
+<div class='template2'>
+<div class='viewer' macro='view text wikified'></div>
+</div>
+<!--}}}-->
+
+
+!backgroundViewTemplate
+<!--{{{-->
+<div class='template3'>
+<div class='viewer' macro='view text wikified'></div>
+</div>
+<!--}}}-->
+
+
+!template3ViewTemplate
+<!--{{{-->
+<div class='template3'>
+<div class='viewer' macro='view text wikified'></div>
+</div>
+<!--}}}-->
+
+!contentViewTemplate
+<!--{{{-->
+<div class='template_content'>
+<div class='viewer' macro='view text wikified'></div>
+</div>
+<!--}}}-->
+
+
+!template_gettyViewTemplate
+<!--{{{-->
+<div class='template_getty slide'>
+	<div id="container">
+		<div id="contentpagetitle">The Gettysburg Address<div id="contentpagesubtitle">By Abraham Lincoln</div></div>
+	</div>
+</div>
+<!--}}}-->
+
+
+</pre>
+</div>
