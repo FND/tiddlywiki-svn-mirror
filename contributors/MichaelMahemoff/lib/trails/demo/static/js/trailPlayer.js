@@ -26,13 +26,11 @@ $(function() {
     (function(count) {
       $("<a class='marker'>&#9679;</a>")
       .attr("href", $resources.eq(count).attr("href"))
-      // .wireClickAndHover(predictForListItem)
       .appendTo($("#markers"));
 
       $("<option/>")
       .val(count)
       .html($resources.eq(count).html())
-      // .wireHover(predictForListItem)
       .appendTo($("#dropdown"));
 
       $("select")
@@ -68,10 +66,29 @@ $(function() {
     }
   });
   */
-  switchResourceByIndex(0);
+  var resourceSwitched = updateResourceFromURL();
+  if (!resourceSwitched) switchResourceByIndex(0);
   //
   // showWelcome(true);
 });
+
+$.fn.wireClickAndHover = function(predictor) {
+  $(this).data("predictor", predictor);
+  return $(this)
+    .wireHover(predictor)
+    .click(switchResource);
+};
+
+$.fn.wireHover = function(predictor) {
+  $(this).data("predictor", predictor);
+  return $(this)
+    .mouseenter(showPrediction)
+    .mouseout(hidePrediction);
+};
+
+/*******************************************************************************
+ * Welcome message - this is the list of links
+ ******************************************************************************/
 
 var welcomeMessage;
 function showWelcome(isLaunching) {
@@ -114,19 +131,9 @@ function showWelcome(isLaunching) {
   $.modal.show(welcomeMessage, modalOptions);
 }
 
-$.fn.wireClickAndHover = function(predictor) {
-  $(this).data("predictor", predictor);
-  return $(this)
-    .wireHover(predictor)
-    .click(switchResource);
-};
-
-$.fn.wireHover = function(predictor) {
-  $(this).data("predictor", predictor);
-  return $(this)
-    .mouseenter(showPrediction)
-    .mouseout(hidePrediction);
-};
+/*******************************************************************************
+ * Toggle Top Bar and Note
+ ******************************************************************************/
 
 function toggleTopBar(shouldShow) {
   var DELAY=300;
@@ -160,14 +167,6 @@ function toggleNote() {
     $("#noteHide").css("opacity", 1);
   }
   $("#note").slideToggle();
-}
-
-// There's no need to create a new function dynamically for each of the dropdown and 
-// marker items; each of these always returns the same value, which can be predicted 
-// purely from the element's identity. Thus each of those elements' "predict" function
-// is the same function, which uses "this" to determine the element's identity.
-function predictForListItem() {
-  return $(this).prevAll().length;
 }
 
 /*******************************************************************************
@@ -221,13 +220,16 @@ function hidePrediction() {
  *******************************************************************************/
 
 function switchResourceByIndex(index) {
-  if (!index) index=0;
+
+  if (!index||index>=$resources.length) index=0;
+
   if ($hovered) hidePrediction.apply($hovered);
 
   if (selectedIndex==index) return;
   updateControls(selectedIndex = index);
 
   updateNote(index);
+  updateURLFromResource(index);
 
   /*
     if ($hovered) {
@@ -278,6 +280,34 @@ function updateNote(index, isPrediction) {
 
   return note;
 }
+
+/*******************************************************************************
+ * Sync URL with application state
+ *******************************************************************************/
+
+function updateURLFromResource(index) {
+  var url = $resources[index].href;
+  document.location.hash = "#/" + index;
+}
+
+function updateResourceFromURL() {
+
+  var hash = document.location.hash;
+  if (!hash) return;
+  var index = parseInt(hash.substr(2)); // 0th is #; 1st is /
+  if (typeof(index)=="NaN" || index>=$resources.length) return;
+
+  switchResourceByIndex(index);
+  return true;
+
+}
+
+var lastHash = document.location.hash;
+(function pollURL() {
+  if (document.location.hash!=lastHash) updateResourceFromURL();
+  lastHash = document.location.hash;
+  setTimeout(pollURL, 1000);
+})();
 
 /*******************************************************************************
  * MINI TOP BAR 
