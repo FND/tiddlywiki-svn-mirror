@@ -1,3 +1,9 @@
-tiddler: Outline
-tiddler: Title
-tiddler: Contents
+# slideshow outline:
+tiddler: Outline.tiddler
+
+# slides:
+tiddler: TiddlySlidy.tiddler
+tiddler: Contents.tiddler
+tiddler: Plugins.tiddler
+tiddler: WhatWeDid.tiddler
+tiddler: Questions.tiddler
