@@ -1,0 +1,18 @@
+<div title="DarkTheme" modifier="Paul Downey" created="200801300000" tags="systemTheme excludeSearch">
+<pre>
+|''~StyleSheet:''|##StyleSheet|
+
+!StyleSheet
+/*{{{*/
+body {
+    background: [[ColorPalette::TertiaryLight]];
+}
+
+.headerForeground {
+    color: [[ColorPalette::PrimaryPale]];
+}
+.headerShadow, .headerShadow a {
+    color: [[ColorPalette::PrimaryMid]];
+}
+</pre>
+</div>

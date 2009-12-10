@@ -1,0 +1,5 @@
+//{{{
+
+config.options.txtTheme = "DefaultTheme";
+
+//}}}

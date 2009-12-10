@@ -1,0 +1,6 @@
+recipe: $TW_ROOT/core/tiddlywiki.html.recipe
+recipe: ThemeButtonPlugin.recipe
+recipe: tiddlers/split.recipe
+recipe: shadows/split.recipe
+recipe: test/split.recipe
+recipe: themes/split.recipe
