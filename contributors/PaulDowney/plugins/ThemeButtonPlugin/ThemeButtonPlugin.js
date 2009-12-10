@@ -17,7 +17,7 @@ Macro to provide a theme switch button, used as follows:
 
 &lt;&lt;themeButton DefaultTheme "Default Theme" "switch to the Default TiddlyWiki Theme"&gt;&gt;
 
-<<themeButton DefaultTheme "Default Theme" "switch to the Default Theme">>
+<<themeButton DefaultTheme "Default Theme" "switch to the Default TiddlyWiki Theme">>
 !!Code
 ***/
 //{{{
