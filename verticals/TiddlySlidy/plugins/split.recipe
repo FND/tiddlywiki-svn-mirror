@@ -4,8 +4,8 @@ recipe: $TW_ROOT/contributors/PaulDowney/plugins/FadingMessagesPlugin/FadingMess
 # enable access to tiddlers from the backstage 
 tiddler: $TW_ROOT/contributors/JeremyRuston/plugins/BackstageTiddlersPlugin.js
 
-# attach a template to a tiddler by the tag name
-recipe: $TW_ROOT/contributors/PaulDowney/plugins/TaggedTemplatePlugin/TaggedTemplatePlugin.recipe
+# per-tiddler mini-themes
+recipe: $TW_ROOT/contributors/PaulDowney/plugins/ThemedTiddlerPlugin/ThemedTiddlerPlugin.recipe
 
 # switch themes UI 
 recipe: $TW_ROOT/contributors/PaulDowney/plugins/ToggleThemePlugin/ToggleThemePlugin.recipe
@@ -13,8 +13,14 @@ recipe: $TW_ROOT/contributors/PaulDowney/plugins/ToggleThemePlugin/ToggleThemePl
 # force refresh on theme switch
 recipe: $TW_ROOT/contributors/PaulDowney/plugins/ThemeSwitchRefreshPlugin/ThemeSwitchRefreshPlugin.recipe
 
-tiddler: AutoSavePlugin.js
+# not sure what this is for ..
+#tiddler: AutoSavePlugin.js
 
+# order of slides displayed
 tiddler: $TW_ROOT/contributors/MichaelMahemoff/plugins/TrailPlugin/TrailPlugin.js
+
+# Manage trail, which tiddlers to include/igore
 tiddler: Inclusifier.js
+
+# Next/Prev/First/Last etc Slide Controls 
 tiddler: SlideControlsPlugin.js

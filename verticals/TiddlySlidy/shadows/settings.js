@@ -19,5 +19,8 @@ merge(config.macros.newTiddler,{
     title: "New Slide",
     accessKey: "N"});
 
+merge(config.views.editor,{
+    themePrompt: "Type a theme for the slide",
+    });
 
 //}}}
