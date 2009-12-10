@@ -1,14 +1,7 @@
-<div title="PresenterTheme" modifier="PhilHawksworth" created="200801300000" tags="systemTheme excludeSearch TiddlySlidyTheme">
+<div title="PresenterMode" modifier="PhilHawksworth" created="200801300000" tags="systemTheme excludeSearch">
 <pre>
 |''PageTemplate''|##PageTemplate|
 |''StyleSheet''|##StyleSheet|
-|''template1ViewTemplate''|##template1ViewTemplate|
-|''template2ViewTemplate''|##template2ViewTemplate|
-|''template3ViewTemplate''|##template3ViewTemplate|
-|''backgroundViewTemplate''|##backgroundViewTemplate|
-|''contentViewTemplate''|##contentViewTemplate|
-|''GettysbergTemplate''|##GettysbergTemplate|
-
 
 !PageTemplate
 
@@ -244,55 +237,5 @@ ul.buttons li a:hover, ul.buttons li a:focus {
 	}
 
 /*}}}*/
-
-!template1ViewTemplate
-<!--{{{-->
-<div class='template1'>
-<div class='viewer' macro='view text wikified'></div>
-</div>
-<!--}}}-->
-
-
-!template2ViewTemplate
-<!--{{{-->
-<div class='template2'>
-<div class='viewer' macro='view text wikified'></div>
-</div>
-<!--}}}-->
-
-
-!backgroundViewTemplate
-<!--{{{-->
-<div class='template3'>
-<div class='viewer' macro='view text wikified'></div>
-</div>
-<!--}}}-->
-
-
-!template3ViewTemplate
-<!--{{{-->
-<div class='template3'>
-<div class='viewer' macro='view text wikified'></div>
-</div>
-<!--}}}-->
-
-!contentViewTemplate
-<!--{{{-->
-<div class='template_content'>
-<div class='viewer' macro='view text wikified'></div>
-</div>
-<!--}}}-->
-
-
-!template_gettyViewTemplate
-<!--{{{-->
-<div class='template_getty slide'>
-	<div id="container">
-		<div id="contentpagetitle">The Gettysburg Address<div id="contentpagesubtitle">By Abraham Lincoln</div></div>
-	</div>
-</div>
-<!--}}}-->
-
-
 </pre>
 </div>
