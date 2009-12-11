@@ -28,6 +28,11 @@ config.macros.TiddlyWikiGenerator ={
         var tiddler= tiddlers[i];
         tiddler.fields = merge(tiddler.fields,config.defaultCustomFields);
         
+        
+        tiddler.fields["server.page.revision"] = tiddler.revision;
+        tiddler.fields["server.bag"] = tiddler.bag;
+        tiddler.fields.doNotSave = true;
+        tiddler.fields["server.title"] = tiddler.title;
         tiddler.title = bagName+">"+tiddler.title;
         tiddler.created = Date.convertFromYYYYMMDDHHMM(tiddler.created);
         tiddler.modified = Date.convertFromYYYYMMDDHHMM(tiddler.modified);
