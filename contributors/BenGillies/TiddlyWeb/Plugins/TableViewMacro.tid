@@ -1,0 +1,100 @@
+modifier: bengillies
+created: 
+modified: 20091119155720
+type: None
+tags: systemConfig
+
+/***
+|Name|TableViewPlugin|
+|Version|0.1|
+|Author|Ben Gillies|
+|Type|plugin|
+|Description|view tiddlers in a table suitable for copying into excel|
+!Usage
+Creates a table view where each row is a configurable list of tiddlers from a particular bag.
+
+Bag/tiddler split is "bag>tiddler"
+
+call with:
+
+<<table tiddlerName:tableHeading tiddlerName:tableHeading match:pattern>>
+
+match specifies the pattern to match the bag with: ie - match:project_ will match only tiddler that come from a bag that starts project_
+
+Contents of each cell is the text from the named tiddler
+
+
+!Code
+***/
+//{{{
+    if(!version.extensions.TableViewMacro)
+    { //# ensure that the plugin is only installed once
+        version.extensions.TableViewMacro = { installed: true }
+    };
+    
+    config.macros.table ={
+        handler: function(place, macroName, params, wikifier, paramString, tiddler){
+            //get the tiddlers from the store
+            var tiddlers = store.reverseLookup('tags', 'excludeLists', false, 'title');
+            
+            //parse the params into tableHeadings and excludeBags
+            var tableHeadings = {}; //key value pairs of tiddler names: table heading
+            var match = ''; //list of bags to exclude
+            for (var param = 0; param < params.length; param++) {
+                var keyValue = params[param].split(':');
+                if (keyValue[0] == 'match') {
+                    match=keyValue[1];
+                } else {
+                    tableHeadings[keyValue[0]] = keyValue[1];
+                }
+            };
+            
+            var tableHead = '<thead><tr>';
+            for (var tiddlerField in tableHeadings) {
+                tableHead += '<th>' + tableHeadings[tiddlerField] + '</th>';
+            }
+            tableHead += '</tr></thead>';
+            
+            //get a list of project names
+            var projects = [];
+            for (var index = 0; index < tiddlers.length; index++) {
+                var tiddler = tiddlers[index];
+                
+                var bag = tiddler.fields['server.bag'];
+                if ((bag)&&(bag.substr(0,match.length) == match)) {
+                    projects.pushUnique(bag);
+                }
+            }
+            
+            //construct the table body
+            var tableBody = '<tbody>';
+            for (var projectIndex=0; projectIndex < projects.length; projectIndex++) {
+                var project = projects[projectIndex];
+                
+                var tableRow = '<tr>';
+                for (tiddlerBase in tableHeadings) {
+                    var tiddlerName = project + '>' + tiddlerBase;
+                    
+                    var cellTiddler = store.getTiddler(tiddlerName);
+                    var tableValue = '';
+                    if (cellTiddler) {
+                        tableValue = cellTiddler.text;
+                    } else {
+                        tableValue = '';
+                    }
+                    
+                    tableRow += '<td>' + tableValue + '</td>';
+                }
+                tableRow += '</tr>';
+                tableBody += tableRow;
+            }
+            tableBody += '</tbody>';
+            
+            var table = '<table class="reportTable">' + tableHead + tableBody + '</table>';
+            
+            
+            jQuery(place).append(table);
+        }
+    }
+//}}}
+    
