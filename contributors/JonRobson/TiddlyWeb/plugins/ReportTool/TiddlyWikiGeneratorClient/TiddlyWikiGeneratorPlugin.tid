@@ -1,10 +1,50 @@
 tags: systemConfig
 
+/*
+Reporting Tool v1
+
+
+<<TiddlyWikiGenerator destination:url>>
+
+parameters:
+include : include specific named bags (can use wildcards eg. *bag)
+exclude : exclude specific named bags
+
+if no destination given bakes to the document
+*/
+String.prototype.endsWith = function(suffix)
+{
+	return !suffix || this.indexOf(suffix) == this.length - suffix.length;
+};
 config.macros.TiddlyWikiGenerator ={
-  _loadTiddlers: function(place,host,bag,marked){
+  statusMsg:"Thank you!"
+  ,_suckedBags:[]
+  ,suckBag: function(bagName){
+    if(this._suckedBags.indexOf(bagName) > -1) return;
+    this._suckedBags.push(bagName);
+    jQuery.get("/bags/"+bagName+"/tiddlers.json?fat=y", function(r){
+      var tiddlers = eval(r);
+      for(var i=0; i < tiddlers.length;i++){
+        var tiddler= tiddlers[i];
+        tiddler.fields = merge(tiddler.fields,config.defaultCustomFields);
+        
+        tiddler.title = bagName+">"+tiddler.title;
+        tiddler.created = Date.convertFromYYYYMMDDHHMM(tiddler.created);
+        tiddler.modified = Date.convertFromYYYYMMDDHHMM(tiddler.modified);
+        tiddler.fields.doNotSave = true;
+        tiddler.doNotSave= true;
+        store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,true,tiddler.created);
+        story.setDirty(tiddler.title,false);
+        store.setDirty(false);
+      }
+      
+    });
+    
+  }
+  ,_loadTiddlers: function(place,host,bag,marked){
     jQuery.get(host+"/bags/"+bag+"/tiddlers.txt",function(r){
       var tiddlerNames = r.split("\n");
-      var html = "<h1 class='BagName'>Bag: "+bag+"</h1>";
+      var html = "<h1 class='BagName'>Bag: "+bag+"<input type='checkbox' name='bag_resource' value='"+bag+"'/></h1>";
       for(var i=0; i < tiddlerNames.length;i++){
         var tiddler = tiddlerNames[i];
         if(marked.indexOf(tiddler) != -1 || marked.indexOf(bag+"/"+tiddler) != -1){
@@ -24,37 +64,105 @@ config.macros.TiddlyWikiGenerator ={
   }
   ,_loadBags: function(place,host,args,marked){
     
+
     var excludeBagList = args[0]["exclude"];
+    var namedBagList = args[0]["include"];
+    var wildcards =[];
+    for(var i=0; i < namedBagList.length;i++){
+      var wildcard = namedBagList[i];
+      if(wildcard.substr(-1) == "*") wildcards.push(wildcard);
+      else if(wildcard.substr(-1))wildcards.push(wildcard);
+    }
+    
+    //*xyz -> ['','xyz']
+    //*xyz* -> ['','xyz','']
+    //xyz* -> ['xyz','']
+    var matchesWildcard = function(str){
+      for(var i=0;i < wildcards.length;i++){
+        var wildcard = wildcards[i];
+        var strs = wildcard.split("*");
+        var startsWith = strs[0];
+        
+        if(strs.length == 3){
+          var contains = strs[1];
+          if(str.indexOf(contains)) return true;
+        }
+        else{
+
+          if(strs[0].length >0 && str.startsWith(strs[0])) {
+
+            return true;
+          }else if(strs[1].length >0 && str.endsWith(strs[1])) {
+            return true;
+          }
+        }
+      }
+      return false;
+    }
+    
+    if(namedBagList.length ==0) namedBagList = false;
     if(!excludeBagList)excludeBagList = [];
     var url = host+"/bags.txt";
     jQuery.get(url,function(r){
       var bagNames = r.split("\n");
       for(var i=0; i < bagNames.length;i++){
         var bag = bagNames[i];
-        if(excludeBagList.indexOf(bag) == -1)config.macros.TiddlyWikiGenerator._loadTiddlers(place,host,bag,marked);
+        var include = false;
+
+        if(namedBagList){
+          if(namedBagList.indexOf(bag) >-1)include = true;
+          else if(matchesWildcard(bag)) include = true;
+        }
+        else if(excludeBagList.indexOf(bag) == -1)include = true;
+        if(include)config.macros.TiddlyWikiGenerator._loadTiddlers(place,host,bag,marked);
+        
       }
     });
   }
   ,_loadDestinationBag: function(place,host,destination,args){
-    var url = host+"/bags/"+destination+"/tiddlers.txt";
-    jQuery.get(url,function(r){
-      var existingTiddlers = r.split("\n");
-      config.macros.TiddlyWikiGenerator._loadBags(place,host,args,existingTiddlers);
-    });
+    if(destination){
+      var url = host+"/bags/"+destination+"/tiddlers.txt";
+      jQuery.get(url,function(r){
+        var existingTiddlers = r.split("\n");
+        config.macros.TiddlyWikiGenerator._loadBags(place,host,args,existingTiddlers);
+      });
+    }
+    else{
+      config.macros.TiddlyWikiGenerator._loadBags(place,host,args,[]);
+    }
   }
   ,handler: function(place, macroName, params, wikifier, paramString, tiddler){
-    var destination = params[0];
+    
+    var macro = this;
     var args = paramString.parseParams("name",null,true,false,true);
+    var destination = args[0]["destination"];
     var host = config.defaultCustomFields["server.host"];
-    var action = host+"/report/"+destination;
-    jQuery(place).append("<form action=\""+action+"\" method=\"POST\"><input type='button' class='GenerateTWButton' name='Generate' value='Generate'/><div class='status_message'></div></form>")
+    var formHeader = "";
+    if(destination) {
+      action = host+"/report/"+destination;
+      formHeader += "<form action=\""+action+"\" method=\"POST\">";
+      var formHandler = function(){
+        var form = jQuery(this).parent();
+        jQuery(form).submit(function(){jQuery(".status_message",form).html(macro.statusMsg);});
+      };
+    }
+    else{
+      formHeader = "<form>";
+      var formHandler = function(){
+        var form = jQuery(this).parent();
+        var includeBags = jQuery("input[name=bag_resource]:checked",form);
+        for(var i=0; i < includeBags.length;i++){
+          var bagName =jQuery(includeBags[i]).val();
+          macro.suckBag(bagName);
+        }
+        jQuery(form).submit(function(){jQuery(".status_message",form).html(macro.statusMsg);});
+      };
+    }
+    jQuery(place).append(formHeader+"<input type='button' class='GenerateTWButton' name='Generate' value='Generate'/><div class='status_message'></div></form>")
     if(host)config.macros.TiddlyWikiGenerator._loadDestinationBag(jQuery("form",place),host,destination,args);
     else alert("don't know what server host is");
 
-    jQuery(".GenerateTWButton",place).click(function(){
-      var form = jQuery(this).parent();
-      jQuery(form).submit(function(){jQuery(".status_message",form).html("Thank you!");});
-    });
+    jQuery(".GenerateTWButton",place).click(formHandler);
   }
   
 }
