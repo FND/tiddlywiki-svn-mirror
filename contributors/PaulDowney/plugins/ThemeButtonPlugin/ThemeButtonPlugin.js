@@ -11,13 +11,11 @@
 !!Documentation
 Macro to provide a theme switch button, used as follows:
 
-&lt;&lt;themeButton DarkTheme "Dark Theme" "switch to the Darker Theme"&gt;&gt;
+<<themeButton DefaultTheme>> {{{<<themeButton DefaultTheme>>}}}
 
-<<themeButton DarkTheme "Dark Theme" "switch to the Dark Theme">>
+<<themeButton DarkTheme "Dark Theme">> {{{<<themeButton DarkTheme "Dark Theme">>}}}
 
-&lt;&lt;themeButton DefaultTheme "Default Theme" "switch to the Default TiddlyWiki Theme"&gt;&gt;
-
-<<themeButton DefaultTheme "Default Theme" "switch to the Default TiddlyWiki Theme">>
+<<themeButton DarkTheme "Dark Theme (Again)" "switch to the Dark Theme">> {{{<<themeButton DarkTheme "Dark Theme (Again)" "switch to the Dark Theme">>}}}
 
 A class of "selected" is provided for styling the selected button as follows:
 
@@ -32,7 +30,7 @@ A class of "selected" is provided for styling the selected button as follows:
 ***/
 //{{{
 /*jslint onevar: false nomen: false plusplus: false */
-/*global config story createTiddlyButton createTiddlyElement */
+/*global jQuery config story createTiddlyButton createTiddlyElement addClass */
 if (!version.extensions.ThemeButtonPlugin) {
     version.extensions.ThemeButtonPlugin = {installed: true};
 
@@ -47,7 +45,7 @@ if (!version.extensions.ThemeButtonPlugin) {
             function (ev) {
                 story.switchTheme(theme);
                 jQuery('.themeButton').removeClass('selected');
-                jQuery('.themeButton[theme="'+theme+'"]').addClass('selected');
+                jQuery('.themeButton[theme="' + theme + '"]').addClass('selected');
                 return false;
             });
         btn.setAttribute('theme', theme);
