@@ -54,7 +54,7 @@ var VismoController = function(elem,options){ //elem must have style.width and s
 	this.wrapper.appendChild(controlDiv);
 	this.controlDiv = controlDiv;
 	
-        this.controlCanvas = new VismoCanvas(this.controlDiv);
+  this.controlCanvas = new VismoCanvas(this.controlDiv);
 	jQuery(this.controlDiv).mouseover(function(e){e.stopPropagation();e.preventDefault();});
 	//this.controlDiv.vismoController = this;
 	var vismoController = this;
@@ -74,16 +74,20 @@ var VismoController = function(elem,options){ //elem must have style.width and s
 	this.controlCanvas.mouse({up:preventDef,down:f,dblclick:preventDef});
 
 	//this.wrapper.vismoController = this;
-	
-	
-
-	this.transformation = {'translate':{x:0,y:0}, 'scale': {x:1, y:1},'rotate': {x:0,y:0,z:0},origin:{}};	
+	var start_transformation = options.transformation;
+  if(start_transformation){
+    if(!start_transformation.origin) start_transformation.origin = {};
+    this.transformation = start_transformation;
+  }
+  else{
+    this.transformation = {'translate':{x:0,y:0}, 'scale': {x:1, y:1},'rotate': {x:0,y:0,z:0},origin:{}};	
+  }	
 	             
 	             
 	
 	this.transformation.origin.x = jQuery(elem).width() / 2;
 	this.transformation.origin.y = jQuery(elem).height() / 2;
-        var t = this.transformation;
+  var t = this.transformation;
 
 	//looks for specifically named function in targetjs
 	if(!this.handler) {
@@ -121,7 +125,7 @@ var VismoController = function(elem,options){ //elem must have style.width and s
         this.pansensitivity =this.options.pansensitivity;
     }
 
-
+  
 };
 VismoController.prototype = {
 	setLimits: function(transformation){
@@ -532,7 +536,7 @@ VismoController.prototype = {
 	},
 
 	setTransformation: function(t){
-        
+       console.log("run setTransformtion"); 
         if(this.limits){
             if(this.limits.scale){
             if(t.scale.x > this.limits.scale.x){ t.scale.x = this.limits.scale.x;}
@@ -755,29 +759,25 @@ VismoController.prototype = {
 
             //window.setTimeout(pan,200);
     }
-	,transform: function(){
-		if(this.enabled){
-			var t = this.getTransformation();
-			var s = t.scale;
-			var tr = t.translate;
-			if(s.x <= 0) s.x = 0.1125;
-			if(s.y <= 0) s.y = 0.1125;
+  ,transform: function(){
+    if(this.enabled){
+      var t = this.getTransformation();
+      var s = t.scale;
+      var tr = t.translate;
+      if(s.x <= 0) s.x = 0.1125;
+      if(s.y <= 0) s.y = 0.1125;
+      var ok = true;
+      var lim = this.limits;
+      if(lim.scale){
+        if(s.y < lim.scale.miny) t.scale.y = lim.scale.miny;
+        if(s.x < lim.scale.minx) t.scale.x = lim.scale.minx;
 
-                        var ok = true;
-                        var lim = this.limits;
-                        if(lim.scale){
-                                if(s.y < lim.scale.miny) t.scale.y = lim.scale.miny;
-                                if(s.x < lim.scale.minx) t.scale.x = lim.scale.minx;
-                                
-                                if(s.y > lim.scale.y) t.scale.y = lim.scale.y;
-                                if(s.x > lim.scale.x) t.scale.x = lim.scale.x;
-		        }
-		        //remove origin?
-		        //var translatex = t.origin.x+ (t.translate.x * t.scale.x);
-                //var translatey = t.origin.y+ (t.translate.y *t.scale.y);
-		        this.handler(this.transformation);
+        if(s.y > lim.scale.y) t.scale.y = lim.scale.y;
+        if(s.x > lim.scale.x) t.scale.x = lim.scale.x;
+      }
+      this.handler(this.transformation);
 
-		}
+    }
 	},
 	_panzoomClickHandler: function(e,hit,controller) {
 	

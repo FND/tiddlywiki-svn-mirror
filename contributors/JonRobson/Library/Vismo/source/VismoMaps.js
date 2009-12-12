@@ -62,9 +62,9 @@ var VismoMap = function(wrapper,options){
 
 	this.vismoCanvas = new VismoCanvas(wrapper,options);
 	this.controller = this.vismoCanvas.vismoController;
-	
+  if(this.controller)this.transform(this.controller.transformation); //set initial transformation	
 	//run stuff
-	if(this.controller)this.transform(this.controller.transformation); //set initial transformation
+	
 	this._fittocanvas = true;
 	this.geofeatures = {};
 	this.features = [];
@@ -147,8 +147,8 @@ VismoMap.prototype = {
 	},
 	
 	drawFromGeojson: function(args){
-        var geojson = arguments[0];
-        var autosize = arguments[1];
+      var geojson = arguments[0];
+      var autosize = arguments[1];
 			if(typeof geojson == 'string'){
 				geojson = eval('(' +geojson+ ')');
 			}
@@ -175,12 +175,13 @@ VismoMap.prototype = {
 			} else {
 				console.log("only feature collections currently supported");
 			}
-
+ 
 			this.render();
 			
 	},
 	add: function(feature){
 	    this.drawGeoJsonFeature(feature,feature.properties);
+	    //console.log("add feature");
 	    this.render();
 	}
 	,drawFromGeojsonFile: function(args){
@@ -237,48 +238,48 @@ VismoMap.prototype = {
 	}
 
 	,redraw: function(args){
-		this.render();	
+    //console.log("do redraw");
+    this.render();	
 
 	    //alert("average VML render"+ VismoVector.rstats);
 	    //alert("total average VML render time"+ VismoVector.rstats * VismoVector.rnum);
 	},
 		
 	transform: function(args){
-	    var transformation = arguments[0];
-		//console.log(arguments);
-		var w =parseInt(this.wrapper.style.width);
-		var h = parseInt(this.wrapper.style.height);
-		var t =transformation.translate;
-		var s = transformation.scale;
+    var transformation = arguments[0];
+    //console.log(arguments);
+    var w =parseInt(this.wrapper.style.width);
+    var h = parseInt(this.wrapper.style.height);
+    var t =transformation.translate;
+    var s = transformation.scale;
+
+    this.transformation = transformation;
+    /*if(!transformation.origin){
+    	this.transformation.origin = {};
+    	var origin = this.transformation.origin;
+    	origin.x =w / 2;
+    	origin.y =h / 2;
+    }*/
+
+    if(s.x < 0.5) s.x = 0.5;
+    if(s.y < 0.5) s.y = 0.5;
+
+    if(t.x > 180) t.x = 180; //t.x=Math.min(t.x, 180)
+    if(t.x < -180) t.x = -180;
+
+    if(t.y > 85.0511) t.y = 85.0511;
+    if(t.y < -85.0511) t.y = -85.0511;
+
+    if(!this.transformation.rotate){
+    		this.transformation.rotate = {x:0,y:0,z:0};
+    }
 	
-		this.transformation = transformation;
-		/*if(!transformation.origin){
-			this.transformation.origin = {};
-			var origin = this.transformation.origin;
-			origin.x =w / 2;
-			origin.y =h / 2;
-		}*/
-		
-		if(s.x < 0.5) s.x = 0.5;
-		if(s.y < 0.5) s.y = 0.5;
-		
-		if(t.x > 180) t.x = 180; //t.x=Math.min(t.x, 180)
-		if(t.x < -180) t.x = -180;
-		
-		if(t.y > 85.0511) t.y = 85.0511;
-		if(t.y < -85.0511) t.y = -85.0511;
-		
-		if(!this.transformation.rotate){
-				this.transformation.rotate = {x:0,y:0,z:0};
-		}
-			
-		
-		var that = this;
-		var f = function(args){
-		    that.vismoCanvas.setTransformation(that.transformation);
-		    that.redraw();
-		}
-		window.setTimeout(f,0);
+
+    var that = this;
+
+    that.vismoCanvas.setTransformation(that.transformation);
+    that.redraw();
+
 
 	},
 
@@ -358,7 +359,6 @@ VismoMap.prototype = {
 		var tran =this.transformation;
 
 		var that = this;
-
 		this.vismoCanvas.render(this.settings.projection);
 		if(this.settings.afterRender) {
 			this.settings.afterRender(tran);
