@@ -1,0 +1,9 @@
+<div title="StyleSheet" modifier="Paul Downey" created="200801300000" tags="excludeSearch">
+<pre>
+/*{{{*/
+.themeButton.selected { 
+    border: 5px solid red;
+}
+/*}}}*/
+</pre>
+</div>

@@ -3,4 +3,5 @@ tiddler: MainMenu.tiddler
 tiddler: SiteTitle.tiddler
 tiddler: SiteSubtitle.tiddler
 tiddler: SiteUrl.tiddler
+tiddler: StyleSheet.tiddler
 tiddler: settings.js

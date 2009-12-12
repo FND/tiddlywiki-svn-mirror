@@ -3,16 +3,11 @@
 |''~StyleSheet:''|##StyleSheet|
 
 !StyleSheet
+[[StyleSheet]]
 /*{{{*/
 body {
     background: [[ColorPalette::TertiaryLight]];
 }
-
-.headerForeground {
-    color: [[ColorPalette::PrimaryPale]];
-}
-.headerShadow, .headerShadow a {
-    color: [[ColorPalette::PrimaryMid]];
-}
+/*}}}*/
 </pre>
 </div>
