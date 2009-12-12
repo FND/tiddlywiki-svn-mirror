@@ -261,25 +261,23 @@ VismoVector.prototype = {
   }
   
   ,_cacheStyle: function(t,s,o){
-      VismoTimer.start("VismoVector._cacheStyle");
-      var vml = this.el;
+    VismoTimer.start("VismoVector._cacheStyle");
+    var vml = this.el;
     if(!this.initialStyle) { //remember original placement
-      var initTop = parseInt(vml.style.top);
+      var vstyle = vml.style;
+      var initTop = parseInt(vstyle.top);
       if(!initTop) initTop = 0;
-      var initLeft = parseInt(vml.style.left);
+      var initLeft = parseInt(vstyle.left);
       if(!initLeft) initLeft = 0;
-      var w =parseInt(vml.style.width);
-      var h = parseInt(vml.style.height)
+      var w =parseInt(vstyle.width);
+      var h = parseInt(vstyle.height)
       this.initialStyle = {width: w, height: h};
     }
     var initialStyle= this.initialStyle;
-
     var newwidth = initialStyle.width * s.x;
     var newheight = initialStyle.height * s.y;   
-      
- 
-     VismoTimer.end("VismoVector._cacheStyle");
-    return { width:newwidth+"px",height:newheight+"px"};
+    VismoTimer.end("VismoVector._cacheStyle");
+    return { width:[newwidth,"px"].join(""),height:[newheight,"px"].join("")};
   }
   ,_cssTransform: function(transformation,projection){    
     VismoTimer.start("VismoVector._cssTransform");
