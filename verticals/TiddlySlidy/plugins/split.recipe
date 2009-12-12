@@ -8,7 +8,8 @@ tiddler: $TW_ROOT/contributors/JeremyRuston/plugins/BackstageTiddlersPlugin.js
 recipe: $TW_ROOT/contributors/PaulDowney/plugins/ThemedTiddlerPlugin/ThemedTiddlerPlugin.recipe
 
 # switch themes UI 
-recipe: $TW_ROOT/contributors/PaulDowney/plugins/ToggleThemePlugin/ToggleThemePlugin.recipe
+#recipe: $TW_ROOT/contributors/PaulDowney/plugins/ToggleThemePlugin/ToggleThemePlugin.recipe
+recipe: $TW_ROOT/contributors/PaulDowney/plugins/ThemeButtonPlugin/ThemeButtonPlugin.recipe
 
 # force refresh on theme switch
 recipe: $TW_ROOT/contributors/PaulDowney/plugins/ThemeSwitchRefreshPlugin/ThemeSwitchRefreshPlugin.recipe

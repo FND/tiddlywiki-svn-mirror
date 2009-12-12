@@ -3,14 +3,15 @@
 |''PageTemplate''|##PageTemplate|
 |''StyleSheet''|##StyleSheet|
 
-!PageLayout
+!PageTemplate
 <!--{{{-->
 <div class='header'>
-<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
-<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
+    <span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
+    <span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
 </div>
+<div id='modes' refresh='content' tiddler='ModeSwitch'></div>
+<div id='messageArea'></div>
 <div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
-<div id='sidebar'></div>
 <div id='displayArea'>
 <div id='messageArea'></div>
 <div id='tiddlerDisplay'></div>
@@ -18,10 +19,8 @@
 <!--}}}-->
 
 !StyleSheet
+[[StyleSheet]]
 /*{{{*/
-	
 /*}}}*/
-
-
 </pre>
 </div>

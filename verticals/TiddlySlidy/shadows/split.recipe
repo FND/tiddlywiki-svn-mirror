@@ -9,3 +9,5 @@ tiddler: DefaultTiddlers.tiddler
 tiddler: settings.js
 tiddler: Custom
 
+tiddler: StyleSheet.tiddler
+tiddler: ModeSwitch.tiddler

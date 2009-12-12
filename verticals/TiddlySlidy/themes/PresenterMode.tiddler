@@ -21,11 +21,9 @@
 			</div>
 			<div id='pres_nav'>
 				<ul class='buttons'>
-					<li macro='firstSlide'></li>
 					<li macro='prevSlide'></li>
-					<li macro="toggleThemeButton Done" class="SlideShowButton" ></li>
+					<li macro="themeButton TiddlyWikiMode done" class="SlideShowButton" ></li>
 					<li macro='nextSlide'></li>
-					<li macro='lastSlide'></li>
 				</ul>
 			</div>
 		</div>
@@ -35,6 +33,7 @@
 
 
 !StyleSheet
+[[StyleSheet]]
 /*{{{*/
 	
 

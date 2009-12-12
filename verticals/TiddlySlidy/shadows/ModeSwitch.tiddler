@@ -1,0 +1,7 @@
+<div title="ModeSwitch" modifier="Paul Downey" created="200709041658" modified="200709111156" tags="excludeLists">
+<pre>{{modeSwitch{
+    <<themeButton "TiddlyWikiMode" "TiddlyWiki" "switch to TiddlyWiki Mode">>
+    <<themeButton "AuthorMode" "Author" "switch to Author Mode">>
+    <<themeButton "PresenterMode" "Present" "switch to Presenter Mode">>
+}}}</pre>
+</div>
