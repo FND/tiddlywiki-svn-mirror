@@ -53,7 +53,9 @@ var VismoController = function(elem,options){ //elem must have style.width and s
 	jQuery(controlDiv).css({'z-index':10000, height:"120px",width:"60px"});
 	this.wrapper.appendChild(controlDiv);
 	this.controlDiv = controlDiv;
+	
         this.controlCanvas = new VismoCanvas(this.controlDiv);
+	jQuery(this.controlDiv).mouseover(function(e){e.stopPropagation();e.preventDefault();});
 	//this.controlDiv.vismoController = this;
 	var vismoController = this;
 	var preventDef = function(e){
@@ -419,7 +421,10 @@ VismoController.prototype = {
 		var panning_status = false;	
 		//alert('here');
 		//jQuery(document).mouseup(function(e){alert("cool");}); //doesn't work?!
-		var intervalMS = 1;
+		var intervalMS = 100;
+		if(VismoUtils.browser.isIE6){
+		  intervalMS = 300;
+		}
 		var interval;
 		var cancelPanning = function(e){
 		    if(interval)window.clearInterval(interval);
@@ -459,7 +464,7 @@ VismoController.prototype = {
 			t.translate.y =panning_status.translate.y +yd;
             if(!VismoUtils.browser.isIE6){
                 jQuery(that.wrapper).removeClass("zooming");
-                that.transform();
+                //that.transform();
             }
 			
 			if(pos.x > 5  || pos.y > 5) panning_status.isClick = false;

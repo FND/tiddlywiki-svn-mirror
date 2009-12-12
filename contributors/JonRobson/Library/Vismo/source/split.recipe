@@ -1,9 +1,7 @@
 js: preamble.js
 js: VismoClicking.js
-js: VismoClicking.js
 js: VismoClickingUtils.js
 js: VismoController.js
-js: VismoClicking.js
 js: VismoClickingUtils.js
 js: VismoConversion.js 
 js: VismoFileUtils.js 

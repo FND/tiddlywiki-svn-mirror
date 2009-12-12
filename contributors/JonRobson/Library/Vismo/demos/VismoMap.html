@@ -15,8 +15,9 @@ img {border:0;}
 </div>
 
 <script type='text/javascript'>
-var cc = new VismoMap(jQuery(".map"),{geojson:mygeojson,tooltip:true,fullscreen:true,VismoController:{minZoom:4,maxZoom:64}});
-
+(function(){
+  var cc = new VismoMap(jQuery(".map"),{geojson:mygeojson,tooltip:true,fullscreen:true,VismoController:{minZoom:4,maxZoom:64}});
+})();
 </script>
 
 <a href='http://www.jonrobson.me.uk/Vismo'><img src='../Vismo.png'/></a>
