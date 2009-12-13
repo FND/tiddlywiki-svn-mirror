@@ -2,36 +2,77 @@
 <pre>
 /*{{{*/
 
-body {
+html, body {
 	padding: 0;
 	margin:0;
+    font-family: Helvetica, Arial, sans-serif;
+    color: #747474;
+    height: 100%;
 }
 
 #header {
-    font-family: Georgia, serif;
     height: 6em;
     background-color: #E8E8E8;
-    padding: 4em 2em 0em 2em;
-}
-
-#header .siteTitle {
-    color: #747474;
-    font-size: 3em;
-    padding: 0em;
-    margin: 0em;
+    padding: 4em 2em 1em 2em;
 }
 
 a#backstageShow {
     color: #E8E8E8;
 }
 
+#header .siteTitle {
+    font-family: Georgia, serif;
+    font-size: 3em;
+    padding: 0em;
+    margin: 0em;
+}
+
+#header .modeTitle {
+    font-size: 1.4em;
+    margin-top: 0.5em;
+}
+
+#header .modeSwitch {
+    float:right;
+    margin-top: -3em;
+}
+
 #mainMenu {
     width: 11em;
 }
 
+#sidebar {
+    width: 23em;
+    padding: 1em;
+    text-align: center;
+}
+
+#presentation {
+    border: 2px solid #E7E7E7;
+    background-color: #F8F8F8;
+    margin: 0 auto 1em 0;
+}
+
+#tiddlerDisplay {
+    margin: auto;
+    width: 80%;
+}
+
+#footer {
+    height: 3em;
+    background-color: #E8E8E8;
+    padding: 4em 2em 1em 2em;
+}
+
+#slide {
+    border: 2px solid #E7E7E7;
+    background-color: #FFF;
+    width: 640px;
+    height: 480px;
+    margin: 4em auto 3em auto;
+}
+
 .themeButton {
-    float: right;
-    font-family: Helvetica, sans-serif;
     width: 5em;
     text-align: center;
     letter-spacing: 1px;

@@ -6,31 +6,17 @@
 !PageTemplate
 <!--{{{-->
 <div id='header'>
-    <span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>
-    <span refresh='content' tiddler='ModeSwitch'></span>
+    <p class='siteTitle' refresh='content' tiddler='SiteTitle'></p>
+    <p class='modeTitle'>Presentation</p>
+    <div class="modeSwitch" refresh='content' tiddler='ModeSwitch'></div>
 </div>
-
-<div id='pres'>
-    <div id='pres_body'>
-        <div id='tiddlerDisplay'> display</div>
+<div id='messageArea'></div>
+<div id='presentation'>
+    <div id='slide'>
+        <div id='tiddlerDisplay'>display</div>
     </div>
 </div>
-
 <div id='footer'>
-<!--
-    <div id='pres_controls'>
-        <ul class='buttons'>
-            <li><a href='#'>Main Menu</a></li>
-        </ul>
-    </div>
-    <div id='pres_nav'>
-        <ul class='buttons'>
-            <li macro='prevSlide'></li>
-            <li macro="themeButton TiddlyWikiMode done" class="SlideShowButton" ></li>
-            <li macro='nextSlide'></li>
-        </ul>
-    </div>
--->
 </div>
 
 <!--}}}-->

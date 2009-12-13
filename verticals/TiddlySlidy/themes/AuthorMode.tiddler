@@ -6,15 +6,18 @@
 !PageTemplate
 <!--{{{-->
 <div id='header'>
-    <span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>
-    <span refresh='content' tiddler='ModeSwitch'></span>
+    <p class='siteTitle' refresh='content' tiddler='SiteTitle'></p>
+    <p class='modeTitle'>Author Mode</p>
+    <div class="modeSwitch" refresh='content' tiddler='ModeSwitch'></div>
 </div>
-
+<div id='sidebar'>
+    <img width="200px" src="images/ThreeImages.png"/>
+    <p>3 Images</p>
+</div>
 <div id='messageArea'></div>
 <div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
 <div id='displayArea'>
-<div id='messageArea'></div>
-<div id='tiddlerDisplay'></div>
+    <div id='tiddlerDisplay'></div>
 </div>
 <!--}}}-->
 
