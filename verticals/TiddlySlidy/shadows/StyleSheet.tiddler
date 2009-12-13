@@ -1,23 +1,69 @@
 <div title="StyleSheet" modifier="Paul Downey" created="200709041658" tags="excludeLists">
 <pre>
 /*{{{*/
-.themeButton {
-    width: 5em;
-    font-weight: bold;
-    text-align: center;
-    background-color: #EEE;
-    border: 2px solid #EEE;
-    color: #333;
+
+body {
+	padding: 0;
+	margin:0;
 }
 
-.themeButton.selected {
-    background-color: #07E;
-    border: 2px solid #07E;
-    color: #FFF;
+#header {
+    font-family: Georgia, serif;
+    height: 6em;
+    background-color: #E8E8E8;
+    padding: 4em 2em 0em 2em;
+}
+
+#header .siteTitle {
+    color: #747474;
+    font-size: 3em;
+    padding: 0em;
+    margin: 0em;
+}
+
+a#backstageShow {
+    color: #E8E8E8;
+}
+
+#mainMenu {
+    width: 11em;
+}
+
+.themeButton {
+    float: right;
+    font-family: Helvetica, sans-serif;
+    width: 5em;
+    text-align: center;
+    letter-spacing: 1px;
+    padding: 0.3em 2em 0.3em 2em;
+    margin: 2em 1em 0em 1em;
+    background-color: #FFF;
+    background: #DDDDDD url(images/bg-button.gif);
+    border: 1px solid #747474;
+    color: #333;
     border-radius: 4px;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
 }
+
+.themeButton:hover,
+.themeButton:active {
+    background: #DDDDDD url(images/bg-button.gif);
+    background-position:0 -400px;
+    border: 1px solid #333;
+    color: #333;
+    outline: none;
+}
+
+.themeButton.selected:hover,
+.themeButton.selected:active,
+.themeButton.selected {
+    cursor: default;
+    background: #07E;
+    border: 1px solid #747474;
+    color: #FFF;
+}
+
 /*}}}*/
 </pre>
 </div>

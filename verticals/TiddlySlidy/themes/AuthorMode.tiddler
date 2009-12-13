@@ -5,11 +5,11 @@
 
 !PageTemplate
 <!--{{{-->
-<div class='header'>
-    <span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
-    <span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
+<div id='header'>
+    <span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>
+    <span refresh='content' tiddler='ModeSwitch'></span>
 </div>
-<div id='modes' refresh='content' tiddler='ModeSwitch'></div>
+
 <div id='messageArea'></div>
 <div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
 <div id='displayArea'>

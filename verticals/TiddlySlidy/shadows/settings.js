@@ -3,8 +3,9 @@
 /*
  *  Theme
  */
-//config.options.txtTheme = "PresenterMode";
-config.options.txtTheme = "TiddlyWikiMode";
+config.options.txtTheme = "PresenterMode";
+//config.options.txtTheme = "AuthorMode";
+//config.options.txtTheme = "TiddlyWikiMode";
 
 /*
  *  Faster fading messages!
