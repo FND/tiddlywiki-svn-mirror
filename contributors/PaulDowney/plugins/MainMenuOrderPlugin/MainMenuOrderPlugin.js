@@ -215,18 +215,20 @@ if (!version.extensions.MainMenuOrderPlugin) {
 })(jQuery);
 
 (function ($) {
-
     config.extensions.MainMenuOrder = {};
     var context = config.extensions.MainMenuOrder;
 
     context.update = function () {
+        context.update.lock = 1;
         var text = "";
         $("#mainMenu li a").each(function(i, elm) { 
-            text += "*" + $(elm).attr('tiddlylink') + "\n";
+            text += "*[[" + $(elm).attr('tiddlylink') + "]]\n";
         });
         var t = store.getTiddler("MainMenu");
         store.saveTiddler(t.title,t.title,text,t.modifier,t.modified,t.tags,t.fields,true,t.created,t.creator);
         autoSaveChanges();
+        var t = store.getTiddler("MainMenu");
+        var text = "";
     };
 
     context.bind = function () {
@@ -245,7 +247,6 @@ if (!version.extensions.MainMenuOrderPlugin) {
             context.bind();
         }
     }
-
 })(jQuery);
 
 }
