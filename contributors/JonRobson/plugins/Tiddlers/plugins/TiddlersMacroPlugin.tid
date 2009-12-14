@@ -37,7 +37,7 @@ config.macros.tiddlers = {
                 config.macros.tiddler.handler(place,macroName,params,wikifier,newParamString,store.getTiddler(ifEmpty));
             }
             else if(ifEmptyString){
-              wikify(place,ifEmptyString);
+              wikify(ifEmptyString[0],place);
             }
         }
         
