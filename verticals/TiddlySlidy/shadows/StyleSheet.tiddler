@@ -7,6 +7,7 @@ html, body {
 	margin:0;
     font-family: Helvetica, Arial, sans-serif;
     color: #747474;
+    background-color: #E8E8E8;
     height: 100%;
 }
 
@@ -14,6 +15,10 @@ html, body {
     height: 6em;
     background-color: #E8E8E8;
     padding: 4em 2em 1em 2em;
+}
+
+#contentWrapper {
+    background-color: #F8F8F8;
 }
 
 a#backstageShow {
@@ -38,14 +43,20 @@ a#backstageShow {
 }
 
 #mainMenu {
-    width: 11em;
+    width: 25%;
+}
+
+#displayArea {
+    margin: 2em auto 1em auto;
+    width: 40%;
 }
 
 #sidebar {
-    width: 23em;
+    width: 25%;
     padding: 1em;
     text-align: center;
 }
+
 
 #presentation {
     border: 2px solid #E7E7E7;
@@ -55,7 +66,11 @@ a#backstageShow {
 
 #tiddlerDisplay {
     margin: auto;
-    width: 80%;
+    width: 100%;
+    height: 100%;
+    min-height: 20em;
+    background-color: #FFF;
+    border: 2px solid #E7E7E7;
 }
 
 #footer {
@@ -72,6 +87,10 @@ a#backstageShow {
     margin: 4em auto 3em auto;
 }
 
+#thumbnail {
+    border: 2px solid #333;
+}
+
 .themeButton {
     width: 5em;
     text-align: center;
@@ -85,6 +104,9 @@ a#backstageShow {
     border-radius: 4px;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
+    -webkit-box-shadow: 2px 2px 3px rgba(135, 139, 144, 0.4);
+    -moz-box-shadow: 2px 2px 3px rgba(135, 139, 144, 0.4);
+    box-shadow: 2px 2px 3px rgba(135, 139, 144, 0.4);
 }
 
 .themeButton:hover,
@@ -100,9 +122,31 @@ a#backstageShow {
 .themeButton.selected:active,
 .themeButton.selected {
     cursor: default;
-    background: #07E;
     border: 1px solid #747474;
     color: #FFF;
+    background: #07E;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0.0, #459BF9), color-stop(1.0, #07F));
+    background: -moz-linear-gradient(top, #459BF9 0%, #07F 100%);
+}
+
+#mainMenu ul {
+    margin-left: 0;
+    padding-left: 0;
+}
+
+#mainMenu li {
+    text-align: left;
+    /*display: block;*/
+    width: 100%;
+    border: 2px solid #E7E7E7;
+    background-color: #FFF;
+    margin-bottom: 0.2em;
+    padding: 0.2em 1em;
+}
+
+#mainMenu li.current {
+    background-color: #747474;
+    color: #DAFAFF;
 }
 
 /*}}}*/

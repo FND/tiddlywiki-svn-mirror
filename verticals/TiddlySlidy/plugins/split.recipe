@@ -8,20 +8,26 @@ tiddler: $TW_ROOT/contributors/JeremyRuston/plugins/BackstageTiddlersPlugin.js
 recipe: $TW_ROOT/contributors/PaulDowney/plugins/ThemedTiddlerPlugin/ThemedTiddlerPlugin.recipe
 
 # switch themes UI 
-#recipe: $TW_ROOT/contributors/PaulDowney/plugins/ToggleThemePlugin/ToggleThemePlugin.recipe
 recipe: $TW_ROOT/contributors/PaulDowney/plugins/ThemeButtonPlugin/ThemeButtonPlugin.recipe
 
 # force refresh on theme switch
 recipe: $TW_ROOT/contributors/PaulDowney/plugins/ThemeSwitchRefreshPlugin/ThemeSwitchRefreshPlugin.recipe
 
+# One tiddler displayed at a time
+tiddler: $TW_ROOT/contributors/EricShulman/plugins/SinglePageModePlugin.js
+
+# reorderable MainMenu
+recipe: $TW_ROOT/contributors/PaulDowney/plugins/MainMenuOrderPlugin/MainMenuOrderPlugin.recipe
+
 # not sure what this is for ..
 #tiddler: AutoSavePlugin.js
 
 # order of slides displayed
-tiddler: $TW_ROOT/contributors/MichaelMahemoff/plugins/TrailPlugin/TrailPlugin.js
+# ideally this should just be the MainMenu with the current position a class marker
+#tiddler: $TW_ROOT/contributors/MichaelMahemoff/plugins/TrailPlugin/TrailPlugin.js
 
 # Manage trail, which tiddlers to include/igore
-tiddler: Inclusifier.js
+#tiddler: Inclusifier.js
 
 # Next/Prev/First/Last etc Slide Controls 
-tiddler: SlideControlsPlugin.js
+#tiddler: SlideControlsPlugin.js

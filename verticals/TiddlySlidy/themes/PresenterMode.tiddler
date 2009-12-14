@@ -16,12 +16,9 @@
         <div id='tiddlerDisplay'>display</div>
     </div>
 </div>
-<div id='footer'>
-</div>
+<div id='footer'></div>
 
 <!--}}}-->
-
-
 
 !StyleSheet
 [[StyleSheet]]

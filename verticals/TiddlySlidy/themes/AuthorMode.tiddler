@@ -10,15 +10,19 @@
     <p class='modeTitle'>Author Mode</p>
     <div class="modeSwitch" refresh='content' tiddler='ModeSwitch'></div>
 </div>
+<div id='messageArea'></div>
 <div id='sidebar'>
-    <img width="200px" src="images/ThreeImages.png"/>
+    <img id="thumbnail" width="200px" src="images/ThreeImages.png"/>
     <p>3 Images</p>
 </div>
-<div id='messageArea'></div>
-<div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
+<div id="sections">
+    <p>Sections and slides</p>
+    <div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
+</div>
 <div id='displayArea'>
     <div id='tiddlerDisplay'></div>
 </div>
+<div id='footer'></div>
 <!--}}}-->
 
 !StyleSheet
