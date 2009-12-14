@@ -61,12 +61,13 @@ config.macros.niceTagger = {
         }
         this.initialised[field] =true;
 	}
-    ,save: function(title,field,list){
+  ,save: function(title,field,list,place){
         //console.log("save",title,field,list);
 		var tiddler =  store.getTiddler(title);
 		if(!tiddler) {
 		    var tags = [];
 		    var fields = merge(config.defaultCustomFields,{});
+		    story.gatherSaveFields(place,fields);
 		    if(field=='tags'){
 		        tags = list;
 		    }
@@ -123,7 +124,7 @@ config.macros.niceTagger = {
                 }
             }
             //console.log("Save",tiddler.title,field,newtags);
-            tiddler = config.macros.niceTagger.save(tiddler.title,field,newtags);
+            tiddler = config.macros.niceTagger.save(tiddler.title,field,newtags,place);
             //console.log("Refresh",tiddler,field);
             config.macros.niceTagger.refreshFieldDisplay(place,tiddler,field);
        
@@ -162,7 +163,7 @@ config.macros.niceTagger = {
             if(saveThis.indexOf(value) != -1) return;
             saveThis.push(value);
             
-            tiddler= config.macros.niceTagger.save(tiddler.title,options.field,saveThis);
+            tiddler= config.macros.niceTagger.save(tiddler.title,options.field,saveThis,place);
             
             config.macros.niceTagger.refreshFieldDisplay(displayer,tiddler,options.field);
             adder.value = "";
