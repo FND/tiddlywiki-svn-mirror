@@ -1,0 +1,23 @@
+<div title="StyleSheet" modifier="PaulDowney" tags="excludeSearch">
+<pre>
+/*{{{*/
+#mainMenu {
+}
+
+#mainMenu ul {
+    margin-left: 0;
+    padding-left: 0;
+}
+
+#mainMenu li {
+    text-align: left;
+    display: block;
+    width: 100%;
+    background-color: #EEE;
+    color: #FFF;
+    border: 2px solid #E7E7E7;
+    margin-bottom: 0.2em;
+    padding: 0.2em 1em;
+}
+/*}}}*/</pre>
+</div>
