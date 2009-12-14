@@ -21,6 +21,7 @@ config.macros.tiddlers = {
         var tiddlers;
         var filter = args[0]["filter"];
         var ifEmpty = args[0]["ifEmpty"];
+        var ifEmptyString =  args[0]["ifEmptyString"];
         if(!filter) tiddlers = store.getTiddlers();
         else tiddlers = store.filterTiddlers(filter);
         
@@ -34,6 +35,9 @@ config.macros.tiddlers = {
             if(ifEmpty){
                 var newParamString = "\""+ifEmpty +"\" " +paramString;                
                 config.macros.tiddler.handler(place,macroName,params,wikifier,newParamString,store.getTiddler(ifEmpty));
+            }
+            else if(ifEmptyString){
+              wikify(place,ifEmptyString);
             }
         }
         
