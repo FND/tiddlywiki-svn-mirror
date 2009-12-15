@@ -36,12 +36,13 @@
 
 .titleSlide .title {
     color: #333;
-    font-weight: bold;
+    font-weight: bolder;
+    letter-spacing: -2px;
 }
 
 .titleSlide .subtitle {
     color: #747474;
-    font-size: 0.3em;
+    font-size: 0.4em;
 }
 
 /*}}}*/

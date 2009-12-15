@@ -77,7 +77,6 @@ a#backstageShow {
 
 #footer {
     height: 3em;
-    background-color: #E8E8E8;
     padding: 4em 2em 1em 2em;
 }
 

@@ -5,7 +5,9 @@
 host=pauldowney@amp.dreamhost.com
 dir=/home/pauldowney/tiddlyslidy.com
 
-ssh $host mkdir $dir/images
+#ssh $host mkdir $dir/images
+
 scp index.html $host:$dir
-scp images/* $host:$dir/images
-scp TiddlySlidy.zip  $host:$dir
+
+#scp images/* $host:$dir/images
+#scp TiddlySlidy.zip  $host:$dir
