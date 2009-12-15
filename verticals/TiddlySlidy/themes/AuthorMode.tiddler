@@ -16,7 +16,7 @@
     <p>3 Images</p>
 </div>
 <div id="sections">
-    <p>Sections and slides</p>
+    <h2>Sections and slides</h2>
     <div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
 </div>
 <div id='displayArea'>

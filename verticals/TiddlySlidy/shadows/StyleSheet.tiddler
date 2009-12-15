@@ -14,7 +14,7 @@ html, body {
 #header {
     height: 6em;
     background-color: #E8E8E8;
-    padding: 4em 2em 1em 2em;
+    padding: 3em 2em 2em 2.6em;
 }
 
 #contentWrapper {
@@ -42,8 +42,11 @@ a#backstageShow {
     margin-top: -3em;
 }
 
-#mainMenu {
+#sections {
     width: 25%;
+    position: absolute;
+    left: 0;
+    padding: 2em;
 }
 
 #displayArea {
@@ -129,24 +132,58 @@ a#backstageShow {
     background: -moz-linear-gradient(top, #459BF9 0%, #07F 100%);
 }
 
+#mainMenu {
+    width: 100%;
+    position: relative;
+    margin: 0;
+    padding: 0;
+}
+
 #mainMenu ul {
-    margin-left: 0;
-    padding-left: 0;
+    margin: 0;
+    padding: 0;
 }
 
 #mainMenu li {
     text-align: left;
-    /*display: block;*/
-    width: 100%;
+    display: block;
+    width: 90%;
     border: 2px solid #E7E7E7;
     background-color: #FFF;
     margin-bottom: 0.2em;
-    padding: 0.2em 1em;
+    padding: 0.4em 1em;
 }
 
-#mainMenu li.current {
-    background-color: #747474;
+#mainMenu li a {
+    color: #5B6D6E;
+    display: block;
+    width: 95%;
+}
+
+#mainMenu li:first-of-type a {
     color: #DAFAFF;
+}
+#mainMenu li:first-of-type {
+    background-color: #747474;
+}
+
+h2 {
+    border: none;
+    color: #404040;
+    font-size: 2em;
+    font-weight: normal;
+    padding: 0.2em 0 0.5em 0.3em;
+    margin: 0;
+}
+
+#presentation .toolbar {
+    display: none;
+}
+
+#presentation .tiddler,
+#presentation .viewSlide
+ {
+    height: 97%;
 }
 
 /*}}}*/

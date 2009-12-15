@@ -6,14 +6,28 @@
 |''StyleSheet''|##StyleSheet|
 
 !ViewTemplate
-[[ViewTemplate]]
+<div class='viewSlide titleSlide'>
+    <div class='viewer' macro='view title wikified'></div>
+    <div class='viewer' macro='view subtitle wikified'></div>
+    <div class='viewer' macro='view text wikified'></div>
+</div>
+<div class='toolbar' macro='toolbar closeTiddler editTiddler'></div>
 
 !EditTemplate
-[[ViewTemplate]]
+<!--{{{-->
+<div class='editSlide titleSlideEdit'>
+    <div class="label">Title</div><div class="title editor" macro="edit title"></div>
+    <div class="label">Subtitle</div><div class="subtitle editor" macro="edit subtitle"></div>
+</div>
+<div class='toolbar' macro='toolbar -cancelTiddler +saveTiddler'></div>
+<!--}}}-->
+
 
 !StyleSheet
-.TitleSlide {
-    background-color: rgb(128, 128, 128);
+.titleSlide {
+    font-size: 6em;
+    text-align: center;
+    background-color: #E8E8E8;
 }
 /*}}}*/
 </pre>
