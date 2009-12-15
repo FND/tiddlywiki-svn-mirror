@@ -11,7 +11,8 @@
 !!Documentation
 This plugin is Very much the subject of work in progress, has no automatic tests, 
 and has only tried in Safari and Firefox.
-The MainMenu must be an unordered bullet list.
+The DragSort plugin is very buggy, may be replaced with jquery.ui "sortable".
+The MainMenu currently must be an unordered bullet list.
 It is planned to support nested lists in a later version.
 !!Code
 ***/
@@ -225,10 +226,10 @@ if (!version.extensions.MainMenuOrderPlugin) {
             text += "*[[" + $(elm).attr('tiddlylink') + "]]\n";
         });
         var t = store.getTiddler("MainMenu");
-        store.saveTiddler(t.title,t.title,text,t.modifier,t.modified,t.tags,t.fields,true,t.created,t.creator);
-        autoSaveChanges();
-        var t = store.getTiddler("MainMenu");
-        var text = "";
+        if (t.text != text) {
+            store.saveTiddler(t.title,t.title,text,t.modifier,t.modified,t.tags,t.fields,true,t.created,t.creator);
+            autoSaveChanges();
+        }
     };
 
     context.bind = function () {
