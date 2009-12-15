@@ -13,7 +13,6 @@ modifier: jon
 |''CoreVersion''|<...>|
 |''Documentation''|<...>|
 |''Usage''|
-
 *OR syntax [field[value]] 
 eg. [tag[foo]] [tag[bar]]
 gives you all tiddlers tagged with foo or bar
@@ -23,9 +22,47 @@ gives you all tiddlers tagged with foo and bar
 * more powerful sorting
 allows you to sort by an integer field
  [tag[foo]sort(int)[priority]]
-
-Great for improving usage of the list macro and defaultTiddlers
+Great for improving usage of the list macro and defaultTiddlers|
 ***/
+//state transition function is a function that returns a new state.
+config.extensions.finite_state_automata = function(transition_function,final_states){
+  this.defineTransitionFunction(transition_function);
+  this.final_states = final_states;
+}  
+config.extensions.finite_state_automata.prototype={
+  reset: function(){
+    this.final_states = [];
+    this.transition_function= false;
+  }
+  ,isFinalState: function(state){
+    return this.final_states.indexOf(state) != -1;
+  }
+  ,run: function(startState,input,time){
+    if(!time){
+      time = 0;
+    }
+    if(time > 100) throw "stuck!";
+    if(this.isFinalState(startState)){
+      return input;
+    }
+    if(!this.transition_function){
+      throw "please define a transition function which takes two parameters - a state and token";
+    }
+
+    var state = this.transition_function(startState,input.charAt(0));
+
+    var remaining_input = input.substr(1);
+  
+    return this.run(state,remaining_input,time+1);
+     
+  }
+  ,defineFinalState: function(state){
+    this.final_states.push(state);
+  }
+  ,defineTransitionFunction: function(f){
+    this.transition_function = f;
+  }
+}
 
 Array.prototype.concatUnique = function(items,unique){
   for(var i=0; i < items.length;i++){
@@ -35,14 +72,11 @@ Array.prototype.concatUnique = function(items,unique){
   return this;
 }
 
-//filter tiddlers 2 [[bar bar]]awesome HelloWorld Foo [[great]]
-//[tag[foo]] [tag[val]sort(int)[val]][fieldor[or1]][field[or2]][field[or3]][field[and1]field[and2]] [field1[val1]field2[val2]field3[value3]] [field4[val4]field5[val5]]
 TiddlyWiki.prototype.sortTiddlers = function(tiddlers,field,fieldType)
 {
 	var asc = +1;
 	if(!fieldType)fieldType ="";
 	var convert;
-	console.log("sorting by ",field,"with ",fieldType);
 	switch(fieldType.toLowerCase()){
 	    case "int":
 	        convert = function(v){if(!v) return 0; else return parseInt(v);}
@@ -70,11 +104,7 @@ TiddlyWiki.prototype.sortTiddlers = function(tiddlers,field,fieldType)
 	}return tiddlers;
 };
 
-
-
-//makes filterTiddlers support custom fields
-//to do: add syntax (int)
-//to do: add AND OR [tag[foo]] [tag[blah]] or [tag[foo] tag[blah]]
+//bit like getTaggedTiddlers only works on fields too
 TiddlyWiki.prototype.getValueTiddlers = function(fieldName,value,tiddlers){
   var negationMode = false;
   if(value[0] =="!") {
@@ -88,7 +118,6 @@ TiddlyWiki.prototype.getValueTiddlers = function(fieldName,value,tiddlers){
   for(var i=0; i < tiddlers.length; i++){
     var tiddler = tiddlers[i];
     var values;
-    //console.log(fieldName,tiddler[fieldName]);
     if(tiddler[fieldName]){
       values = tiddler[fieldName]
     }
@@ -100,7 +129,6 @@ TiddlyWiki.prototype.getValueTiddlers = function(fieldName,value,tiddlers){
     }
     
     if(values){
-      //console.log(negationMode, values,value);
       if(typeof(values)== 'string' && ((values == value && !negationMode) || (negationMode && values !=value))){
         filterResult.pushUnique(tiddler);
       }
@@ -113,7 +141,7 @@ TiddlyWiki.prototype.getValueTiddlers = function(fieldName,value,tiddlers){
 }
 TiddlyWiki.prototype.filterTiddlers = function(filter)
 {
-	var filterResult = [];
+  var filterResult = [];
 	var open = 0;
 	var current_state = 'A';
 	
@@ -128,14 +156,13 @@ TiddlyWiki.prototype.filterTiddlers = function(filter)
 	}
 	var restart = function(){
     arg1 = "";arg2= "";andFilter = [];
-    return "A";
   }
   var addTiddler= function(){
 	  arg1 =arg1.trim();
-	  console.log("Add tiddler","'"+arg1+"'");
+	  //console.log("Add tiddler","'"+arg1+"'");
 	  var tid = store.getTiddler(arg1);
 	  if(tid)filterResult.pushUnique(tid);
-	  return restart();
+	  restart();
 	}
 	var tw = this;
 	var sort = function(tiddlers,arg1,arg2){
@@ -146,18 +173,18 @@ TiddlyWiki.prototype.filterTiddlers = function(filter)
     return tiddlers;
 	}
   var applyORFilter = function(ch){
-    console.log("apply or filter",arg1,arg2);
+    //console.log("apply or filter",arg1,arg2);
     arg1 = arg1.trim();
     arg2 = arg2.trim();
     if(arg1.indexOf("sort") == 0) filterResult= sort(filterResult,arg1,arg2);
     else {
       filterResult = filterResult.concatUnique(tw.getValueTiddlers(arg1,arg2));
     }
-    return restart();
+    restart();
   }
   var applyAndFilter = function(ch){
     saveAndFilterArg(ch);
-    console.log("applying and filter",andFilter);
+    //console.log("applying and filter",andFilter);
     var andResult = false;
     for(var i=0; i < andFilter.length; i++){
       var filter = andFilter[i];
@@ -165,7 +192,7 @@ TiddlyWiki.prototype.filterTiddlers = function(filter)
       else andResult = tw.getValueTiddlers(filter[0],filter[1],andResult);
     }
     filterResult = filterResult.concat(andResult);
-    return restart();
+    restart();
   }
   var saveAndFilterArg = function(ch){
     //console.log("saving filter",arg1,arg2)
@@ -176,43 +203,79 @@ TiddlyWiki.prototype.filterTiddlers = function(filter)
     return "I";
   }
   
-  var states ={
-    'A': {'[':'B',' ':'A','\n':'A','default':'Z',action:write_to_arg1},
-    'Z': {'default':'Z',' ': addTiddler,action:write_to_arg1},
-    'B': {'[':'C','default':'F',action:write_to_arg1},
-    'C': {']':'D','default':'C',action:write_to_arg1},
-    'D': {']':addTiddler},
-    'F':{'[':'G','default':'F',action:write_to_arg1},
-    'G':{']':'H','default':'G',action:write_to_arg2},
-    'H':{']':applyORFilter,'default':saveAndFilterArg},
-    'I':{'[':'J','default':'I',action:write_to_arg1},
-    'J':{']':'K','default':'J',action:write_to_arg2},
-    'K':{'default':saveAndFilterArg,']':applyAndFilter}
-  };
-  var changeState = function(ch){
-    var state = states[current_state];
-    if(state){
-      var s;
-      if(state[ch]){
-         s= state[ch]
-      }
-      else if(state['default']){
-       s = state['default'];
-      }
-      if(typeof(s) == 'function') current_state = s(ch); 
-      else current_state = s;
-      
-      if(state["action"])state["action"](ch);
+  //define the transition function
+  var tf = function(state,token){
+    switch(state){
+      case 'A':
+        write_to_arg1(token);
+        if(token =='[') return 'B'
+        else if(token == ' ' || token =='\n') return "A";
+        else return "Y";
+      case 'Y':
+        write_to_arg1(token);
+        if(token ==' ' || token =='\n') {
+          addTiddler();
+          return 'Z'
+        }
+        else return "Y";
+      case 'B':
+        write_to_arg1(token);
+        if(token =='[') return "C";
+        else return "F";
+      case 'C':
+        write_to_arg1(token);
+        if(token ==']') return "D";
+        else return "C";
+      case 'D':
+        if(token ==']') {
+          addTiddler();
+          return "Z"
+        }
+      case 'F':
+        write_to_arg1(token);
+        if(token =='[') return "G";
+        else return "F";
+      case 'G':
+        write_to_arg2(token);
+        if(token ==']') return "H";
+        else return "G";
+      case 'H':
+        if(token ==']'){
+          applyORFilter(token);
+          return "Z";
+        }
+        else {
+          saveAndFilterArg(token)
+          return "I"
+        }
+      case 'I':
+        write_to_arg1(token);
+        if(token =='[') return "J";
+        else return "I";
+      case 'J':
+        write_to_arg2(token);
+        if(token ==']') return "K";
+        else return "J";
+      case 'K':
+        if(token ==']') {
+          applyAndFilter(token);
+          return "Z";
+        }
+        else {
+          saveAndFilterArg(token);
+          return 'I'
+        }
     }
-  };
-	for(var i=0; i < filter.length;i++){
-    var charThis = filter[i];
-    //console.log("in state",current_state,"with","'"+charThis+"'..",arg1,":",arg2)
-    changeState(charThis);
-	}
-	console.log("fini",filterResult);
+    throw "the finite state automata could not parse the input."
+  }
+  var fsa=  new config.extensions.finite_state_automata(tf,['Z']);
+  var remaining = fsa.run("A",filter);
+  var timeout =100;
+  while(timeout > 0 && remaining != ""){
+    remaining = fsa.run("A",remaining);
+    timeout -=1;
+    if(timeout ==0) throw "timed out with remaining input at " + remaining;
+  }
+  
 	return filterResult;
 };
-
-
-/*** tests ***/

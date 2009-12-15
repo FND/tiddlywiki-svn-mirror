@@ -13,7 +13,7 @@ I can also show things tagged with todo or today with a subtle change of syntax.
 I can return everything not tagged with todo
 {{{[tag[!todo]]}}}
 
-<<list filter [tag[!todo]]>>
+<<list filter [tag[!todo]tag[!systemConfig]]>>
 
 I can invent a field priority storing an integer value and show a list of tiddlers sorted by priority with most important at the top like so
 {{{[tag[priority]][sort(int)[priority]]}}} or {{{[tag[priority]][sort(int)[+priority]]}}} 
@@ -25,9 +25,11 @@ I can show least important at the top by doing
 <<list filter [tag[todo]][sort(int)[-priority]]>>
 
 I can chain as many of these commands as I want with standard ones like so.
-{{{[tag[systemConfig]modifier[jon]] [tag[todo]] [[GettingStarted]] DefaultTiddlers [sort[title]]}}}
-<<list filter '[tag[systemConfig]modifier[jon]] [tag[todo]] [[GettingStarted]] ViewTemplate [sort[title]]'>>
+{{{[tag[systemConfig]modifier[jon]] [tag[todo]] GettingStarted [[DefaultTiddlers]] [sort[title]]}}}
+<<list filter '[tag[systemConfig]modifier[jon]] [tag[todo]] GettingStarted [[DefaultTiddlers]] [sort[title]]'>>
 
 I can then use this in [[DefaultTiddlers]]. So below this tiddler is a list of my things todo with the highest priority at the top. For this I used the rule:
 {{{GettingStarted [tag[todo]sort(int)[+priority]]}}}
 Here the sorting only applies to the tiddlers with tag todo.
+
+Convinced? All you need is the plugin [[AdvancedFilterTiddlersPlugin]].
