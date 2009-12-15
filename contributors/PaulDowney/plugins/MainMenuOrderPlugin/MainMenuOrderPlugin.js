@@ -44,7 +44,7 @@ if (!version.extensions.MainMenuOrderPlugin) {
                 container: cont,
 
                 init: function() {
-                    $(this.container).attr("listIdx", i).find(opts.dragSelector).css("cursor", "pointer").mousedown(this.grabItem);
+                    $(this.container).attr("listIdx", i).find(opts.dragSelector).css("cursor", "move").mousedown(this.grabItem);
                 },
 
                 grabItem: function(e) {
@@ -121,7 +121,7 @@ if (!version.extensions.MainMenuOrderPlugin) {
                     if (list.draggedItem == null)
                         return;
 
-                    $(list.container).find(opts.dragSelector).css("cursor", "pointer");
+                    $(list.container).find(opts.dragSelector).css("cursor", "move");
                     list.placeHolderItem.before(list.draggedItem);
 
                     list.draggedItem.css({ position: "", top: "", left: "", opacity: "" });
