@@ -48,7 +48,9 @@ config.extensions.finite_state_automata.prototype={
     if(!this.transition_function){
       throw "please define a transition function which takes two parameters - a state and token";
     }
-
+    if(!input.charAt){
+      throw "error in finite_state_automata input must be a string";
+    }
     var state = this.transition_function(startState,input.charAt(0));
 
     var remaining_input = input.substr(1);
@@ -144,6 +146,13 @@ TiddlyWiki.prototype.filterTiddlers = function(filter)
   var filterResult = [];
 	var open = 0;
 	var current_state = 'A';
+	if(typeof(filter) == 'object'){
+	  var result = [];
+	  for(var i=0; i < filter.length;i++){
+	    result = result.concat(this.filterTiddlers(filter[i]));
+	  }
+	  return result;
+	}
 	
 	var value = "",field="", mem ="";
 	var arg1 = "",arg2="";
@@ -205,6 +214,7 @@ TiddlyWiki.prototype.filterTiddlers = function(filter)
   
   //define the transition function
   var tf = function(state,token){
+
     switch(state){
       case 'A':
         write_to_arg1(token);
@@ -213,7 +223,7 @@ TiddlyWiki.prototype.filterTiddlers = function(filter)
         else return "Y";
       case 'Y':
         write_to_arg1(token);
-        if(token ==' ' || token =='\n') {
+        if(!token || token ==' ' || token =='\n') {
           addTiddler();
           return 'Z'
         }
