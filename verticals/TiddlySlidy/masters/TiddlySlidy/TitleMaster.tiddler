@@ -6,15 +6,18 @@
 |''StyleSheet''|##StyleSheet|
 
 !ViewTemplate
-<div class='viewSlide titleSlide'>
-    <div class='viewer' macro='view title wikified'></div>
-    <div class='viewer' macro='view subtitle wikified'></div>
-    <div class='viewer' macro='view text wikified'></div>
+<h2 class="preview">Preview Title Slide: <span macro="view title"></span></h2>
+<div class='viewSlide'>
+    <div class='titleSlide'>
+        <div class='title viewer' macro='view title wikified'></div>
+        <div class='subtitle viewer' macro='view subtitle wikified'></div>
+    </div>
 </div>
 <div class='toolbar' macro='toolbar closeTiddler editTiddler'></div>
 
 !EditTemplate
 <!--{{{-->
+<h2>Edit Title Slide: <span macro="view title"></span></h2>
 <div class='editSlide titleSlideEdit'>
     <div class="label">Title</div><div class="title editor" macro="edit title"></div>
     <div class="label">Subtitle</div><div class="subtitle editor" macro="edit subtitle"></div>
@@ -25,10 +28,22 @@
 
 !StyleSheet
 .titleSlide {
-    font-size: 6em;
+    font-size: 4em;
     text-align: center;
     background-color: #E8E8E8;
+    height: 100%;
 }
+
+.titleSlide .title {
+    color: #333;
+    font-weight: bold;
+}
+
+.titleSlide .subtitle {
+    color: #747474;
+    font-size: 0.3em;
+}
+
 /*}}}*/
 </pre>
 </div>

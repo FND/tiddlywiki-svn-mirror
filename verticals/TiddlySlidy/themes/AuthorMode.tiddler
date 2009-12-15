@@ -12,8 +12,8 @@
 </div>
 <div id='messageArea'></div>
 <div id='sidebar'>
-    <img id="thumbnail" width="200px" src="images/ThreeImages.png"/>
-    <p>3 Images</p>
+    <img id="thumbnail" width="200px" src="images/TitleMaster.png"/>
+    <h2>Title Slide</h2>
 </div>
 <div id="sections">
     <h2>Sections and slides</h2>

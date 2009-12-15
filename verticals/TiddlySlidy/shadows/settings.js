@@ -13,6 +13,11 @@ config.options.txtTheme = "PresenterMode";
 config.options.txtFadingMessagesTimeout = 1; 
 
 /*
+ *  Disable WikiLinks
+ */
+config.options.chkDisableWikiLinks = 1;
+
+/*
  *  Animations
  */ 
 config.options.chkAnimate = 0;

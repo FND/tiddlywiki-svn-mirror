@@ -4,6 +4,9 @@ recipe: $TW_ROOT/contributors/PaulDowney/plugins/FadingMessagesPlugin/FadingMess
 # enable access to tiddlers from the backstage 
 tiddler: $TW_ROOT/contributors/JeremyRuston/plugins/BackstageTiddlersPlugin.js
 
+# disable WikiLinks
+tiddler: $TW_ROOT/contributors/MartinBudden/plugins/DisableWikiLinksPlugin.js
+
 # per-tiddler mini-themes
 recipe: $TW_ROOT/contributors/PaulDowney/plugins/ThemedTiddlerPlugin/ThemedTiddlerPlugin.recipe
 
@@ -13,7 +16,7 @@ recipe: $TW_ROOT/contributors/PaulDowney/plugins/ThemeButtonPlugin/ThemeButtonPl
 # force refresh on theme switch
 recipe: $TW_ROOT/contributors/PaulDowney/plugins/ThemeSwitchRefreshPlugin/ThemeSwitchRefreshPlugin.recipe
 
-# One tiddler displayed at a time
+# one tiddler displayed at a time
 tiddler: $TW_ROOT/contributors/EricShulman/plugins/SinglePageModePlugin.js
 
 # reorderable MainMenu
