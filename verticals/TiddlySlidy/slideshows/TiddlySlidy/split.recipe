@@ -3,7 +3,6 @@ tiddler: MainMenu.tiddler
 
 # slides:
 tiddler: TiddlySlidy.tiddler
-tiddler: Contents.tiddler
+tiddler: Introduction.tiddler
 tiddler: Plugins.tiddler
-tiddler: WhatWeDid.tiddler
 tiddler: Questions.tiddler

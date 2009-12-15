@@ -6,15 +6,57 @@
 |''StyleSheet''|##StyleSheet|
 
 !ViewTemplate
-[[ViewTemplate]]
+<h2 class="preview">Preview Text Box Slide: <span macro="view title"></span></h2>
+<div class='viewSlide'>
+    <div class='textBoxSlide'>
+        <div class='title viewer' macro='view title wikified'></div>
+        <div class='subtitle viewer' macro='view subtitle wikified'></div>
+        <div class='textbox viewer' macro='view text wikified'></div>
+    </div>
+</div>
+<div class='toolbar' macro='toolbar closeTiddler editTiddler'></div>
 
 !EditTemplate
-[[ViewTemplate]]
+<!--{{{-->
+<h2>Edit Text Box Slide: <span macro="view title"></span></h2>
+<div class='editSlide textBoxSlideEdit'>
+    <div class="label">Title</div><div class="title editor" macro="edit title"></div>
+    <div class="label">Subtitle</div><div class="subtitle editor" macro="edit subtitle"></div>
+</div>
+<div class='toolbar' macro='toolbar -cancelTiddler +saveTiddler'></div>
+<!--}}}-->
+
 
 !StyleSheet
-.TitleSlide {
-    background-color: rgb(128, 128, 128);
+.textBoxSlide {
+    font-size: 2em;
+    text-align: left;
+    background-color: #E8E8E8;
+    height: 100%;
+    min-height: 400px;
 }
+
+.textBoxSlide .title {
+    color: #747474;
+    font-weight: normal;
+    letter-spacing: 0;
+    padding-left: 0.5em;
+}
+
+.textBoxSlide .subtitle {
+    color: #747474;
+    font-weight: normal;
+    font-size: 0.8em;
+    padding-left: 1em;
+}
+
+.textBoxSlide .textbox {
+    color: #333;
+    font-size: 1.2em;
+    line-spacing: 1.6em;
+    padding-left: 1em;
+}
+
 /*}}}*/
 </pre>
 </div>
