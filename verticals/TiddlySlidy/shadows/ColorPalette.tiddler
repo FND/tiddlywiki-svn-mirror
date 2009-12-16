@@ -1,0 +1,29 @@
+<div title="ColorPalette">
+<pre>Background: #fff
+Foreground: #000
+
+PrimaryPale: #e8e8e8
+PrimaryLight: #747474
+PrimaryMid: #333
+PrimaryDark: #000
+
+SecondaryPale: #f8f8f8
+SecondaryLight: #dddddd
+SecondaryMid: #5B6D6E
+SecondaryDark: #000
+
+TertiaryPale: #e8e8e8
+TertiaryLight: #dddddd
+TertiaryMid: #404040
+TertiaryDark: #000
+
+SelectedPale: #dafaff
+SelectedLight: #459BF9
+SelectedDark: #07f
+
+TiddlySlidyLight: #50a0fc
+TiddlySlidyMid: #2d00ff
+TiddlySlidyDark: #0069dd
+Error: #faa
+</pre>
+</div>

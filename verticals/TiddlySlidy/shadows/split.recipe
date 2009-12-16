@@ -8,5 +8,6 @@ tiddler: DefaultTiddlers.tiddler
 tiddler: settings.js
 tiddler: Custom
 
+tiddler: ColorPalette.tiddler
 tiddler: StyleSheet.tiddler
 tiddler: ModeSwitch.tiddler

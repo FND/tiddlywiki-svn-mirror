@@ -6,23 +6,23 @@ html, body {
 	padding: 0;
 	margin:0;
     font-family: Helvetica, Arial, sans-serif;
-    color: #747474;
-    background-color: #E8E8E8;
+    color: [[ColorPalette::PrimaryLight]];
+    background-color: [[ColorPalette::PrimaryPale]];
     height: 100%;
 }
 
 #header {
     height: 6em;
-    background-color: #E8E8E8;
+    background-color: [[ColorPalette::PrimaryPale]];
     padding: 3em 2em 2em 2.6em;
 }
 
 #contentWrapper {
-    background-color: #F8F8F8;
+    background-color: [[ColorPalette::SecondaryPale]];
 }
 
 a#backstageShow {
-    color: #E8E8E8;
+    color: [[ColorPalette::PrimaryPale]];
 }
 
 #header .siteTitle {
@@ -62,8 +62,8 @@ a#backstageShow {
 
 
 #presentation {
-    border: 2px solid #E7E7E7;
-    background-color: #F8F8F8;
+    border: 2px solid [[ColorPalette::PrimaryPale]];
+    background-color: [[ColorPalette::SecondaryPale]];
     margin: 0 auto 1em 0;
 }
 
@@ -71,8 +71,8 @@ a#backstageShow {
     margin: auto;
     width: 100%;
     height: 100%;
-    background-color: #FFF;
-    border: 2px solid #E7E7E7;
+    background-color: [[ColorPalette::Background]];
+    border: 2px solid [[ColorPalette::PrimaryPale]];
 }
 
 #footer {
@@ -81,8 +81,8 @@ a#backstageShow {
 }
 
 #slide {
-    border: 2px solid #E7E7E7;
-    background-color: #FFF;
+    border: 2px solid [[ColorPalette::PrimaryPale]];
+    background-color: [[ColorPalette::Background]];
     width: 640px;
     height: 480px;
     margin: 4em auto 3em auto;
@@ -94,7 +94,7 @@ a#backstageShow {
 
 #thumbnail {
     margin: 1em;
-    border: 2px solid #333;
+    border: 2px solid [[ColorPalette::PrimaryMid]];
 }
 
 .themeButton {
@@ -103,10 +103,10 @@ a#backstageShow {
     letter-spacing: 1px;
     padding: 0.3em 2em 0.3em 2em;
     margin: 2em 1em 0em 1em;
-    background-color: #FFF;
-    background: #DDDDDD url(images/bg-button.gif);
-    border: 1px solid #747474;
-    color: #333;
+    background-color: [[ColorPalette::Background]];
+    background: [[ColorPalette::SecondaryLight]] url(images/bg-button.gif);
+    border: 1px solid [[ColorPalette::PrimaryLight]];
+    color: [[ColorPalette::PrimaryMid]];
     border-radius: 4px;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
@@ -117,10 +117,10 @@ a#backstageShow {
 
 .themeButton:hover,
 .themeButton:active {
-    background: #DDDDDD url(images/bg-button.gif);
+    background: [[ColorPalette::SecondaryLight]] url(images/bg-button.gif);
     background-position:0 -400px;
-    border: 1px solid #333;
-    color: #333;
+    border: 1px solid [[ColorPalette::PrimaryMid]];
+    color: [[ColorPalette::PrimaryMid]];
     outline: none;
 }
 
@@ -128,11 +128,11 @@ a#backstageShow {
 .themeButton.selected:active,
 .themeButton.selected {
     cursor: default;
-    border: 1px solid #747474;
-    color: #FFF;
-    background: #07E;
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0.0, #459BF9), color-stop(1.0, #07F));
-    background: -moz-linear-gradient(top, #459BF9 0%, #07F 100%);
+    border: 1px solid [[ColorPalette::PrimaryLight]];
+    color: [[ColorPalette::Background]];
+    background: [[ColorPalette::SelectedDark]];
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0.0, [[ColorPalette::SelectedLight]]), color-stop(1.0, [[ColorPalette::SelectedDark]]));
+    background: -moz-linear-gradient(top, [[ColorPalette::SelectedLight]] 0%, [[ColorPalette::SelectedDark]] 100%);
 }
 
 #mainMenu {
@@ -151,28 +151,28 @@ a#backstageShow {
     text-align: left;
     display: block;
     width: 90%;
-    border: 2px solid #E7E7E7;
-    background-color: #FFF;
+    border: 2px solid [[ColorPalette::PrimaryPale]];
+    background-color: [[ColorPalette::Background]];
     margin-bottom: 0.2em;
     padding: 0.4em 1em;
 }
 
 #mainMenu li a {
-    color: #5B6D6E;
+    color: [[ColorPalette::SecondaryMid]];
     display: block;
     width: 95%;
 }
 
 #mainMenu li:first-of-type a {
-    color: #DAFAFF;
+    color: [[ColorPalette::SelectedPale]];
 }
 #mainMenu li:first-of-type {
-    background-color: #747474;
+    background-color: [[ColorPalette::PrimaryLight]];
 }
 
 h2 {
     border: none;
-    color: #404040;
+    color: [[ColorPalette::TertiaryMid]];
     font-size: 2em;
     font-weight: normal;
     padding: 0.2em 0 0.5em 0.3em;
