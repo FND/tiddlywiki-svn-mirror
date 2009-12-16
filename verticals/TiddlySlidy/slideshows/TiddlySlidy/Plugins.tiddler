@@ -1,7 +1,7 @@
 <div title="Plugins" modifier="Paul Downey" created="200801300000" tags="slide" theme="TextBoxMaster" subtitle="TiddlyWiki plugins used to make TiddlySlidy">
 <pre>
-* ThemedTiddlerPlugin
-* ToggleThemePlugin
-* ThemeSwitchRefreshPlugin
+* [[SinglePageModePlugin]]
+* [[MainMenuOrderPlugin]]
+* [[ThemeButtonPlugin]]
 </pre>
 </div>

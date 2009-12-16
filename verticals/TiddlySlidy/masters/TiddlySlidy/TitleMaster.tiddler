@@ -11,6 +11,7 @@
     <div class='titleSlide'>
         <div class='title viewer' macro='view title wikified'></div>
         <div class='subtitle viewer' macro='view subtitle wikified'></div>
+        <div class='url viewer' macro='view url wikified'></div>
     </div>
 </div>
 <div class='toolbar' macro='toolbar closeTiddler editTiddler'></div>
@@ -21,6 +22,7 @@
 <div class='editSlide titleSlideEdit'>
     <div class="label">Title</div><div class="title editor" macro="edit title"></div>
     <div class="label">Subtitle</div><div class="subtitle editor" macro="edit subtitle"></div>
+    <div class="label">Homepage</div><div class="subtitle editor" macro="edit url"></div>
 </div>
 <div class='toolbar' macro='toolbar -cancelTiddler +saveTiddler'></div>
 <!--}}}-->
@@ -44,6 +46,12 @@
 .titleSlide .subtitle {
     color: #747474;
     font-size: 0.4em;
+}
+
+.titleSlide .url {
+    color: #747474;
+    font-size: 0.4em;
+    padding-top: 6em;
 }
 
 /*}}}*/
