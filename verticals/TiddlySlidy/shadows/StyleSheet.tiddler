@@ -224,6 +224,12 @@ table.twtable {
 
 [[GrowlStyle]]
 
+.editor {
+    font-size: 1.5em;
+    padding-top: 0.2em;
+    padding-bottom: 1em;
+}
+
 /*}}}*/
 </pre>
 </div>
