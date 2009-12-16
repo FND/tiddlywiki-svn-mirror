@@ -1,11 +1,11 @@
 <div title="TitleMaster" modifier="Paul Downey" created="200801300000" tags="excludeSearch masterSlide">
 <pre>
-/*{{{*/
 |''ViewTemplate''|##ViewTemplate|
 |''EditTemplate''|##EditTemplate|
 |''StyleSheet''|##StyleSheet|
 
 !ViewTemplate
+<!--{{{-->
 <h2 class="preview">Preview Title Slide: <span macro="view title"></span></h2>
 <div class='viewSlide'>
     <div class='titleSlide'>
@@ -15,6 +15,7 @@
     </div>
 </div>
 <div class='toolbar' macro='toolbar closeTiddler editTiddler'></div>
+<!--}}}-->
 
 !EditTemplate
 <!--{{{-->
@@ -27,8 +28,8 @@
 <div class='toolbar' macro='toolbar -cancelTiddler +saveTiddler'></div>
 <!--}}}-->
 
-
 !StyleSheet
+/*{{{*/
 .titleSlide {
     font-size: 4em;
     text-align: center;
@@ -53,7 +54,6 @@
     font-size: 0.4em;
     padding-top: 6em;
 }
-
 /*}}}*/
 </pre>
 </div>

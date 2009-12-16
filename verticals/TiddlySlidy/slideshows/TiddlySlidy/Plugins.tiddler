@@ -1,7 +1,7 @@
-<div title="Plugins" modifier="Paul Downey" created="200801300000" tags="slide" theme="TextBoxMaster" subtitle="[[TiddlyWiki]] plugins used to make [[TiddlySlidy]]">
-<pre>
-* [[SinglePageModePlugin]]
+<div title="Plugins" modifier="Paul Downey" created="200801300000" tags="slide" theme="TextBoxMaster" subtitle="[[TiddlySlidy]] uses a number of [[TiddlyWiki]] Plugins">
+<pre>* [[SinglePageModePlugin]]
 * [[MainMenuOrderPlugin]]
 * [[ThemeButtonPlugin]]
+* [[ThemedTiddlerPlugin]]
 </pre>
 </div>

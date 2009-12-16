@@ -148,7 +148,7 @@ a#backstageShow {
 }
 
 #mainMenu li {
-    text-align: left;
+    text-align: right;
     display: block;
     width: 90%;
     border: 2px solid [[ColorPalette::PrimaryPale]];
@@ -222,6 +222,7 @@ table.twtable {
     background-color: [[ColorPalette::SecondaryPale]];
 }
 
+[[GrowlStyle]]
 
 /*}}}*/
 </pre>

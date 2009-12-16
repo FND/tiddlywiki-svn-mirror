@@ -1,6 +1,5 @@
 <div title="ImageAndTextMaster" modifier="Paul Downey" created="200801300000" tags="excludeSearch masterSlide">
 <pre>
-/*{{{*/
 |''ViewTemplate''|##ViewTemplate|
 |''EditTemplate''|##EditTemplate|
 |''StyleSheet''|##StyleSheet|
@@ -9,9 +8,10 @@
 [[ViewTemplate]]
 
 !EditTemplate
-[[ViewTemplate]]
+[[EditTemplate]]
 
 !StyleSheet
+/*{{{*/
 .TitleSlide {
     background-color: rgb(128, 128, 128);
 }

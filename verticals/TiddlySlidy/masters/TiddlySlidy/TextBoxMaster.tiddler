@@ -1,11 +1,11 @@
 <div title="TextBoxMaster" modifier="Paul Downey" created="200801300000" tags="excludeSearch masterSlide">
 <pre>
-/*{{{*/
 |''ViewTemplate''|##ViewTemplate|
 |''EditTemplate''|##EditTemplate|
 |''StyleSheet''|##StyleSheet|
 
 !ViewTemplate
+<!--{{{-->
 <h2 class="preview">Preview Text Box Slide: <span macro="view title"></span></h2>
 <div class='viewSlide'>
     <div class='textBoxSlide'>
@@ -15,6 +15,7 @@
     </div>
 </div>
 <div class='toolbar' macro='toolbar closeTiddler editTiddler'></div>
+<!--}}}-->
 
 !EditTemplate
 <!--{{{-->
@@ -29,6 +30,7 @@
 
 
 !StyleSheet
+/*{{{*/
 .textBoxSlide {
     font-size: 2em;
     text-align: left;
@@ -61,7 +63,6 @@
 .textBoxSlide ul li {
     padding-left: 0em;
 }
-
 /*}}}*/
 </pre>
 </div>
