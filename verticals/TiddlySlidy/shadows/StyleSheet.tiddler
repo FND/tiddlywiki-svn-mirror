@@ -190,6 +190,39 @@ h2 {
     height: 97%;
 }
 
+
+table.twtable {
+    width: 100%;
+    border-top: 1px solid [[ColorPalette::PrimaryLight]];
+    border-bottom: 1px solid [[ColorPalette::PrimaryLight]];
+    border-left: none;
+    border-right: none;
+    margin-left: 0mm;
+    font-size: 0.5em;
+    line-height: 1.5em;
+}
+
+.twtable th {
+    background-color: [[ColorPalette::PrimaryDark]];
+    font-weight: normal;
+}
+
+.twtable th,
+.twtable tr,
+.twtable td {
+    border: none;
+}
+
+
+.twtable .evenRow {
+    background-color: [[ColorPalette::PrimaryPale]];
+}
+
+.twtable .oddRow {
+    background-color: [[ColorPalette::SecondaryPale]];
+}
+
+
 /*}}}*/
 </pre>
 </div>

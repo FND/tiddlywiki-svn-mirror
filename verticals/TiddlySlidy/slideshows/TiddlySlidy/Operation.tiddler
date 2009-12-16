@@ -1,22 +1,12 @@
 <div title="Operation" modifier="Paul Downey" created="200801300000" tags="contents slide" theme="TextBoxMaster" subtitle="Presenter keyboard shortcuts">
-<pre>
-;''Home''
-:first slide
-;''End''
-:last slide
-;''T''
-:table of contents
-;''F''
-:toggle the display the footer
-;''A''
-:Author mode
-;''P''
-:Presenter mode
-;''S''
-:Smaller font
-;''B''
-:Bigger font
-;''F11''
-:toggle full screen mode
+<pre>| Space | &rarr; |Next slide |
+| Backspace | &larr; |Previous slide |
+| Home | F |First slide |
+| End | L |Last slide |
+|| T |Toggle the table of contents |
+|| A |Author mode |
+|| P |Presenter  mode |
+|| S |Smaller font |
+|| B |Bigger font |
 </pre>
 </div>
