@@ -6,12 +6,13 @@
 #
 
 cook
+rm TiddlySlidy.zip
 
 cd ..
 (
     echo TiddlySlidy/index.html
     echo TiddlySlidy/TiddlySaver.jar
-    echo TiddlySlidy/images/*
+    ls -1 TiddlySlidy/images/*
 ) | zip -@ TiddlySlidy/TiddlySlidy.zip
 
-echo "open index.html in firefox and save changes before running deploy.sh!"
+#echo "open index.html in firefox and save changes before running deploy.sh!"

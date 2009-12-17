@@ -10,4 +10,4 @@ dir=/home/pauldowney/tiddlyslidy.com
 scp index.html $host:$dir
 
 #scp images/* $host:$dir/images
-#scp TiddlySlidy.zip  $host:$dir
+scp TiddlySlidy.zip  $host:$dir
