@@ -57,7 +57,7 @@
     color: #333;
     font-size: 1.2em;
     line-spacing: 1.6em;
-    padding: 1em;
+    padding: 0 1em;
 }
 
 .textBoxSlide ul li {

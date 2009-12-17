@@ -5,7 +5,7 @@
 html, body {
 	padding: 0;
 	margin:0;
-    font-family: Helvetica, Arial, sans-serif;
+    font-family: Helvetica Neue, Arial, Helvetica, sans-serif;
     color: [[ColorPalette::PrimaryLight]];
     background-color: [[ColorPalette::PrimaryPale]];
     height: 100%;
@@ -175,7 +175,7 @@ h2 {
     color: [[ColorPalette::TertiaryMid]];
     font-size: 2em;
     font-weight: normal;
-    padding: 0.2em 0 0.5em 0.3em;
+    padding: 0.5em;
     margin: 0;
 }
 
@@ -228,6 +228,15 @@ table.twtable {
     font-size: 1.5em;
     padding-top: 0.2em;
     padding-bottom: 1em;
+}
+
+.editor input,
+.editor textarea {
+    border: 2px solid [[ColorPalette::PrimaryPale]];
+}
+
+.editSlide {
+    padding: 0 1em;
 }
 
 /*}}}*/
