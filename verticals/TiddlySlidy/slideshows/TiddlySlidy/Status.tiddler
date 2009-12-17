@@ -1,12 +1,13 @@
 <div title="Status" modifier="Paul Downey" created="200801300000" tags="slide" theme="TextBoxMaster" subtitle="TiddlySlidy is alpha software with many missing [[features|Features]], including:">
 <pre>|  !Mode|!Issue  |
 | Present|next/prev buttons |
+| Author|highlight current slide in menu |
 | Author|styled edit form |
 | Present|keyboard navigation |
-| Author|highlight current slide |
 | Author|thumbnail preview |
 | Author|new slide template selector |
 | Author|save button |
+| Author|search, missing and orphaned tiddlers |
 | Present|fullscreen mode |
 | Templates|image master slides |
 | Templates|Associate external webpages |
@@ -18,6 +19,6 @@
 | Author|hierachical menu |
 | Author|template authoring |
 | All|test in ie6| |
-| Author|FCK editor |
+| Author|[[WYSIWYG editor|http://ckeditor.com/]] |
 </pre>
 </div>
