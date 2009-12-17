@@ -188,6 +188,7 @@ h2 {
 #presentation .viewSlide
  {
     height: 97%;
+    overflow: hidden;
 }
 
 
