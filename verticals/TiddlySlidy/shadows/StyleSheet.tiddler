@@ -87,7 +87,7 @@ a#backstageShow {
     background-color: [[ColorPalette::Background]];
     width: 640px;
     height: 480px;
-    margin: 4em auto;
+    margin: 2em auto;
 }
 
 .viewSlide {
