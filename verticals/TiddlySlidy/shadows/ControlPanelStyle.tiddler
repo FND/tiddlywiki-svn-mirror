@@ -16,15 +16,6 @@
     overflow: hidden;
 }
 
-.controls a:active div,
-.controls a:hover div,
-.controls a:hover div div,
-.controls a:active div div {
-    color: [[ColorPalette::Background]];
-    background-color: [[ColorPalette::PrimaryDark]];
-    text-decoration: none;
-}
-
 .knob {
     float: left;
     margin: 0;
@@ -42,6 +33,31 @@
     border-radius: 1px;
 }
 
+.controls a:active div,
+.controls a:hover div,
+.controls a:hover div div,
+.controls a:active div div,
+.controls .contents a:hover,
+.controls .contents a:active {
+    text-decoration: none;
+    color: [[ColorPalette::Background]];
+    background: [[ColorPalette::SelectedDark]];
+}
+
+.controls .fullscreen a:hover div,
+.controls .fullscreen a:active div {
+    text-decoration: none;
+    background-color: [[ColorPalette::PrimaryMid]];
+    border: 1px solid [[ColorPalette::PrimaryMid]];
+}
+
+.controls .fullscreen a:hover div div,
+.controls .fullscreen a:active div div {
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+
 .knob div {
     font-weight: bolder;
     color: [[ColorPalette::PrimaryPale]];
@@ -49,14 +65,22 @@
     -webkit-border-radius: 1em; 
     -moz-border-radius: 1em;
     border-radius: 1em;
+    color: [[ColorPalette::Background]];
+    background-color: [[ColorPalette::PrimaryDark]];
+    -webkit-box-shadow: 2px 2px 3px rgba(135, 139, 144, 0.4);
+    -moz-box-shadow: 2px 2px 3px rgba(135, 139, 144, 0.4);
+    box-shadow: 2px 2px 3px rgba(135, 139, 144, 0.4);
 }
-
 
 .contents {
     float: left;
     font-size: 0.8em;
     padding: 0.4em 1em 0;
     font-weight: lighter;
+}
+
+.contents a {
+    padding: 0.3em 1em;
 }
 
 .contents .spacer {
@@ -74,7 +98,7 @@
 }
 
 .fullscreen div {
-    border: 1px solid [[ColorPalette::PrimaryLight]];
+    border: 1px solid [[ColorPalette::PrimaryMid]];
     background-color: [[ColorPalette::PrimaryPale]];
     width: 1em;
     height: 1em;
@@ -86,8 +110,8 @@
 .fullscreen div div {
     text-indent: -300px;
     overflow: hidden;
-    background-color: [[ColorPalette::PrimaryLight]];
-    border: none;
+    background-color: [[ColorPalette::PrimaryMid]];
+    border: 1px solid [[ColorPalette::PrimaryMid]];
     display: block;
     float: left;
     width: 50%;
