@@ -4,16 +4,16 @@
 
 .controls {
     font-size: 1.2em;
-    color: [[ColorPalette::PrimaryLight]];
+    color: [[ColorPalette::PrimaryMid]];
     background-color: [[ColorPalette::PrimaryPale]];
-    border: none;
+    border: 2px solid [[ColorPalette::SecondaryLight]];
     width: 600px;
-    margin: 0 auto;
-    padding: 0 1em;
+    height: 2em;
+    margin: 0 auto 1em auto;
+    padding: 1em;
     font-family: Helvetica Neue, Arial, Helvetica, sans-serif;
     text-align: center;
     overflow: hidden;
-    height: 3em;
 }
 
 .controls a:active div,

@@ -17,6 +17,8 @@ TertiaryLight: #dddddd
 TertiaryMid: #404040
 TertiaryDark: #000
 
+Error: #faa
+
 SelectedPale: #dafaff
 SelectedLight: #459BF9
 SelectedDark: #07f
@@ -24,6 +26,5 @@ SelectedDark: #07f
 TiddlySlidyLight: #50a0fc
 TiddlySlidyMid: #2d00ff
 TiddlySlidyDark: #0069dd
-Error: #faa
 </pre>
 </div>
