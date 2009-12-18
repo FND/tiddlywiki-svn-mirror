@@ -16,7 +16,9 @@
         <div id='tiddlerDisplay'>display</div>
     </div>
 </div>
-<div id='footer'></div>
+<div id='footer'>
+    <div class="controls" refresh='content' tiddler='ControlPanel'></div>
+</div>
 
 <!--}}}-->
 

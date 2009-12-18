@@ -3,11 +3,12 @@ tiddler: SiteTitle.tiddler
 tiddler: SiteSubtitle.tiddler
 tiddler: SideBarOptions.tiddler
 
-tiddler: DefaultTiddlers.tiddler
-
-tiddler: settings.js
-tiddler: Custom
-
 tiddler: ColorPalette.tiddler
 tiddler: StyleSheet.tiddler
+
+tiddler: DefaultTiddlers.tiddler
+tiddler: settings.js
+
 tiddler: ModeSwitch.tiddler
+tiddler: ControlPanel.tiddler
+tiddler: ControlPanelStyle.tiddler
