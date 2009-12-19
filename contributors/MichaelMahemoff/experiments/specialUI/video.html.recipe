@@ -1,0 +1,11 @@
+# Tiddlywiki
+recipe: $TW_ROOT/core/tiddlywiki.html.recipe
+
+# The plugin
+tiddler: specialUI.js
+tiddler: fancyTheme.tid
+tiddler: configTweaks.js
+
+# Demo
+tiddler: DefaultTiddlers.tiddler
+tiddler: cake.tiddler
