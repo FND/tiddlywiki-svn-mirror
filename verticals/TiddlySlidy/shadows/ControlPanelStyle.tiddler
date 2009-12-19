@@ -36,15 +36,22 @@
     border-radius: 1px;
 }
 
-.controls a:active div,
 .controls a:hover div,
 .controls a:hover div div,
-.controls a:active div div,
-.controls .contents a:hover,
-.controls .contents a:active {
+.controls .contents a:hover {
     text-decoration: none;
+    color: [[ColorPalette::Foreground]];
+    background: [[ColorPalette::Background]];
+}
+
+.controls a:active div,
+.controls a:active div div,
+.controls .contents a:active {
     color: [[ColorPalette::Background]];
-    background: [[ColorPalette::SelectedDark]];
+}
+
+.controls *:focus {
+    outline: none;
 }
 
 .controls .fullscreen a:hover div,
