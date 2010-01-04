@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|FND|
 |''Contributors''|Chris Dent, Martin Budden|
-|''Version''|0.10.4|
+|''Version''|0.10.5|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/|
@@ -344,14 +344,7 @@ adaptor.putTiddlerCallback = function(status, context, responseText, uri, xhr) {
 	context.statusText = xhr.statusText;
 	context.httpStatus = xhr.status;
 	if(context.status) {
-		var etag = xhr.getResponseHeader("Etag"); // XXX: using ETag is hacky - use getTiddler instead
-		etag = etag.substr(1, etag.length - 2).split(";")[0].split("/"); // strips enclosing quotes and content type
-		var bag = adaptor.deNormalizeTitle(etag[0]);
-		context.tiddler.fields["server.page.revision"] = etag.pop();
-		context.tiddler.fields["server.workspace"] =  "bags/" + bag; // recipe is not suitable
-	}
-	if(context.callback) {
-		context.callback(context, context.userParams);
+		context.adaptor.getTiddler(context.tiddler.title, context);
 	}
 };
 
@@ -596,10 +589,6 @@ adaptor.generateETag = function(workspace, tiddler) {
 
 adaptor.normalizeTitle = function(title) {
 	return encodeURIComponent(title);
-};
-
-adaptor.deNormalizeTitle = function(title) {
-	return decodeURIComponent(title);
 };
 
 })(jQuery);
