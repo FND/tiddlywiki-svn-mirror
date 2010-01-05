@@ -55,18 +55,20 @@
 
   function toggle() {
 
-    $overlay.toggle();
-
-    if ($overlay.css("display")=="block") {
-      allStylesFrag = document.createDocumentFragment();
-      $("style").each(function() {
-        allStylesFrag.appendChild(this);
-      });
+    if ($overlay.css("display")=="none") {
       setStylesheet(store.getTiddlerText("overlay##StyleSheet"));
+      $overlay.fadeIn(1000, function() {
+        allStylesFrag = document.createDocumentFragment();
+        $("style").each(function() {
+          if (this!=$("style:last")[0]) allStylesFrag.appendChild(this);
+        });
+      });
     } else {
-      $("style").remove();
       $(allStylesFrag).children().each(function() {
         $("head").append(this);
+      });
+      $overlay.fadeOut(function() {
+        $("style:first").remove();
       });
     }
 
