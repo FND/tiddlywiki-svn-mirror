@@ -1,0 +1,10 @@
+# Tiddlywiki
+recipe: $TW_ROOT/core/tiddlywiki.html.recipe
+
+# The plugin
+tiddler: overlay.js
+
+# Demo
+tiddler: DefaultTiddlers.tiddler
+tiddler: About.tid
+tiddler: MainMenu.tid
