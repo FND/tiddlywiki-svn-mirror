@@ -7,4 +7,5 @@ tiddler: overlay.js
 # Demo
 tiddler: DefaultTiddlers.tiddler
 tiddler: About.tid
-tiddler: MainMenu.tid
+tiddler: Video.tid
+tiddler: VideoStyleSheet.tid

@@ -1,0 +1,5 @@
+modifier: mahemoff
+
+<p>A video demo</p>
+<video src="http://tinyvid.tv/file/7prvuge6arom.ogg"></video>
+<p><button id="closeOverlay">close</button></p>

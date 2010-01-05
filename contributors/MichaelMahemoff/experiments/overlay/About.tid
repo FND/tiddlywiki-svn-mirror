@@ -1,5 +1,7 @@
 modifier: mahemoff
 
+<<overlay launchLabel:Stuff contentTiddler:Video styleSheetTiddler:VideoStyleSheet>>
+
 This is another attempt to make a non-TiddlyWiki look-and-feel for Tiddlywiki, as discussed here:
 http://groups.google.com/group/tiddlywikidev/browse_thread/thread/53f7c8120a3c3887
 
@@ -13,4 +15,3 @@ When you click the admin button:
 * the stylesheets are moved out of the documentFragment back onto the page
 * the overlay is hidden
 
-I haven't yet made this into a reusable modular plugin. For now, consider it a proof-of-concept, or pattern, which you can use in your own plugins. Let's use the idea dand explore further before formalising it into a plugin or library.
