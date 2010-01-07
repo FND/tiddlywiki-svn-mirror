@@ -4,8 +4,8 @@
 |''Author:''|Saq Imtiaz ( lewcid@gmail.com )|
 |''Source:''|http://tw.lewcid.org/#TiddlerNotesPlugin|
 |''Code Repository:''|http://tw.lewcid.org/svn/plugins|
-|''Version:''|2.1|
-|''Date:''|26/10/07|
+|''Version:''|2.1.1|
+|''Date:''|07/01/10|
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
 |''~CoreVersion:''|2.4.0|
 
