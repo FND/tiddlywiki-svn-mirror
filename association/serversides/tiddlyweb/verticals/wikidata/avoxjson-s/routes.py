@@ -36,6 +36,25 @@ def template_route(environ, start_response):
     return template.render(commonVars=commonVars)
     
 
+def test_template_route(environ, start_response):
+    template_name = 'test_'+environ['wsgiorg.routing_args'][1]['template_file']
+    
+    if '../' in template_name:
+        raise HTTP404('%s invalid' % template_name)
+    
+    if '.html' not in template_name:
+       template_name = template_name + '.html'
+       
+    template = templating.generate_test_template([template_name])
+        
+    start_response('200 OK', [
+        ('Content-Type', 'text/html'),
+        ('Pragma', 'no-cache')
+        ])
+    
+    commonVars = templating.getCommonVars(environ)
+    return template.render(commonVars=commonVars)
+
 def get_fields_js(environ, start_response):
     from recordFields import getFields
     template = templating.generate_plain_template(['fields.js.html'])
@@ -86,6 +105,7 @@ def verify(environ, start_response):
 
 def init(config):
     config['selector'].add('/pages/{template_file:segment}', GET=template_route)
+    config['selector'].add('/test/{template_file:segment}',GET=test_template_route)
     config['selector'].add('/index.html', GET=index)
     config['selector'].add('/verify', POST=verify)
     config['selector'].add('/lib/fields.js', GET=get_fields_js)

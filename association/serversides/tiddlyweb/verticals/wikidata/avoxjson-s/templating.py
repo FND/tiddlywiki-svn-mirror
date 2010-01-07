@@ -3,6 +3,13 @@ from jinja2 import Environment, FileSystemLoader
 templates_dir = 'templates'
 templating = Environment(loader = FileSystemLoader(templates_dir))
 
+def generate_test_template(templates):
+    template = "%s\n" % (_get_template("test_header.html"))
+    for name in templates:
+        template += "%s\n" % (_get_template(name))
+    template += _get_template("test_footer.html")
+    return templating.from_string(template)
+
 def generate_template(templates):
     template = "%s\n" % (_get_template("header.html"))
     for name in templates:

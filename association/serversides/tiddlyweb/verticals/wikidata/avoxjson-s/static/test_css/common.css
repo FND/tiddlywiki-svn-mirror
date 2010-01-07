@@ -1,0 +1,223 @@
+/* generic classes */
+a, a:hover, a:visited, a:active {
+	text-decoration: none;
+	font: inherit;
+	color: inherit;
+}
+
+body {
+	font-family: "Gill Sans", "Trebuchet MS", "Helvetica", "Arial";
+	color: #fff;
+	font-size: 1em;
+	background-color: #5bb1b1;
+}
+
+h1 {
+	background: url("/static/test_images/logo.gif") top left no-repeat;
+	height: 159px;
+	background-position: center left;
+
+}
+
+.small {
+	font-size: 0.8em;
+}
+
+.imagereplace {
+	text-indent: -9999px;
+	display:block;
+	overflow: hidden;
+}
+
+.wrap {
+	width: 926px;
+	margin: auto;
+}
+
+.clear {
+	overflow: auto;
+}
+
+.clearboth {
+	clear: both;
+}
+
+.lightborder {
+	border: 1px solid #c1d6dd;
+}
+
+.grid1col {
+	width: 231px;
+}
+
+.left {
+	float: left;
+}
+
+.right {
+	float: right;
+}
+
+.margintop {
+	margin-top: 20px;
+}
+
+.darktext {
+	color: #000101;
+}
+.whitetext {
+	color: #ffffff;
+}
+.darkgreen {
+	background-color: #0f242b;
+}
+
+.lightgrey {
+	background-color:gray;
+}
+
+.caps {
+	text-transform: uppercase;
+}
+
+.norightborder {
+	border-right: 0;
+}
+
+.noleftborder {
+	border-left: 0;
+}
+
+.bluebox {
+background-color:#487C89;
+}
+.lightblueborder {
+border:1px solid #7AAEB9;
+}
+
+.relative {
+	position: relative;
+}
+
+.z1 {
+	z-index: 1;
+}
+
+.captcha_error {
+	color: #ff0000;
+}
+
+.onlyjs {
+	visibility: hidden;
+}
+
+.js .onlyjs {
+	visibility: visible;
+}
+
+/* image replacements */
+
+#suggestlogo {
+	background: url("/static/test_images/suggest.gif") top right no-repeat;
+	height: 44px;
+}
+
+#devlogo {
+	background: url("/static/test_images/dev.gif") top right no-repeat;
+	height: 44px;
+}
+
+#aboutlogo {
+	background: url("/static/test_images/about.gif") top right no-repeat;
+	height: 44px;
+}
+
+/* header */
+
+#header {
+	height:163px;
+	border-bottom: 1px solid #fff;
+	background: #021423;
+	position: relative;
+}
+
+#counter {
+	position:absolute;
+	text-transform: uppercase;
+	background: solid;
+	bottom: -28px;
+	right: 28px;
+}
+
+#counter span {
+	float:left;	
+	padding: 5px;
+}
+
+#counter #fruitmachine {
+	bottom: 6px;
+	padding: 3px;
+	position: relative;
+}
+
+#navheader p {
+	padding: 6px 7px 0 50px;
+}
+
+#navheader .grid1col {
+	margin-top: 40px;
+}
+
+/* pagenav */
+
+#pagenav {
+	height: 103px;
+}
+
+.pagenavdarkbg {
+}
+
+#pagenav ul {
+	padding-top: 40px;
+	position: relative;
+	right: 1px;
+}
+
+#pagenav li {
+	display: inline;
+}
+
+#pagenav a {
+	text-decoration: none;
+	color: #fff;
+	padding: 2px 10px 2px 173px;
+}
+
+/* main content */
+
+#content {
+}
+
+.contentbg {
+	background: #5bb1b1 url("/static/test_images/long_grad_bg.png") top left repeat-x;
+}
+
+/* footer */
+#footer {
+	background-color: #387781;
+	margin-top: 50px;
+}
+
+#footer ul {
+	padding: 8px 15px;
+}
+
+#footer li {
+	display: inline;
+	padding-right: 5px;
+	font-size: 0.8em;
+}
+
+#footer a {
+	color: #fff;
+}

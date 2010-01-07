@@ -1,0 +1,124 @@
+<div id="pagenav">		
+	<ul>
+		<li><a href="/index.html" class="lightborder darkgreen caps">Home</a></li>
+		<li><a href="javascript:history.go(-1)" class="lightborder darkgreen caps onlyjs">Back</a></li>
+	</ul>
+</div>
+{% set labels = [
+	('operational_po_box', 'Operational PO Box'),
+	('operational_floor', 'Operational Floor'),
+	('operational_building', 'Operational Building'),
+	('operational_street_1', 'Operational Street 1'),
+	('operational_street_2', 'Operational Street 2'),
+	('operational_street_3', 'Operational Street 3'),
+	('operational_city', 'Operational City'),
+	('operational_postcode', 'Operational Postcode'),
+	('immediate_parent_avid', 'Immediate Parent AVID'),
+	('immediate_parent_name', 'Immediate Parent Name'),
+	('ultimate_parent_avid', 'Ultimate Parent AVID'),
+	('ultimate_parent_name', 'Ultimate Parent Name'),
+	('entity_type', 'Entity Type'),
+	('registered_po_box', 'Registered PO Box'),
+	('registered_floor', 'Registered Floor'),
+	('registered_building', 'Registered Building'),
+	('registered_street_1', 'Registered Street 1'),
+	('registered_street_2', 'Registered Street 2'),
+	('registered_street_3', 'Registered Street 3'),
+	('registered_city', 'Registered City'),
+	('regstered_state', 'Registered State'),
+	('registered_country', 'Registered Country'),
+	('registered_postcode', 'Registered Postcode'),
+	('registration_number__jurisdiction_', 'Registration Number (Jurisdiction)')
+] %}
+{% set captcha = commonVars.captcha %}
+{% if captcha.success %}
+<div>
+<p>Thanks! We'll be in touch shortly.</p>
+</div>
+{% else %}
+<div id="content-suggest">
+	<div id="leftbit" class="padded"></div>
+	<div class="wrap relative z1">
+		<form id="suggest_new" action="/verify" method="post">
+			<div class="right rightpanelhead">
+				<h2>information</h2>
+				<div class="stripe">
+					<p>We'd like to know who you are!</p>
+				</div>
+				<div class="right bluebox lightblueborder" id="rightpanel" style="visibility: visible;">
+					<label for="name">Your name</label>
+					<input type="text" name="name" size="35"/>
+					<label for="email">Your email address</label>
+					<input type="text" name="email" size="35"/>
+					<label for="country" class="advSearchLineField">Your country</label>
+					
+					<select name="_ignore_country" class="advSearchLineValue"><option>Please select...</option><option/></select><input type="hidden" name="country"/><label for="company">Your company <span>(Optional)</span></label>
+					<input type="text" name="company" size="35"/>
+					<input type="hidden" value="suggest_new" name="requestType"/>
+					<div>Are you human?</div>
+					<script type="text/javascript" src="http://api.recaptcha.net/challenge?k=6Ld8HAgAAAAAAEIb34cZepZmJ0RlfeP6CmtoMO29"></script>
+					<noscript>
+						<iframe src="http://api.recaptcha.net/noscript?k=6Ld8HAgAAAAAAEIb34cZepZmJ0RlfeP6CmtoMO29" height="300" width="500" frameborder="0"></iframe><br />
+						<textarea name="recaptcha_challenge_field" rows="3" cols="40"></textarea>
+						<input type='hidden' name='recaptcha_response_field' value='manual_challenge' />
+					</noscript>
+					{% if captcha.failure %}
+					<div class="captcha_error">
+						<p>Whoops! I think you made a mistake with the CAPTCHA. Please try again.</p>
+					</div>
+					{% endif %}
+				</div>
+				<input class="darkgreen lightborder whitetext caps margintop" type="submit" value="Submit suggestion"/>
+			</div>
+			
+			<div class="left leftpanelhead">		
+				<h2>Suggest a New Record</h2>
+				<div class="stripe noleftborder">
+					<p>Please fill in all the first section and as much as you can from the second section</p>
+				</div>
+				<div class="left bluebox lightblueborder" id="leftpanel">
+					<h2>Mandatory fields</h2>
+					<table class="fields">
+						<tr>
+							<td><label for"legal_name">Legal Name</label></td>
+							<td><input type="text" size="35" name="legal_name" /></td>
+						</tr>
+						<tr>
+							<td><label for="operational_country">Operational Country</label></td>
+							<td><input type="text" size="35" name="operational_country" /></td>
+						</tr>
+						<tr>
+							<td><label for="operational_state">Operational State</label></td>
+							<td><input type="text" size="35" name="operational_state" /></td>
+						</tr>
+					</table>
+					<h2>Additional fields</h2>
+					<table class="fields">
+						{% for field, label in labels %}
+						<tr>
+							{% if field == 'entity_type' %}
+							<td><label for="{{field}}">{{label}}</label></td>
+							<td><select name="{{field}}" id="smallselect">
+								<option value="Null">Null</option>
+								<option value="Branch">Branch</option>
+								<option value="Division">Division</option>
+								<option value="Subsidiary">Subsidiary</option>
+								<option value="Ultimate Parent">Ultimate Parent</option>
+							</select></td>
+							{% elif field == 'registered_country' %}
+							<td><label for="{{field}}">Registered Country</label></td>
+							<td><input type="text" size="35" name="{{field}}" /></td>
+							{% else %}
+							<td><label for="{{field}}">{{label}}</label></td>
+							<td><input type="text" size="35" name="{{field}}" /></td>
+							{% endif %}
+						</tr>
+						{% endfor %}
+					</table>
+				</div>
+			</div>
+		</form>
+	</div>
+	<br class="clearboth" />
+</div> 	
+{% endif %}
