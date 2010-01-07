@@ -20,3 +20,4 @@ tiddler: wikispacesMarkupRules.tiddler
 tiddler: tiddlywikiMarkupRules.tiddler
 tiddler: settings.js
 tiddler: ../../../plugins/PasswordPromptPlugin.js
+tiddler: ../../../plugins/listNotesPlugin.js
