@@ -10,7 +10,7 @@
 |''~CoreVersion:''|2.4.0|
 
 !!Concept:
-*The TiddlerNotesPlugin allows you to add notes to tiddlers, without needing to edit the original tiddler. This means that your original content will remain unaltered, and if you update it in the future, you won’t lose your notes. Notes are stored in separate tiddlers, but can be viewed and edited from within the original tiddler.
+*The TiddlerNotesPlugin allows you to add notes to tiddlers, without needing to edit the original tiddler. This means that your original content will remain unaltered, and if you update it in the future, you won't lose your notes. Notes are stored in separate tiddlers, but can be viewed and edited from within the original tiddler.
 *For a tiddler titled "~MySlide", the notes are by default saved in a tiddler titled "~MySlide-Notes" and is given a tag of "Notes". The suffix and tags of the notes tiddlers are customizable. You can have one or multiple notes per tiddlers. So it is possible to have for example, teacher's notes and student's notes in the same file.
 *Notes can be configured to start off blank, or pre-filled with the contents of the original tiddler.
 
@@ -125,6 +125,8 @@ config.macros.notes={
 		createTiddlyButton(box,this.cancelLabel,this.cancelLabel,this.saveNotes,"cancelNotesButton");
 		createTiddlyButton(box,this.saveLabel,this.saveLabel,this.saveNotes,"saveNotesButton");
 		wikify("!!"+box.getAttribute("heading")+"\n",box);
+		if (config.macros.markupHelper)
+			wikify("<<markupHelper>>",place,null,store.getTiddler(tiddler));
 		addClass(box,"editor");
 		var wrapper1 = createTiddlyElement(null,"fieldset",null,"fieldsetFix");
 		var wrapper2 = createTiddlyElement(wrapper1,"div");
