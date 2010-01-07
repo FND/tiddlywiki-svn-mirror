@@ -1,5 +1,5 @@
 config = {
-    'system_plugins': ['tiddlywebwiki', 'tiddlywebplugins.static', 'rtf','tiddlyeditor_plus', 'gadget', 'html_validator', 'tiddlywiki_validator'],
+    'system_plugins': ['tiddlywebwiki', 'tiddlywebplugins.static', 'tiddlyeditor_plus', 'gadget', 'html_validator', 'tiddlywiki_validator'],
     'secret': '7d72e845d6ba23821a76c6ff3d7d3be17220a409',
     'twanager_plugins': ['tiddlywebwiki'],
     'log_level':'DEBUG',
