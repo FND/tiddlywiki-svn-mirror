@@ -6,3 +6,7 @@ text-decoration: none;
 a h2 {
 cursor: pointer;
 }
+
+.notIE {
+	visibility: hidden;
+}
