@@ -1,0 +1,8 @@
+a {
+color: expression(this.parentNode.currentStyle.color);
+text-decoration: none;
+}
+
+a h2 {
+cursor: pointer;
+}
