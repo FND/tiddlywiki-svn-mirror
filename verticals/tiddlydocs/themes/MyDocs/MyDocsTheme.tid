@@ -157,6 +157,20 @@ tags: systemTheme  excludeLists excludeSearch
 	}
 	</style>
 	<![endif]-->
+	
+	
+	
+	
+	
+	<!--[if IE 6]>
+	<style type="text/css">
+
+	html body #tiddlerDisplay {
+		width:60%;
+	}
+
+	</style>
+	<![endif]-->
 
 
 
