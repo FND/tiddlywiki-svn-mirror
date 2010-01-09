@@ -1,0 +1,16 @@
+modifier: mahemoff
+tags: overlay
+
+<div id="topBar">
+  <h1>Trail: <span id="title"></span></h1>
+
+  <div id="stretchy">
+    <select id="trail"></select>
+    <select id="dropdown"></select>
+    <div id="progress">&nbsp;</div>
+  </div>
+</div>
+
+<div id="resourceView">
+  <div id="initialBacking">woop</div>
+</div>

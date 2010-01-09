@@ -4,26 +4,18 @@ recipe: $TW_ROOT/core/tiddlywiki.html.recipe
 # The plugin
 tiddler: TrailPlugin.js
 
+tiddler: Underscore.js
+
 # Demo
 tiddler: DefaultTiddlers.tiddler
-tiddler: cake.tiddler
-tiddler: burger.tiddler
-tiddler: breakfast.tiddler
-tiddler: lunch.tiddler
-tiddler: appetisers.tiddler
-tiddler: dimsum.tiddler
-tiddler: chips.tiddler
-tiddler: dinner.tiddler
-tiddler: egg.tiddler
-tiddler: MainMenu.tiddler
 tiddler: SiteTitle.tiddler
 tiddler: SiteSubtitle.tiddler
-tiddler: diet
-tiddler: StyleSheet
-tiddler: test
-tiddler: NestedSortable
-tiddler: SimpleDiet
-# tiddler: InterfaceJS
-# tiddler: Tree
-
-tiddler: Custom
+tiddler: StyleSheet.tid
+tiddler: News.tid
+tiddler: Slashdot.tid
+tiddler: Digg.tid
+tiddler: Reddit.tid
+tiddler: Fun.tid
+tiddler: YouTube.tid
+tiddler: YTMND.tid
+tiddler: Welcome.tid

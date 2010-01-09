@@ -1,9 +1,5 @@
-/*
-  TrailsPlugin
-*/
-
 /***
-|Name|TrailsPlugin|
+|Name|TrailPlugin|
 |Description||
 |Source||
 |Documentation||
@@ -11,138 +7,121 @@
 |Author|Michael Mahemoff, Osmosoft|
 |''License:''|[[BSD open source license]]|
 |~CoreVersion|2.2|
+
+!TrailTemplate
+<h3><%= trail.name %></h3>
+<strong><%= trail.description %></strong>
+<dl class="trail">
+<% for (var i=0; i<trail.bookmarks.length; i++) { bookmark = trail.bookmarks[i]; %>
+ <div class="bookmark">
+   <dt><a href="<%= bookmark.url %>"><%= bookmark.name %></a></dt>
+   <dd>
+     <%= bookmark.description %>
+     <span class="editBookmark" bookmarkTitle="<%= bookmark.title %>">#</span>
+   </dd>
+ </div>
+<% } %>
+</dl>
+
+!StyleSheet
+.bookmark { margin: 20px 0; }
+.trail dt { margin: 25px 0; padding: 5px; font-weight: normal; background: #008; color: white; display: inline; }
+.trail dt a { color: white; }
+.trail dd { margin-left: 0; color: #008; padding: 5px 0; display: inline; }
+.editBookmark { padding: 8px 8px 8px 2px; opacity: 0.5; cursor: pointer; font-size: 0.7em; font-style: italic; }
+!Javascript
+{{{
 ***/
 
-var $ = jQuery;
+(function($) {
 
-/*{{{*/
-(function() {
-if(!version.extensions.TrailsPlugin) {
-  var plugin = version.extensions.TrailsPlugin = {installed:true};
-
-  var $ = jQuery;
-  jQuery.fn.attach = function(html) { return this.append(html).children(":last"); };
-
-  var stylesheet = store.getTiddlerText(tiddler.title + "##StyleSheet");
-  if (stylesheet) { // check necessary because it happens more than once for some reason
-    config.shadowTiddlers["StyleSheetTrailPlugin"] = stylesheet;
-    store.addNotification("StyleSheetTrailPlugin", refreshStyles);
-  }
+  version.extensions.TrailPlugin = {installed:true};
 
   var macro = config.macros.trail = {
 
+    init: function() {
+      var stylesheet = store.getTiddlerText("TrailPlugin##StyleSheet");
+      config.shadowTiddlers["StyleSheetTrailPlugin"] = stylesheet;
+      store.addNotification("StyleSheetTrailPlugin", refreshStyles);
+    },
+
     handler: function(place,macroName,params,wikifier,paramString,tiddler) {
-      // var trail = eval("(" + store.getTiddler(params[0]).text + ")");
-      var trail = plugin.parseTrailTiddler(store.getTiddlerText(params[0]));
-      
-      var container = $("<div id='trailContainer'/>").appendTo(place);
-      resourcesEl = $("<ul id='trail' class='trail' />").appendTo(container);
-
-      plugin.renderResources(resourcesEl, trail.resources);
-      resourcesEl.NestedSortable({
-        accept: "resource",
-        opacity: 0.8,
-        autoScroll: true,
-        helperclass: 'helper', 
-        handle: '.resourceLabel',
-        // onHover: function() { $("body").css("background","pink"); console.log("hover"); },
-        // onStart: function() { console.log("start"); },
-        // onStop: function() { console.log("stop"); },
-        // onChange: function(serialized) { alert("done"); }
-        noNestingClass: "no-nesting",
-        // noNestingClass: "no-nesting",
-        // onChange: function(serialized) { console.log("done", serialized); }
+      tiddler = store.getTiddler(paramString);
+      var trail = version.extensions.TrailPlugin.extractTrail(tiddler);
+      $(place).append(tmpl("TrailPlugin##TrailTemplate", {trail:trail }));
+      $(".editBookmark").click(function() {
+        story.displayTiddler("top", this.getAttribute("bookmarkTitle"));
       });
-
-      $(".resourceLabel").hover(
-        function() {
-          $(this).addClass("draggableOn");
-        }, 
-        function() {
-          $(this).removeClass("draggableOn");
-        }
-      );
-
     }
 
   };
 
-  plugin.parseTrailTiddler = function(trailText) {
-    // var matches = trailText.match(/^(\*)+\s*(\s\S)*?/g)
-    // console.log(trailText);
-    var trail = {url:"#", resources:[]};
-    // var lines = trailText.match(/^\s*\*+ .+$/gm)
-    var lines = trailText.match(/^\s*\*+\s*.*$/gm);
-    var lastLevel = 0;
-    var lastResource = trail;
-    $.each(lines, function(i,line) {
-      var line = line.replace(/[\[\]]/g, "");
-      var matches = line.match(/^\s*(\*+) (.*?)\s*$/);
-      var level = matches[1].length;
-      var tiddlerTitle = matches[2];
-      var daddy;
-      if (level<lastLevel) daddy = lastResource.daddy.daddy;
-      else if (level==lastLevel) daddy = lastResource.daddy;
-      else if (level>lastLevel) daddy = lastResource;
-      // if (!daddy.resources) daddy.resources = [];
-      daddy.resources.push(lastResource = {url: "#"+tiddlerTitle, daddy: daddy, resources: [], level:level});
-      lastLevel = level;
+  config.macros.trails = {
+    handler: function(place) {
+      $.each(store.getTaggedTiddlers("trail"), function(i, trailTiddler) {
+        invokeMacro($("<div/>").appendTo(place).get(0), "trail", trailTiddler.title);
+      });
+    }
+  }
+
+  version.extensions.TrailPlugin.extractTrail = function(trailTiddler) {
+    trailTiddler = store.getTiddler(trailTiddler.title) || trailTiddler;
+    var trail = {
+      description: store.getTiddlerText(trailTiddler.title+"##Description"),
+      name: trailTiddler.title
+    };
+    var linkedBookmarks = $.trim(store.getTiddlerText(trailTiddler.title+"##Bookmarks")).split(/[ \t\n]+/);
+    trail.bookmarks = _.map(linkedBookmarks, function(bookmark) {
+      var bookmarkTitle = bookmark.replace("[[","").replace("]]","");
+      return {
+        title: bookmarkTitle,
+        url: slice(bookmarkTitle, "url"),
+        name: slice(bookmarkTitle, "name") || bookmarkTitle,
+        description: section(bookmarkTitle, "Description"),
+      }
     });
-    // console.log("trail", trail);
     return trail;
   }
 
-  var count=0;
-  plugin.renderResources = function(resourcesEl, resources) {
-    if (!resources.length) return;
-    var ul = $("<ul id=ul'"+(count++)+"'>").appendTo(resourcesEl);
-    $.each(resources, function(i, resource) {
-      var resourceEl = $("<li id=resource"+(count++) + " class='resource'/>")
-        .data("resource", resource)
-        // .append("<span class='handle'>handle</span>")
-        .append($("<div class='resourceLabel' />").append(renderResource(resource)))
-        .appendTo(ul);
-      plugin.renderResources(resourceEl, resource.resources);
-    });
+  var cache = {};
+  this.tmpl = function tmpl(str, data){
+
+    // Figure out if we're getting a template, or if we need to
+    // load the template - and be sure to cache the result.
+    var fn = !/\W/.test(str) ?
+      cache[str] = cache[str] ||
+        // tmpl(document.getElementById(str).innerHTML) :
+        tmpl(store.getTiddlerText(str)) :
+      
+      // Generate a reusable function that will serve as a template
+      // generator (and which will be cached).
+      new Function("obj",
+        "var p=[],print=function(){p.push.apply(p,arguments);};" +
+        
+        // Introduce the data as local variables using with(){}
+        "with(obj){p.push('" +
+        
+        // Convert the template into pure JavaScript
+        store.getTiddlerText(str)
+          .replace(/[\r\t\n]/g, " ")
+          .split("<%").join("\t")
+          .replace(/((^|%>)[^\t]*)'/g, "$1\r")
+          .replace(/\t=(.*?)%>/g, "',$1,'")
+          .split("\t").join("');")
+          .split("%>").join("p.push('")
+          .split("\r").join("\\'")
+      + "');}return p.join('');");
+    
+    // Provide some basic currying to the user
+    return data ? fn( data ) : fn;
   };
 
-  plugin.flattenTreeByTiddler = function(trailTiddler) {
-    // var trail = eval("("+store.getTiddlerText(trailTiddler)+")");
-    var trail = plugin.parseTrailTiddler(store.getTiddlerText(trailTiddler));
-    return plugin.flattenTree(trail);
-  };
+  function slice(tiddler, key) { return store.getTiddlerText(tiddler+"::"+key); }
+  function section(tiddler, key) { return store.getTiddlerText(tiddler+"##"+key); }
 
-  plugin.flattenTree = function(trail) {
-    // console.log("flatten", arguments);
-    var resource = trail; // better internal name
-    var resourcesSoFar = arguments[1] || []; // hide it from signature
-    resourcesSoFar.push(resource.url);
-    $.each(resource.resources, function(i, child) {
-      resourcesSoFar=resourcesSoFar.concat(plugin.flattenTree(child));
-    });
-    return resourcesSoFar;
-  };
+})(jQuery);
 
-  function renderResource(resource) {
-    var label = resource.title || resource.url.replace(/^#/, "");
-    if (resource.url[0]=="#") {
-      return $(createTiddlyLink(null, resource.url.substr(1))).html(label);
-    } else {
-      return resource.url;
-    }
-  }
 
-} // end of 'install only once'
-})();
-
-/***
-!StyleSheet
-#mainMenu { text-align: left; width: 800px; }
-.resource { margin-left: 10px; }
-ul.trail { cursor: pointer; }
-ul.trail, ul.trail ul { list-style-type: none; margin-left: 5px; padding-left: 5px; }
-ul.trail ul, ul.trail li { margin-left: 5px; padding-left: 5px; }
-!(end of StyleSheet)
-***/
+var TOP="top";
 
 /*}}}*/

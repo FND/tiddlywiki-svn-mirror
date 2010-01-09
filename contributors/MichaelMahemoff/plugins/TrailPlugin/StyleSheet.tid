@@ -1,0 +1,3 @@
+modifier: mahemoff
+
+#mainMenu .button { border: 1px solid [[ColorPalette::SecondaryMid]]; background: [[ColorPalette::SecondaryLight]]; padding: 3px; }

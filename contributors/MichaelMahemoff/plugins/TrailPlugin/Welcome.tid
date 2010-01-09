@@ -1,0 +1,5 @@
+modifier: mahemoff
+
+What follows is the "trails" macro, which invokes the "trail" macro for each trail tiddler in this wiki.
+----
+<<trails>>

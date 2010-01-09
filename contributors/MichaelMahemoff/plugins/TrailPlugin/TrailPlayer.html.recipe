@@ -1,0 +1,4 @@
+recipe: ./TrailPlugin.html.recipe
+tiddler: TrailPlayer.js
+tiddler: ../../experiments/overlay/overlay.js
+tiddler: MainMenu.tid
