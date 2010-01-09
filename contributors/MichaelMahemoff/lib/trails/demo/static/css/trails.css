@@ -18,6 +18,14 @@ li { list-style-type: none; }
 .scripted #trail { display: none; }
 
 /******************************************************************************
+ * IE6 support - because we <3 browsers older than the iPod
+ ******************************************************************************/
+
+img {
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(...);
+}
+
+/******************************************************************************
  * main elements *
  ******************************************************************************/
 
@@ -31,17 +39,18 @@ bdb9d6
           z-index: 90000;
           /* background: #a8dae5; -moz-linear-gradient(top, #d3d3df, #a8dae5);   */
           background: #a8dae5;
-          background-image: -webkit-gradient(linear, left top, left bottom, from(#d3d3d3), to(#a8dae5));
-          background-image: -moz-linear-gradient(top, #d3d3df, #a8dae5);
+          background-image: -webkit-gradient(linear, left top, left bottom, from(#d3ffff), to(#58dae5));
+          background-image: -moz-linear-gradient(top, #d3ffff, #58dae5);
           border-bottom: 2px solid #666;
           line-height: 1; overflow: hidden;
-          filter:progid:DXImageTransform.Microsoft.Gradient (GradientType=1, StartColorStr='#d3d3df', EndColorStr='#a8dae5') }
+          filter:progid:DXImageTransform.Microsoft.Gradient (GradientType=0, StartColorStr='#d3ffff', EndColorStr='#58dae5') }
 
-#logo { float: left; width: 65px; height: 42px; }
+#logo { float: left; width: 41px; height: 42px; }
 
 #metaInfo { float: left; width: 150px; height: 100%; padding: 5px 10px 5px 0; }
 
 #resourceView { position: absolute; width: 100%; height: 100%; overflow: visible; }
+* html #resourceView { top: 48px; }
 
 .clickster { font-size: 14px; float: right; padding: 2px 1px; cursor: pointer; width: 44px; height: 46px; text-align: center; float: right; }
 
@@ -58,15 +67,16 @@ bdb9d6
  * logo *
  ******************************************************************************/
 
-#logo { background-image: url("../images/slogosmall.png"); background-repeat: no-repeat; background-position: 15px 6px; }
+#logo { background-image: url("../images/slogosmall.png"); background-repeat: no-repeat; margin: 6px 0 0 5px; }
+* html #logo { width: 46px; }
 
 /******************************************************************************
  * resourceView *
  ******************************************************************************/
 
-#resourceView iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; overflow: visible; }
+#resourceView iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; overflow: visible; }
 #initialBacking { position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-                  z-index: -1000; text-align: center; padding-top: 200px; }
+                  z-index: 1; text-align: center; padding-top: 200px; }
 
 /******************************************************************************
  * metaInfo *
@@ -74,10 +84,11 @@ bdb9d6
 
 #metaInfo { border-left: 1px solid #666; border-right: 1px solid #666; text-align: center; font-size: small; position: relative; padding: 3px 0 0; }
 #metaInfoTitle { text-align: center; }
+#infoLink { margin-left: 5px; }
 #infoLink { background-image: url(../images/info16.png); background-position: 5px 0; background-repeat: no-repeat; width:25px; float: left; height: 36px; margin-top: 4px; cursor: pointer; }
 #text { margin-left: 25px; text-align: center; }
 #metaInfoEdit { font-size: small; margin-top: 4px; display: block; text-align: center; }
-#info { position: absolute; bottom: 0; text-align: center; width: 100%;
+#info { position: absolute; left: 0; bottom: 0; text-align: center; width: 100%;
         background: #38626b; color: #a8dae5; height: 1.2em; padding-top: 0.1em; }
 #strut { float: left; width: 25px; height: 1.2em; }
 #infoTrailOwnerWrapper { text-align: center; }
@@ -88,6 +99,7 @@ bdb9d6
 
 #navWrapper { text-align: center; }
 #nav { float: left; margin: 0 auto; height: 100%; }
+* html #nav { margin-top: 6px; } /* PNG hack breaks background-position */
 #nav span { cursor: pointer; overflow: hidden; background-repeat: no-repeat; float: left; width: 16px; height: 100%; width: 36px; position: relative; background-position: 0 6px; }
 #nav span#next { background-image: url("../images/next.png"); }
 #nav span#next:hover { background-image: url("../images/next-hovered.png"); }
@@ -140,6 +152,7 @@ a.markerSelected.hovered,a.markerSelected.hovered:visited { color: #f66; }
 
 /* #noteControl { float: right; border-left: 1px solid #666; } */
 #noteControl .icon { background-image: url("../images/note.png"); background-repeat: no-repeat; background-position: 9px 0; }
+* html #noteControl .icon { background-image: url("../images/note.gif"); }
 #noteControl.showing, #noteControl.showing div { background-color: #5bbac7; color: #333; }
 .stat { color: #777; text-align: right; padding-right: 5px; }
 
@@ -155,7 +168,7 @@ a.markerSelected.hovered,a.markerSelected.hovered:visited { color: #f66; }
  ****************************************************************************/
 /* noteWrapper shouldn't need a z-index, but does due to IE6
  * http://www.quirksmode.org/bugreports/archives/2006/01/Explorer_z_index_bug.html */
-#note { position: absolute; top: 48px; _top: 40px; right: 5px; width: 200px; 
+#note { position: absolute; top: 48px; right: 5px; width: 200px; 
         border: 1px solid #444; border-top-width: 0;
         opacity: 0.9; filter:alpha(opacity=90);
         -moz-border-radius: 0 0 5px 5px; -webkit-border-radius: 0 0 5px 5px;

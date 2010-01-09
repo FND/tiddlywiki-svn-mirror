@@ -91,5 +91,7 @@
       doc.close();
     }
 
+    return iframe;
+
   }
 })(jQuery);

@@ -12,6 +12,7 @@ var $resources, $predictedTitle, $note, $markers, selectedIndex, $hovered, $tool
 
 $(function() {
 
+  $("body").supersleight();
   $resources = $("#resources a");
   $predictedTitle = $("#predictedTitle");
   $note = $("#note");
@@ -50,7 +51,6 @@ $(function() {
   $("#hide").click(function() { toggleTopBar(false); });
   $("#infoLink").click(showWelcome);
   $("#miniBar #restore").click(function() { toggleTopBar(true); });
-  $("#miniLink").click(function() { return false; });
 
   $(".noteToggle,#noteControl").click(toggleNote);
   /*
@@ -68,8 +68,7 @@ $(function() {
   */
   var resourceSwitched = updateResourceFromURL();
   if (!resourceSwitched) switchResourceByIndex(0);
-  //
-  // showWelcome(true);
+  showWelcome(true);
 });
 
 $.fn.wireClickAndHover = function(predictor) {
@@ -113,14 +112,15 @@ function showWelcome(isLaunching) {
   //
   // hijack resource links
   $("ol", welcomeMessage).live("click", function(ev) {
-    if (ev.which!=1) return; // left button only
+    var firstButton = (ev.which==1 || ev.button==0);
+    if (!firstButton) return;
     var $target = $(ev.target).closest("li");
     if ($target.length) {
       $(".modal").data("close", null);
       $.modal.close();
       switchResourceByIndex($target.prevAll().length);
-      return false;
     }
+    return false;
   });
 
   var modalOptions = {
@@ -244,9 +244,12 @@ function switchResourceByIndex(index) {
   var url  = $resource.attr("href");
   var name = $resource.html();
   document.title = name + "'" + $("#trail #title").html() + "' - trail - Scrumptious";
-  $('#resourceView').removeChildren("#ZZZinitialBacking").find("iframe").remove().end().create("<iframe/>").src(url, function() { $("#progress").visible(false); });
+  var $iframe = $('#resourceView').removeChildren("#ZZZinitialBacking").find("iframe").remove().end().create("<iframe/>").src(url, function() { $("#progress").visible(false); });
+  if ($.browser.msie) $iframe.css("height", $(window).height()-$("#topBar").height()-2);
+  // $iframe.css("height", $(window).height()-$("#topBar").height()-2);
+  // $('#resourceView').removeChildren("#ZZZinitialBacking").find("iframe").remove().end().create("<iframe/>").attr("src", url);
 
-  $("#close,#miniLink").attr("href", url);
+  $("#close").attr("href", url);
 
 }
 

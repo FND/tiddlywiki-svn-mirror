@@ -15,18 +15,20 @@
 	<script type="text/javascript" src="{{ static_path }}/js/jquery-1.3.2.js"></script>
 	<script type="text/javascript" src="{{ static_path }}/js/jquery.modal.js"></script>
 	<script type="text/javascript" src="{{ static_path }}/js/jquery.iframe.js"></script>
+  <script type="text/javascript" src="{{ static_path }}/js/jquery.supersleight.js"></script>
 	<script type="text/javascript" src="{{ static_path }}/js/trailPlayer.js"></script>
 </head>
 
 <body>
+<img id="blank" style="display: none;" src="{{ static_path }}/images/blank.gif" />
 
 <script type="text/javascript">
   document.documentElement.className = 'scripted';
 </script>
 
-<!-- ********************************************************************** -->
-<!-- OK HERE THE TRAIL BEGINS - THIS IS THE IMPORTANT DATA BIT -->
-<!-- ********************************************************************** -->
+<!-- **********************************************************************
+       OK HERE THE TRAIL BEGINS - THIS IS THE IMPORTANT DATA BIT
+     ********************************************************************** -->
 <div id="trail">
 
   <h1>
@@ -49,9 +51,9 @@
 
 </div>
 
-<!-- ********************************************************************** -->
-<!-- OK HERE THE TRAIL ENDS - ALL BELOW IS FOR THE INTERACTIVE APPLICATION -->
-<!-- ********************************************************************** -->
+<!-- ***********************************************************************
+       OK HERE THE TRAIL ENDS - ALL BELOW IS FOR THE INTERACTIVE APPLICATION
+     ********************************************************************** -->
 
 <div id="miniBar">
   <div id="controls">
@@ -89,7 +91,7 @@
     <div id="metaInfoTitle"><div id="infoLink">&nbsp;</div><div id="text"></div></div>
     <div id="info">
       <div id="strut">&nbsp;</div>
-      <div id="infoTrailOwnerWrapper">by <span id="infoTrailOwner"</span></div>
+      <div id="infoTrailOwnerWrapper">by <span id="infoTrailOwner"></span></div>
     </div>
   </div>
 
@@ -140,9 +142,9 @@
   <div id="initialBacking">&nbsp;</div>
 </div>
 
-<!-- ********************************************************************** -->
-<!-- WELCOME TEMPLATE                                                       -->
-<!-- ********************************************************************** -->
+<!-- **********************************************************************
+       WELCOME TEMPLATE
+     ********************************************************************** -->
 
 <div id="welcomeTemplate">
   <h2>[[title]] - website trail</h2>

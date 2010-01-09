@@ -75,7 +75,6 @@
       dialog.slideUp(FADE_DURATION, function() { dialog.remove(); });
       mask.fadeOut(FADE_DURATION, function() {
         mask.remove();
-        log("close", close);
         if (close) close.apply(dialog);
       });
     }
