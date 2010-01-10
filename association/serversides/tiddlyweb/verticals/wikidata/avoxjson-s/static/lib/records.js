@@ -143,10 +143,9 @@ $(document).ready(function() {
 			});
 			var colToggle = function() {
 				updateControlList();
-				$('#columnPicker .columns').toggle();
+				$('#columnPicker #cols').toggle();
 			};
 			$('#pickerControl').click(colToggle);
-			$('#columnPicker .columns').hide();
 		};
 		
 		if(window.asyncSearch) {

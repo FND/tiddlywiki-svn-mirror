@@ -1,59 +1,70 @@
-{% include 'search.html' %}
 {% set fields = commonVars.fields %}
 <script type="text/javascript">
 	window.asyncSearch = true;
 </script>
-<div id="recordsTableContainer">
-	<div id="results">
-		<p class="small" id="results_count">Loading results...</p>
-		<div class="right small" id="columnPicker">
-			<div id="pickerControl">hide/show columns</div>
-			<div class="columns">
-				<span class="label">AVID</span>
-				<span class="controls">
-					<span class="hideControl">hide</span>|<span class="showControl">show</span>
-				</span>
-			</div>
-			{% for field, label in fields %}
-			<div class="columns">
-				<span class="label">{{label}}</span>
-				<span class="controls">
-					<span class="hideControl">hide</span>|<span class="showControl">show</span>
-				</span>
-			</div>
-			{% endfor %}
-		</div>
+<div id="pagenav" class="pagenavdarkbg">
+	<ul>
+		<li><a href="/index.html" class="lightborder darkgreen caps">Home</a></li>
+		<li><a href="#" class="lightborder darkgreen caps">Back</a></li>
+	</ul>
+</div>
+
+<div id="searchtitle" class="darkgreen">
+	<div class="wrap">
+		<h2>Search Option</h2>
+		<span> - Add company name or unique AVID number to search for a business</span>
 	</div>
-	<div id="recordsTable_wrapper" class="dataTables_wrapper"><table class="draggable forget-ordering" id="recordsTable">
-		<thead>
-			<tr>
-				<th>AVID</th>
-			{% for field, label in fields %}
-				<th>{{label}}</th>
+</div>
+<div id="content">
+	{% include 'search.html' %}
+	
+	<div id="table" class="bigwrap">
+		{% set count = tiddlers|count %}
+		<div id="tableinfo">
+			<span class="darktext">Loading results...</span>
+			<div id="columnPicker" class="onlyjs">
+				<button class="darkgreen whitetext lightborder caps right" id="pickerControl">Hide/Show Columns</button>
+				<div id="cols">
+					{% for field, label in fields %}
+					<div class="columns">
+						<span class="label">{{label}}</span>
+						<span class="controls">
+							<span class="hideControl">hide</span>|<span class="showControl">show</span>
+						</span>
+					</div>
+					{% endfor %}
+				</div>
+			</div>
+			<br class="clearboth" />
+		</div>
+		
+		<table id="recordsTable" class="draggable forget-ordering">
+			<thead>
+				<tr>
+					<th>AVID</th>
+				{% for field, label in fields %}
+					<th>{{label}}</th>
+				{% endfor %}
+					<th>Challenge</th>
+					<th>Request More Info</th>
+				</tr>
+			</thead>
+			<tfoot>
+				<tr>
+					<th><a href="javascript:;">hide</a></th>
+				{% for field, label in fields %}
+					<th><a href="javascript:;">hide</a></th>
+				{% endfor %}
+					<th><a href="javascript:;">hide</a></th>
+					<th><a href="javascript:;">hide</a></th>
+				</tr>
+			</tfoot>
+			<tbody>
+			{% for tiddler in tiddlers %}
+				<tr>
+				</tr>
 			{% endfor %}
-				<th>Challenge</th>
-				<th>Request More Info</th>
-			</tr>
-		</thead>
-		<tfoot class="dark">
-			<tr>
-				<th><a href="javascript:;">hide</a></th>
-			{% for field, label in fields %}
-				<th><a href="javascript:;">hide</a></th>
-			{% endfor %}
-				<th><a href="javascript:;">hide</a></th>
-				<th><a href="javascript:;">hide</a></th>
-			</tr>
-		</tfoot>
-		<tbody>	
-			<tr>
-				<td></td>
-			{% for field, label in fields %}
-				<td></td>
-			{% endfor %}
-				<td></td>
-				<td></td>
-			</tr>
-		</tbody>
-	</table></div>
+			</tbody>
+		</table>
+	</div>
 </div>

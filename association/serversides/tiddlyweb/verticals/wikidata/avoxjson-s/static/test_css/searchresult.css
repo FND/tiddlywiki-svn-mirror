@@ -142,6 +142,10 @@ tr:nth-child(odd) {
 	padding-bottom: 5px;
 }
 
+.js #columnPicker #cols {
+	display: none;
+}
+
 #cols .controls {
 	float: right;
 	padding-left: 10px;
