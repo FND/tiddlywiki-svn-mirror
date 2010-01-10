@@ -3,6 +3,12 @@ a, a:hover, a:visited, a:active {
 	text-decoration: none;
 	font: inherit;
 	color: inherit;
+	border-bottom: 1px dotted #000099;
+}
+
+a:hover {
+	/*background-color: #dddddd;*/
+	background-color: #487C89;
 }
 
 body {
@@ -19,6 +25,35 @@ h1 {
 
 }
 
+h2 {
+	font-size: 24px;
+	margin-bottom: 10px;
+}
+
+em {
+	font-style: italic;
+}
+
+strong {
+	font-weight: bold;
+}
+
+table {
+	margin-bottom: 10px;
+}
+
+pre, code {
+	font-family: monospace;
+	background-color: #387781;
+}
+
+pre {
+	border: 1px solid #7AAEB9;
+	line-height: 150%;
+	margin: 10px 0;
+	padding: 10px;
+}
+
 .small {
 	font-size: 0.8em;
 }
@@ -31,6 +66,11 @@ h1 {
 
 .wrap {
 	width: 926px;
+	margin: auto;
+}
+
+.bigwrap {
+	width: 1024px;
 	margin: auto;
 }
 
@@ -91,6 +131,11 @@ h1 {
 .bluebox {
 background-color:#487C89;
 }
+
+.lightbluebox {
+background-color: #76BEBE;
+}
+
 .lightblueborder {
 border:1px solid #7AAEB9;
 }
@@ -111,9 +156,9 @@ border:1px solid #7AAEB9;
 	visibility: hidden;
 }
 
-.js .onlyjs {
+/*.js .onlyjs {
 	visibility: visible;
-}
+}*/
 
 /* image replacements */
 
@@ -139,6 +184,11 @@ border:1px solid #7AAEB9;
 	border-bottom: 1px solid #fff;
 	background: #021423;
 	position: relative;
+}
+
+#header a {
+	border: 0;
+	background-color: transparent;
 }
 
 #counter {
@@ -191,6 +241,7 @@ border:1px solid #7AAEB9;
 	text-decoration: none;
 	color: #fff;
 	padding: 2px 10px 2px 173px;
+	border: 1px solid #C1D6DD /* supplementing .lightborder class since <a> rule interferes with .lightborder */
 }
 
 /* main content */
@@ -200,6 +251,7 @@ border:1px solid #7AAEB9;
 
 .contentbg {
 	background: #5bb1b1 url("/static/test_images/long_grad_bg.png") top left repeat-x;
+	margin-bottom: 10px;
 }
 
 /* footer */

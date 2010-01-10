@@ -26,6 +26,7 @@ function parseQueryString(q) {
 	return params;
 }
 function addAdvSearchLine() {
+	try {
 	var container = '#advancedSearchContainer';
 	
 	var i = DependentInputs.createRow(container);
@@ -63,16 +64,19 @@ function addAdvSearchLine() {
 			if(oTable && oTable.fixedHeader) {
 				oTable.fixedHeader.fnUpdate(true);
 			}
-		} ,300);
+		}, 300);
 	}
 	return $row;
+	} catch(ex) {
+		console.log(ex);
+	}
 }
 $(document).ready(function() {
 	// set advanced search on a slider
-	$('#search a.advanced').click(function() {
+	$('#search .advanced').css('cursor','pointer').click(function() {
 		addAdvSearchLine();
 	});
-	$('#results .filter a').click(function() {
+	$('#tableinfo .filter a').click(function() {
 		addAdvSearchLine();
 	});
 	// fill in search box and filters with current query
@@ -137,4 +141,6 @@ $(document).ready(function() {
 		$companyDiv.css("visibility","visible");
 		window.gMaps.op_address = $.trim($companyDiv.find('.adr div').text().replace(/[\n|\r]/g,"").replace(/(\s)+/g," "));
 	}
+	// now show hidden things
+	$('.onlyjs').css('visibility','visible');
 });

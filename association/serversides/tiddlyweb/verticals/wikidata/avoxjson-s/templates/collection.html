@@ -1,10 +1,25 @@
-{% include 'search.html' %}
 {% set fields = commonVars.fields %}
-<div id="recordsTableContainer">
-	<div id="results">
+<div id="pagenav" class="pagenavdarkbg">
+	<ul>
+		<li><a href="/index.html" class="lightborder darkgreen caps">Home</a></li>
+		<li><a href="#" class="lightborder darkgreen caps">Back</a></li>
+	</ul>
+</div>
+
+<div id="searchtitle" class="darkgreen">
+	<div class="wrap">
+		<h2>Search Option</h2>
+		<span> - Add company name or unique AVID number to search for a business</span>
+	</div>
+</div>
+<div id="content">
+	{% include 'search.html' %}
+	
+	<div id="table" class="bigwrap">
 		{% set count = tiddlers|count %}
-		<p class="small">
-		{% if count == 0 %}
+		<div id="tableinfo">
+			<span class="darktext">
+			{% if count == 0 %}
 			There are no results - <span class="filter"><a href="javascript:;">try adding a filter to include other fields in the search</a></span>
 		{% else %}
 			{% if count == 1 %}
@@ -16,51 +31,60 @@
 			{% endif %}
 		 - <span class="filter"><a href="javascript:;">add a filter</a>?</span>
 		{% endif %}
-		</p>
-		<div class="right small" id="columnPicker">
-			<div id="pickerControl">hide/show columns</div>
-			{% for field, label in fields %}
-			<div class="columns">
-				<span class="label">{{label}}</span>
-				<span class="controls">
-					<span class="hideControl">hide</span>|<span class="showControl">show</span>
-				</span>
+		</span>
+			<div id="columnPicker" class="onlyjs">
+				<button class="darkgreen whitetext lightborder caps right" id="pickerControl">Hide/Show Columns</button>
+				<div id="cols">
+					{% for field, label in fields %}
+					<div class="columns">
+						<span class="label">{{label}}</span>
+						<span class="controls">
+							<span class="hideControl">hide</span>|<span class="showControl">show</span>
+						</span>
+					</div>
+					{% endfor %}
+				</div>
 			</div>
-			{% endfor %}
+			<br class="clearboth" />
 		</div>
+		
+		<table id="recordsTable" class="draggable forget-ordering">
+			<thead>
+				<tr>
+					<th>AVID</th>
+				{% for field, label in fields %}
+					<th>{{label}}</th>
+				{% endfor %}
+					<th>Challenge</th>
+					<th>Request More Info</th>
+				</tr>
+			</thead>
+			<tfoot>
+				<tr>
+					<th><a href="javascript:;">hide</a></th>
+				{% for field, label in fields %}
+					<th><a href="javascript:;">hide</a></th>
+				{% endfor %}
+					<th><a href="javascript:;">hide</a></th>
+					<th><a href="javascript:;">hide</a></th>
+				</tr>
+			</tfoot>
+			<tbody>
+			{% for tiddler in tiddlers %}
+				<tr>
+					<td><a href="/bags/avox/tiddlers/{{tiddler.title}}.html">{{tiddler.title}}</a></td>
+				{% for field, label in fields %}
+					{% if field == 'company_website' %}
+					<td><a href="{{tiddler.fields[field]}}">{{tiddler.fields[field]}}</a></td>
+					{% else %}
+					<td>{{tiddler.fields[field]}}</td>
+					{% endif %}
+				{% endfor %}
+					<td><a href="/bags/avox/tiddlers/{{ tiddler.title }}.challenge">go</a></td>
+					<td><a href="/bags/avox/tiddlers/{{ tiddler.title }}.request">go</a></td>
+				</tr>
+			{% endfor %}
+			</tbody>
+		</table>
 	</div>
-	<table class="draggable forget-ordering" id="recordsTable">
-		<thead>
-			<tr>
-				<th>AVID</th>
-			{% for field, label in fields %}
-				<th>{{label}}</th>
-			{% endfor %}
-				<th>Challenge</th>
-				<th>Request More Info</th>
-			</tr>
-		</thead>
-		<tfoot class="dark">
-			<tr>
-				<th><a href="javascript:;">hide</a></th>
-			{% for field, label in fields %}
-				<th><a href="javascript:;">hide</a></th>
-			{% endfor %}
-				<th><a href="javascript:;">hide</a></th>
-				<th><a href="javascript:;">hide</a></th>
-			</tr>
-		</tfoot>
-		<tbody>
-		{% for tiddler in tiddlers %}
-			<tr>
-				<td><a href="/bags/avox/tiddlers/{{tiddler.title}}.html">{{tiddler.title}}</a></td>
-			{% for field, label in fields %}
-				<td>{{tiddler.fields[field]}}</td>
-			{% endfor %}
-				<td><a href="/bags/avox/tiddlers/{{ tiddler.title }}.challenge">go</a></td>
-				<td><a href="/bags/avox/tiddlers/{{ tiddler.title }}.request">go</a></td>
-			</tr>
-		{% endfor %}
-		</tbody>
-	</table>
 </div>

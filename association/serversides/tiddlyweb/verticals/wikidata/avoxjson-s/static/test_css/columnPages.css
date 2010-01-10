@@ -1,0 +1,17 @@
+#content-suggest tr {
+	background-color: transparent;
+}
+
+#content-suggest h2 {
+	margin-bottom: 0;
+}
+
+#rightpanel, #leftpanel {
+	color: black;
+}
+
+#submit {
+	-moz-border-radius: 0.5em;
+	-webkit-border-radius: 0.5em;
+	padding: 8px;
+}

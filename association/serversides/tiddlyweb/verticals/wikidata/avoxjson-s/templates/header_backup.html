@@ -1,0 +1,33 @@
+{% set usersign = commonVars.usersign -%}
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" lang="en">
+	<head>
+	<script type="text/javascript">
+		document.documentElement.className = 'js';
+	</script>
+	<link rel="stylesheet" href="/static/css/styles.css" />
+	<!--[if IE 6]>
+	<link rel="stylesheet" href="/static/css/ie6.css" />
+	<![endif]-->
+	<title>wiki-data, supported by Avox</title>
+	<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+	</head>
+	<body>
+	{%- if usersign.name != "GUEST" -%}
+	<div id="backstage" class="loggedIn">
+		You are logged in as {{usersign.name}} | <a href="/logout">Logout</a>
+	{%- else -%}
+	<div id="backstage">
+			<a href="/challenge">Login</a>
+	{% endif -%}
+	</div>
+	<div id="wrapper">
+		<div id="header">
+			<div>
+				<a href="/index.html"><h1>wiki-data</h1></a>
+				<a href="https://secure3.convio.net/mmrf/site/Donation2?idb=426930562&df_id=1360&1360.donation=form1" target="_blank"><img border="0" width="127" height="50" alt="Multiple Myeloma Research Foundation " src="http://avox.info/images/mmrf.jpg"/></a>
+			</div>
+			<div class="right">
+				<p><strong>wiki-data</strong><br/><span class="definition">(WI-KEE-DAY-TUH)</span><br/>-noun 1. a reliable source of company information</p>
+			</div>
+		</div>

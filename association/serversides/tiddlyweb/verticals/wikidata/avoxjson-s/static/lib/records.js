@@ -116,8 +116,10 @@ $(document).ready(function() {
 				$controls.each(function(i) {
 					if(!columns[i].bVisible) {
 						$(this).addClass("invisible");
+						$(this).removeClass("visible");
 					} else {
 						$(this).removeClass("invisible");
+						$(this).addClass("visible");
 					}
 				});
 			};
@@ -139,12 +141,12 @@ $(document).ready(function() {
 				updateControlList();
 				return false;
 			});
-			$('#columnPicker').hover(function() {
+			var colToggle = function() {
 				updateControlList();
-				$('#columnPicker .columns').show();
-			}, function() {
-				$('#columnPicker .columns').hide();
-			});
+				$('#columnPicker .columns').toggle();
+			};
+			$('#pickerControl').click(colToggle);
+			$('#columnPicker .columns').hide();
 		};
 		
 		if(window.asyncSearch) {

@@ -152,7 +152,7 @@ $.fn.dataTableExt.FixedHeader = function ( oTable )
 			var iWindow = $(window).scrollTop();
 			var iNew, iTbodyHeight;
 			
-			if ( _bIsIE6 )
+			if(1) //JRL: disabling pos:fixed to see if it helps with overflow problem // if ( _bIsIE6 )
 			{
 				if ( _iStart < iWindow )
 				{
@@ -226,6 +226,9 @@ $.fn.dataTableExt.FixedHeader = function ( oTable )
 		/* Clone the DataTables header */
 		var nThead = $('thead', _oSettings.nTable).clone(false)[0];
 		_nCTable.appendChild( nThead );
+		
+		/* JRL: set width of cloned table in case original table has grown */
+		$(_nCTable).width( $(_oSettings.nTable).width() );
 		
 		/* Copy the widths across - apparently a clone isn't good enough for this */
 		$("thead:eq(0)>tr th", _oSettings.nTable).each( function (i) {

@@ -1102,6 +1102,7 @@ function parseQueryString(q) {
 	return params;
 }
 function addAdvSearchLine() {
+	try {
 	var container = '#advancedSearchContainer';
 	
 	var i = DependentInputs.createRow(container);
@@ -1139,16 +1140,19 @@ function addAdvSearchLine() {
 			if(oTable && oTable.fixedHeader) {
 				oTable.fixedHeader.fnUpdate(true);
 			}
-		} ,300);
+		}, 300);
 	}
 	return $row;
+	} catch(ex) {
+		console.log(ex);
+	}
 }
 $(document).ready(function() {
 	// set advanced search on a slider
-	$('#search a.advanced').click(function() {
+	$('#search .advanced').css('cursor','pointer').click(function() {
 		addAdvSearchLine();
 	});
-	$('#results .filter a').click(function() {
+	$('#tableinfo .filter a').click(function() {
 		addAdvSearchLine();
 	});
 	// fill in search box and filters with current query
@@ -1213,6 +1217,8 @@ $(document).ready(function() {
 		$companyDiv.css("visibility","visible");
 		window.gMaps.op_address = $.trim($companyDiv.find('.adr div').text().replace(/[\n|\r]/g,"").replace(/(\s)+/g," "));
 	}
+	// now show hidden things
+	$('.onlyjs').css('visibility','visible');
 });
 /*
  * File:        jquery.dataTables.js
@@ -5861,7 +5867,7 @@ $.fn.dataTableExt.FixedHeader = function ( oTable )
 			var iWindow = $(window).scrollTop();
 			var iNew, iTbodyHeight;
 			
-			if ( _bIsIE6 )
+			if(1) //JRL: disabling pos:fixed to see if it helps with overflow problem // if ( _bIsIE6 )
 			{
 				if ( _iStart < iWindow )
 				{
@@ -5935,6 +5941,9 @@ $.fn.dataTableExt.FixedHeader = function ( oTable )
 		/* Clone the DataTables header */
 		var nThead = $('thead', _oSettings.nTable).clone(false)[0];
 		_nCTable.appendChild( nThead );
+		
+		/* JRL: set width of cloned table in case original table has grown */
+		$(_nCTable).width( $(_oSettings.nTable).width() );
 		
 		/* Copy the widths across - apparently a clone isn't good enough for this */
 		$("thead:eq(0)>tr th", _oSettings.nTable).each( function (i) {
@@ -6087,8 +6096,10 @@ $(document).ready(function() {
 				$controls.each(function(i) {
 					if(!columns[i].bVisible) {
 						$(this).addClass("invisible");
+						$(this).removeClass("visible");
 					} else {
 						$(this).removeClass("invisible");
+						$(this).addClass("visible");
 					}
 				});
 			};
@@ -6110,12 +6121,12 @@ $(document).ready(function() {
 				updateControlList();
 				return false;
 			});
-			$('#columnPicker').hover(function() {
+			var colToggle = function() {
 				updateControlList();
-				$('#columnPicker .columns').show();
-			}, function() {
-				$('#columnPicker .columns').hide();
-			});
+				$('#columnPicker .columns').toggle();
+			};
+			$('#pickerControl').click(colToggle);
+			$('#columnPicker .columns').hide();
 		};
 		
 		if(window.asyncSearch) {

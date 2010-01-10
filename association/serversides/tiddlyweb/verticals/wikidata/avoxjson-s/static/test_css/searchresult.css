@@ -1,0 +1,158 @@
+
+
+/* main content */
+
+#content {
+}
+
+#search {
+	background-color: #487c89;
+	border: 1px solid #7aaeb9;
+	padding: 15px 10px;
+	font-size: 0.8em;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+#search span {
+	text-transform:  lowercase;
+}
+
+#search a {
+	text-transform:  lowercase;
+	font-style: italic;
+	color: white;
+	font-weight: normal;
+	text-decoration: none;
+}
+
+/* Search Title */
+
+#searchtitle {
+	border-top:1px solid white;
+	border-bottom:1px solid white;
+	padding: 8px 0;
+}
+#searchtitle span {
+	font-style: italic;
+}
+#searchtitle h2 {
+	letter-spacing: 0.05em;
+	font-weight: bold;
+	display: inline;
+	text-transform: uppercase;
+
+}
+
+/* Table Info */
+
+#tableinfo {	
+	margin:50px 0 5px 0;
+	text-transform: uppercase;
+	font-size:0.65em;
+	font-weight: bold;
+}
+
+#tableinfo button {
+	padding: 2px 10px;
+	font-size: 0.9em;
+	font-weight: bold;
+}
+
+#tableinfo a {
+	color: #000101;
+}
+
+
+/* results table */
+
+tfoot tr th, thead tr th{
+	background-color: #183132;
+	text-transform: uppercase;
+}
+
+tr th {
+	padding: 8px 5px;
+	/*text-align: center;*/
+}
+
+tr td {
+	padding: 10px 5px;
+}
+
+#table {
+	font-size: 0.65em;
+	letter-spacing: 0.06em;
+}
+
+#recordsTable_wrapper { /* only present when DataTables kicks in */
+	overflow-x: auto;
+}
+
+.js #table {
+	visibility: hidden;
+}
+
+#recordsTable tbody td {
+	/*color: #cbe1ea;*/
+	color: #000000;
+	font-size: 1.2em;
+}
+
+#recordsTable th td {
+	background-color: #183132;
+}
+
+tr:nth-child(even) {
+	/*background-color: #387781;*/
+	background-color: #76BEBE;
+}
+
+tr:nth-child(odd) {
+	/*background-color: #60929a;*/
+	background-color: #ffffff;
+}
+
+/* JavaScript-specific styles */
+
+.advSearchLine {
+	padding-top: 10px;
+}
+
+.advSearchLine select, .advSearchLine input, .advSearchLine button {
+	margin-right: 5px;
+}
+
+#columnPicker {
+	position: relative;
+}
+
+#pickerControl {
+	cursor: pointer;
+}
+
+#columnPicker #cols {
+	background-color: #183132;
+	position: absolute;
+	z-index: 2;
+	right: 0;
+	top: 3em;
+}
+
+#columnPicker #cols .columns {
+	padding-bottom: 5px;
+}
+
+#cols .controls {
+	float: right;
+	padding-left: 10px;
+}
+
+#cols .controls {
+	cursor: pointer;
+}
+
+#cols .controls.invisible .hideControl, #cols .controls.visible .showControl {
+	text-transform: lowercase;
+	font-style: italic;
+	cursor: default;
+}
