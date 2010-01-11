@@ -22,7 +22,7 @@ h1 {
 	background: url("/static/test_images/logo.gif") top left no-repeat;
 	height: 159px;
 	background-position: center left;
-
+	width: 239px;
 }
 
 h2 {
@@ -74,7 +74,7 @@ pre {
 }
 
 .bigwrap {
-	width: 1024px;
+	width: 1080px;
 	margin: auto;
 }
 
@@ -91,7 +91,7 @@ pre {
 }
 
 .grid1col {
-	width: 231px;
+	width: 210px;
 }
 
 .left {
@@ -168,6 +168,11 @@ border:1px solid #7AAEB9;
 
 #suggestlogo {
 	background: url("/static/test_images/suggest.gif") top right no-repeat;
+	height: 44px;
+}
+
+#searchlogo {
+	background: url("/static/test_images/search.gif") top right no-repeat;
 	height: 44px;
 }
 
