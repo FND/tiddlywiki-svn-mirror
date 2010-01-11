@@ -3,7 +3,7 @@
 #recordcontainer {
 	position:relative;
 	top: 10px;
-	height: 615px;
+	height: 640px;
 }
 #recordcontainer .record.selected {
 	z-index:2;

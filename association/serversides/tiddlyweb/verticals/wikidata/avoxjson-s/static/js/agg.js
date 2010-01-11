@@ -1101,7 +1101,12 @@ $(document).ready(function() {
 	var $companyDiv = $('#recordcontainer');
 	if($companyDiv.length) {
 		$companyDiv.css("visibility","visible");
-		window.gMaps.op_address = $.trim($companyDiv.find('.adr div').text().replace(/[\n|\r]/g,"").replace(/(\s)+/g," "));
+		window.gMaps.op_address = $.trim(
+			($companyDiv.find('.adr .street-address').text() +
+			$companyDiv.find('.adr .locality').text() +
+			$companyDiv.find('.adr .region').text() +
+			$companyDiv.find('.adr .country-name').text() +
+			$companyDiv.find('.adr .postal-code').text()).replace(/[\n|\r]/g,"").replace(/(\s)+/g," "));
 	}
 });/* app.js */
 // override search links to use ajax_search as soon as possible
