@@ -9,6 +9,7 @@ tiddler: ../../plugins/batchNavigationMacro.js
 tiddler: ../../plugins/NavigationMacro/NavigationMacro.js
 tiddler: ../../plugins/VerticalUpdatePlugin.js
 tiddler: ../../plugins/TagsMacroTweak.js
+tiddler: ../../plugins/SaveServerCredentialsPlugin.js
 #
 #
 # 	Content
