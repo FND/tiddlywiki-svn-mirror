@@ -1,0 +1,75 @@
+{% set labels = [
+	'SWIFT BIC',
+	'REGISTRATION NUMBER (JURISDICTION)',
+	'DATE OF REGISTRATION',
+	'DATE OF DISSOLUTION',
+	'ISSUER FLAG',
+	'PRIMARY LISTING EXCHANGE',
+	'TICKER CODE',
+	'REGISTERED AGENT NAME',
+	'REGISTERED PO BOX',
+	'REGISTERED FLOOR',
+	'REGISTERED BUILDING',
+	'REGISTERED STREET 1',
+	'REGISTERED STREET 2',
+	'REGISTERED STREET 3',
+	'REGISTERED CITY',
+	'REGISTERED STATE',
+	'REGISTERED POSTCODE',
+	'NAICS CODE',
+	'NAICS DESCRIPTION',
+	'US SIC CODE',
+	'US SIC DESCRIPTION',
+	'ENTITY TYPE',
+	'IMMEDIATE PARENT AVID',
+	'IMMEDIATE PARENT NAME',
+	'ULTIMATE PARENT AVID',
+	'ULTIMATE PARENT NAME'
+] %}
+{% if captcha.success %}
+<div>
+<p>Thanks! We'll be in touch shortly.</p>
+</div>
+{% else %}
+<form id="request" action="/verify" method="post">
+	<div class="left">
+		<h2>{{tiddler.fields.legal_name}} (AVID {{tiddler.title}})</h2>
+		<p>You are requesting the information below:</p>
+		<ul>
+			{% for label in labels %}
+			<li>{{label}}</li>
+			{% endfor %}
+		</ul>
+		<label for="additional_data_requirements">Please list any additional data requirements</label>
+		<textarea cols="35" rows="5" name="additional_data_requirements"></textarea>
+	</div>
+	<div class="right">
+		<h2>Your information</h2>
+		<h3>(we'd like to know you are)</h3>
+		<label for="name">Your name</label>
+		<input type="text" size="35" name="name" />
+		<label for="email">Your email address</label>
+		<input type="text" size="35" name="email" />
+		<label for="country">Your country</label>
+		<input type="text" name="country" size="35" />
+		<label for="company">(Optional) Your company</label>
+		<input type="text" size="35" name="company" />
+		<input type="hidden" name="requestType" value="request" />
+		<input type="hidden" name="avid" value="{{tiddler.title}}" />
+		<input type="hidden" name="legal_name" value="{{tiddler.fields.legal_name}}" />
+		<div>Are you human?</div>
+		<script type="text/javascript" src="http://api.recaptcha.net/challenge?k=6Ld8HAgAAAAAAEIb34cZepZmJ0RlfeP6CmtoMO29"></script>
+		<noscript>
+			<iframe src="http://api.recaptcha.net/noscript?k=6Ld8HAgAAAAAAEIb34cZepZmJ0RlfeP6CmtoMO29" height="300" width="500" frameborder="0"></iframe><br />
+			<textarea name="recaptcha_challenge_field" rows="3" cols="40"></textarea>
+			<input type='hidden' name='recaptcha_response_field' value='manual_challenge' />
+		</noscript>
+		{% if captcha.failure %}
+		<div class="captcha_error">
+			<p>Whoops! I think you made a mistake with the CAPTCHA. Please try again.</p>
+		</div>
+		{% endif %}
+		<input type="submit" value="Submit request" />
+	</div>
+</form>
+{% endif %}

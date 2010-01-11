@@ -19,7 +19,7 @@
 	line-height: 2.5em;
 }
 
-.leftpanelhead #leftpanel h2 {
+.leftpanelhead #leftpanel h3 {
 	font-weight:bold;
 	font-size: 1em;
 	letter-spacing:0.05em;
@@ -109,7 +109,7 @@ border-top: 1px solid white;
 border-bottom: 1px solid white;
 }
 
-#content-challenge, #content-suggest {
+#content-challenge, #content-suggest, #content-request {
 	/*width: 100%; could add in to add the left stripe on IE6, but this introduces line-height problems */
 	position: relative;
 	}

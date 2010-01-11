@@ -1,8 +1,17 @@
-#content-challenge tr, #content-suggest tr {
+#content-challenge tr, #content-suggest tr, #content-request tr {
 	background-color: transparent;
 }
 
-#content-challenge h2, #content-suggest h2 {
+#content-request td {
+	padding: 5px;
+}
+
+#content-request p.entity-name {
+	font-style: italic;
+	margin-bottom: 10px;
+}
+
+#content-challenge h2, #content-suggest h2, #content-request h2 {
 	margin-bottom: 0;
 }
 
