@@ -109,7 +109,7 @@ border-top: 1px solid white;
 border-bottom: 1px solid white;
 }
 
-#content-suggest {
+#content-challenge, #content-suggest {
 	/*width: 100%; could add in to add the left stripe on IE6, but this introduces line-height problems */
 	position: relative;
 	}

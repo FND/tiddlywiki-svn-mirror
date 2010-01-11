@@ -1,0 +1,54 @@
+{% set fields = commonVars.fields %}
+{% set captcha = commonVars.captcha %}
+{% if captcha.success %}
+<div>
+<p>Thanks! We'll be in touch shortly.</p>
+</div>
+{% else %}
+<form id="challenge" action="/verify" method="post">
+	<div class="left">
+		<p>Please correct any information by adding to the right-hand column</p>
+		<table class="fields">
+			{% for field, label in fields %}
+			<tr>
+				<td><label for="challenge_{{field}}">{{label}}</label>{% if field in ['operational_country', 'operational_state', 'registered_country', 'registered_state'] -%}
+				<span class="{{field}}">
+				{%- else -%}
+				<span>{%- endif %}{{tiddler.fields[field]}}</span></td>
+				<td><input type="text" size="35" name="challenge_{{field}}" /></td>
+			</tr>
+			{% endfor %}
+		</table>
+	</div>
+	<div class="right">
+		<h2>Your information</h2>
+		<h3>(we'd like to know who you are)</h3>
+		<label for="name">Your name</label>
+		<input type="text" size="35" name="name" />
+		<label for="email">Your email address</label>
+		<input type="text" size="35" name="email" />
+		<label for="country">Your country</label>
+		<input type="text" size="35" name="country" />
+		<label for="company">(Optional) Your company</label>
+		<input type="text" size="35" name="company" />
+		<label for="source">(Optional) What is your source for this? Please include URL and/or sources used. We will use this to validate your challenge.</label>
+		<textarea cols="35" rows="5" name="source"></textarea>
+		<input type="hidden" name="requestType" value="challenge" />
+		<input type="hidden" name="avid" value="{{tiddler.title}}" />
+		<input type="hidden" name="legal_name" value="{{tiddler.fields.legal_name}}" />
+		<div>Are you human?</div>
+		<script type="text/javascript" src="http://api.recaptcha.net/challenge?k=6Ld8HAgAAAAAAEIb34cZepZmJ0RlfeP6CmtoMO29"></script>
+		<noscript>
+			<iframe src="http://api.recaptcha.net/noscript?k=6Ld8HAgAAAAAAEIb34cZepZmJ0RlfeP6CmtoMO29" height="300" width="500" frameborder="0"></iframe><br />
+			<textarea name="recaptcha_challenge_field" rows="3" cols="40"></textarea>
+			<input type='hidden' name='recaptcha_response_field' value='manual_challenge' />
+		</noscript>
+		{% if captcha.failure %}
+		<div class="captcha_error">
+			<p>Whoops! I think you made a mistake with the CAPTCHA. Please try again.</p>
+		</div>
+		{% endif %}
+		<input type="submit" value="Submit challenge" />
+	</div>
+</form>
+{% endif %}

@@ -83,6 +83,15 @@
 .selected .tab {background-color:#0F242B;border:0;margin-right:5px;color:white;}
 .tab {color:black;}
 .button {background-color:#0F242B;color:#fff;text-decoration:none;padding:5px;margin:10px;border: 1px solid #fff;-moz-border-radius:.5em;-webkit-border-radius:.5em;}
+
+a.button, a.button:visited, a.button:active {
+	border-bottom: 1px solid #fff;
+}
+
+a.button:hover {
+	border: 1px solid #487C89;
+}
+
 .buttcontainer {text-align:right;width:925px;margin:10px 10px 20px 10px;}
 .comprec {font-size:35pt;text-transform:uppercase;letter-spacing:2pt;margin-top:35px;color:black;}
 

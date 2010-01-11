@@ -1,8 +1,8 @@
-#content-suggest tr {
+#content-challenge tr, #content-suggest tr {
 	background-color: transparent;
 }
 
-#content-suggest h2 {
+#content-challenge h2, #content-suggest h2 {
 	margin-bottom: 0;
 }
 
@@ -14,4 +14,20 @@
 	-moz-border-radius: 0.5em;
 	-webkit-border-radius: 0.5em;
 	padding: 8px;
+}
+
+.existing {
+	width:185px;
+	background-color:#0F242B;
+	margin-bottom:12px;
+	-moz-border-radius:.3em;
+	-moz-border-radius:.3em;
+	-webkit-border-radius:.3em;
+	-webkit-border-radius:.3em;
+	padding: 0px 10px;
+}
+
+.existing span {
+	color: white;
+	line-height: 1.5em;
 }
