@@ -1,9 +1,13 @@
 /* generic classes */
-a, a:hover, a:visited, a:active {
+a {
 	text-decoration: none;
 	font: inherit;
 	color: inherit;
 	border-bottom: 1px dotted #000099;
+}
+
+a:hover, a:visited, a:active {
+	color: inherit;
 }
 
 a:hover {

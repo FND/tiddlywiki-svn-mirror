@@ -10,6 +10,8 @@ dataTables-1.5/media/js/jquery.dataTables.js \
 dragColumns.js \
 FixedHeader.js \
 records.js \
+GoogleMaps.js \
+GoogleAnalytics.js \
 > agg.js
 cp ../js/agg.js ../js/agg_backup.js
 mv agg.js ../js/agg.js

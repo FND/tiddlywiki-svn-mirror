@@ -39,7 +39,7 @@ $(document).ready(function() {
 			if($('#operational_map').is(":visible")) {
 				gLoad();
 			} else {
-				window.setTimeout(gLoad,1000);
+				window.setTimeout(window.mapsInitialize,1000);
 			}
 		};
 		gMapsHost += "&callback=mapsInitialize";

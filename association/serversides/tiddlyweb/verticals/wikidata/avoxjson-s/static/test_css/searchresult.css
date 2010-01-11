@@ -30,10 +30,12 @@
 #searchtitle {
 	border-top:1px solid white;
 	border-bottom:1px solid white;
-	padding: 8px 0;
+	padding: 8px 0 0;
 }
 #searchtitle span {
 	font-style: italic;
+	line-height: 2em;
+	display: inline-block; /* JRL: to allow you to see the bottom-border on any links in IE7 */
 }
 #searchtitle h2 {
 	letter-spacing: 0.05em;
