@@ -75,6 +75,7 @@
 .map {
 	width: 690px;
 	height: 400px;
+	color: #000;
 }
 
 .record {padding-bottom:10px;z-index:1;}
