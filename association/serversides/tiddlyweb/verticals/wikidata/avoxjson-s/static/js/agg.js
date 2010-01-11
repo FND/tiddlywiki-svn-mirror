@@ -1212,6 +1212,12 @@ $(document).ready(function() {
 			$hiddenWhileRendering.css("visibility","visible");
 		}
 	}
+	if($('#backnav').length) {
+		$('#backnav').click(function() {
+			window.history.go(-1);
+			return false;
+		});
+	}
 	// now show hidden things
 	$('.onlyjs').css('visibility','visible');
 });
@@ -6210,7 +6216,7 @@ $(document).ready(function() {
 $(document).ready(function() {
 	var gMapsHost = window.gMaps ? "http://www.google.com/jsapi?key="+window.gMaps.apiKey : "";
 	if(gMapsHost) {
-		window.mapsInitialize = function() {
+		function gLoad() {
 			google.load("maps", "2", {
 				"callback" : function() {
 					var map;
@@ -6243,6 +6249,13 @@ $(document).ready(function() {
 					geocoder.getLocations(op_address, addToMap);
 				}
 			});
+		}
+		window.mapsInitialize = function() {
+			if($('#operational_map').is(":visible")) {
+				gLoad();
+			} else {
+				window.setTimeout(gLoad,1000);
+			}
 		};
 		gMapsHost += "&callback=mapsInitialize";
 		$.getScript(gMapsHost);
