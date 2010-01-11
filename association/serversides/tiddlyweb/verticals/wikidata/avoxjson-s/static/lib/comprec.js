@@ -3,7 +3,11 @@ $(document).ready(function() {
 	var tabWidth, tabMargin, newWidth;
 	$('#recordcontainer .record').each(function() {
 		var $elem = $(this);
-		$elem.css({'float':'left','position':'absolute'});
+		$elem.css({'float':'left'});
+		$('.entitycontent', $elem).css({
+			"position":"absolute",
+			"left":"0"
+		});
 		if(!$elem.hasClass("selected")) {
 			$('.entitycontent',$elem).hide();
 		}
@@ -13,14 +17,8 @@ $(document).ready(function() {
 		$('#recordcontainer .record.selected').removeClass('selected').find('.entitycontent').hide();
 		$(this).parent().addClass('selected').end().next().show();
 	}).each(function(i) {
-		var $elem = $(this);
-		$elem.css({'position':'absolute','top':'-35px','cursor':'pointer'});
-		if(i===0) {
-			tabWidth = $elem.width();
-			tabMargin = 5; //parseInt($elem.css('marginRight'),10); doesn't work in Safari
-		} else {
-			newWidth = (tabWidth+tabMargin);
-			$(this).css('left',newWidth*i+'px');
+		if(i!==0) {
+			$(this).css("margin-left","5px");
 		}
 	});
 	$('#recordcontainer .tab').eq(0).click();

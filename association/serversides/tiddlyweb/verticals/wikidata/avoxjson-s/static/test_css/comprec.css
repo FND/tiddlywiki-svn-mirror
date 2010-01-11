@@ -3,6 +3,7 @@
 #recordcontainer {
 	position:relative;
 	top: 10px;
+	height: 615px;
 }
 #recordcontainer .record.selected {
 	z-index:2;
@@ -12,6 +13,7 @@
 }
 #tabscontainer {
 	position:relative;
+	top: 35px;
 }
 .tab {
 	width:130px;
@@ -26,6 +28,10 @@
 	-webkit-border-top-left-radius:.5em;
 	border-bottom:0;
 	padding-top:5px;
+}
+
+.private.tab {
+	background-color: #FFFF66;
 }
 
 .entitycontent {
@@ -80,9 +86,15 @@
 
 .record {padding-bottom:10px;z-index:1;}
 .tab.short {line-height:35px;}
-.selected .tab {background-color:#0F242B;border:0;margin-right:5px;color:white;}
+.selected .tab {background-color:#0F242B;border:0;color:white;}
 .tab {color:black;}
 .button {background-color:#0F242B;color:#fff;text-decoration:none;padding:5px;margin:10px;border: 1px solid #fff;-moz-border-radius:.5em;-webkit-border-radius:.5em;}
+
+.alt-buttons {
+	position: absolute;
+	bottom: 5px;
+	left: 5px;
+}
 
 a.button, a.button:visited, a.button:active {
 	border-bottom: 1px solid #fff;

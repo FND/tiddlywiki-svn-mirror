@@ -157,7 +157,7 @@
 		{%- if usersign.name != "GUEST" %}
 		{% set fields = commonVars.fields %}
 		<div class='record'>
-			<div class='tab'>
+			<div class='private tab'>
 				<h3>Private Fields</h3>				
 			</div>
 			<div class='entitycontent'>
@@ -190,12 +190,11 @@
 				<div id="registered_map"></div>
 			</div>
 		</div>-->
-
-		<div class="alt-buttons small">
-			<span class="label">other formats:&nbsp;</span>
-			<a href="{{ tiddler.title }}.json">json</a> |
-			<a href="{{ tiddler.title }}.txt">text</a>
-			<!--<a href="{{ tiddler.title }}.edit">edit</a>-->
-		</div>
+	</div>
+	<div class="alt-buttons small">
+		<span class="label">other formats:&nbsp;</span>
+		<a href="{{ tiddler.title }}.json">json</a> |
+		<a href="{{ tiddler.title }}.txt">text</a>
+		<!--<a href="{{ tiddler.title }}.edit">edit</a>-->
 	</div>
 </div>
