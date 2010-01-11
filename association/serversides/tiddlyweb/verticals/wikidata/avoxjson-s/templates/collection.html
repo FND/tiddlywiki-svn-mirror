@@ -18,7 +18,20 @@
 	<div id="table" class="bigwrap">
 		{% set count = tiddlers|count %}
 		<div id="tableinfo">
-			<span class="darktext">
+			<div id="columnPicker" class="onlyjs">
+				<button class="darkgreen whitetext lightborder caps right" id="pickerControl">Hide/Show Columns</button>
+				<div id="cols">
+					{% for field, label in fields %}
+					<div class="columns">
+						<span class="controls">
+							<span class="hideControl">hide</span>|<span class="showControl">show</span>
+						</span>
+						<span class="label">{{label}}</span>
+					</div>
+					{% endfor %}
+				</div>
+			</div>
+			<p class="darktext" id="results_count">
 			{% if count == 0 %}
 			There are no results - <span class="filter"><a href="javascript:;">try adding a filter to include other fields in the search</a></span>
 		{% else %}
@@ -29,22 +42,9 @@
 			{% else %}
 				There are {{count}} results
 			{% endif %}
-		 - <span class="filter"><a href="javascript:;">add a filter</a>?</span>
-		{% endif %}
-		</span>
-			<div id="columnPicker" class="onlyjs">
-				<button class="darkgreen whitetext lightborder caps right" id="pickerControl">Hide/Show Columns</button>
-				<div id="cols">
-					{% for field, label in fields %}
-					<div class="columns">
-						<span class="label">{{label}}</span>
-						<span class="controls">
-							<span class="hideControl">hide</span>|<span class="showControl">show</span>
-						</span>
-					</div>
-					{% endfor %}
-				</div>
-			</div>
+			 - <span class="filter"><a href="javascript:;">add a filter</a>?</span>
+			{% endif %}
+			</p>
 			<br class="clearboth" />
 		</div>
 		

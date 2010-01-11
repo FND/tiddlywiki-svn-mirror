@@ -40,10 +40,29 @@ strong {
 
 table {
 	margin-bottom: 10px;
+	border-collapse: collapse;
 }
 
 th {
 	cursor: pointer;
+}
+
+tbody {
+	background-color: #fff;
+}
+
+/* these rules have been split up so that IE can read the non-pseudo-class rules */
+tr.even {
+	background-color: #76BEBE;
+}
+tr:nth-child(even) {
+	background-color: #76BEBE;
+}
+tr.odd {
+	background-color: #ffffff;
+}
+tr:nth-child(odd) {
+	background-color: #ffffff;
 }
 
 pre, code {
