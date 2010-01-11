@@ -93,7 +93,7 @@ $(document).ready(function() {
 				}
 				oTable.fixedHeader.fnUpdate();
 			}
-			$table.css('visibility',"visible");
+			$('#table').css('visibility',"visible");
 			$.fn.dragColumns('#recordsTable');
 			oTable.fixedHeader = new $.fn.dataTableExt.FixedHeader(oTable);
 			columns = oTable.fnSettings().aoColumns;
