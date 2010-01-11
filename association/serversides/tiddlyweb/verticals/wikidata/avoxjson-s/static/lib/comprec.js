@@ -26,7 +26,7 @@ $(document).ready(function() {
 	if($companyDiv.length) {
 		$companyDiv.css("visibility","visible");
 		window.gMaps.op_address = $.trim(
-			($companyDiv.find('.adr .street-address').text() +
+			(//$companyDiv.find('.adr .street-address').text() +
 			$companyDiv.find('.adr .locality').text() +
 			$companyDiv.find('.adr .region').text() +
 			$companyDiv.find('.adr .country-name').text() +
