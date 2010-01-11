@@ -46,3 +46,16 @@
 #static #notice {
 	margin-bottom: 10px;
 }
+
+#loginform {
+	padding: 10px;
+}
+
+#loginform div {
+	margin-bottom: 10px;
+}
+
+#loginform div label {
+	width: 100px;
+	float: left;
+}

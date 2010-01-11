@@ -27,7 +27,14 @@
 	
 		<div id="footwrap">
 		<div id="main" class="clearfix">
-	
+		{%- if usersign.name != "GUEST" -%}
+		<div id="backstage" class="loggedIn">
+			You are logged in as {{usersign.name}} | <a href="/logout">Logout</a>
+		{%- else -%}
+		<div id="backstage">
+				<a href="/challenge">Login</a>
+		{% endif -%}
+		</div>
 		<div id="header">
 			<div class="bigwrap clear">
 				<a href="/index.html">

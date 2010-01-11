@@ -164,6 +164,23 @@ border:1px solid #7AAEB9;
 	visibility: visible;
 }*/
 
+/* backstage */
+#backstage {
+	position: absolute;
+	top: 0;
+	right: 0;
+	height: 16px;
+	width: 100%;
+	padding: 2px;
+	text-align: right;
+	font-size: small;
+	z-index: 3;
+}
+#backstage.loggedIn {
+	background-color: #ffff66;
+	color: black;
+}
+
 /* image replacements */
 
 #suggestlogo {
