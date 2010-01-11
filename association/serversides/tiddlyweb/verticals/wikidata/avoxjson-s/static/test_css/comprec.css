@@ -42,6 +42,10 @@
 	 -webkit-border-bottom-left-radius:.3em;
 }
 
+.entitycontent table {
+	border-collapse: collapse;
+}
+
 .entitycontent td {
 	background-color:#c4d0d5;
 	border: 1px solid #fff;
@@ -60,9 +64,12 @@
 	letter-spacing:.2em;
 }
 
-
 .labelwidth {
 	width:200px;
+}
+
+.adr {
+	margin-bottom: 10px;
 }
 
 .map {

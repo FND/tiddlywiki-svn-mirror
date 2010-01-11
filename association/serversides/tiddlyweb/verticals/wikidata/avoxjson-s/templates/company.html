@@ -93,58 +93,37 @@
 				<h3>Operational Address</h3>				
 			</div>
 			<div class='entitycontent'>
-				<table class="fields">
-					<tbody>
-						<tr>
-							<td class='labelwidth'>
-								<label>P.O. Box:</label>
-							</td>
-							<td>
-								<span>{{ tiddler.fields.operational_po_box }}</span>
-							</td>
-						</tr>
-						<tr>
-							<td class='labelwidth'>
-								<label>Building:</label>
-							</td>
-							<td>
-								<span>{{ tiddler.fields.operational_building }}</span>
-							</td>
-						</tr>
-						<tr>
-							<td class='labelwidth'>
-								<label>Street:</label>
-							</td>
-							<td>
-								<span>{{ tiddler.fields.operational_street_1 }}{% if tiddler.fields.operational_street_2 %}, {{ tiddler.fields.operational_street_2 }}{% endif %}{% if tiddler.fields.operational_street_3 %}, {{ tiddler.fields.operational_street_3 }}{% endif %}</span>
-							</td>
-						</tr>
-						<tr>
-							<td class='labelwidth'>
-								<label>City:</label>
-							</td>
-							<td>
-								<span>{{ tiddler.fields.operational_city }}</span>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<label class='labelwidth'>State:</label>
-							</td>
-							<td>
-								<span>{{ tiddler.fields.operational_state }}</span>
-							</td>
-						</tr>
-						<tr>
-							<td class='labelwidth'>
-								<label>Postcode/Zip:</label>
-							</td>
-							<td>
-								<span>{{ tiddler.fields.operational_postcode }}</span>
-							</td>
-						</tr>
-					</tbody>
-				</table>
+				<div class="adr">
+					{% if tiddler.fields.operational_po_box %}
+					<div class="post-office-box">
+						{{ tiddler.fields.operational_po_box }}
+					</div>
+					{% endif %}
+					{% if tiddler.fields.operational_floor or tiddler.fields.operational_building %}
+					<div class="extended-address">
+						{% if tiddler.fields.operational_floor %}{{ tiddler.fields.operational_floor }} {% endif %}{% if tiddler.fields.operational_building %}{{ tiddler.fields.operational_building }}{% endif %}
+					</div>
+					{% endif %}
+					<div class="street-address">
+						{{ tiddler.fields.operational_street_1 }}{% if tiddler.fields.operational_street_2 %}, {{ tiddler.fields.operational_street_2 }}{% endif %}{% if tiddler.fields.operational_street_3 %}, {{ tiddler.fields.operational_street_3 }}{% endif %}
+					</div>
+					<div>
+						{% if tiddler.fields.operational_city -%}
+						<span class="locality">{{ tiddler.fields.operational_city }}</span>
+						{%- endif -%}
+						{%- if tiddler.fields.operational_state -%},
+						<span class="region operational_state">{{ tiddler.fields.operational_state }}</span>
+						{%- endif -%}
+						{%- if tiddler.fields.operational_country -%},
+						<span class="country-name operational_country">{{ tiddler.fields.operational_country }}</span>
+						{%- endif %}
+					</div>
+					<div>
+						{% if tiddler.fields.operational_postcode %}
+						<span class="postal-code">{{ tiddler.fields.operational_postcode }}</span>
+						{% endif %}
+					</div>
+				</div>
 				<script type="text/javascript">
 					window.gMaps = {
 						apiKey: "{{ maps_api_key }}",
