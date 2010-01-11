@@ -136,6 +136,12 @@ $(document).ready(function() {
 			$hiddenWhileRendering.css("visibility","visible");
 		}
 	}
+	if($('#backnav').length) {
+		$('#backnav').click(function() {
+			window.history.go(-1);
+			return false;
+		});
+	}
 	// now show hidden things
 	$('.onlyjs').css('visibility','visible');
 });
