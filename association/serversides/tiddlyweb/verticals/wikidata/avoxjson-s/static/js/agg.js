@@ -6230,7 +6230,7 @@ $(document).ready(function() {
 						marker.openInfoWindowHtml(company);
 					};
 					// Create new map object
-					map = new google.maps.Map2(document.getElementById("map"));
+					map = new google.maps.Map2(document.getElementById("operational_map"));
 					map.addControl(new google.maps.SmallMapControl());
 					map.addControl(new google.maps.MapTypeControl());
 					// Create new geocoding object
