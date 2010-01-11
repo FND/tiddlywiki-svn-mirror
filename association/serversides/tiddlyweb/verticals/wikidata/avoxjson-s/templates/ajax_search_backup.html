@@ -1,0 +1,59 @@
+{% include 'search.html' %}
+{% set fields = commonVars.fields %}
+<script type="text/javascript">
+	window.asyncSearch = true;
+</script>
+<div id="recordsTableContainer">
+	<div id="results">
+		<p class="small" id="results_count">Loading results...</p>
+		<div class="right small" id="columnPicker">
+			<div id="pickerControl">hide/show columns</div>
+			<div class="columns">
+				<span class="label">AVID</span>
+				<span class="controls">
+					<span class="hideControl">hide</span>|<span class="showControl">show</span>
+				</span>
+			</div>
+			{% for field, label in fields %}
+			<div class="columns">
+				<span class="label">{{label}}</span>
+				<span class="controls">
+					<span class="hideControl">hide</span>|<span class="showControl">show</span>
+				</span>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+	<div id="recordsTable_wrapper" class="dataTables_wrapper"><table class="draggable forget-ordering" id="recordsTable">
+		<thead>
+			<tr>
+				<th>AVID</th>
+			{% for field, label in fields %}
+				<th>{{label}}</th>
+			{% endfor %}
+				<th>Challenge</th>
+				<th>Request More Info</th>
+			</tr>
+		</thead>
+		<tfoot class="dark">
+			<tr>
+				<th><a href="javascript:;">hide</a></th>
+			{% for field, label in fields %}
+				<th><a href="javascript:;">hide</a></th>
+			{% endfor %}
+				<th><a href="javascript:;">hide</a></th>
+				<th><a href="javascript:;">hide</a></th>
+			</tr>
+		</tfoot>
+		<tbody>	
+			<tr>
+				<td></td>
+			{% for field, label in fields %}
+				<td></td>
+			{% endfor %}
+				<td></td>
+				<td></td>
+			</tr>
+		</tbody>
+	</table></div>
+</div>

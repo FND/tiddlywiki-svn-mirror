@@ -1,0 +1,82 @@
+
+/* company information */
+#recordcontainer {
+	position:relative;
+	top: 10px;
+}
+#recordcontainer .record.selected {
+	z-index:2;
+}
+.js #recordcontainer {
+	visibility: hidden;
+}
+#tabscontainer {
+	position:relative;
+}
+.tab {
+	width:130px;
+	height:35px;
+	background-color:#c4d0d5;
+	text-transform:uppercase;
+	font-size:10pt;
+	text-align:center;
+	-moz-border-radius-topright:.5em;
+	-moz-border-radius-topleft:.5em;
+	-webkit-border-top-right-radius:.5em;
+	-webkit-border-top-left-radius:.5em;
+	border-bottom:0;
+	padding-top:5px;
+}
+
+.entitycontent {
+	width:901px;
+	background-color:#0F242B;
+	padding:12px;
+	font-size:1em;
+	font-weight:lighter;
+	-moz-border-radius-topright:.3em;
+	-moz-border-radius-bottomright:.3em;
+	-moz-border-radius-bottomleft:.3em;
+	 -webkit-border-top-right-radius:.3em;
+	 -webkit-border-bottom-right-radius:.3em;
+	 -webkit-border-bottom-left-radius:.3em;
+}
+
+.entitycontent td {
+	background-color:#c4d0d5;
+	border: 1px solid #fff;
+	padding:10px;
+	color:black;
+	
+}
+
+.entitycontent span {
+	font-weight:lighter;
+}
+
+.entitycontent label {
+	font-size:1em;
+	font-weight:inherit;
+	letter-spacing:.2em;
+}
+
+
+.labelwidth {
+	width:200px;
+}
+
+.map {
+	width: 690px;
+	height: 400px;
+}
+
+.record {padding-bottom:10px;z-index:1;}
+.tab.short {line-height:35px;}
+.selected .tab {background-color:#0F242B;border:0;margin-right:5px;color:white;}
+.tab {color:black;}
+.button {background-color:#0F242B;color:#fff;text-decoration:none;padding:5px;margin:10px;border: 1px solid #fff;-moz-border-radius:.5em;-webkit-border-radius:.5em;}
+.buttcontainer {text-align:right;width:925px;margin:10px 10px 20px 10px;}
+.comprec {font-size:35pt;text-transform:uppercase;letter-spacing:2pt;margin-top:35px;color:black;}
+
+
+

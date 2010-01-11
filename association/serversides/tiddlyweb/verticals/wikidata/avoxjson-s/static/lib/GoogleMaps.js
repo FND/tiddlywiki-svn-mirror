@@ -1,5 +1,5 @@
 $(document).ready(function() {
-var gMapsHost = window.gMaps ? "http://www.google.com/jsapi?key="+window.gMaps.apiKey : "";
+	var gMapsHost = window.gMaps ? "http://www.google.com/jsapi?key="+window.gMaps.apiKey : "";
 	if(gMapsHost) {
 		window.mapsInitialize = function() {
 			google.load("maps", "2", {

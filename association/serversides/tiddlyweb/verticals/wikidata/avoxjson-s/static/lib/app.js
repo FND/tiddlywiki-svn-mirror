@@ -131,15 +131,10 @@ $(document).ready(function() {
 		});
 		DependentInputs.addRows('table.fields',"label",":input","tr");
 		DependentInputs.addRow('div.right',"label[for=country]","label[for=country]+input");
-	}
-	var $hiddenWhileRendering = $('div.company, table.fields, div.right');
-	if($hiddenWhileRendering.length) {
-		$hiddenWhileRendering.css("visibility","visible");
-	}
-	var $companyDiv = $('div.company');
-	if($companyDiv.length) {
-		$companyDiv.css("visibility","visible");
-		window.gMaps.op_address = $.trim($companyDiv.find('.adr div').text().replace(/[\n|\r]/g,"").replace(/(\s)+/g," "));
+		var $hiddenWhileRendering = $('table.fields, div.right');
+		if($hiddenWhileRendering.length) {
+			$hiddenWhileRendering.css("visibility","visible");
+		}
 	}
 	// now show hidden things
 	$('.onlyjs').css('visibility','visible');
