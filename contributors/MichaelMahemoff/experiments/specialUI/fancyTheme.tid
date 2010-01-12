@@ -2,6 +2,7 @@ modifier: mahemoff
 
 |StyleSheet|##StyleSheet|
 |PageTemplate|##PageTemplate|
+|Code|##Code|
 
 !StyleSheet
 /* CSS RESET */
@@ -61,14 +62,16 @@ table {
 #tiddlerDisplay { display: none; }
 
 /* CUSTOM STYLES */
-body { background: orange; }
-h1 { padding: 1em; background: turquoise; height: 20px; }
+body { background: black; }
+h1 { padding: 1em; background: #00f; color: #ff0; height: 20px; }
+#backstageArea { font-size: 0.75em; padding: 3px 0.5em; }
 #backstageButton a { height: 20px; opacity: 0.01; }
 #backstageButton a:hover { opacity: 1; }
 
-button { margin: 0 0.2em; }
+button#play { margin: 0 0.2em; display: none; }
 select { margin: 1em; }
-video, #test { display: block; border: 2px inset #99f; margin: 1em; }
+video, #test { display: block; margin: 1em; }
+video { width: 600px; height: 400px; border: 1px solid white; }
 
 !PageTemplate
 <h1>Not Another Video Freakin' Portal</h1>
@@ -84,9 +87,20 @@ video, #test { display: block; border: 2px inset #99f; margin: 1em; }
 
   <button id="play">play</button>
 
+  <div id="videoWrapper"></div>
+
 </div>
-
-<video id="test" src="http://tinyvid.tv/file/ah2ebubqurvy.ogg">
-  Your browser doesn't support HTML5 video. Please run this demo under a modern browser, e.g. <a href="http://getfirefox.com">Firefox</a>.
-</video>
-
+!Code
+alert("al");
+$("select").live("change", function() {
+  // $("video").attr("src", $(this).val()).get()[0].load();
+  var video = $("video");
+  /* SHOULD WORK BUT DOESN'T: video.src = $(this).val() video.load(); */
+  $video = $("<video autoplay='autoplay'/>").attr("src", $(this).val());
+  $("#videoWrapper").html($video);
+  $("#play").show().html("pause");
+});
+$("#play").live("click", function() {
+  var video = $("video")[0];
+  video.paused ? $(this).html("pause") && video.play() : $(this).html("play") && video.pause();
+});
