@@ -101,12 +101,13 @@ config.macros.ccLogin.refresh=function(place, reload, error){
 		config.macros.ccLogin.doLogin(w.formElem["username"].value, w.formElem["password"].value, this, place);
 	},null, null, null,  {tabindex:'3'});
 
-
-	if(config.macros.register!==undefined && window.canRegister == 1 && window.displayRegisterOnLogin == 1){		
+	if(config.macros.register!==undefined && serverside.can_create_account == 1 && window.displayRegisterOnLogin == 1){		
 		var li_register = createTiddlyElement(w.footElem, "li");
 		createTiddlyButton(li_register,config.macros.register.buttonRegister,config.macros.register.buttonRegisterToolTip,function() {
 				config.macros.register.displayRegister(place, w, this);
 		},"nobox", null, null,  {tabindex:4});
+	} else {
+		createTiddlyText(w.footElem, config.macros.ccLogin.registrationDisabled);
 	}
 
 /*	var li_forgotten = createTiddlyElement(w.footElem, "li");
