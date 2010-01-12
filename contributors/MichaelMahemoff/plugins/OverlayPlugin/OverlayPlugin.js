@@ -51,7 +51,7 @@ html, body {
       // var content = store.getTiddlerText(getParam(macroParams, "contentTiddler"));
       overlay = overlays[0];
       $overlay = $("<div id='overlay'/>").hide().html(store.getTiddlerText(overlay.title+"##Content")).appendTo("body");
-      config[overlay.title].onLoad();
+      call(config[overlay.title].onLoad);
       // $("#closeOverlay").click(version.extensions.overlay.toggle);
       overlayStyleSheetContent = store.getTiddlerText("overlay##StyleSheet");
       var customOverlayStyleSheetContent = store.getTiddlerText(overlay.title+"##StyleSheet");
@@ -66,21 +66,22 @@ html, body {
     if ($overlay.css("display")=="none") {
       $.twStylesheet(overlayStyleSheetContent, {id: "overlayStyleSheet"});
       overlayBaseStylesheet = $("style:last")[0];
-      config[overlayTiddlerTitle].onOpen();
+      call(config[overlayTiddlerTitle].onOpen);
       $overlay.fadeIn(1000, function() {
         allStylesFrag = document.createDocumentFragment();
         $("style").each(function() {
           if (this!=overlayBaseStylesheet) allStylesFrag.appendChild(this);
         });
-        $.twStylesheet("#copyright,#saveTest,#backstage,#backstageButton,#storeArea,#shadowArea,#contentWrapper { display: none; }", {id:"main"});
-        $("#backstageButton").hide();
+        $.twStylesheet("#copyright,#saveTest,#backstage,#backstageCloak,#backstageArea,#backstageButton,#storeArea,#shadowArea,#contentWrapper { display: none; }", {id:"main"});
+        $("#backstageArea,#backstageButton").hide();
       });
     } else {
       $.twStylesheet.remove({id:"main"});
       $(allStylesFrag).children().each(function() {
         $("head").append(this);
       });
-      $("#backstageButton").show();
+      $("#backstageArea,#backstageButton").show();
+      call(config[overlayTiddlerTitle].onClose);
       $overlay.fadeOut(function() {
         $.twStylesheet.remove({id:"overlayStyleSheet"});
         // $(overlayBaseStylesheet).remove();
@@ -91,6 +92,7 @@ html, body {
 
   version.extensions.overlay.toggle();
 
+  function call(fn) { if (fn) fn(); }
 
 })(jQuery);
 

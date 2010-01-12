@@ -1,6 +1,0 @@
-modifier: mahemoff
-tags: overlay
-
-<p>A video demo</p>
-<video controls="controls" src="http://tinyvid.tv/file/7prvuge6arom.ogg"></video>
-<p><button id="closeOverlay">close</button></p>

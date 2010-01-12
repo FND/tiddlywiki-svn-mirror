@@ -1,6 +1,6 @@
 modifier: mahemoff
 
-<<overlay launchLabel:Stuff contentTiddler:Video styleSheetTiddler:VideoStyleSheet>>
+<<overlay launchLabel:"Show The Video" contentTiddler:Video styleSheetTiddler:VideoStyleSheet>>
 
 This is another attempt to make a non-TiddlyWiki look-and-feel for Tiddlywiki, as discussed here:
 http://groups.google.com/group/tiddlywikidev/browse_thread/thread/53f7c8120a3c3887
