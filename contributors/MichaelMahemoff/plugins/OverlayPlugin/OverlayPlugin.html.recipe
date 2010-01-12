@@ -2,7 +2,7 @@
 recipe: $TW_ROOT/core/tiddlywiki.html.recipe
 
 # The plugin
-tiddler: overlay.js
+tiddler: OverlayPlugin.js
 
 # Demo
 tiddler: DefaultTiddlers.tiddler
