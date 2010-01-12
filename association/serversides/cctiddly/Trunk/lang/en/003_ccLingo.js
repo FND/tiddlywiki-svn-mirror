@@ -152,7 +152,8 @@ merge(config.macros.ccLogin,{
 	configURL:window.url+"/handle/login.php", 
 	configUsernameInputName:"cctuser",
 	configPasswordInputName:"cctpass",
-	configPasswordCookieName:"cctPass"
+	configPasswordCookieName:"cctPass", 
+	registrationDisabled:"Registration Disabled"
 });
 
 merge(config.macros.ccLoginStatus,{
