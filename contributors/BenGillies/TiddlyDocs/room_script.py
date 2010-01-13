@@ -11,7 +11,7 @@ from tiddlyweb.web.http import HTTP403
 from cgi import FieldStorage
 from tiddlyweb.model.bag import Bag
 from tiddlyweb.model.recipe import Recipe
-from tiddlyweb.manage import _put, _store
+from tiddlyweb.commands import _put, _store
 
 
 
