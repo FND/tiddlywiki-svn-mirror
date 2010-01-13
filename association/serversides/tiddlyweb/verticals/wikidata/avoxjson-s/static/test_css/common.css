@@ -321,3 +321,7 @@ border:1px solid #7AAEB9;
 #footer a {
 	color: #fff;
 }
+
+#footer a:hover {
+	background-color: #183132;
+}
