@@ -6039,7 +6039,7 @@ var aoColumnsRenderMap = {
 		return ISO_3166.countries.iso2name[data.aData[data.iDataColumn]] || "";
 	},
 	"operational_state": function(data) {
-		var country = ISO_3166.countries.iso2name[data.aData[15]];
+		var country = ISO_3166.countries.iso2name[data.aData[14]]; // 14 is the operational_country
 		var mapping;
 		var state;
 		switch(country) {
@@ -6056,7 +6056,7 @@ var aoColumnsRenderMap = {
 				// nothing
 				break;
 		}
-		state = mapping ? mapping.iso2name[data.aData[data.iDataColumn]] : "";
+		state = mapping ? mapping.iso2name[data.aData[data.iDataColumn]] : data.aData[data.iDataColumn];
 		return state;
 	},
 	"operational_country": function(data) {
