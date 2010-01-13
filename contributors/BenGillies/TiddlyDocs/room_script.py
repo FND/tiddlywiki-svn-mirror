@@ -11,7 +11,8 @@ from tiddlyweb.web.http import HTTP403
 from cgi import FieldStorage
 from tiddlyweb.model.bag import Bag
 from tiddlyweb.model.recipe import Recipe
-from tiddlyweb.commands import _put, _store
+from tiddlyweb.commands import _store
+from tiddlyweb.serializer import Serializer
 
 
 
@@ -90,3 +91,13 @@ def init(config):
     selector = config['selector']
     selector.add('/admin/addroom[/]', GET=get_room_add)
     selector.add('/admin/addroom[/]', POST=make_room)
+
+def _put(entity, content, serialization):
+    """
+    Put entity to store, by serializing content
+    using the named serialization.
+    """
+    serializer = Serializer(serialization)
+    serializer.object = entity
+    serializer.from_string(content)
+    _store().put(entity)
