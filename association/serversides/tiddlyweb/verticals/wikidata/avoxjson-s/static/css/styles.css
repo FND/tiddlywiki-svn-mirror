@@ -445,3 +445,16 @@ table.fields td span {
 #api table {
 	margin: 10px 0;
 }
+
+#news {
+	width: 240px;
+	float: right;
+	margin-left: 20px;
+	background-color: #FFFF66;
+	padding-top: 1em;
+}
+
+#news p {
+	line-height: 17px;
+	margin: 0 17px;
+}
