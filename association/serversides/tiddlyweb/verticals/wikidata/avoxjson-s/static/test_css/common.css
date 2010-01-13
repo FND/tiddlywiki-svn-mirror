@@ -45,10 +45,12 @@ strong {
 table {
 	margin-bottom: 10px;
 	border-collapse: collapse;
+	color: #000000;
 }
 
 th {
 	cursor: pointer;
+	color: #fff;
 }
 
 tbody {
