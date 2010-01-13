@@ -13,7 +13,8 @@ from tiddlyweb.web.http import HTTP403
 from cgi import FieldStorage
 from tiddlyweb.model.bag import Bag
 from tiddlyweb.model.recipe import Recipe
-from tiddlyweb.commands import _store, make_command
+from tiddlyweb.manage import make_command
+from tiddlyweb.store import Store
 import simplejson as json
 
 ROOM = """{
@@ -83,7 +84,7 @@ def create_room(args):
     create_room_elements(args[0])
 
 def create_room_elements(room_name):
-    room_space = Space({'tiddlyweb.store': _store()})
+    room_space = Space({'tiddlyweb.store': store})
     
     this_room = ROOM.replace('ROOMNAME', room_name)
     
@@ -128,7 +129,16 @@ def get_room_add(environ, start_response):
         
     return html
 
+
 def init(config):
     if 'selector' in config:
         selector = config['selector']
         selector.add('/admin/addroom[/]', dict(GET=get_room_add, POST=make_room))
+        
+    def _store():
+        return Store(config['server_store'][0],
+            config['server_store'][1],
+            environ={'tiddlyweb.config': config})
+    
+    global store
+    store = _store()
