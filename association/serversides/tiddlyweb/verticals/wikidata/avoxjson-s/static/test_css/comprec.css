@@ -84,7 +84,11 @@
 	color: #000;
 }
 
-.record {padding-bottom:10px;z-index:1;position:relative;}
+.record {
+	padding-bottom:10px;
+	z-index:1;
+	position:relative;
+}
 .tab.short {line-height:35px;}
 .selected .tab {background-color:#0F242B;border:0;color:white;}
 .tab {color:black;}

@@ -1240,16 +1240,22 @@ $(document).ready(function() {
 			}
 		});
 		$('#recordcontainer .tab').click(function() {
-			//var i = $('#recordcontainer .tab').index(this);
+			var i = $('#recordcontainer .tab').index(this);
 			$('#recordcontainer .record.selected').removeClass('selected').find('.entitycontent').hide();
-			$(this).parent().addClass('selected').end().next().show();
+			var $entitycontent = $(this).parent().addClass('selected').end().next();
+			if(i>0) {
+				$entitycontent.css({
+					"left": -($(this).width()*i + 5*(i-1))
+				});
+			}
+			$entitycontent.show();
 		}).each(function(i) {
 			if(i!==0) {
 				$(this).css("margin-left","5px");
 			}
 		});
+		$companyDiv.removeClass('hide').css("visibility", "visible");
 		$('#recordcontainer .tab').eq(0).click();
-		$companyDiv.removeClass('hide');
 		var addressText = $.trim((//$companyDiv.find('.adr .street-address').text() + " " +
 			$companyDiv.find('.adr .locality').text() + " " +
 			$companyDiv.find('.adr .region').text() + " " +
