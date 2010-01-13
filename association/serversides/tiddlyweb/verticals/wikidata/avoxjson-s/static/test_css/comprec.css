@@ -8,9 +8,9 @@
 #recordcontainer .record.selected {
 	z-index:2;
 }
-.js #recordcontainer {
+/*.js #recordcontainer {
 	visibility: hidden;
-}
+}*/
 #tabscontainer {
 	position:relative;
 	top: 20px;
@@ -30,7 +30,7 @@
 	padding-top:5px;
 }
 
-.private.tab {
+.private {
 	background-color: #FFFF66;
 }
 
@@ -84,7 +84,7 @@
 	color: #000;
 }
 
-.record {padding-bottom:10px;z-index:1;}
+.record {padding-bottom:10px;z-index:1;position:relative;}
 .tab.short {line-height:35px;}
 .selected .tab {background-color:#0F242B;border:0;color:white;}
 .tab {color:black;}
@@ -107,5 +107,9 @@ a.button:hover {
 .buttcontainer {text-align:right;width:925px;margin:10px 10px 20px 10px;}
 .comprec {font-size:35pt;text-transform:uppercase;letter-spacing:2pt;margin-top:35px;color:black;}
 
-
-
+.js .hide {
+    visibility: hidden;
+    position: absolute;
+    top: -10000px;
+    left: -10000px;
+}
