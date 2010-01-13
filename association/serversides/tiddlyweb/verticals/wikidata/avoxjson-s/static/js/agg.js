@@ -1205,7 +1205,9 @@ $(document).ready(function() {
 				return DependentInputs.values.countries;
 			}
 		});
-		DependentInputs.addRows('table.fields',"label",":input","tr");
+		if($('table.fields').length) {
+			DependentInputs.addRows('table.fields',"label",":input","tr");
+		}
 		DependentInputs.addRow('div.right',"label[for=country]","label[for=country]+input");
 		var $hiddenWhileRendering = $('table.fields, div.right');
 		if($hiddenWhileRendering.length) {
