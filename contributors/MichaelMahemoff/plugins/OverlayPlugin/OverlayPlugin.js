@@ -41,7 +41,7 @@ html, body {
     handler: function(place,macroName,params,wikifier,paramString,tiddler) {
       var macroParams = paramString.parseParams();
       createTiddlyButton(place,getParam(macroParams,"launchLabel")||"launch",null,version.extensions.overlay.toggle);
-    },
+    }
   };
 
   function makeOverlay() {
