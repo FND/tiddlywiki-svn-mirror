@@ -47,6 +47,10 @@
 	margin-bottom: 10px;
 }
 
+#notice ul {
+	line-height: 133%;
+}
+
 #loginform {
 	padding: 10px;
 }
