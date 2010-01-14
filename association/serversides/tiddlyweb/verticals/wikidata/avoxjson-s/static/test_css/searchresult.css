@@ -71,7 +71,7 @@ tr td {
 }
 
 #recordsTable_wrapper { /* only present when DataTables kicks in */
-	overflow-x: auto;
+	/*overflow-x: auto;*/
 }
 
 .js #table {
@@ -151,7 +151,6 @@ tr td {
 
 #results_count {
 	margin-top: 10px;
-	font-size: 
 }
 
 /*
