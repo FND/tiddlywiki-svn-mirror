@@ -1,6 +1,7 @@
 #static h2 {
 	font-size: 2em;
 	margin-bottom: 10px;
+	padding-top: 10px;
 }
 
 #static h3 {
@@ -27,14 +28,6 @@
 	padding-bottom: 10px;
 	font-weight: lighter;
 	color: #000000;
-}
-
-#static h2 {
-	padding-top: 10px;
-}
-
-#static #searchtitle {
-	margin-bottom: 10px;
 }
 
 #static .miniwrap {
