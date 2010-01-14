@@ -63,3 +63,7 @@
 	width: 100px;
 	float: left;
 }
+
+#loginform #username, #loginform #password {
+	width: 284px;
+}

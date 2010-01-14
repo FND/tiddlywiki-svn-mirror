@@ -24,6 +24,11 @@ $(document).ready(function() {
 				});
 			}
 			$entitycontent.show();
+			var origHeight = $('#recordcontainer').height();
+			var overlap = origHeight+$companyDiv.offset().top - ($entitycontent.height()+$entitycontent.offset().top);
+			/* 24 is entitycontent padding; 10 is added spacing around alt-buttons */
+			$('#recordcontainer').height(origHeight-overlap+24+$('.alt-buttons:eq(0)').height()+10);
+			/* that calculation is not efficient, but more understandable than removing origHeight from equation */
 		}).each(function(i) {
 			if(i!==0) {
 				$(this).css("margin-left","5px");
