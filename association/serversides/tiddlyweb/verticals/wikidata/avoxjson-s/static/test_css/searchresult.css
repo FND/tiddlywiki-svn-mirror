@@ -40,7 +40,7 @@
 	float: left;
 	/*display: inline-block; */ /* JRL: to allow you to see the bottom-border on any links in IE7 */
 }
-#static #searchtitle h2 {
+#searchtitle h2 {
 	letter-spacing: 0.05em;
 	font-weight: bold;
 	text-transform: uppercase;
