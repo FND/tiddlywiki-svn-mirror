@@ -27,14 +27,14 @@ tiddler: content/StatusDefinitions.tid
 tiddler: content/AnonDefaultTiddlers.tid   
 tiddler: content/messageHeading.tid
 tiddler: content/TaskTiddlerControls.tid
-tiddler: content/Create New Document.tid
-tiddler: content/Michael Mahemoff.tid
-tiddler: content/TiddlyDocs Introduction.tid
+tiddler: content/Create%20New%20Document.tid
+tiddler: content/Michael%20Mahemoff.tid
+tiddler: content/TiddlyDocs%20Introduction.tid
 tiddler: content/DefaultTiddlers.tid
-tiddler: content/Getting Started with MyDocs.tid
+tiddler: content/Getting%20Started%20with%20MyDocs.tid
 tiddler: content/Settings.tid
 tiddler: content/feedback.tid
-tiddler: content/Simon McManus.tid      
+tiddler: content/Simon%20McManus.tid      
 tiddler: content/ToolbarCommands.tid
 tiddler: content/issues.tid  
 tiddler: content/SiteSubtitle.tid
@@ -57,7 +57,3 @@ tiddler: ../../contributors/EricShulman/plugins/TaggedTemplateTweak.js
 recipe: ../ckeditor/split.recipe
 
 tiddler: content/MarkupPreHead.tid
-
-
-
-
