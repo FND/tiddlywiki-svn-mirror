@@ -2,9 +2,9 @@
 recipe: $TW_ROOT/core/tiddlywiki.html.recipe
 
 # The plugin
-tiddler: TrailPlugin.js
+tiddler: TrailPlugin.js tags=systemConfig
 
-tiddler: Underscore.js
+tiddler: Underscore.js tags=systemConfig
 
 # Demo
 tiddler: DefaultTiddlers.tiddler
@@ -18,4 +18,4 @@ tiddler: Reddit.tid
 tiddler: Fun.tid
 tiddler: YouTube.tid
 tiddler: YTMND.tid
-tiddler: Welcome.tid
+tiddler: Trails.tid

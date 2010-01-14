@@ -9,15 +9,15 @@
 |~CoreVersion|2.2|
 
 !TrailTemplate
-<h3><%= trail.name %></h3>
+<h3 class="tiddlerLink" tiddlerTitle="<%= trail.name %>"><%= trail.name %></h3>
 <strong><%= trail.description %></strong>
 <dl class="trail">
 <% for (var i=0; i<trail.bookmarks.length; i++) { bookmark = trail.bookmarks[i]; %>
  <div class="bookmark">
    <dt><a href="<%= bookmark.url %>"><%= bookmark.name %></a></dt>
    <dd>
-     <%= bookmark.description %>
-     <span class="editBookmark" bookmarkTitle="<%= bookmark.title %>">#</span>
+     <%= bookmark.note %>
+     <span class="tiddlerLink" tiddlerTitle="<%= bookmark.title %>">#</span>
    </dd>
  </div>
 <% } %>
@@ -28,7 +28,7 @@
 .trail dt { margin: 25px 0; padding: 5px; font-weight: normal; background: #008; color: white; display: inline; }
 .trail dt a { color: white; }
 .trail dd { margin-left: 0; color: #008; padding: 5px 0; display: inline; }
-.editBookmark { padding: 8px 8px 8px 2px; opacity: 0.5; cursor: pointer; font-size: 0.7em; font-style: italic; }
+.trail dd .tiddlerLink { padding: 8px 8px 8px 2px; opacity: 0.5; cursor: pointer; font-size: 0.7em; font-style: italic; }
 !Javascript
 {{{
 ***/
@@ -49,8 +49,8 @@
       tiddler = store.getTiddler(paramString);
       var trail = version.extensions.TrailPlugin.extractTrail(tiddler);
       $(place).append(tmpl("TrailPlugin##TrailTemplate", {trail:trail }));
-      $(".editBookmark").click(function() {
-        story.displayTiddler("top", this.getAttribute("bookmarkTitle"));
+      $(".tiddlerLink").click(function() {
+        story.displayTiddler("top", this.getAttribute("tiddlerTitle"));
       });
     }
 
@@ -68,8 +68,26 @@
     trailTiddler = store.getTiddler(trailTiddler.title) || trailTiddler;
     var trail = {
       description: store.getTiddlerText(trailTiddler.title+"##Description"),
-      name: trailTiddler.title
+      name: trailTiddler.title,
+      bookmarks: []
     };
+    // var bookmarkSpec = /\[\[(.*?)\]\]/g;
+    var bookmarkSpec = /\[\[(.*?)\]\](.*)/g;
+    var bookmarkMatch;
+    while (bookmarkMatch = bookmarkSpec.exec(store.getTiddlerText(trailTiddler.title+"##Bookmarks"))) {
+      log(bookmarkMatch);
+      var bookmarkTitle = bookmarkMatch[1];
+      trail.bookmarks.push({
+        title: bookmarkTitle,
+        url: slice(bookmarkTitle, "url"),
+        name: slice(bookmarkTitle, "name") || bookmarkTitle,
+        note: $.trim(bookmarkMatch[2]),
+        description: section(bookmarkTitle, "Description"),
+      });
+      // trail.bookmarks
+    };
+    console.log("no?");
+    /*
     var linkedBookmarks = $.trim(store.getTiddlerText(trailTiddler.title+"##Bookmarks")).split(/[ \t\n]+/);
     trail.bookmarks = _.map(linkedBookmarks, function(bookmark) {
       var bookmarkTitle = bookmark.replace("[[","").replace("]]","");
@@ -80,6 +98,7 @@
         description: section(bookmarkTitle, "Description"),
       }
     });
+    */
     return trail;
   }
 
@@ -116,6 +135,7 @@
     return data ? fn( data ) : fn;
   };
 
+  function log() { if (window.console) console.log.apply(console, arguments); }
   function slice(tiddler, key) { return store.getTiddlerText(tiddler+"::"+key); }
   function section(tiddler, key) { return store.getTiddlerText(tiddler+"##"+key); }
 

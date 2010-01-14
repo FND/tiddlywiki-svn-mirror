@@ -1,4 +1,5 @@
 recipe: ./TrailPlugin.html.recipe
+tiddler: iframe.js tags=systemConfig
 tiddler: TrailPlayer.js
-tiddler: ../../experiments/overlay/overlay.js
 tiddler: MainMenu.tid
+tiddler: ../OverlayPlugin/OverlayPlugin.js tags=systemConfig
