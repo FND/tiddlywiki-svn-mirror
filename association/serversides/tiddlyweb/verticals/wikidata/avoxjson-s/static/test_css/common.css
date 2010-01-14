@@ -26,7 +26,6 @@ h1 {
 	background: url("/static/test_images/logo.gif") top left no-repeat;
 	height: 159px;
 	background-position: center left;
-	width: 239px;
 }
 
 h2 {
@@ -116,7 +115,7 @@ pre {
 }
 
 .grid1col {
-	width: 210px;
+	width: 231px;
 }
 
 .left {
@@ -259,6 +258,11 @@ border:1px solid #7AAEB9;
 	bottom: 6px;
 	padding: 3px;
 	position: relative;
+}
+
+#fruitmachine img {
+	position: relative;
+	top: 1px;
 }
 
 #navheader p {
