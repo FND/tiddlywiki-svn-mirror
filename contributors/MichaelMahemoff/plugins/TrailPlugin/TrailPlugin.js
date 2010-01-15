@@ -75,7 +75,6 @@
     var bookmarkSpec = /\[\[(.*?)\]\](.*)/g;
     var bookmarkMatch;
     while (bookmarkMatch = bookmarkSpec.exec(store.getTiddlerText(trailTiddler.title+"##Bookmarks"))) {
-      log(bookmarkMatch);
       var bookmarkTitle = bookmarkMatch[1];
       trail.bookmarks.push({
         title: bookmarkTitle,
@@ -86,7 +85,6 @@
       });
       // trail.bookmarks
     };
-    console.log("no?");
     /*
     var linkedBookmarks = $.trim(store.getTiddlerText(trailTiddler.title+"##Bookmarks")).split(/[ \t\n]+/);
     trail.bookmarks = _.map(linkedBookmarks, function(bookmark) {
@@ -103,7 +101,7 @@
   }
 
   var cache = {};
-  this.tmpl = function tmpl(str, data){
+  function tmpl(str, data){
 
     // Figure out if we're getting a template, or if we need to
     // load the template - and be sure to cache the result.
@@ -134,6 +132,7 @@
     // Provide some basic currying to the user
     return data ? fn( data ) : fn;
   };
+  version.extensions.microtemplate = tmpl;
 
   function log() { if (window.console) console.log.apply(console, arguments); }
   function slice(tiddler, key) { return store.getTiddlerText(tiddler+"::"+key); }
