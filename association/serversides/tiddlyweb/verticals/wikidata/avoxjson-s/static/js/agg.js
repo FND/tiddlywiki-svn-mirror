@@ -1076,10 +1076,11 @@ DependentInputs.fields = [
 	'Operational Postcode'
 ];/* app.js */
 // override search links to use ajax_search as soon as possible
+/* disabled until ajax_search fixed for logged-in people - JS error
 $('a[href^="/search"]').each(function() {
 	var href = $(this).attr('href');
 	$(this).attr('href', href.replace("/search", "/pages/ajax_search"));
-});
+});*/
 function parseQueryString(q) {
 	var params = {};
 	if(q.charAt(0)==="?") {
