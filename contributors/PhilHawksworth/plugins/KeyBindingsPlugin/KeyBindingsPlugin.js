@@ -3,7 +3,7 @@
 |''Description:''|Keybindings|
 |''Author:''|Phil Hawksworth|
 |''Version:''|0.1|
-|''Date:''|dd|
+|''Date:''|201001181709|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''~CoreVersion:''|2.4.1|
