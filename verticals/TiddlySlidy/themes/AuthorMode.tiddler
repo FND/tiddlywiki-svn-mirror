@@ -14,6 +14,7 @@
 <div id='sidebar'>
     <img id="thumbnail" width="200px" src="images/TitleMaster.png"/>
     <h2>Title Slide</h2>
+    <div id='sidebarOption' refresh='content' tiddler='SideBarOptions'></div>
 </div>
 <div id="sections">
     <h2>Sections and slides</h2>

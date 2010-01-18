@@ -50,7 +50,7 @@ a#backstageShow {
 }
 
 #displayArea {
-    margin: 2em auto 1em auto;
+    margin: 1em auto 1em auto;
     width: 40%;
 }
 
