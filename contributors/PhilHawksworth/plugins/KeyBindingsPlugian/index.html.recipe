@@ -1,0 +1,9 @@
+# TiddlyWiki core
+recipe: $TW_ROOT/core/tiddlywiki.html.recipe
+
+# Plugins
+tiddler: KeyBindingsPlugin.js
+
+# Other Content
+#tiddler: DefaultTiddlers.tiddler
+
