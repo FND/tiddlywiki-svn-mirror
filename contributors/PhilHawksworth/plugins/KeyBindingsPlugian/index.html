@@ -517,7 +517,7 @@ Also see [[AdvancedOptions]]</pre>
 |''Description:''|Keybindings|
 |''Author:''|Phil Hawksworth|
 |''Version:''|0.1|
-|''Date:''|Tue 21 Oct 2008 10:13:55 BST|
+|''Date:''|dd|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''~CoreVersion:''|2.4.1|
@@ -537,13 +537,15 @@ Also see [[AdvancedOptions]]</pre>
 			});
 		},
 		
-		// Add a handler function to be invoked by &lt;&lt;keybindings TiddlerTitle&gt;&gt; 
+		// Add a handler function to be invoked by &lt;&lt;keybindings&gt;&gt; 
 		// handler: function(place, macroName, params, wikifier, paramString, tiddler) {
 		// 	
 		// 	// to do: display the options panel for customisation.
 		// 	
 		// },
 		
+		
+		// some sample functions to invoke.
 		forward: function() {
 			alert('forward');
 		},
@@ -552,19 +554,35 @@ Also see [[AdvancedOptions]]</pre>
 			alert('back');
 		}
 		
-			
 	};
 	
+	// key mappings
 	config.macros.keybindings.keyCodes = {
-		32: config.macros.keybindings.forward,
-		46: config.macros.keybindings.forward,
-		44: config.macros.keybindings.back
+		32: config.macros.keybindings.forward, 	//space
+		46: config.macros.keybindings.forward, 	// .
+		44: config.macros.keybindings.back		// ,
 	};
-	
-	// config.macros.keybindings.init();
 	
 	
 //}}}
+</pre>
+</div>
+<div title="DefaultTiddlers" tags="excludeLists excludeSearch">
+<pre>
+Intro
+</pre>
+</div>
+<div title="Intro" modifier="PhilHawksworth" created="201001181700">
+<pre>
+	The KeybindingsPlugin will grow into a plugin which allows easy customisation ogf Kkeybindings.
+	
+	Initialy developed for use with TiddySlidy, this general purpose plugin wil provide a UI for declaring which keys should be mapped to which functions.
+	
+	Currently, 2 dunny functions which proffer an alert box are mapped to:
+	
+	{{{space}}}
+	{{{,}}}
+	{{{.}}}
 </pre>
 </div>
 </div>

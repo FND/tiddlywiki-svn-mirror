@@ -1,0 +1,13 @@
+<div title="Intro" modifier="PhilHawksworth" created="201001181700" tags="">
+<pre>
+	The KeybindingsPlugin will grow into a plugin which allows easy customisation ogf Kkeybindings.
+	
+	Initialy developed for use with TiddySlidy, this general purpose plugin wil provide a UI for declaring which keys should be mapped to which functions.
+	
+	Currently, 2 dunny functions which proffer an alert box are mapped to:
+	
+	{{{space}}}
+	{{{,}}}
+	{{{.}}}
+</pre>
+</div>

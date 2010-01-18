@@ -5,5 +5,6 @@ recipe: $TW_ROOT/core/tiddlywiki.html.recipe
 tiddler: KeyBindingsPlugin.js
 
 # Other Content
-#tiddler: DefaultTiddlers.tiddler
+tiddler: DefaultTiddlers.tiddler
+tiddler: Intro.tiddler
 
