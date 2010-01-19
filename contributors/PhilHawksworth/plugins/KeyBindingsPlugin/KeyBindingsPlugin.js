@@ -33,11 +33,11 @@
 		
 		// some sample functions to invoke.
 		forward: function() {
-			alert('forward');
+            story.nextTiddler();
 		},
 		
 		back: function() {
-			alert('back');
+            story.prevTiddler();
 		}
 		
 	};
