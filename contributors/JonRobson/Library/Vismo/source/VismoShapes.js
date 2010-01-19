@@ -605,107 +605,73 @@ VismoShape.prototype={
     var that = this;
     var st = this.getShape();
     var transform = this.getTransformation();
+    
     if(this._isPath(st)){
       this.grid = {x1:0,x2:1,y1:0,y2:1,center:{x:0,y:0}};
       return;
+    }
+    else if(this._isPathBased(st)){
+      if(!coords) coords = this.getCoordinates();
+      var clen = coords.length;
+      if(clen < 2) return;
+      var x1 = coords[0];
+      var y1 = coords[1];
+      var x2 = coords[0];
+      var y2 = coords[1];
+      var lastX, lastY;
+      var index = 0;
+      lastX = coords[0];
+      lastY = coords[1];
+      for(var i=0; i < clen-1; i+=2){
+        var xPos = coords[i]
+        var yPos = coords[i+1]; //lat
+        if(xPos < x1) x1 = xPos;
+        if(yPos < y1) y1 = yPos;  
+        if(xPos > x2) x2 = xPos;
+        if(yPos > y2) y2 = yPos;
+        lastX = xPos;
+        lastY = yPos;
+      }
+      var width = (x2 - x1);
+      var height = (y2 - y1);
+      var cx = (x2 - x1) / 2 + x1;
+      var cy = (y2 - y1) / 2 + y1;
+      //recalculate based on scaling
+      width *= transform.scale.x;
+      height *= transform.scale.y;
+      cx += transform.translate.x;
+      cy += transform.translate.y;
+      var halfw = width / 2;
+      var halfh = height /2;
+      x1 = cx - halfw;
+      x2 = cx + halfw;
+      y1 = cy - halfh;
+      y2 = cy + halfh;
+      this.grid = {x1:x1,x2:x2,y1:y1,y2:y2,center:{x:cx,y:cy},width:width,height:height};
     }
     else if(this._isArcBased(st)| this._isDomElement(st)){
         var coords = this.getCoordinates("normal").clone();
         var x = coords[0]; var y = coords[1]; 
         var dim = this.getDimensions();
-        this.grid.center = {};
-        this.grid.center.x = x;
-        this.grid.center.y = y;
+        var center = {x: x,y:y};
         if(transform){
-                if(transform.translate){
-                        var tran_x = transform.translate.x;
-                        var tran_y =  transform.translate.y;
-                        
-                        this.grid.center.x += tran_x;
-                        this.grid.center.y += tran_y;
-                }
-                if(transform.scale){
-                        dim.width *= transform.scale.x;
-                        dim.height *= transform.scale.y;
-                }
+          if(transform.translate){
+            var tran_x = transform.translate.x;
+            var tran_y =  transform.translate.y;
+  
+            center.x += tran_x;
+            center.y += tran_y;
+          }
+          if(transform.scale){
+            dim.width *= transform.scale.x;
+            dim.height *= transform.scale.y;
+          }
         }
-        var newx = this.grid.center.x;
-        var newy = this.grid.center.y;
         var radiusw = dim.width / 2;
         var radiush = dim.height / 2;
-        
-        this.grid ={x1: newx -radiusw ,x2: newx + radiusw, y1: newy - radiush, y2: newy + radiush,center:{x:newx,y:newy},width: dim.width,height:dim.height};  
-        return;
+        this.grid ={x1: x -radiusw ,x2: x + radiusw, y1: y - radiush, y2: y + radiush,center:center,width: dim.width,height:dim.height};  
     }
-    
-    if(!coords) coords = this.getCoordinates();
-    if(coords.length < 2) return;
-    this.grid.x1 = coords[0];
-    this.grid.y1 = coords[1];
-    this.grid.x2 = coords[0];
-    this.grid.y2 = coords[1];
-    
-    this._deltas = []
-    var d = this._deltas;
-
-    var lastX, lastY;
-    var index = 0;
-  
-    lastX = coords[0];
-    lastY = coords[1];
-    for(var i=0; i < coords.length-1; i+=2){
-      var xPos = parseFloat(coords[i]); //long
-      var yPos = parseFloat(coords[i+1]); //lat
-      var deltax =xPos - lastX;
-      var deltay= yPos - lastY;
-      if(deltax < 0) deltax = - deltax;
-      if(deltay < 0) deltay = -deltay;
-      d.push(deltax);
-      d.push(deltay);
-      if(xPos < this.grid.x1) this.grid.x1 = xPos;
-      if(yPos < this.grid.y1) this.grid.y1 = yPos;  
-      if(xPos > this.grid.x2) this.grid.x2 = xPos;
-      if(yPos > this.grid.y2) this.grid.y2 = yPos;
-      
-      lastX = xPos;
-      lastY = yPos;
-    }
-    
-    //this.grid.x2 *= transform.scale.x;
-    //this.grid.y2 *= transform.scale.y;
-    this.grid.width = (this.grid.x2 - this.grid.x1);
-    this.grid.height = (this.grid.y2 - this.grid.y1);
-
-    this.grid.center = {};
-    this.grid.center.x = (this.grid.x2 - this.grid.x1) / 2 + this.grid.x1;
-    this.grid.center.y = (this.grid.y2 - this.grid.y1) / 2 + this.grid.y1;
-    
-    //recalculate based on scaling
-    this.grid.width *= transform.scale.x;
-    this.grid.height *= transform.scale.y;
-    this.grid.center.x += transform.translate.x;
-    this.grid.center.y += transform.translate.y;
-    
-    var halfw = this.grid.width / 2;
-    var halfh = this.grid.height /2;
-    this.grid.x1 = this.grid.center.x - halfw;
-    this.grid.x2 = this.grid.center.x + halfw;
-    this.grid.y1 = this.grid.center.y - halfh;
-    this.grid.y2 = this.grid.center.y + halfh;
-    
-/*    if(transform && transform.translate){
-            var trans = transform.translate;
-            this.grid.center.x += trans.x;
-            this.grid.center.y += trans.y;
-    }
-*/
-    this.grid.x1 = this.grid.center.x - (this.grid.width / 2);
-    this.grid.x2 = this.grid.center.x + (this.grid.width /2);
-    this.grid.y1 = this.grid.center.y - (this.grid.height/2);
-    this.grid.y2 = this.grid.center.y +(this.grid.height/2);
-    
-    VismoTimer.end("VismoShapes._calculateBounds");
-    //if(st == 'path') console.log(this,this.grid);
+    VismoTimer.end("VismoShapes._calculateBounds"); 
   }
 
     ,getCanvas: function(){

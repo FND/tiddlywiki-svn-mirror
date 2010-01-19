@@ -1,5 +1,6 @@
 var Vismo = {store:{Canvas:{}}};
 var VismoCanvas = function(element,options){
+  
     if(!VismoUtils.browser.isIE6) this._renderSpeed = 5;
     this._referenceid = Math.random();
     Vismo.store.Canvas[this._referenceid] = this;
@@ -30,7 +31,7 @@ var VismoCanvas = function(element,options){
 	if(!options.pointsize){
         options.pointsize = 5;
     }	
-
+  this.id = element.id
 	this.options = options;
 
 	var wrapper = element;
@@ -49,13 +50,22 @@ var VismoCanvas = function(element,options){
 	}    
 	else
 	{
-	    hideoverflow = document.createElement("div");
-	    canvas = document.createElement('div');
-	    canvas.className = "VismoIECanvas VismoCanvasRenderer";
-	    
+	    var existing = jQuery(".VismoIECanvas",wrapper);
+	    if(existing.length > 0){
+	      canvas = existing[0];
+	      jQuery(canvas).addClass("VismoCanvasRenderer");
+	      hideoverflow = canvas.parentNode;
+	      this._flag_load_existing_vml = true;
+	    }
+	    else{
+	       hideoverflow = document.createElement("div");
+    	  canvas = document.createElement('div');
+    	  canvas.className = "VismoIECanvas VismoCanvasRenderer";    	  
+
+    	  hideoverflow.appendChild(canvas);   
+	    }
 	    canvas.style.setAttribute('cssText', 'position:absolute;left:0px;top:0px;', 0);
-	    
-	    hideoverflow.appendChild(canvas);
+	   
 	    
 	}
 	
@@ -122,12 +132,15 @@ var VismoCanvas = function(element,options){
 		for(var i=0; i < options.shapes.length; i++){    
       this.add(options.shapes[i]);
 		}
-		console.log("do render2");
 		this.render();
 	}
   var that = this;
   jQuery(window).unload(function(){
-    that.teardown();
+    that.labelHolder = null;
+    that.canvas = null;
+    that.tooltip = null;
+    that.wrapper = null;
+    hideoverflow = null;
   });  
 };
 
@@ -156,7 +169,7 @@ VismoCanvas.prototype = {
                         jQuery(tooltip).mousemove(function(e){e.preventDefault();});
                         jQuery(this.wrapper).parent().append(tooltip);
                         this.tooltip = tooltip;
-                        
+                         jQuery(window).unload(function(){that.tooltip = false;});
         		                       
                 }
                 if(!this.tooltipAdded){

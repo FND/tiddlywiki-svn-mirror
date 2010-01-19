@@ -125,10 +125,12 @@ var VismoClickingUtils = {
 		return node;
 	}
 	,getMouseFromEventRelativeToElement: function (e,x,y,target){
+
 		if(!e) e = window.event;
 
 		var offset = jQuery(target).offset();
-		if(!offset.left) return false;
+
+		if(offset.left === false) return false;
 		
 		var scroll = this.scrollXY();
 		oldx = e.clientX + scroll.x - offset.left;

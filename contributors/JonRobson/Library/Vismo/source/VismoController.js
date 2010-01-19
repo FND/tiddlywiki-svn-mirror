@@ -125,7 +125,10 @@ var VismoController = function(elem,options){ //elem must have style.width and s
         this.pansensitivity =this.options.pansensitivity;
     }
 
-  
+  jQuery(window).unload(function(){
+    that.controlCanvas = null;
+    that.controlDiv = null;
+  })
 };
 VismoController.prototype = {
 	setLimits: function(transformation){
@@ -536,7 +539,6 @@ VismoController.prototype = {
 	},
 
 	setTransformation: function(t){
-       console.log("run setTransformtion"); 
         if(this.limits){
             if(this.limits.scale){
             if(t.scale.x > this.limits.scale.x){ t.scale.x = this.limits.scale.x;}

@@ -109,6 +109,7 @@ var VismoMap = function(wrapper,options){
 	else if(options.kml){
 	    this.drawFromGeojson(VismoConversion.kmlToGeoJson(options.kml),options.fullscreen);
 	}
+
 	return eMap;
 };  
 VismoMap.prototype = {
