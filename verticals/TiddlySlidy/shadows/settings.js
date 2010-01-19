@@ -33,6 +33,13 @@ config.options.chkTopOfPageMode = 1; //Open tiddlers at the top of the page
 //config.options.chkBottomOfPageMode = 0; //Open tiddlers at the bottom of the page
 //config.options.chkSinglePageAutoScroll = 1; //Automatically scroll tiddler into view (if needed)
 
+/*
+ *  KeyBindings
+jQuery().bind("startup", function () {
+    config.macros.keybindings.forward = story.nextTiddler;
+    config.macros.keybindings.back = story.prevTiddler;
+});
+ */
 
 /*
  *  Lingo

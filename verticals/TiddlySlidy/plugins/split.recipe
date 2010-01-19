@@ -17,6 +17,8 @@ recipe: $TW_ROOT/contributors/PaulDowney/plugins/MainMenuOrderPlugin/MainMenuOrd
 # use MainMenu as navigation
 recipe: $TW_ROOT/contributors/PaulDowney/plugins/MainMenuNavigatorPlugin/MainMenuNavigatorPlugin.recipe
 
+# use KeyBindings for keyboard navigation
+tiddler: $TW_ROOT/contributors/PhilHawksworth/plugins/KeyBindingsPlugin/KeyBindingsPlugin.js
 
 #
 #  niceties
