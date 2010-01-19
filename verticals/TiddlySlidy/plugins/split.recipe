@@ -7,12 +7,16 @@ tiddler: $TW_ROOT/contributors/EricShulman/plugins/SinglePageModePlugin.js
 # force refresh on theme switch
 recipe: $TW_ROOT/contributors/PaulDowney/plugins/ThemeSwitchRefreshPlugin/ThemeSwitchRefreshPlugin.recipe
 
-# reorderable MainMenu using Drag and Drop
-recipe: $TW_ROOT/contributors/PaulDowney/plugins/MainMenuOrderPlugin/MainMenuOrderPlugin.recipe
-
 # Tiddlers are styled using per-tiddler mini-themes
 # - see the masters directory
 recipe: $TW_ROOT/contributors/PaulDowney/plugins/ThemedTiddlerPlugin/ThemedTiddlerPlugin.recipe
+
+# reorderable MainMenu using Drag and Drop
+recipe: $TW_ROOT/contributors/PaulDowney/plugins/MainMenuOrderPlugin/MainMenuOrderPlugin.recipe
+
+# use MainMenu as navigation
+recipe: $TW_ROOT/contributors/PaulDowney/plugins/MainMenuNavigatorPlugin/MainMenuNavigatorPlugin.recipe
+
 
 #
 #  niceties
