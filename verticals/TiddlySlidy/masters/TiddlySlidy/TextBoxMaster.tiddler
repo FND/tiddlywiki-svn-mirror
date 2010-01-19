@@ -63,6 +63,14 @@
 .textBoxSlide ul li {
     padding-left: 0em;
 }
+
+.textBoxSlide blockquote {
+    border-left:8px solid #999999;
+    margin: 1em 2em;
+    padding-left: 1em;
+}
+
+
 /*}}}*/
 </pre>
 </div>
