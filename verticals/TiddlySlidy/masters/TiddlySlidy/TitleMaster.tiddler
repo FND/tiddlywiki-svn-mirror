@@ -14,7 +14,7 @@
         <div class='url viewer' macro='view url wikified'></div>
     </div>
 </div>
-<div class='toolbar' macro='toolbar closeTiddler editTiddler'></div>
+<div class='toolbar' macro='toolbar closeTiddler deleteTiddler editTiddler'></div>
 <!--}}}-->
 
 !EditTemplate
@@ -25,7 +25,7 @@
     <div class="label">Subtitle</div><div class="subtitle editor" macro="edit subtitle"></div>
     <div class="label">Homepage</div><div class="subtitle editor" macro="edit url"></div>
 </div>
-<div class='toolbar' macro='toolbar -cancelTiddler +saveTiddler'></div>
+<div class='toolbar' macro='toolbar deleteTiddler -cancelTiddler +saveTiddler'></div>
 <!--}}}-->
 
 !StyleSheet

@@ -99,7 +99,8 @@ a#backstageShow {
     border: 2px solid [[ColorPalette::PrimaryMid]];
 }
 
-.themeButton {
+#contentWrapper .themeButton, 
+#contentWrapper .button {
     width: 5em;
     text-align: center;
     letter-spacing: 1px;
@@ -117,8 +118,11 @@ a#backstageShow {
     box-shadow: 2px 2px 3px rgba(135, 139, 144, 0.4);
 }
 
-.themeButton:hover,
-.themeButton:active {
+#contentWrapper .themeButton:hover,
+#contentWrapper .themeButton:active,
+#contentWrapper .button:hover,
+#contentWrapper .button:active
+ {
     background: [[ColorPalette::SecondaryLight]] url(images/bg-button.gif);
     background-position:0 -400px;
     border: 1px solid [[ColorPalette::PrimaryMid]];
@@ -126,9 +130,9 @@ a#backstageShow {
     outline: none;
 }
 
-.themeButton.selected:hover,
-.themeButton.selected:active,
-.themeButton.selected {
+#contentWrapper .themeButton.selected:hover,
+#contentWrapper .themeButton.selected:active,
+#contentWrapper .themeButton.selected {
     cursor: default;
     border: 1px solid [[ColorPalette::PrimaryLight]];
     color: [[ColorPalette::Background]];
@@ -180,6 +184,15 @@ h2 {
     font-weight: normal;
     padding-bottom: 0.5em;
     margin: 0;
+}
+
+.toolbar {
+    padding: 1em 0;
+    font-size: 1.2em;
+}
+
+.button {
+    -moz-border-radius: 4px;
 }
 
 #presentation .toolbar,
