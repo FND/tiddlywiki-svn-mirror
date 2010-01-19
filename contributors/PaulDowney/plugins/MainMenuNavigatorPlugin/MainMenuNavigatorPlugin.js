@@ -82,7 +82,6 @@ if (!version.extensions.MainMenuNavigatorPlugin) {
             var title = story.firstTitle();
             var index = this.list.indexOf(title) + delta;
             index = index.clamp(0, this.list.length - 1);
-console.log(this.list, index, this.list[index]);
             return this.list[index];
         },
 
