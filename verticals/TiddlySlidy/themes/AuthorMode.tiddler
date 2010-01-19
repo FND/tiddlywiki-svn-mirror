@@ -7,13 +7,10 @@
 <!--{{{-->
 <div id='header'>
     <p class='siteTitle' refresh='content' tiddler='SiteTitle'></p>
-    <p class='modeTitle'>Author Mode</p>
     <div class="modeSwitch" refresh='content' tiddler='ModeSwitch'></div>
 </div>
 <div id='messageArea'></div>
 <div id='sidebar'>
-    <img id="thumbnail" width="200px" src="images/TitleMaster.png"/>
-    <h2>Title Slide</h2>
     <div id='sidebarOption' refresh='content' tiddler='SideBarOptions'></div>
 </div>
 <div id="sections">

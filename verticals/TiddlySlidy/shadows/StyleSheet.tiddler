@@ -11,8 +11,8 @@ html, body {
 }
 
 #header {
-    height: 6em;
-    padding: 3em 2em 2em 2.6em;
+    height: 4em;
+    padding: 1.5em 2em 1.5em 2.6em;
     background-color: [[ColorPalette::PrimaryPale]];
     border: 2px solid [[ColorPalette::SecondaryLight]];
 }
@@ -39,11 +39,11 @@ a#backstageShow {
 
 #header .modeSwitch {
     float:right;
-    margin-top: -3em;
+    margin-top: -2.5em;
 }
 
 #sections {
-    width: 25%;
+    width: 20%;
     position: absolute;
     left: 0;
     padding: 2em;
@@ -51,7 +51,7 @@ a#backstageShow {
 
 #displayArea {
     margin: 1em auto 1em auto;
-    width: 40%;
+    width: 50%;
 }
 
 #sidebar {
@@ -72,6 +72,7 @@ a#backstageShow {
     height: 100%;
     background-color: [[ColorPalette::Background]];
     border: none;
+    width: 640px;
 }
 
 #footer {
