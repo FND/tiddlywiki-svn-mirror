@@ -1,0 +1,13 @@
+recipe: ../../../core/tiddlywiki.html.recipe
+
+recipe: ./../../ckeditor/split.recipe
+tiddler: ../Plugins/A_tiddlywebSpecifics.js
+
+recipe: copy.recipe
+recipe: includes.recipe
+recipe: myDocsTheme.recipe
+recipe: tiddlydocs.recipe
+
+
+
+
