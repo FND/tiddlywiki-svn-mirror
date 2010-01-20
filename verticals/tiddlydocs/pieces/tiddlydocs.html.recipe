@@ -1,3 +1,5 @@
+recipe: ../../../core/tiddlywiki.html.recipe
+
 tiddler: ../Plugins/newDocument.js
 tiddler: ../Plugins/saveNewSection.js
 tiddler: ../Plugins/tdocsButtons.js
@@ -10,7 +12,6 @@ tiddler: ../Plugins/tdocsPrint.js
 tiddler: ../Plugins/tdocsSettings.js
 tiddler: ../Plugins/HIJACK_saveOptionCookie.js
 
-
 tiddler: ../../../contributors/PhilHawksworth/verticals/TeamTasks/core/plugins/ValueSwitcherPlugin.js
 tiddler: ../../../contributors/MichaelMahemoff/plugins/CommentsPlugin/CommentsPlugin.js
 tiddler: ../../../contributors/MichaelMahemoff/lib/modal/js/jquery.modal.js
@@ -18,9 +19,7 @@ tiddler: ../../../contributors/MichaelMahemoff/lib/modal/js/jquery.modal.js
 tiddler: ../../../contributors/SimonMcManus/plugins/googleButtons.js
 tiddler: ../../../contributors/SimonMcManus/plugins/editDefinitions.js
 tiddler: ../../../contributors/SimonMcManus/plugins/secretBackstage.js
-tiddler: ../../../contributors/SimonMcManus/plugins/failedSaveNotification.js
 #tiddler: ../../../contributors/SimonMcManus/plugins/commentSlider.js
-
 
 tiddler: ../../../contributors/PaulDowney/plugins/WikifiedMessagesPlugin/WikifiedMessagesPlugin.js
 tiddler: ../../../contributors/PaulDowney/plugins/FadingMessagesPlugin/FadingMessagesPlugin.js

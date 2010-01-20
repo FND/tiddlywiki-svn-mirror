@@ -1,7 +1,9 @@
 recipe: ../../../core/tiddlywiki.html.recipe
 
-recipe: ./../../ckeditor/split.recipe
 tiddler: ../Plugins/A_tiddlywebSpecifics.js
+
+#recipe: ckeditor.recipe
+#recipe: serverSideStuff.recipe
 
 recipe: copy.recipe
 recipe: includes.recipe
