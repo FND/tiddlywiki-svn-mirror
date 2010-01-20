@@ -13,6 +13,7 @@ tiddler: Plugins/tdocsSectionButtons.js
 tiddler: Plugins/tdocsPreview.js
 tiddler: Plugins/tdocsPrint.js
 tiddler: Plugins/tdocsSettings.js
+tiddler: Plugins/tdocsCKEditorSettings.js
 tiddler: Plugins/HIJACK_saveOptionCookie.js
 
 tiddler: jquery/01_jQuery.js

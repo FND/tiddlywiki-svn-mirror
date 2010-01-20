@@ -1,6 +1,7 @@
 recipe: ../../../core/tiddlywiki.html.recipe
 
 tiddler: ../Plugins/A_tiddlywebSpecifics.js
+tiddler: ../Plugins/tdocsCKEditorSettings.js
 
 #recipe: ckeditor.recipe
 #recipe: serverSideStuff.recipe
@@ -8,7 +9,9 @@ tiddler: ../Plugins/A_tiddlywebSpecifics.js
 recipe: copy.recipe
 recipe: includes.recipe
 recipe: myDocsTheme.recipe
-recipe: tiddlydocs.recipe
+recipe: tiddlydocs.html.recipe
+
+recipe: ../documents/TheInternet/split.recipe
 
 
 
