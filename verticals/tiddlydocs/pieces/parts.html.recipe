@@ -8,7 +8,6 @@ tiddler: ../Plugins/tdocsCKEditorSettings.js
 
 recipe: copy.recipe
 recipe: includes.recipe
-recipe: myDocsTheme.recipe
 recipe: tiddlydocs.html.recipe
 
 recipe: ../documents/TheInternet/split.recipe
