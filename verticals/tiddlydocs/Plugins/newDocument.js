@@ -1,4 +1,6 @@
 config.macros.newDocument = {};
+
+
 config.macros.newDocument.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 	var w = new Wizard();
 	var me = config.macros.newDocument;

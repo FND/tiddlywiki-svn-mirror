@@ -1,3 +1,4 @@
+recipe: ../../core/tiddlywiki.html.recipe
 recipe: themes/MyDocs/split.recipe
 
 tiddler: Plugins/A_tiddlywebSpecifics.js
@@ -27,14 +28,14 @@ tiddler: content/StatusDefinitions.tid
 tiddler: content/AnonDefaultTiddlers.tid   
 tiddler: content/messageHeading.tid
 tiddler: content/TaskTiddlerControls.tid
-tiddler: content/Create%20New%20Document.tid
-tiddler: content/Michael%20Mahemoff.tid
-tiddler: content/TiddlyDocs%20Introduction.tid
+#tiddler: content/Create%20New%20Document.tid
+#tiddler: content/Michael%20Mahemoff.tid
+#tiddler: content/TiddlyDocs%20Introduction.tid
 tiddler: content/DefaultTiddlers.tid
-tiddler: content/Getting%20Started%20with%20MyDocs.tid
+#tiddler: content/Getting%20Started%20with%20MyDocs.tid
 tiddler: content/Settings.tid
 tiddler: content/feedback.tid
-tiddler: content/Simon%20McManus.tid      
+#tiddler: content/Simon%20McManus.tid      
 tiddler: content/ToolbarCommands.tid
 tiddler: content/issues.tid  
 tiddler: content/SiteSubtitle.tid
@@ -48,7 +49,7 @@ tiddler: ../../contributors/SimonMcManus/plugins/googleButtons.js
 tiddler: ../../contributors/SimonMcManus/plugins/editDefinitions.js
 tiddler: ../../contributors/SimonMcManus/plugins/secretBackstage.js
 tiddler: ../../contributors/SimonMcManus/plugins/failedSaveNotification.js
-tiddler: ../../contributors/SimonMcManus/plugins/commentSlider.js
+#tiddler: ../../contributors/SimonMcManus/plugins/commentSlider.js
 
 tiddler: ../../contributors/PaulDowney/plugins/WikifiedMessagesPlugin/WikifiedMessagesPlugin.js
 tiddler: ../../contributors/PaulDowney/plugins/FadingMessagesPlugin/FadingMessagesPlugin.js
