@@ -139,7 +139,7 @@ h1 {
 
 	.deleteZoneClass {
 		color:#333;
-		background:#fff url(http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/Trunk/plugins/TiddlyDocs/files/images/bin_closed.png) no-repeat scroll right bottom;
+		background:#fff 
 		border:1px solid #ddd;
 		left:3em;
 		position:relative;
@@ -154,7 +154,6 @@ h1 {
 
 	.deleteHelper {
 		background-color:#eee;
-		background-image : url(http://svn.tiddlywiki.org/Trunk/association/serversides/cctiddly/Trunk/plugins/TiddlyDocs/files/images/bin_empty.png);
 		font-weight:bold;
 		border:1px solid red;
 		color:#222;

@@ -1,7 +1,7 @@
-
-if(isLoggedIn())
+//{{{
+	alert("tosh");
 	config.options.txtTheme = "MyDocsTheme";
-else
-	config.options.txtTheme = "loginTheme";
+
+//}}}
 
 

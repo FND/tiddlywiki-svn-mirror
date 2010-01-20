@@ -12,7 +12,7 @@ recipe: myDocsTheme.recipe
 recipe: tiddlydocs.html.recipe
 
 recipe: ../documents/TheInternet/split.recipe
-
+recipe: ../themes/black/split.recipe
 
 
 
