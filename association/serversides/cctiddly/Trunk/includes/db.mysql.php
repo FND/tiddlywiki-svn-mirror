@@ -181,9 +181,9 @@ function db_workspace_selectSettings()
 function db_workspace_selectAllPublic()
 {
 	global $tiddlyCfg;
-	$q = "SELECT * FROM ".$tiddlyCfg['table']['workspace']." WHERE default_anonymous_perm LIKE 'A%%%'";
-	debug("db_workspace_selectAll: ".$q, "mysql");
+	echo $q = "SELECT * FROM ".$tiddlyCfg['table']['workspace']." WHERE default_anonymous_perm LIKE 'A%%%'";
 	$r = mysql_query($q) or die(mysql_error());
+	echo mysql_num_rows($r);
 	return $r;
 }
 

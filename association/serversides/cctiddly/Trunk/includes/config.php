@@ -19,7 +19,6 @@ $tiddlyCfg['plugins_disabled'] = array(
  	"Portlet",
  	"lifestream",
  	"LDAP",
-	"TiddlyDocs",
 	"themes",
 	"FCKEditor", 
 	"announcements",
