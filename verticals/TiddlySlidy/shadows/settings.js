@@ -33,13 +33,13 @@ config.options.chkTopOfPageMode = 1; //Open tiddlers at the top of the page
 //config.options.chkBottomOfPageMode = 0; //Open tiddlers at the bottom of the page
 //config.options.chkSinglePageAutoScroll = 1; //Automatically scroll tiddler into view (if needed)
 
-/*
- *  KeyBindings
-jQuery().bind("startup", function () {
-    config.macros.keybindings.forward = story.nextTiddler;
-    config.macros.keybindings.back = story.prevTiddler;
-});
- */
+
+// config.macros.keybindings.keyCodes = {
+// 	32: story.nextTiddler, 	//space
+// 	46: story.nextTiddler, 	// .
+// 	44: story.prevTiddler		// ,
+// };
+
 
 /*
  *  Lingo
@@ -48,10 +48,24 @@ merge(config.macros.newTiddler,{
     label: "new slide",
     prompt: "Create a new slide",
     title: "New Slide",
-    accessKey: "N"});
+    accessKey: "N"
+});
 
 merge(config.views.editor,{
-    themePrompt: "Type a theme for the slide",
-    });
+	themePrompt: "Type a theme for the slide"
+});
+
+
+// Enbale keybindings only when we are in presenter mode.
+Story.prototype._keybindings_switchTheme = Story.prototype.switchTheme;
+Story.prototype.switchTheme = function(theme) {
+	this._keybindings_switchTheme.apply(this,arguments);
+	if(theme == 'PresenterMode') {
+		config.macros.keybindings.enable();
+	} else {
+		config.macros.keybindings.disable();
+	}
+};
+
 
 //}}}
