@@ -95,10 +95,10 @@ tiddler: ../../../contributors/JeremyRuston/plugins/BackstageTiddlersPlugin.js
 tiddler: ../../../contributors/JeremyRuston/plugins/BrowserPlugin.js
 
 # include raw HTML in a view template
-tiddler: ../../../contributors/PaulDowney/plugins/RawViewMacroPlugin.js
+recipe: ../../../contributors/PaulDowney/plugins/RawViewMacroPlugin/RawViewMacroPlugin.recipe
 
 # displayMessage first clears any existing messages
-tiddler: ../../../contributors/PaulDowney/plugins/SingleMessagePlugin/SingleMessagePlugin.js
+recipe: ../../../contributors/PaulDowney/plugins/SingleMessagePlugin/SingleMessagePlugin.recipe
 
 # password option support
 tiddler: ../../../contributors/BidiX/plugins/PasswordOptionPlugin.js
