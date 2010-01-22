@@ -10,14 +10,16 @@
 ***/
 
 //{{{
-	
-	
+
 	// create macro object
 	config.macros.keybindings = {
 		
-		init: function() {			
+		enabled: false,
+		
+		init: function() {	
+			config.macros.keybindings.enable();
 			jQuery(document).bind('keypress', function(ev){				
-				if(config.macros.keybindings.keyCodes[ev.which] && config.macros.keybindings.keyCodes[ev.which] !== undefined) {
+				if(config.macros.keybindings.enabled && config.macros.keybindings.keyCodes[ev.which] && config.macros.keybindings.keyCodes[ev.which] !== undefined) {
 					config.macros.keybindings.keyCodes[ev.which].call();
 				}
 			});
@@ -29,6 +31,14 @@
 		// 	// to do: display the options panel for customisation.
 		// 	
 		// },
+		
+		// todo: replace this with some namespaced event binding and unbinding.
+		enable: function() {
+			config.macros.keybindings.enabled = true;
+		},
+		disable: function() {
+			config.macros.keybindings.enabled = false;
+		},
 		
 		
 		// some sample functions to invoke.
@@ -49,6 +59,5 @@
 		44: config.macros.keybindings.back		// ,
 	};
 
-	
-	
+
 //}}}
