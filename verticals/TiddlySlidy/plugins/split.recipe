@@ -20,9 +20,8 @@ recipe: $TW_ROOT/contributors/PaulDowney/plugins/MainMenuNavigatorPlugin/MainMen
 # use KeyBindings for keyboard navigation
 tiddler: $TW_ROOT/contributors/PhilHawksworth/plugins/KeyBindingsPlugin/KeyBindingsPlugin.js
 
-#
-#  niceties
-#
+# image macro for templates
+recipe: $TW_ROOT/contributors/PaulDowney/plugins/ImageMacroPlugin/ImageMacroPlugin.recipe
 
 # Fading Messages
 recipe: $TW_ROOT/contributors/PaulDowney/plugins/FadingMessagesPlugin/FadingMessagesPlugin.recipe

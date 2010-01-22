@@ -1,0 +1,61 @@
+<div title="WideImageMaster" modifier="Paul Downey" created="200801300000" tags="excludeSearch masterSlide">
+<pre>
+|''ViewTemplate''|##ViewTemplate|
+|''EditTemplate''|##EditTemplate|
+|''StyleSheet''|##StyleSheet|
+
+!ViewTemplate
+<!--{{{-->
+<h2 class="preview">Preview Wide Image Slide: <span macro="view title"></span></h2>
+<div class='viewSlide'>
+    <div class='wideImageSlide'>
+        <div class='title viewer' macro='view title wikified'></div>
+        <div class='subtitle viewer' macro='view subtitle wikified'></div>
+        <div class='image viewer' macro="image @image"></div>
+    </div>
+</div>
+<div class='toolbar' macro='toolbar closeTiddler deleteTiddler editTiddler'></div>
+<!--}}}-->
+
+!EditTemplate
+<!--{{{-->
+<h2>Edit Title Slide: <span macro="view title"></span></h2>
+<div class='editSlide titleSlideEdit'>
+    <div class="label">Title</div><div class="title editor" macro="edit title"></div>
+    <div class="label">Subtitle</div><div class="subtitle editor" macro="edit subtitle"></div>
+    <div class="label">Image</div><div class="subtitle editor" macro="edit image"></div>
+</div>
+<div class='toolbar' macro='toolbar deleteTiddler -cancelTiddler +saveTiddler'></div>
+<!--}}}-->
+
+!StyleSheet
+/*{{{*/
+.wideImageSlide {
+    font-size: 2em;
+    text-align: left;
+    background-color: #E8E8E8;
+    height: 100%;
+    min-height: 400px;
+}
+
+.wideImageSlide .title {
+    color: #747474;
+    font-weight: normal;
+    letter-spacing: 0;
+    padding-left: 0.5em;
+}
+
+.wideImageSlide .subtitle {
+    color: #747474;
+    font-weight: normal;
+    font-size: 0.8em;
+    padding-left: 1em;
+}
+
+.wideImageSlide .image img {
+    width: 100%;
+    border: none;
+}
+/*}}}*/
+</pre>
+</div>
