@@ -1,21 +1,31 @@
 /***
 |''Name:''|SingleMessagePlugin|
-|''Description:''|displayMessage first clears any existing messages, then disappears after an interval|
-|''Author:''|PaulDowney (psd (at) osmosoft (dot) com)|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/plugins/SingleMessagePlugin.js |
+|''Description:''|displayMessage first clears any existing messages, then disappears after an interval |
+|''Author:''|PaulDowney (psd (at) osmosoft (dot) com) |
+|''Source:''|http://whatfettle.com/2008/07/SingleMessagePlugin/ |
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/plugins/SingleMessagePlugin/ |
 |''Version:''|0.1|
-|''License:''|[[BSD open source license]]|
+|''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''~CoreVersion:''|2.4|
+!!Documentation
+Provides a macro which when refreshed displays a message.
 
-Options:
+&lt;&lt;SingleMessage "hello"&gt;&gt;
+<<SingleMessage "hello">>
+
+!!Options:
 |<<option txtSingleMessageTimeout>>|<<message config.optionsDesc.txtSingleMessageTimeout>>|
 
-***/
+//The automatic clearing requires the [[TickerPlugin|http://whatfettle.com/2008/07/TickerPlugin/]].//
 
+!!Code
+***/
 //{{{
-if(!version.extensions.SingleMessage) {
-version.extensions.SingleMessage = {installed:true};
+/*jslint onevar: false nomen: false plusplus: false */
+/*global config */
+if (!version.extensions.SingleMessagePlugin) {
+    version.extensions.SingleMessagePlugin = {installed: true};
 
 	config.options.txtSingleMessageTimeout = 5;
 	config.optionsDesc.txtSingleMessageTimeout = "seconds before displayed messages clear themselves";
@@ -37,6 +47,5 @@ version.extensions.SingleMessage = {installed:true};
 	};
 
 	displayMessage = config.macros.SingleMessage.displaySingleMessage;
-
-} //# end of 'install only once'
+}
 //}}}

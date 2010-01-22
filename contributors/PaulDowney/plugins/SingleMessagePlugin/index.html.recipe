@@ -1,5 +1,5 @@
-# build demo TiddlyWiki
-recipe: ../../../../core/tiddlywiki.html.recipe
-tiddler: SingleMessagePlugin.js
-tiddler: DefaultTiddlers.tiddler
-tiddler: SingleMessage.tiddler
+recipe: $TW_ROOT/core/tiddlywiki.html.recipe
+recipe: SingleMessagePlugin.recipe
+recipe: tiddlers/split.recipe
+recipe: shadows/split.recipe
+recipe: test/split.recipe
