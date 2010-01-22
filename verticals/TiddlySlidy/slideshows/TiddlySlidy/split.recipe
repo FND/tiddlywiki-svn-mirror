@@ -6,12 +6,18 @@ tiddler: TiddlySlidy.tiddler
 tiddler: Features.tiddler
 tiddler: Operation.tiddler
 tiddler: Offline.tiddler
-tiddler: Styling.tiddler
 tiddler: TiddlyWiki.tiddler
 tiddler: TiddlyWikiCom.tiddler
 tiddler: Plugins.tiddler
 tiddler: Status.tiddler
 tiddler: Acknowledgements.tiddler
 
+# master template demos:
+tiddler: Styling.tiddler
+tiddler: SingleImage.tiddler
+tiddler: TallImage.tiddler
+tiddler: WideImage.tiddler
+
 # images:
 copy: TiddlyWiki.png
+copy: buncefield.jpg

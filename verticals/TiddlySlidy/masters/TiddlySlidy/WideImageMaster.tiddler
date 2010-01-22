@@ -36,7 +36,7 @@
     min-height: 400px;
 }
 
-.tallImageSlide .image {
+.wideImageSlide .image {
     padding: 0;
     margin: 0 auto;
 }
