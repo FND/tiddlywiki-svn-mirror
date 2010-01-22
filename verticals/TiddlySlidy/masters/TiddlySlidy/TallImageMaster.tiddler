@@ -1,4 +1,4 @@
-<div title="WideImageMaster" modifier="Paul Downey" created="200801300000" tags="excludeSearch masterSlide">
+<div title="TallImageMaster" modifier="Paul Downey" created="200801300000" tags="excludeSearch masterSlide">
 <pre>
 |''ViewTemplate''|##ViewTemplate|
 |''EditTemplate''|##EditTemplate|
@@ -6,10 +6,10 @@
 
 !ViewTemplate
 <!--{{{-->
-<h2 class="preview">Preview Wide Image Slide: <span macro="view title"></span></h2>
+<h2 class="preview">Preview Tall Image Slide: <span macro="view title"></span></h2>
 <div class='viewSlide'>
-    <div class='wideImageSlide'>
-        <div class='image viewer' macro="image @image"></div>
+    <div class='tallImageSlide'>
+        <center><div class='image viewer' macro="image @image"></div></center>
     </div>
 </div>
 [[ViewToolbar]]
@@ -28,7 +28,7 @@
 
 !StyleSheet
 /*{{{*/
-.wideImageSlide {
+.tallImageSlide {
     font-size: 2em;
     text-align: left;
     background-color: #E8E8E8;
@@ -38,14 +38,15 @@
 
 .tallImageSlide .image {
     padding: 0;
-    margin: 0 auto;
+    margin: 0;
 }
 
-.wideImageSlide .image img {
-    width: 100%;
+/* 100% height needs JavaScript .. */
+.tallImageSlide .image img {
+    height: 480px;          
     border: none;
-    padding: 0;
     margin: 0;
+    padding: 0;
 }
 /*}}}*/
 </pre>
