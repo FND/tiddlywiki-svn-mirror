@@ -23,6 +23,7 @@ tags: systemTheme
 <div class='headerShadow'>
 <span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
 <span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
+<!--<div macro='docTabsNew'></div>-->
 </div>
 </div>
 <div id='mainMenu' refresh='content' force='true' tiddler='MainMenu'></div>
@@ -66,7 +67,6 @@ tags: systemTheme
 	<div class="portletContent">
 		<div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>	<div class='taskControls editTaskControls' macro='tiddler TaskTiddlerControls'></div>
 		<div class='editor' macro='edit text'></div>
-		<div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
 		<div class='commentsArea' macro='comments'></div>
 	</div>
 </div>
@@ -116,39 +116,60 @@ tags: systemTheme
 !StyleSheet
 
 html body {
-    background:#F5FAFF;
-    font-face:arial;
+    background:#eee;
+    font-face:veranda;
 }
-
-
 
 #mainMenu, .header {
       background:#D4D4D4;
-}
-#mainMenu {
-    width:25%;
-  
-    margin-left:0.5em;
-    margin-top:-1em;
-}
-
-#displayArea {
-    margin-left:30%;
-    width:60%;
-}
-
-.header {
-    background:#D4D4D4;
     margin:0.5em;
-    border-bottom:5px solid #eee;
+    border-bottom:5px solid #fff;
+    border-left:5px solid #fff;
     -moz-border-radius-bottomright :15px;
     -webkit-border-bottom-right-radius: 5px;
 }
+#mainMenu {
+    width:25%;
+    margin-left:0.4%;
+    margin-top:-1em;
+	text-align:left;
+}
+
+#displayArea {
+	 margin-left:27%;
+	width:73%;
+}
+
+.tiddler {
+	background:white none repeat scroll 0 0;
+	margin:1em;
+	padding:1em;
+	border:1px solid #eee;
+    -moz-border-radius-topleft :15px;
+    -webkit-border-top-left-radius: 5px;
+    -moz-border-radius-bottomright :15px;
+    -webkit-border-bottom-right-radius: 5px;
+
+}
+
 .headerShadow {
     padding:1em;   
 }
 
 .siteTitle, .siteSubtitle {
-    color:#eee;
+    color:#333;
     font-face: Trebuchet MS,Arial;
 }
+
+.viewer table, table.twtable, .viewer td, .viewer tr, .twtable td, .twtable tr{
+	border:0px;
+}
+
+.toolbar {
+	position:relative;
+	top:-2em;
+}
+
+
+
+[[core_css]]
