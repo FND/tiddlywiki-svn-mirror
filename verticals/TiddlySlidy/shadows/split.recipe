@@ -12,3 +12,6 @@ tiddler: settings.js
 tiddler: ModeSwitch.tiddler
 tiddler: ControlPanel.tiddler
 tiddler: ControlPanelStyle.tiddler
+
+tiddler: EditToolbar.tiddler
+tiddler: ViewToolbar.tiddler

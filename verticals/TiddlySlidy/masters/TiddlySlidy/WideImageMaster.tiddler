@@ -14,7 +14,7 @@
         <div class='image viewer' macro="image @image"></div>
     </div>
 </div>
-<div class='toolbar' macro='toolbar closeTiddler deleteTiddler editTiddler'></div>
+[[ViewToolbar]]
 <!--}}}-->
 
 !EditTemplate
@@ -25,7 +25,7 @@
     <div class="label">Subtitle</div><div class="subtitle editor" macro="edit subtitle"></div>
     <div class="label">Image</div><div class="subtitle editor" macro="edit image"></div>
 </div>
-<div class='toolbar' macro='toolbar deleteTiddler -cancelTiddler +saveTiddler'></div>
+[[EditToolbar]]
 <!--}}}-->
 
 !StyleSheet

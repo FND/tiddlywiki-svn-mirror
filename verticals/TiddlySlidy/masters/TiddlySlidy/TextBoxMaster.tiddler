@@ -14,7 +14,7 @@
         <div class='textbox viewer' macro='view text wikified'></div>
     </div>
 </div>
-<div class='toolbar' macro='toolbar closeTiddler editTiddler'></div>
+[[ViewToolbar]]
 <!--}}}-->
 
 !EditTemplate
@@ -25,7 +25,7 @@
     <div class="label">Subtitle</div><div class="subtitle editor" macro="edit subtitle"></div>
     <div class="label">Text</div><div class="textbox editor" macro="edit text"></div>
 </div>
-<div class='toolbar' macro='toolbar -cancelTiddler +saveTiddler'></div>
+[[EditToolbar]]
 <!--}}}-->
 
 

@@ -1,0 +1,5 @@
+<div title="EditToolbar" modifier="Paul Downey" created="200801300000" tags="excludeSearch toolbar">
+<pre>
+<div class='toolbar' macro='toolbar -cancelTiddler deleteTiddler +saveTiddler'></div>
+</pre>
+</div>
