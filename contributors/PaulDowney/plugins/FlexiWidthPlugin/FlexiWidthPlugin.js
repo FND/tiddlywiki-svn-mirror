@@ -9,6 +9,7 @@
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''~CoreVersion:''|2.5|
 !!Documentation
+For an example of this plugin in use, see http://tiddlypocketbook.com
 
 !!Options
 |<<option txtFlexiWidthContainer>>|<<message config.optionsDesc.txtFlexiWidthContainer>>|
