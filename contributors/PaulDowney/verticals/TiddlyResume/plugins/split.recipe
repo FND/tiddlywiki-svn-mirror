@@ -2,7 +2,7 @@
 recipe: $TW_ROOT/contributors/PaulDowney/plugins/FadingMessagesPlugin/FadingMessagesPlugin.recipe
 
 # Microformat helper macros
-tiddler: $TW_ROOT/contributors/PaulDowney/plugins/MicroformatPlugin.js
+recipe: $TW_ROOT/contributors/PaulDowney/plugins/MicroformatDatePlugin/MicroformatDatePlugin.recipe
 
 # Microformat style dates
 recipe: $TW_ROOT/contributors/PaulDowney/plugins/FormatUTCStringPlugin/FormatUTCStringPlugin.recipe
