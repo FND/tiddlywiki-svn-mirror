@@ -1,5 +1,5 @@
 recipe: ../../../../core/tiddlywiki.html.recipe
-tiddler: ../../plugins/ProcessingjsPlugin.js
+tiddler: ProcessingjsPlugin.js
 copy: ../../server/download.php
 
 recipe: content/split.recipe
