@@ -9,10 +9,12 @@
 |''~CoreVersion:''|2.2|
 
 List related sessions for a track:
-<<agendaTrackSessions>>
+&lt;&lt;AgendaTrackSessions&gt;&gt;
+<<AgendaTrackSessions>>
 
 List tracks as tabs:
-<<agendaTrackTabs>>
+&lt;&lt;AgendaTrackTabs&gt;&gt;
+<<AgendaTrackTabs>>
 
 ***/
 

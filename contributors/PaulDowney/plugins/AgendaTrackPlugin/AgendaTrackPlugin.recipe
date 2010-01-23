@@ -7,9 +7,10 @@ tiddler: AgendaSubItemsTemplate.tiddler
 tiddler: AgendaTrackPlugin.js
 
 # dependencies
-tiddler: ../MicroformatPlugin.js
+recipe: ../MicroformatDatePlugin/MicroformatDatePlugin.recipe
 recipe: ../FormatUTCStringPlugin/FormatUTCStringPlugin.recipe
+recipe: ../TiddlifyListPlugin/TiddlifyListPlugin.recipe
 
-tiddler: ../TiddlifyList.js
 tiddler: ../../../MartinBudden/adaptors/ImportWorkspacePlugin.js
+tiddler: ../../../JeremyRuston/plugins/ListRelatedPlugin.js
 
