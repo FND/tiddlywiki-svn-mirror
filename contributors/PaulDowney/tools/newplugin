@@ -4,6 +4,8 @@
 #  blank out a new Plugin for psd
 #
 export plugin="$1"
+plugin=$(echo "$plugin" | sed -e 's+/*$++')
+
 export now=$(date +%Y%m%d%H%M%S)
 export author="PaulDowney"
 export email="psd (at) osmosoft (dot) com"
