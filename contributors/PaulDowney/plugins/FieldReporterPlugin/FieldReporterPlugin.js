@@ -8,9 +8,7 @@
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''~CoreVersion:''|2.2|
 !!Documentation
-This plugin may be used to record the usage of a TiddlyWiki application out in the field, enabling a TiddlyWiki to post version and usually anonymized values to a central server. 
-
-An example service is included, implemented in PHP. 
+This plugin may be used to record the usage of a TiddlyWiki application out in the field, enabling a TiddlyWiki to post version and usually anonymized values to a central server,  see the [[example PHP service|http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/plugins/FieldReporterPlugin/log/]].
 !!Test
 <<FieldReporter>>
 
