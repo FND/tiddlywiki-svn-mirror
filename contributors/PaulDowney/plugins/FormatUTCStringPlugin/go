@@ -1,2 +1,1 @@
-cook testFormatUTCStringPlugin
-ff2 testFormatUTCStringPlugin.html
+cook && ff index.html

@@ -1,6 +1,6 @@
 /***
 |''Name:''|FormatUTCStringPlugin|
-|''Description:''|UTC version of core formatString|
+|''Description:''|UTC version of core formatString |
 |''Author:''|PaulDowney (psd (at) osmosoft (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/plugins/FormatUTCStringPlugin.js |
 |''Version:''|0.1|
