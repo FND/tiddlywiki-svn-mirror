@@ -1,0 +1,4 @@
+tags: 
+
+|~ViewToolbar|closeTiddler closeOthers editTiddler > fields syncing permalink references jump|
+|~EditToolbar|+saveTiddler -cancelTiddler deleteTiddler|

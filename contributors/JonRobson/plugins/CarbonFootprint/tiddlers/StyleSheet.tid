@@ -1,0 +1,58 @@
+tags: 
+
+.separator {clear:both;margin-top:10px;}
+.title {background-color:rgb(0,240,60);color:white;padding:5px;}
+body {font-family:Verdana;}
+h1,h2,h3,h4,h5 {color:black;}
+.codeLink {font-size:20px;}
+.shareArea {font-size:12px;}
+#displayArea {width:830px;}
+.calculator {width:820px;position:relative;background-color:rgb(220,220,220);border:2px solid rgb(170,170,170);}
+.calculator .footer {float:right;}
+.calculator select {width:200px;}
+.carbonFootprintTable {width:770px;}
+.carbonFootprintTable .total {background-color:black;color:white;}
+.top {padding:5px;}
+.bottom {width:800px;margin:10px;padding-bottom:10px;}
+.bottom .innerFrame {padding:10px;background-color:rgb(230,230,230);}
+.bottom .addPartipant {float:right;}
+.resultsBox {font-size:40px;height:80px;}
+.resultScreen {border-bottom:20px solid rgb(0,240,60);-moz-border-radius:5px;-webkit-border-radius:5px;position:relative;background-color:rgb(200,250,180);color:black;font-size:30px;padding:5px;text-align:center;width:790px;margin-left:5px;}
+.generator {border:medium none;
+height:120px;background-color:rgb(190,190,190);
+margin-top:20px;
+position:absolute;
+right:14px;
+width:150px;}
+.calculator .bottom input {width:100px;}
+.viewer {line-height:normal;}
+.addParticipant, .addJourneyLeg, .generator {background-color:#BEBEBE;
+border-bottom-color:black;
+border-bottom-style:solid;
+border-bottom-width:2px;
+border-left:none;border-right:none;border-top:none;
+padding:5px;
+}
+.loadData {background-color:white;
+bottom:40px;*bottom:10px;padding:10px;
+position:absolute;
+right:15px;}
+.bottom form {padding-bottom:20px;}
+.bottom .innerFrame {border-bottom:4px solid rgb(120,120,120);border-right:3px solid rgb(190,190,190);}
+.summaryBox {
+font-size:12px;
+position:relative;
+margin-top:10px;
+z-index:20;}
+#sidebarOptions .sliderPanel {background-color:white;}
+
+.twtable tr {border:1px solid black;}
+h1, h2, h3 {border-bottom:none;}
+/*
+.top {padding:5px;-moz-border-radius:20px;-webkit-border-radius:20px;}
+.resultScreen {-moz-border-radius:5px;-webkit-border-radius:5px;position:relative;background-color:lavender;color:black;font-size:30px;padding:5px;text-align:center;width:600px;}
+.generator {border:none;-moz-border-radius:20px;-webkit-border-radius:20px;position:absolute;right:0;top:0;height:150px;width:150px;}
+.calculator {position:relative;background-color:rgb(220,220,220);-moz-border-radius:20px;-webkit-border-radius:20px;}
+.bottom {width:100%;margin:10px;padding-bottom:10px;-moz-border-radius:20px;-webkit-border-radius:20px;}
+.bottom .innerFrame {padding:10px;background-color:rgb(230,230,230);-moz-border-radius:20px;-webkit-border-radius:20px;}
+*/

@@ -1,0 +1,11 @@
+tags: 
+
+<<search>>
+<<closeAll>>
+<<permaview>>
+<<newTiddler>>
+<<newJournal "DD MMM YYYY" "journal">>
+<<saveChanges>>
+<<slider chkSliderOptionsPanel OptionsPanel "options »" "Change TiddlyWiki advanced options">>
+
+<<tabs txtMainTab "Timeline" "Timeline" TabTimeline "All" "All tiddlers" TabAll "Tags" "All tags" TabTags "More" "More lists" TabMore>>

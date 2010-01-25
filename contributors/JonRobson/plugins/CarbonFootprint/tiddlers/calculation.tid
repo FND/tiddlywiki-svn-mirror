@@ -1,0 +1,7 @@
+tags: 
+title: How is this calculated?
+
+It's not rocket science.
+We work out the distance as the crow flies and depending on your type of transport multiply it by a magic number
+for car:0.114kg co2 per km,
+for train:0.052kg co2 per km

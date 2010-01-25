@@ -1,0 +1,13 @@
+tags: 
+title: About
+
+!How to use
+To use it simply provide the details of where your meeting is (the postcode or the full address), then list where all the participant are coming from. You can also enter the name of the participants but this is purely optional - you won't generate extra carbon just because you have a long name.
+
+Hit the calculate button at the top right and click allow to the internet security pop up that appears, this will roughly calculate the carbon footprint of your trip and will provide a summary of how the carbon was calculated.
+
+If you want to share the trip with a friend who also has the tool, click on 'load from code'.
+
+!How it was made
+This is a tool created using [[TiddlyWiki|http://www.tiddlywiki.com]] by [[Jon Robson|http://www.jonrobson.me.uk]]. It was first blogged about it [[here|http://www.jonrobson.me.uk/posts/Carbon Footprint Calculator]].
+It uses the google local search api to get lookup longitude/latitude coordinates of the destinations you put in and there's a bit of Maths we do to work out roughly how far apart the two locations are into kms.
