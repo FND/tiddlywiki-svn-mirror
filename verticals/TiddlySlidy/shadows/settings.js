@@ -49,18 +49,6 @@ merge(config.views.editor,{
 });
 
 
-// Enbale keybindings only when we are in presenter mode.
-Story.prototype._keybindings_switchTheme = Story.prototype.switchTheme;
-Story.prototype.switchTheme = function(theme) {
-	this._keybindings_switchTheme.apply(this,arguments);
-	if(theme == 'PresenterMode') {
-		config.macros.keybindings.enable();
-	} else {
-		config.macros.keybindings.disable();
-	}
-};
-
-
 /*
  *  disable read-only mode for demo
  */

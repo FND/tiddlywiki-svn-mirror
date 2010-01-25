@@ -14,7 +14,10 @@ tiddler: ControlPanel.tiddler
 tiddler: ControlPanelStyle.tiddler
 
 tiddler: EditToolbar.tiddler
+tiddler: EditTemplate.tiddler
+
 tiddler: ViewToolbar.tiddler
+tiddler: ViewTemplate.tiddler
 
 tiddler: AuthorButtons.tiddler
 tiddler: NewSlide.tiddler

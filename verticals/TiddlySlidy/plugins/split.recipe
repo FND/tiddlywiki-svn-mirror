@@ -32,3 +32,5 @@ tiddler: $TW_ROOT/contributors/JeremyRuston/plugins/BackstageTiddlersPlugin.js
 # disable WikiLinks
 tiddler: $TW_ROOT/contributors/MartinBudden/plugins/DisableWikiLinksPlugin.js
 
+# temporary hacks ahead of being refactored into generic templates
+tiddler: TiddlySlidyPlugin.js
