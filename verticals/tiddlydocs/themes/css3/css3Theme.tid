@@ -86,9 +86,9 @@ html body {
     border-left:0.3em solid #fff;
 
     -moz-border-radius-bottomright :15px;
-    -webkit-border-bottom-right-radius: 5px;
+    -webkit-border-bottom-right-radius: 15px;
   	-moz-border-radius-topleft :15px;
-	-webkit-border-top-left-radius: 5px;
+	-webkit-border-top-left-radius: 15px;
 }
 #mainMenu {
     width:25%;
@@ -108,11 +108,10 @@ html body {
 #mainMenu {
 	background:white none repeat scroll 0 0;
 	border-bottom:1px solid #ddd;
-	border-left:0.3em solid #ddd;
 	-moz-border-radius-topleft :15px;
-	-webkit-border-top-left-radius: 5px;
+	-webkit-border-top-left-radius: 15px;
 	-moz-border-radius-bottomright :15px;
-	-webkit-border-bottom-right-radius: 5px;
+	-webkit-border-bottom-right-radius: 15px;
 }
 .tiddler {
 	background:white none repeat scroll 0 0;
@@ -120,9 +119,9 @@ html body {
 	padding:1em;
 	border-bottom:1px solid #ddd;
  	-moz-border-radius-topleft :15px;
-    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-left-radius: 15px;
     -moz-border-radius-bottomright :15px;
-    -webkit-border-bottom-right-radius: 5px;
+    -webkit-border-bottom-right-radius: 15px;
 
 }
 
@@ -172,12 +171,12 @@ html .viewer table, table.twtable, .viewer td, .viewer tr, .twtable td, .twtable
 	padding:0px;
 	
     -moz-border-radius-bottomright :15px;
-    -webkit-border-bottom-right-radius: 5px;
+    -webkit-border-bottom-right-radius: 15px;
 }
 
 
 toc-item, div.toc-sort-handle{
-	border:2px dotted #ddd;
+	border:2px dotted transparent;
 	padding:0.1px;
 }
 
@@ -197,18 +196,16 @@ div.toc-sort-handle:hover {
 	top:-2.5em;
 	padding:0.5em;
 	position:relative;
-	-moz-border-radius: 0.5em;
-	 border-radius: 0.5em;
-	
+	-moz-border-radius: 15px;	
 }
 
  .tabSelected,  .tabUnselected {
 	padding:0.5em 1em;
 	background:#888;
 	-moz-border-radius-topright :15px;
-	-webkit-border-top-right-radius: 5px;
+	-webkit-border-top-right-radius: 15px;
 	-moz-border-radius-topleft :15px;
-	-webkit-border-top-left-radius: 5px;
+	-webkit-border-top-left-radius: 15px;
 
 }
 
