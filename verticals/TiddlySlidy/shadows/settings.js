@@ -34,13 +34,6 @@ config.options.chkTopOfPageMode = 1; //Open tiddlers at the top of the page
 //config.options.chkSinglePageAutoScroll = 1; //Automatically scroll tiddler into view (if needed)
 
 
-// config.macros.keybindings.keyCodes = {
-// 	32: story.nextTiddler, 	//space
-// 	46: story.nextTiddler, 	// .
-// 	44: story.prevTiddler		// ,
-// };
-
-
 /*
  *  Lingo
  */
@@ -67,5 +60,12 @@ Story.prototype.switchTheme = function(theme) {
 	}
 };
 
+
+/*
+ *  disable read-only mode for demo
+ */
+config.options.chkHttpReadOnly = false;
+readOnly = false;
+showBackstage = true
 
 //}}}

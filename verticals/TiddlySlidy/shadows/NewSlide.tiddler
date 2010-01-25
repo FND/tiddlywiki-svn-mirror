@@ -1,10 +1,10 @@
 <div title="NewSlide" modifier="Paul Downey" created="200801300000" tags="excludeSearch" theme="NewSlideTheme">
 <pre>
-<<newTiddler label:"TitleMaster" text:"" tag:"slide" focus:"title">>
+<<newTiddler label:"TitleMaster" text:"" tag:"slide" focus:"title" fields:"theme:TitleMaster" template:"TitleMaster##EditTemplate">>
 
-<<newTiddler label:"TextBoxMaster" text:"" tag:"slide" focus:"title">>
+<<newTiddler label:"TextBoxMaster" text:"" tag:"slide" focus:"title" fields:"theme:TextBoxMaster"">>
 
-<<newTiddler label:"SingleImageMaster" text:"" tag:"slide" focus:"title">>
+<<newTiddler label:"SingleImageMaster" text:"" tag:"slide" focus:"title" fields:"theme:SingleImageMaster">>
 
 <<newTiddler label:"WideImageMaster" text:"" tag:"slide" focus:"title">>
 
