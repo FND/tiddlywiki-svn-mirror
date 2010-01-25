@@ -64,19 +64,27 @@ config.macros.niceTagger = {
   ,save: function(title,field,list,place){
         //console.log("save",title,field,list);
 		var tiddler =  store.getTiddler(title);
-		if(!tiddler) {
+		if(!tiddler) { //doesnt work when tiddler is brand spanking new
+		  var dummytiddler ={title:title,tags:[],fields:{}};
+		    var tagTempPlace = jQuery("input[edit="+field+"]",place);
+
+		    if(!tagTempPlace[0]){
+		      jQuery(place).append('<input style="display:none;" type="text" edit="'+field+'"/>')
+		    }
+		    tagTempPlace = jQuery("input[edit="+field+"]",place);
+		    
 		    var tags = [];
-		    var fields = merge(config.defaultCustomFields,{});
-		    story.gatherSaveFields(place,fields);
 		    if(field=='tags'){
 		        tags = list;
+		        dummytiddler.tags = list;
 		    }
 		    else{
-		        fields[field]=list;
+		        dummytiddler.fields[field] = list;
 		    }
-		    
-			store.saveTiddler(title,title,null,true,null,tags,fields,null);
-			tiddler =  store.getTiddler(title);
+		    tagTempPlace.val(String.encodeTiddlyLinkList(list))
+		  return dummytiddler;
+			//store.saveTiddler(title,title,null,true,null,tags,fields,null);
+			//tiddler =  store.getTiddler(title);
 		}
 		
 		var strVal;
@@ -193,8 +201,10 @@ config.macros.niceTagger = {
 		
 		
 		var uniqueSuggestions = [];
-		var ignoreList = getParam(params,"exclude");
-		if(!ignoreList) ignoreList = ["excludeList"];
+		var ignoreList = paramString.parseParams("exclude",null,true,false,true);
+
+		if(ignoreList && ignoreList[0] && ignoreList[0]["exclude"]) ignoreList =  ignoreList[0]["exclude"];
+		else ignoreList = ["excludeList"];
 		for(var i=0; i < suggestions.length; i++){
 			var s =suggestions[i];
 			if(s && typeof(s) =='string'){
