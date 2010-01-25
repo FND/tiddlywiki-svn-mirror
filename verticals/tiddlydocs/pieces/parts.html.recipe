@@ -3,19 +3,21 @@ tiddler: ../content/Create New Document.tid
 
 
 
-
+tiddler: 01_editMacro.js
 
 recipe: ../../../core/tiddlywiki.html.recipe
 
 tiddler: ../Plugins/A_tiddlywebSpecifics.js
 tiddler: ../Plugins/tdocsCKEditorSettings.js
 
-#recipe: ckeditor.recipe
+recipe: ckeditor.recipe
 #recipe: serverSideStuff.recipe
 
 recipe: copy.recipe
 recipe: includes.recipe
 recipe: tiddlydocs.html.recipe
+
+tiddler: ../documents/Doc2/Doc2.tid
 
 recipe: ../documents/TheInternet/split.recipe
 recipe: ../themes/css3/split.recipe

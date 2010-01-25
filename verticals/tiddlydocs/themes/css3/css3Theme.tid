@@ -22,6 +22,7 @@ tags: systemTheme
 	<div class='headerShadow'>
 		<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>
 		<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
+		<div  class='topSearch' macro='search'></div>
 		<div macro='docTabsNew'></div>
 	</div>
 </div>
@@ -78,11 +79,11 @@ html body {
     font-face:veranda;
 }
 
-#mainMenu, .header {
+ .header {
       background:#ddd;
     margin:0.5em;
-    border-bottom:1px solid #fff;
-    border-left:1px solid #fff;
+    border-bottom:0.3em solid #fff;
+    border-left:0.3em solid #fff;
 
     -moz-border-radius-bottomright :15px;
     -webkit-border-bottom-right-radius: 5px;
@@ -103,6 +104,16 @@ html body {
 	width:73%;
 }
 
+
+#mainMenu {
+	background:white none repeat scroll 0 0;
+	border-bottom:1px solid #ddd;
+	border-left:0.3em solid #ddd;
+	-moz-border-radius-topleft :15px;
+	-webkit-border-top-left-radius: 5px;
+	-moz-border-radius-bottomright :15px;
+	-webkit-border-bottom-right-radius: 5px;
+}
 .tiddler {
 	background:white none repeat scroll 0 0;
 	margin:1em;
@@ -180,19 +191,34 @@ div.toc-sort-handle:hover {
 }
 
 .newDocumentButton {
-	background:red;
+	background:#fff;
+	border:1px solid #ccc;
 	float:right;
 	top:-2.5em;
 	padding:0.5em;
 	position:relative;
+	-moz-border-radius: 0.5em;
+	 border-radius: 0.5em;
+	
 }
 
-.tabSelected, tabUnselected {
+ .tabSelected,  .tabUnselected {
 	padding:0.5em 1em;
+	background:#888;
 	-moz-border-radius-topright :15px;
 	-webkit-border-top-right-radius: 5px;
 	-moz-border-radius-topleft :15px;
 	-webkit-border-top-left-radius: 5px;
+
+}
+
+
+.tabSelected {
+	background:#FFF;
+}
+
+.header a:hover {
+	background:#ddd;
 }
 
 .wizard, .wizardStep, .wizardFooter {
@@ -200,3 +226,8 @@ background:transparent;
 border:0px;
 }
 
+.topSearch {
+	float:right;
+	position:relative;
+	top:-4em;
+}

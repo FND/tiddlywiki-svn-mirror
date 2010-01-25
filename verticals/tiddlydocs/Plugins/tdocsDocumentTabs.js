@@ -54,6 +54,7 @@ config.macros.docTabsNew.handler = function(place,macroName,params,wikifier,para
 				console.log(tagged[t].title, "is selecyed");
 				var tabSelected = "tab tabSelected";
 			}else{
+				console.log(tagged[t].title);
 				var tabSelected = "tab tabUnselected";
 			}
 			var label = tagged[t].title;
