@@ -141,6 +141,16 @@ a#backstageShow {
     background: -moz-linear-gradient(top, [[ColorPalette::SelectedLight]] 0%, [[ColorPalette::SelectedDark]] 100%);
 }
 
+#authorButtons {
+    height: 3.5em;
+    padding: 0 auto;
+}
+
+#authorButtons a.button {
+    text-align: center;
+    font-size: 1.2em;
+}
+
 #mainMenu {
     width: 100%;
     position: relative;

@@ -15,3 +15,7 @@ tiddler: ControlPanelStyle.tiddler
 
 tiddler: EditToolbar.tiddler
 tiddler: ViewToolbar.tiddler
+
+tiddler: AuthorButtons.tiddler
+tiddler: NewSlide.tiddler
+tiddler: NewSlideTheme.tiddler

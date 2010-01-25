@@ -14,7 +14,7 @@
     <div id='sidebarOption' refresh='content' tiddler='SideBarOptions'></div>
 </div>
 <div id="sections">
-    <h2>Sections and slides</h2>
+    <div id='authorButtons' refresh='content' tiddler='AuthorButtons'></div>
     <div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
 </div>
 <div id='displayArea'>
