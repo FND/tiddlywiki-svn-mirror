@@ -1,3 +1,10 @@
+tiddler: ../content/Create New Document.tid
+
+
+
+
+
+
 recipe: ../../../core/tiddlywiki.html.recipe
 
 tiddler: ../Plugins/A_tiddlywebSpecifics.js
@@ -11,7 +18,7 @@ recipe: includes.recipe
 recipe: tiddlydocs.html.recipe
 
 recipe: ../documents/TheInternet/split.recipe
-recipe: ../themes/minimal/split.recipe
+recipe: ../themes/css3/split.recipe
 
 
 

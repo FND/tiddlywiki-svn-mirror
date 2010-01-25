@@ -49,7 +49,7 @@ tags: systemTheme
 	</div>
 	<div class="portletContent">
 	<div  style='z-index:2;' class='toolbar' ></div>
-		<div class='wizardViewer'  style='background:#444; color:#fff; padding:1em' macro='view text wikified'></div>
+		<div class='wizardViewer'  macro='view text wikified'></div>
 	</div>
 </div>
 <!--}}}-->

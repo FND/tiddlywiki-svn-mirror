@@ -1,0 +1,202 @@
+modifier: Simon McManus
+tags: systemTheme
+
+/***
+|''Name:''|myPageTheme|
+|''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
+|''~CoreVersion:''|2.4.0|
+|''~PageTemplate:''|##PageTemplate|
+|''~wizardViewTemplate:''|##wizardViewTemplate|
+|''~ViewTemplate:''|##ViewTemplate|
+|''~EditTemplate:''|##EditTemplate|
+|''~taggingViewTemplate:''|##taggingViewTemplate|
+|''~taskViewTemplate:''|##taskViewTemplate|
+|''~taskEditTemplate:''|##taskEditTemplate|
+|''~documentViewTemplate:''|##documentViewTemplate|
+|''~StyleSheet:''|##StyleSheet|
+***/
+
+!PageTemplate
+<!--{{{-->
+<div class='header'>
+	<div class='headerShadow'>
+		<span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>
+		<span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
+		<div macro='docTabsNew'></div>
+	</div>
+</div>
+<div id='mainMenu' refresh='content' force='true' tiddler='MainMenu'>Table of Content</div>
+<div id='displayArea'>
+<div id='messageArea'></div>
+<div id='tiddlerDisplay'></div>
+</div>
+
+<!--}}}-->
+
+!wizardViewTemplate
+<!--{{{-->
+	<div  style='z-index:2;' class='toolbar' ></div>
+	<div class='wizardViewer'  macro='view text wikified'></div>
+<!--}}}-->
+
+!EditTemplate
+<!--{{{-->	
+	<div class='title' macro='view title'>Editing Section : </div>
+	<div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>	
+	<div class='taskControls editTaskControls' macro='tiddler TaskTiddlerControls'></div>
+	<div class='editor' macro='edit text'></div>
+	<div class='commentsArea' macro='comments'></div>
+<!--}}}-->
+
+!newEditTemplate
+<!--{{{-->
+	<div class='title' macro='edit title'></div>
+	<div class='toolbar left' macro='toolbar [[ToolbarCommands::newEditToolbar]]'></div>
+	<div class='editor newEditor' macro='editHtml text'></div><div class='toolbar left' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
+	<div class='commentsArea' macro='comments'></div>
+<!--}}}-->
+
+!ViewTemplate
+<!--{{{-->
+	<div class='title' macro='view title'></div>
+	<div  style='z-index:2;' class='toolbar left' macro='toolbar editTiddler'></div>
+	<div class='taskControls' macro='tiddler TaskTiddlerControls'></div>
+	<div class='viewer' macro='view text wikified'></div>
+	<div  style='z-index:2;' class='toolbar left' macro='toolbar editTiddler'></div>
+	<div class='commentsArea' macro='comments'></div>
+<!--}}}-->
+
+<!--}}}-->
+!StyleSheet
+
+
+
+[[core_css]]
+
+html body {
+    background:#eee;
+    font-face:veranda;
+}
+
+#mainMenu, .header {
+      background:#ddd;
+    margin:0.5em;
+    border-bottom:1px solid #fff;
+    border-left:1px solid #fff;
+
+    -moz-border-radius-bottomright :15px;
+    -webkit-border-bottom-right-radius: 5px;
+  	-moz-border-radius-topleft :15px;
+	-webkit-border-top-left-radius: 5px;
+}
+#mainMenu {
+    width:25%;
+    margin-left:0.4%;
+    margin-top:0.5em;
+	text-align:left;
+	color:#333;
+
+}
+
+#displayArea {
+	 margin-left:27%;
+	width:73%;
+}
+
+.tiddler {
+	background:white none repeat scroll 0 0;
+	margin:1em;
+	padding:1em;
+	border-bottom:1px solid #ddd;
+ 	-moz-border-radius-topleft :15px;
+    -webkit-border-top-left-radius: 5px;
+    -moz-border-radius-bottomright :15px;
+    -webkit-border-bottom-right-radius: 5px;
+
+}
+
+.headerShadow {
+    padding:0.8em 1em 0.4em;   
+}
+
+.siteTitle, .siteSubtitle {
+	color:#fff;
+	font-family:helvetica;
+	font-weight:bolder;
+	letter-spacing:-3px;
+	text-shadow: -1px 1px 5px #999;
+}
+.siteTitle {
+	font-size:3em;
+}
+.siteSubtitle {
+font-size:1.5em;
+	letter-spacing:-1px;
+}
+.viewer table, table.twtable, .viewer td, .viewer tr, .twtable td, .twtable tr{
+	border:0px;
+}
+
+.toolbar {
+	position:relative;
+	top:-2em;
+}
+
+html .viewer table, table.twtable, .viewer td, .viewer tr, .twtable td, .twtable tr {
+	margin:0;
+	padding:0.3em;
+}
+
+
+.specView {
+	color:#777777;
+	font-family:helvetica;
+	margin-left:-2.5em;
+	margin-top:-1em;
+	font-size:0.8em;
+}
+
+.editor textarea, html .comments textarea {
+	border:1px solid #DDDDDD;
+	padding:0px;
+	
+    -moz-border-radius-bottomright :15px;
+    -webkit-border-bottom-right-radius: 5px;
+}
+
+
+toc-item, div.toc-sort-handle{
+	border:2px dotted #ddd;
+	padding:0.1px;
+}
+
+html .helper {	
+	border:2px dotted #ddd;
+	background:#eee;
+}
+div.toc-sort-handle:hover {
+	background:#eee;
+	border:2px dotted #ccc;
+}
+
+.newDocumentButton {
+	background:red;
+	float:right;
+	top:-2.5em;
+	padding:0.5em;
+	position:relative;
+}
+
+.tabSelected, tabUnselected {
+	padding:0.5em 1em;
+	-moz-border-radius-topright :15px;
+	-webkit-border-top-right-radius: 5px;
+	-moz-border-radius-topleft :15px;
+	-webkit-border-top-left-radius: 5px;
+}
+
+.wizard, .wizardStep, .wizardFooter {
+background:transparent;
+border:0px;
+}
+
