@@ -1,25 +1,46 @@
+'''
+About
+#########
+filters are in the form [tag[foo]] or [tag[foo]tag[bar]] or [[x]]
+Templating
+#############
+This assumes you are using TaggedTemplateTweak where
+tiddler = foo with tags [tag1,tag2] living in bag awesomebag
+first it looks for awesomebagViewTemplate
+If it doesn't exist then it will look at the tags of foo and for tag1ViewTemplate tag2ViewTemplate
+if still none found
+ViewTemplate tiddler will be used.
+'''
 from xml.dom import minidom
 import re
 from twp.filterer import Filterer
 from wikklytextrender import wikitext_to_wikklyhtml
 import logging
-class Templatifier():
+class Templatifier:
   def __init__(self,environ,bag,tiddlers={},default=False):
     self.environ = environ
     self.tiddlers = tiddlers
     self._dependencies = []
-    for tiddler in tiddlers.itervalues():   
-      try:
-        bag_name = tiddler.bag
-        self.environ["tw_url_path"] = "bags/%s/tiddlers"%(bag_name)
-      except KeyError:
-        recipe_name = tiddler.recipe
-        self.environ["tw_url_path"] = "recipes/%s/tiddlers"%(recipe_name)
-      break
+    twconfig =environ['tiddlyweb.config']
+    if 'tiddlywebwikiplus' in twconfig and "tw_url_path" in twconfig['tiddlywebwikiplus']:
+      self.environ["tw_url_path"] = twconfig['tiddlywebwikiplus']['tw_url_path']
+    else:
+      for tiddler in tiddlers.itervalues():   
+        try:
+          recipe_name = tiddler.recipe
+          self.environ["tw_url_path"] = "recipes/%s/tiddlers"%(recipe_name)
+        except KeyError:
+          bag_name = tiddler.bag
+          self.environ["tw_url_path"] = "bags/%s/tiddlers"%(bag_name)
+          break
     self.bag = bag
+    self.marked_tiddlers = []
     self.default = default
     self.environ["tw_url_base"] = environ["tiddlyweb.config"]['server_prefix']+"/"
-    self.environ["tw_url_suffix"] = ".wikip"
+    if 'tiddlywebwikiplus' in twconfig and 'tw_url_suffix' in twconfig['tiddlywebwikiplus']:
+      self.environ["tw_url_suffix"] = twconfig['tiddlywebwikiplus']['tw_url_suffix']
+    else:
+      self.environ["tw_url_suffix"] = ".wikip"
   def _filter_tiddlers(self,tfilter):
     store = self.environ['tiddlyweb.config']
     filter_result = Filterer().get_filter_tiddlers(self.bag,tfilter)
@@ -30,6 +51,10 @@ class Templatifier():
     logging.debug("no bag for some reason in wikitext run macro %s"%bag)
     text = wikitext_to_wikklyhtml(environ["tw_url_base"], environ["tw_url_path"], "<<%s>>"%macrotext , environ,tiddler=tiddler,suffix_url=environ["tw_url_suffix"],bag=bag)
     return text.replace("&lt;","<").replace("&gt;",">")
+  def mark_tiddler_as_used(self,title):
+    if title in self.tiddlers:
+      self.tiddlers[title].fields["_twp_skinny_include"] = "yes"
+      self.marked_tiddlers.append(title)
   def _wrap_with_viewtemplate(self,tiddler):
     def do_transclusion(text,tiddler):
       def matcher(match):
@@ -46,13 +71,27 @@ class Templatifier():
       return re.sub("\[\[:([^\]]*)\]\]",matcher,text)
     logging.debug("_wrap_with_viewtemplate: start")
     bagTemplate = "%sViewTemplate"%tiddler.bag
+    tagTemplate = False
+    for tag in tiddler.tags:
+      tagTemplate = "%sViewTemplate"%tag
+      if tagTemplate in self.tiddlers:
+        break
+      else:
+        tagTemplate = False
     if not self.tiddlers:
       template= "no tiddlers attribute set"
     elif bagTemplate in self.tiddlers:
+      self.mark_tiddler_as_used(bagTemplate)
       text = do_transclusion(self.tiddlers[bagTemplate].text,tiddler)
       logging.debug("using bag ViewTemplate")
       template = self.run("<template>%s</template>"%(text),tiddler)
+    elif tagTemplate in self.tiddlers:
+      self.mark_tiddler_as_used(tagTemplate)
+      text = do_transclusion(self.tiddlers[tagTemplate].text,tiddler)
+      logging.debug("using tag ViewTemplate")
+      template = self.run("<template>%s</template>"%(text),tiddler)
     elif "ViewTemplate" in self.tiddlers:
+      self.mark_tiddler_as_used("ViewTemplate")
       text = do_transclusion(self.tiddlers["ViewTemplate"].text,tiddler)
       logging.debug("using norm ViewTemplate")
       template = self.run("<template>%s</template>"%(text),tiddler)
@@ -62,6 +101,7 @@ class Templatifier():
     #elif "options.txtTemplateTweakFieldname" in slices["Config"]
   def _include_default_tiddlers(self):
     logging.debug("\n\n\n********************************************************************************\n\DEFAULT ************************************************************\n")
+    self.mark_tiddler_as_used("DefaultTiddlers")
     if self.default:
       logging.debug("loading default tiddlers %s"%self.default)
       tiddlers = self.default
@@ -73,6 +113,7 @@ class Templatifier():
     for tiddler in tiddlers:
       logging.debug("tiddler in filter is %s"%tiddler)
       title = tiddler.title
+      self.mark_tiddler_as_used(title)
       self._dependencies.append(title)
       dressed_tiddler = self._wrap_with_viewtemplate(tiddler)
       logging.debug("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\ndressed")

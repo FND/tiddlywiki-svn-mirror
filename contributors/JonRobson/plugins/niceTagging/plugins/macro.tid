@@ -10,7 +10,7 @@ title: NiceTaggingPlugin
 |''Author:''|Jon Robson|
 |''License:''|[[BSD open source license]]|
 |''CoreVersion:''|2.3|
-|''Dependencies:''|AdvancedEditTemplatePlugin|
+|''Dependencies:''||
 ***/
 
 if(store){

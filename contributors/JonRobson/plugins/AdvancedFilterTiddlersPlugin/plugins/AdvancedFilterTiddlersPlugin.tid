@@ -185,7 +185,8 @@ TiddlyWiki.prototype.filterTiddlers = function(filter)
     //console.log("apply or filter",arg1,arg2);
     arg1 = arg1.trim();
     arg2 = arg2.trim();
-    if(arg1.indexOf("sort") == 0) filterResult= sort(filterResult,arg1,arg2);
+    if(arg1.indexOf("limit") == 0) filterResult= filterResult.splice(0,parseInt(arg2))
+    else if(arg1.indexOf("sort") == 0) filterResult= sort(filterResult,arg1,arg2);
     else {
       filterResult = filterResult.concatUnique(tw.getValueTiddlers(arg1,arg2));
     }
@@ -197,7 +198,8 @@ TiddlyWiki.prototype.filterTiddlers = function(filter)
     var andResult = false;
     for(var i=0; i < andFilter.length; i++){
       var filter = andFilter[i];
-      if(andResult && filter[0].indexOf("sort") == 0) andResult =sort(andResult,filter[0],filter[1])
+      if(arg1.indexOf("limit") == 0) filterResult= filterResult.splice(0,parseInt(arg2))
+      else if(andResult && filter[0].indexOf("sort") == 0) andResult =sort(andResult,filter[0],filter[1])
       else andResult = tw.getValueTiddlers(filter[0],filter[1],andResult);
     }
     filterResult = filterResult.concat(andResult);

@@ -1,4 +1,4 @@
-template: ../templates/tinytiddlywiki.template.html
+template: $TW_ROOT/core/html/tiddlywiki.template.html
 copyright: $TW_ROOT/core/html/copyright.txt
 style: ../temp/html/style.txt
 noscript: $TW_ROOT/core/html/noscript.txt

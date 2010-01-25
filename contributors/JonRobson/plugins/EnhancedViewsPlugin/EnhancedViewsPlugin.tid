@@ -1,0 +1,96 @@
+modifier: None
+created: 20100125175323
+modified: 20100125175323
+type: None
+tags: systemConfig
+
+/*
+|''Name:''| EnhancedViewsPlugin|
+|''Description:''|
+* adds extra views with TiddlyWeb in mind
+<<view title linkexternal prefix:/foo suffix:/bar>>
+* temporarily adds <<view el>> to support more complicated stuff until transclusion can be done.
+|
+|''Version:''|0.5|
+|''Date:''|8 September 2009|
+|''Source:''||
+|''Author:''|Jon Robson|
+|''License:''|[[BSD open source license]]|
+|''CoreVersion:''|2.3|
+|''Dependencies:''||
+*/
+config.macros.view.handler = function(place,macroName,params,wikifier,paramString,tiddler)
+{
+	if((tiddler instanceof Tiddler) && params[0]) {
+		var value = store.getValue(tiddler,params[0]);
+		
+		if(value) {
+			var type = params[1] || config.macros.view.defaultView;
+			var handler = config.macros.view.views[type];
+			if(handler)
+				handler(value,place,params,wikifier,paramString,tiddler);
+			else
+			  jQuery(place).append(value);
+		}
+		else{ //jon extension
+  		  var args = paramString.parseParams("name",null,true,false,true);      
+  		  var name = args[0]["ifEmpty"];
+        var emptyStr = args[0]["ifEmptyString"];
+  		  if(name) {
+  		    name = name[0];
+  		    
+  		    config.macros.tiddler.handler(place,false,[name],null,name,tiddler);
+		    }
+		    else if(emptyStr){
+		      jQuery(place).append(emptyStr[0]);
+		    }
+		}
+	}
+};
+
+config.macros.view.transclusion = function(str,tiddler){
+  var re = /(\$.*$)|(\$[^ ]*) /gi;
+  var substitute = function(match){
+    var fieldname = match.substr(1);
+    if(tiddler[fieldname]) return tiddler[fieldname];
+    else if(tiddler.fields[fieldname]) return tiddler.fields[fieldname];
+    else return "";
+  }
+  return str.replace(re,substitute);
+}
+config.macros.view.views.linkexternal= function(value,place,params,wikifier,paramString,tiddler) {
+        var opts = paramString.toJSON();    
+        var label = opts.label || value;
+        var prefix = opts.prefix|| "";
+        var suffix = opts.suffix|| "";
+        prefix = config.macros.view.transclusion(prefix,tiddler);
+        suffix = config.macros.view.transclusion(suffix,tiddler);
+        label = config.macros.view.transclusion(label,tiddler);
+        value = value.replace("/","%2F");
+		jQuery(place).append("<a href=\""+prefix+escape(value)+suffix+"\">"+label+"</a>")
+};
+
+config.macros.view.views.el= function(value,place,params,wikifier,paramString,tiddler) {
+        var opts = paramString.toJSON();    
+        var nodeType = opts.type || false;
+        var attribute = opts.attr|| "";
+        var className = opts.className || "";
+        var attribs = {};
+        var text = opts.text || value;
+        var prefix = opts.prefix|| "";
+        var suffix = opts.suffix|| "";
+        if(opts.attributes){
+            for(var i=0;i < opts.attributes.length;i++){
+                var name_val = opts.attributes[i];
+                attribs[name_val[0]] = name_val[1];
+            }
+        }
+        attribs[attribute] = prefix+value+suffix;
+        if(nodeType)createTiddlyElement(place,nodeType,null,className,text,attribs)
+		else{
+		    for(var i in attribs){
+		        //console.log(i,attribs[i]);
+		        jQuery(place).attr(i,attribs[i]);
+		    }
+		}
+};

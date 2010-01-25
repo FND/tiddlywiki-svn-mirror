@@ -1,0 +1,549 @@
+tags: systemConfig
+
+/*
+|''Name:''| CoreEnhancements|
+|''Description:''|
+Powers up the TiddlyWiki core to make it more TiddlyWeb friendly. See below for list of new programming bits and bobs
+|
+|''Version:''|0.5|
+|''Date:''|8 September 2009|
+|''Source:''||
+|''Author:''|Jon Robson|
+|''License:''|[[BSD open source license]]|
+|''CoreVersion:''|2.3|
+|''Dependencies:''||
+
+Additions:
+1) toJSON (new)
+allows easy conversion from string to a json which can then be passed as a jquery options parameter.
+
+2) filterTiddlers (enhancement) - packaged as plugin
+Enhanced to allow you to use fields eg. [field[val]] gives you all tiddlers with field having the value val.
+[server.bag[foo]] gives you all tiddlers in bag foo
+
+3) sortTiddlers (enhancement) - packaged as plugin
+enhanced to allow sorting by a type.currently float and int are supported as well as default string.
+the filter [sort(int)[field]] now sorts tiddlers by "field" where the values of field are treated as integers.
+
+4) macro tiddler (enhancement) - packaged as plugin
+* New tiddler macro accepts a template
+<<tiddler bar template:foo>>
+will print the tiddler foo but with the data of tiddler bar.
+so if tiddler foo has text "hello <<view title>>" the result of this is "hello bar"
+Code slightly changed to run anyway if tiddler text is empty and template being used.
+
+5) macro tiddlers (new) - packaged as plugin
+* allows loops - takes filter parameter and calls tiddler macro on each of the resulting tiddlers
+<<tiddlers filter:[server.bag[jon]] template:Foo>> runs <<tiddler template:foo>> on each tiddler in the bag jon.
+
+6) view macro views (enhancement)
+* added generic el which allows you to specify the attribute destination of your value and the type of element to create
+eg. <<view title el type:a attr:href text:hello>> for tiddler with title Bar will create <a href='bar'>hello</a>
+also supports prefix and suffix parameters to append to value of tiddler attribute
+eg. <<view title el type:a attr:href text:hello prefix:/foo/ suffix:.wiki>> for tiddler with title Bar will create <a href='/foo/bar.wiki'>hello</a>
+Another example
+<<view title el type:input attr:value attributes:{{[['type','hidden']]}}>> for tiddler called foo
+creates <input type='hidden' value='foo'/>
+If you do not specify a type it will use the existing element. eg. <form macro='view title el attr:action'></form> will add an attribute action to your form using the tiddler title.
+
+7) New shadow tiddler Config (- raised ticket)
+This would be an option set of tiddler slices that allow you to override default config.options and config.messages
+good for enforcing different language versions / overriding mention of word tiddler
+
+8) new config options
+options.onClickTiddlerLinkCloseAllTiddlers (for onClickTiddlerLink)
+options.onDisplayTiddlersCloseAllTiddlers (for displayTiddlers)
+config.options.allTagsNoOpenTagButton (for onClickTag)
+
+9) onClickTag
+adjusted so it doesnt show tiddlers tagged excludeLists in the list.
+
+10) onClickTagOpenAll
+adjusted so that you open all tagged with "foo" if a tiddler is tagged "foo" and "excludeList" it is not opened.
+
+11) new macro url
+This would help establish a standardised way of accessing urls on the server and client
+Proposed usage
+if you accessed a url http://blah.com/wiki/recipes/foo/tiddlers.wiki
+<<url>> would print /wiki/recipes/foo/tiddlers.wiki
+Takes an optional parameter to get the segment
+eg. <<url 2>> would print foo
+<<url 3>> would print tiddlers.wiki
+
+12) request to modify getTags function
+currently if you call getTags("excludeTags") it returns a list of tags where each of those tags are not themselves tagged with excludeTags
+ie. if the tags in a tiddlywiki were ['a','b','c','d','e']
+you would need to create a tiddler called 'a' and tag it with 'excludeTags' 
+to get the list ['b','c','d','e']
+
+This is very tedious and could be better improved if you could create a tiddler called excludeTags and tag it with all tags to exclude
+eg. create a tiddler with title excludeTags and tag with 'a' 'c' and 'e' to generate a list
+['b','d'] from the same list above.
+
+13) message
+extended to use views
+eg.
+<<message options.txtUserName view link>>
+
+14) count macro
+returns number of tiddlers matching a given filter
+
+15) view handler extended to provide ifEmpty parameter. 
+<<view myfield ifEmpty:EmptyTemplate>>
+When no value for myfield instead displays EmptyTemplate.
+
+Also ifEmptyString
+<<view num_comments ifEmptyString:0>>
+could be used to print 'You have 0 comments.' when num_comments field empty
+
+16) saveTiddlerWithoutOverwriting
+prevents creation of new tiddlers with the default title and with an existing title
+
+17) displayMessage
+don't make it a target ='_blank'! use config.options.chkOpenInNewWindow
+
+18) addCustomFields (ticketed)
+allow user to override core settings
+
+19) [[:title]] in a ViewTemplate places the title
+attempting by hacking getRecursiveTiddlerText
+
+*/
+
+
+String.prototype.toJSON = function(){
+    var namedprms = this.parseParams(null, null, true);
+    var options ={};
+    for(var i=0; i < namedprms.length;i++){
+        var nameval = namedprms[i];
+        options[nameval.name] = nameval.value;
+    }
+    return options;
+};
+
+config.macros.tiddlersLink = {
+  handler: function(place,macroName,params,wikifier,paramString,tiddler){
+    var filter = params[1];
+    
+    var action = function(e){
+      
+      story.displayTiddlers(e,store.filterTiddlers(filter));
+    }
+    createTiddlyButton(place,params[0],params[0],action,"tiddlersLink");
+  }
+}
+story.addConfigOptionDisplayTiddlers = story.displayTiddlers;
+story.displayTiddlers = function(srcElement,titles,template,animate,unused,customFields,toggle)
+{
+  if(config.options.onDisplayTiddlersCloseAllTiddlers){
+    this.closeAllTiddlers();
+  }
+	this.addConfigOptionDisplayTiddlers(srcElement,titles,template,animate,unused,customFields,toggle);
+};
+
+
+
+config.macros.message.handler = function(place,macroName,params,wikifier,paramString,tiddler)
+{
+	if(params[0]) {
+		var names = params[0].split(".");
+		var lookupMessage = function(root,nameIndex) {
+				if(names[nameIndex] in root) {
+					if(nameIndex < names.length-1)
+						return (lookupMessage(root[names[nameIndex]],nameIndex+1));
+					else
+						return root[names[nameIndex]];
+				} else
+					return null;
+			};
+		var m = lookupMessage(config,0);
+		if(m == null)
+			m = lookupMessage(window,0);
+		
+		var oldParams = params;
+		var formatMsg = function(m){m.toString().format(params.splice(1));};
+		
+		
+
+		if(oldParams[1]){
+		  var type = oldParams[1];
+      var newParams = oldParams.splice(1);
+      var value = m;
+		  var handler = config.macros.view.views[type];
+		  if(!value) return;
+		  var newParamString = paramString.substr(paramString.indexOf("view ")+5);
+		  
+		  if(handler)
+				handler(value,place,newParams,wikifier,newParamString,tiddler);
+      else
+        jQuery(place).append(value);
+                
+		}
+		else {
+		  createTiddlyText(place,m);
+	  }
+	}
+};
+
+
+/*
+config.macros.viewConfig = {
+    handler: function(place,macroName,params,wikifier,paramString,tiddler){
+        if(!params || params.length <2) return;
+        
+        if(config[params[0]]){
+            var value = config[params[0]][params[1]];
+            var type = params[2];
+            
+            var handler = config.macros.view.views[type];
+			if(handler)
+				handler(value,place,params,wikifier,paramString,tiddler);
+            else
+                jQuery(place).append(value);
+        }
+        
+    }
+}
+*/
+config.macros.count = {
+    handler: function(place,macroName,params,wikifier,paramString,tiddler){
+        var count =0;
+        var namedprms = paramString.parseParams(null, null, true);
+        var options ={};
+        for(var i=0; i < namedprms.length;i++){
+            var nameval = namedprms[i];
+            options[nameval.name] = nameval.value;
+        }
+        var tiddlers = store.filterTiddlers(options.filter);
+        //console.log(tiddlers);
+        jQuery(place).append(tiddlers.length);
+    }
+};
+
+config.macros.url = {
+    handler: function(place,macroName,params){
+        var url = window.location.pathname;
+        
+        if(params && params[0]){
+            url =url.substr(1); //remove initial '/'
+            
+            var print = url.split("/")[parseInt(params[0])];
+        }
+        else{
+            print =url;
+        }
+        jQuery(place).append(decodeURI(print));
+    }
+}
+
+
+
+
+// Sort a list of tiddlers now with ability to specify field type
+TiddlyWiki.prototype.sortTiddlers = function(tiddlers,field,fieldType)
+{
+	var asc = +1;
+	if(!fieldType)fieldType ="";
+	var convert;
+	//console.log(fieldType);
+	switch(fieldType.toLowerCase()){
+	    case "int":
+	        convert = function(v){if(!v) return 0; else return parseInt(v);}
+	        break;
+	    case "float":
+	        convert = function(v){if(!v) return 0; else return parseInt(v)};
+	        break;
+	    default:
+	        convert = function(v){return v;};
+	}
+	switch(field.substr(0,1)) {
+	case "-":
+		asc = -1;
+		// Note: this fall-through is intentional
+		/*jsl:fallthru*/
+	case "+":
+		field = field.substr(1);
+		break;
+	}
+	if(TiddlyWiki.standardFieldAccess[field])
+		tiddlers.sort(function(a,b) {return a[field] < b[field] ? -asc : (a[field] == b[field] ? 0 : asc);});
+	else{
+	    
+		tiddlers.sort(function(a,b) {return convert(a.fields[field]) < convert(b.fields[field]) ? -asc : (a.fields[field] == b.fields[field] ? 0 : +asc);});
+	}return tiddlers;
+};
+
+
+
+/*
+TiddlyWiki.prototype.filterTiddlers = function(filter)
+{
+  var re =/[^ ][^\]^\[]+|\[.*\]/g
+  var match = re.exec(filter);
+  while(match){
+    console.log(match);
+    var filters = match[0].split(" ")
+    var andFilter = /\[a\[b\]\]/
+    for(var i=0; i < filters.length;i++){
+      console.log(" ",filters[i])
+    }
+    
+    match = re.exec(filter);
+  }
+  return [];
+}*/
+function loadConfig(){
+    var configShadow= store.calcAllSlices("Config");
+    
+    if(configShadow){ 
+        for(var c in configShadow){
+            //console.log("loading " +c);
+            var ids = c.split(".");
+            
+            if(ids && ids.length > 1){
+              var id1 = ids[0];
+              var id2 = ids[1];
+              //console.log(id1,id2);
+              var location = config; 
+              for(var i=0; i < ids.length-1; i++){
+                location = location[ids[i]];
+              }
+              if(location){
+                var value  =configShadow[c].replace(/\\n/gi,"\n");
+                if(value == 'false' || value== 'true' ||value.indexOf("{{")==0){
+                  value = value.replace("{{","").replace("}}","")
+                  value = eval(value);
+                }
+                location[ids[ids.length-1]] = value;
+            
+              }
+            }
+        }
+    }
+    refreshDisplay();
+}
+
+function onClickTiddlerLink(ev)
+{
+	var e = ev || window.event;
+	var target = resolveTarget(e);
+	var link = target;
+	var title = null;
+	var fields = null;
+	var noToggle = null;
+	do {
+		title = link.getAttribute("tiddlyLink");
+		fields = link.getAttribute("tiddlyFields");
+		noToggle = link.getAttribute("noToggle");
+		link = link.parentNode;
+	} while(title == null && link != null);
+	if(!store.isShadowTiddler(title)) {
+		var f = fields ? fields.decodeHashMap() : {};
+		fields = String.encodeHashMap(merge(f,config.defaultCustomFields,true));
+	}
+	if(title) {
+		var toggling = e.metaKey || e.ctrlKey;
+		if(config.options.chkToggleLinks)
+			toggling = !toggling;
+		if(noToggle)
+			toggling = false;
+		if(store.getTiddler(title))
+			fields = null;
+		if(config.options.onClickTiddlerLinkCloseAllTiddlers) story.closeAllTiddlers();
+		story.displayTiddler(target,title,null,true,null,fields,toggling);
+	}
+	clearMessage();
+	return false;
+}
+
+story.addTiddler = function(){}
+
+//"server.page.revision"
+config.commands.saveTiddlerWithoutOverwriting={
+  text: "done",
+  tooltip: "Save changes to this tiddler",
+  tiddlerExistsMsg:"This tiddler already exists!",
+  usingDefaultNameMsg: "Please give your idea a more useful name!",
+  handler: function(event,src,title){
+    var command = this;
+    var tiddlerElem = story.getTiddler(title);
+    
+
+    var fields = {};
+    story.gatherSaveFields(tiddlerElem,fields);
+    var saveTitle = fields.title;
+    if(config.macros.newTiddler.title == saveTitle){
+      alert(this.usingDefaultNameMsg);
+      return;
+    }
+    
+    var tiddler = store.getTiddler(saveTitle);
+
+    if(!tiddler){ //tiddler is a new one      
+      window.confirmExit = false;
+      window.checkUnsavedChanges = false;
+      var ws = fields["server.workspace"];
+      var url = fields["server.host"]+"/" + ws +"/tiddlers/"+saveTitle+".txt";
+      ajaxReq({url:url,
+        success:function(r){
+          window.confirmExit = true;
+          window.checkUnsavedChanges = true;
+        },
+        error: function(){
+          window.confirmExit = false;
+          window.checkUnsavedChanges = false;
+          var newTitle = story.saveTiddler(title,false);
+          
+        	if(newTitle)
+        		story.displayTiddler(null,newTitle);
+        	return false;
+        	
+        }
+      });
+    }
+    else{
+      alert(command.tiddlerExistsMsg);
+    }
+  }
+}
+
+Story.prototype.getTemplateForTiddler = function(title,template,tiddler)
+{
+  var matcher = function(match,field){
+    if(tiddler[field]) return tiddler[field];
+    else if(tiddler.fields[field]) return tiddler.fields[field];
+    else return "";
+  }
+	var text= store.getRecursiveTiddlerText(template,null,10);
+	return text.replace(/\[\[:([^\]]*)\]\]/,matcher);;
+};
+
+
+
+
+
+Story.prototype.addCustomFields = function(place,customFields)
+{
+	var fields = customFields.decodeHashMap();
+	var html = '<div class="customFields" style="display:none;">';
+	for(var t in fields) {
+	  html += '<input type="text" value="'+fields[t]+'" edit="'+t+'"/>';
+	}
+	jQuery(place).prepend(html);
+};
+
+
+
+
+TiddlyWiki.prototype.getTags = function(excludeTag)
+{
+	var results = [];
+	var excludeList =[];
+	if(excludeTag){
+	    var tiddler = store.getTiddler(excludeTag);
+	    if(tiddler)excludeList = tiddler.tags;
+	}
+
+	this.forEachTiddler(function(title,tiddler) {
+		var n = true;
+		for(var g=0; g<tiddler.tags.length; g++) {
+			var tag = tiddler.tags[g];
+			
+			if(excludeList.indexOf(tag) > -1) n = false;
+			for(var c=0; c<results.length; c++) {
+				if(results[c][0] == tag) {
+					n = false;
+					results[c][1]++;
+				}
+			}
+			if(n && excludeList) {
+			    
+				var t = this.fetchTiddler(tag);
+				if(t && t.isTagged(excludeTag))
+					n = false;
+			}
+			if(excludeList.indexOf(tag) !=-1) n =false;
+			if(n)
+				results.push([tag,1]);
+		}
+	});
+	results.sort(function(a,b) {return a[0].toLowerCase() < b[0].toLowerCase() ? -1 : (a[0].toLowerCase() == b[0].toLowerCase() ? 0 : +1);});
+	return results;
+};
+
+onClickTagOpenAll=function(ev)
+{
+	var tiddlers = store.getTaggedTiddlers(this.getAttribute("tag"));
+	var tiddlersToOpen = [];
+	for(var i=0; i < tiddlers.length;i++){
+	  var tid = tiddlers[i];
+	  if(tid.tags.indexOf("excludeLists") == -1) tiddlersToOpen.push(tid);
+  }
+	story.displayTiddlers(this,tiddlersToOpen);
+	return false;
+}
+
+onClickTag = function(ev)
+{
+  
+	var e = ev || window.event;
+	var popup = Popup.create(this);
+	addClass(popup,"taggedTiddlerList");
+	var tag = this.getAttribute("tag");
+	var title = this.getAttribute("tiddler");
+	if(popup && tag) {
+		var tagged = store.getTaggedTiddlers(tag);
+		var titles = [];
+		var li,r;
+		for(r=0;r<tagged.length;r++) {
+			if(tagged[r].title != title)
+				titles.push(tagged[r].title);
+		}
+		var lingo = config.views.wikified.tag;
+		if(titles.length > 0) {
+			var openAll = createTiddlyButton(createTiddlyElement(popup,"li"),lingo.openAllText.format([tag]),lingo.openAllTooltip,onClickTagOpenAll);
+			openAll.setAttribute("tag",tag);
+			createTiddlyElement(createTiddlyElement(popup,"li",null,"listBreak"),"div");
+			
+			for(r=0; r<titles.length; r++) {
+			  var taggedTiddler = titles[r]
+			  var taggedTid = store.getTiddler(taggedTiddler);
+			  
+			  if(taggedTid.tags.indexOf("excludeLists") == -1)createTiddlyLink(createTiddlyElement(popup,"li"),taggedTiddler,true);
+			}
+		} else {
+			createTiddlyElement(popup,"li",null,"disabled",lingo.popupNone.format([tag]));
+		}
+		createTiddlyElement(createTiddlyElement(popup,"li",null,"listBreak"),"div");
+		
+		if(!config.options.allTagsNoOpenTagButton){
+		  var h = createTiddlyLink(createTiddlyElement(popup,"li"),tag,false);
+		  createTiddlyText(h,lingo.openTag.format([tag]));
+		}
+	}
+	Popup.show();
+	e.cancelBubble = true;
+	if(e.stopPropagation) e.stopPropagation();
+	return false;
+}
+
+
+
+displayMessage = function(text,linkText)
+{
+	var e = getMessageDiv();
+	if(!e) {
+		alert(text);
+		return;
+	}
+	if(linkText) {
+		var link = createTiddlyElement(e,"a",null,null,text);
+		link.href = linkText;
+		if(config.options.chkOpenInNewWindow)link.target = "_blank";
+	} else {
+		e.appendChild(document.createTextNode(text));
+	}
+}
+
+
+loadConfig();

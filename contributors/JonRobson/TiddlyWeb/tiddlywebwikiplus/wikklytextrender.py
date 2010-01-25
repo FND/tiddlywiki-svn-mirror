@@ -30,7 +30,7 @@ def render(tiddler, environ):
     return unicode(html, 'utf-8')
 
 
-def wikitext_to_wikklyhtml(base_url, path_url, wikitext, environ,suffix_url="",tiddler=False,bag=False):
+def wikitext_to_wikklyhtml(base_url, path_url, wikitext, environ,suffix_url="",tiddler=False,bag=False,wikiwords=False):
     """
     Turn a wikitext into HTML.
     base_url: starting url for links in the wikitext (e.g. '/')
@@ -55,13 +55,13 @@ def wikitext_to_wikklyhtml(base_url, path_url, wikitext, environ,suffix_url="",t
     }
     logging.debug("cwd is %s"%os.getcwd())
     context = wikklytext.WikContext(plugin_dirs='plugins',url_resolver=our_resolver)
-    environ["twp_url_base"] = base_url
-    environ["twp_url_path"] =path_url
-    environ["twp_url_suffix"] = suffix_url
+    environ["tw_url_base"] = base_url
+    environ["tw_url_path"] =path_url
+    environ["tw_url_suffix"] = suffix_url
     context.environ = environ
     context.bag = bag
     context.tiddler = tiddler
-    
+    context.wikiwords = wikiwords
     
     html, context = wikklytext.WikklyText_to_InnerHTML(
             text=wikitext,
@@ -88,7 +88,8 @@ class PostHook(object):
         """
         from wikklytext.wikwords import wikiwordify
         # add links to any wikiword
-        wikiwordify(rootnode, context, self.wikiwords)
+        if context.wikiwords:
+          wikiwordify(rootnode, context, self.wikiwords)
 
 
 class InfiniteDict(dict):

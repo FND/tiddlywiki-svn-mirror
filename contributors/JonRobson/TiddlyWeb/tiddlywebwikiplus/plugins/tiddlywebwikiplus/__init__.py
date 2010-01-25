@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-__safe__ = ['view','message','tiddlers','tiddler','url','tags']
+__safe__ = ['view','tiddlyWebComments','message','tiddlers','tiddler','url','tags']
 import re
 from wikklytextrender import wikitext_to_wikklyhtml
 import urllib
@@ -7,21 +7,34 @@ import logging
 from wikklytext.base import Text
 from tiddlyweb.model.tiddler import Tiddler
 from tiddlyweb.store import Store, NoBagError,NoTiddlerError
-from twp.filterer import Filterer
+from twp.filterer import Filterer as FilterThingy
+from tiddlyweb import control
 logging.debug("cwd now loading plugins")
 
+def tiddlyWebComments(context,*args):
+  ctiddler = context.tiddler
+  if ctiddler:
+    comments = control.filter_tiddlers_from_bag(context.bag,"select=root:%s&sort=-created"%ctiddler.title)
+    res = ""
+    for comment in comments:
+      res += "<div class='comment'><div class='heading'><div class='commentTitle'>comment</div></div><div class='commentText'>%s</div></div>"%comment.text
+  return res
+  
 def tiddler(context, *args):
   logging.debug("in tiddler macro")
+  environ = context.environ
   if context.bag:
     bag = context.bag
-  
     try:
       tiddler_requested = args[0].text
     except Exception:
       tiddler_requested = ""
     for tiddler in bag.list_tiddlers():
       if tiddler.title == tiddler_requested:
-        return tiddler.text
+        
+        text = wikitext_to_wikklyhtml(environ["tw_url_base"], environ["tw_url_path"], tiddler.text, environ,tiddler=context.tiddler,suffix_url=environ["tw_url_suffix"],bag=context.bag)
+        #text = text.replace("&lt;","<").replace("&gt;",">")
+        return text
     return "no tiddler with name %s"%tiddler_requested
   else:
     return "no bag"
@@ -40,13 +53,17 @@ def tiddlers(context, *args):
   named_args = get_named_args(params)
   tw_filter = named_args["filter"]
   if context.bag:
-    filtered_tiddler_list = Filterer().get_filter_tiddlers(context.bag,tw_filter)
+    logging.debug("in tiddlers with tw filter %s"%(tw_filter))
+    f = FilterThingy() #finding an old version of Filterer but not sure where!
+    filtered_tiddler_list = f.get_filter_tiddlers(context.bag,tw_filter)
+    logging.debug("in tiddlers with result %s"%filtered_tiddler_list)
     result = u""
     listlen = 0
-    for tiddler in filtered_tiddler_list:
+    for newtiddler in filtered_tiddler_list:
       listlen +=1
-      newcontext = context
-      newcontext.tiddler = tiddler
+      newcontext = context.clone()
+      newcontext.environ = environ
+      newcontext.tiddler = newtiddler
       newcontext.bag= context.bag
       tiddler_result = TIDDLER_MACRO(newcontext,template)
       result += tiddler_result    
@@ -96,10 +113,7 @@ def _view_transform(context,value,vtype,params=[]):
   
   #value = value.encode("ascii","ignore")
   environ = context.environ
-  try:
-    link_suffix =environ["twp_url_suffix"]
-  except KeyError:
-    link_suffix = ""
+
     
   named_args = get_named_args(params)
   logging.debug("got named args %s from %s"%(named_args,params))
@@ -123,10 +137,10 @@ def _view_transform(context,value,vtype,params=[]):
     transformed = value.decode("utf-8")
     return transformed
   elif vtype == 'wikified':
-    return wikitext_to_wikklyhtml(environ["tw_url_base"], environ["tw_url_path"], value, environ,tiddler=context.tiddler,suffix_url=link_suffix,bag=context.bag)
+    return value#wikitext_to_wikklyhtml(environ["tw_url_base"], environ["tw_url_path"], value, environ,tiddler=context.tiddler,suffix_url=link_suffix,bag=context.bag)
   elif vtype =='link':
     value = "[[%s]]"%value
-    return wikitext_to_wikklyhtml(environ["tw_url_base"], environ["tw_url_path"], value, environ,tiddler=context.tiddler,suffix_url=link_suffix,bag=context.bag)
+    return wikitext_to_wikklyhtml(environ["tw_url_base"], environ["tw_url_path"], value, environ,tiddler=context.tiddler,suffix_url=environ["tw_url_suffix"],bag=context.bag)
   elif vtype=='date':
     YYYY = value[0:4]
     MM = value[4:6]
@@ -154,7 +168,9 @@ def tags(context,*args):
   else:
     tagresult +=u"<li class=\"listTitle\">tags: </li>"
     for tag in tiddler.tags:
-      tagresult += "<li><a href='javascript:void()'>%s</a></li>"%tag
+      #taglink ="<a href='javascript:void()'>%s</a>"%tag
+      taglink = "[[%s]]"%tag
+      tagresult += "<li>%s</li>"%(taglink)
   
   tagresult += "</ul>"
   return tagresult
@@ -219,7 +235,6 @@ def view(context, *args):
     viewtype = params[1]
   except IndexError:
     viewtype = False
-  
   try:
     tiddler = context.tiddler
   except AttributeError:

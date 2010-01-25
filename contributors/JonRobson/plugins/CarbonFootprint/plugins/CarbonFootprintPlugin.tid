@@ -17,7 +17,10 @@ tags: systemConfig
 2088533116?1667330592?678784619?1852798830?543585637?1814641210?1248816764?2085384046?1685024380?2087742561?1852121128?1819242087?761815413?1814063470?1952805486?1635019119?1851878441?2088520565?1634492704?1282764144?1970437244?1953653097?1847601262?1635019119?1851878432?1918986604?696024131?1634559346?1869488200?1768384620?1634624627?740314465?1818327411?1767996540?1953653097?1847601262?1635019119?1851878432?1918986604?696024144?1701732718?1730945101?1634492793?1936286076?2088006241?1768824872?1851880553?1869504876?544366953?1814658172?1281453671?1801549673?740314465?1818327411?1767996540?1953653097?1847601262?1635019119?1851878432?1918986604?696024139?1969319009?541881709?1886745212?2087742561?1852121128?1936224114?1949132897?1970020457?1853121906?1851880553?1869504876?696024130?1920298597?1769765987?1634869288?1970170734?1870097952?1718969708?696024139?1869898016?1265200737?1650551925?740314465?1818327411?1767996540?1886151022?1696606316?1869506349?1751217516?543780468?1701998177?1953066862?1634478460?2085445987?1635068960?1130916206?1635548276?1918986606?539520609?1953066862?1634476146?1634298921?2088519791?1852252235?1869506348?541288553?1851882620?1886151022?1696606323?1752134260?761815413?1814063470?1952805486?1635019119?1851878441?2088522601?1852268912?1869768060?2087742561?1852121128?1936224114?1949132897?1970020457?1853121906?1851880553?1869504876?696024139?1969319009?541881709?1886745212?2087742561?1852121128?1819242087?761815413?1814063470?1952805486?1635019119?1851878441?976899183?1852075886
 */
 config.macros.CarbonFootprintForm ={
-  kgco2perkm:{
+  ajaxUrl:"http://ajax.googleapis.com/ajax/services/search/local?v=1.0&q="
+  //ajaxUrl:"/CarbonCalculator/proxy.php?url=http%3A//ajax.googleapis.com/ajax/services/search/local%3Fv%3D1.0%26q%3D"
+  //ajaxUrl:"http://www.jonrobson.me.uk/proxy.php?url=http%3A//ajax.googleapis.com/ajax/services/search/local%3Fv%3D1.0%26q%3D"
+  ,kgco2perkm:{
     "car (unknown fuel)":0.2028,
     "plane (domestic)": 0.1710,
     "plane (short-haul international)": 0.0983,
@@ -33,7 +36,7 @@ config.macros.CarbonFootprintForm ={
     "breaths":{prefix:"... could have produced the same amount through breathing ", kgMultiplier:1/0.000982, suffix: " times",decimals:0}, //http://wiki.answers.com/Q/How_much_co2_is_emitted_per_breath
     "kettle": {prefix:"... could have boiled ", kgMultiplier: 1/0.0015, suffix:" kettles",decimals:0},//http://technology.timesonline.co.uk/tol/news/tech_and_web/article5489134.ece
     "google": {prefix:"... could have performed ", kgMultiplier: 1/0.0002, suffix:" google searches", reference:'http://googleblog.blogspot.com/2009/01/powering-google-search.html',decimals:0},
-    "pc": {prefix: "... could have run a PC for ", kgMultiplier:1/(0.06*24), suffix: " hours",decimals:0 },
+    "pc": {prefix: "... could have run a PC for ", kgMultiplier:1/(0.06*24), suffix: " days",decimals:0 },//http://technology.timesonline.co.uk/tol/news/tech_and_web/article5489134.ece
     "circumnavigate": {prefix:"... could have circumnavigated the globe in a plane ",kgMultiplier:1/4496.43295, suffix:" times."}, //world is 40,075.16 kilometers in a plane 0.1122kg co2 per km
     
     "BT travel": {prefix: "... have contributed to ",kgMultiplier:1/50000000,decimals:10,suffix:"% of all the co2 BT people will produce this year through business travel"},
@@ -41,7 +44,7 @@ config.macros.CarbonFootprintForm ={
     "madehomehubs":{prefix:"...could have manufactured and distributed ", kgMultiplier:1/18, suffix:" BT homehubs"},
     "bthomehub":{prefix:".. could have run a BT homehub for ", kgMultiplier:1/44,suffix:" years"},
     "co2today":{prefix:"... have contributed the same amount as ", kgMultiplier:1/25,suffix:" people will today (the total UK emissions today will correspond to about 25kg of Co2 per person)"},
-    "co2_2050":{prefix:"... have contributed the same amount as ", kgMultiplier:1/5,suffix:" people will in 2050 to meet UK climate change reduction targets"}
+    "co2_2050":{prefix:"... have contributed the same amount as ", kgMultiplier:1/5,suffix:" people will in 2050 in a single day (based on UK climate change reduction targets)"}
   }
   
   ,poundsperkm:{
@@ -50,11 +53,11 @@ config.macros.CarbonFootprintForm ={
     "plane (short-haul international)": .12,
     "plane (long-haul international)":.12,
     "plane (other)": .12,
-    "train (national rail)":.21,
-    "train (international eg.Eurostar)": .21,
-    "train (light rail and tram)": .21,
+    "train (national rail)":.50,
+    "train (international eg.Eurostar)": .50,
+    "train (light rail and tram)": .50,
     "tube (eg. London Underground)":.21,
-    "train (other)":.21
+    "train (other)":.50
   }
   ,codemsg: "Copy and paste the code below and then you will be able to retrieve your trip by clicking on the 'load from code' link in the bottom right of the calculator."
   ,_transportHTML: ""
@@ -68,7 +71,7 @@ config.macros.CarbonFootprintForm ={
   }
   ,addJourneyLeg: function(place,location,transport){
     var options = this._transportHTML;
-    jQuery(".journeyLegArea",place).append("<span class='journey'> to (postcode) <input type='text' name='via'/> by <select name='viaTransport'>"+options+"</select></span>");
+    jQuery(".journeyLegArea",place).append("<span class='journey'> to (city/postcode) <input type='text' name='via'/> by <select name='viaTransport'>"+options+"</select></span>");
     var journeys =jQuery(".journey",place);
     var lastJourney =journeys[journeys.length-1];
     
@@ -78,17 +81,32 @@ config.macros.CarbonFootprintForm ={
       
 
   }
+  ,lingo: {
+    "name": "name",
+    "travel_from":"is travelling from (city/postcode)",
+    "addleg": "add leg to journey"
+  }
   ,addParticipant: function(place){
+    var macro =config.macros.CarbonFootprintForm;
     var transportOptionsHtml = this._transportHTML;
-  
-    var html = "<li class='participant'>name: <input type='text' name='participant'/> is travelling from (postcode): <input type='text' name='location'/> by: <select name='transport'>"+transportOptionsHtml+"</select><span class='journeyLegArea'></span> to the meeting <input type='button' class='addJourneyLeg' value='add details'/></li>";
+    var id= Math.random();
+    var html = "<li class='participant'>"+macro.lingo.name+": <input id='cf_person_"+id+"' type='text' name='participant'/><br/> "+macro.lingo["travel_from"]+": <input type='text' name='location'  id='cf_location_"+id+"'/> by: <select name='transport'  id='cf_tranport_"+id+"'>"+transportOptionsHtml+"</select><span class='journeyLegArea'></span> to the meeting <input type='button' class='addJourneyLeg' value='"+macro.lingo.addleg+"'/><input type='button' class='deleteParticipant' value='X'/></li>";
     jQuery(".participantArea",place).append(html);
-    jQuery(".addJourneyLeg").click(function(e){
+    jQuery(".addJourneyLeg",place).click(function(e){
       var participant = jQuery(this).parent();
       config.macros.CarbonFootprintForm.addJourneyLeg(participant);
     })
+    jQuery(".deleteParticipant",place).click(function(e){
+      var participant = jQuery(this).parent().remove();
+    });
+    
+     macro.postAddParticipant(jQuery(".participantArea",place));
   }
-  ,constructForm: function(place){
+  ,postAddParticipant: function(place){
+    
+  }
+  ,constructForm: function(place,tiddler){
+
     var html ="<div class='calculator'>"+
     "<div class='top'>"+
       "<div class='resultScreen'>"+
@@ -100,29 +118,36 @@ config.macros.CarbonFootprintForm ={
         "</div>"+
       "</div>"+
     "</div>"+
-    "<input type='button' class='generator' value='CALCULATE'></div>"+
+    "</div>"+
     "<div class='bottom'>"+
       "<div class='innerFrame'>"+
         "<form>"+
           "<h1>Meeting</h1>"+
-          "Where is the meeting? (postcode) <input type='text' name='meeting_location'/><br\>"+
+          "Where is the meeting? (city/postcode) <input type='text' name='meeting_location'/><br\>Is this a return journey? <input type='checkbox' name='isReturn' checked/>"+
           "<br/>"+
           "<h1>participants</h1>"+
           "<ul class='participantArea'></ul>"+
           "<input type='button' class='addParticipant' value='add participant'/>"+
-          "<div class='footer'><a href='#' class='loadData'>Load from code</a></div>"+
+          "<div class='separator'></div><input type='button' class='clearform' value='CLEAR FORM'/><input type='button' class='generator' value='CALCULATE'><div class='footer'><a href='#' class='loadData'>Load from code</a></div>"+
         "</form>"+
       "</div>"+
     "</div>"+
     "</div>";
     jQuery(place).append(html);
+    jQuery(".clearform",place).click(function(e){
+      story.closeTiddler(tiddler.title);
+      story.displayTiddler(null,tiddler.title);
+    });
+    
     //alert(html);
+   
   }
   ,handler: function(place,macroName,params,wikifier,paramString,tiddler){
+    var cff = config.macros.CarbonFootprintForm;
     this._generateTransportHTML();
-    config.macros.CarbonFootprintForm.constructForm(place);
+    config.macros.CarbonFootprintForm.constructForm(place,tiddler);
     config.macros.CarbonFootprintForm.addParticipant(place);
-    var options = {url:"http://ajax.googleapis.com/ajax/services/search/local?v=1.0&q="};
+    var options = {url:cff.ajaxUrl};
     jQuery(".loadData",place).click(function(e){
       config.macros.CarbonFootprintForm.loadData(place,options);
     })
@@ -133,6 +158,14 @@ config.macros.CarbonFootprintForm ={
   }
   ,calculate:function(place,options){
     var startLocation = jQuery("input[name=meeting_location]",place).val();
+    var isReturn = jQuery("input[name=isReturn]:checked",place);
+    if(isReturn.length> 0){
+      options.returnjourney = true;
+    }
+    else{
+      options.returnjourney = false;
+    }
+    options.calculatedParticipants = 0;
     //jQuery(".resultScreen",place).html("please wait...");
     jQuery(".resultsBox",place).html("please wait...");
     ajaxReq({url:options.url+startLocation, success:function(r){
@@ -140,25 +173,27 @@ config.macros.CarbonFootprintForm ={
       var topResult = data["responseData"].results[0];
       if(!topResult){
         alert("Couldn't find "+ startLocation + " check this is a valid postcode.");
+        jQuery(".resultsBox",place).html("error occurred: invalid address " + startLocation);
       }
       var lon = topResult.lng
       var lat = topResult.lat;
-      config.macros.CarbonFootprintForm.calculateDistances(place,lon,lat,startLocation);
+      config.macros.CarbonFootprintForm.calculateDistances(place,lon,lat,startLocation,options);
   
     }});
   }
-  ,generateSummary: function(place,result){
+  ,printSummary: function(place,result){
+    var macro = config.macros.CarbonFootprintForm;
     var codeString = result.codeString;
     var totalKms = result.totalKms;
+    var totalKmsPerson =result.totalKmsPerson;
     var carbonCalculator = config.macros.CarbonFootprintForm.kgco2perkm;
     var costCalculator = config.macros.CarbonFootprintForm.poundsperkm;
-    var resultHtml= "<h2>Journey Summary</h2> <table class='carbonFootprintTable'><tr><td>Mode Transport</td><td>Kms</td><td>carbon footprint (kg co2)</td><td>journey cost (£)</td></tr>";
+    var resultHtml= "<h2>Journey Summary</h2> <table class='carbonFootprintTable'><tr><td>Mode Transport</td><td>Kms</td><td>carbon footprint (kg co2)</td><td>journey cost (&#163;)</td></tr>";
     var grandTotalKms = 0;
     var totalcft = 0;
     var totalcost = 0;
-    
 
-    
+
     for(var modeTransport in totalKms){
         var transportKms = totalKms[modeTransport];
         grandTotalKms += transportKms;
@@ -168,7 +203,7 @@ config.macros.CarbonFootprintForm ={
         totalcost += journey_cost;
         resultHtml += "<td>"+modeTransport+"</td><td>"+transportKms.toFixed(2) +"</td><td>"+cft.toFixed(3)+"</td><td>"+journey_cost.toFixed(2)+"</td></tr>";
     }
-  
+
     var facts =config.macros.CarbonFootprintForm.thesameco2couldhavebeenused;
     var prefix = "<h2>Meeting footprint</h2> with this amount of co2 you...<br/>";
     for(i in facts){
@@ -181,32 +216,71 @@ config.macros.CarbonFootprintForm ={
     }
     resultHtml += "<tr class='total'><td>*</td><td>"+grandTotalKms.toFixed(3)+"</td><td>"+totalcft.toFixed(3)+"</td><td>"+totalcost.toFixed(2)+"</td></tr></table>";
     
+    resultHtml+="<h2>Carbon contributors</h2><table><tr><td>name</td><td>carbon for this meeting (kg co2)</td></tr>";
+    for(var name in totalKmsPerson){
+      var kgperson = totalKmsPerson[name];
+      var as_percentage = kgperson/totalcft * 100;
+      
+      resultHtml += "<tr><td>"+name+"</td><td>"+kgperson.toFixed(3)+" ("+as_percentage.toFixed(3)+"%)</td></tr>";
+    }
+    resultHtml += "</table>"
+    
     jQuery(".summaryBox",place).html(prefix +resultHtml);
     jQuery(".resultsBox",place).html(totalcft.toFixed(3) + " kg co2");
     var link = jQuery(".codeLink",place);
     link.css({"display":""});
+    var codeStringEncoded = jQuery.encoding.strToBe32s(result.codeString).join("?");
+    result.codeStringEncoded = codeStringEncoded;
+    var updateShareArea = function(place){  
+      jQuery(".shareArea textarea").val(codeStringEncoded);
+    }
     var codePopUp = function(){
       //console.log(result.codeString);
-      var codeStringEncoded = jQuery.encoding.strToBe32s(result.codeString).join("?");
-      jQuery(".shareArea textarea").val(codeStringEncoded);
+      updateShareArea(place)
       jQuery(".codeArea").css({"display":""});
     }
+    updateShareArea(place)
     link.click(codePopUp);
+    result.totalCarbon =totalcft;
+    result.totalCost = totalcost
+    macro.afterGenerate(result);
   }
-  ,generateReport: function(place,name,transport,remaining_legs,destLat,destLng,result){
+  ,afterGenerate: function(result){
+  }
+  ,displayReport: function(){
+    
+  }
+  ,generateReport: function(place,name,transport,remaining_legs,destLat,destLng,result,options){
+    /*
+    result is a json in the form:
+    {
+      codeString: <string representing all data in form values separated by |>
+      totalKms:{
+        <transport mode>: kms
+      }
+      totalKmsPerson:{
+        <id>: kms
+      }
+    }
+    */
+
     //return;
+    
+     var carbonCalculator = config.macros.CarbonFootprintForm.kgco2perkm;
       var codeString = result.codeString;
       var totalKms = result.totalKms;
-
+      var totalKmsPerson = result.totalKmsPerson;
+      var cff = config.macros.CarbonFootprintForm;
       if(remaining_legs.length==0) {
-        config.macros.CarbonFootprintForm.generateSummary(place,result)
+        options.calculatedParticipants +=1;
+        if(options.calculatedParticipants>=options.numParticipants)config.macros.CarbonFootprintForm.printSummary(place,result);
         return;
       }
       var postcode = remaining_legs[remaining_legs.length-1];
       if(!postcode) return;
       if(!transport[transport.length-1]) return;
       //console.log("params",transport,remaining_legs);
-      ajaxReq({params:{transport:transport,name:name,legs:remaining_legs,destLat:destLat,destLng:destLng},url:"http://ajax.googleapis.com/ajax/services/search/local?v=1.0&q="+postcode, success:function(r){
+      ajaxReq({params:{transport:transport,name:name,legs:remaining_legs,destLat:destLat,destLng:destLng},url:cff.ajaxUrl+postcode, success:function(r){
 
         
         var transports = this.params['transport'];
@@ -227,13 +301,17 @@ config.macros.CarbonFootprintForm ={
         var lng = topResult.lng
         var lat = topResult.lat;
         var kmTravelled = config.macros.CarbonFootprintForm.calculateKm(this.params.destLat,this.params.destLng,lat,lng);
-      
+        if(options.returnjourney){
+          kmTravelled *=2;
+        }
         if(!totalKms[transport])totalKms[transport]= 0;
         totalKms[transport] += kmTravelled;
+       
+        
+        totalKmsPerson[nameParticipant] += (carbonCalculator[transport]* kmTravelled);
 
 
-
-        config.macros.CarbonFootprintForm.generateReport(place,name,remaining_transport,remaining_legs,lat,lng,result); //calculate remaining legs.
+        config.macros.CarbonFootprintForm.generateReport(place,name,remaining_transport,remaining_legs,lat,lng,result,options); //calculate remaining legs.
       //jQuery(".codeString",place).val();
       //jQuery(".codeStringPlace",place).css({display:"block"});
       //console.log(result);
@@ -278,15 +356,19 @@ config.macros.CarbonFootprintForm ={
     macro.calculate(place,options);
   }
   
-  ,calculateDistances: function(place,fromLng,fromLat,startLocation){
+  ,calculateDistances: function(place,fromLng,fromLat,startLocation,options){
+
     var participants = jQuery(".participant",place);
-    var result ={totalKms:{},codeString:startLocation};
+    var result ={totalKms:{},codeString:startLocation,totalKmsPerson:{}};
     var totalKms = {};
     var codeString=result.codeString;
-  
+    var num_journeys = 0;
+    
+    var numberValidParticipants =  0;
     for(var i=0; i < participants.length; i++){
       var participant = participants[i];
       var name = jQuery("input[name=participant]",participant).val();
+      if(!result.totalKmsPerson[name])result.totalKmsPerson[name] = 0;
       var postcode = jQuery("input[name=location]",participant).val();
       var transport = jQuery("select[name=transport]",participant).val();
       var legs = jQuery("input[name=via]",participant);
@@ -310,10 +392,14 @@ config.macros.CarbonFootprintForm ={
       codeString = thisCodeString + "::"+ codeString;
       result.codeString = codeString;
       if(postcode){
-        config.macros.CarbonFootprintForm.generateReport(place,name,transport_to_destination,legs_to_destination,fromLat,fromLng,result)
+       numberValidParticipants +=1; config.macros.CarbonFootprintForm.generateReport(place,name,transport_to_destination,legs_to_destination,fromLat,fromLng,result,options); 
+        num_journeys +=1;
       }
     }
-    
+    options.numParticipants=numberValidParticipants;
+    if(num_journeys ==0){
+      alert("please enter at least one location for one of your participants!");
+    }
     //console.log(codeString);
     
     
@@ -327,4 +413,5 @@ config.macros.CarbonFootprintForm ={
     var radius =  6378; //in km
     return Math.acos(Math.cos(a1)*Math.cos(b1)*Math.cos(a2)*Math.cos(b2) + Math.cos(a1)*Math.sin(b1)*Math.cos(a2)*Math.sin(b2) + Math.sin(a1)*Math.sin(a2)) * radius;
   }
+  
 };

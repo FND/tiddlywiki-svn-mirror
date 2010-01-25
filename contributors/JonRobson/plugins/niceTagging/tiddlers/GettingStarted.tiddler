@@ -3,12 +3,19 @@
 Tagging in TiddlyWiki is fun isn't it, but lets me honest it could be more fun. That's why I created niceTagging!
 It makes tagging... well... nicer.
 
-
 NiceTaggingPlugin takes out the complicated bits and even makes some suggestions for you.
 So now no need to know TiddlyWiki tagging syntax. No longer being expected to know that to tag two words you have to create a tag {{{[two words]]}}} and if you want tags two words and three words you have to write {{{[[two words]] [[three words]] }}} rather than {{{two words, three words}}}.
 
 Click edit and see for yourself.
 or try it out here:
 <<niceTagger>>
+
+Usage:
+*{{{<<niceTagger>>}}} creates a nice tagging interface with all the tags currently living in the TiddlyWiki document.
+* If you want to exclude a tag simply use the exclude named parameter like so:
+{{{<<niceTagger exclude:foo exclude:systemConfig>>}}}
+*If you want to add your own suggested tags along with all the tags in the document you can create a tiddler called [[Suggestions]] and reference it from the macro like so: 
+{{{<<niceTagger valuesSource:Suggestions>>}}}
+* You can also use macros in the Suggestions tiddler as it will be wikified before generating suggestions. Try adding {{{<<message options txtUserName>>}}} to [[Suggestions]] on a new line.
 </pre>
 </div>

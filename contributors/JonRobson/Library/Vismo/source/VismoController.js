@@ -18,6 +18,7 @@ var VismoController = function(elem,options){ //elem must have style.width and s
     }
      
     if(!options)options = {};
+    if(!options.zoomfactor)options.zoomfactor=2;
         if(elem.vismoController) throw "this already has a vismo controller!"
         elem.vismoController = true;// this;              
 	this.enabledControls = [];
@@ -815,12 +816,12 @@ VismoController.prototype = {
 				t.translate.y -= pan.y;
 				break;
 			case "in":
-				scale.x *= 2;
-				scale.y *= 2;
+				scale.x *= this.options.zoomfactor;
+				scale.y *= this.options.zoomfactor;
 				break;
 			case "out":
-				scale.x /= 2;
-				scale.y /= 2;			
+				scale.x /= this.options.zoomfactor;
+				scale.y /= this.options.zoomfactor;			
 				break;
 			case "rotatezright":
 				if(!t.rotate.z) t.rotate.z = 0;
