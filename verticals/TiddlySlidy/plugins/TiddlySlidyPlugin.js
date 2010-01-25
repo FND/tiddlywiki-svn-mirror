@@ -39,6 +39,7 @@
             };
             var tiddler = store.createTiddler(title);
             merge(tiddler.fields, customFields);
+            merge(tiddler.tags, tags);
             story.displayTiddler(null,title,template,false,null,customFields,false,place)
             return false;
         };
