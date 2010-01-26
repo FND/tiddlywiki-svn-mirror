@@ -74,5 +74,20 @@
         autoSaveChanges();
         return newTitle;
     };
+
+    var removeTiddler = store.removeTiddler;
+    store.removeTiddler = function(title) {
+
+        var t = store.getTiddler("MainMenu");
+        var text = t.text;
+        text = text.replace("*[[" + title + "]]\n", "");
+        store.saveTiddler(t.title,t.title,text,t.modifier,t.modified,t.tags,t.fields,true,t.created,t.creator);
+
+        story.closeTiddler(title,true);
+        n = removeTiddler.apply(store, arguments);
+        story.refreshAllTiddlers(true);
+        refreshAll();
+        return n;
+    }
 })();
 //}}}
