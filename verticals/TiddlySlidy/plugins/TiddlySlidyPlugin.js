@@ -29,7 +29,6 @@
         var tip = "Create a new " + theme + " Slide";
 
         var onClick = function() {
-            console.log("click theme:",theme);
             var template = theme + "##EditTemplate";
             var tags = ['slide'];
             var customFields = {
@@ -47,5 +46,33 @@
         return createTiddlyButton(place,theme,tip,onClick,null,null,"1");
     };
 
+    /*
+     *  ensure slides are in the main menu
+     */
+
+    //TBD: move to using store saveTiddler
+    //TBD: handle delete tiddler
+
+    var saveTiddler = story.saveTiddler;
+    story.saveTiddler = function(title,minorUpdate) {
+        var newTitle = saveTiddler.apply(this, arguments);
+        var tiddler = store.getTiddler(newTitle);
+        if (tiddler.tags.indexOf("slide") == -1) {
+            return newTitle;
+        }
+        var t = store.getTiddler("MainMenu");
+        var text = t.text;
+
+        if (newTitle != title) {
+            text = text.replace("[[" + title + "]]", "[[" + newTitle + "]]");
+        }
+        if (text.indexOf("[[" + newTitle  + "]]") == -1) {
+            text = text + "*[[" + newTitle + "]]\n";
+        }
+        store.saveTiddler(t.title,t.title,text,t.modifier,t.modified,t.tags,t.fields,true,t.created,t.creator);
+        story.refreshTiddler("MainMenu",null,true);
+        autoSaveChanges();
+        return newTitle;
+    };
 })();
 //}}}
