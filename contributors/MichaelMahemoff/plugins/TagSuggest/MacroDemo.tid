@@ -1,0 +1,23 @@
+modifier: mahemoff
+
+The input field below is a demo of the "tagSuggest" macro. Most users of this plugin //won't// actually need to use the macro; by just including the plugin, it automatically modifies the behaviour of the default edit template. (To see it in action, just edit any tiddler and add some tags.) You should only use this macro if you want to create a custom interface (most likely your own tiddler template).
+
+tagSuggest (no args) (try "u")
+
+<<tagSuggest>>
+
+tagSuggest includeTag:food (try "u")
+
+<<tagSuggest includeTag:food>>
+
+tagSuggest includeTag:food namespace:user (try "c")
+
+<<tagSuggest includeTag:food namespace:user>>
+
+tagSuggest namespace:user (try "c")
+
+<<tagSuggest namespace:user>>
+
+tagSuggest includeTag:food excludeTags:user_cold namespace:user (try "c"; now it won't bring back "cold")
+
+<<tagSuggest includeTag:food excludeTags:user_cold namespace:user>>

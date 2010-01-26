@@ -1,0 +1,18 @@
+recipe: $TW_ROOT/core/tiddlywiki.html.recipe
+tiddler: TagSuggest.js
+tiddler: DefaultTiddlers.tiddler
+tiddler: ZZConfigTweaks.js
+tiddler: cake.tiddler
+tiddler: burger.tiddler
+tiddler: SiteTitle.tiddler
+tiddler: SiteSubtitle.tiddler
+tiddler: pear.tid
+tiddler: toast.tid
+tiddler: miso.tid
+tiddler: sandwich.tid
+tiddler: pie.tid
+tiddler: beef.tid
+tiddler: eggs.tid
+# tiddler: MacroDemo.tid
+tiddler: PluginDemo.tid
+tiddler: OptionsEditTemplate.tid

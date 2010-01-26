@@ -1,0 +1,5 @@
+modifier: mahemoff
+
+This plugin provides auto-suggest for tags. When you hit edit in this tiddler, or any other in the tiddlywiki, the "tags" input box will provide auto-complete, providing all other existing tags as suggestions. (e.g. try hitting "edit" above, then enter "u" in the tags input field that appears below.)
+
+The plugin also provides a macro for advanced usage.

@@ -1,0 +1,23 @@
+0a1
+> // http://www.pengoworks.com/workshop/jquery/autocomplete.htm
+89,90c90,94
+< 					// make sure to blur off the current field
+< 					$input.get(0).blur();
+---
+> 					e.preventDefault();
+> 				}
+> 				break;
+> 			case 32: // space
+> 				if( selectCurrent() ){
+116c120
+< 		var v = $input.val();
+---
+>     var v = $input.val().replace(/^.*?(\S+)$/, "$1");
+180c184
+< 		$input.val(v);
+---
+>     $input.val($input.val().replace(/(\S+)$/, v+" "));
+182c186
+< 		if (options.onItemSelect) setTimeout(function() { options.onItemSelect(li) }, 1);
+---
+> 		if (options.onItemSelect) setTimeout(function() { options.onItemSelect(li); }, 1);
