@@ -1,3 +1,7 @@
+'''
+Allows modifying fields on a tiddler regardless of default policy to support voting and rating tiddlers.
+This is still experimental 
+'''
 import logging
 #Data entities
 from tiddlyweb.model.bag import Bag

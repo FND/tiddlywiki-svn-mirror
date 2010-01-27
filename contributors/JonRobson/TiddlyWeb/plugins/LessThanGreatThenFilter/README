@@ -1,0 +1,10 @@
+This adds a less than (lt) and greater than (gt) filter to TiddlyWeb
+
+Field value is converted to a float
+
+eg. Less than 
+?lt=fieldname:4
+would give you all tiddlers with a field 'fieldname' who's value is less than 4
+eg. this would match tiddlers with field 'fieldname' =1,'fieldname' =2,'fieldname' =2.5 etc..
+but would not match 'fieldname' =4 or 'fieldname' =5.
+
