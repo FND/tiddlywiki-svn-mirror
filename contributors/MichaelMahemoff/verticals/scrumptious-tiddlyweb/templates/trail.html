@@ -1,0 +1,38 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" class="unscripted">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<title>Scrumptious Trail - {{ trail.name }}</title>
+	<link rel="stylesheet" href="{{ server_prefix }}/static/css/trails.css" type="text/css" media="screen" title="no title" charset="utf-8"/>
+  <link rel="shortcut icon" href="{{ server_prefix }}/static/images/favicon.ico" type="image/x-icon" /> 
+	<script type="text/javascript" src="{{ server_prefix }}/static/js/jquery-1.3.2.js"></script>
+	<script type="text/javascript" src="{{ server_prefix }}/static/js/trailPlayer.js"></script>
+</head>
+
+<body>
+<script type="text/javascript">
+  document.documentElement.className = 'scripted';
+</script>
+
+<div id="trail">
+
+  <div id="metaInfo"><span id="title">{{ trail.name }}</span><br/><a href="http://google.com">Edit</a></div>
+
+  <ul id="resources">
+    {% for resource in trail.resources %}
+      <li><a class="resource" href="{{ resource }}" target="resourceView">{{resource}}</a></li>
+    {% endfor %}
+  </ul>
+
+  <div id="slotsWrapper"></div>
+
+  <div id="closer">X</div>
+
+</div>
+
+<iframe name="resourceView" id="resourceView"></iframe>
+
+<div id="footer">
+</div>
+
+</body>
+</html>

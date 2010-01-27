@@ -1,0 +1,7 @@
+This is the original version of scrumptious, designed to run as a pure TiddlyWeb app, with pure HTML served from TiddlyWeb.
+
+The newer Scrumptious is in the verticals/scrumptious directory and runs inside of a TiddlyWiki, with a view to plugging into TiddlyHoster for multi-user application.
+
+Dependencies:
+tiddlyweb
+jinja
