@@ -1,0 +1,12 @@
+modified: mahemoff
+
+<<newApp>>
+
+[[Welcome]]
+[[List Of Apps]]
+!Default App Settings
+[[Description Settings|DefaultApp]]
+[[Code Settings|AppFrameTweaks]]
+
+!Apps
+<<betterList filter [tag[app]] emptyMessage:"no apps yet">>

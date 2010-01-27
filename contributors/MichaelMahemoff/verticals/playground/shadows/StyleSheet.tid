@@ -1,0 +1,6 @@
+modified: mahemoff
+
+#mainMenu ul { list-style-type: none; }
+/* #mainMenu a.button { background: #ff9; border: 1px solid #ee4; padding: 3px; } */
+.betterList ul { list-style-type: none; margin-left: 0; padding-left: 0; }
+#mainMenu .button, .viewer .button { border: 1px solid #db4; }

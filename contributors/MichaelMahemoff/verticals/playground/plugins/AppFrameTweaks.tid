@@ -1,0 +1,12 @@
+modifier: mahemoff
+
+Here you can set common javascripts and stylesheets, which will be used in all apps; and fallback HTML, CSS, and Javascript, each of which will be used if an app doesn't set the corresponding component.
+
+|commonLibraryScripts||
+|commonLibraryStylesheets||
+    
+!Fallback htm
+
+!Fallback css
+
+!Fallback javascript

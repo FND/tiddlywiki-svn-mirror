@@ -1,0 +1,21 @@
+recipe: $TW_ROOT/core/tiddlywiki.html.recipe
+
+tiddler: shadows/SiteTitle.tid
+tiddler: shadows/SiteSubtitle.tid
+tiddler: shadows/MainMenu.tid
+tiddler: shadows/StyleSheet.tid
+tiddler: shadows/EditTitleTemplate.tid
+tiddler: shadows/appViewTemplate.tid
+tiddler: shadows/DefaultTiddlers.tid
+
+tiddler: plugins/Macros.js
+
+tiddler: tiddlers/Welcome.tid
+tiddler: tiddlers/List Of Apps.tid
+tiddler: tiddlers/DefaultApp.tid
+
+tiddler: ../../plugins/AppFramePlugin/AppFramePlugin.js
+tiddler: plugins/AppFrameTweaks.tid
+tiddler: ../../plugins/AppFramePlugin/lib/jquery.app.js
+tiddler: ../../plugins/BetterListPlugin/BetterListPlugin.js
+tiddler: $TW_ROOT/contributors/EricShulman/plugins/TaggedTemplateTweak.js
