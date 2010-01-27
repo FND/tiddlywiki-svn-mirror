@@ -1,0 +1,8 @@
+modifier: MichaelMahemoff
+
+<!--{{{-->
+<div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
+<div class='title' macro='view title'></div>
+<div class='subtitle'><span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
+<div class='comments' macro='comments'></div>
+<!--}}}-->

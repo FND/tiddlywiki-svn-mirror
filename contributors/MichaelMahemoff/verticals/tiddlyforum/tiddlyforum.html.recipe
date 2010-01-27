@@ -1,0 +1,22 @@
+recipe: $TW_ROOT/core/tiddlywiki.html.recipe
+
+tiddler: shadows/SiteTitle.tid
+tiddler: shadows/SiteSubtitle.tid
+tiddler: shadows/MainMenu.tid
+tiddler: shadows/StyleSheet.tid
+tiddler: shadows/topicViewTemplate.tid
+tiddler: shadows/topicEditTemplate.tid
+tiddler: shadows/DefaultTiddlers.tid
+
+tiddler: plugins/ConfigTweaks.js
+tiddler: plugins/Macros.js
+
+# tiddler: tiddlers/Welcome.tid
+tiddler: tiddlers/Topics.tid
+tiddler: tiddlers/DefaultTopic.tid
+
+tiddler: ../../plugins/CommentsPlugin/CommentsPlugin.js
+tiddler: ../../plugins/BetterListPlugin/BetterListPlugin.js
+tiddler: ../../plugins/GuidPlugin/GuidPlugin.js
+tiddler: $TW_ROOT/contributors/EricShulman/plugins/TaggedTemplateTweak.js
+tiddler: $TW_ROOT/contributors/EricShulman/plugins/SinglePageModePlugin.js
