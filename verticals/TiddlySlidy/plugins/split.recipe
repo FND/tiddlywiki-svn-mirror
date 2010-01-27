@@ -17,6 +17,9 @@ recipe: $TW_ROOT/contributors/PaulDowney/plugins/MainMenuOrderPlugin/MainMenuOrd
 # use MainMenu as navigation
 recipe: $TW_ROOT/contributors/PaulDowney/plugins/MainMenuNavigatorPlugin/MainMenuNavigatorPlugin.recipe
 
+# update MainMenu when tiddlers are changed
+recipe: $TW_ROOT/contributors/PaulDowney/plugins/MainMenuUpdatePlugin/MainMenuUpdatePlugin.recipe
+
 # use KeyBindings for keyboard navigation
 tiddler: $TW_ROOT/contributors/PhilHawksworth/plugins/KeyBindingsPlugin/KeyBindingsPlugin.js
 
