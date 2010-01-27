@@ -14,7 +14,7 @@ For example, the function config.macros.DemoReady.ready" function will be called
 {{{
     <div class='title' macro='view title' ready='readyDemo'></div>
 }}}
-This behaviour is useful for running jQuery code on a tiddler as it is dynamically added to the story.
+This behaviour is useful for attaching jQuery effects to a tiddler as they are dynamically added to the story.
 !!Code
 ***/
 //{{{
