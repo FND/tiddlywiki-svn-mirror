@@ -1,3 +1,4 @@
+//{{{
 (function($) {
 
     config.macros.readyDemoFade = {};
@@ -11,3 +12,4 @@
     };
 
 })(jQuery);
+//}}}
