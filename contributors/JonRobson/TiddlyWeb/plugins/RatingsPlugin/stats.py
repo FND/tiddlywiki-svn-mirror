@@ -1,7 +1,17 @@
 '''
-Allows modifying fields on a tiddler regardless of default policy to support voting and rating tiddlers.
-This is still experimental 
+CONFIG
+'stats':{
+    "increment":{
+      #defines the policy for modifying fields through the stats module. 
+      #in this example the field points can be incremented on any tiddler in the bag ideas
+      # * is a wildcard representing all eg. */foo/points allows you to increment the field points on a tiddler foo in any of the bags
+      "allowed":["ideas/*/points"] 
+    },
+    #actions will be logged to this bag
+    "log_to_bag":"votes"
+},
 '''
+
 import logging
 #Data entities
 from tiddlyweb.model.bag import Bag
@@ -36,8 +46,11 @@ def allowed_operation(policy,bag,title, field,value):
     return False
   if minval and int(value) < minval:
     return False
-  
+  if not bag or not title or not field:
+    return False
+    
   allowed = policy["allowed"]
+  logging.debug("%s %s %s %s.jonws"%(bag,title,allowed,field))
   if bag in allowed or bag +"/"+title in allowed or bag +"/"+title+"/"+field in allowed or bag+"/*" in allowed or bag+"/*/"+field in allowed or "*/" in allowed or "*/"+title in allowed or "*/*/"+field in allowed:
     return True
   else:
@@ -66,14 +79,16 @@ def stat_mode(environ):
   statsconfig =environ["tiddlyweb.config"]["stats"]
   avgconfig = statsconfig["average"]
   
+  
+
+    
   if title and bag and value and field:
     allowed = allowed_operation(avgconfig,bag,title,field,value)
   else:
     allowed = False
-  
-  
+
   if allowed:
-    store = environ['tiddlyweb.store']
+    
     tid =Tiddler(title, bag)
     try:
       tiddler = store.get(tid)
@@ -122,7 +137,7 @@ def stat_mode(environ):
   else:
     return False
        
-def stat_increment(environ):
+def stat_increment(environ,bag,field,value):
   logging.debug("stats.py:stat_increment enter")
   title = get_tiddler_title_for_stats(environ)
   try:
@@ -130,17 +145,7 @@ def stat_increment(environ):
   except KeyError:
     return False
   
-  value = 1
-  try:
-    bag = environ["tiddlyweb.query"]["bag"][0]
-  except KeyError:
-    bag = False
 
-  try:
-    field= environ['tiddlyweb.query']['field'][0].lower()
-    logging.debug("stats.py: fieldname %s"%type(field))
-  except KeyError:
-    field = False
   if allowed_operation(config,bag,title,field,value):
     store = environ['tiddlyweb.store']
     tid =Tiddler(title, bag)
@@ -155,27 +160,107 @@ def stat_increment(environ):
     except NoTiddlerError:
       return False
       count = 0
-    tiddler.fields[field] = str(count + 1)
+    tiddler.fields[field] = str(count + value)
     logging.debug("stats.py: putting tiddler %s"%tid.title)
     store.put(tiddler)
     return True
   else:
     return False
 
-def operate_on_stats(environ,start_response):
-  start_response('303 See Other', [('Content-Type', 'text/html; charset=utf-8'),('Location',environ.get('HTTP_REFERER', '/'))])
-  action = environ['wsgiorg.routing_args'][1]['action']
+def get_parameters(environ,start_response):
+  result = {}
+  try:
+    title = environ['tiddlyweb.query']['tiddler'][0]
+  except KeyError:
+    title = False
+  try:
+    value = environ['tiddlyweb.query']['value'][0]
+  except KeyError:
+    value = False
+  result["value"] = value
+  result["username"] = environ['tiddlyweb.usersign']["name"]
+  result["title"]=title
+  return result
   
+  
+def operate_on_stats(environ,start_response):
+  action = environ['wsgiorg.routing_args'][1]['action']
   success = True
-  if action == 'INCREMENT':
-  	success = stat_increment(environ)
+  try:
+    logbag = environ['tiddlyweb.config']['stats']['log_to_bag']
+  except KeyError:
+    logbag = "votes"
+  params = get_parameters(environ,start_response)
+  store = environ['tiddlyweb.store']
+  vote_id = "%s vote for %s"%(params["username"],params["title"]) #should be more generic then 'votes'
+  try:
+    value = int(environ["tiddlyweb.query"]["value"][0])
+  except KeyError:
+    value = 1
+  try:
+    bag = environ["tiddlyweb.query"]["bag"][0]
+  except KeyError:
+    bag = False
+  try:
+    field= environ['tiddlyweb.query']['field'][0].lower()
+    logging.debug("stats.py: fieldname %s"%type(field))
+  except KeyError:
+    field = False
+    
+  try:
+    logging.debug("allowed_op:  looking for username")
+    tiddler = store.get(Tiddler(vote_id,logbag))
+    logging.debug("allowed_op: here")
+    try:
+      max_increments = environ['tiddlyweb.config']['stats'][action.lower()]['max_per_tiddler']
+      if int(tiddler.fields["value"]) < max_increments:
+        success = True
+      else:
+        success = False
+    except KeyError:
+      success = False
+  except NoTiddlerError:
+    pass
+      
+  if not success:
+    pass
+  elif action == 'INCREMENT':
+  	success = stat_increment(environ,bag,field,value)
   elif action == 'DO':
   	success = stat_mode(environ)
   else:
     success = False
+
+        
+  logging.debug("operate_on_stats: operation done")
+
+  #deal with success by preventing future success
   if success:
+    store = environ['tiddlyweb.store']
+    try:
+      logbag = environ['tiddlyweb.config']['stats']['log_to_bag']
+    except KeyError:
+      logbag = "votes"
+    tiddler = Tiddler(vote_id,logbag)
+    try:
+      tiddler = store.get(tiddler)
+      if "value" in tiddler.fields:
+        tiddler.fields["value"] ="%s"%(int(tiddler.fields["value"]) +1) 
+    except NoTiddlerError:
+      tiddler.fields["value"] = params["value"]
+      tiddler.modifier = params["username"]
+      tiddler.fields["topic"] = params["title"]
+      pass
+
+    store.put(tiddler)
+      
+    logging.debug("operate_on_stats: put %s to votes"%(vote_id))
+    start_response('303 See Other', [('Content-Type', 'text/html; charset=utf-8'),('Location',environ.get('HTTP_REFERER', '/'))])
+    
     return "OK"
   else:
+    #need to be able to trig fail handler in jQuery .. how?
+    start_response('404 Not Found', [('Content-Type', 'text/html; charset=utf-8'),('Location',environ.get('HTTP_REFERER', '/'))])
     return "FAIL"
 
 oldsort = FILTER_PARSERS["sort"]  
@@ -262,14 +347,16 @@ def do_reset(environ,start_response):
         return "FAIL"    
   else:
     return "FAIL"    
-FILTER_PARSERS["sort"] = sort_parse
+#FILTER_PARSERS["sort"] = sort_parse
 
 def string_to_float(x):
     return float(x)
+def string_to_int(x):
+    return int(x)
 
 sort.ATTRIBUTE_SORT_KEY["rating_average"] = string_to_float
 sort.ATTRIBUTE_SORT_KEY["reports"] = string_to_float        
-        
+sort.ATTRIBUTE_SORT_KEY["points"] = string_to_int              
         
 def init(config_in):
     global config
