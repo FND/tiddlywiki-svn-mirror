@@ -1,10 +1,13 @@
 (function($) {
 
-    config.macros.readyDemo = {};
-    config.macros.readyDemo.ready = function () {
-        for(var i=0;i<10;i++) {
-            $(this).fadeOut("slow").fadeIn("slow");
-        }
+    config.macros.readyDemoFade = {};
+    config.macros.readyDemoFade.ready = function () {
+        $(this).fadeOut("slow").fadeIn("slow");
+    };
+
+    config.macros.readyDemoSlide = {};
+    config.macros.readyDemoSlide.ready = function () {
+        $(this).slideUp("slow").slideDown("slow");
     };
 
 })(jQuery);

@@ -9,8 +9,7 @@
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''~CoreVersion:''|2.4|
 !!Documentation
-This plugin allows the author of a PageTemplate ViewTemplate or EditTemplate to attach a plugin to an element.
-For example, the function config.macros.DemoReady.ready" function will be called each time the Hello element is refreshed with the following ViewTemplate:
+This plugin allows the author of a PageTemplate ViewTemplate or EditTemplate to attach one or more plugins to an element with a {{{macro}}} or {{{content}}} attribute. For example, the function {{{config.macros.DemoReady.ready}}} will be called each time the Hello element is refreshed with the following ViewTemplate:
 {{{
     <div class='title' macro='view title' ready='readyDemo'></div>
 }}}
@@ -27,10 +26,12 @@ This behaviour is useful for attaching jQuery effects to a tiddler as they are d
     applyHtmlMacros = function (root, tiddler) {
         var r = core.apply(this, arguments);
         $(root).children(":first[ready]").each(function () {
-            var macro = $(this).attr('ready');
-            var m = config.macros[macro];
-            if (m && m.ready) {
-                m.ready.apply(this, arguments);
+            var macros = $(this).attr('ready').split(/[, ]/);
+            for (var i = 0; i < macros.length; i++) {
+                var m = config.macros[macros[i]];
+                if (m && m.ready) {
+                    m.ready.apply(this, arguments);
+                }
             }
             $(this).removeAttr('ready');
         });
