@@ -14,6 +14,10 @@ and has only tried in Safari and Firefox.
 The DragSort plugin is very buggy, may be replaced with jquery.ui "sortable".
 The MainMenu currently must be an unordered bullet list.
 It is planned to support nested lists in a later version.
+Attach it to the page template as follows:
+{{{
+<div id='mainMenu' macro='MainMenuOrder'></div>
+}}}
 !!Code
 ***/
 //{{{
@@ -216,11 +220,8 @@ if (!version.extensions.MainMenuOrderPlugin) {
 })(jQuery);
 
 (function ($) {
-    config.extensions.MainMenuOrder = {};
-    var context = config.extensions.MainMenuOrder;
-
-    context.update = function () {
-        context.update.lock = 1;
+    config.macros.MainMenuOrder = {};
+    config.macros.MainMenuOrder.update = function () {
         var text = "";
         $("#mainMenu li a").each(function(i, elm) { 
             text += "*[[" + $(elm).attr('tiddlylink') + "]]\n";
@@ -232,23 +233,11 @@ if (!version.extensions.MainMenuOrderPlugin) {
         }
     };
 
-    context.bind = function () {
-        $("#mainMenu ul:first").dragsort({ dragEnd: context.update});
+    config.macros.MainMenuOrder.handler = function (place, macroName, params, wikifier, paramString) {
+        config.macros.tiddler.transclude(place, "MainMenu", "");
+        $("#mainMenu ul:first").dragsort({ dragEnd: config.macros.MainMenuOrder.update});
     };
 
-    $(document).bind("startup", function () {
-        context.bind();
-    });
-
-    // reassert the jQuery binding when refreshing the MainMenu
-    context._refresh = config.refreshers.content;
-    config.refreshers.content = function(e,changeList) {
-        var s = context._refresh.apply(this, arguments); 
-        if ("MainMenu" === e.getAttribute("tiddler")) {
-            context.bind();
-        }
-    }
 })(jQuery);
-
 }
 //}}}
