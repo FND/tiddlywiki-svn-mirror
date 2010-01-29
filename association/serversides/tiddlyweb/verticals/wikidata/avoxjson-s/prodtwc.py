@@ -11,7 +11,7 @@ config = {
         'system_plugins': ['status', 'wikidataSerializer', 'editSerializer', 'challengeSerializer', 'requestSerializer', 'methodhack', 'pathinfohack', 'formreader', 'routes', 'tiddlywebplugins.jsonp', 'logout'],
         'server_host': {
             'scheme': 'http',
-            'host': 'wiki-data.com',
+            'host': 'www.wiki-data.com',
             'port': '80',
             },
         'wikitext_render_map': {
