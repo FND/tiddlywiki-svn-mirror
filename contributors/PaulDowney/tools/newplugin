@@ -56,12 +56,12 @@ template "$plugin.js" <<!
 //{{{
 /*jslint onevar: false nomen: false plusplus: false */
 /*global config */
-if (!version.extensions.$plugin) {
+(function(\$) {
     version.extensions.$plugin = {installed: true};
 
 	// stuff
 
-}
+})(jQuery);
 //}}}
 !
 
@@ -179,11 +179,12 @@ jquery: ${plugin}Tests.js
 
 template "test/${plugin}Tests.js" <<!
 /*global story, jQuery, document, module, test, same */
+(function(\$) {
+    jQuery(document).ready(function () {
+        module("$plugin");
 
-jQuery(document).ready(function () {
-    module("$plugin");
-
-});
+    });
+})(jQuery);
 !
 
 chmod +x deploy.sh go
