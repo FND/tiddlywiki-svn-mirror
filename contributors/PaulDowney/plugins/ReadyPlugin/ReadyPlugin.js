@@ -4,7 +4,7 @@
 |''Author:''|PaulDowney (psd (at) osmosoft (dot) com) |
 |''Source:''|http://whatfettle.com/2008/07/ReadyPlugin/ |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/plugins/ReadyPlugin/ |
-|''Version:''|0.1|
+|''Version:''|0.2|
 |''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''~CoreVersion:''|2.4|
@@ -18,13 +18,11 @@ This behaviour is useful for attaching jQuery effects to a tiddler as they are d
 ***/
 //{{{
 /*jslint onevar: false nomen: false plusplus: false */
-/*global config */
-(function($) {
+/*global jQuery config applyHtmlMacros refreshPageTemplate */
+(function ($) {
     version.extensions.ReadyPlugin = {installed: true};
 
-    var core = applyHtmlMacros;
-    applyHtmlMacros = function (root, tiddler) {
-        var r = core.apply(this, arguments);
+    function assertReady(root) {
         $(root).children(":first[ready]").each(function () {
             var macros = $(this).attr('ready').split(/[, ]/);
             for (var i = 0; i < macros.length; i++) {
@@ -35,7 +33,27 @@ This behaviour is useful for attaching jQuery effects to a tiddler as they are d
             }
             $(this).removeAttr('ready');
         });
-        return r;
+    };
+
+    refreshElements = function (root,changeList,depth) {
+        if (!depth) {
+            assertReady(root);
+        }
+
+        // this is fugly but it's hard to hijack a recursive core function
+        var nodes = root.childNodes;
+        for(var c=0; c<nodes.length; c++) {
+            var e = nodes[c], type = null;
+            if(e.getAttribute && (e.tagName ? e.tagName != "IFRAME" : true))
+                type = e.getAttribute("refresh");
+            var refresher = config.refreshers[type];
+            var refreshed = false;
+            if(refresher != undefined)
+                refreshed = refresher(e,changeList);
+            if(e.hasChildNodes() && !refreshed)
+                refreshElements(e,changeList,true);
+        }
     }
+
 })(jQuery);
 //}}}
