@@ -45,5 +45,12 @@
         return createTiddlyButton(place,theme,tip,onClick,null,null,null);
     };
 
+    config.macros.OffPiste = {
+        ready: function () {
+            console.log("here");
+            $('#contentWrapper').animate({ backgroundColor: "#000" }, "slow");
+        }
+    };
+
 })();
 //}}}

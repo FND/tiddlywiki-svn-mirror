@@ -25,6 +25,7 @@ tiddler: $TW_ROOT/contributors/PhilHawksworth/plugins/KeyBindingsPlugin/KeyBindi
 
 # image macro for templates
 recipe: $TW_ROOT/contributors/PaulDowney/plugins/ImageMacroPlugin/ImageMacroPlugin.recipe
+recipe: $TW_ROOT/contributors/PaulDowney/plugins/ImageZoomMacroPlugin/ImageZoomMacroPlugin.recipe
 
 # Fading Messages
 recipe: $TW_ROOT/contributors/PaulDowney/plugins/FadingMessagesPlugin/FadingMessagesPlugin.recipe

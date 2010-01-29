@@ -8,10 +8,10 @@
 <!--{{{-->
 <h2 class="preview">Preview Single Image Slide: <span macro="view title"></span></h2>
 <div class='viewSlide'>
-    <div class='singleImageSlide'>
+    <div class='singleImageSlide' ready='OffPiste'>
         <div class='title viewer' macro='view title wikified'></div>
         <div class='subtitle viewer' macro='view subtitle wikified'></div>
-        <div class='image viewer' macro="image @image"></div>
+        <div class='image viewer' macro="imagezoom @image"></div>
     </div>
 </div>
 [[ViewToolbar]]

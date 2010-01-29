@@ -9,7 +9,7 @@
 <h2 class="preview">Preview Tall Image Slide: <span macro="view title"></span></h2>
 <div class='viewSlide'>
     <div class='tallImageSlide'>
-        <center><div class='image viewer' macro="image @image"></div></center>
+        <center><div class='image viewer' macro="imagezoom @image"></div></center>
     </div>
 </div>
 [[ViewToolbar]]
