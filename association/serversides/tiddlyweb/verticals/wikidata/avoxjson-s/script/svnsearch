@@ -1,0 +1,8 @@
+#!/bin/bash
+for REV in `svn log $1 | grep ^r[0-9] | awk '{print $1}'`; do 
+  svn cat $1 -r ${REV:1} | grep -q $2
+  if [ $? -eq 0 ]; then 
+    echo "$REV"
+  fi
+  #echo $1 ${REV:1} 
+done

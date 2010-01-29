@@ -8,7 +8,7 @@ config = {
                  }],
         'css_uri': 'http://peermore.com/tiddlyweb.css',
         'secret': 'the bees are in the what',
-        'system_plugins': ['status', 'wikidataSerializer', 'editSerializer', 'challengeSerializer', 'requestSerializer', 'methodhack', 'pathinfohack', 'formreader', 'routes', 'tiddlywebplugins.jsonp', 'logout'],
+        'system_plugins': ['status', 'wikidataSerializer', 'challengeSerializer', 'requestSerializer', 'methodhack', 'pathinfohack', 'routes', 'tiddlywebplugins.jsonp', 'logout'],
         'server_host': {
             'scheme': 'http',
             'host': 'www.wiki-data.com',

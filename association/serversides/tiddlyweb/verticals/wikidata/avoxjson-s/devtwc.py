@@ -9,7 +9,7 @@ config = {
         # 'server_store': ['mappingsql', {'db_config': 'mysql://avox@localhost/avox?charset=utf8'}],
         'css_uri': 'http://peermore.com/tiddlyweb.css',
         'secret': 'the bees are in the what',
-        'system_plugins': ['status', 'wikidataSerializer', 'editSerializer', 'challengeSerializer', 'requestSerializer', 'methodhack', 'pathinfohack', 'formreader', 'routes', 'static', 'logout'],
+        'system_plugins': ['status', 'wikidataSerializer', 'challengeSerializer', 'requestSerializer', 'methodhack', 'pathinfohack', 'routes', 'static', 'logout'],
         'server_host': {
             'scheme': 'http',
             'host': 'wiki-data.com',
