@@ -4,7 +4,7 @@ config = {
         'css_uri': 'http://peermore.com/tiddlyweb.css',
         'secret': 'the bees are in the what',
         'twanager_plugins': ['whoosher'],
-        'system_plugins': ['status', 'static', 'wikidataSerializer', 'editSerializer', 'challengeSerializer', 'requestSerializer', 'methodhack', 'pathinfohack', 'formreader', 'routes', 'whoosher'],
+        'system_plugins': ['status', 'static', 'wikidataSerializer', 'challengeSerializer', 'requestSerializer', 'methodhack', 'pathinfohack', 'routes', 'whoosher'],
         'static_url_dir': 'static',
         'static_file_dir': 'static',
         'server_host': {
