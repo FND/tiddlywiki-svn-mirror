@@ -1,9 +1,0 @@
-
-!ViewTemplate
-<!--{{{-->
-<div class='template3'>
-<div class='viewer' macro='view text wikified'></div>
-</div>
-<!--}}}-->
-
-

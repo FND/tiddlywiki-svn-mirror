@@ -1,4 +1,4 @@
 recipe: TiddlySlidy.recipe
 
-recipe: slideshows/TiddlySlidy/split.recipe
-recipe: masters/TiddlySlidy/split.recipe
+recipe: slideshow/split.recipe
+recipe: masters/split.recipe
