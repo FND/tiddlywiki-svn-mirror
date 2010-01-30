@@ -1,0 +1,97 @@
+<div title="TextAndImageMaster" modifier="Paul Downey" created="200801300000" tags="excludeSearch masterSlide">
+<pre>
+|''ViewTemplate''|##ViewTemplate|
+|''EditTemplate''|##EditTemplate|
+|''StyleSheet''|##StyleSheet|
+
+!ViewTemplate
+<!--{{{-->
+<h2 class="preview">Preview Text and Image Slide: <span macro="view title"></span></h2>
+<div class='viewSlide'>
+    <div class='textAndImageSlide'>
+        <div class='title viewer' macro='view title wikified'></div>
+        <div class='subtitle viewer' macro='view subtitle wikified'></div>
+        <div class='boxes'>
+            <div class='image viewer' macro="imagezoom @image"></div>
+            <div class='textbox viewer' macro='view text wikified'></div>
+        </div>
+    </div>
+</div>
+[[ViewToolbar]]
+<!--}}}-->
+
+!EditTemplate
+<!--{{{-->
+<h2>Edit Text and Image Slide: <span macro="view title"></span></h2>
+<div class='editSlide textAndImageSlideEdit'>
+    <div class="label">Title</div><div class="title editor" macro="edit title"></div>
+    <div class="label">Subtitle</div><div class="subtitle editor" macro="edit subtitle"></div>
+    <div class="label">Image</div><div class="subtitle editor" macro="edit image"></div>
+    <div class="label">Text</div><div class="textbox editor" macro="edit text"></div>
+</div>
+[[EditToolbar]]
+<!--}}}-->
+
+
+!StyleSheet
+/*{{{*/
+.textAndImageSlide {
+    font-size: 2em;
+    text-align: left;
+    background-color: #E8E8E8;
+    height: 100%;
+    min-height: 400px;
+}
+
+.textAndImageSlide .title {
+    color: #747474;
+    font-weight: normal;
+    letter-spacing: 0;
+    padding-left: 0.5em;
+}
+
+.textAndImageSlide .subtitle {
+    color: #747474;
+    font-weight: normal;
+    font-size: 0.8em;
+    padding-left: 1em;
+}
+
+.textAndImageSlide .image {
+    margin: 2px;
+    padding: 1em;
+    height: auto;
+    width: 40%;
+    float: left;
+    text-align: left;
+}
+
+.textAndImageSlide .image img {
+    border: 1px solid #fff;
+    padding: 0;
+    margin: 0;
+    height: 90%;
+    width: 90%;
+}
+
+.textAndImageSlide .textbox {
+    color: #333;
+    padding: 1em;
+    width: 45%;
+    font-size: 0.8em;
+    float: left;
+}
+
+.textAndImageSlide ul li {
+    padding-left: 0em;
+}
+
+.textAndImageSlide blockquote {
+    border-left:8px solid #999999;
+    margin: 1em 2em;
+    padding-left: 1em;
+}
+
+/*}}}*/
+</pre>
+</div>

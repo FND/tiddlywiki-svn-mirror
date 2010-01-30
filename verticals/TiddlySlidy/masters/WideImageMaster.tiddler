@@ -17,8 +17,8 @@
 
 !EditTemplate
 <!--{{{-->
-<h2>Edit Title Slide: <span macro="view title"></span></h2>
-<div class='editSlide titleSlideEdit'>
+<h2>Edit Wide Image Slide: <span macro="view title"></span></h2>
+<div class='editSlide wideImageSlideEdit'>
     <div class="label">Title</div><div class="title editor" macro="edit title"></div>
     <div class="label">Subtitle</div><div class="subtitle editor" macro="edit subtitle"></div>
     <div class="label">Image</div><div class="subtitle editor" macro="edit image"></div>

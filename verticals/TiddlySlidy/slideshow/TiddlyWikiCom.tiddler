@@ -1,3 +1,6 @@
-<div title="TiddlyWiki.com" modifier="Paul Downey" created="200801300000" tags="title slide" theme="WideImageMaster" image="TiddlyWiki.png">
-<pre></pre>
+<div title="TiddlyWiki.com" subtitle="http://tiddlywiki.com" modifier="Paul Downey" created="200801300000" tags="title slide" theme="TextAndImageMaster" image="images/TiddlyWiki.png">
+<pre>You can find out more about about TiddlyWiki at http://tiddlywiki.com
+
+There's a cheat-sheet for using TiddlyWiki [[Wiki markup|http://en.wikipedia.org/wiki/Wiki_markup]] at http://tiddlypocketbook.com
+</pre>
 </div>

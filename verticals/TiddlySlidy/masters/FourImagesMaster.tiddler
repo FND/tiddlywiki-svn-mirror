@@ -5,16 +5,103 @@
 |''StyleSheet''|##StyleSheet|
 
 !ViewTemplate
-[[ViewTemplate]]
+<!--{{{-->
+<h2 class="preview">Preview Four Images Slide: <span macro="view title"></span></h2>
+<div class='viewSlide'>
+    <div class='fourImagesSlide' ready='OffPiste'>
+        <div class='title viewer' macro='view title wikified'></div>
+        <div class='subtitle viewer' macro='view subtitle wikified'></div>
+        <div class='boxes'>
+            <div class='box'>
+                <div class='caption viewer' macro='view caption1 wikified'></div>
+                <div class='image viewer' macro="imagezoom @image1"></div>
+            </div>
+            <div class='box'>
+                <div class='caption viewer' macro='view caption2 wikified'></div>
+                <div class='image viewer' macro="imagezoom @image2"></div>
+            </div>
+            <div class='box'>
+                <div class='caption viewer' macro='view caption3 wikified'></div>
+                <div class='image viewer' macro="imagezoom @image3"></div>
+            </div>
+            <div class='box'>
+                <div class='caption viewer' macro='view caption4 wikified'></div>
+                <div class='image viewer' macro="imagezoom @image4"></div>
+            </div>
+        </div>
+    </div>
+</div>
+[[ViewToolbar]]
+<!--}}}-->
 
 !EditTemplate
-[[EditTemplate]]
+<!--{{{-->
+<h2>Edit Four Images Slide: <span macro="view title"></span></h2>
+<div class='editSlide fourImagesSlideEdit'>
+    <div class="label">Title</div><div class="title editor" macro="edit title"></div>
+    <div class="label">Subtitle</div><div class="subtitle editor" macro="edit subtitle"></div>
+    <div class="label">Caption</div><div class="subtitle editor" macro="edit caption1"></div>
+    <div class="label">Image</div><div class="subtitle editor" macro="edit image1"></div>
+    <div class="label">Caption</div><div class="subtitle editor" macro="edit caption2"></div>
+    <div class="label">Image</div><div class="subtitle editor" macro="edit image2"></div>
+    <div class="label">Caption</div><div class="subtitle editor" macro="edit caption3"></div>
+    <div class="label">Image</div><div class="subtitle editor" macro="edit image3"></div>
+    <div class="label">Caption</div><div class="subtitle editor" macro="edit caption4"></div>
+    <div class="label">Image</div><div class="subtitle editor" macro="edit image4"></div>
+</div>
+[[EditToolbar]]
+<!--}}}-->
 
 !StyleSheet
 /*{{{*/
-.TitleSlide {
-    background-color: rgb(128, 128, 128);
+.fourImagesSlide {
+    font-size: 2em;
+    text-align: left;
+    background-color: #e8e8e8;
+    height: 100%;
+    min-height: 400px;
 }
+
+.fourImagesSlide .title {
+    color: #747474;
+    font-weight: normal;
+    letter-spacing: 0;
+    padding-left: 0.5em;
+}
+
+.fourImagesSlide .subtitle {
+    color: #747474;
+    font-weight: normal;
+    font-size: 0.8em;
+    padding-left: 1em;
+}
+
+.fourImagesSlide .boxes {
+    padding-left: 2em;
+}
+
+.fourImagesSlide .box {
+    margin: 2px;
+    height: auto;
+    width: 22%;
+    float: left;
+    padding: 1em 0;
+    text-align: center;
+}
+
+.fourImagesSlide .caption {
+    text-align: center;
+    font-size: 0.6em;
+}
+
+.fourImagesSlide .image img {
+    border: 1px solid #fff;
+    padding: 0;
+    margin: 0;
+    height: 90%;
+    width: 90%;
+}
+
 /*}}}*/
 </pre>
 </div>

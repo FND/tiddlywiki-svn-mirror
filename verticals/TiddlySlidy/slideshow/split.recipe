@@ -17,7 +17,5 @@ tiddler: Styling.tiddler
 tiddler: SingleImage.tiddler
 tiddler: TallImage.tiddler
 tiddler: WideImage.tiddler
-
-# images:
-copy: TiddlyWiki.png
-copy: buncefield.jpg
+tiddler: ThreeImages.tiddler
+tiddler: FourImages.tiddler
