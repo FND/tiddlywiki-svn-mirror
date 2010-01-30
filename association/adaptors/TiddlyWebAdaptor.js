@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|FND|
 |''Contributors''|Chris Dent, Martin Budden|
-|''Version''|0.10.6|
+|''Version''|1.0.0|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/|
@@ -12,28 +12,6 @@
 |''Keywords''|serverSide TiddlyWeb|
 !Notes
 This plugin includes [[jQuery JSON|http://code.google.com/p/jquery-json/]].
-!Revision History
-!!v0.1 (2008-11-10)
-* refactoring of previous experimental efforts
-!!v0.2 (2008-12-08)
-* encapsulation of bag/recipe distinction
-!!v0.3 (2009-01-23)
-* implemented renaming via tiddler chronicles
-!!v0.4 (2009-02-03)
-* added support for importing TiddlyWiki documents
-!!v0.5 (2009-02-06)
-* keeping track of previous location when renaming/moving tiddlers
-!!v0.6 (2009-03-15)
-* refactored to take advantage of jQuery
-* replaced JSON serialization with jQuery JSON plugin
-!!v0.7 (2009-05-08)
-* added support for TiddlyWeb differ plugin
-!!v0.8 (2009-05-23)
-* fixed ETag format
-!!v0.9 (2009-08-17)
-* fixed ETag handling for new tiddlers
-!!v0.10 (2009-10-08)
-* minor fixes
 !To Do
 * createWorkspace
 * document custom/optional context attributes (e.g. filters, query, revision) and tiddler fields (e.g. server.title, origin)
@@ -281,7 +259,7 @@ adaptor.getTiddlerCallback = function(status, context, responseText, uri, xhr) {
 adaptor.prototype.getTiddlerChronicle = function(title, context, userParams, callback) {
 	context = this.setContext(context, userParams, callback);
 	context.title = title;
-	var uriTemplate = "%0/%1/%2/tiddlers/%3/revisions.json?fat=1";
+	var uriTemplate = "%0/%1/%2/tiddlers/%3/revisions?fat=1";
 	var workspace = adaptor.resolveWorkspace(context.workspace);
 	var uri = uriTemplate.format([context.host, workspace.type + "s",
 		adaptor.normalizeTitle(workspace.name), adaptor.normalizeTitle(title)]);
@@ -355,7 +333,7 @@ adaptor.prototype.putTiddlerChronicle = function(revisions, context, userParams,
 	context = this.setContext(context, userParams, callback);
 	context.title = revisions[0].title;
 	var headers = null;
-	var uriTemplate = "%0/%1/%2/tiddlers/%3/revisions.json";
+	var uriTemplate = "%0/%1/%2/tiddlers/%3/revisions";
 	var host = context.host || this.fullHostName(tiddler.fields["server.host"]);
 	var workspace = adaptor.resolveWorkspace(context.workspace);
 	var uri = uriTemplate.format([host, workspace.type + "s",
