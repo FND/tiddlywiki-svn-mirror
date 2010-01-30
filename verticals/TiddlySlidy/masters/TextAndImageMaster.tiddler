@@ -70,8 +70,8 @@
     border: 1px solid #fff;
     padding: 0;
     margin: 0;
-    height: 90%;
     width: 90%;
+    height: auto; 
 }
 
 .textAndImageSlide .textbox {
