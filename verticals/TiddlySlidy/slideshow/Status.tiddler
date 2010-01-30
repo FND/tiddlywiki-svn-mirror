@@ -1,27 +1,23 @@
 <div title="Status" modifier="Paul Downey" created="200801300000" tags="slide" theme="TextBoxMaster" subtitle="TiddlySlidy is alpha software with many missing [[features|Features]], including:">
 <pre>|  !Mode|!Issue  |
-| Present|keyboard navigation from theme |
+| Present|Off-piste notes styled as a lightbox |
+| Present|keyboard navigation customised from theme |
 | Author|new slide template selector |
-| Author|save button |
-| Author|delete slide |
-| Author|highlight current slide in MainMenu|
 | Present|fullscreen mode |
 | Present|Zooming buttons +/- keys |
-| Author|highlight current slide in menu |
-| Author|styled edit form |
-| Author|thumbnail preview |
-| Author|search, missing and orphaned tiddlers |
-| Templates|image master slides |
-| Templates|Associate external webpages |
-| Present|resize slides  |
-| Present|table of contents |
-| Present|Show / hide sections / slides |
-| Author|Retitle / Renaming slides |
-| Author|Options panel |
+| Present|popup table of contents |
+| Present|Navigation progress bar|
+| Author|highlight current slide in MainMenu |
+| Present|Program Guide like grid table of contents |
+| Author|Improved drag and drop |
 | Author|hierachical menu |
-| Author|template authoring |
 | All|test in ie6| |
+| Author|search, missing and orphaned tiddlers |
+| Author|thumbnail preview |
+| Present|Show / hide sections / slides |
+| Author|Options panel |
 | Author|how does tagging surface? |
 | Author|[[WYSIWYG editor|http://ckeditor.com/]] |
+| Author|template authoring |
 </pre>
 </div>
