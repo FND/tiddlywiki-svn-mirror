@@ -5,4 +5,4 @@
 host=pauldowney@amp.dreamhost.com
 dir=/home/pauldowney/tiddlyslidy.com
 
-rsync -avz -e ssh index.html TiddlySlidy.zip images $host:$dir
+rsync --exclude .svn -avz -e ssh index.html TiddlySlidy.zip images $host:$dir
