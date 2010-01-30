@@ -1,3 +1,0 @@
-#!/bin/sh
-ssh avox@217.9.192.10 "cd wikidata/avoxjson-s && svn up"
-

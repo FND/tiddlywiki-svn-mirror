@@ -1,4 +1,0 @@
-#!/bin/sh
-./build_js
-cd ..
-twanager server localhost 3000
