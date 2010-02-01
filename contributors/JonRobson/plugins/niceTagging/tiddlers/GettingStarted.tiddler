@@ -10,6 +10,9 @@ Click edit and see for yourself.
 or try it out here:
 <<niceTagger>>
 
+If you prefer you can allow users to use commas to separate tags eg. "Alice In Wonderland,Mad Hatter,rabbit" - just use {{{splitOn:,}}}
+<<niceTagger splitOn:,>>
+
 Usage:
 *{{{<<niceTagger>>}}} creates a nice tagging interface with all the tags currently living in the TiddlyWiki document.
 * If you want to exclude a tag simply use the exclude named parameter like so:

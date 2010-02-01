@@ -156,7 +156,10 @@ config.macros.niceTagger = {
         var tagplace = document.createElement("div");
         tagplace.className ="niceTaggerAdder"
         place.appendChild(tagplace);
+        
+        var splitChar = options.splitOn;
         var saveNewTag= function(value){
+
             var saveThis = [];
             if(options.field=='tags'){
                 saveThis = tiddler.tags;
@@ -168,8 +171,21 @@ config.macros.niceTagger = {
             }
             
             if(value.replace(" ","").length == 0) return;
-            if(saveThis.indexOf(value) != -1) return;
-            saveThis.push(value);
+            
+            var savedVals;
+            if(splitChar){
+              if(value.indexOf(splitChar) !=-1){
+                savedVals= value.split(splitChar);
+              }
+            }
+            else{
+              savedVals = [value];
+            }
+            
+            for(var i=0; i < savedVals.length;i++){
+              var svalue = savedVals[i];
+              if(saveThis.indexOf(svalue) == -1) saveThis.push(svalue);
+            }
             
             tiddler= config.macros.niceTagger.save(tiddler.title,options.field,saveThis,place);
             
@@ -180,9 +196,8 @@ config.macros.niceTagger = {
         };
         var adder;
         if(config.macros.AdvancedEditTemplate){
-            //config.macros.AdvancedEditTemplate.handler(tagplace,null,null,null,"aet type:search metaDataName:assignby valuesSource:Suggestions");
-             var params = paramString.parseParams("anon",null,true,false,false);
-			 var textcase = getParam(params,"case");
+            var params = paramString.parseParams("anon",null,true,false,false);
+            var textcase = getParam(params,"case");
             var srcTiddler = getParam(params,"valuesSource");
             var suggestions = [];
             if(srcTiddler){
@@ -236,18 +251,18 @@ config.macros.niceTagger = {
 					saveNewTag(adder.value);
 			}
 		});
-        var addbutton = document.createElement("button");
-        addbutton.innerHTML = config.macros.niceTagger.lingo.add;
+    var addbutton = document.createElement("button");
+    addbutton.innerHTML = config.macros.niceTagger.lingo.add;
 		addbutton.className = "adder";
-        tagplace.appendChild(addbutton);
+    tagplace.appendChild(addbutton);
         
 
-        jQuery(addbutton).click(function(e){
-            var val = adder.value;
-            saveNewTag(val);
-        });
+    jQuery(addbutton).click(function(e){
+      var val = adder.value;
+      saveNewTag(val);
+    });
         
-        jQuery(place).attr("dirty","true");
+    jQuery(place).attr("dirty","true");
         
     }
     
