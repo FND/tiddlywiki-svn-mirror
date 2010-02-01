@@ -1,0 +1,39 @@
+<div title="FullScreenMode" modifier="PaulDowney" created="200801300000" tags="systemTheme excludeSearch">
+<pre>
+|''PageTemplate''|##PageTemplate|
+|''StyleSheet''|##StyleSheet|
+
+!PageTemplate
+<!--{{{-->
+<div id='messageArea'></div>
+<div id='presentation'>
+    <div id='slide'>
+        <div id='tiddlerDisplay'>display</div>
+    </div>
+</div>
+<div id='footer'>
+    <div class="controls" refresh='content' tiddler='ControlPanel'></div>
+</div>
+
+<!--}}}-->
+
+!StyleSheet
+[[StyleSheet]]
+/*{{{*/
+
+#messageArea {
+    display: none;
+}
+
+a#backstageShow {
+    color: [[ColorPalette::SecondaryPale]];
+}
+
+#presentation .tiddler,
+#presentation .viewSlide {
+    overflow: scroll;
+}
+
+/*}}}*/
+</pre>
+</div>
