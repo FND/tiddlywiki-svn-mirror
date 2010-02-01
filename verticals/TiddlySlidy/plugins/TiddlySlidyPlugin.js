@@ -27,10 +27,14 @@
         var r = displayTiddler.apply(this, arguments);
         tiddler = (tiddler instanceof Tiddler) ? tiddler : store.fetchTiddler(tiddler);
 
-        if (tiddler.tags.indexOf('notes') < 0) {
+        if (tiddler.tags.indexOf('slide') != -1) {
             $('#fullframe').remove();
             $('#contentWrapper').show();
             lastSlide = tiddler.title;
+            return r;
+        }
+
+        if (!$('#presentation').length) {
             return r;
         }
 
