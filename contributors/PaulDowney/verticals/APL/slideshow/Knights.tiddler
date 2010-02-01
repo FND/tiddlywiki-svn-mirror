@@ -1,0 +1,21 @@
+<div title="Knight's Tour" modifier="Paul Downey" created="200801300000" tags="contents slide" theme="TextBoxMaster" subtitle="">
+<pre>
+{{{
+kt←{⎕ML←0
+    ⍺←1 ⋄ sreq←⍺ ⋄ nsqs←×/⍵ 
+    kdef←,0 1∘.⌽1 ¯1∘.,2 ¯2 
+    net←(⊂,⍳⍵)∩¨↓(⍳⍵)∘.+kdef
+    ⍳∘(⍳⍵)¨↑⍬{
+        sreq=⍴⍵:⍵
+        nsqs=⍴path:⍵,⊂path←⍺⍺,⊂⍺
+        nxt←(⊂⍺)⊃⍵⍵ 
+        0=⍴nxt:⍵
+        net←⍵⍵~¨⊂⊂⍺
+        ord←nxt[⍒↑⍴¨net[nxt]]
+        ↑path ∇∇ net/ord,⊂⍵ 
+    }net/(⌽,⍳⍵),⊂0⍴⊂⍬
+}
+}}}
+http://www.dyalog.com/dfnsdws/c_kt.htm
+</pre>
+</div>

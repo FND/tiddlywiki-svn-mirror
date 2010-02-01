@@ -1,0 +1,3 @@
+recipe: $TW_ROOT/verticals/TiddlySlidy/TiddlySlidy.recipe
+recipe: $TW_ROOT/verticals/TiddlySlidy/masters/split.recipe
+recipe: slideshow/split.recipe

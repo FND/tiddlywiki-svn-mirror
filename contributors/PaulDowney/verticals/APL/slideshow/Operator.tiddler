@@ -1,0 +1,11 @@
+<div title="Operators" modifier="Paul Downey" created="200801300000" tags="contents slide" theme="TextBoxMaster" subtitle="">
+<pre>
+|!Name |!Symbol |!Example |!Meaning of example |
+|Reduce (last axis) |/ |+/B |Sum across B |
+|Reduce (first axis) |⌿ |+⌿B |Sum down B |
+|Scan (last axis) |\ |+\B |Running sum across B |
+|Scan (first axis) |⍀  |+⍀B |Running sum down B |
+|Inner Product |.  |A+.×B  |Matrix product of A and B |
+|Outer Product |∘. |A∘.×B |Cartesian product of A and B |
+</pre>
+</div>

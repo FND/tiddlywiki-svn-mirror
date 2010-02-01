@@ -1,0 +1,30 @@
+# slideshow outline:
+tiddler: MainMenu.tiddler
+tiddler: DefaultTiddlers.tiddler
+
+# slides:
+tiddler: APL.tiddler
+tiddler: Mike.tiddler
+tiddler: Me.tiddler
+tiddler: Gilman.tiddler
+tiddler: History.tiddler
+tiddler: Characters.tiddler
+tiddler: Keyboard.tiddler
+tiddler: Printer.tiddler
+tiddler: WordLength.tiddler
+tiddler: FinnIdiom.tiddler
+tiddler: Origins.tiddler
+tiddler: WordLength.tiddler
+tiddler: Strip.tiddler
+tiddler: Primes.tiddler
+tiddler: UlamSpiral.tiddler
+tiddler: Knights.tiddler
+tiddler: Chess.tiddler
+tiddler: Life.tiddler
+tiddler: Rubik.tiddler
+tiddler: EMPL.tiddler
+tiddler: Implementations.tiddler
+tiddler: Thing.tiddler
+tiddler: Monadic.tiddler
+tiddler: Dyadic.tiddler
+tiddler: Operator.tiddler

@@ -1,0 +1,11 @@
+<div title="Characters" modifier="Paul Downey" created="200801300000" tags="contents slide" theme="TextBoxMaster" subtitle="APL character set">
+<pre>
+{{{
+'()+,-./ : ; ?[]\_¨¯×÷←↑→↓
+∆∇∘∣∧∨∩∪∼≠≤≥≬⊂⊃⌈⌊⊤⊥⋆⌶⌷⌸⌹⌺⌻⌼
+⌽⌾⌿⍀⍁⍂⍃⍄⍅⍆⍇⍈⍉⍊⍋⍌⍍⍎⍏⍐⍑⍒⍓⍔⍕⍖⍗
+⍘⍙⍚⍛⍜⍝⍞⍟⍠⍡⍢⍣⍤⍥⍦⍧⍨⍩⍪⍫⍬⍭⍮⍯⍰⍱⍲
+⍳⍴⍵⍶⍷⍸⍹⍺⎕○
+}}}
+</pre>
+</div>

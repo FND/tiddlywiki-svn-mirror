@@ -1,0 +1,14 @@
+<div title="Ulam's Spiral" modifier="Paul Downey" created="200801300000" tags="contents slide" theme="TextBoxMaster" subtitle="">
+<pre>
+{{{
+      ∇R←Spiral N;start;indices;⎕IO
+[1]   ⎕IO←1
+[2]   start←(2|N)+(N+1)×⌊N÷2
+[3]   indices←+\(N*2)↑start,(2/⍳N)/(2×N)⍴1 (-N) ¯1 N
+[4]   R[indices]←R←⍳⍴indices
+[5]   R←(N,N)⍴R
+      ∇
+}}}
+http://aplwiki.com/UlamSpiralOfPrimes
+</pre>
+</div>
