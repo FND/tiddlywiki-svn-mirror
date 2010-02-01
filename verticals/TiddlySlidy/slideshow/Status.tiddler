@@ -1,13 +1,16 @@
 <div title="Status" modifier="Paul Downey" created="200801300000" tags="slide" theme="TextBoxMaster" subtitle="TiddlySlidy is alpha software with many missing [[features|Features]], including:">
 <pre>|  !Mode|!Issue  |
-| Present|Off-piste notes styled as a lightbox |
-| Present|keyboard navigation customised from theme |
-| Author|new slide template selector |
+| Author|add notes button |
+| Author|highlight current slide in MainMenu |
+| Author|Default tiddlers take from first slide |
+| Author|new slide updates MainMenu |
+| Present|Navigation progress bar|
 | Present|fullscreen mode |
+| Author|new slide template based selector |
+| Present|keyboard navigation customised from theme |
+| Author|Different images for zoom/ thumbnail |
 | Present|Zooming buttons +/- keys |
 | Present|popup table of contents |
-| Present|Navigation progress bar|
-| Author|highlight current slide in MainMenu |
 | Present|Program Guide like grid table of contents |
 | Author|Improved drag and drop |
 | Author|hierachical menu |
