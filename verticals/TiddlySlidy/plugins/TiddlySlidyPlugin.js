@@ -19,6 +19,9 @@
         }
     };
 
+    // In the absence of a HistoryPlugin
+    lastSlide = '';
+
     var displayTiddler = Story.prototype.displayTiddler;
     Story.prototype.displayTiddler = function(srcElement,tiddler,template,animate,unused,customFields,toggle,animationSrc) {
         var r = displayTiddler.apply(this, arguments);
@@ -27,6 +30,7 @@
         if (tiddler.tags.indexOf('notes') < 0) {
             $('#fullframe').remove();
             $('#contentWrapper').show();
+            lastSlide = tiddler.title;
             return r;
         }
 
@@ -48,7 +52,7 @@
 
             .click(function () {
                 $('#contentWrapper').show();
-                story.displayTiddler(null, tiddler.fields.slide);
+                story.displayTiddler(null, lastSlide);
                 $('#fullframe').remove();
             });
 

@@ -1,6 +1,4 @@
-<div title="Notes" modifier="Paul Downey" created="200801300000" tags="notes" theme="TextBoxMaster" subtitle="Presentations from the browser" slide="Features">
-<pre>Tiddlers outside of the presentation are treated as //notes//, and are displayed using a dedicated theme.
-
-[[Features]]
+<div title="Notes" modifier="Paul Downey" created="200801300000" tags="notes" theme="TextBoxMaster" subtitle="Presentations from the browser">
+<pre>Tiddlers outside of the presentation are treated as //hidden notes//, and are displayed using a dedicated theme.
 </pre>
 </div>
