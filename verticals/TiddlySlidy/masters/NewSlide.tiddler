@@ -1,23 +1,20 @@
 <div title="NewSlide" modifier="Paul Downey" created="200801300000" tags="excludeSearch" theme="NewSlideMaster">
 <pre>
-<<newSlide TitleMaster>>
+<<newSlide TitleMaster "slide">>
 
-<<newSlide TextBoxMaster>>
+<<newSlide TextBoxMaster "slide">>
 
-<<newSlide SingleImageMaster>>
+<<newSlide SingleImageMaster "slide">>
 
-<<newSlide WideImageMaster>>
+<<newSlide WideImageMaster "slide">>
 
-<<newSlide TallImageMaster>>
+<<newSlide TallImageMaster "slide">>
 
-<<newSlide FourImagesMaster>>
+<<newSlide FourImagesMaster "slide">>
 
-<<newSlide ImageAndTextMaster>>
+<<newSlide ImageAndTextMaster "slide">>
 
-<<newSlide ThreeImagesMaster>>
-
-!!Notes:
-<<newSlide TextBoxMaster "notes">>
+<<newSlide ThreeImagesMaster "slide">>
 </pre>
 </div>
 
