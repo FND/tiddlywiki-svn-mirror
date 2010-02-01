@@ -11,7 +11,9 @@
 </div>
 <div id='messageArea'></div>
 <div id='sidebar'>
-    <div id='sidebarOption' refresh='content' tiddler='SideBarOptions'></div>
+    <div id='sidebarOptions' refresh='content' tiddler='SideBarOptions'></div>
+    <div id='sidebarTabs' refresh='content' force='true' tiddler='SideBarTabs'></div>
+</div>
 </div>
 <div id="sections">
     <div id='authorButtons' refresh='content' tiddler='AuthorButtons'></div>
