@@ -35,6 +35,7 @@ New items added to the MainMenu as a member of an unordered list, so as to work 
         var text = transform(t.text);
         store.saveTiddler(t.title,t.title,text,t.modifier,t.modified,t.tags,t.fields,true,t.created,t.creator);
         story.refreshTiddler("MainMenu",null,true);
+        refreshAll();
         autoSaveChanges();
     }
 
