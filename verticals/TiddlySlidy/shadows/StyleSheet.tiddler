@@ -268,6 +268,16 @@ table.twtable {
 }
 
 
+#fullframe {
+    background-color: #000;
+}
+
+#fullframe .preview,
+#fullframe .toolbar {
+    display: none;
+}
+
+
 /*}}}*/
 </pre>
 </div>

@@ -6,7 +6,7 @@
 
 ***/
 //{{{
-(function() {
+(function($) {
 
     // Enbale keybindings only when we are in presenter mode.
     Story.prototype._keybindings_switchTheme = Story.prototype.switchTheme;
@@ -18,6 +18,43 @@
             config.macros.keybindings.disable();
         }
     };
+
+    var displayTiddler = Story.prototype.displayTiddler;
+    Story.prototype.displayTiddler = function(srcElement,tiddler,template,animate,unused,customFields,toggle,animationSrc) {
+        var r = displayTiddler.apply(this, arguments);
+        tiddler = (tiddler instanceof Tiddler) ? tiddler : store.fetchTiddler(tiddler);
+
+        if (tiddler.tags.indexOf('notes') < 0) {
+            $('#fullframe').remove();
+            $('#contentWrapper').show();
+            return r;
+        }
+
+        $('#contentWrapper').hide();
+
+        $('body').append("<div id='fullframe'></div>");
+        $('#slide').clone().appendTo('#fullframe');
+
+        $('#fullframe')
+            .css('display', 'block')
+            .css('margin', 'auto')
+            .css('position', 'absolute')
+            .css('z-index', '999')
+            .css('top', '0')
+            .css('left', '0')
+            .css('width', '100%')
+            .css('height', Math.max($('#fullframe').height(), $(window).height()))
+            .css('background-color', config.macros.imagezoom.color)
+
+            .click(function () {
+                $('#contentWrapper').show();
+                story.displayTiddler(null, tiddler.fields.slide);
+                $('#fullframe').remove();
+            });
+
+        return r;
+    };
+
 
     /*
      *  newSlide button
@@ -46,12 +83,6 @@
         return createTiddlyButton(place,theme,tip,onClick,null,null,null);
     };
 
-    config.macros.OffPiste = {
-        ready: function () {
-            console.log("here");
-            $('#contentWrapper').animate({ backgroundColor: "#000" }, "slow");
-        }
-    };
 
-})();
+})(jQuery);
 //}}}
