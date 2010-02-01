@@ -19,3 +19,6 @@ tiddler: TallImage.tiddler
 tiddler: WideImage.tiddler
 tiddler: ThreeImages.tiddler
 tiddler: FourImages.tiddler
+
+# Notes
+tiddler: Notes.tiddler
