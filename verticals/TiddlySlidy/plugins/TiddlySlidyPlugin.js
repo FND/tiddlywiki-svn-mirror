@@ -28,10 +28,11 @@
         var theme = params[0];
         var title = "New Slide";
         var tip = "Create a new " + theme + " Slide";
+        var tag = params[1] || "slide";
 
         var onClick = function() {
             var template = theme + "##EditTemplate";
-            var tags = ['slide'];
+            var tags = [tag];
             var customFields = {
                 'theme': theme
             };
