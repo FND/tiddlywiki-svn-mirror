@@ -3,6 +3,7 @@
 <div class='title' macro='view title'></div>
 <div class='editor' macro='edit title'></div><div macro='annotations'></div>
 <div class="label">Master</div><div class="master editor" macro="edit theme"></div>
+<div class='editor' macro='edit tags'></div><div class='editorFooter'><span macro='message views.editor.tagPrompt'></span>
 <div class='editor' macro='edit text'></div>
 [[EditToolbar]]
 <!--}}}--></pre>
