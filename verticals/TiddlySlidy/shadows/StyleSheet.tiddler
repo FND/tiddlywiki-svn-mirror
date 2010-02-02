@@ -49,20 +49,47 @@ a#backstageShow {
     padding: 2em;
 }
 
-#displayArea {
-    margin: 1em auto 1em auto;
-    width: 50%;
-}
-
 #sidebar {
     width: 20%;
-    padding: 1em;
+    padding: 0;
+    margin: 0;
     text-align: center;
+    font-size: 1em;
+    position:absolute; 
+    right:3px;
 }
 
 #sidebarTabs .tabContents {
     margin: 0 auto;
     text-align: left;
+}
+#sidebarOptions {
+    padding-top:1em;
+}
+#sidebarOptions a {margin:0; padding:0; display: inline; }
+#sidebarOptions input {margin:0.4em 0.5em;}
+
+#sidebarTabs .tabContents {
+    width: 15em; 
+    overflow: hidden;
+    color: [[ColorPalette::SecondaryMid]];
+    border: 2px solid [[ColorPalette::PrimaryPale]];
+    background-color: [[ColorPalette::Background]];
+}
+
+#sidebar .tabUnselected {
+    background-color: [[ColorPalette::SecondaryMid]];
+    color: [[ColorPalette::Background]];
+}
+
+#sidebar .tiddlyLinkExisting {
+    color: [[ColorPalette::SecondaryMid]];
+}
+
+
+#displayArea {
+    margin: 1em auto 1em auto;
+    width: 50%;
 }
 
 #presentation {
@@ -151,6 +178,7 @@ a#backstageShow {
     padding: 0 auto;
 }
 
+#sidebar a.button,
 #authorButtons a.button {
     text-align: center;
     font-size: 1.2em;
@@ -185,12 +213,14 @@ a#backstageShow {
     width: 90%;
 }
 
+/*
 #mainMenu li:first-of-type a {
     color: [[ColorPalette::SelectedPale]];
 }
 #mainMenu li:first-of-type {
     background-color: [[ColorPalette::PrimaryLight]];
 }
+*/
 
 h2 {
     border: none;
