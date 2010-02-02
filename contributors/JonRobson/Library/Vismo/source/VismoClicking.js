@@ -546,10 +546,11 @@ VismoCanvas.prototype = {
     var tr = transformation.translate;
     var s = transformation.scale;
     var r = transformation.rotate;
+
     if(o && s && tr){
-    	if(o.x)ctx.translate(o.x,o.y);
-    	if(s.x)ctx.scale(s.x,s.y);
-    	if(tr.x)ctx.translate(tr.x,tr.y);
+    	if(typeof(o.x) == 'number')ctx.translate(o.x,o.y);
+    	if(typeof(s.x) == 'number')ctx.scale(s.x,s.y);
+    	if(typeof(tr.x) == 'number')ctx.translate(tr.x,tr.y);
     }
     if(r && r.x)ctx.rotate(r.x);
     }
@@ -815,7 +816,7 @@ VismoCanvas.prototype = {
 		
 		var offset = jQuery(target).offset();
 
-        var xy= VismoClickingUtils.scrollXY();
+    var xy= VismoClickingUtils.scrollXY();
 		x = e.clientX + xy.x - offset.left;
 		y = e.clientY + xy.y - offset.top;
 
