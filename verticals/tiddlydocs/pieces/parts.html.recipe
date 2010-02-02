@@ -1,4 +1,4 @@
-tiddler: ../content/Create New Document.tid
+tiddler: ../content/Create%20New%20Document.tid
 
 
 
@@ -6,9 +6,9 @@ tiddler: ../content/Create New Document.tid
 recipe: ../../../core/tiddlywiki.html.recipe
 
 tiddler: ../Plugins/A_tiddlywebSpecifics.js
-tiddler: ../Plugins/tdocsCKEditorSettings.js
+#tiddler: ../Plugins/tdocsCKEditorSettings.js
 
-recipe: ckeditor.recipe
+#recipe: ../../ckeditor/split.html.recipe
 #recipe: serverSideStuff.recipe
 
 recipe: copy.recipe
@@ -18,4 +18,5 @@ recipe: tiddlydocs.html.recipe
 tiddler: ../documents/Doc2/Doc2.tid
 
 recipe: ../documents/TheInternet/split.recipe
+tiddler: ../themes/core_css.tid
 

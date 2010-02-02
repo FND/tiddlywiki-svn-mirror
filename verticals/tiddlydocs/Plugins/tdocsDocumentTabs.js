@@ -45,17 +45,15 @@ config.macros.docTabsNew = {};
 config.macros.docTabsNew.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 		var tagged = store.getTaggedTiddlers('document').reverse();
 		var cookie = "documentTabs";
-		var wrapper = createTiddlyElement(null,"div",null,"tabsetWrapper taggedTabset" + cookie);
+		var wrapper = createTiddlyElement(null,"div",null,"docTabset tabsetWrapper taggedTabset" + cookie);
 		var tabset = createTiddlyElement(wrapper,"div",null,"tabset");
 		var validTab = false;
 		tabset.setAttribute("cookie",cookie);
 		for(var t=0; t<tagged.length; t++) {
 			if(tagged[t].title == window.activeDocument){
-				console.log(tagged[t].title, "is selecyed");
-				var tabSelected = "tab tabSelected";
+				var tabSelected = "tab tabSelected docTabSelected";
 			}else{
-				console.log(tagged[t].title);
-				var tabSelected = "tab tabUnselected";
+				var tabSelected = "tab tabUnselected docTabUnselected";
 			}
 			var label = tagged[t].title;
 				tabLabel = label;
@@ -69,7 +67,7 @@ config.macros.docTabsNew.handler = function(place,macroName,params,wikifier,para
 			config.options[cookie] = tagged[0].title;
 		place.appendChild(wrapper);
 		var newDoc = function() {
-			story.displayTiddler(null, "Create New Document", config.options.txtTheme+'##wizardViewTemplate')
+			story.displayTiddler(null, "Create New Document")
 		}
 		createTiddlyButton(wrapper,'Create New Document',prompt, newDoc,"newDocumentButton");
 };
@@ -91,3 +89,58 @@ config.macros.docTabsNew.switchDoc = function (title) {
 }
 
 
+config.shadowTiddlers["tdocsTabsStyles"] = store.getTiddlerText("tdocsDocumentTabs##StyleSheet");
+store.addNotification("tdocsTabsStyles", refreshStyles);
+
+//################################################################################
+//# CUSTOM STYLESHEET
+//################################################################################
+	
+/***
+!StyleSheet
+ .docTabSelected,  .docTabUnselected {
+	padding:0.5em 1em;
+	-moz-border-radius-topright :10px;
+	-webkit-border-top-right-radius: 10px;
+	-moz-border-radius-topleft :10px;
+	-webkit-border-top-left-radius: 10px;
+}
+.docTabSelected {
+	background:#fff;
+}
+a.docTabUnselected {
+	color:#fff;
+}
+
+.header a:hover {
+	background:#ddd;
+	color:#555;
+}
+
+.headerForeground {
+display:none;
+}
+
+.headerShadow {
+	padding:0 2em;
+	top:28px;
+	position:relative
+}
+.newDocumentButton {
+	background:#fff;
+	border:1px solid #ccc;
+	float:right;
+	top:-2.5em;
+	padding:0.5em;
+	position:relative;
+	-moz-border-radius: 5px;	
+}
+
+.docTabset {
+	position:inherit;
+	top:1px;
+}
+
+
+!(end of StyleSheet)
+***/

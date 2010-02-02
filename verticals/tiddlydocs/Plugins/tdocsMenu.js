@@ -7,6 +7,8 @@ config.macros.docMenu.strip=function(s) {
 }
 
 config.macros.docMenu.handler=function(place,macroName,params,wikifier,paramString,tiddler){
+	config.shadowTiddlers["tdocsMenuStyles"] = store.getTiddlerText("tdocsMenu##StyleSheet");
+	store.addNotification("tdocsMenuStyles", refreshStyles);
 	config.macros.docMenu.refresh(place,macroName,params,wikifier,paramString,tiddler);
 };
 
@@ -100,6 +102,151 @@ config.macros.docMenu.refresh=function(place,macroName,params,wikifier,paramStri
 	var specView = createTiddlyElement(place, "div", "", "specView");	
 	config.macros.docMenu.renderSpec(specView, testSpec);
 }	
+
+
+//################################################################################
+//# CUSTOM STYLESHEET
+//################################################################################
+
+/***
+!StyleSheet
+
+#mainMenu {
+    width:25%;
+    margin-left:0.4%;
+    margin-top:0.5em;
+	text-align:left;
+	color:#333;
+}
+
+#displayArea {
+	margin-left:27%;
+	width:73%;
+}
+
+#tiddlerDisplay {
+	width:80%;
+}
+
+	.current-nesting {
+		background-color: yellow;
+	}
+	.helper {		
+		border:2px dashed #777777;
+	}
+
+	.deleteZoneClass {
+		color:#333;
+		background:#fff 
+		border:1px solid #ddd;
+		left:3em;
+		position:relative;
+		text-align:left;
+		width:91%;
+	}
+	
+	.deleteZoneClass b {
+		padding:1em;
+		color:#ddd;
+	}
+
+	.deleteHelper {
+		background-color:#eee;
+		font-weight:bold;
+		border:1px solid red;
+		color:#222;
+	}
+	.sectionHeading {
+		width:100%;
+	}
+	.sort-handle-edit {
+		border:1px solid #C7C7C7;
+		background:white;
+		padding:1em;
+		margin-bottom:1em;
+	}
+	.sort-handle-edit .button {
+		border:1px solid #C7C7C7;
+		background:white !important;
+		color:black !important;
+	}
+	.draggableOn {
+		cursor:move;
+	}
+
+	li.toc-item {
+		list-style:none;
+	}
+	html body #backstageShow {
+		right:1em;
+		display:none !important;
+	}
+	
+	.secretBackstage {
+		background:#E6E6E6;
+	}
+
+	a.secretBackstage {
+		color:#E6E6E6;		
+	}
+	#backstageArea, #backstageArea a {
+		background:#444444 none repeat scroll 0 0;
+	}
+
+	#backstageArea {
+		border-bottom:1px solid #777;
+	}
+
+	
+	div.subtitle {
+		font-size:0.7em;
+		padding:0.5em;
+	}
+	div.title {
+		font-weight:none;
+		padding:0em 0.5em 0 0.2em;
+		color:#666;
+	}
+
+	#buttonHolder {
+		font-size:0.9em;
+		height:100%;
+		left:-3em;
+		position:relative;
+		top:-0.7em;
+	}
+	
+	html body .btn span span {
+		background:#FFFFFF none repeat scroll 0 0;
+		border-bottom:1px solid #BBBBBB;
+		border-top:1px solid #CCCCCC;
+		border-width:1px 0;
+		color:#003366;
+		padding:3px 0.4em;
+		position:relative;
+	}
+
+	.completed {
+		border-right : 10px solid #248A22;
+	}
+
+	.incomplete {
+		border-right : 0px solid #d3bebe;
+	}
+
+
+	ul {
+		margin:0em;
+	}
+	
+	.specView {
+		position:relative;
+		left:-1.5em;
+	}
+
+
+!(end of StyleSheet)
+***/
 
 function log() { if (console) console.log.apply(console, arguments); };
 

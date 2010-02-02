@@ -24,3 +24,5 @@ tiddler: ../../../contributors/SimonMcManus/plugins/secretBackstage.js
 tiddler: ../../../contributors/PaulDowney/plugins/WikifiedMessagesPlugin/WikifiedMessagesPlugin.js
 tiddler: ../../../contributors/PaulDowney/plugins/FadingMessagesPlugin/FadingMessagesPlugin.js
 tiddler: ../../../contributors/EricShulman/plugins/TaggedTemplateTweak.js
+
+tiddler: ../content/Create New Document.tid

@@ -50,6 +50,7 @@ Story.prototype.saveNewSection = function(title, minorUpdate) {
 	var tiddler = store.getTiddler(_title);
 	tiddler.tags.push("[[doc_" + window.activeDocument + "]]");
 	autoSaveChanges(null, [tiddler, window.activeDocument]);
+	refreshAll();
 	return _title;
 };
 
