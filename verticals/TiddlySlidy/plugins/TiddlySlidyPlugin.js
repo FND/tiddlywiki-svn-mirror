@@ -85,6 +85,7 @@
             merge(tiddler.fields, customFields);
             merge(tiddler.tags, tags);
             story.displayTiddler(null,title,template,false,null,null,false,place)
+            story.focusTiddler(title,'title');
             return false;
         };
 
