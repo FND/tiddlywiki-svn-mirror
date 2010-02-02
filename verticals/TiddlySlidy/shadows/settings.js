@@ -44,6 +44,10 @@ merge(config.macros.newTiddler,{
     accessKey: "N"
 });
 
+merge(config.views.wikified,{
+    defaultText: "The tiddler '%0' doesn't yet exist. Edit to create it."
+});
+
 merge(config.views.editor,{
 	themePrompt: "Type a theme for the slide"
 });
