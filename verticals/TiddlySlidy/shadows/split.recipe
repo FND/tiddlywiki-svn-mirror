@@ -2,6 +2,10 @@ tiddler: SiteUrl.tiddler
 tiddler: SiteTitle.tiddler
 tiddler: SiteSubtitle.tiddler
 tiddler: SideBarOptions.tiddler
+tiddler: SideBarTabs.tiddler
+tiddler: TabNotes.tiddler
+tiddler: TabMasters.tiddler
+tiddler: TabDetails.tiddler
 
 tiddler: ColorPalette.tiddler
 tiddler: StyleSheet.tiddler
