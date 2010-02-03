@@ -23,52 +23,50 @@ New items added to the MainMenu as a member of an unordered list, so as to work 
 ***/
 //{{{
 /*jslint onevar: false nomen: false plusplus: false */
-/*global config */
-(function() {
+/*global config story store refreshAll autoSaveChanges */
+(function ($) {
     version.extensions.MainMenuUpdatePlugin = {installed: true};
 
     config.options.txtMainMenuTag = "slide";
     config.optionsDesc.txtMainMenuTag = "Tag of items automatically added to the MainMenu";
 
-    function updateMainMenu(transform) {
+    config.extensions.MainMenuUpdate = function (title, newTitle) {
         var t = store.getTiddler("MainMenu");
-        var text = transform(t.text);
-        store.saveTiddler(t.title,t.title,text,t.modifier,t.modified,t.tags,t.fields,true,t.created,t.creator);
-        story.refreshTiddler("MainMenu",null,true);
+        var text = t.text;
+        if (!newTitle) {
+            text = text.replace("*[[" + title + "]]\n", "");
+        } else {
+            if (newTitle !== title) {
+                text = text.replace("[[" + title + "]]", "[[" + newTitle + "]]");
+            } else if (text.indexOf("[[" + title  + "]]") === -1) {
+                text = text + "*[[" + title + "]]\n";
+            }
+        }
+        store.saveTiddler(t.title, t.title, text, t.modifier, t.modified, t.tags, t.fields, true, t.created, t.creator);
+
+        // this should go ..
+        story.refreshAllTiddlers(true);
         refreshAll();
         autoSaveChanges();
-    }
+    };
 
+    // should be possible to remove these hi-jacks
     var saveTiddler = story.saveTiddler;
-    story.saveTiddler = function(title,minorUpdate) {
+    story.saveTiddler = function (title, minorUpdate) {
         var newTitle = saveTiddler.apply(this, arguments);
         var tiddler = store.getTiddler(newTitle);
-        if (tiddler.tags.indexOf(config.options.txtMainMenuTag) != -1) {
-            updateMainMenu(function(text) {
-                if (newTitle != title) {
-                    text = text.replace("[[" + title + "]]", "[[" + newTitle + "]]");
-                }
-                if (text.indexOf("[[" + newTitle  + "]]") == -1) {
-                    text = text + "*[[" + newTitle + "]]\n";
-                }
-                return text;
-            });
+        if (tiddler.tags.indexOf(config.options.txtMainMenuTag) !== -1) {
+            config.extensions.MainMenuUpdate(title, newTitle);
         }
         return newTitle;
     };
 
     var removeTiddler = store.removeTiddler;
-    store.removeTiddler = function(title) {
-        updateMainMenu(function(text) {
-            return text.replace("*[[" + title + "]]\n", "");
-        });
-
-        // required when the view template has a delete command
-        story.closeTiddler(title,true);
-        story.refreshAllTiddlers(true);
-        refreshAll();
-
+    store.removeTiddler = function (title) {
+        config.extensions.MainMenuUpdate(title);
+        story.closeTiddler(title, true);
         return removeTiddler.apply(store, arguments);
-    }
-})();
+    };
+
+})(jQuery);
 //}}}
