@@ -27,7 +27,7 @@ Both the image and the fullframe version may be styled using CSS.
 ***/
 //{{{
 /*jslint onevar: false nomen: false plusplus: false */
-/*global config jQuery store */
+/*global config jQuery store window */
 (function ($) {
     version.extensions.ImageZoomMacroPlugin = {installed: true};
 
@@ -38,7 +38,10 @@ Both the image and the fullframe version may be styled using CSS.
         var src = params[0].match(/^@/) ? store.getValue(tiddler, params[0].substring(1))
 			: params[0];
 
-        $(place).append($("<img>").attr("src", src).click(function () { 
+        $(place).append($("<img>")
+            .attr("src", src)
+            .css('cursor', 'pointer')
+            .click(function () { 
             $('body').append("<div id='fullframe'><img src='" + this.src + "'></div>");
             $('#contentWrapper').hide();
 
