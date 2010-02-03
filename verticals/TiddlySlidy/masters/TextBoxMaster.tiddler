@@ -6,7 +6,7 @@
 
 !ViewTemplate
 <!--{{{-->
-<h2 class="preview">Preview Text Box Slide: <span macro="view title"></span></h2>
+<h2 class="preview">Preview Text Box: <span macro="view title"></span></h2>
 <div class='viewSlide'>
     <div class='textBoxSlide'>
         <div class='title viewer' macro='view title wikified'></div>

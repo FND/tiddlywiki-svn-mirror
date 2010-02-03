@@ -6,7 +6,7 @@
 
 !ViewTemplate
 <!--{{{-->
-<h2 class="preview">Preview Tall Image Slide: <span macro="view title"></span></h2>
+<h2 class="preview">Preview Tall Image: <span macro="view title"></span></h2>
 <div class='viewSlide'>
     <div class='tallImageSlide'>
         <center><div class='image viewer' macro="imagezoom @image"></div></center>
