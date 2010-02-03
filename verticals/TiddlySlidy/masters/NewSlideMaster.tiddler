@@ -1,10 +1,10 @@
-<div title="NewNoteMaster" modifier="Paul Downey" created="200801300000" tags="excludeSearch">
+<div title="NewSlideMaster" modifier="Paul Downey" created="200801300000" tags="excludeSearch">
 <pre>
 |''ViewTemplate''|##ViewTemplate|
 
 !ViewTemplate
 <!--{{{-->
-<h2 class="preview">New Note: Select a Template</div>
+<h2 class="preview">New Slide: Select a Template</div>
 <div class='viewSlide'>
     <div class='newSlide'>
         <div class='textbox viewer' macro='view text wikified'></div>

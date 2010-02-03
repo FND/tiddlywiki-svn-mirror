@@ -4,6 +4,9 @@ recipe: $TW_ROOT/contributors/PaulDowney/plugins/ThemeButtonPlugin/ThemeButtonPl
 # display one tiddler at a time
 tiddler: $TW_ROOT/contributors/EricShulman/plugins/SinglePageModePlugin.js
 
+# add/remove a tag using a checkbox 
+tiddler: CheckboxToggleTag.tiddler
+
 # force refresh on theme switch
 recipe: $TW_ROOT/contributors/PaulDowney/plugins/ThemeSwitchRefreshPlugin/ThemeSwitchRefreshPlugin.recipe
 
