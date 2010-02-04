@@ -13,8 +13,8 @@
         <div class='subtitle viewer' macro='view subtitle wikified'></div>
         <div class='boxes'>
             <div class='box'>
-                <div class='caption viewer' macro='view caption1 wikified'></div>
-                <div class='image viewer' macro="imagezoom @image1"></div>
+                <div class='caption viewer' macro='view caption wikified'></div>
+                <div class='image viewer' macro="imagezoom @image"></div>
             </div>
             <div class='box'>
                 <div class='caption viewer' macro='view caption2 wikified'></div>

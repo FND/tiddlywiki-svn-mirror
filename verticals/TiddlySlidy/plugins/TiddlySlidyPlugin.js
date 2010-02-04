@@ -1,12 +1,25 @@
 /***
-
-    Misc JavaScript hacks for TiddlySlidy
-
-    These are here, ahead of being refactored into generic plugins
-
+|''Name:''|TiddlySlidyPlugin|
+|''Description:''|Misc hacks for TiddlySlidy |
+|''Author:''|PaulDowney (psd (at) osmosoft (dot) com) |
+|''Source:''|http://whatfettle.com/2008/07/MainMenuOrderPlugin/ |
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/plugins/MainMenuOrderPlugin/ |
+|''Version:''|0.2|
+|''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''~CoreVersion:''|2.4|
+!!Documentation
+These are here, ahead of being refactored into generic plugins
+!!Code
 ***/
 //{{{
-(function($) {
+/*jslint onevar: false nomen: false plusplus: false */
+/*global console config jQuery createTiddlyButton store story Story createTiddlyDropDown merge */
+
+// In the absence of a HistoryPlugin
+var lastSlide = '';
+
+(function ($) {
 
     // Enbale keybindings only when we are in presenter mode.
     Story.prototype._keybindings_switchTheme = Story.prototype.switchTheme;
@@ -18,9 +31,6 @@
             config.macros.keybindings.disable();
         }
     };
-
-    // In the absence of a HistoryPlugin
-    lastSlide = '';
 
     var displayTiddler = Story.prototype.displayTiddler;
     Story.prototype.displayTiddler = function(srcElement,tiddler,template,animate,unused,customFields,toggle,animationSrc) {
@@ -69,29 +79,57 @@
      *  TBD := replace with selection from master slide thumbnails
      */
     config.macros.newSlide = {};
-    config.macros.newSlide.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
+    config.macros.newSlide.handler = function(place, macroName, params, wikifier, paramString, tiddler) {
         var theme = params[0];
         var title = "New Slide";
         var tip = "Create a new " + theme + " Slide";
         var tag = params[1] || "slide";
 
-        var onClick = function() {
-            var template = theme + "##EditTemplate";
-            var tags = [tag];
-            var customFields = {
-                'theme': theme
-            };
-            var tiddler = store.createTiddler(title);
-            merge(tiddler.fields, customFields);
-            merge(tiddler.tags, tags);
-            story.displayTiddler(null,title,template,false,null,null,false,place)
-            story.focusTiddler(title,'title');
-            return false;
-        };
-
-        return createTiddlyButton(place,theme,tip,onClick,null,null,null);
+        return createTiddlyButton(place, theme, tip, function () {
+                var template = theme + "##EditTemplate";
+                var tags = [tag];
+                var customFields = {
+                    'theme': theme
+                };
+                var tiddler = store.createTiddler(title);
+                merge(tiddler.fields, customFields);
+                merge(tiddler.tags, tags);
+                story.displayTiddler(null, title, template, false, null, null, false, place)
+                story.focusTiddler(title,'title');
+                return false;
+            }, 
+            null, 
+            null, 
+            null);
     };
 
+    /*
+     *  select Master
+     *  TBD := make into a generic plugin which also works in Edit Mode
+     */
+    config.macros.fieldSelector = {};
+    config.macros.fieldSelector.handler = function(place, macroName, params, wikifier, paramString, tiddler) {
+        var caption = params[0] || "Select a master slide";
+        var field = params[1] || "theme";
+        var tag = params[2] || "masterSlide";
+        var title = tiddler.title;
+
+        var tagged = store.getTaggedTiddlers(tag);
+        var options = [];
+        options.push({'caption': caption, 'name': null});
+        for (var i=0; i < tagged.length; i++) {
+            options.push({'caption': tagged[i].title, 'name': tagged[i].title});
+        }
+
+        return createTiddlyDropDown(place, function(ev) {
+                var fields = {};
+                fields[field] = this[this.selectedIndex].value;
+                store.addTiddlerFields(title, fields);
+                story.refreshTiddler(title);
+                return false;
+            }, options, 
+            tiddler.fields[field]);
+    };
 
 })(jQuery);
 //}}}

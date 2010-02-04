@@ -232,9 +232,19 @@ h2 {
 }
 
 .toolbar {
+    float: right;
     padding: 1em 0;
     font-size: 1.2em;
 }
+
+.toolbarOptions {
+    padding: 1em 0;
+}
+/* TBD: refactor */
+.toolbarOptions select {
+    margin-right: 2em;
+}
+
 
 .button {
     -moz-border-radius: 4px;

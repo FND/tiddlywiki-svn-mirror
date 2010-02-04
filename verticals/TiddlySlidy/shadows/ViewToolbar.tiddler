@@ -1,5 +1,11 @@
 <div title="ViewToolbar" modifier="Paul Downey" created="200801300000" tags="excludeSearch toolbar">
 <pre>
-<div class='toolbar'><span class="label">Included in the presentation</span><span macro="tiddler CheckboxToggleTag with: slide notes"></span><span macro='toolbar closeTiddler deleteTiddler editTiddler'></span></div>
+<div class="toolbarOptions">
+    <span macro="fieldSelector 'Select a master slide' theme masterSlide"></span>
+    <span class="label">Included in the presentation</span><span macro="tiddler CheckboxToggleTag with: slide notes"></span>
+</div>
+<div class='toolbar'>
+    <span macro='toolbar closeTiddler deleteTiddler editTiddler'></span>
+</div>
 </pre>
 </div>

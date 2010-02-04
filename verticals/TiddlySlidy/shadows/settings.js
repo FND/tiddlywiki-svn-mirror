@@ -3,8 +3,8 @@
 /*
  *  Theme
  */
-config.options.txtTheme = "PresenterMode";
-//config.options.txtTheme = "AuthorMode";
+//config.options.txtTheme = "PresenterMode";
+config.options.txtTheme = "AuthorMode";
 //config.options.txtTheme = "TiddlyWikiMode";
 
 /*
