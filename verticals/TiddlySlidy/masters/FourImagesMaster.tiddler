@@ -8,7 +8,7 @@
 <!--{{{-->
 <h2 class="preview">Preview Four Images: <span macro="view title"></span></h2>
 <div class='viewSlide'>
-    <div class='fourImagesSlide' ready='OffPiste'>
+    <div class='fourImagesSlide'>
         <div class='title viewer' macro='view title wikified'></div>
         <div class='subtitle viewer' macro='view subtitle wikified'></div>
         <div class='boxes'>

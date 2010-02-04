@@ -8,7 +8,7 @@
 <!--{{{-->
 <h2 class="preview">Preview Single Image: <span macro="view title"></span></h2>
 <div class='viewSlide'>
-    <div class='singleImageSlide' ready='OffPiste'>
+    <div class='singleImageSlide'>
         <div class='title viewer' macro='view title wikified'></div>
         <div class='subtitle viewer' macro='view subtitle wikified'></div>
         <div class='image viewer' macro="imagezoom @image"></div>

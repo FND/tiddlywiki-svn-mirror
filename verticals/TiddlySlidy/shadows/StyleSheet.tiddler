@@ -251,13 +251,13 @@ h2 {
 }
 
 #presentation .toolbar,
+#presentation .toolbarOptions,
 #presentation h2.preview {
     display: none;
 }
 
-#presentation .tiddler,
-#presentation .viewSlide
- {
+.tiddler,
+.viewSlide {
     height: 97%;
     overflow: hidden;
 }
@@ -318,7 +318,8 @@ table.twtable {
 }
 
 #fullframe .preview,
-#fullframe .toolbar {
+#fullframe .toolbar,
+#fullframe .toolbarOptions {
     display: none;
 }
 
