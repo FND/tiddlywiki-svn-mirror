@@ -1,0 +1,5 @@
+modifier: Simon McManus 
+
+<div class='toolbar' macro='toolbar [[ToolbarCommands::NewSectionToolbar]]'></div>
+<div class='editor' macro='edit title'></div>
+<div class='editor' macro='edit text'></div>

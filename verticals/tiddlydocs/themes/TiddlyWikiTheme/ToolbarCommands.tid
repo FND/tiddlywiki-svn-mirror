@@ -1,0 +1,7 @@
+modifier: SMM
+
+|~ViewToolbar|closeTiddler closeOthers +editTiddler > fields syncing permalink revisions references jump|
+|~EditToolbar|+saveTiddler -cancelTiddler |
+|~NewSectionToolbar|+saveNewSection -cancelTiddler|
+
+

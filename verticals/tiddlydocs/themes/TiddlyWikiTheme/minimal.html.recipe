@@ -1,0 +1,20 @@
+recipe: ../../pieces/parts.html.recipe
+
+tiddler: SiteSubtitle.tid
+tiddler: MainMenu.tid
+tiddler: StyleSheet.tid
+tiddler: EditTemplate.tid
+tiddler: ToolbarCommands.tid
+tiddler: NewSectionTemplate.tid
+
+tiddler: ../../Plugins/tdocsAddTabs.js
+
+tiddler: ../content/StatusDefinitions.tid
+#tiddler: ../content/Create%20New%20Document.tid
+#tiddler: ../content/TiddlyDocs%20Introduction.tid
+tiddler: ../content/Settings.tid
+tiddler: ../content/UserDefinitions.tid
+tiddler: ../content/MarkupPreHead.tid
+
+tiddler: ../../content/StatusDefinitions.tid
+
