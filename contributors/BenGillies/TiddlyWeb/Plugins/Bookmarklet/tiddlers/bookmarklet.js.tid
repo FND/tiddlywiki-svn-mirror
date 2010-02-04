@@ -1,0 +1,51 @@
+modifier: None
+created: 
+modified: 20100128132014
+type: text/javascript
+tags: bookmark
+
+//create an iframe and load tiddlywiki into it
+var openTiddlyWiki = function(urlBase, path, tiddler) {
+    var css = document.createElement('link');
+    css.type = 'text/css';
+    css.rel = 'stylesheet';
+    css.href = urlBase + path + '/tiddlers/bookmarklet.css';
+    document.body.appendChild(css);
+    
+    var container = document.createElement('div');
+    container.className = 'TiddlyWikiImportContainer';
+    document.body.appendChild(container);
+    
+    var closeButton = document.createElement('a');
+    closeButton.className = 'TiddlyWikiImportCloseButton';
+    closeButton.href = 'javascript:;';
+    closeButton.innerHTML = 'X';
+    closeButton.onclick = function() {
+        //hide, don't remove
+        document.body.removeChild(css);
+        document.body.removeChild(container);
+    };
+    container.appendChild(closeButton);
+    
+    var containerTitle = document.createElement('div');
+    containerTitle.className = 'TiddlyWikiContainerTitle';
+    container.appendChild(containerTitle);
+    
+    var tiddlerLink = (tiddler) ? '#' + tiddler : '';
+    var iframe = document.createElement('iframe');
+    iframe.className = 'TiddlyWikiImportIFrame';
+    iframe.src = urlBase + path + '/tiddlers.wiki' + tiddlerLink;
+    var originalHash = window.location.hash;
+    container.appendChild(iframe);
+    
+    var titleTimer = setInterval(function() {
+        var newHash = window.location.hash;
+        var regexTitle = /^#TiddlyWikiTitle:/;
+        if ((newHash != originalHash)&&(regexTitle.test(newHash))) {
+            var iframeTitle = newHash.split(regexTitle)[1];
+            containerTitle.innerHTML = iframeTitle;
+            window.location.hash = originalHash;
+            clearTimeout(titleTimer);
+        }
+    }, 500);
+}
