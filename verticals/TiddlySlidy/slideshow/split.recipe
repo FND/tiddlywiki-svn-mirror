@@ -11,6 +11,7 @@ tiddler: TiddlyWikiCom.tiddler
 tiddler: Plugins.tiddler
 tiddler: Status.tiddler
 tiddler: Acknowledgements.tiddler
+tiddler: ThankYou.tiddler
 
 # master template demos:
 tiddler: Styling.tiddler
