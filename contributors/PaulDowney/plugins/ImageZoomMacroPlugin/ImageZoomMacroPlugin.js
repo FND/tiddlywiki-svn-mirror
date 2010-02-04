@@ -38,6 +38,10 @@ Both the image and the fullframe version may be styled using CSS.
         var src = params[0].match(/^@/) ? store.getValue(tiddler, params[0].substring(1))
 			: params[0];
 
+        if (!src) {
+            return;
+        }
+
         $(place).append($("<img>")
             .attr("src", src)
             .css('cursor', 'pointer')
