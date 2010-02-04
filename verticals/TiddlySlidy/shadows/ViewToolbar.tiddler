@@ -2,7 +2,7 @@
 <pre>
 <div class="toolbarOptions">
     <span macro="fieldSelector 'Select a master slide' theme masterSlide"></span>
-    <span class="label">Included in the presentation</span><span macro="tiddler CheckboxToggleTag with: slide notes"></span>
+    <span macro="toggleTag slide notes 'Included in the presentation'"></span>
 </div>
 <div class='toolbar'>
     <span macro='toolbar closeTiddler deleteTiddler editTiddler'></span>

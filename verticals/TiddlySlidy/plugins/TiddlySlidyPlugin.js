@@ -131,5 +131,27 @@ var lastSlide = '';
             tiddler.fields[field]);
     };
 
+    /*
+     *  better CheckboxToggle
+     */
+    config.macros.toggleTag = {};
+    config.macros.toggleTag.handler = function (place, macroName, params, wikifier, paramString, tiddler) {
+        var ontag = params[0] || "slide";
+        var offtag = params[1] || "notes";
+        var caption = params[2] || "";
+
+        var title = tiddler.title;
+		var checked = tiddler.isTagged(ontag);
+
+        return createTiddlyCheckbox(place, caption, checked, function () {
+            checked = this.checked;
+            store.setTiddlerTag(title, checked, ontag);
+            store.setTiddlerTag(title, !checked, offtag);
+            config.extensions.MainMenuUpdate(title, checked ? title : null);
+            return false;
+        });
+    };
+
+
 })(jQuery);
 //}}}
