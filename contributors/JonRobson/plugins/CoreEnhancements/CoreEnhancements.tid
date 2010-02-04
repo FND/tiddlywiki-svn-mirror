@@ -105,7 +105,8 @@ don't make it a target ='_blank'! use config.options.chkOpenInNewWindow
 18) addCustomFields (ticketed)
 allow user to override core settings
 
-19) [[:title]] in a ViewTemplate places the title
+19) tiddler transclusion in a template
+eg. [[:title]] in a ViewTemplate places the title
 attempting by hacking getRecursiveTiddlerText
 
 */
@@ -406,7 +407,7 @@ config.commands.saveTiddlerWithoutOverwriting={
     }
   }
 }
-
+/* tiddler transclusion */
 Story.prototype.getTemplateForTiddler = function(title,template,tiddler)
 {
   var matcher = function(match,field){
@@ -415,7 +416,7 @@ Story.prototype.getTemplateForTiddler = function(title,template,tiddler)
     else return "";
   }
 	var text= store.getRecursiveTiddlerText(template,null,10);
-	return text.replace(/\[\[:([^\]]*)\]\]/,matcher);;
+	return text.replace(/\[\[:([^\]]*)\]\]/gi,matcher);;
 };
 
 

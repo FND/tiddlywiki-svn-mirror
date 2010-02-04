@@ -277,7 +277,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
     		    saver(name);
 		    }
 		    var suggestions = config.locationData;
-		    var options = {matchContains: true,selectFirst:false,matchContains:true};
+		    var options = {selectFirst:false,matchContains:true};
 		    if(!initial)initial = "{type name of place}";
 		    var ac = jQuery("<input type='text' value=\""+initial+"\"/>").autocomplete(suggestions,options).result(handler).appendTo(place);
             var keysSinceQuery =0;
@@ -516,8 +516,8 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 		}
 		,createSearchBox: function(place,fieldName,values,initialValue,action){
 		    var whatyousee=[];
-			var whatyousave = {};
-			for(var i=0; i < values.length; i ++){
+        var whatyousave = {};
+        for(var i=0; i < values.length; i ++){
 			    if(values[i] != ""){
     			    var name_value = values[i].split(":");
     			    var name = name_value[0];
@@ -530,7 +530,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
     			    whatyousave[name] = value;
     			    if(initialValue == value) initialValue = name;
 			    }
-			}
+			  }
 			var handler = function(event,targets){
 			    
 			    if(targets.length == 0) return;
