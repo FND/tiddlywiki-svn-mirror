@@ -143,13 +143,17 @@ var lastSlide = '';
         var title = tiddler.title;
 		var checked = tiddler.isTagged(ontag);
 
-        return createTiddlyCheckbox(place, caption, checked, function () {
+        createTiddlyCheckbox(place, "", checked, function () {
             checked = this.checked;
             store.setTiddlerTag(title, checked, ontag);
             store.setTiddlerTag(title, !checked, offtag);
             config.extensions.MainMenuUpdate(title, checked ? title : null);
             return false;
         });
+
+        var id = story.tiddlerId(title) + "Toggle" + ontag;
+        $(place).find('input').attr('id', id);
+        $('<label for=' + id + '>' + caption + '</label>').appendTo(place);
     };
 
 
