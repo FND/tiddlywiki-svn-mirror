@@ -9,3 +9,6 @@ My job:
 Comments:
 
 " textRows:10 tags:specialComment,brilliant,amazing fields:"testField:done foo:bar" inheritedFields:"healthy,food,nonExistent" dateFormat:"MMM DD hh:0mm">>
+
+You can include a comments count in the heading using %c and you can make the heading toggle comments display with expandHeading:true (which defaults to not showing comments):
+<<comments heading:"Comments (%c)" expandHeading:true>>

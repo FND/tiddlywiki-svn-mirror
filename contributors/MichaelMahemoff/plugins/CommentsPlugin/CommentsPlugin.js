@@ -70,13 +70,18 @@ handler: function(place,macroName,params,wikifier,paramString,tiddler) {
 
 buildCommentsArea: function(rootTiddler, place, macroParams) {
   var commentsArea = createTiddlyElement(place, "div", null, "comments");
-  var heading = getParam(macroParams, "heading");
-  if (heading) createTiddlyElement(commentsArea, "h1", null, null, heading);
+  var headingEl, heading = getParam(macroParams, "heading") || "";
+  heading = heading.replace("%c",
+    config.macros.comments.findCommentsFromRoot(rootTiddler).length);
+  console.log(rootTiddler);
+  if (heading) headingEl = createTiddlyElement(commentsArea, "h1", null, null, heading);
+
   var comments = createTiddlyElement(commentsArea, "div", null, "");
   place.commentsEl = comments;
 
+    var newCommentArea;
   if (cmacro.editable(macroParams)) {
-    var newCommentArea = createTiddlyElement(commentsArea, "div", null, "newCommentArea", "New comment:");
+    newCommentArea = createTiddlyElement(commentsArea, "div", null, "newCommentArea", "New comment:");
     cmacro.forceLoginIfRequired(params, newCommentArea, function() {
       var newCommentEl = cmacro.makeTextArea(newCommentArea, macroParams);
       // var addComment = createTiddlyElement(newCommentArea, "button", null, "addComment button", "Add Comment");
@@ -86,6 +91,17 @@ buildCommentsArea: function(rootTiddler, place, macroParams) {
         cmacro.refreshCommentsFromRoot(comments, rootTiddler, macroParams);
       }, "addComment button");
     });
+  }
+
+  var expandHeading = getParam(macroParams, "expandHeading");
+  if (expandHeading && expandHeading.toLowerCase()=="true") {
+    var expandableElements
+    var $expandables = jQuery([place.commentsEl,newCommentArea]).hide();
+    jQuery(headingEl)
+      .append("<span id='expandPrompt'> &raquo;</span>")
+      .addClass("expander").click(function() {
+        $expandables.toggle();
+      });
   }
 
 },
@@ -546,7 +562,7 @@ function log() { if (console && console.firebug) console.log.apply(console, argu
 .newCommentArea { margin-top: 0.5em; }
 
 .clearance { clear: both; }
-
+.expander { cursor: pointer; }
 
 !(end of StyleSheet)
 
