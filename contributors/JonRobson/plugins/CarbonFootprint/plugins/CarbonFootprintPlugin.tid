@@ -39,8 +39,8 @@ config.macros.CarbonFootprintForm ={
     "pc": {prefix: "... you could have run a PC for ", kgMultiplier:1/(0.06*24), suffix: " days",decimals:0 },//http://technology.timesonline.co.uk/tol/news/tech_and_web/article5489134.ece
     "circumnavigate": {prefix:"... you could have circumnavigated the globe in a plane ",kgMultiplier:1/4496.43295, suffix:" times."}, //world is 40,075.16 kilometers in a plane 0.1122kg co2 per km
     
-    "BT travel": {prefix: "... you have contributed to ",kgMultiplier:1/50000000,decimals:10,suffix:"% of all the co2 BT people will produce this year through business travel"},
-    "BT CF": {prefix:"... you have contributed to ",kgMultiplier:1/900000000,decimals:10,suffix: "% of BT's worldwide carbon footprint for a year"},
+    "BT_travel": {prefix: "... you have contributed to ",kgMultiplier:1/50000000,decimals:10,suffix:"% of all the co2 BT people will produce this year through business travel"},
+    "BT_CF": {prefix:"... you have contributed to ",kgMultiplier:1/900000000,decimals:10,suffix: "% of BT's worldwide carbon footprint for a year"},
     "madehomehubs":{prefix:"...could have manufactured and distributed ", kgMultiplier:1/18, suffix:" BT homehubs"},
     "bthomehub":{prefix:"... you could have run a BT homehub for ", kgMultiplier:1/44,suffix:" years"},
     "co2today":{prefix:"... you have contributed the same amount as ", kgMultiplier:1/25,suffix:" people will today (the total UK emissions today will correspond to about 25kg of Co2 per person)"},
@@ -147,14 +147,15 @@ config.macros.CarbonFootprintForm ={
     var frame = "<div class='calculator'></div>"
     var html =macro.templates.basicFrame;
     var shareArea =     "<a href='#' class='codeLink' style='display:none'>Share</a>"+
-        "<div class='codeArea' style='display:none'>" +config.macros.CarbonFootprintForm.codemsg +" <br\><textarea class='code' ></textarea></div>";
+        "<div class='codeArea' style='display:none'>" +config.macros.CarbonFootprintForm.codemsg +" <br\><textarea class='code' ></textarea> <a href='javascript:void' class='hider'>hide</a> </div>";
       
     var carbonForm = "<form>"+
           "<div class='formHeader'>"+
             "<div class='content'>"+
               "<div class='meeting1'>"+
                 "<h1>"+lingo.meeting+"</h1>"+
-                "<div class='meetingpretext'>"+lingo.meetingPretext + "</div>"+
+                "<div class='meetingpretext'>"+lingo.meetingPretext +
+                "</div>"+
               "</div>"+
               "<div class='meeting2'>"+
                 "<div class='meetinglocation'>"+lingo.meetingPrompt+
@@ -176,9 +177,8 @@ config.macros.CarbonFootprintForm ={
               "</div>"+
               "<input type='button' class='addParticipant' value='add participant'/>"+
               "<div class='separator'></div>"+
-              "<input type='button' class='clearform' value='New meeting'/>"+
               "<input type='button' class='generator' value='CALCULATE'>"+
-              "<div class='footer'><a href='#' class='loadData'>Load from code</a></div>"+
+              "<div class='footer'><a href='#' class='loadData'>Load from code</a><a href='#' class='clearform'>New meeting</a></div>"+
           "</div>"+
           "</div>"+
         "</form>";
@@ -198,8 +198,12 @@ config.macros.CarbonFootprintForm ={
     jQuery(".carbonArea").html(carbonForm);
     jQuery(".shareArea").html(shareArea);
     jQuery(".clearform",place).click(function(e){
-      story.closeTiddler(tiddler.title);
-      story.displayTiddler(null,tiddler.title);
+      if(tiddler){
+        story.closeTiddler(tiddler.title);
+        story.displayTiddler(null,tiddler.title);
+      }
+      refreshAll();
+      
     });
     var macro = config.macros.CarbonFootprintForm;
     
@@ -296,7 +300,7 @@ config.macros.CarbonFootprintForm ={
       var damage=damage.toFixed(decimals);
       if(damage != 0){
         factsHtml += "<div class='fact' name='fact_"+i+"'><span>"+ fact.prefix + damage + fact.suffix+"</span></div>";
-        iconHtml +="<div class='icon' updates='fact_"+i+"'></div>";
+        iconHtml +="<div class=\"icon icon_"+i+"\" updates='fact_"+i+"'></div>";
       }
     }
     iconHtml += "<div class='divider'></div>"
@@ -363,6 +367,9 @@ config.macros.CarbonFootprintForm ={
     }
     updateShareArea(resultElement)
     link.click(codePopUp);
+    jQuery(".hider",resultElement).click(function(){
+      jQuery(".codeArea",resultElement).css({"display":"none"});
+    })
     result.totalCarbon =totalcft;
     result.totalCost = totalcost
     
@@ -576,25 +583,36 @@ config.macros.CarbonFootprintForm ={
 };
 
 jQuery("body").append("<a id='magic'>magic button</a>");
-jQuery("#magic").click(function(){
+(function($) {
+
+	$.fn.konami = function(callback, code) {
+		if(code == undefined) code = "38,38,40,40,37,39,37,39,66,65";
+		
+		return this.each(function() {
+			var kkeys = [];
+			$(this).keydown(function(e){
+				kkeys.push( e.keyCode );
+				if ( kkeys.toString().indexOf( code ) >= 0 ){
+					$(this).unbind('keydown', arguments.callee);
+					callback(e);
+				}
+			}, true);
+		});
+	}
+
+})(jQuery);
+
+
+var konamicode =function(){
   var place = jQuery(".calculator")[0];
-  config.macros.CarbonFootprintForm.printSummary(place,{
-    codeString: "Xxx",
-    totalKms:{
-      "train (international eg.Eurostar)": 20000000,
-      "car (unknown fuel)":500000000
-    },
-    totalKmsPerson:{
-      "dave": 50000000,
-      "francis":40000000000
-    },
-      journeys:{
-        "dave": ['paris','berlin','london'],
-        "francis": ["london","new york"]
-      }
-    
-  });
-})
+  config.macros.CarbonFootprintForm.printSummary(place,({totalKms:{'car (unknown fuel)':101510.7659342878, 'plane (long-haul international)':73667.27872696871}, codeString:"Verminous Skumm||Tokyo||plane (long-haul international)::Captain Pollution||San Francisco||car (unknown fuel)||Vancouver, Canada||plane (long-haul international)||Cape town, South Africa||car (unknown fuel)||Paris||plane (long-haul international)::Sky Sludge||Beijing||plane (long-haul international)||Moscow||car (unknown fuel)||Cape Town, South Africa||car (unknown fuel)||New York||car (unknown fuel)::Looten Plunder||Moscow||plane (long-haul international)||Rome, Italy||car (unknown fuel)::Duke Nukem||Manila||plane (long-haul international)||Kuala Lumpur||car (unknown fuel)::copenhagen", totalKmsPerson:{'Duke Nukem':4474.155011353305, 'Looten Plunder':1156.1358435757438, 'Sky Sludge':13032.255849480058, 'Captain Pollution':8237.229918122099, 'Verminous Skumm':1952.075382108249}, meetingLocation:"copenhagen", journeys:{'Duke Nukem':["Manila", "Kuala Lumpur", "copenhagen"], 'Looten Plunder':["Moscow", "Rome, Italy", "copenhagen"], 'Sky Sludge':["Beijing", "Moscow", "Cape Town, South Africa", "New York", "copenhagen"], 'Captain Pollution':["San Francisco", "Vancouver, Canada", "Cape town, South Africa", "Paris", "copenhagen"], 'Verminous Skumm':["Tokyo", "copenhagen"]}, codeStringEncoded:"1449489005?1768845173?1931498347?1970105724?2085908331?2037349500?1886151022?1696606316?1869506349?1751217516?543780468?1701998177?1953066862?1634478394?977494384?1952541038?542142316?1819636841?1869511804?1398894112?1181901166?1667855203?1870429283?1634869288?1970170734?1870097952?1718969708?696024150?1634624367?1970693490?740311905?1851876449?2088530028?1634624800?678195054?1731029089?1970020457?1853121906?1851880553?1869504876?696024131?1634755872?1953462126?740316015?1970563104?1097233001?1667333244?1667330592?678784619?1852798830?543585637?1814658172?1348563561?1937538160?1818324581?539520111?1852255592?1635085344?1768846437?1919836532?1768910433?1814641210?1399552288?1399616868?1734704252?1113942378?1768843132?2087742561?1852121128?1819242087?761815413?1814063470?1952805486?1635019119?1851878441?2088521071?1935896439?2088526689?1914710133?1852534383?2003705958?1969581097?2088518497?1885675604?1870097964?542338933?1952981057?1718774115?1635548259?1634869288?1970170734?1870097952?1718969708?696024142?1702305881?1869769596?2086887794?539522414?1802399607?1847617141?1701587258?978087791?1952804384?1349285230?1684370044?2085449587?1668249468?2087742561?1852121128?1819242087?761815413?1814063470?1952805486?1635019119?1851878441?2088522351?1835346976?1232363884?2038201443?1634869288?1970170734?1870097952?1718969708?691681860?1969972512?1316318053?1836874829?1634625900?1635548272?1818324581?539520111?1852255592?1635085344?1768846437?1919836532?1768910433?1814658172?1265983852?1629506677?1836086642?2088526689?1914710133?1852534383?2003705958?1969581097?976905071?1885695592?1634166126", totalCarbon:28851.852004639455, totalCost:17976.04238132215}));
+};
+jQuery(window).konami(konamicode);
+jQuery("#magic").click(konamicode);
+
+
+
+
 config.macros.CarbonFootprintForm.templates.resultScreen ="<div class='resultsBox'></div>"+
 "<div class='summaryBox'>"+
   "<div class='factsArea'></div>"+  
