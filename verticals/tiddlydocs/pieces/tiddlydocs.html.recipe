@@ -2,13 +2,10 @@ recipe: ../../../core/tiddlywiki.html.recipe
 
 tiddler: ../Plugins/newDocument.js
 tiddler: ../Plugins/saveNewSection.js
-tiddler: ../Plugins/tdocsButtons.js
-tiddler: ../Plugins/tdocsDelete.js
-tiddler: ../Plugins/tdocsDocumentTabs.js
-tiddler: ../Plugins/tdocsMenu.js
+tiddler: ../Plugins/DeleteZonePlugin.js
+tiddler: ../Plugins/DocumentTabsPlugin.js
+tiddler: ../Plugins/TableOfContentPlugin.js
 tiddler: ../Plugins/tdocsSectionButtons.js
-tiddler: ../Plugins/tdocsPreview.js
-tiddler: ../Plugins/tdocsPrint.js
 tiddler: ../Plugins/tdocsSettings.js
 tiddler: ../Plugins/HIJACK_saveOptionCookie.js
 
@@ -25,4 +22,4 @@ tiddler: ../../../contributors/PaulDowney/plugins/WikifiedMessagesPlugin/Wikifie
 tiddler: ../../../contributors/PaulDowney/plugins/FadingMessagesPlugin/FadingMessagesPlugin.js
 tiddler: ../../../contributors/EricShulman/plugins/TaggedTemplateTweak.js
 
-tiddler: ../content/Create New Document.tid
+tiddler: ../content/Create%20New%20Document.tid

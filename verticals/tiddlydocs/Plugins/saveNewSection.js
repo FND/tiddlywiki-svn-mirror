@@ -1,3 +1,30 @@
+/***
+|''Name''|saveNewSection|
+|''Description''|adds the SaveNewSection Command which when added to a tiddlers toolbar commands ensures the current tiddler is a part of the active tiddlydocs table of content|
+|''Authors''|Simon McManus|
+|''Version''|0.1|
+|''Status''|stable|
+|''Source''|http://svn.tiddlywiki.org/Trunk/verticals/tiddlydocs/Plugins/saveNewSection.js|
+|''CodeRepository''|http://svn.tiddlywiki.org/Trunk/verticals/tiddlydocs/Plugins/saveNewSection.js |
+|''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
+|''Requires''||
+!Description
+
+adds the SaveNewSection Command which when added to a tiddlers toolbar commands ensures the current tiddler is a part of the active tiddlydocs table of content
+
+!Usage
+{{{
+
+add saveNewSection to the ToolbarCommands tiddler.
+
+}}}
+
+!Code
+***/
+
+//{{{
+	
+	
 config.commands.saveNewSection = {};
 config.commands.saveNewSection.find = function(needle, haystack) {
 	for(var t=0; t < haystack.length; t++) {
@@ -55,3 +82,6 @@ Story.prototype.saveNewSection = function(title, minorUpdate) {
 };
 
 //})();
+
+
+//}}}

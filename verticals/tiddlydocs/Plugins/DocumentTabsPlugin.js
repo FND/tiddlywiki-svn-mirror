@@ -1,3 +1,27 @@
+/***
+|''Name''|DocumentTabsPlugin|
+|''Description''|Provides tabs which users can use to change the current active document to any document which already exists.|
+|''Authors''|Simon McManus|
+|''Version''|0.1|
+|''Status''|stable|
+|''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
+|''Requires''||
+!Description
+
+Provides tabs which users can use to change the current active document to any document which already exists.
+
+!Usage
+{{{
+
+<<docTabs>>
+
+}}}
+
+!Code
+***/
+
+//{{{
+	
 config.macros.docTabs = {};
 config.macros.docTabs.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 	var html = '<div id="tab_wrapper" style="background-color: rgb(128, 128, 128);"><ul class="tabs" id="tab_bar" style="visibility: visible;"><li class="tab spacer"/></li></ul></div>';
@@ -88,9 +112,8 @@ config.macros.docTabsNew.switchDoc = function (title) {
 	}
 }
 
-
-config.shadowTiddlers["tdocsTabsStyles"] = store.getTiddlerText("tdocsDocumentTabs##StyleSheet");
-store.addNotification("tdocsTabsStyles", refreshStyles);
+config.shadowTiddlers["DocumentTabsPluginStyles"] = store.getTiddlerText("DocumentTabsPlugin##StyleSheet");
+store.addNotification("DocumentTabsPluginStyles", refreshStyles);
 
 //################################################################################
 //# CUSTOM STYLESHEET
@@ -117,15 +140,6 @@ a.docTabUnselected {
 	color:#555;
 }
 
-.headerForeground {
-display:none;
-}
-
-.headerShadow {
-	padding:0 2em;
-	top:28px;
-	position:relative
-}
 .newDocumentButton {
 	background:#fff;
 	border:1px solid #ccc;
@@ -144,3 +158,5 @@ display:none;
 
 !(end of StyleSheet)
 ***/
+
+//}}}

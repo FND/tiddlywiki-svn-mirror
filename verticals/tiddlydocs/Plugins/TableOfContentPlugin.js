@@ -1,30 +1,54 @@
+/***
+|''Name''|TableOfContentPlugin|
+|''Description''|macro provides a view on the table of content for the currently active document|
+|''Authors''|Simon McManus|
+|''Version''|0.1|
+|''Status''|stable|
+|''Source''|http://svn.tiddlywiki.org/Trunk/verticals/tiddlydocs/Plugins/TableOfContentPlugin.js|
+|''CodeRepository''|http://svn.tiddlywiki.org/Trunk/verticals/tiddlydocs/Plugins/TableOfContentPlugin.js |
+|''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
+|''Requires''||
+!Description
+
+macro provides a view on the table of content for the currently active document
+
+!Usage
+{{{
+
+<<TableOfContentPlugin>>
+
+}}}
+
+!Code
+***/
+
 //{{{
 	
-config.macros.docMenu={};
+config.macros.TableOfContent={};
 
-config.macros.docMenu.strip=function(s) {
+config.macros.TableOfContent.strip=function(s) {
 	return s.replace(" ",  "");
 }
 
-config.macros.docMenu.handler=function(place,macroName,params,wikifier,paramString,tiddler){
-	config.shadowTiddlers["tdocsMenuStyles"] = store.getTiddlerText("tdocsMenu##StyleSheet");
+config.macros.TableOfContent.handler=function(place,macroName,params,wikifier,paramString,tiddler){
+	config.shadowTiddlers["tdocsMenuStyles"] = store.getTiddlerText("TableOfContentPlugin##StyleSheet");
 	store.addNotification("tdocsMenuStyles", refreshStyles);
-	config.macros.docMenu.refresh(place,macroName,params,wikifier,paramString,tiddler);
+	config.macros.TableOfContent.refresh(place,macroName,params,wikifier,paramString,tiddler);
 };
 
-config.macros.docMenu.renderSpec = function(specView, spec) {
+config.macros.TableOfContent.renderSpec = function(specView, spec) {
 	window.ulCount=0;
 	window.liCount=0;
 	window.divCount=0;
 	window.sectionCount = 1;
 	jQuery(specView).empty();
-	config.macros.docMenu._renderSpec(specView, spec, []);
+	config.macros.TableOfContent._renderSpec(specView, spec, []);
 	jQuery("#ul0").NestedSortable({
 		accept: 'toc-item',
 		noNestingClass: "no-nesting",
 		helperclass: 'helper',
 		onChange: function(serialized) {
-			 window.testSpec = config.macros.docMenu.buildSpec();
+			 window.testSpec = config.macros.TableOfContent.buildSpec();
 				if(store.tiddlerExists(window.activeDocument)) {
 					var specTiddler = store.getTiddler(window.activeDocument);
 					var fields = merge(specTiddler.fields, config.defaultCustomFields);
@@ -48,24 +72,24 @@ config.macros.docMenu.renderSpec = function(specView, spec) {
 	);
 }
 
-config.macros.docMenu.buildSpec = function() {
-  return config.macros.docMenu._buildSpec(jQuery(".specView > ul > li"));
+config.macros.TableOfContent.buildSpec = function() {
+  return config.macros.TableOfContent._buildSpec(jQuery(".specView > ul > li"));
 }
 
-config.macros.docMenu._buildSpec = function (liList) {
+config.macros.TableOfContent._buildSpec = function (liList) {
 	var spec = [];
 	liList.each(function() {
 		var li=this;
 		var node = {
 			title: li.id
 		};
-		node.children = config.macros.docMenu._buildSpec(jQuery(li).children("ul").children("li"));
+		node.children = config.macros.TableOfContent._buildSpec(jQuery(li).children("ul").children("li"));
 		spec.push(node);
  	});
   return spec;
 }
  
-config.macros.docMenu._renderSpec = function(specView, spec, label) {
+config.macros.TableOfContent._renderSpec = function(specView, spec, label) {
 	var childCount=1;
 	label=label.concat([0])
 	var ul = createTiddlyElement(specView, "ul", "ul"+(window.ulCount++), "toc");
@@ -91,16 +115,16 @@ config.macros.docMenu._renderSpec = function(specView, spec, label) {
 				story.displayTiddler(this.id, this.id.replace("_div", ""), DEFAULT_VIEW_TEMPLATE,null, null, null, null,this);
 		}
 		createTiddlyText(sectionDiv, label.join(".")+"  :  "+this.title);
-		config.macros.docMenu._renderSpec(li, this.children, label);
+		config.macros.TableOfContent._renderSpec(li, this.children, label);
 	});
 }
 
-config.macros.docMenu.refresh=function(place,macroName,params,wikifier,paramString,tiddler){
+config.macros.TableOfContent.refresh=function(place,macroName,params,wikifier,paramString,tiddler){
 	if(store.tiddlerExists(window.activeDocument)) {
 		var testSpec = jQuery.parseJSON(store.getTiddlerText(window.activeDocument)).content;
 	}
 	var specView = createTiddlyElement(place, "div", "", "specView");	
-	config.macros.docMenu.renderSpec(specView, testSpec);
+	config.macros.TableOfContent.renderSpec(specView, testSpec);
 }	
 
 

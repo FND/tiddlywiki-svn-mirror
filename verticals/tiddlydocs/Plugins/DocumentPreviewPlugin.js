@@ -1,3 +1,29 @@
+/***
+|''Name''|DocumentPreviewPlugin|
+|''Description''|Provides a TiddlyWiki based preview of the current active document|
+|''Authors''|Simon McManus|
+|''Version''|0.1|
+|''Status''|not in use or active development|
+|''Source''|http://svn.tiddlywiki.org/Trunk/verticals/tiddlydocs/Plugins/DocumentPreviewPlugin.js|
+|''CodeRepository''|http://svn.tiddlywiki.org/Trunk/verticals/tiddlydocs/Plugins/DocumentPreviewPlugin.js |
+|''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
+|''Requires''||
+!Description
+
+Provides a macro <<docPreview>> which collects together the html sections of the currently active document.
+
+!Usage
+{{{
+
+<<docPreview>>
+
+}}}
+
+!Code
+***/
+
+//{{{
+	
 config.macros.docPreview = {};
 config.macros.docPreview.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 	var spec = jQuery.parseJSON(store.getTiddlerText(window.activeDocument));
@@ -25,3 +51,4 @@ config.macros.docPreview.recurse = function(html, item, level, label) {
     return html;
 };
 
+//}}}

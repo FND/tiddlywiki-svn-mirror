@@ -1,7 +1,5 @@
 uploading pictures 
 
-remove 01_jquery
-
 support dodgy formatting (characters in document names)
 
 ask jeremy about the alert which pops up when creating a new document in IE7.

@@ -1,22 +1,17 @@
 recipe: ../../core/tiddlywiki.html.recipe
 recipe: themes/MyDocs/split.recipe
 
-tiddler: Plugins/A_tiddlywebSpecifics.js
 
 tiddler: Plugins/newDocument.js
 tiddler: Plugins/saveNewSection.js
-tiddler: Plugins/tdocsButtons.js
-tiddler: Plugins/tdocsDelete.js
-tiddler: Plugins/tdocsDocumentTabs.js
-tiddler: Plugins/tdocsMenu.js
+tiddler: Plugins/DeleteZonePlugin.js
+tiddler: Plugins/DocumentTabsPlugin.js
+tiddler: Plugins/TableOfContentPlugin.js
 tiddler: Plugins/tdocsSectionButtons.js
-tiddler: Plugins/tdocsPreview.js
-tiddler: Plugins/tdocsPrint.js
 tiddler: Plugins/tdocsSettings.js
 tiddler: Plugins/tdocsCKEditorSettings.js
 tiddler: Plugins/HIJACK_saveOptionCookie.js
 
-tiddler: jquery/01_jQuery.js
 tiddler: jquery/09_iNestedSortable.js
 tiddler: jquery/JSON.js
 

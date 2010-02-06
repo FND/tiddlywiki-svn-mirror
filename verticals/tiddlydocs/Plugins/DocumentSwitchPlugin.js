@@ -1,3 +1,27 @@
+/***
+|''Name''|tdocsDocumentSwitch|
+|''Description''|Provides a drop down list which users can use to change the current active document to any document which already exists.|
+|''Authors''|Simon McManus|
+|''Version''|0.1|
+|''Status''|stable|
+|''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
+|''Requires''||
+!Description
+
+Provides a drop down list which users can use to change the current active document to any document which already exists.
+
+!Usage
+{{{
+
+<<docSwitcher>>
+
+}}}
+
+!Code
+***/
+
+//{{{
+
 config.macros.docSwitcher = {};
 config.macros.docSwitcher.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 	var values = store.getTaggedTiddlers('document');
@@ -20,3 +44,4 @@ config.macros.docSwitcher.setDropDownMetaData = function(ev) {
 	refreshAll();
 }
 
+//}}}

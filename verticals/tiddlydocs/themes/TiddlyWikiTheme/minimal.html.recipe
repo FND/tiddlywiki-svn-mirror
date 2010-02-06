@@ -4,17 +4,18 @@ tiddler: SiteSubtitle.tid
 tiddler: MainMenu.tid
 tiddler: StyleSheet.tid
 tiddler: EditTemplate.tid
+tiddler: ViewTemplate.tid
 tiddler: ToolbarCommands.tid
 tiddler: NewSectionTemplate.tid
+tiddler: PageTemplate.tid
 
-tiddler: ../../Plugins/tdocsAddTabs.js
-
-tiddler: ../content/StatusDefinitions.tid
-#tiddler: ../content/Create%20New%20Document.tid
-#tiddler: ../content/TiddlyDocs%20Introduction.tid
-tiddler: ../content/Settings.tid
-tiddler: ../content/UserDefinitions.tid
-tiddler: ../content/MarkupPreHead.tid
+tiddler: ../../Plugins/DocumentTabsPlugin.js
 
 tiddler: ../../content/StatusDefinitions.tid
+#tiddler: ../../content/Create%20New%20Document.tid
+#tiddler: ../../content/TiddlyDocs%20Introduction.tid
+tiddler: ../../content/Settings.tid
+tiddler: ../../content/UserDefinitions.tid
+tiddler: ../../content/MarkupPreHead.tid
+
 

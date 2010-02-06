@@ -1,11 +1,7 @@
-tiddler: ../content/Create%20New%20Document.tid
-
-
-
+#tiddler: ../content/Create%20New%20Document.tid
 
 recipe: ../../../core/tiddlywiki.html.recipe
 
-tiddler: ../Plugins/A_tiddlywebSpecifics.js
 #tiddler: ../Plugins/tdocsCKEditorSettings.js
 
 #recipe: ../../ckeditor/split.html.recipe
