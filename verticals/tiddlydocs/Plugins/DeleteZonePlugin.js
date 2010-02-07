@@ -34,7 +34,7 @@ config.macros.deleteZone.handler = function(place,macroName,params,wikifier,para
 		div.innerHTML = "<b>Bin</b><br /><br /> <span id='bin'><li class='toc-item'>&nbsp;</li></span>";
 	div.style.height = "auto";
 	
-	jQuery("#bin").iNestedSortable({
+	jQuery("#bin").NestedSortable({
 		accept: 'toc-item',
 		noNestingClass: "no-nesting",
 		onStop : function() {
