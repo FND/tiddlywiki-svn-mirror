@@ -3,8 +3,6 @@ tags: document
 
 {
 	title: 'The Internet - Initial Draft',
-	header: 'InternetHeader',
-	footer: 'BTFooter',
 	content:[
 				{title:'Terminology', children: []},
 				{title:'History', children: [

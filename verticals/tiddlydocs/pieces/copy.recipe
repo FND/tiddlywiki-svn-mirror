@@ -4,7 +4,6 @@ tiddler: ../content/SiteTitle.tid
 tiddler: ../content/admin.tid   
 tiddler: ../content/StatusDefinitions.tid
 tiddler: ../content/AnonDefaultTiddlers.tid   
-tiddler: ../content/messageHeading.tid
 tiddler: ../content/TaskTiddlerControls.tid
 #tiddler: ../content/Create%20New%20Document.tid
 #tiddler: ../content/Michael%20Mahemoff.tid
@@ -18,4 +17,3 @@ tiddler: ../content/ToolbarCommands.tid
 tiddler: ../content/issues.tid  
 tiddler: ../content/SiteSubtitle.tid
 tiddler: ../content/UserDefinitions.tid
-tiddler: ../content/MarkupPreHead.tid
