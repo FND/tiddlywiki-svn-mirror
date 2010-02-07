@@ -4,7 +4,8 @@ tiddler: ../Plugins/newDocument.js
 tiddler: ../Plugins/saveNewSection.js
 tiddler: ../Plugins/DeleteZonePlugin.js
 tiddler: ../Plugins/DocumentTabsPlugin.js
-tiddler: ../Plugins/NewDocumentButtonPlugin.js
+tiddler: ../Plugins/WizardTemplateButtonPlugin.js
+tiddler: ../Plugins/SettingsButtonPlugin.js
 
 tiddler: ../Plugins/TableOfContentPlugin.js
 tiddler: ../Plugins/tdocsSectionButtons.js

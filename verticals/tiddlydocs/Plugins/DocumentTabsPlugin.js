@@ -143,7 +143,7 @@ html body .headerShadow, html body .headerForeground{
 .docTabset {
 	padding:1em;
 	position:relative;
-	top:2em;
+	top:0.5em;
 }
 
 

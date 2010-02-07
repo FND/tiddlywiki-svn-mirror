@@ -2,6 +2,16 @@ modifier: Simon McManus
 
 
 
-#mainMenu .btn {
+#mainMenu .button {
 float:right;
+}
+
+.newDocumentButton, .settingsButton {
+float:right;
+padding:1em;
+z-index:999;
+}
+
+.docTabset  {
+	width:70%;
 }
