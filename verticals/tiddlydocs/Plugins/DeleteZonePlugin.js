@@ -60,4 +60,28 @@ config.macros.deleteZone.find = function(wantedTitle, spec) {
 	return wantedSpec;
 }
 
+
+config.shadowTiddlers["DeleteZonePluginStyles"] = store.getTiddlerText("DeleteZonePlugin##StyleSheet");
+store.addNotification("DeleteZonePluginStyles", refreshStyles);
+
+//################################################################################
+//# CUSTOM STYLESHEET
+//################################################################################
+	
+/***
+!StyleSheet
+
+html body .deleteZoneClass{
+	background:#eee;
+	border:1px solid black;
+}
+
+
+html body .deleteZoneClass b {
+	color:#333;
+}
+!(end of StyleSheet)
+***/
+
+
 //}}}

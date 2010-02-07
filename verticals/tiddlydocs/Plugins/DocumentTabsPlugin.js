@@ -90,10 +90,6 @@ config.macros.docTabsNew.handler = function(place,macroName,params,wikifier,para
 		if(!validTab)
 			config.options[cookie] = tagged[0].title;
 		place.appendChild(wrapper);
-		var newDoc = function() {
-			story.displayTiddler(null, "Create New Document")
-		}
-		createTiddlyButton(wrapper,'Create New Document',prompt, newDoc,"newDocumentButton");
 };
 
 config.macros.docTabsNew.onTabClick = function() {
@@ -140,19 +136,14 @@ a.docTabUnselected {
 	color:#555;
 }
 
-.newDocumentButton {
-	background:#fff;
-	border:1px solid #ccc;
-	float:right;
-	top:-2.5em;
-	padding:0.5em;
-	position:relative;
-	-moz-border-radius: 5px;	
+html body .headerShadow, html body .headerForeground{
+	padding:2em 0 0 2em;
 }
 
 .docTabset {
-	position:inherit;
-	top:1px;
+	padding:1em;
+	position:relative;
+	top:2em;
 }
 
 

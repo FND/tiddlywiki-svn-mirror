@@ -7,7 +7,7 @@ modifier: Simon McManus
 <span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
 <span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
 </div>
-<div macro='docTabsNew'></div>
+<div macro='newDocumentButton'></div>
 
 
 <div class='headerForeground'>
