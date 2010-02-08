@@ -20,6 +20,12 @@ recipe: $TW_ROOT/contributors/PaulDowney/plugins/MainMenuNavigatorPlugin/MainMen
 # update MainMenu when tiddlers are changed
 recipe: $TW_ROOT/contributors/PaulDowney/plugins/MainMenuUpdatePlugin/MainMenuUpdatePlugin.recipe
 
+# current Position
+recipe: $TW_ROOT/contributors/PaulDowney/plugins/CurrentPositionPlugin/CurrentPositionPlugin.recipe
+
+# control panel knobs
+recipe: $TW_ROOT/contributors/PaulDowney/plugins/KnobPlugin/KnobPlugin.recipe
+
 # use KeyBindings for keyboard navigation
 tiddler: $TW_ROOT/contributors/PhilHawksworth/plugins/KeyBindingsPlugin/KeyBindingsPlugin.js
 

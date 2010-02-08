@@ -1,13 +1,3 @@
 <div title="ControlPanel" modifier="Paul Downey" created="200709041658" modified="200709111156" tags="excludeLists">
-<pre><html>
-    <div class="knob squeeze"><a href="javascript:story.firstTiddler()" title="First slide"><div>|&#x25c4;</div></a></div>
-    <div class="knob"><a href="javascript:story.prevTiddler()" title="Previous slide"><div>&#x25c4;</div></a></div>
-    <div class="knob stop"><a href="javascript:story.switchTheme('AuthorMode');" title="Author mode"><div>&#x25a3;</div></a></div>
-    <div class="knob help"><a href="#help" title="Help"><div>?</div></a></div>
-    <div class="knob"><a href="javascript:story.nextTiddler()" title="Next slide"><div>&#x25ba;</div></a></div>
-    <div class="knob squeeze"><a href="javascript:story.lastTiddler()" title="Last slide"><div>&#x25ba;|</div></a></div>
-    <div class="contents"><a href="#contents" title="Contents"><span class="current">3</span><span class="spacer">/</span
-><span class="total">34</span></a></div>
-    <div class="knob fullscreen"><a href="#fullscreen" title="Full screen"><div><div>F</div></div></a></div>
-</html></pre>
+<pre><<knob "|&#x25c4;" "javascript:story.firstTiddler()" "First slide">><<knob "&#x25c4;" "javascript:story.prevTiddler()" "Previous slide">><<knob "&#x25a3;" "javascript:story.switchTheme('AuthorMode');" "Author mode">><<knob "?" "#help" "Help">><<knob "&#x25ba;" "javascript:story.nextTiddler()" "Next slide">><<knob "&#x25ba;|" "javascript:story.lastTiddler()" "Last slide">><<currentPosition>><<knob "F" "#fullscreen" "Full screen" "fullscreen">></pre>
 </div>
