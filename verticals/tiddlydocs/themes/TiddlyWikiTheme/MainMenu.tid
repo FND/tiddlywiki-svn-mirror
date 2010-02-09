@@ -1,7 +1,7 @@
 modifier: Simon McManus
 
 !Table of Content
-<<newTiddler template:'NewSectionTemplate'>>
+<<newTiddler label:'New Section' template:'NewSectionTemplate'>>
 <<TableOfContent>>
 <<deleteZone>>
 

@@ -24,7 +24,9 @@ macro provides a view on the table of content for the currently active document
 
 //{{{
 	
-config.macros.TableOfContent={};
+config.macros.TableOfContent={
+	'emptyDocumentSpecPrompt':'Click the "New Section" link above to add a section to the document "'
+};
 
 config.macros.TableOfContent.strip=function(s) {
 	return s.replace(" ",  "");
@@ -42,34 +44,14 @@ config.macros.TableOfContent.renderSpec = function(specView, spec) {
 	window.divCount=0;
 	window.sectionCount = 1;
 	jQuery(specView).empty();
-	config.macros.TableOfContent._renderSpec(specView, spec, []);
+	if(spec[0]) {
+		config.macros.TableOfContent._renderSpec(specView, spec, []);
+	} else {
+		createTiddlyElement(specView, "h5", null, 'emptySpec', config.macros.TableOfContent.emptyDocumentSpecPrompt+window.activeDocument+'".');
+	}
 	jQuery("#ul0").NestedSortable({
 		accept: 'toc-item',
-		noNestingClass: "no-nesting",
-		helperclass: 'helper',
-		onChange: function(serialized) {
-			 window.testSpec = config.macros.TableOfContent.buildSpec();
-				if(store.tiddlerExists(window.activeDocument)) {
-					var specTiddler = store.getTiddler(window.activeDocument);
-					var fields = merge(specTiddler.fields, config.defaultCustomFields);
-				} else {
-					var fields = config.defaultCustomFields;
-				}
-			var spec = { format: { name: 'TiddlyDocsSpec', majorVersion:'0', minorVersion:'1' }, content: window.testSpec};
-			store.saveTiddler(window.activeDocument, window.activeDocument, jQuery.toJSON(spec), null, null, "document", fields);
-			autoSaveChanges(true, window.activeDocument);
-		},
-		autoScroll: true,
-		handle: '.toc-sort-handle'
-	});
-	jQuery(".sectionHeading").hover(
-		function() {
-			jQuery(this).addClass("draggableOn");
-		}, 
-		function() {
-			jQuery(this).removeClass("draggableOn");
-		}
-	);
+		);
 }
 
 config.macros.TableOfContent.buildSpec = function() {
@@ -96,11 +78,7 @@ config.macros.TableOfContent._renderSpec = function(specView, spec, label) {
 	jQuery.each(spec, function() {
 		label[label.length-1]++;
 	   	var li = createTiddlyElement(ul, "li", this.title, "clear-element toc-item left");
-		if(store.getTiddler(this.title)==null){
-			// these two lines should not be necessary
-			//	store.saveTiddler(this.title, this.title, config.views.wikified.defaultText, config.options.txtUserName, new Date(),"section");
-			//	autoSaveChanges(null, [this.title]);
-		}else{
+		if(store.getTiddler(this.title)!=null){
 			if(store.getTiddler(this.title).fields.tt_status == "Complete"){
 				var sectionClass = "completed"; 
 			}else{ 
@@ -152,122 +130,125 @@ config.macros.TableOfContent.refresh=function(place,macroName,params,wikifier,pa
 	width:80%;
 }
 
-	.current-nesting {
-		background-color: yellow;
-	}
-	.helper {		
-		border:2px dashed #777777;
-	}
+.current-nesting {
+	background-color: yellow;
+}
+.helper {		
+	border:2px dashed #777777;
+}
 
-	.deleteZoneClass {
-		color:#333;
-		background:#fff 
-		border:1px solid #ddd;
-		left:3em;
-		position:relative;
-		text-align:left;
-		width:91%;
-	}
-	
-	.deleteZoneClass b {
-		padding:1em;
-		color:#ddd;
-	}
+.deleteZoneClass {
+	color:#333;
+	background:#fff 
+	border:1px solid #ddd;
+	left:3em;
+	position:relative;
+	text-align:left;
+	width:91%;
+}
 
-	.deleteHelper {
-		background-color:#eee;
-		font-weight:bold;
-		border:1px solid red;
-		color:#222;
-	}
-	.sectionHeading {
-		width:100%;
-	}
-	.sort-handle-edit {
-		border:1px solid #C7C7C7;
-		background:white;
-		padding:1em;
-		margin-bottom:1em;
-	}
-	.sort-handle-edit .button {
-		border:1px solid #C7C7C7;
-		background:white !important;
-		color:black !important;
-	}
-	.draggableOn {
-		cursor:move;
-	}
+.deleteZoneClass b {
+	padding:1em;
+	color:#ddd;
+}
 
-	li.toc-item {
-		list-style:none;
-	}
-	html body #backstageShow {
-		right:1em;
-		display:none !important;
-	}
-	
-	.secretBackstage {
-		background:#E6E6E6;
-	}
+.deleteHelper {
+	background-color:#eee;
+	font-weight:bold;
+	border:1px solid red;
+	color:#222;
+}
+.sectionHeading {
+	width:100%;
+}
+.sort-handle-edit {
+	border:1px solid #C7C7C7;
+	background:white;
+	padding:1em;
+	margin-bottom:1em;
+}
+.sort-handle-edit .button {
+	border:1px solid #C7C7C7;
+	background:white !important;
+	color:black !important;
+}
+.draggableOn {
+	cursor:move;
+}
 
-	a.secretBackstage {
-		color:#E6E6E6;		
-	}
-	#backstageArea, #backstageArea a {
-		background:#444444 none repeat scroll 0 0;
-	}
+li.toc-item {
+	list-style:none;
+}
+html body #backstageShow {
+	right:1em;
+	display:none !important;
+}
 
-	#backstageArea {
-		border-bottom:1px solid #777;
-	}
+.secretBackstage {
+	background:#E6E6E6;
+}
 
-	
-	div.subtitle {
-		font-size:0.7em;
-		padding:0.5em;
-	}
-	div.title {
-		font-weight:none;
-		padding:0em 0.5em 0 0.2em;
-		color:#666;
-	}
+a.secretBackstage {
+	color:#E6E6E6;		
+}
+#backstageArea, #backstageArea a {
+	background:#444444 none repeat scroll 0 0;
+}
 
-	#buttonHolder {
-		font-size:0.9em;
-		height:100%;
-		left:-3em;
-		position:relative;
-		top:-0.7em;
-	}
-	
-	html body .btn span span {
-		background:#FFFFFF none repeat scroll 0 0;
-		border-bottom:1px solid #BBBBBB;
-		border-top:1px solid #CCCCCC;
-		border-width:1px 0;
-		color:#003366;
-		padding:3px 0.4em;
-		position:relative;
-	}
-
-	.completed {
-		border-right : 10px solid #248A22;
-	}
-
-	.incomplete {
-		border-right : 0px solid #d3bebe;
-	}
+#backstageArea {
+	border-bottom:1px solid #777;
+}
 
 
-	ul {
-		margin:0em;
-	}
-	
-	.specView {
-		position:relative;
-		left:-1.5em;
-	}
+div.subtitle {
+	font-size:0.7em;
+	padding:0.5em;
+}
+div.title {
+	font-weight:none;
+	padding:0em 0.5em 0 0.2em;
+	color:#666;
+}
 
+#buttonHolder {
+	font-size:0.9em;
+	height:100%;
+	left:-3em;
+	position:relative;
+	top:-0.7em;
+}
+
+html body .btn span span {
+	background:#FFFFFF none repeat scroll 0 0;
+	border-bottom:1px solid #BBBBBB;
+	border-top:1px solid #CCCCCC;
+	border-width:1px 0;
+	color:#003366;
+	padding:3px 0.4em;
+	position:relative;
+}
+
+.completed {
+	border-right : 10px solid #248A22;
+}
+
+.incomplete {
+	border-right : 0px solid #d3bebe;
+}
+
+
+ul {
+	margin:0em;
+}
+
+.specView {
+	position:relative;
+	left:-1.5em;
+}
+.specView h5.emptySpec {
+	position:relative;
+	left:4em;
+}
 
 !(end of StyleSheet)
 ***/

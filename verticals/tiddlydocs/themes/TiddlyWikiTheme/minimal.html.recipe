@@ -12,8 +12,8 @@ tiddler: PageTemplate.tid
 tiddler: ../../Plugins/DocumentTabsPlugin.js
 
 tiddler: ../../content/StatusDefinitions.tid
-#tiddler: ../../content/Create%20New%20Document.tid
-#tiddler: ../../content/TiddlyDocs%20Introduction.tid
+tiddler: ../../content/CreateNewDocument.tid
+#tiddler: ../../content/TiddlyDocs Introduction.tid
 tiddler: ../../content/Settings.tid
 tiddler: ../../content/UserDefinitions.tid
 

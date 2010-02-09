@@ -1,9 +1,8 @@
-#tiddler: ../content/Create%20New%20Document.tid
+
 
 recipe: ../../../core/tiddlywiki.html.recipe
 
 #tiddler: ../Plugins/tdocsCKEditorSettings.js
-
 #recipe: ../../ckeditor/split.html.recipe
 #recipe: serverSideStuff.recipe
 
@@ -12,7 +11,6 @@ recipe: includes.recipe
 recipe: tiddlydocs.html.recipe
 
 tiddler: ../documents/Doc2/Doc2.tid
-
 recipe: ../documents/TheInternet/split.recipe
 tiddler: ../themes/core_css.tid
 
