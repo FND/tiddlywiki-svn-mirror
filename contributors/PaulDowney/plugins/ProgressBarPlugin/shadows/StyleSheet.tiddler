@@ -1,0 +1,41 @@
+<div title="StyleSheet" modifier="Paul Downey" created="200709041658" tags="excludeLists">
+<pre>   
+/*{{{*/ 
+
+.progressBar ul {
+    list-style-type: none; 
+    word-spacing: 0px;
+    display: inline;
+    padding: 0px;
+}
+
+.progressBar li {
+    display: inline;
+    cursor: pointer;
+}
+
+.progressBar a {
+    display: block;
+    margin: 2px;
+    float: left;
+    font-size: 3px;
+    border: 3px solid #333;
+    line-height: 5px;
+    min-width: 5px;
+    width: 5px;
+    overflow: hidden;
+    background-color: #fff;
+    color: #fff;
+    -webkit-border-radius: 1em;
+    -moz-border-radius: 1em;
+    -border-radius: 1em;
+}
+
+.progressBar .selected {
+    background-color: #000;
+    color: #000;
+    border-color: #000;
+}
+        
+/*}}}*/
+</pre></div>
