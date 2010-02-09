@@ -3,8 +3,9 @@
 /*
  *  Theme
  */
-//config.options.txtTheme = "PresenterMode";
-config.options.txtTheme = "AuthorMode";
+//TBD: make this an option/cookie ..
+config.options.txtTheme = "PresenterMode";
+//config.options.txtTheme = "AuthorMode";
 //config.options.txtTheme = "TiddlyWikiMode";
 
 /*

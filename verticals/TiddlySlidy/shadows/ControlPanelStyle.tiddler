@@ -4,7 +4,7 @@
 
 .controls {
     font-size: 1.2em;
-    color: [[ColorPalette::PrimaryMid]];
+    color: [[ColorPalette::PrimaryDark]];
     background-color: [[ColorPalette::PrimaryPale]];
     border: 2px solid [[ColorPalette::SecondaryLight]];
     width: 600px;
@@ -57,8 +57,8 @@
 .controls .fullscreen a:hover div,
 .controls .fullscreen a:active div {
     text-decoration: none;
-    background-color: [[ColorPalette::PrimaryMid]];
-    border: 1px solid [[ColorPalette::PrimaryMid]];
+    background-color: [[ColorPalette::PrimaryDark]];
+    border: 1px solid [[ColorPalette::PrimaryDark]];
 }
 
 .controls .fullscreen a:hover div div,
@@ -70,8 +70,6 @@
 
 .knob div {
     font-weight: bolder;
-    color: [[ColorPalette::PrimaryPale]];
-    background-color: [[ColorPalette::PrimaryLight]];
     -webkit-border-radius: 1em; 
     -moz-border-radius: 1em;
     border-radius: 1em;
@@ -108,7 +106,7 @@
 }
 
 .fullscreen div {
-    border: 1px solid [[ColorPalette::PrimaryMid]];
+    border: 1px solid [[ColorPalette::PrimaryDark]];
     background-color: [[ColorPalette::PrimaryPale]];
     width: 1em;
     height: 1em;
@@ -120,14 +118,59 @@
 .fullscreen div div {
     text-indent: -300px;
     overflow: hidden;
-    background-color: [[ColorPalette::PrimaryMid]];
-    border: 1px solid [[ColorPalette::PrimaryMid]];
+    background-color: [[ColorPalette::PrimaryDark]];
+    border: 1px solid [[ColorPalette::PrimaryDark]];
     display: block;
     float: left;
     width: 50%;
     height: 50%;
 }
 
+/*
+ *  progress bar
+ */
+.progressBar {
+    display: inline-table;
+    margin: 0.25em 1em;
+}
+
+.progressBar ul {
+    list-style-type: none; 
+    word-spacing: 0px;
+    display: inline;
+}
+
+.progressBar li {
+    display: inline;
+    cursor: pointer;
+}
+
+.progressBar a {
+    display: block;
+    float: left;
+    border: 1px solid [[ColorPalette::PrimaryDark]];
+    color: [[ColorPalette::PrimaryPale]];
+    background-color: [[ColorPalette::PrimaryPale]];
+
+
+    font-size: 0.5em;
+    line-height: 1em;
+    height: 0.5em;
+    width: 0.5em;
+    margin: 0.5em 0.2em;
+    overflow: hidden;
+    -webkit-border-radius: 1em;
+    -moz-border-radius: 1em; 
+    -border-radius: 1em;
+    -webkit-box-shadow: 2px 2px 3px rgba(135, 139, 144, 0.4);
+    -moz-box-shadow: 2px 2px 3px rgba(135, 139, 144, 0.4);
+    box-shadow: 2px 2px 3px rgba(135, 139, 144, 0.4);
+}       
+
+.progressBar .selected {
+    color: [[ColorPalette::PrimaryDark]];
+    background-color: [[ColorPalette::PrimaryDark]];
+}
 
 /*}}}*/
 </pre>

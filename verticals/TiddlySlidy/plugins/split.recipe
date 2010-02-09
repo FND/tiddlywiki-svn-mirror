@@ -23,6 +23,9 @@ recipe: $TW_ROOT/contributors/PaulDowney/plugins/MainMenuUpdatePlugin/MainMenuUp
 # current Position
 recipe: $TW_ROOT/contributors/PaulDowney/plugins/CurrentPositionPlugin/CurrentPositionPlugin.recipe
 
+# progress Bar
+recipe: $TW_ROOT/contributors/PaulDowney/plugins/ProgressBarPlugin/ProgressBarPlugin.recipe
+
 # control panel knobs
 recipe: $TW_ROOT/contributors/PaulDowney/plugins/KnobPlugin/KnobPlugin.recipe
 
