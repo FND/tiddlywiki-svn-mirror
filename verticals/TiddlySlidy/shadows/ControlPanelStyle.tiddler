@@ -101,11 +101,11 @@
 .fullscreen {
     float: right;
     background-color: [[ColorPalette::PrimaryPale]];
-    margin-top: 0.2em;
+    margin-top: 0;
 }
 
 .fullscreen div {
-    border: 1px solid [[ColorPalette::PrimaryDark]];
+    border: 2px solid [[ColorPalette::PrimaryDark]];
     background-color: [[ColorPalette::PrimaryPale]];
     width: 1em;
     height: 1em;
@@ -118,7 +118,7 @@
     text-indent: -300px;
     overflow: hidden;
     background-color: [[ColorPalette::PrimaryDark]];
-    border: 1px solid [[ColorPalette::PrimaryDark]];
+    border: 2px solid [[ColorPalette::PrimaryDark]];
     display: block;
     float: left;
     width: 50%;
@@ -126,7 +126,7 @@
 }
 
 .progressBar {
-    margin-top: 0.25em;
+    margin-top: 0.3em;
 }
 
 .progressBar ul {
@@ -145,12 +145,13 @@
     display: block;
     margin: 2px;
     float: left;
-    border: 3px solid #333;
+    border: 2px solid [[ColorPalette::PrimaryDark]];
     line-height: 5px;
     min-width: 5px;
     width: 5px;
-    background-color: #fff;
-    color: #fff;
+    background-color: [[ColorPalette::PrimaryPale]];
+    color: [[ColorPalette::Foreground]];
+    padding: 0;
     -webkit-border-radius: 1em;
     -moz-border-radius: 1em;
     -border-radius: 1em;
