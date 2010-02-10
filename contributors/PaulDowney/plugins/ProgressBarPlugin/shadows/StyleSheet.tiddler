@@ -18,12 +18,10 @@
     display: block;
     margin: 2px;
     float: left;
-    font-size: 3px;
     border: 3px solid #333;
     line-height: 5px;
     min-width: 5px;
     width: 5px;
-    overflow: hidden;
     background-color: #fff;
     color: #fff;
     -webkit-border-radius: 1em;
@@ -36,6 +34,59 @@
     color: #000;
     border-color: #000;
 }
+
+/*
+ *  tooltip balloon
+ */
+.balloonHook { 
+    display: none;
+    position: relative;
+    z-index: 100;
+}
+
+.balloon {
+    position: absolute;
+    z-index: 100;
+    margin: 1em auto;
+    font-family: Constantia,Palatino,"Palatino Linotype","Palatino LT STD","Times New Roman",serif;
+    width: 15em;
+    left: -7.25em;
+    bottom: 0;
+    display: block;
+    /*opacity: 0.95;*/
+}
+
+.balloon > div {
+    background: #222;
+}
+
+.balloon .content {
+    color: #fff;
+    line-height: 1.2em;
+    padding: 1em;
+    text-align:center;
+    -moz-border-radius: 1em;
+    -webkit-border-radius: 1em;
+}
+.balloon .pointer {
+    height: 1em;
+}
+.balloon .pointer span {
+    background: #fff;   /* body background */
+    width: 49%;
+    height: 100%;
+}
+.balloon .pointer .left {
+    -moz-border-radius-topright: 1em;
+    -webkit-border-top-right-radius: 1em;
+    float: left;
+}
+.balloon .pointer .right {
+    -moz-border-radius-topleft: 1em;
+    -webkit-border-top-left-radius: 1em;
+    float: right;
+}
+
         
 /*}}}*/
 </pre></div>

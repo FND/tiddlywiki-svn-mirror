@@ -28,10 +28,11 @@
     };
 
     config.macros.progressBar = {};
-    config.macros.progressBar.handler = function (place, macroName, params) {
+    var macro = config.macros.progressBar;
+
+    macro.handler = function (place, macroName, params) {
         var list = params[0] || "MainMenu";
-        var link = params[1] || "#MainMenu";
-        var title = params[2] || "MainMenu";
+        var link = params[1] || "#";
 
         place = $('<div class="progressBar"></div>').appendTo(place)[0];
 
@@ -40,7 +41,24 @@
 
         var current = story.firstTitle();
         $(place).find('a[tiddlyLink="' + current + '"]').addClass("selected");
-        $(place).find('a').attr('title', '').html('&nbsp;');
+        macro.popup(place);
+    };
+
+    macro.popup = function (place, text) {
+        $(place).find('a').html('&nbsp;').hover(function () {
+
+            text = text || this.title;
+            $(this).append('<div class="balloonHook">' +
+                '<div class="balloon"><div class="content"></div>' +
+                '<div class="pointer"><span class="left"></span><span class="right"></span>' +
+                '</div></div>').find('.content').text($(this).attr('tiddlylink'));
+            this.title = "";
+
+            $(this).find('.balloonHook').fadeIn(100);
+        },
+        function () {
+            $(this).find('.balloonHook').fadeOut(100).remove();
+        });
     };
 
 })(jQuery);
