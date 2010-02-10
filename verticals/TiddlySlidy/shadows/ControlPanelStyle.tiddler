@@ -35,6 +35,11 @@
     border-radius: 1px;
 }
 
+.contents {
+    width: 6em;
+    text-align: center;
+}
+
 .controls a:hover div,
 .controls a:hover div div,
 .controls .contents a:hover {
