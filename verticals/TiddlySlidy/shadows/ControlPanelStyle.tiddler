@@ -13,7 +13,6 @@
     padding: 1em;
     font-family: Helvetica Neue, Arial, Helvetica, sans-serif;
     text-align: center;
-    overflow: hidden;
     -moz-border-radius: 8px;
     -webkit-border-radius: 8px;
     border-radius: 8px;
@@ -41,7 +40,7 @@
 .controls .contents a:hover {
     text-decoration: none;
     color: [[ColorPalette::Foreground]];
-    background: [[ColorPalette::Background]];
+    background-color: [[ColorPalette::Background]];
 }
 
 .controls a:active div,
@@ -126,18 +125,15 @@
     height: 50%;
 }
 
-/*
- *  progress bar
- */
 .progressBar {
-    display: inline-table;
-    margin: 0.25em 1em;
+    margin-top: 0.25em;
 }
 
 .progressBar ul {
     list-style-type: none; 
     word-spacing: 0px;
     display: inline;
+    padding: 0px;
 }
 
 .progressBar li {
@@ -147,29 +143,82 @@
 
 .progressBar a {
     display: block;
+    margin: 2px;
     float: left;
-    border: 1px solid [[ColorPalette::PrimaryDark]];
-    color: [[ColorPalette::PrimaryPale]];
-    background-color: [[ColorPalette::PrimaryPale]];
-
-
-    font-size: 0.5em;
-    line-height: 1em;
-    height: 0.5em;
-    width: 0.5em;
-    margin: 0.5em 0.2em;
-    overflow: hidden;
+    border: 3px solid #333;
+    line-height: 5px;
+    min-width: 5px;
+    width: 5px;
+    background-color: #fff;
+    color: #fff;
     -webkit-border-radius: 1em;
-    -moz-border-radius: 1em; 
+    -moz-border-radius: 1em;
     -border-radius: 1em;
-    -webkit-box-shadow: 2px 2px 3px rgba(135, 139, 144, 0.4);
-    -moz-box-shadow: 2px 2px 3px rgba(135, 139, 144, 0.4);
-    box-shadow: 2px 2px 3px rgba(135, 139, 144, 0.4);
-}       
+}
 
 .progressBar .selected {
-    color: [[ColorPalette::PrimaryDark]];
+    background-color: #000;
+    color: #000;
+    border-color: #000;
+}
+
+
+/*
+ *  tooltip balloon
+ */
+#balloonHook { 
+    display: none;
+    position: relative;
+    z-index: 100;
     background-color: [[ColorPalette::PrimaryDark]];
+}
+
+#balloonHook .balloon {
+    position: absolute;
+    z-index: 101;
+    margin: 1em auto;
+    font-family: Constantia,Palatino,"Palatino Linotype","Palatino LT STD","Times New Roman",serif;
+    width: 15em;
+    left: -7.25em;
+    bottom: 0;
+    display: block;
+    opacity: 0.95;
+}
+
+#balloonHook .balloon > div {
+    background-color: [[ColorPalette::PrimaryDark]];
+}
+
+#balloonHook .balloon .content {
+    color: [[ColorPalette::Background]];
+    background-color: [[ColorPalette::PrimaryDark]];
+    line-height: 1em;
+    padding: 1em;
+    text-align:center;
+    -moz-border-radius: 1em;
+    -webkit-border-radius: 1em;
+}
+
+#balloonHook .balloon .pointer {
+    height: 0.5em;
+}
+
+#balloonHook .balloon .pointer span {
+    background-color: [[ColorPalette::PrimaryPale]];
+    width: 49.5%;
+    height: 100%;
+}
+
+#balloonHook .balloon .pointer .left {
+    -moz-border-radius-topright: 1em;
+    -webkit-border-top-right-radius: 1em;
+    float: left;
+}
+
+#balloonHook .balloon .pointer .right {
+    -moz-border-radius-topleft: 1em;
+    -webkit-border-top-left-radius: 1em;
+    float: right;
 }
 
 /*}}}*/
