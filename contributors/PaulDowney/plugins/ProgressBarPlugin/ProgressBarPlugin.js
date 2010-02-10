@@ -60,6 +60,7 @@
         },
         function () {
             $('#balloonHook').fadeOut(100, function () {
+                $(this).remove();
             });
         });
     };
