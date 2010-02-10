@@ -105,7 +105,6 @@ config.macros.TableOfContent.refresh=function(place,macroName,params,wikifier,pa
 	config.macros.TableOfContent.renderSpec(specView, testSpec);
 }	
 
-
 //################################################################################
 //# CUSTOM STYLESHEET
 //################################################################################
@@ -199,7 +198,6 @@ a.secretBackstage {
 	border-bottom:1px solid #777;
 }
 
-
 div.subtitle {
 	font-size:0.7em;
 	padding:0.5em;
@@ -236,7 +234,6 @@ html body .btn span span {
 	border-right : 0px solid #d3bebe;
 }
 
-
 ul {
 	margin:0em;
 }
@@ -252,7 +249,5 @@ ul {
 
 !(end of StyleSheet)
 ***/
-
-function log() { if (console) console.log.apply(console, arguments); };
 
 //}}}
