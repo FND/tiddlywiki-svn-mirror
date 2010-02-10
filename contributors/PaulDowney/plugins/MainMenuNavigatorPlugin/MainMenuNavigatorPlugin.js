@@ -22,7 +22,7 @@ the MainMenu as a list of tiddlers with the "current" tiddler as the first tiddl
 //{{{
 /*jslint onevar: false nomen: false plusplus: false */
 /*global console, config, createTiddlyButton store story Story */
-(function() {
+(function($) {
     version.extensions.MainMenuNavigatorPlugin = {installed: true};
 
     /*
@@ -32,24 +32,28 @@ the MainMenu as a list of tiddlers with the "current" tiddler as the first tiddl
         var nav = config.extensions.navigation;
         nav.load();
         this.displayTiddler(null, nav.list[0]);
+        refreshElements($('#footer')[0]);
     };
 
     Story.prototype.lastTiddler = function () {
         var nav = config.extensions.navigation;
         nav.load();
         this.displayTiddler(null, nav.list[nav.list.length - 1]);
+        refreshElements($('#footer')[0]);
     };
 
     Story.prototype.nextTiddler = function () {
         var nav = config.extensions.navigation;
         nav.load();
         this.displayTiddler(null, nav.relative(1));
+        refreshElements($('#footer')[0]);
     };
 
     Story.prototype.prevTiddler = function () {
         var nav = config.extensions.navigation;
         nav.load();
         this.displayTiddler(null, nav.relative(-1));
+        refreshElements($('#footer')[0]);
     };
 
     Story.prototype.firstTitle = function () {
@@ -112,5 +116,5 @@ the MainMenu as a list of tiddlers with the "current" tiddler as the first tiddl
     };
 
     config.extensions.navigation.addButtons();
-})();
+})(jQuery);
 //}}}
