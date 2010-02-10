@@ -22,7 +22,6 @@
     line-height: 5px;
     min-width: 5px;
     width: 5px;
-    background-color: #fff;
     color: #fff;
     -webkit-border-radius: 1em;
     -moz-border-radius: 1em;
@@ -57,7 +56,7 @@
 }
 
 .balloon > div {
-    background: #222;
+    background-color: #222;
 }
 
 .balloon .content {
@@ -72,7 +71,7 @@
     height: 1em;
 }
 .balloon .pointer span {
-    background: #fff;   /* body background */
+    background-color: #fff;
     width: 49%;
     height: 100%;
 }

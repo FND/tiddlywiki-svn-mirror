@@ -41,23 +41,26 @@
 
         var current = story.firstTitle();
         $(place).find('a[tiddlyLink="' + current + '"]').addClass("selected");
-        macro.popup(place);
+        $(place).find('a').each(function () {
+            macro.popup(this, $(this).attr('tiddlylink'));
+        });
     };
 
     macro.popup = function (place, text) {
-        $(place).find('a').html('&nbsp;').hover(function () {
-
-            text = text || this.title;
-            $(this).append('<div class="balloonHook">' +
-                '<div class="balloon"><div class="content"></div>' +
-                '<div class="pointer"><span class="left"></span><span class="right"></span>' +
-                '</div></div>').find('.content').text($(this).attr('tiddlylink'));
-            this.title = "";
-
-            $(this).find('.balloonHook').fadeIn(100);
+        $(place).html('&nbsp;');
+        $(place).hover(function () {
+            $('#balloonHook').remove();
+            $(this).append('<div id="balloonHook" class="balloonHook">' +
+            '<div class="balloon"><div class="content"></div>' +
+            '<div class="pointer"><span class="left"></span><span class="right"></span>' +
+            '</div></div>')
+            .attr("title", "")
+            .find('.content').append(text);
+            $('#balloonHook').fadeIn(100);
         },
         function () {
-            $(this).find('.balloonHook').fadeOut(100).remove();
+            $('#balloonHook').fadeOut(100, function () {
+            });
         });
     };
 
