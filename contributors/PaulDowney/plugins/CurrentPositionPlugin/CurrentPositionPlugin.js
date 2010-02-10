@@ -25,8 +25,15 @@ Developed for TiddlySlidy, this Macro to displays the position of the current sl
         var symbol = params[0] || "MainMenu";
         var link = params[1] || "#MainMenu";
         var title = params[2] || "MainMenu";
-        var current = 3;
-        var total = 20;
+
+        var text = store.fetchTiddler('MainMenu').text;
+        text = text.replace(/\**\s*\[\[/g, "");
+        text = text.replace(/\]\]\s*$/, "");
+        var items = text.split(/\]\]\s*/);
+
+        var total = items.length;
+        var first = $('#tiddlerDisplay .tiddler').attr('tiddler');
+        var current = items.indexOf(first) + 1;
 
         $(  '<div class="contents">' +
             '<a href="' + link + '" title="' + title + '">' +
