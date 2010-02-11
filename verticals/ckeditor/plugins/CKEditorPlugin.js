@@ -11,6 +11,8 @@
 //{{{
 
 config.macros.editHtml = {
+	alwaysOn:true, 
+	showButton:true,
 	handler : function(place,macroName,params,wikifier,paramString,tiddler) {
 		var field = params[0];
 		var height = params[1] ? params[1] : config.options.txtFCKheight;

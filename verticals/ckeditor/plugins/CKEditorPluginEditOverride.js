@@ -14,6 +14,10 @@ var oldEditHandler = config.macros.edit.handler;
 config.macros.edit.handler = function(place,macroName,params,wikifier,paramString,tiddler)
 {
 	var editHolder = createTiddlyElement(place, "div", "editHolder");
+	if(config.macros.editHtml.alwaysOn == true) {
+		config.macros.editHtml.handler(editHolder,macroName,params,wikifier,paramString,tiddler);
+		return true;
+	}
 	if(paramString.indexOf("text") === -1)  {// if paramsString does not contain "text" 
 		oldEditHandler(editHolder,macroName,params,wikifier,paramString,tiddler);  // use old edit handler 
 	}else {  // We are dealing with the main text area 	
@@ -27,8 +31,9 @@ config.macros.edit.handler = function(place,macroName,params,wikifier,paramStrin
 		if(tiddler.text.substring(0, 6)==="<html>" || tiddler.text == config.views.editor.defaultText.format([tiddler.title])) {
 			
 //			createTiddlyButton(editHolder,'Switch to TiddlyWiki Markup', 'revert to wiki markup', markupSwitch, 'button wikiMarkupButton', null, null, {tiddlerTitle:tiddler.title});	
-			config.macros.editHtml.handler(editHolder,macroName,params,wikifier,paramString,tiddler);	
-			createTiddlyButton(editHolder, 'Revert to TiddlyWiki markup', 'revert to TiddlyWiki Markup', markupSwitch, 'wikiMarkupButton')
+			config.macros.editHtml.handler(editHolder,macroName,params,wikifier,paramString,tiddler);
+			if(config.macros.editHtml.showButton==true)
+				createTiddlyButton(editHolder, 'Revert to TiddlyWiki markup', 'revert to TiddlyWiki Markup', markupSwitch, 'wikiMarkupButton')
 		} else {
 			oldEditHandler(editHolder,macroName,params,wikifier,paramString,tiddler);  // use old edit handler 
 		}		
