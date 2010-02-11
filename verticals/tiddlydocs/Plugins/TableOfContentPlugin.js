@@ -113,7 +113,7 @@ config.macros.TableOfContent._renderSpec = function(specView, spec, label) {
 	    var sectionDiv = createTiddlyElement(li, "div", this.title+"_div", "sectionHeading toc-sort-handle "+sectionClass);	
 		sectionDiv.onclick = function() {
 			if(config.options.chkOpenEditView == true)
-				story.displayTiddler(this.id, this.id.replace("_div", ""), DEFAULT_EDIT_TEMPLATE,null, null, null, null,this);
+				story.displayTiddler(this.id, this.id.replace("_div", ""), 'TableOfContentPlugin##EditSectionTemplate',null, null, null, null,this);
 			else
 				story.displayTiddler(this.id, this.id.replace("_div", ""), DEFAULT_VIEW_TEMPLATE,null, null, null, null,this);
 		}
@@ -130,9 +130,6 @@ config.macros.TableOfContent.refresh=function(place,macroName,params,wikifier,pa
 	config.macros.TableOfContent.renderSpec(specView, testSpec);
 }	
 
-//################################################################################
-//# CUSTOM STYLESHEET
-//################################################################################
 
 /***
 !StyleSheet
@@ -273,6 +270,19 @@ ul {
 }
 
 !(end of StyleSheet)
+
+
+!EditSectionTemplate
+
+<div class='toolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
+<div class='title' macro='view title'></div>
+<div class='taskControls' macro='tiddler TaskTiddlerControls'></div>
+<div class='editor' macro='edit text'></div>
+
+!(end of EditSectionTemplate)
+
+
 ***/
+
 
 //}}}

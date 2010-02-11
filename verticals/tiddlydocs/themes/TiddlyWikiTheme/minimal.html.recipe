@@ -3,7 +3,6 @@ recipe: ../../pieces/parts.html.recipe
 tiddler: SiteSubtitle.tid
 tiddler: MainMenu.tid
 tiddler: StyleSheet.tid
-tiddler: EditTemplate.tid
 tiddler: ViewTemplate.tid
 tiddler: ToolbarCommands.tid
 tiddler: NewSectionTemplate.tid
