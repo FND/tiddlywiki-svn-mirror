@@ -12,8 +12,8 @@ tiddler: Plugins/tdocsSettings.js
 tiddler: Plugins/tdocsCKEditorSettings.js
 tiddler: Plugins/HIJACK_saveOptionCookie.js
 
-tiddler: jquery/01_jQuery.js
-tiddler: jquery/jQuery_iNestedSortable.js
+tiddler: jquery/InterfaceElements.js
+tiddler: jquery/iNestedSortable.js
 tiddler: jquery/JSON.js
 
 

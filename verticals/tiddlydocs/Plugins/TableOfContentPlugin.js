@@ -51,7 +51,32 @@ config.macros.TableOfContent.renderSpec = function(specView, spec) {
 	}
 	jQuery("#ul0").NestedSortable({
 		accept: 'toc-item',
-		);
+		noNestingClass: "no-nesting", 
+            helperclass: 'helper', 
+            onChange: function(serialized) { 
+                     window.testSpec = config.macros.TableOfContent.buildSpec(); 
+                            if(store.tiddlerExists(window.activeDocument)) { 
+                                    var specTiddler = store.getTiddler(window.activeDocument); 
+                                    var fields = merge(specTiddler.fields, config.defaultCustomFields); 
+                            } else { 
+                                    var fields = config.defaultCustomFields; 
+                            } 
+                    var spec = { format: { name: 'TiddlyDocsSpec', majorVersion:'0', minorVersion:'1' }, content: window.testSpec}; 
+                    store.saveTiddler(window.activeDocument, window.activeDocument, jQuery.toJSON(spec), null, null, "document", fields); 
+                    autoSaveChanges(true, window.activeDocument); 
+            }, 
+            autoScroll: true, 
+            handle: '.toc-sort-handle' 
+    }); 
+    jQuery(".sectionHeading").hover( 
+            function() { 
+                    jQuery(this).addClass("draggableOn"); 
+            },  
+            function() { 
+                    jQuery(this).removeClass("draggableOn"); 
+            } 
+    );
+
 }
 
 config.macros.TableOfContent.buildSpec = function() {
