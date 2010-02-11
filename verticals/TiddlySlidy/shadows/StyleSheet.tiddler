@@ -118,8 +118,12 @@ a#backstageShow {
     border: 2px solid [[ColorPalette::SecondaryLight]];
     background-color: [[ColorPalette::Background]];
     width: 640px;
-    height: 480px;
+    height: 490px;
     margin: 1em auto;
+}
+
+#slide .tiddler {
+    min-height: 480px;
 }
 
 .viewSlide {
