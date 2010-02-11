@@ -69,13 +69,16 @@ tags: systemTheme
 <!--}}}-->
 !StyleSheet
 
-[[core_css]]
+
 
 html body {
     background:#eee;
     font-face:veranda;
 }
 
+html body #tiddlerDisplay {
+	width:100%;
+}
  .header {
 	background:#ddd;
     margin:0.5em;
@@ -88,19 +91,10 @@ html body {
 }
 
 #mainMenu {
-    width:25%;
     margin-left:0.4%;
     margin-top:0.5em;
 	text-align:left;
 	color:#333;
-}
-
-#displayArea {
-	margin-left:27%;
-	width:73%;
-}
-
-#mainMenu {
 	background:white none repeat scroll 0 0;
 	border-bottom:1px solid #ddd;
 	-moz-border-radius-topleft :15px;

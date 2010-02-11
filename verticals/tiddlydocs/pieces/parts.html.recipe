@@ -13,5 +13,4 @@ recipe: tiddlydocs.html.recipe
 tiddler: ../documents/Doc2/Doc2.tid
 recipe: ../documents/TheInternet/split.recipe
 
-tiddler: ../themes/core_css.tid
 
