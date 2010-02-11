@@ -25,7 +25,9 @@ macro provides a view on the table of content for the currently active document
 //{{{
 	
 config.macros.TableOfContent={
-	'emptyDocumentSpecPrompt':'Click the "New Section" link above to add a section to the document "'
+	'emptyDocumentSpecPrompt':'Click the "New Section" link above to add a section to the document "',
+	'editTemplate':'TableOfContentPlugin##EditSectionTemplate', 
+	'viewTemplate':DEFAULT_VIEW_TEMPLATE
 };
 
 config.macros.TableOfContent.strip=function(s) {
@@ -113,9 +115,9 @@ config.macros.TableOfContent._renderSpec = function(specView, spec, label) {
 	    var sectionDiv = createTiddlyElement(li, "div", this.title+"_div", "sectionHeading toc-sort-handle "+sectionClass);	
 		sectionDiv.onclick = function() {
 			if(config.options.chkOpenEditView == true)
-				story.displayTiddler(this.id, this.id.replace("_div", ""), 'TableOfContentPlugin##EditSectionTemplate',null, null, null, null,this);
+				story.displayTiddler(this.id, this.id.replace("_div", ""), config.macros.TableOfContent.editTemplate ,null, null, null, null,this);
 			else
-				story.displayTiddler(this.id, this.id.replace("_div", ""), DEFAULT_VIEW_TEMPLATE,null, null, null, null,this);
+				story.displayTiddler(this.id, this.id.replace("_div", ""), config.macros.TableOfContent.viewTemplate,null, null, null, null,this);
 		}
 		createTiddlyText(sectionDiv, label.join(".")+"  :  "+this.title);
 		config.macros.TableOfContent._renderSpec(li, this.children, label);
