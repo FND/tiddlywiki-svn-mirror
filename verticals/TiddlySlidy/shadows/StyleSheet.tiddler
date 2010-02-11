@@ -118,7 +118,6 @@ a#backstageShow {
     border: 2px solid [[ColorPalette::SecondaryLight]];
     background-color: [[ColorPalette::Background]];
     width: 640px;
-    height: 490px;
     margin: 1em auto;
 }
 
@@ -199,6 +198,7 @@ a#backstageShow {
 #mainMenu ul {
     margin: 0;
     padding: 0;
+    list-style: none;
 }
 
 #mainMenu li {
