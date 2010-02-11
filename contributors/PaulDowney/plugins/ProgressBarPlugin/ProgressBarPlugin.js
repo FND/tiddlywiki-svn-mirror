@@ -16,7 +16,7 @@
 ***/
 //{{{
 /*jslint onevar: false nomen: false plusplus: false */
-/*global config */
+/*global config Story store story wikify */
 (function ($) {
     version.extensions.ProgressBarPlugin = {installed: true};
 
@@ -57,12 +57,13 @@
             .attr("title", "")
             .find('.content').append(text);
             $('#balloonHook').fadeIn(100);
-        },
-        function () {
+        }, function () {
             $('#balloonHook').fadeOut(100, function () {
                 $(this).remove();
+            }); 
+        }).click(function () { 
+                $('#balloonHook').remove();
             });
-        });
     };
 
 })(jQuery);
