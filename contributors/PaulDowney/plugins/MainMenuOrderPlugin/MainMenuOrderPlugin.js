@@ -236,6 +236,15 @@ if (!version.extensions.MainMenuOrderPlugin) {
     config.macros.MainMenuOrder.handler = function (place, macroName, params, wikifier, paramString) {
         config.macros.tiddler.transclude(place, "MainMenu", "");
         $("#mainMenu ul:first").dragsort({ dragEnd: config.macros.MainMenuOrder.update});
+        config.macros.MainMenuOrder.refresh();
+    };
+
+    config.macros.MainMenuOrder.refresh = function () {
+        $('#mainMenu a').removeClass('selected');
+        $('.tiddler').each(function () { 
+            var title = $(this).attr('tiddler');
+            $('#mainMenu a[tiddlylink="' + title + '"]').addClass('selected');
+        });
     };
 
 })(jQuery);
