@@ -117,17 +117,19 @@ a#backstageShow {
 #slide {
     border: 2px solid [[ColorPalette::SecondaryLight]];
     background-color: [[ColorPalette::Background]];
-    width: 640px;
     margin: 1em auto;
+    width: 640px;
+    height: 480px;
+    overflow: hidden;
 }
 
+<!--[if IE 6]>
+#slide,
 #slide .tiddler {
-    min-height: 480px;
+  height: 480px;
 }
+<![endif]-->
 
-.viewSlide {
-    min-height: 20em;
-}
 
 #thumbnail {
     margin: 1em;
@@ -172,7 +174,7 @@ a#backstageShow {
     cursor: default;
     border: 1px solid [[ColorPalette::PrimaryLight]];
     color: [[ColorPalette::Background]];
-    background: [[ColorPalette::SelectedDark]];
+    background-color: [[ColorPalette::SelectedDark]];
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0.0, [[ColorPalette::SelectedLight]]), color-stop(1.0, [[ColorPalette::SelectedDark]]));
     background: -moz-linear-gradient(top, [[ColorPalette::SelectedLight]] 0%, [[ColorPalette::SelectedDark]] 100%);
 }
