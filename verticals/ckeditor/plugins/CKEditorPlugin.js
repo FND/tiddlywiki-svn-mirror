@@ -1,13 +1,11 @@
 /***
-|''Name:''|FCKeditorPlugin|
-|''Description:''|Wysiwyg editor for TiddlyWiki using FCKeditor.|
+|''Name:''|CKeditorPlugin|
+|''Description:''|Wysiwyg editor for TiddlyWiki using CKeditor(http://ckeditor.com/).|
 |''Version:''|1.1.1|
-|''Date:''|Dec 21,2007|
+|''Date:''|Jan 01,2010|
 |''Source:''|forked from : http://visualtw.ouvaton.org/VisualTW.html to try CKEditor|
-|''Author:''|Pascal Collin|
+|''Author:''|Simon McManus|
 |''License:''|[[BSD open source license|License]]|
-|''~CoreVersion:''|2.2.0|
-|''Browser:''|Firefox 2.0; InternetExplorer 6.0, others|
 
 ***/
 //{{{

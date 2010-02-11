@@ -1,3 +1,15 @@
+/***
+|''Name:''|FCKeditorPluginEditOverride|
+|''Description:''|Overrides the tiddlywiki edit handler so that the CKEditor is used by default without having to change the editTemplate|
+|''Version:''|1.1.1|
+|''Date:''|Jan 01,2001|
+|''Source:''|forked from : http://visualtw.ouvaton.org/VisualTW.html to try CKEditor|
+|''Author:''|Simon McManus|
+|''License:''|[[BSD open source license|License]]|
+
+***/
+//{{{
+
 var oldEditHandler = config.macros.edit.handler;
 config.macros.edit.handler = function(place,macroName,params,wikifier,paramString,tiddler)
 {
@@ -13,8 +25,10 @@ config.macros.edit.handler = function(place,macroName,params,wikifier,paramStrin
 			}			
 		};
 		if(tiddler.text.substring(0, 6)==="<html>" || tiddler.text == config.views.editor.defaultText.format([tiddler.title])) {
-			createTiddlyButton(editHolder,'Switch to TiddlyWiki Markup', 'revert to wiki markup', markupSwitch, 'button wikiMarkupButton', null, null, {tiddlerTitle:tiddler.title});	
+			
+//			createTiddlyButton(editHolder,'Switch to TiddlyWiki Markup', 'revert to wiki markup', markupSwitch, 'button wikiMarkupButton', null, null, {tiddlerTitle:tiddler.title});	
 			config.macros.editHtml.handler(editHolder,macroName,params,wikifier,paramString,tiddler);	
+			createTiddlyButton(editHolder, 'Revert to TiddlyWiki markup', 'revert to TiddlyWiki Markup', markupSwitch, 'wikiMarkupButton')
 		} else {
 			oldEditHandler(editHolder,macroName,params,wikifier,paramString,tiddler);  // use old edit handler 
 		}		
@@ -33,11 +47,8 @@ store.addNotification("ckEditorStyles", refreshStyles);
 /***
 !StyleSheet
 
-.wikiMarkupButton  {
-	border:2px;
-	margin:0.5em;
-	padding:0.5em;
-}
 
 !(end of StyleSheet)
 ***/
+
+//}}}
