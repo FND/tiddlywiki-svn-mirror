@@ -22,7 +22,7 @@
 
     Story.prototype.firstTitle = function () {
         var place = this.getContainer();
-        if (place) {
+        if (place && place.firstChild && place.firstChild.getAttribute) {
             return place.firstChild.getAttribute("tiddler");
         }
     };
