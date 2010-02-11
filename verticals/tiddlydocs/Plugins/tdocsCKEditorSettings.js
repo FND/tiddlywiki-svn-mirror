@@ -22,9 +22,8 @@ Just add this tiddler to a tiddlywiki file and make sure it's tagged systemConfi
 ***/
 
 //{{{
-	
-if(typeof CKEDITOR != "undefined"){
 
+if(typeof CKEDITOR != "undefined"){
 	CKEDITOR.config.toolbar_Basic =
 	[
 	    ['Cut','Copy','Paste', 'SpellChecker'],
@@ -37,6 +36,7 @@ if(typeof CKEDITOR != "undefined"){
 	    ['Styles','Format','Font','FontSize'],
 	    ['TextColor','BGColor'],
 	];
+	CKEDITOR.config.toolbar = 'Basic';
 	CKEDITOR.config.disableNativeSpellChecker = false;
 }
 

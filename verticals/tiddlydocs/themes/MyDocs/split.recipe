@@ -6,6 +6,9 @@ tiddler: MyDocsCSSOverride.tid
 tiddler: MyDocsCSSConainer.tid
 
 
+tiddler: ../../Plugins/tdocsCKEditorSettings.js
+
+
 tiddler: ../../../../contributors/MichaelMahemoff/plugins/CommentsPlugin/CommentsPlugin.js
 tiddler: ../../../../contributors/MichaelMahemoff/lib/modal/js/jquery.modal.js
 

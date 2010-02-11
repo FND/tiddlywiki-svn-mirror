@@ -10,6 +10,7 @@ tiddler: ../Plugins/SettingsButtonPlugin.js
 tiddler: ../Plugins/TableOfContentPlugin.js
 tiddler: ../Plugins/tdocsSectionButtons.js
 tiddler: ../Plugins/tdocsSettings.js
+
 tiddler: ../Plugins/HIJACK_saveOptionCookie.js
 
 tiddler: ../../../contributors/PhilHawksworth/verticals/TeamTasks/core/plugins/ValueSwitcherPlugin.js
