@@ -105,6 +105,7 @@ a#backstageShow {
     background-color: [[ColorPalette::Background]];
     border: none;
     width: 640px;
+    min-height: 490px;
 }
 
 #footer {
@@ -120,16 +121,9 @@ a#backstageShow {
     margin: 1em auto;
     width: 640px;
     height: 480px;
+    _height: auto;
     overflow: hidden;
 }
-
-<!--[if IE 6]>
-#slide,
-#slide .tiddler {
-  height: 480px;
-}
-<![endif]-->
-
 
 #thumbnail {
     margin: 1em;
