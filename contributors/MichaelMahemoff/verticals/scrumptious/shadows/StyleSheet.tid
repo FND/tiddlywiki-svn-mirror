@@ -1,0 +1,75 @@
+modifier: mahemoff
+
+/*
+Theme - http://www.colourlovers.com/palette/60028/Night_Sky
+#001848 dark blue
+#301860 dark violet
+#483078 violet
+#604878 pink-violet
+#906090 violet-pink
+*/
+
+@font-face {
+  font-family: "punkass";
+  src: url("images/punkass_.ttf");
+}
+
+.header { text-align: center; font-size: 100%; padding: 0.7em 0; width: 100%; color: white; }
+.siteTitle { font-family: punkass, ariel, helvetica, sans serif; text-shadow: black 1px 1px 0; font-size: 5em; }
+.siteSubtitle { font-weight: bold; font-family: times new roman, serif; }
+.clearance { clear: both; height: 1px; }
+#scrumptiousWrapper { text-align: center; }
+#scrumptiousMain { margin: 0 auto; width: 960px; }
+#mainMenu { width: 150px; position: static; margin: 0; padding: 0; float: left; }
+#displayArea { width: 540px; margin: 0 30px; padding: 0; text-align: left; float: left; position: static; }
+#sidebar { width: 210px; font-size: 1em; float: left; position: static; margin: 0; padding: 0; text-align: left; }
+
+#sidebar, #mainMenu { margin-top: 1em; }
+h1,h2,h3,h4,h5,h6 { border: 0; }
+
+.tabsetWrapper { font-size: 80%; overflow: hidden;}
+
+.bookmarkTiddler, .bookmarkLink { 
+  background-color: #88f;
+  filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0,StartColorStr=#9999ff,EndColorStr=#ddddff);
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#99f), to(#ddf));
+  background-image: -moz-linear-gradient(top, #99f, #ddf);
+
+  border: 1px solid #99f;
+}
+
+.bookmarkTiddler { 
+  padding: 0 10px 5px 20px;
+  -moz-border-radius: 8px; -webkit-border-radius: 8px;
+}
+
+.bookmarkTiddler:hover .button { color: #505; }
+.bookmarkTiddler .button { color: #eef; }
+.bookmarkTiddler .tagged .button { color: #505; }
+.bookmarkTiddler .comments textarea { width: 90%; }
+.bookmarkTiddler .comments h1 { color: #000; text-decoration: underline; font-size: 1em; font-weight: normal; }
+
+.tiddler .button { border: 0; text-decoration: underline; }
+/* .normalTiddler { border-top: 1px solid #99f; border-bottom: 1px solid #99f; } */
+.normalTiddler, .tagTiddler { border-left: 5px solid #add; padding-left: 15px; }
+
+.bookmarkLink { padding: 5px; color: black; margin-right: 10px; }
+.bookmarkLink a { color: black; }
+
+.scrumptiousTagging { float: none; padding: 0; background-color: white; border: 0; font-size: normal; margin-top: 1em; 
+}
+.scrumptiousTagging .bookmarkLink {
+  -moz-border-radius: 5px; -webkit-border-radius: 5px;
+}
+
+.tag, .tagg { background: #906090; 
+  color: black;
+}
+.tagg { padding: 0.2em; }
+.tagCloud { line-height: 2em; }
+.tag { padding: 0.5em; }
+.tagGroup { margin: 1em 0; }
+.taggingIntro { margin-bottom: 2em; }
+.tagCategory { font-style: italic; }
+
+.clearance { height: 1px; clear: both; }

@@ -1,0 +1,18 @@
+modifier: mahemoff
+
+<!--{{{-->
+<div class='header' macro='gradient vert [[ColorPalette::PrimaryLight]] [[ColorPalette::PrimaryDark]]'>
+  <span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
+  <span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
+</div>
+<div id="scrumptiousWrapper">
+  <div id="scrumptiousMain">
+    <div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
+    <div id='displayArea'>
+      <div id='messageArea'></div>
+      <div id='tiddlerDisplay'></div>
+    </div>
+    <div id='sidebar' refresh='content' force='true' tiddler='SideBar'></div>
+  </div>
+</div>
+<!--}}}-->

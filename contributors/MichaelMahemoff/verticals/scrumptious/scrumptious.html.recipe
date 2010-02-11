@@ -1,0 +1,43 @@
+recipe: $TW_ROOT/core/tiddlywiki.html.recipe
+
+tiddler: shadows/SiteTitle.tid
+tiddler: shadows/SiteSubtitle.tid
+tiddler: shadows/MainMenu.tid
+tiddler: shadows/StyleSheet.tid
+tiddler: shadows/trailViewTemplate.tid
+tiddler: shadows/trailEditTemplate.tid
+tiddler: shadows/bookmarkViewTemplate.tid
+tiddler: shadows/bookmarkEditTemplate.tid
+tiddler: shadows/userTagViewTemplate.tid
+tiddler: shadows/ViewTemplate.tid
+tiddler: shadows/DefaultTiddlers.tid
+tiddler: shadows/PageTemplate.tid
+tiddler: shadows/ColorPalette.tid
+tiddler: shadows/ToolbarCommands.tid
+
+# tiddler: plugins/ConfigTweaks.js
+# tiddler: plugins/Macros.js
+tiddler: plugins/zzScrumptious.js
+tiddler: plugins/scrumptiousTagging.js
+
+tiddler: tiddlers/Home.tid
+tiddler: tiddlers/Trails.tid
+tiddler: tiddlers/Bookmarks.tid
+tiddler: tiddlers/SideBar.tid
+
+# tiddler: ../../plugins/CommentsPlugin/CommentsPlugin.js
+tiddler: ../../plugins/BetterListPlugin/BetterListPlugin.js
+
+tiddler: ../../plugins/TrailPlugin/TrailPlugin.js
+
+tiddler: ../../plugins/TrailPlugin/ModalPlugin.js
+tiddler: ../../plugins/OverlayPlugin/OverlayPlugin.js
+tiddler: ../../plugins/TrailPlugin/iframe.js
+tiddler: ../../plugins/TrailPlugin/TrailPlayer.js
+tiddler: ../../plugins/TagCloud/TagCloud.js
+tiddler: ../../plugins/TagSuggest/TagSuggest.js
+
+tiddler: ../../plugins/CommentsPlugin/CommentsPlugin.js
+
+tiddler: $TW_ROOT/contributors/EricShulman/plugins/TaggedTemplateTweak.js
+tiddler: $TW_ROOT/contributors/EricShulman/plugins/SinglePageModePlugin.js

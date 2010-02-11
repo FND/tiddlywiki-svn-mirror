@@ -1,0 +1,14 @@
+modifier: mahemoff
+
+<<newTiddler label:"new bookmark" prompt:"create a new bookmark" template:bookmarkEditTemplate title:"New Bookmark" tag:"bookmark">>
+
+[[Home]]
+[[Trails]]
+[[Bookmarks]]
+<<overlay launchLabel:"Trail Player">>
+[[About]]
+
+<<search>>
+<<closeAll>>
+AdvancedOptions
+<<slider chkTiddlerTabs SideBarTabs "tiddlers »" "manage tiddlers">>
