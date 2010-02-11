@@ -59,6 +59,21 @@ merge(config.views.editor,{
  */
 config.options.chkHttpReadOnly = false;
 readOnly = false;
-showBackstage = true
+showBackstage = true;
+
+
+// key mappings
+// config.macros.keybindings.keyCodes[32] = function() { story.nextTiddler(); }; 	//space
+// config.macros.keybindings.keyCodes[46] = function() { story.nextTiddler(); };	//greater
+// config.macros.keybindings.keyCodes[44] = function() { story.prevTiddler(); };	//less
+
+config.macros.keybindings.keyCodes = {
+	32 : function() { story.nextTiddler(); },
+	46 : function() { story.nextTiddler(); },
+	44 : function() { story.prevTiddler(); },
+	104 : function() { config.macros.toggleLinearNavigation(); },
+	110 : function() { config.macros.toggleLinearNavigation(); }
+	
+};
 
 //}}}

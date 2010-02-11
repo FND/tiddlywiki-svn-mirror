@@ -21,7 +21,7 @@ var lastSlide = '';
 
 (function ($) {
 
-    // Enbale keybindings only when we are in presenter mode.
+    // Enable keybindings only when we are in presenter mode.
     Story.prototype._keybindings_switchTheme = Story.prototype.switchTheme;
     Story.prototype.switchTheme = function(theme) {
         this._keybindings_switchTheme.apply(this,arguments);
@@ -31,6 +31,11 @@ var lastSlide = '';
             config.macros.keybindings.disable();
         }
     };
+
+	// expose a function for the navigation buttons toggle.
+	config.macros.toggleLinearNavigation = function(){
+		$('div.slide-bottom a').slideToggle(100);
+	};
 
     var displayTiddler = Story.prototype.displayTiddler;
     Story.prototype.displayTiddler = function(srcElement,tiddler,template,animate,unused,customFields,toggle,animationSrc) {
@@ -94,7 +99,7 @@ var lastSlide = '';
                 var tiddler = store.createTiddler(title);
                 merge(tiddler.fields, customFields);
                 merge(tiddler.tags, tags);
-                story.displayTiddler(null, title, template, false, null, null, false, place)
+                story.displayTiddler(null, title, template, false, null, null, false, place);
                 story.focusTiddler(title,'title');
                 return false;
             }, 
