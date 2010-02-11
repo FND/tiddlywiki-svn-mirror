@@ -214,14 +214,10 @@ a#backstageShow {
     width: 90%;
 }
 
-/*
-#mainMenu li:first-of-type a {
+#mainMenu .selected {
     color: [[ColorPalette::SelectedPale]];
-}
-#mainMenu li:first-of-type {
     background-color: [[ColorPalette::PrimaryLight]];
 }
-*/
 
 h2 {
     border: none;

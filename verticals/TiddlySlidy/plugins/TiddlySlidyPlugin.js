@@ -42,6 +42,12 @@ var lastSlide = '';
         var r = displayTiddler.apply(this, arguments);
         tiddler = (tiddler instanceof Tiddler) ? tiddler : store.fetchTiddler(tiddler);
 
+        // refresh control panel
+        refreshElements($('#footer')[0]);
+
+        // update MainMenu
+        config.macros.MainMenuOrder.refresh();
+
         if (tiddler.tags.indexOf('slide') != -1) {
             $('#fullframe').remove();
             $('#contentWrapper').show();
