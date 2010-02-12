@@ -231,7 +231,7 @@
 
 .contents > a.tiddlyLink,
 .contents > a.tiddlyLink:hover {
-    padding: 0;
+    padding: 1em 0 0.5em 0;
 }
 
 .contents .spacer {
@@ -239,8 +239,8 @@
 }
 
 #contents .balloon {
+    bottom: 0.6em;
     left: -4.5em;
-    bottom: 0.7em;
 }
 
 #contentsBalloon,

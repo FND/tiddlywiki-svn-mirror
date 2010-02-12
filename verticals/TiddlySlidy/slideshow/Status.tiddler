@@ -1,8 +1,6 @@
 <div title="Status" modifier="Paul Downey" created="200801300000" tags="slide" theme="TextBoxMaster" subtitle="TiddlySlidy is alpha software with many missing [[features|Features]], including:">
 <pre>|  !Mode|!Issue  |
 | Present|TiddlyLinks not working on notes slides |
-| Present|Popup list of tiddlers on current position |
-| Present|Popup keyboard shortcuts |
 | Author|Whole page being refreshed on slide change? |
 | Author|Default tiddlers should be first slide |
 | Author|new slide cancel leaves Zombie tiddler |
@@ -12,6 +10,7 @@
 | Author|new slide template based selector |
 | Present|keyboard navigation customised from theme |
 | Author|Different images for zoom/ thumbnail |
+| Present|Popup keyboard shortcuts |
 | Present|Zooming buttons +/- keys |
 | Present|popup table of contents |
 | Present|Program Guide like grid table of contents |
