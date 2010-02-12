@@ -19,7 +19,6 @@ class PluginsLoaderReplace extends PluginsLoader
 			$newPluginContent  = str_replace("<?php", "", $pluginContent);
 		 	$newPluginContent = str_replace('new Plugin(', 'new PluginFetcher("'.$pluginPathArray[1].'",', $newPluginContent);
 			eval($newPluginContent);
-
 		}
 	}
 }
@@ -56,7 +55,7 @@ class PluginFetcher extends Plugin
 			$tiddler = array();
 		if(is_array($data)) 
 			$tiddler = array_merge_recursive($data,$tiddler);
-		if(substr($tiddler['title'], 0, 3)!="js:" && substr($tiddler['title'], 0, 13)!="jsdeprecated:"){
+		if(substr($tiddler['title'], 0, 3)!="js:" && substr($tiddler['title'], 0, 13)!="jsdeprecated:" &&  substr($tiddler['title'], 0, 7)!="jquery:" &&  substr($tiddler['title'], 0, 6)!="jslib:"&&  substr($tiddler['title'], 0, 8)!="version:"){
 			//	echo "importing tiddler: ".$tiddler['title']."\n<br/>";
 			$this->tiddlers[$tiddler['title']] = $tiddler;
  			$filePath = getcwd().'/plugins/'.$this->pluginName.'/files/importedPlugins/'.$tiddler['title'].'.tid';
@@ -65,7 +64,6 @@ class PluginFetcher extends Plugin
 	}
 	
 	public function addRecipe($path) {
-		echo 'recipe: '.$path."\n<br/>";
 		if(is_file($path))
 		{
 			$file = $this->getContentFromFile($this->preparePath($path));
@@ -77,8 +75,6 @@ class PluginFetcher extends Plugin
 		}
 	}
 	public function parseRecipeLine($line, $recipePath) {
-		
-		echo "<hr />";
 		$semi_colon_pos = stripos($line, ":");
 		$linePath = trim(substr($line, $semi_colon_pos+1));
 		$realPath = realpath($recipePath."/".$linePath);
