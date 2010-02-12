@@ -19,6 +19,7 @@ class PluginsLoaderReplace extends PluginsLoader
 			$newPluginContent  = str_replace("<?php", "", $pluginContent);
 		 	$newPluginContent = str_replace('new Plugin(', 'new PluginFetcher("'.$pluginPathArray[1].'",', $newPluginContent);
 			eval($newPluginContent);
+
 		}
 	}
 }
@@ -37,7 +38,7 @@ class PluginFetcher extends Plugin
 	}
 	
 	public function createTidFile($path, $tiddler)
-	{
+	{	
 		@mkdir(dirname($path));
 		$fhandle = fopen($path, 'w') or die("can't open file");
 		fwrite($fhandle, "created:".$tiddler['created']."\n");
@@ -49,6 +50,7 @@ class PluginFetcher extends Plugin
 	}
 	
 	public function createTiddler($data, $path=null) {
+		var_dump($data);
 		if(is_file($path))
 			$tiddler = $this->tiddlerFromFile($path);
 		else 
@@ -63,7 +65,10 @@ class PluginFetcher extends Plugin
 		}
 	}
 	
-	public function addRecipe($path) {
+	public function addRecipe($path) 
+	{
+		echo $path;
+			
 		if(is_file($path))
 		{
 			$file = $this->getContentFromFile($this->preparePath($path));
