@@ -84,20 +84,6 @@
     box-shadow: 2px 2px 3px rgba(135, 139, 144, 0.4);
 }
 
-.contents {
-    float: left;
-    font-size: 0.8em;
-    padding: 0.4em 1em 0;
-    font-weight: lighter;
-}
-
-.contents a {
-    padding: 0.3em 1em;
-}
-
-.contents .spacer {
-    padding-left: 0.3em;
-}
 
 .squeeze {
     letter-spacing: -3px; 
@@ -181,17 +167,17 @@
     display: none;
     position: relative;
     z-index: 100;
-    background-color: [[ColorPalette::PrimaryMid]];
 }
 
 #balloonHook .balloon {
     position: absolute;
     z-index: 101;
     margin: 1em auto;
+    background-color: [[ColorPalette::PrimaryPale]];
     font-family: Constantia,Palatino,"Palatino Linotype","Palatino LT STD","Times New Roman",serif;
     width: 15em;
     left: -7.25em;
-    bottom: 0;
+    bottom: 0.2em;
     display: block;
     opacity: 0.95;
 }
@@ -230,6 +216,54 @@
     -moz-border-radius-topleft: 1em;
     -webkit-border-top-left-radius: 1em;
     float: right;
+}
+
+.contents {
+    float: left;
+    font-size: 0.8em;
+    padding: 0.4em 1em 0;
+    font-weight: lighter;
+}
+
+.contents a {
+    padding: 0.3em 1em;
+}
+
+.contents > a.tiddlyLink:hover {
+    padding: 0;
+}
+
+.contents .spacer {
+    padding-left: 0.3em;
+}
+
+#contents .balloon {
+    left: -4.5em;
+    bottom: 0.7em;
+}
+
+#contentsBalloon,
+#contentsBalloon a.tiddlyLink {
+    background-color: [[ColorPalette::PrimaryMid]];
+    color: [[ColorPalette::Background]];
+    font-size: 1em;
+}
+
+#contentsBalloon a.tiddlyLink:hover {
+    color: [[ColorPalette::PrimaryMid]];
+    background-color: [[ColorPalette::Background]];
+}
+
+#contentsBalloon ul {
+    list-style: none;
+    text-align: left;
+    padding-left: 0;
+    margin-left: 0;
+    line-height: 1.8em;
+}
+
+#contentsBalloon li {
+    list-style: none;
 }
 
 /*}}}*/
