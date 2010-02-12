@@ -1,0 +1,62 @@
+<div title="SlideSorterMaster" modifier="Paul Downey" created="200801300000" tags="excludeSearch masterSlide">
+<pre>
+|''ViewTemplate''|##ViewTemplate|
+|''StyleSheet''|##StyleSheet|
+
+!ViewTemplate
+<!--{{{-->
+<h2 class="preview"><span macro="view title"></span></h2>
+<div class='viewSlide'>
+    <div class='slideSorter'>
+        <div class='title viewer'>Slides</div>
+        <div class='text viewer' macro='view text wikified'></div>
+    </div>
+</div>
+<div class="toolbarOptions">
+</div>
+<div class='toolbar'>
+    <span macro='toolbar closeTiddler'></span>
+</div>
+<!--}}}-->
+
+!StyleSheet
+/*{{{*/
+.slideSorter {
+    font-size: 4em;
+    text-align: center;
+    background-color: #E8E8E8;
+    height: 100%;
+    min-height: 400px;
+}
+
+.slideSorter .title {
+    color: #333;
+    font-weight: bolder;
+    letter-spacing: -2px;
+    font-size: 1em;
+}
+
+.slideSorter .text {
+    font-size: 0.7em;
+}
+
+.slideSorter ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border: none;
+    display: inline;
+}
+
+.slideSorter li {
+    list-style: none;
+    display: inline;
+}
+
+.slideSorter li:after {
+    content: "  ";
+}
+
+/*}}}*/
+</pre>
+</div>
