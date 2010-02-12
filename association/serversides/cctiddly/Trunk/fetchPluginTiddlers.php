@@ -19,7 +19,7 @@ class PluginsLoaderReplace extends PluginsLoader
 			$newPluginContent  = str_replace("<?php", "", $pluginContent);
 		 	$newPluginContent = str_replace('new Plugin(', 'new PluginFetcher("'.$pluginPathArray[1].'",', $newPluginContent);
 			eval($newPluginContent);
-			exit;
+
 		}
 	}
 }
@@ -83,8 +83,6 @@ class PluginFetcher extends Plugin
 		$linePath = trim(substr($line, $semi_colon_pos+1));
 		$realPath = realpath($recipePath."/".$linePath);
 		$ext = trim(end(explode(".", $line)));
-		echo "<br />";
-		echo $realPath;
 		switch ($ext) {
 			case 'recipe':
 				$path = $recipePath.'/'.str_replace('recipe: ', '', $line);
