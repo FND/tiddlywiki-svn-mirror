@@ -78,8 +78,8 @@ var lastSlide = '';
             .click(function (e) {
                 $('#contentWrapper').show();
                 var link = $(e.target).attr("tiddlyLink");
-                story.displayTiddler(null, link || lastSlide);
                 $('#fullframe').remove();
+                story.displayTiddler(null, link || lastSlide);
             });
 
         return r;
