@@ -82,12 +82,11 @@ class Plugin {
 	}
 
 	public function addRecipe($path) {
-		$file = $this->getContentFromFile($this->preparePath($path));
+ 		$file = $this->getContentFromFile($this->preparePath($path));
 		$this->parseRecipe($file, dirname($path));	
 	}
 
 	public function parseRecipe($string, $recipePath) {
-		
 		$lines = explode("\n", $string);
 		foreach($lines as $line) {
 			$this->parseRecipeLine($line, $recipePath);
