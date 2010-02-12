@@ -50,6 +50,7 @@ a#backstageShow {
 
 #sidebar {
     z-index: 0;
+    float: left;
     width: 20%;
     padding: 0;
     margin: 0;
