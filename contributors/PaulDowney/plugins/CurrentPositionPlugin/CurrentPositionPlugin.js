@@ -16,17 +16,18 @@ Developed for TiddlySlidy, this Macro to displays the position of the current sl
 ***/
 //{{{
 /*jslint onevar: false nomen: false plusplus: false */
-/*global config */
+/*global config onClickTiddlerLink store wikify */
 (function ($) {
     version.extensions.CurrentPositionPlugin = {installed: true};
 
     config.macros.currentPosition = {};
-    config.macros.currentPosition.handler = function (place, macroName, params) {
-        var symbol = params[0] || "MainMenu";
-        var tiddlylink = params[1] || symbol;
+    var macro = config.macros.currentPosition;
+    macro.handler = function (place, macroName, params) {
+        var list = params[0] || "MainMenu";
+        var tiddlylink = params[1] || list;
 
-        var text = store.fetchTiddler('MainMenu').text;
-        text = text.replace(/\**\s*\[\[/g, "");
+        var listtext = store.fetchTiddler(list).text;
+        var text = listtext.replace(/\**\s*\[\[/g, "");
         text = text.replace(/\]\]\s*$/, "");
         var items = text.split(/\]\]\s*/);
 
@@ -34,14 +35,23 @@ Developed for TiddlySlidy, this Macro to displays the position of the current sl
         var first = $('#tiddlerDisplay .tiddler').attr('tiddler');
         var current = items.indexOf(first) + 1;
 
-        $(  '<div class="contents">' +
+        $('<div id="contents" class="contents">' +
             '<a class="tiddlyLink" href="javascript:;" tiddlyLink="' + tiddlylink + '">' +
             '<span class="current">' + current + '</span>' + 
             '<span class="spacer">/</span>' +
             '<span class="total">' + total + '</span>' +
             '</a></div>'
         ).appendTo(place);
-        $(place).find('a.tiddlyLink').click(onClickTiddlerLink);
+        $(place).find('a.tiddlyLink')
+            .click(onClickTiddlerLink)
+            .each(function () {
+                if (config.macros.progressBar) {
+                    var e = $('<span id="contentsBalloon"></span>')[0];
+                    wikify(listtext, e, null, store.getTiddler(list));
+                    config.macros.progressBar.popup(this, e);
+                    $(e).find('a').attr('title', '');
+                }
+            });
     };
 
 })(jQuery);

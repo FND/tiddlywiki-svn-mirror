@@ -3,3 +3,6 @@ recipe: CurrentPositionPlugin.recipe
 recipe: tiddlers/split.recipe
 recipe: shadows/split.recipe
 recipe: test/split.recipe
+
+recipe: ../ProgressBarPlugin/ProgressBarPlugin.recipe
+tiddler: ../ProgressBarPlugin/shadows/StyleSheet.tiddler

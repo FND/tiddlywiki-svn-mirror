@@ -43,11 +43,11 @@
         $(place).find('a[tiddlyLink="' + current + '"]').addClass("selected");
         $(place).find('a').each(function () {
             macro.popup(this, $(this).attr('tiddlylink'));
+            $(this).html('&nbsp;');
         });
     };
 
     macro.popup = function (place, text) {
-        $(place).html('&nbsp;');
         $(place).hover(function () {
             $('#balloonHook').remove();
             $(this).append('<div id="balloonHook" class="balloonHook">' +
