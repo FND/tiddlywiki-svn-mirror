@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|FND|
 |''Contributors''|Chris Dent, Martin Budden|
-|''Version''|1.0.0|
+|''Version''|1.1.0|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/|
@@ -91,8 +91,9 @@ adaptor.prototype.getTiddlerList = function(context, userParams, callback) {
 	context = this.setContext(context, userParams, callback);
 	var uriTemplate = "%0/%1/%2/tiddlers%3";
 	var params = context.filters ? "?filter=" + context.filters : "";
-	if(context.format)
+	if(context.format) {
 		params = context.format + params;
+	}
 	var workspace = adaptor.resolveWorkspace(context.workspace);
 	var uri = uriTemplate.format([context.host, workspace.type + "s",
 		adaptor.normalizeTitle(workspace.name), params]);
@@ -553,16 +554,18 @@ adaptor.getRecipesCallback = function(status,context,responseText,uri,xhr)
 			context.recipes = jQuery.evalJSON(responseText);
 		} catch (ex) {
 			context.statusText = exceptionText(ex, adaptor.serverParsingErrorMessage);
-			if(context.callback)
+			if(context.callback) {
 				context.callback(context, context.userParams);
+			}
 			return;
 		}
 		context.status = true;
 	} else {
 		context.statusText = xhr.statusText;
 	}
-	if(context.callback)
+	if(context.callback) {
 		context.callback(context, context.userParams);
+	}
 };
 
 adaptor.prototype.putRecipe = function(context,userParams,callback)
