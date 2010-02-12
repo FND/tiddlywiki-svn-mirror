@@ -11,7 +11,7 @@
 //{{{
 
 config.macros.editHtml = {
-	alwaysOn:true, 
+	alwaysOn:false, 
 	showButton:true,
 	handler : function(place,macroName,params,wikifier,paramString,tiddler) {
 		var field = params[0];
