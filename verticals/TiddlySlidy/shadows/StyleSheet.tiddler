@@ -44,19 +44,17 @@ a#backstageShow {
 
 #sections {
     width: 20%;
-    position: absolute;
-    left: 0;
     padding: 2em;
+    float: left;
 }
 
 #sidebar {
+    z-index: 0;
     width: 20%;
     padding: 0;
     margin: 0;
     text-align: center;
     font-size: 1em;
-    position:absolute; 
-    right:3px;
 }
 
 #sidebarTabs .tabContents {
