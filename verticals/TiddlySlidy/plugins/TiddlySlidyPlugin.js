@@ -77,7 +77,8 @@ var lastSlide = '';
 
             .click(function (e) {
                 $('#contentWrapper').show();
-                story.displayTiddler(null, $(e.originalTarget).attr("tiddlyLink") || lastSlide);
+                var link = $(e.target).attr("tiddlyLink");
+                story.displayTiddler(null, link || lastSlide);
                 $('#fullframe').remove();
             });
 
