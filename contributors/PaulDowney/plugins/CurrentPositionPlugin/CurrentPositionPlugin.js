@@ -23,8 +23,7 @@ Developed for TiddlySlidy, this Macro to displays the position of the current sl
     config.macros.currentPosition = {};
     config.macros.currentPosition.handler = function (place, macroName, params) {
         var symbol = params[0] || "MainMenu";
-        var link = params[1] || "#MainMenu";
-        var title = params[2] || "MainMenu";
+        var tiddlylink = params[1] || symbol;
 
         var text = store.fetchTiddler('MainMenu').text;
         text = text.replace(/\**\s*\[\[/g, "");
@@ -36,12 +35,13 @@ Developed for TiddlySlidy, this Macro to displays the position of the current sl
         var current = items.indexOf(first) + 1;
 
         $(  '<div class="contents">' +
-            '<a href="' + link + '" title="' + title + '">' +
+            '<a class="tiddlyLink" href="javascript:;" tiddlyLink="' + tiddlylink + '">' +
             '<span class="current">' + current + '</span>' + 
             '<span class="spacer">/</span>' +
             '<span class="total">' + total + '</span>' +
             '</a></div>'
         ).appendTo(place);
+        $(place).find('a.tiddlyLink').click(onClickTiddlerLink);
     };
 
 })(jQuery);
