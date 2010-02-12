@@ -229,6 +229,7 @@
     padding: 0.3em 1em;
 }
 
+.contents > a.tiddlyLink,
 .contents > a.tiddlyLink:hover {
     padding: 0;
 }
