@@ -167,6 +167,7 @@
     display: none;
     position: relative;
     z-index: 100;
+    opacity: 0.9;
 }
 
 #balloonHook .balloon {
@@ -247,7 +248,7 @@
 #contentsBalloon a.tiddlyLink {
     background-color: [[ColorPalette::PrimaryMid]];
     color: [[ColorPalette::Background]];
-    font-size: 1em;
+    font-size: 1.1em;
 }
 
 #contentsBalloon a.tiddlyLink:hover {
