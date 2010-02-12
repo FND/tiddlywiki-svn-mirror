@@ -1,12 +1,12 @@
 <?php
 $cct_base = '';
 $tiddlyCfg['plugins_disabled'] =  array();
-echo 'fetching tidlers..';
 
 include_once('includes/functions.php');
 include_once('includes/tiddler.php');
 include_once('includes/pluginsClass.php');
 include_once('includes/pluginsLoaderClass.php');
+
 class PluginsLoaderReplace extends PluginsLoader
 {
 	public function includePlugins($cct_base) {
@@ -14,12 +14,12 @@ class PluginsLoaderReplace extends PluginsLoader
 		$plugins = $this->readPlugins($cct_base);
 		foreach($plugins as $plugin)
 		{
-			echo ':: reading plugin : '.$plugin."\n<br/>";
 			$pluginPathArray = explode("/", $plugin);
 			$pluginContent = file_get_contents($plugin);
 			$newPluginContent  = str_replace("<?php", "", $pluginContent);
 		 	$newPluginContent = str_replace('new Plugin(', 'new PluginFetcher("'.$pluginPathArray[1].'",', $newPluginContent);
 			eval($newPluginContent);
+			exit;
 		}
 	}
 }
@@ -56,10 +56,12 @@ class PluginFetcher extends Plugin
 			$tiddler = array();
 		if(is_array($data)) 
 			$tiddler = array_merge_recursive($data,$tiddler);
-		echo "importing tiddler: ".$tiddler['title']."\n<br/>";
-		$this->tiddlers[$tiddler['title']] = $tiddler;
- 		$filePath = getcwd().'/plugins/'.$this->pluginName.'/files/importedPlugins/'.$tiddler['title'].'.tid';
+		if(substr($tiddler['title'], 0, 3)!="js:" && substr($tiddler['title'], 0, 13)!="jsdeprecated:"){
+			//	echo "importing tiddler: ".$tiddler['title']."\n<br/>";
+			$this->tiddlers[$tiddler['title']] = $tiddler;
+ 			$filePath = getcwd().'/plugins/'.$this->pluginName.'/files/importedPlugins/'.$tiddler['title'].'.tid';
 			$this->createTidFile($filePath, $tiddler);
+		}
 	}
 	
 	public function addRecipe($path) {
@@ -75,35 +77,36 @@ class PluginFetcher extends Plugin
 		}
 	}
 	public function parseRecipeLine($line, $recipePath) {
-
-		//if(stristr($line, "../")) 
-		$semi_colon_pos = stripos($line, ":");
-		$linePath = substr($line, $semi_colon_pos+1);
-		$realPath = realpath($recipePath."/".$linePath);
 		
-			$ext = trim(end(explode(".", $line)));
-			switch ($ext) {
-				case 'recipe':
-					$path = $recipePath.'/'.str_replace('recipe: ', '', $line);
-					$this->addRecipe($path);
-				break;
-				case 'js' :
-						if($realPath && !stristr(getcwd(), $realPath) ) {
-							$tiddler['title'] = substr(basename(str_replace('tiddler: ', '', $line)), 0, -strlen($ext)-1);
-							$tiddler['tags'] = 'systemConfig';
-							$tiddler['body'] = $this->getContentFromFile(str_replace('tiddler: ', '', $recipePath.'/'.$line));
-							$this->createTiddler($tiddler);		
-						}
-				break;
-				case 'tid' :
-						if($realPath && !stristr(getcwd(), $realPath) ) {
-							$this->createTiddler($this->tiddlerFromFile($this->preparePath(str_replace('tiddler: ', '', $recipePath.'/'.$line))));	
-						}
-				break;
-				default: 
+		echo "<hr />";
+		$semi_colon_pos = stripos($line, ":");
+		$linePath = trim(substr($line, $semi_colon_pos+1));
+		$realPath = realpath($recipePath."/".$linePath);
+		$ext = trim(end(explode(".", $line)));
+		echo "<br />";
+		echo $realPath;
+		switch ($ext) {
+			case 'recipe':
+				$path = $recipePath.'/'.str_replace('recipe: ', '', $line);
+				$this->addRecipe($path);
 			break;
-			}
-				
+			case 'js' :
+				if($realPath && !stristr(getcwd(), $realPath) ) {
+					$tiddler['title'] = substr(basename(str_replace('tiddler: ', '', $line)), 0, -strlen($ext)-1);
+					$tiddler['tags'] = 'systemConfig';
+					$tiddler['body'] = $this->getContentFromFile(str_replace('tiddler: ', '', $recipePath.'/'.$line));
+					$this->createTiddler($tiddler);		
+				}
+			break;
+			case 'tid' :
+				if($realPath!=null && !stristr(getcwd(), $realPath)){
+					$this->createTiddler($this->tiddlerFromFile($this->preparePath(str_replace('tiddler: ', '', $recipePath.'/'.$line))));	
+				}
+			break;
+			default: 
+			break;
+			
+		}			
 	}
 }
 
