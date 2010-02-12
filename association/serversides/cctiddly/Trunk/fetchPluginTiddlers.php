@@ -88,16 +88,17 @@ class PluginFetcher extends Plugin
 					$this->addRecipe($path);
 				break;
 				case 'js' :
-						$tiddler['title'] = substr(basename(str_replace('tiddler: ', '', $line)), 0, -strlen($ext)-1);
-						$tiddler['tags'] = 'systemConfig';
-						$tiddler['body'] = $this->getContentFromFile(str_replace('tiddler: ', '', $recipePath.'/'.$line));
-						$this->createTiddler($tiddler);		
+						if($realPath && !stristr(getcwd(), $realPath) ) {
+							$tiddler['title'] = substr(basename(str_replace('tiddler: ', '', $line)), 0, -strlen($ext)-1);
+							$tiddler['tags'] = 'systemConfig';
+							$tiddler['body'] = $this->getContentFromFile(str_replace('tiddler: ', '', $recipePath.'/'.$line));
+							$this->createTiddler($tiddler);		
+						}
 				break;
 				case 'tid' :
-					if($realPath && !stristr(getcwd(), $realPath) ) {
-						echo "IMPORT THIS ONE : ".$realPath."<hr />";
-						$this->createTiddler($this->tiddlerFromFile($this->preparePath(str_replace('tiddler: ', '', $recipePath.'/'.$line))));	
-					}
+						if($realPath && !stristr(getcwd(), $realPath) ) {
+							$this->createTiddler($this->tiddlerFromFile($this->preparePath(str_replace('tiddler: ', '', $recipePath.'/'.$line))));	
+						}
 				break;
 				default: 
 			break;

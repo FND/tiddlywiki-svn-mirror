@@ -17,9 +17,11 @@ $tiddlyCfg['plugins_disabled'] = array(
 	"createPackages",
 	"docuweb",
  	"Portlet",
- 	"lifestream",
  	"LDAP",
+	"revisionFlip",
 	"themes",
+	"CKEditor", 
+	"TiddlyDocs",
 	"FCKEditor", 
 	"announcements",
 	"seo",
@@ -42,7 +44,7 @@ $tiddlyCfg['adminPassword'] = "";
 $tiddlyCfg['pref']['delete_other_sessions_on_login'] = 0; // deletes all previous sessions for a user when they login, set to 0 to allow multiple logins.  
 $tiddlyCfg['pref']['renew_session_on_each_request']  = 1; // if enabled will renew users session time on each save request
 $tiddlyCfg['users_required_in_db']=0; // users must be in the ccTiddly user database to log in.  designed for LDAP and OpenID, if set to 0 users do not need to be in the db
-$tiddlyCfg['can_create_account'] = 1; // users are allowed to register for an account 
+$tiddlyCfg['can_create_account'] = 0; // users are allowed to register for an account 
 $tiddlyCfg['show_register_on_login'] = 1; // (needs can create account enabled to work)
 
 // Workspaces

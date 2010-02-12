@@ -1,2 +1,5 @@
-recipe: ../../../../../../../verticals/tiddlydocs/pieces/parts.html.recipe
+#recipe: ../../../../../../../verticals/tiddlydocs/index.html.recipe
+#recipe: ../../../../../../../verticals/tiddlydocs/themes/minimal/minimal.html.recipe
+recipe: ../../../../../../../verticals/tiddlydocs/themes/TiddlyWikiTheme/minimal.html.recipe
+
 recipe: ../../../../../../../verticals/tiddlydocs/documents/TheInternet/split.recipe

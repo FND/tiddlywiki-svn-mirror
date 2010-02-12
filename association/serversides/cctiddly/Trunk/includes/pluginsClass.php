@@ -16,13 +16,17 @@ class Plugin {
 	}
 
 	public function addTiddler($data, $path=null) {
-		if(is_file($path))
+		if(is_file($path)) {
 			$tiddler = $this->tiddlerFromFile($path);
-		else 
-			$tiddler = array();
-		if(is_array($data)) 
-			$tiddler = array_merge_recursive($data,$tiddler);
-		$this->tiddlers[$tiddler['title']] = $tiddler;
+			
+		} else {
+			if(is_array($data)) 
+			{
+				$tiddler = array();
+				$tiddler = array_merge_recursive($data,$tiddler);
+				$this->tiddlers[$tiddler['title']] = $tiddler;	
+			}
+		}
 	}
 	
 	function tiddlerFromFile($file) {
@@ -78,15 +82,8 @@ class Plugin {
 	}
 
 	public function addRecipe($path) {
-		if(is_file($path))
-		{
-			$file = $this->getContentFromFile($this->preparePath($path));
-			$this->parseRecipe($file, dirname($path));	
-		} else {
-			// look for the imported folder
-			$importedPluginsPath = getcwd()."/plugins/".$this->title."/files/importedPlugins";
-			$this->addTiddlersFolder($importedPluginsPath);
-		}
+		$file = $this->getContentFromFile($this->preparePath($path));
+		$this->parseRecipe($file, dirname($path));	
 	}
 
 	public function parseRecipe($string, $recipePath) {
