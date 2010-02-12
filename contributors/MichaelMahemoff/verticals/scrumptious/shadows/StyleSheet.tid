@@ -18,6 +18,7 @@ Theme - http://www.colourlovers.com/palette/60028/Night_Sky
 .siteTitle { font-family: punkass, ariel, helvetica, sans serif; text-shadow: black 1px 1px 0; font-size: 5em; }
 .siteSubtitle { font-weight: bold; font-family: times new roman, serif; }
 .clearance { clear: both; height: 1px; }
+.title, h1, h2, h3, h4, h5, h6 { color: [[ColorPalette::PrimaryMid]]; }
 #scrumptiousWrapper { text-align: center; }
 #scrumptiousMain { margin: 0 auto; width: 960px; }
 #mainMenu { width: 150px; position: static; margin: 0; padding: 0; float: left; }
@@ -43,33 +44,44 @@ h1,h2,h3,h4,h5,h6 { border: 0; }
   -moz-border-radius: 8px; -webkit-border-radius: 8px;
 }
 
-.bookmarkTiddler:hover .button { color: #505; }
-.bookmarkTiddler .button { color: #eef; }
+.toolbar a:hover { font-weight: bold; }
+.bookmarkTiddler .button, .selected .toolbar a  { color: [[ColorPalette::PrimaryDarker]]; border: 0; background: inherit; }
+.bookmarkTiddler .button:hover, .selected .bookmarkTiddler .toolbar a:hover { color: white; }
+
 .bookmarkTiddler .tagged .button { color: #505; }
 .bookmarkTiddler .comments textarea { width: 90%; }
+.bookmarkTiddler .comments .addComment { display: block; float: left; border: 1px solid [[ColorPalette::PrimaryMid]]; padding: 2px; background: #99f; color: black; }
+.bookmarkTiddler .comments .addComment:hover { color: white; }
 .bookmarkTiddler .comments h1 { color: #000; text-decoration: underline; font-size: 1em; font-weight: normal; }
+.bookmarkTiddler .comment .heading { background: #99f; }
+.bookmarkTiddler .tag a { color: [[ColorPalette::PrimaryMid]]; }
+.bookmarkTiddler .url { font-size: 1.2em; color: #20c; }
+.bookmarkTiddler .description { font-size: 1.2em; margin-top: 0.3em; }
 
-.tiddler .button { border: 0; text-decoration: underline; }
 /* .normalTiddler { border-top: 1px solid #99f; border-bottom: 1px solid #99f; } */
 .normalTiddler, .tagTiddler { border-left: 5px solid #add; padding-left: 15px; }
 
 .bookmarkLink { padding: 5px; color: black; margin-right: 10px; }
+.scrumptiousTagging .bookmarkLink:hover, .scrumptiousTagging .bookmarkLink:hover a { background-color: #88f; color: white; background-image: none; }
 .bookmarkLink a { color: black; }
 
-.scrumptiousTagging { float: none; padding: 0; background-color: white; border: 0; font-size: normal; margin-top: 1em; 
-}
+.scrumptiousTagging { font-size: normal; margin-top: 1em; }
+.scrumptiousTags { font-size: normal; margin: 1em 0; line-height: 3em; }
+
 .scrumptiousTagging .bookmarkLink {
   -moz-border-radius: 5px; -webkit-border-radius: 5px;
 }
 
-.tag, .tagg { background: #906090; 
-  color: black;
-}
+.tag, .tagg { background: [[ColorPalette::PrimaryPale]]; }
+.tag:hover { background: [[ColorPalette::PrimaryMid]]; }
+.tag:hover a { color: white; }
+
 .tagg { padding: 0.2em; }
 .tagCloud { line-height: 2em; }
-.tag { padding: 0.5em; }
-.tagGroup { margin: 1em 0; }
+.tag { padding: 0.5em; margin: 0.5em 0.5em 0.5em 0; }
+.taggedTiddlers { margin: 1em 0 2em; }
 .taggingIntro { margin-bottom: 2em; }
-.tagCategory { font-style: italic; }
+.tagCategory { font-size: 0.8em; font-style: italic; }
 
 .clearance { height: 1px; clear: both; }
+

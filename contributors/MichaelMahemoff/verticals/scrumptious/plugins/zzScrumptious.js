@@ -26,7 +26,7 @@ config.options.chkTiddlerTabs = false;
     handler: function(place,macroName,params,wikifier,paramString,tiddler) {
       $("<div>URL: </div>").appendTo(place);
       $("<input class='bookmarkURL'/>")
-      .val(store.getTiddlerText(tiddler.title+"::url"))
+      .val(store.getTiddlerText(tiddler.title+"::url")||"")
       .keyup(function() {
         editBookmark.updateText(this);
       })
@@ -34,7 +34,7 @@ config.options.chkTiddlerTabs = false;
 
       $("<div>Description (optional): </div>").appendTo(place);
       $("<input class='bookmarkDescription'/>")
-      .val(store.getTiddlerText(tiddler.title+"##Description"))
+      .val(store.getTiddlerText(tiddler.title+"##Description")||"")
       .keyup(function() {
         editBookmark.updateText(this);
       })
@@ -49,6 +49,22 @@ config.options.chkTiddlerTabs = false;
       $bookmarkTiddler.find("textArea").val(text);
     }
   }
+
+  config.macros.bookmarkURL = {
+    handler: function(place,macroName,params,wikifier,paramString,tiddler) {
+      var url = store.getTiddlerText(tiddler.title+"::url");
+      $("<a class='url'/>").appendTo(place).attr("href", url).html(url);
+    }
+  }
+
+  config.macros.bookmarkDescription = {
+    handler: function(place,macroName,params,wikifier,paramString,tiddler) {
+      $("<div class='description'/>")
+        .appendTo(place)
+        .html(store.getTiddlerText(tiddler.title+"##Description"));
+    }
+  }
+
 
   function log() { if (console && console.log) console.log.apply(console, arguments); }
 

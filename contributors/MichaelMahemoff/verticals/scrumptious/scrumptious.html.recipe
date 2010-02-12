@@ -18,7 +18,7 @@ tiddler: shadows/ToolbarCommands.tid
 # tiddler: plugins/ConfigTweaks.js
 # tiddler: plugins/Macros.js
 tiddler: plugins/zzScrumptious.js
-tiddler: plugins/scrumptiousTagging.js
+tiddler: plugins/scrumptiousTags.js
 
 tiddler: tiddlers/Home.tid
 tiddler: tiddlers/Trails.tid
