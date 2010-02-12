@@ -75,9 +75,9 @@ var lastSlide = '';
             .css('height', Math.max($('#fullframe').height(), $(window).height()))
             .css('background-color', config.macros.imagezoom.color)
 
-            .click(function () {
+            .click(function (e) {
                 $('#contentWrapper').show();
-                story.displayTiddler(null, lastSlide);
+                story.displayTiddler(null, $(e.originalTarget).attr("tiddlyLink") || lastSlide);
                 $('#fullframe').remove();
             });
 

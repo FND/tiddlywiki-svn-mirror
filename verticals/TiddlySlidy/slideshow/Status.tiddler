@@ -1,10 +1,10 @@
 <div title="Status" modifier="Paul Downey" created="200801300000" tags="slide" theme="TextBoxMaster" subtitle="TiddlySlidy is alpha software with many missing [[features|Features]], including:">
 <pre>|  !Mode|!Issue  |
-| Present|TiddlyLinks not working on notes slides |
 | Author|Whole page being refreshed on slide change? |
 | Author|Default tiddlers should be first slide |
 | Author|new slide cancel leaves Zombie tiddler |
 | Author|reintroduce search, with extension for searching fields |
+| Author|Options panel for which mode to open in, author name, etc |
 | Present|fullscreen mode |
 | Author|spell checking textarea/input box|
 | Author|new slide template based selector |
@@ -20,7 +20,6 @@
 | Author|search, missing and orphaned tiddlers |
 | Author|thumbnail preview |
 | Present|Show / hide sections / slides |
-| Author|Options panel |
 | Author|how does tagging surface? |
 | Author|[[WYSIWYG editor|http://ckeditor.com/]] |
 | Author|template authoring |
