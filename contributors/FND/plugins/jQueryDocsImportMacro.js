@@ -34,21 +34,24 @@ config.macros.jQueryDocsImport = {
 				type: "GET",
 				url: uri,
 				dataType: "xml",
-				success: parseDoc,
+				success: function(data, status, xhr) {
+					parseDoc(data);
+					displayMessage("import complete");
+				},
 				error: function(xhr, error, exc) {
-					console.log("error", arguments); // XXX: DEBUG
+					displayMessage("import failed");
 				}
 			});
 		});
 	}
 };
 
-var parseDoc = function(data, status, xhr) {
+var parseDoc = function(xml) {
 	store.suspendNotifications();
-	$("api > entries > entry", data).
+	$("api > entries > entry", xml).
 		each(parseEntry);
 	store.resumeNotifications();
-	displayMessage("import complete");
+	refreshAll();
 };
 
 var parseEntry = function(i, node) { // XXX: also does a save, which seems inappropriate
@@ -57,7 +60,7 @@ var parseEntry = function(i, node) { // XXX: also does a save, which seems inapp
 	var title = node.attr("name");
 
 	var tags = [
-		"API",
+		"jQuery API",
 		"new in v" + node.find("> signature > added").text()
 	];
 	$("> category", node).each(function(i, node) {

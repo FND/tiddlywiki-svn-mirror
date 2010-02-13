@@ -2,14 +2,16 @@ tags: meta excludeLists
 
 /*{{{*/
 #mainMenu ul {
-margin: 0;
-padding: 0;
-font-size: 1em;
-list-style-type: none;
-text-align: left;
+	overflow: hidden;
+	margin: 0;
+	padding: 0;
+	font-size: 0.9em;
+	line-height: 1.2em;
+	text-align: left;
+	list-style-type: none;
 }
 
 #mainMenu ul .listTitle {
-display: none;
+	display: none;
 }
 /*}}}*/
