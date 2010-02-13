@@ -78,7 +78,7 @@
 </div>
 
 <div id="resourceView">
-  <div id="initialBacking">woop</div>
+  <div id="initialBacking">---</div>
 </div>
 
 !StyleSheet
@@ -180,7 +180,6 @@ body { overflow: hidden; }
   <ol id="bookmarks" class="xoxo">
     <% jQuery.each(trail.bookmarks, function(i, bookmark) { %>
       <% var selectedString = (i==trail.selectedIndex ? " selected" : ""); %>
-      <% console.log(i, "ss", selectedString, "-", trail.selectedIndex); %>
       <li class="bookmarkItem<%= selectedString %>">
           <a class="bookmark" href="<%= bookmark.url %>" target="bookmarkView" title="<%= bookmark.name %>"><%= bookmark.name %></a>
           <div class="infoURL"><%= bookmark.url %></div>
@@ -197,7 +196,7 @@ body { overflow: hidden; }
 
 (function($) {
 
-  version.extensions.TrailPlayer = {installed:true};
+  var player = version.extensions.TrailPlayer = {installed:true};
 
   config.TrailPlayer = {
     onLoad: function() {
@@ -220,9 +219,12 @@ body { overflow: hidden; }
       $("#restore").click(function() { toggleTopBar(true); });
 
       $("#close").click(version.extensions.overlay.toggle);
-      syncFromFragmentID();
+      // if (!store.getTaggedTiddlers("trail").length) return false;
+      // player.syncFromFragmentID();
+      // return $("#trail option").length;
     },
     onOpen: function() {
+      player.syncToFragmentID();
     },
     onClose: function() {
       if (!this.closedBefore) {
@@ -231,25 +233,30 @@ body { overflow: hidden; }
       }
       story.displayTiddler("top", getCurrentTrail().name);
       story.displayTiddler("top", getCurrentBookmark().name);
+      player.clearFragmentID();
     },
   };
 
-  function syncFromFragmentID() {
+  version.extensions.TrailPlayer.syncFromFragmentID = function() {
     var matches = document.location.href.match(/#\[trail\[(.*?)(\/(.*)\])?\]$/);
     if (matches) {
-      var trailTitle=matches[1], bookmarkTitle = matches[3];
+      var trailTitle=decodeURI(matches[1]), bookmarkTitle = decodeURI(matches[3]);
       $("#trail option[value="+trailTitle+"]").attr("selected", true);
       var bookmarkIndex = _.pluck(getCurrentTrail().bookmarks, "name").indexOf(bookmarkTitle);
       switchTrail(bookmarkIndex==-1 ? 0 : bookmarkIndex);
-      // var trailTiddler = store.getTiddler(trailTitle);
-      // if (trailTiddler) story.displayTiddler("top", trailTiddler);
+      return true;
     } else {
       switchTrail();
+      return false;
     }
-  }
+  };
 
-  function syncToFragmentID() {
-    document.location.hash = "#[trail[" + getCurrentTrail().name + "/" + getCurrentBookmark().name+"]]";
+  version.extensions.TrailPlayer.syncToFragmentID = function() {
+    document.location.hash = "#[trail[" + encodeURI(getCurrentTrail().name) + "/" + encodeURI(getCurrentBookmark().name)+"]]";
+  };
+
+  version.extensions.TrailPlayer.clearFragmentID = function() {
+    document.location.hash = "";
   }
 
   var navButtonCalculators = {
@@ -331,6 +338,7 @@ body { overflow: hidden; }
   }
 
   function switchTrail(bookmarkIndex) {
+    if (!$("#trail option").length) return;
     $("#bookmark").empty();
     var trailTiddler = store.getTiddler($("#trail").val());
     var trail = version.extensions.TrailPlugin.extractTrail(trailTiddler);
@@ -347,14 +355,13 @@ body { overflow: hidden; }
     // $("#progress").visible();
     // $('#resourceView').empty().attach("<iframe/>").src(getCurrentBookmark().url,
     var bookmark = getCurrentBookmark();
-    console.log("b", bookmark);
     $("#note .content").showIf(!isWhitespace(bookmark.note));
     $("#note .absentContent").showIf(isWhitespace(bookmark.note));
     $("#note .content").html(bookmark.note);
     // $.trim(bookmark.note).length
     // $("#resourceView iframe").src(bookmark.url, function() { $("#progress").hidden(); });
     loadIframe();
-    syncToFragmentID();
+    if ($("#overlay").isDisplayed()) player.syncToFragmentID();
   }
 
   function loadIframe(url) {
@@ -409,3 +416,4 @@ body { overflow: hidden; }
 })(jQuery);
 
 /*}}}*/
+
