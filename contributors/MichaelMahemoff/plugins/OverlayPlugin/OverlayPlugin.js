@@ -38,9 +38,9 @@
 
   version.extensions.overlay.toggle = function() {
 
-    makeOverlay();
     var overlayTiddlerTitle = store.getTaggedTiddlers("overlay")[0].title;
     if ($overlay.css("display")=="none") {
+      scroll(0,0);
       $.twStylesheet(store.getTiddlerText(overlayTiddlerTitle+"##StyleSheet"),
                      {id: "overlayStyleSheet"});
       overlayBaseStylesheet = $("style:last")[0];
@@ -69,9 +69,9 @@
 
   }
 
-  version.extensions.overlay.toggle();
+  function call(fn) { return fn ? fn() : false; }
 
-  function call(fn) { if (fn) fn(); }
+  makeOverlay();
 
 })(jQuery);
 
