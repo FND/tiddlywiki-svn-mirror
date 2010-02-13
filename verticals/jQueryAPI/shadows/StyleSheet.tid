@@ -1,0 +1,15 @@
+tags: meta excludeLists
+
+/*{{{*/
+#mainMenu ul {
+margin: 0;
+padding: 0;
+font-size: 1em;
+list-style-type: none;
+text-align: left;
+}
+
+#mainMenu ul .listTitle {
+display: none;
+}
+/*}}}*/
