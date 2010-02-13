@@ -2,7 +2,7 @@
 |''Name''|jQueryDocsImportMacro|
 |''Description''|imports the jQuery API documentation|
 |''Author''|FND|
-|''Version''|0.1.0|
+|''Version''|0.2.0|
 |''Status''|@@experimental@@|
 |''Source''|http://svn.tiddlywiki.org/Trunk/contributors/FND/jQueryDocsImportMacro.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/|
@@ -16,6 +16,8 @@
 !Revision History
 !!v0.1 (2010-02-13)
 * initial release
+!!v0.2 (2010-02-13)
+* improved arguments rendering
 !Code
 ***/
 //{{{
@@ -71,12 +73,18 @@ var parseEntry = function(i, node) { // XXX: also does a save, which seems inapp
 		node = $(node);
 		var name = node.attr("name");
 		var type = node.attr("type");
-		var optional = node.attr("optional") ? "[optional]" : ""; // XXX: hacky
+		var optional = node.attr("optional") ? "yes" : "no";
 		var desc = node.find("desc").text();
-		return "* {{multiLine{''%0'' (%1) %2\n%3}}}".format([
-			name, type, optional, desc
-		]); // XXX: ideally would generate an object rather than a string
+		return [[name, type, optional, desc]]; // nested array prevents flattening
 	});
+	if(args.length) {
+		args.splice(0, 0, ["Name", "Type", "Optional", "Description"]);
+		args = args.map(function(i, item) {
+			var template = i == 0 ? "|!%0|!%1|!%2|!%3|h" : "|%0|%1|%2|%3|";
+			return template.format(item);
+		});
+		args.push("|Arguments|c");
+	}
 
 	var examples = $("> example", node).map(function(i, node) {
 		node = $(node);
@@ -87,13 +95,12 @@ var parseEntry = function(i, node) { // XXX: also does a save, which seems inapp
 
 	var summary = node.find("> desc").text();
 	var desc = serialize(node.find("> longdesc")[0]).
-		replace("<longdesc>", "<html>").replace("</longdesc>", "</html>"); // XXX: hacky?
+		replace(/<(\/?)longdesc>/g, "<$1html>").
+		replace(/<longdesc\s?\/>/, "N/A"); // XXX: hacky?
 
-	var text = "%0\n!Arguments\n%1\n!Description\n%2\n!Examples\n%3".format([
-		summary,
-		Array.prototype.join.apply(args, ["\n"]),
-		desc,
-		Array.prototype.join.apply(examples, ["\n"])
+	var join = Array.prototype.join;
+	var text = "%0\n%1\n!Description\n%2\n!Examples\n%3".format([
+		summary, join.apply(args, ["\n"]), desc, join.apply(examples, ["\n"])
 	]);
 
 	store.saveTiddler(title, title, text, "jQuery", new Date(), tags,

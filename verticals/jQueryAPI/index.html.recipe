@@ -1,5 +1,6 @@
 recipe: ../../core/tiddlywiki.html.recipe
 tiddler: ../../contributors/FND/plugins/jQueryDocsImportMacro.js
+tiddler: ../../contributors/FND/plugins/SimpleSearchPlugin.js
 tiddler: shadows/SiteTitle.tiddler
 tiddler: shadows/SiteSubtitle.tiddler
 tiddler: shadows/MainMenu.tid
