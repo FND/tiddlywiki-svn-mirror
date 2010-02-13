@@ -1,9 +1,12 @@
 modifier: mahemoff
 
-<div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
-<div class='title' macro='view title'></div>
-<div class='subtitle'><span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
-<div class='tagging' macro='tagging'></div>
-<div class='tagged' macro='tags'></div>
-<div class='viewer' macro='view text wikified'></div>
-<div class='tagClear'></div>
+<div class="dataTiddler trailTiddler trailViewTiddler">
+  <div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
+  <div class='title'><span macro='view title'></span> <span class="dataCategory">trail</span></div>
+  <div class='subtitle'><span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
+  <div class='scrumptiousTags' macro='scrumptiousTags'></div>
+  <div class='description' macro='view Description wikified'></div>
+  <div class='bookmarksView' macro='bookmarksView'></div>
+  <div class='comments' macro="comments expandHeading:true heading:'Comments (%c):'"></div>
+  <div class='tagClear'></div>
+</div>

@@ -4,7 +4,7 @@
     handler: function(place,macroName,params,wikifier,paramString,tiddler) {
       $("<div class='tagTitle'/>").html(tiddler.title.substr(5)).appendTo(place);
     }
-  }
+  };
 
   config.macros.scrumptiousTagging = {
     handler: function(place,macroName,params,wikifier,paramString,tiddler) {
@@ -27,8 +27,9 @@
     $tagging.append("<div class='taggingIntro'><span class='tag'>" + userTag.substr(5) + "</span> <span class='tagCategory'>" + pluralLabel + " with this tag</span></div>");
     var $taggedTiddler = $("<div class='taggedTiddlers' />").appendTo($tagging);
     $.each(tiddlersInCategory, function(i,tiddler) {
-      $link = $("<span class='"+categoryTag+"Link' />").appendTo($taggedTiddler);
-      createTiddlyLink($link.get(0), tiddler.title, true);
+      $link = $("<span />").appendTo($taggedTiddler);
+      var link = createTiddlyLink($link.get(0), tiddler.title, true);
+      link.className = categoryTag+"Link";
       $("<span> </span>").appendTo($taggedTiddler);
     });
   }
@@ -38,7 +39,7 @@
       $.each(tiddler.tags, function(i, tag) {
         if (tag.substr(0,5)=="user_") {
           var $tag = $("<span class='tag' />").appendTo(place);
-          var link = createTiddlyLink($tag.get(0), tiddler.title, true);
+          var link = createTiddlyLink($tag.get(0), tag, true);
           link.innerHTML = tag.substr(5);
           $("<span> </span>").appendTo(place);
         }
@@ -46,13 +47,12 @@
     }
   };
 
-
   var _chooseTemplateForTiddler = Story.prototype.chooseTemplateForTiddler;
   Story.prototype.chooseTemplateForTiddler = function(title,template) {
     //console.log("choose", arguments);
     if (title.substr(0,5)=="user_") return "userTagViewTemplate";
     //console.log("returning");
     return _chooseTemplateForTiddler.apply(this, arguments);
-  }
+  };
 
 })(jQuery);

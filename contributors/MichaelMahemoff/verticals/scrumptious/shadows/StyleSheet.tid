@@ -22,6 +22,7 @@ Theme - http://www.colourlovers.com/palette/60028/Night_Sky
 #scrumptiousWrapper { text-align: center; }
 #scrumptiousMain { margin: 0 auto; width: 960px; }
 #mainMenu { width: 150px; position: static; margin: 0; padding: 0; float: left; }
+#dontCollapse { width: 1px; overflow: hidden; }
 #displayArea { width: 540px; margin: 0 30px; padding: 0; text-align: left; float: left; position: static; }
 #sidebar { width: 210px; font-size: 1em; float: left; position: static; margin: 0; padding: 0; text-align: left; }
 
@@ -30,53 +31,74 @@ h1,h2,h3,h4,h5,h6 { border: 0; }
 
 .tabsetWrapper { font-size: 80%; overflow: hidden;}
 
-.bookmarkTiddler, .bookmarkLink { 
+.trailViewTiddler, .trailEditTiddler, .trailLink a {
   background-color: #88f;
   filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0,StartColorStr=#9999ff,EndColorStr=#ddddff);
   background-image: -webkit-gradient(linear, left top, left bottom, from(#99f), to(#ddf));
-  background-image: -moz-linear-gradient(top, #99f, #ddf);
+  background-image: -moz-linear-gradient(top, #c8d, #edf);
 
   border: 1px solid #99f;
 }
 
-.bookmarkTiddler { 
+.trailTiddler table { border-collapse: collapse; }
+.trailTiddler td { padding: 0.6em 0; }
+.trailViewTiddler td { padding: 1em 0; }
+.trailTiddler td input { display: inline; }
+.trailTiddler td.bookmarkLinkCell { text-align: right; }
+.trailTiddler .bookmarkLink { cursor: move; margin-right: 5px; }
+.trailEditTiddler .bookmarkNote { width: 250px; height: 2em; }
+
+.bookmarkTiddler, .bookmarkEditTiddler, .bookmarkLink { 
+  background-color: #77f;
+  filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0,StartColorStr=#9999ff,EndColorStr=#ddddff);
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#99f), to(#ddf));
+  background-image: -moz-linear-gradient(top, #77f, #eef);
+
+  border: 1px solid #77f;
+}
+
+.dataTiddler { 
   padding: 0 10px 5px 20px;
   -moz-border-radius: 8px; -webkit-border-radius: 8px;
 }
+.dataCategory { font-size: 0.6em; color: black; font-style: italic; font-weight: normal; }
 
+.toolbar { padding-top: 5px; }
 .toolbar a:hover { font-weight: bold; }
-.bookmarkTiddler .button, .selected .toolbar a  { color: [[ColorPalette::PrimaryDarker]]; border: 0; background: inherit; }
-.bookmarkTiddler .button:hover, .selected .bookmarkTiddler .toolbar a:hover { color: white; }
+.dataTiddler .button, .selected .toolbar a  { color: [[ColorPalette::PrimaryDarker]]; border: 0; background: inherit; }
+.dataTiddler .button:hover, .selected .dataTiddler .toolbar a:hover { color: white; }
+.dataTiddler .tagged .button { color: #505; }
+.dataTiddler .comments textarea { width: 90%; }
+.dataTiddler .comments .addComment { display: block; float: left; border: 1px solid [[ColorPalette::PrimaryMid]]; padding: 2px; background: #99f; color: black; }
+.dataTiddler .comments .addComment:hover { color: white; }
+.dataTiddler .comments h1 { color: #000; text-decoration: underline; font-size: 1em; font-weight: normal; }
+.dataTiddler .comment .heading { background: #99f; }
+.dataTiddler .tag a { color: [[ColorPalette::PrimaryMid]]; }
+.dataTiddler .url { font-size: 1.2em; color: #20c; }
+.dataTiddler .description { font-size: 1.2em; margin-top: 0.3em; }
 
-.bookmarkTiddler .tagged .button { color: #505; }
-.bookmarkTiddler .comments textarea { width: 90%; }
-.bookmarkTiddler .comments .addComment { display: block; float: left; border: 1px solid [[ColorPalette::PrimaryMid]]; padding: 2px; background: #99f; color: black; }
-.bookmarkTiddler .comments .addComment:hover { color: white; }
-.bookmarkTiddler .comments h1 { color: #000; text-decoration: underline; font-size: 1em; font-weight: normal; }
-.bookmarkTiddler .comment .heading { background: #99f; }
-.bookmarkTiddler .tag a { color: [[ColorPalette::PrimaryMid]]; }
-.bookmarkTiddler .url { font-size: 1.2em; color: #20c; }
-.bookmarkTiddler .description { font-size: 1.2em; margin-top: 0.3em; }
+.trailViewTiddler .bookmarks { margin-top: 1.5em; }
 
 /* .normalTiddler { border-top: 1px solid #99f; border-bottom: 1px solid #99f; } */
 .normalTiddler, .tagTiddler { border-left: 5px solid #add; padding-left: 15px; }
 
 .bookmarkLink { padding: 5px; color: black; margin-right: 10px; }
-.scrumptiousTagging .bookmarkLink:hover, .scrumptiousTagging .bookmarkLink:hover a { background-color: #88f; color: white; background-image: none; }
-.bookmarkLink a { color: black; }
+.bookmarkLink:hover { background-color: #88f; color: white; background-image: none; }
+.bookmarkLink { color: black; }
 
 .scrumptiousTagging { font-size: normal; margin-top: 1em; }
 .scrumptiousTags { font-size: normal; margin: 1em 0; line-height: 3em; }
 
-.scrumptiousTagging .bookmarkLink {
+.bookmarkLink {
   -moz-border-radius: 5px; -webkit-border-radius: 5px;
 }
 
-.tag, .tagg { background: [[ColorPalette::PrimaryPale]]; }
+.tag, .tagg, .tagName { background: [[ColorPalette::PrimaryPale]]; }
 .tag:hover { background: [[ColorPalette::PrimaryMid]]; }
 .tag:hover a { color: white; }
 
-.tagg { padding: 0.2em; }
+.tagsView { margin-bottom: 1em; }
+.tagg, .tagName { padding: 0.2em; }
 .tagCloud { line-height: 2em; }
 .tag { padding: 0.5em; margin: 0.5em 0.5em 0.5em 0; }
 .taggedTiddlers { margin: 1em 0 2em; }
@@ -85,3 +107,5 @@ h1,h2,h3,h4,h5,h6 { border: 0; }
 
 .clearance { height: 1px; clear: both; }
 
+
+table { border: 1px; }

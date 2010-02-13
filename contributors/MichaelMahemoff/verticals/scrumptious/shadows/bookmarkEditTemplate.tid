@@ -1,12 +1,14 @@
 modifier: mahemoff
 
-<div class="bookmarkEditTiddler">
-<div class='toolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
-<div class='title' macro='view title'></div>
-<div class='editor' macro='edit title'></div>
-<div macro='annotations'></div>
-<div class='editor' macro='edit text' style="display: none;"></div>
-<div class='editor editBookmark' macro='editBookmark'></div>
-<div class='tagSuggest' macro='tagSuggest filterTag:bookmark prefix:user_'></div>
-<div class='editor' macro='edit tags' style='display:none;></div><div class='editorFooter'><span macro='message views.editor.tagPrompt'></span><span macro='tagChooser excludeLists'></span></div>
+<div class="bookmarkEditTiddler dataTiddler">
+  <div class='toolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
+  <div class='title'><span macro='view title'></span> <span class="dataCategory">bookmark</span></div>
+  <div class='editor' macro='edit title'></div>
+  <div macro='annotations'></div>
+  <div class='editor' macro='edit text' style="display: none;"></div>
+  <div class='editBookmark' macro='editBookmark'></div>
+  <h2>Bookmark Tags</h2>
+  <div class='tagSuggest' macro='tagSuggest filterTag:bookmark prefix:user_'></div>
+  <div class='editor' macro='edit tags' style='display:none;></div><div class='editorFooter'><span macro='message views.editor.tagPrompt'></span><span macro='tagChooser excludeLists'></span></div>
+  <div class="clearance">&nbsp;</div>
 </div>

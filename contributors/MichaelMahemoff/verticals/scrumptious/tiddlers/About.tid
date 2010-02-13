@@ -1,0 +1,44 @@
+modifier: mahemoff
+
+Scrumptious is a bookmarking service focused on collaboration and flexibility. Its similar to services like Delicious, but has its own unique take, and has a certain aesthetic that will be familiar to anyone who's used TiddlyWiki.
+
+!Features for Users
+
+* Tagging, descriptions, and nested comments for each bookmark.
+* Supports not just bookmarks, but trails. Trails are lists of bookmarks, each with an optional annotation. Like bookmarks, trails hve tags, descriptions, and nested comments.
+* Trail Player - Scrumptious can flip back and forth between regular mode and Trail Player mode. Through the magic of "iFrames"&#0153;, the player lets you easily navigate through a trail - hit the next button to jump to the next site in the trail. Each site you see is accompanied by notes from the 
+* Tag clouds. Shiny.
+* Searching and browsing.
+
+!Features for Installers and Extenders
+
+* Works in standalone mode, on a local file:// URL; running on a server as published, static, HTML content; or as a multi-user, interactive, web application.
+* Completely hackable. All the interaction is coded in client-side Javascript as Scrumptious is a TiddlyWiki vertical, making it easy to customise. You can even customise simple things like the [[SiteTitle]], [[DefaultTiddlers]], and [[ColorPalette]] without even knowing Javascript. And you can also introduce TiddlyWiki plugins from elsewhere.
+* Open source, under the permissive [[MIT License]], which means you can happily install it on your own server, and modify it to your heart's content.
+* Compatible with all major browsers (note: IE6 will be supported, but still needs work).
+
+!Philosophy: Surfing with Intent
+
+Scrumptious shares a similar philosophy to the rest of the TiddlyVerse. I envsion two styles of Scrumptious instance:
+* Task-focused: When we use the web, we're often "Surfing With Intent" (Paul Downey's term). We're hunting for specific information and collecting a bunch of resources along the way. Scrumptious is ideal for gathering those resources. e.g. a house-hunting family (or individual) would create a space with all the interesting homes they've spotted on the web.
+* Individual: You can also use Scrumptious as a repository of your own bookmarks. In the context of TiddlyWiki hosting environments like the in-progress TiddlySpace, others will be able to "follow" your bookmarks this way. You could, for example, build up a collection of bookmarks in your team by aggregating everyone's bookmarks (perhaps filtering on a particular tag).
+
+!Limitations
+
+At this stage, the expectation is that each Scrumptious instance will include at most a few hundred bookmarks. This is consistent with the philosophy expressed above. It's always trivial to create a new space for a new set of bookmarks, whether in file:// or collaboritive, online, mode (once we've built http://tiddlyspace.com !)
+
+!TODO
+
+* "Play this trail" (with hidden feature - if you click on a bookmark in the trail tiddler first, trail starts on that bookmark)
+* add/remove bookmarks in trail
+* Bookmarklet
+* Comments shown on trail and can submit
+* Better "list of trails/bookmarks" support - order by name, date, etc
+* Also list of comments - esp. recent comments
+* "This bookmark appears in these trails"
+* Delicious/Instapaper sync.
+* IE-compatible
+
+!More Info
+
+See also http://scrumptious.tv.

@@ -10,6 +10,7 @@ modifier: mahemoff
     <div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
     <div id='displayArea'>
       <div id='messageArea'></div>
+      <div id="dontCollapse">&nbsp;</div>
       <div id='tiddlerDisplay'></div>
     </div>
     <div id='sidebar' refresh='content' force='true' tiddler='SideBar'></div>

@@ -19,11 +19,14 @@ tiddler: shadows/ToolbarCommands.tid
 # tiddler: plugins/Macros.js
 tiddler: plugins/zzScrumptious.js
 tiddler: plugins/scrumptiousTags.js
+# tiddler: plugins/sortlist.js
+tiddler: plugins/jquery.tablednd_0_5.js
 
 tiddler: tiddlers/Home.tid
 tiddler: tiddlers/Trails.tid
 tiddler: tiddlers/Bookmarks.tid
 tiddler: tiddlers/SideBar.tid
+tiddler: tiddlers/About.tid
 
 # tiddler: ../../plugins/CommentsPlugin/CommentsPlugin.js
 tiddler: ../../plugins/BetterListPlugin/BetterListPlugin.js

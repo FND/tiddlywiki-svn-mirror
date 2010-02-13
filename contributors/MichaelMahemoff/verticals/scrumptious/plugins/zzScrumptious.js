@@ -22,6 +22,10 @@ config.options.chkTiddlerTabs = false;
 
 (function($) {
 
+  /******************************************************************
+   * Bookmark
+   ******************************************************************/
+
   var editBookmark = config.macros.editBookmark = {
     handler: function(place,macroName,params,wikifier,paramString,tiddler) {
       $("<div>URL: </div>").appendTo(place);
@@ -65,7 +69,114 @@ config.options.chkTiddlerTabs = false;
     }
   }
 
+  /******************************************************************
+   * Trail
+   ******************************************************************/
+
+  var editTrail = config.macros.editTrail = {
+    handler: function(place,macroName,params,wikifier,paramString,tiddler) {
+
+      $("<div>Description (optional): </div>").appendTo(place);
+      $("<input class='trailDescription'/>")
+      .val(store.getTiddlerText(tiddler.title+"##Description")||"")
+      .keyup(function() {
+        editTrail.updateText(this);
+      })
+      .appendTo(place);
+
+      renderBookmarks(place, tiddler, true);
+
+    },
+
+    updateText: function(src) {
+
+      var $trailTiddler = $(src).parents(".trailEditTiddler");
+      console.log($trailTiddler);
+      var text = "";
+
+      var description = $trailTiddler.find(".trailDescription").val();
+      if ($.trim(description).length) text+="\n!Description\n"+description;
+
+      var $bookmarkLinks = $trailTiddler.find(".bookmarkLink");
+      if ($bookmarkLinks.length) {
+        text += "\n!Bookmarks\n";
+        $bookmarkLinks.each(function(i, bookmarkLink) {
+          text += "[[" + $(bookmarkLink).html() + "]]";
+          var note = $(bookmarkLink).parents("tr").find(".bookmarkNote").val();
+          console.log(note);
+          if (note.length) text+=" " + note;
+          text += "\n";
+        });
+      }
+
+      $trailTiddler.find(".editor").find("textArea").val(text);
+
+    }
+
+  }
+
+  config.macros.bookmarksView = {
+    handler: function(place,macroName,params,wikifier,paramString,tiddler) {
+      renderBookmarks(place, tiddler, false);
+    }
+  }
+
+  function renderBookmarks(place, tiddler, editable) {
+      var trail = version.extensions.TrailPlugin.extractTrail(tiddler);
+      $("<h2>Bookmarks on this Trail</h2>").appendTo(place);
+      var $bookmarkTable = $("<table/>").appendTo(place);
+      var $bookmarkList = $("<tbody/>").appendTo($bookmarkTable);
+      $.each(trail.bookmarks, function(i, bookmark) {
+        var $bookmarkItem = $("<tr/>").appendTo($bookmarkList);
+        $bookmarkLinkCell = $("<td class='bookmarkLinkCell' />").appendTo($bookmarkItem);
+        var $bookmarkLink;
+        if (editable) {
+          $bookmarkLink = $("<span/>").appendTo($bookmarkLinkCell);
+        } else {
+          $bookmarkLink = $(createTiddlyLink($bookmarkLinkCell.get(0), bookmark.title, true));
+          console.log($bookmarkLink)
+        }
+        $bookmarkLink.addClass("bookmarkLink").html(bookmark.title)
+
+        var $noteCell = $("<td/>").appendTo($bookmarkItem);
+        var $note;
+        if (editable) {
+          var $note = $("<textarea type='text' class='bookmarkNote'/>")
+            .val(bookmark.note)
+            .keyup(function() {
+              editTrail.updateText(this);
+            })
+        } else {
+          $note = $("<span>"+bookmark.note+"</span>");
+        }
+        $note.appendTo($noteCell)
+      });
+
+      if (editable) {
+        $bookmarkTable.tableDnD({
+          onDrop: function(table, row) {
+            editTrail.updateText(row);
+          },
+          dragHandle: ".bookmarkLink"
+        });
+      }
+
+  }
+
+  /******************************************************************
+   * General Utility
+   ******************************************************************/
 
   function log() { if (console && console.log) console.log.apply(console, arguments); }
+
+  _getValue = store.getValue;
+  store.getValue = function(tiddler, field, value) {
+    tiddler = store.resolveTiddler(tiddler);
+    var sectionContent = store.getTiddlerText(tiddler.title+"##"+field);
+    if (sectionContent) return sectionContent;
+    var sliceContent = store.getTiddlerText(tiddler.title+"::"+field);
+    if (sliceContent) return sliceContent;
+    return _getValue.apply(this, arguments);
+  }
 
 })(jQuery);
