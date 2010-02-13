@@ -31,6 +31,7 @@ config.macros.jQueryDocsImport = {
 	handler: function(place, macroName, params, wikifier, paramString, tiddler) {
 		var uri = this.uri;
 		createTiddlyButton(place, this.btnLabel, this.btnTooltip, function() {
+			displayMessage("importing jQuery API documentation");
 			ajaxReq({
 				type: "GET",
 				url: uri,
@@ -45,9 +46,10 @@ config.macros.jQueryDocsImport = {
 };
 
 var parseDoc = function(data, status, xhr) {
-	displayMessage("importing jQuery API documentation");
+	store.suspendNotifications();
 	$("api > entries > entry", data).
 		each(parseEntry);
+	store.resumeNotifications();
 	displayMessage("import complete");
 };
 
