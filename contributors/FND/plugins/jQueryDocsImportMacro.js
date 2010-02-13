@@ -8,8 +8,6 @@
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
 |''CoreVersion''|2.5|
-!Notes
-Due to the amount of data processing during the import process, browsers might raise an "unresponsive script" warning which needs to be manually acknowledged.
 !Usage
 {{{
 <<jQueryDocsImport>>
