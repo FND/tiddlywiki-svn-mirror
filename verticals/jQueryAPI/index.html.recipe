@@ -1,6 +1,6 @@
 recipe: ../../core/tiddlywiki.html.recipe
 tiddler: ../../contributors/FND/plugins/jQueryDocsImportMacro.js
-tiddler: shadows/SiteTitle.tid
-tiddler: shadows/SiteSubtitle.tid
+tiddler: shadows/SiteTitle.tiddler
+tiddler: shadows/SiteSubtitle.tiddler
 tiddler: shadows/MainMenu.tid
 tiddler: shadows/StyleSheet.tid
