@@ -2,7 +2,7 @@
 |''Name''|ServerSideSavingPlugin|
 |''Description''|server-side saving|
 |''Author''|FND|
-|''Version''|0.5.3|
+|''Version''|0.5.4|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/plugins/ServerSideSavingPlugin.js|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
@@ -49,10 +49,12 @@ plugin.locale = {
 
 plugin.sync = function() {
 	store.forEachTiddler(function(title, tiddler) {
-		if(tiddler.fields.deleted === "true") {
+		var changecount = parseInt(tiddler.fields.changecount, 10);
+		if(tiddler.fields.deleted === "true" && changecount === 1) {
 			plugin.removeTiddler(tiddler);
 		} else if(tiddler.isTouched() && !tiddler.doNotSave() &&
 			tiddler.getServerType() && tiddler.fields["server.host"]) {
+			delete tiddler.fields.deleted;
 			plugin.saveTiddler(tiddler);
 		}
 	});
@@ -164,7 +166,7 @@ TiddlyWiki.prototype.removeTiddler = function(title) { // XXX: should override d
 		tiddler.tags = ["excludeLists", "excludeSearch", "excludeMissing"];
 		tiddler.text = plugin.locale.removedNotice;
 		tiddler.fields.deleted = "true"; // XXX: rename to removed/tiddlerRemoved?
-		tiddler.incChangeCount();
+		tiddler.fields.changecount = "1";
 		this.notify(title, true);
 		this.setDirty(true);
 	}
