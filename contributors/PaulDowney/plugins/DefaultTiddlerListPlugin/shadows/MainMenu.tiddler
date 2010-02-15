@@ -1,0 +1,9 @@
+<div title="MainMenu" modifier="PaulDowney" created="20100215174949" modified="20100215174949" changecount="1">
+<pre>This is the MainMenu containing a list of tiddlers:
+*[[DefaultTiddlerListPlugin]]
+*[[SiteTitle]]
+*[[SiteSubtitle]]
+*[[MainMenu]]
+the first of which will be taken as the DefaultTiddlers value.
+</pre>
+</div>
