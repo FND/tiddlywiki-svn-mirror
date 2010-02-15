@@ -39,7 +39,7 @@ config.macros.newDocument.createDocumentOnClick = function(e, w) {
 		if(store.tiddlerExists(docName)) {
 			alert(docName+" Already Exists");
 		}else{
-			var tiddler = store.saveTiddler(docName, docName, '{content:[]}', null, null, "document", merge({}, config.defaultCustomFields));
+			var tiddler = store.saveTiddler(docName, docName, '{content:[]}', null, null, "document excludeSearch", merge({}, config.defaultCustomFields));
 			autoSaveChanges(null, [tiddler]);
 		}
 		window.activeDocument = docName;
