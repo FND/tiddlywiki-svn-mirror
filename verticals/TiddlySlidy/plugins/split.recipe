@@ -20,6 +20,9 @@ recipe: $TW_ROOT/contributors/PaulDowney/plugins/MainMenuNavigatorPlugin/MainMen
 # update MainMenu when tiddlers are changed
 recipe: $TW_ROOT/contributors/PaulDowney/plugins/MainMenuUpdatePlugin/MainMenuUpdatePlugin.recipe
 
+# take DefaultTiddlers from the MainMenu
+recipe: $TW_ROOT/contributors/PaulDowney/plugins/DefaultTiddlerListPlugin/DefaultTiddlerListPlugin.recipe
+
 # current Position
 recipe: $TW_ROOT/contributors/PaulDowney/plugins/CurrentPositionPlugin/CurrentPositionPlugin.recipe
 
