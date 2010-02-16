@@ -9,6 +9,7 @@ tiddler: ../Plugins/SettingsButtonPlugin.js
 
 tiddler: ../Plugins/TableOfContentPlugin.js
 tiddler: ../Plugins/DroppableSectionPlugin.js
+tiddler: ../Plugins/ToggleSectionHighlightsPlugin.js
 
 tiddler: ../Plugins/tdocsSectionButtons.js
 tiddler: ../Plugins/tdocsSettings.js

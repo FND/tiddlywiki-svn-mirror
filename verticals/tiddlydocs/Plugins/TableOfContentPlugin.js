@@ -31,7 +31,7 @@ config.macros.TableOfContent={
 };
 
 config.macros.TableOfContent.strip=function(s) {
-	return s.replace(" ",  "");
+	return s.replace(/ /g,'');
 }
 
 config.macros.TableOfContent.handler=function(place,macroName,params,wikifier,paramString,tiddler){
@@ -113,7 +113,7 @@ config.macros.TableOfContent._renderSpec = function(specView, spec, label) {
 				var sectionClass = "incomplete";
 			}
 		}
-	    var sectionDiv = createTiddlyElement(li, "div", this.title+"_div", "sectionHeading toc-sort-handle "+sectionClass);	
+	    var sectionDiv = createTiddlyElement(li, "div", this.title+"_div", "sectionHeading toc-sort-handle "+sectionClass+" "+config.macros.TableOfContent.strip(this.title)+"_div");	
 		sectionDiv.onclick = function() {
 			if(config.options.chkOpenEditView == true)
 				story.displayTiddler(this.id, this.id.replace("_div", ""), config.macros.TableOfContent.editTemplate ,null, null, null, null,this);
@@ -270,6 +270,11 @@ ul {
 .specView h5.emptySpec {
 	position:relative;
 	left:4em;
+}
+
+
+.highlight {
+	background-color:red;
 }
 
 !(end of StyleSheet)

@@ -2,6 +2,8 @@ modifier: Simon McManus
 
 <!--{{{-->
 <div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
+<div  macro='toggleSectionHighlights'></div>
+
 <div  macro='droppableSection'></div>
 
 
