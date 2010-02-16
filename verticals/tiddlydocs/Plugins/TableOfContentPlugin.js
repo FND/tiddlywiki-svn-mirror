@@ -65,7 +65,8 @@ config.macros.TableOfContent.renderSpec = function(specView, spec) {
                             } 
                     var spec = { format: { name: 'TiddlyDocsSpec', majorVersion:'0', minorVersion:'1' }, content: window.testSpec}; 
                     store.saveTiddler(window.activeDocument, window.activeDocument, jQuery.toJSON(spec), null, null, "document", fields); 
-                    autoSaveChanges(true, window.activeDocument); 
+                    autoSaveChanges(true, window.activeDocument);
+					refreshAll();
             }, 
             autoScroll: true, 
             handle: '.toc-sort-handle' 
