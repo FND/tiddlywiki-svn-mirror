@@ -2,6 +2,7 @@ tags: wizard
 
 !Configuration Options	
 | <<option chkOpenEditView>>|''Open section in Edit Mode'' |//When you click on a section in the table of contents it will automatically open in edit mode.// |
+| <<option txtAutoAddSection>>|''Auto Add Sections to Table of Content'' |//When you create a new section it will automatically be added to the Table of Content. Options: none, top, bottom// |
 
 !Definitions
 |<<editDefinitions UserDefinitions>>||<<editDefinitions StatusDefinitions>>|

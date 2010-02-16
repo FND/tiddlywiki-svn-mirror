@@ -43,7 +43,11 @@ window.addToToc = function(sectionTitle, docTitle) {
 			title: sectionTitle,
 			children:[]
 		};
-		documentSpec.push(node);
+		if(config.options.txtAutoAddSection == 'bottom') 
+			documentSpec.push(node);
+		if(config.options.txtAutoAddSection == 'top') 
+			documentSpec.unshift(node);
+	
 		var docFields = store.getTiddler(docTitle).fields;
 		var tiddler = store.saveTiddler(docTitle, docTitle, '{content:'+jQuery.toJSON(documentSpec)+'}', null, null, null, merge(docFields, config.defaultCustomFields));
 	}
@@ -72,10 +76,10 @@ Story.prototype.saveNewSection = function(title, minorUpdate) {
 	config.options.chkAutoSave = false;
 	var _title = _saveTiddler.apply(this, arguments);
 	config.options.chkAutoSave = autosave;
-
-	addToToc(_title, window.activeDocument);
+	if(config.options.chkAutoAddSection != 'none') {
+		addToToc(_title, window.activeDocument);
+	}
 	var tiddler = store.getTiddler(_title);
-	tiddler.tags.push("[[doc_" + window.activeDocument + "]]");
 	autoSaveChanges(null, [tiddler, window.activeDocument]);
 	refreshAll();
 	return _title;
