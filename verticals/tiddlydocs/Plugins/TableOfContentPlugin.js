@@ -283,7 +283,7 @@ ul {
 !EditSectionTemplate
 
 <div class='toolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
-<div class='title' macro='view title'></div>
+<div  class='title' macro='droppableSection'></div>
 <div class='taskControls' macro='tiddler TaskTiddlerControls'></div>
 <div class='editor' macro='edit text'></div>
 

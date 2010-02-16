@@ -22,7 +22,7 @@ config.macros.droppableSection.handler = function(place,macroName,params,wikifie
 	jQuery("#"+strippedTidTitle+"DroppableSectionList").NestedSortable({
 		accept: 'toc-item',
 		autoScroll: true,
-		onStop: function() {
+		onStart: function() {
 				story.refreshTiddler(this.id,1,true);
 		},
 		handle: '.toc-sort-handle'

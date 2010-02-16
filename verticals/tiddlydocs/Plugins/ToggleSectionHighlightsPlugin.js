@@ -11,7 +11,6 @@ config.macros.toggleSectionHighlights.handler = function(place,macroName,params,
 	});
 };
 
-
 config.commands.highlightSection={
 	text: "highlight",
 	tooltip: "click to see this section highlighted in the active table of content.",
@@ -30,6 +29,3 @@ config.macros.toggleSectionHighlights.strip=function(s) {
 	return s.replace(/ /g,'');
 }
 
-config.macros.toggleSectionHighlights.setToggle = function() {
-	
-};
