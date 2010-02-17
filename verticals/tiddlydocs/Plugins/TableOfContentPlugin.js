@@ -125,9 +125,9 @@ config.macros.TableOfContent._renderSpec = function(specView, spec, label) {
 				story.displayTiddler(this.id, this.id.replace("_div", ""), config.macros.TableOfContent.viewTemplate,null, null, null, null,this);
 		}
 		createTiddlyText(sectionDiv, label.join(".")+"  :  "+this.title);
-		var a = createTiddlyElement(sectionDiv, "a", null, null, 'del');
+		var a = createTiddlyElement(li, "a", null, 'deleteButton', 'delete');
 		a.onclick = function() {
-		    jQuery(this).parent().parent().remove();
+		    jQuery(this).parent().remove();
 		    config.macros.TableOfContent.specChanged();
 		}
 		config.macros.TableOfContent._renderSpec(li, this.children, label);
@@ -275,6 +275,12 @@ ul {
 .specView {
 	position:relative;
 	left:-1.5em;
+}
+
+.deleteButton {
+ float:right;
+ position:relative;
+ top:-1.5em;
 }
 .specView h5.emptySpec {
 	position:relative;
