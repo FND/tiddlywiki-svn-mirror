@@ -123,8 +123,10 @@ adaptor.getTiddlerListCallback = function(status, context, responseText, uri, xh
 			var tiddler = new Tiddler(t.title);
 			t.created = Date.convertFromYYYYMMDDHHMM(t.created);
 			t.modified = Date.convertFromYYYYMMDDHHMM(t.modified);
-			tiddler.assign(t.title, null, t.modifier, t.modified, t.tags, t.created, t.fields);
-			tiddler.fields["server.workspace"] = "bags/" + t.bag;
+			tiddler.assign(t.title, t.text, t.modifier, t.modified, t.tags, t.created, t.fields);
+			tiddler.fields["server.type"] = adaptor.serverType;
+			tiddler.fields["server.host"] = AdaptorBase.minHostName(context.host);
+			tiddler.fields["server.workspace"] = context.workspace;
 			tiddler.fields["server.page.revision"] = t.revision;
 			context.tiddlers.push(tiddler);
 		}
@@ -311,6 +313,7 @@ adaptor.prototype.putTiddler = function(tiddler, context, userParams, callback) 
 	var payload = {
 		title: tiddler.title,
 		text: tiddler.text,
+		creator: tiddler.creator,
 		modifier: tiddler.modifier,
 		tags: tiddler.tags,
 		fields: $.extend({}, tiddler.fields)
@@ -574,7 +577,7 @@ adaptor.prototype.putRecipe = function(context,userParams,callback)
 	var uriTemplate = "%0/recipes/%1.%2";
 	var uri = uriTemplate.format([context.host, context.recipe, context.format||"json"]);
 	var headers = null;
-	//var payload = $.toJSON(payload);
+	var payload = $.toJSON(context.recipes);
 	var req = httpReq("PUT", uri, adaptor.putRecipeCallback, context, headers, payload, adaptor.mimeType, null, null, true);
 	return typeof req == 'string' ? req : true;
 };
