@@ -44,6 +44,10 @@ store.addNotification("DroppableSectionPluginStyles", refreshStyles);
 	cursor:move;
 }
 
+html body div.title ul.toc {
+    padding:0;
+}
+
 !(end of StyleSheet)
 
 ***/

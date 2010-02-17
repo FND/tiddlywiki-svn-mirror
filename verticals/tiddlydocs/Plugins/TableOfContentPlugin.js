@@ -40,6 +40,20 @@ config.macros.TableOfContent.handler=function(place,macroName,params,wikifier,pa
 	config.macros.TableOfContent.refresh(place,macroName,params,wikifier,paramString,tiddler);
 };
 
+config.macros.TableOfContent.specChanged = function() {
+                window.testSpec = config.macros.TableOfContent.buildSpec(); 
+                        if(store.tiddlerExists(window.activeDocument)) { 
+                                var specTiddler = store.getTiddler(window.activeDocument); 
+                                var fields = merge(specTiddler.fields, config.defaultCustomFields); 
+                        } else { 
+                                var fields = config.defaultCustomFields; 
+                        } 
+                var spec = { format: { name: 'TiddlyDocsSpec', majorVersion:'0', minorVersion:'1' }, content: window.testSpec}; 
+                store.saveTiddler(window.activeDocument, window.activeDocument, jQuery.toJSON(spec), null, null, "document", fields); 
+                autoSaveChanges(true, window.activeDocument);
+				refreshAll();
+}
+
 config.macros.TableOfContent.renderSpec = function(specView, spec) {
 	window.ulCount=0;
 	window.liCount=0;
@@ -56,17 +70,7 @@ config.macros.TableOfContent.renderSpec = function(specView, spec) {
 		noNestingClass: "no-nesting", 
             helperclass: 'helper', 
             onChange: function(serialized) { 
-                     window.testSpec = config.macros.TableOfContent.buildSpec(); 
-                            if(store.tiddlerExists(window.activeDocument)) { 
-                                    var specTiddler = store.getTiddler(window.activeDocument); 
-                                    var fields = merge(specTiddler.fields, config.defaultCustomFields); 
-                            } else { 
-                                    var fields = config.defaultCustomFields; 
-                            } 
-                    var spec = { format: { name: 'TiddlyDocsSpec', majorVersion:'0', minorVersion:'1' }, content: window.testSpec}; 
-                    store.saveTiddler(window.activeDocument, window.activeDocument, jQuery.toJSON(spec), null, null, "document", fields); 
-                    autoSaveChanges(true, window.activeDocument);
-					refreshAll();
+              config.macros.TableOfContent.specChanged();
             }, 
             autoScroll: true, 
             handle: '.toc-sort-handle' 
@@ -121,6 +125,11 @@ config.macros.TableOfContent._renderSpec = function(specView, spec, label) {
 				story.displayTiddler(this.id, this.id.replace("_div", ""), config.macros.TableOfContent.viewTemplate,null, null, null, null,this);
 		}
 		createTiddlyText(sectionDiv, label.join(".")+"  :  "+this.title);
+		var a = createTiddlyElement(sectionDiv, "a", null, null, 'del');
+		a.onclick = function() {
+		    jQuery(this).parent().parent().remove();
+		    config.macros.TableOfContent.specChanged();
+		}
 		config.macros.TableOfContent._renderSpec(li, this.children, label);
 	});
 }
