@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|FND|
 |''Contributors''|Chris Dent, Martin Budden|
-|''Version''|1.1.1|
+|''Version''|1.1.2|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/|
@@ -574,8 +574,8 @@ adaptor.getRecipesCallback = function(status,context,responseText,uri,xhr)
 adaptor.prototype.putRecipe = function(context,userParams,callback)
 {
 	context = this.setContext(context, userParams, callback);
-	var uriTemplate = "%0/recipes/%1.%2";
-	var uri = uriTemplate.format([context.host, context.recipe, context.format||"json"]);
+	var uriTemplate = "%0/recipes/%1";
+	var uri = uriTemplate.format([context.host, context.recipe]);
 	var headers = null;
 	var payload = $.toJSON(context.recipes);
 	var req = httpReq("PUT", uri, adaptor.putRecipeCallback, context, headers, payload, adaptor.mimeType, null, null, true);
