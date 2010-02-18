@@ -27,7 +27,8 @@ macro provides a view on the table of content for the currently active document
 config.macros.TableOfContent={
 	'emptyDocumentSpecPrompt':'Click the "New Section" link above to add a section to the document "',
 	'editTemplate':'TableOfContentPlugin##EditSectionTemplate', 
-	'viewTemplate':DEFAULT_VIEW_TEMPLATE
+	'viewTemplate':DEFAULT_VIEW_TEMPLATE,
+	'dragToolTip': 'Drag and drop to re-arrange sections in the table of content.'
 };
 
 config.macros.TableOfContent.strip=function(s) {
@@ -77,10 +78,10 @@ config.macros.TableOfContent.renderSpec = function(specView, spec) {
     }); 
     jQuery(".sectionHeading").hover( 
             function() { 
-                    jQuery(this).addClass("draggableOn"); 
+                    jQuery(this).parent().addClass("draggableHover");
             },  
             function() { 
-                    jQuery(this).removeClass("draggableOn"); 
+                    jQuery(this).parent().removeClass("draggableHover"); 
             } 
     );
 
@@ -118,6 +119,7 @@ config.macros.TableOfContent._renderSpec = function(specView, spec, label) {
 			}
 		}
 	    var sectionDiv = createTiddlyElement(li, "div", this.title+"_div", "sectionHeading toc-sort-handle "+sectionClass+" "+config.macros.TableOfContent.strip(this.title)+"_div");	
+		sectionDiv.title = config.macros.TableOfContent.dragToolTip;
 		sectionDiv.onclick = function() {
 			if(config.options.chkOpenEditView == true)
 				story.displayTiddler(this.id, this.id.replace("_div", ""), config.macros.TableOfContent.editTemplate ,null, null, null, null,this);
@@ -205,11 +207,15 @@ config.macros.TableOfContent.refresh=function(place,macroName,params,wikifier,pa
 	background:white !important;
 	color:black !important;
 }
-.draggableOn {
+
+html body li.draggableHover {
+	border:2px dashed #fff;
+	background:#eee;
 	cursor:move;
 }
 
 li.toc-item {
+	border:2px solid transparent;
 	list-style:none;
 }
 html body #backstageShow {

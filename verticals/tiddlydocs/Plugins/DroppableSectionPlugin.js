@@ -12,6 +12,7 @@ config.macros.droppableSection.handler = function(place,macroName,params,wikifie
 	createTiddlyText(sectionDiv, containingTiddlerTitle);
 	jQuery("#"+strippedTidTitle+"DroppableSectionList").NestedSortable({
 		accept: 'toc-item',
+		helperclass: 'helper', 
 		autoScroll: true,
 		onStart: function() {
 				story.refreshTiddler(this.id,1,true);
@@ -40,7 +41,8 @@ store.addNotification("DroppableSectionPluginStyles", refreshStyles);
 }
 
 .toc-droppable-heading:hover {
-	border:2px dashed #444;
+	border:2px dashed #fff;
+	background:#eee;
 	cursor:move;
 }
 
