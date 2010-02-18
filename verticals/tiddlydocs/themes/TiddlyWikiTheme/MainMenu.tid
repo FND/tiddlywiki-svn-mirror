@@ -3,6 +3,5 @@ modifier: Simon McManus
 !Table of Content
 <<newTiddler label:'New Section' template:'NewSectionTemplate'>>
 <<TableOfContent>>
-<<deleteZone>>
 
 

@@ -50,6 +50,11 @@ html body div.title ul.toc {
     padding:0;
 }
 
+div.title  ul.toc {
+	padding:0em;
+	margin:0em;
+}
+
 !(end of StyleSheet)
 
 ***/

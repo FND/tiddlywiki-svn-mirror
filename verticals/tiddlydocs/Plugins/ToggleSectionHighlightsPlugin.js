@@ -1,6 +1,5 @@
 config.macros.toggleSectionHighlights = {};
 config.macros.toggleSectionHighlights.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
-	
 	var tiddlerElem = story.findContainingTiddler(place);
  	var containingTiddlerTitle = tiddlerElem.getAttribute("tiddler"); 
 	button = createTiddlyElement(place, "div", containingTiddlerTitle+"_div", null, 'highlight');
