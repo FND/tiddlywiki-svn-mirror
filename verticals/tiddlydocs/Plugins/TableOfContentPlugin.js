@@ -29,7 +29,7 @@ config.macros.TableOfContent={
 	'editTemplate':'TableOfContentPlugin##EditSectionTemplate', 
 	'viewTemplate':DEFAULT_VIEW_TEMPLATE,
 	'dragToolTip': 'Drag and drop to re-arrange sections in the table of content.',
-	'deleteText': 'delete'
+	'deleteText': 'remove'
 };
 
 config.macros.TableOfContent.strip=function(s) {
@@ -276,6 +276,7 @@ ul {
  float:right;
  position:relative;
  top:-1.5em;
+ margin-right:0.5em;
 }
 
 .deleteButton:hover {
