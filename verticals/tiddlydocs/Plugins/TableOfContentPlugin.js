@@ -28,7 +28,8 @@ config.macros.TableOfContent={
 	'emptyDocumentSpecPrompt':'Click the "New Section" link above to add a section to the document "',
 	'editTemplate':'TableOfContentPlugin##EditSectionTemplate', 
 	'viewTemplate':DEFAULT_VIEW_TEMPLATE,
-	'dragToolTip': 'Drag and drop to re-arrange sections in the table of content.'
+	'dragToolTip': 'Drag and drop to re-arrange sections in the table of content.',
+	'deleteText': 'delete'
 };
 
 config.macros.TableOfContent.strip=function(s) {
@@ -127,7 +128,7 @@ config.macros.TableOfContent._renderSpec = function(specView, spec, label) {
 				story.displayTiddler(this.id, this.id.replace("_div", ""), config.macros.TableOfContent.viewTemplate,null, null, null, null,this);
 		}
 		createTiddlyText(sectionDiv, label.join(".")+"  :  "+this.title);
-		var a = createTiddlyElement(li, "a", null, 'deleteButton', 'delete');
+		var a = createTiddlyElement(li, "a", null, 'deleteButton', config.macros.TableOfContent.deleteText);
 		a.onclick = function() {
 		    jQuery(this).parent().remove();
 		    config.macros.TableOfContent.specChanged();
@@ -172,20 +173,6 @@ config.macros.TableOfContent.refresh=function(place,macroName,params,wikifier,pa
 	border:2px dashed #777777;
 }
 
-.deleteZoneClass {
-	color:#333;
-	background:#fff 
-	border:1px solid #ddd;
-	left:3em;
-	position:relative;
-	text-align:left;
-	width:91%;
-}
-
-.deleteZoneClass b {
-	padding:1em;
-	color:#ddd;
-}
 
 .deleteHelper {
 	background-color:#eee;
@@ -210,12 +197,14 @@ config.macros.TableOfContent.refresh=function(place,macroName,params,wikifier,pa
 
 html body li.draggableHover {
 	border:2px dashed #fff;
+	border-right:0px solid;
 	background:#eee;
 	cursor:move;
 }
 
 li.toc-item {
 	border:2px solid transparent;
+	border-right:0px solid;
 	list-style:none;
 }
 html body #backstageShow {
@@ -288,6 +277,11 @@ ul {
  position:relative;
  top:-1.5em;
 }
+
+.deleteButton:hover {
+	cursor:pointer;
+}
+
 .specView h5.emptySpec {
 	position:relative;
 	left:4em;
