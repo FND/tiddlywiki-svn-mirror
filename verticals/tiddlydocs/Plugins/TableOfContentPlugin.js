@@ -75,7 +75,13 @@ config.macros.TableOfContent.renderSpec = function(specView, spec) {
               config.macros.TableOfContent.specChanged();
             }, 
             autoScroll: true, 
-            handle: '.toc-sort-handle' 
+            handle: '.toc-sort-handle',
+			onStart: function() {
+				story.refreshTiddler(this.id,1,true);
+			},
+			onStop: function() {
+				story.refreshTiddler(this.id,1,true);
+			},
     }); 
     jQuery(".sectionHeading").hover( 
             function() { 

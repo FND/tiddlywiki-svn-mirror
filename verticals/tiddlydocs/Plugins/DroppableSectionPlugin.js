@@ -14,14 +14,18 @@ config.macros.droppableSection.handler = function(place,macroName,params,wikifie
 		accept: 'toc-item',
 		helperclass: 'helper', 
 		autoScroll: true,
+		onOut: function() {
+	console.log(this, arguments);
+		},
 		onStart: function() {
 				story.refreshTiddler(this.id,1,true);
 		},
 		onStop: function() {
+			console.log(this);
 			jQuery(this).remove();
 				story.refreshTiddler(this.id,1,true);
 		},
-		handle: 'toc-sort-handle'
+		handle: '.toc-sort-handle'
 	});
 };
 
