@@ -18,9 +18,10 @@ config.macros.droppableSection.handler = function(place,macroName,params,wikifie
 				story.refreshTiddler(this.id,1,true);
 		},
 		onStop: function() {
+			jQuery(this).remove();
 				story.refreshTiddler(this.id,1,true);
 		},
-		handle: '.toc-sort-handle'
+		handle: 'toc-sort-handle'
 	});
 };
 
