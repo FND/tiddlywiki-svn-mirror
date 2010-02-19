@@ -1,5 +1,5 @@
-twinstance tiddlydocs.com
-cd tiddlydocs.com
+twinstance demo.tiddlydocs.com
+cd demo.tiddlydocs.com
 
 twanager bag ckeditor<<EOF
 {"policy": {"write": ["ADMIN"]}}
