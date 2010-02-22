@@ -1,0 +1,12 @@
+modifier: aTeamMember2
+created: 
+modified: 20100222173337
+type: None
+tags: accomplishment
+stakeholder: John Smith
+benefit: The platform can now be supported by some unit under the existing yyy maintenance arrangements.
+business_unit: business unit d
+rt_contact: ABC
+outcome: Complete
+
+All the hosts which form the session layer of the the platform have now been upgraded to a standard build. The application has been re-installed and brought back online without loss of service.

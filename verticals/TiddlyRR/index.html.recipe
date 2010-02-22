@@ -1,6 +1,7 @@
 recipe: ../../core/tiddlywiki.html.recipe
 recipe: tiddlers/split.recipe
 recipe: shadows/split.recipe
+recipe: ResearchSlide/split.recipe
 tiddler: ../../contributors/JeremyRuston/plugins/CecilyPlugin.js
 
 tiddler: ../../contributors/MichaelMahemoff/plugins/CommentsPlugin/CommentsPlugin.js
