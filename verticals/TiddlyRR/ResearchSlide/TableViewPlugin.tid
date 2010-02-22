@@ -104,7 +104,11 @@ In this case, title is always used as the default first column.
                            return '';
                         }
                     }
-                    tableValue = (heading in tiddler) ? tiddler[heading] : tiddler.fields[heading] || fetchValue();
+                    if (heading === 'title') {
+                        tableValue = '<div class="reportTableLink'+tiddler[heading].split(' ').join('')+'"></div>';
+                    } else {
+                        tableValue = (heading in tiddler) ? tiddler[heading] : tiddler.fields[heading] || fetchValue();
+                    }
                     tableRow += '<td>' + tableValue + '</td>';
                 }
                 tableRow += '</tr>';
@@ -115,6 +119,11 @@ In this case, title is always used as the default first column.
             var table = '<div class="reportContainer"><table class="reportTable">' + tableHead + tableBody + '</table></div>';
             
             jQuery(place).append(table);
+            for (var i=0; i < tiddlers.length; i++) {
+                var classtitle = 'reportTableLink'+tiddlers[i].title.split(' ').join('');
+                var placeLink = jQuery('.'+classtitle)[0]; console.log(placeLink);
+                createTiddlyLink(placeLink, tiddlers[i].title, true);
+            }
         }
     }
 //}}}
