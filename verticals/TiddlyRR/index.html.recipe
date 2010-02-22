@@ -1,5 +1,8 @@
 recipe: ../../core/tiddlywiki.html.recipe
 recipe: tiddlers/split.recipe
+tiddler:tiddlers/searchBackstage.tid
+tiddler:tiddlers/search.tid
+
 recipe: shadows/split.recipe
 recipe: ResearchSlide/split.recipe
 tiddler: ../../contributors/JeremyRuston/plugins/CecilyPlugin.js

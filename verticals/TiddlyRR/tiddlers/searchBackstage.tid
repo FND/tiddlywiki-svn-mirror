@@ -1,0 +1,4 @@
+tags: systemConfig
+
+config.backstageTasks.push("search");
+merge(config.tasks,{search:{text: 'search',tooltip: 'click to search',content: '<<tiddler search>>'}});
