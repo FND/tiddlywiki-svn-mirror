@@ -2,5 +2,10 @@ recipe: ../../core/tiddlywiki.html.recipe
 recipe: tiddlers/split.recipe
 recipe: shadows/split.recipe
 tiddler: ../../contributors/JeremyRuston/plugins/CecilyPlugin.js
+
+tiddler: ../../contributors/MichaelMahemoff/plugins/CommentsPlugin/CommentsPlugin.js
+tiddler: ../../contributors/SimonMcManus/plugins/commentSlider.js
+
+
 prehead: shadows/MarkupPreHead.tiddler
 
