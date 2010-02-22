@@ -1,13 +1,6 @@
-recipe: ../../../../core/tiddlywiki.html.recipe
+recipe: ../../core/tiddlywiki.html.recipe
 recipe: tiddlers/split.recipe
 recipe: shadows/split.recipe
-tiddler: ../../plugins/CecilyPlugin.js
+tiddler: ../../contributors/JeremyRuston/plugins/CecilyPlugin.js
 prehead: shadows/MarkupPreHead.tiddler
-copy: attachments/ZUI_example.png
-copy: attachments/jumps.mov
-copy: attachments/Seagully.jpg
-copy: attachments/Swampglade.jpg
-copy: attachments/Tenerife.jpg
-copy: attachments/Weyflection.jpg
-copy: attachments/Ecl1-11-08-1999.ogg
 
