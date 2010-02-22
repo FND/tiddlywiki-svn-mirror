@@ -1,0 +1,18 @@
+<div title="WebKit" modifier="JeremyRuston" created="200806112350" changecount="1">
+<pre>WebKit is an open source web browser begun by Apple, forked off the KHTML codebase. See http://www.webkit.org/
+
+This implementation of ProjectCecily exploits several features of recent versions of WebKit:
+* [[Canvas]]
+* [[CSS Transforms|http://webkit.org/blog/130/css-transforms/]]
+* [[CSS Gradients|http://webkit.org/blog/175/introducing-css-gradients/]]
+* [[CSS Animation|http://webkit.org/blog/138/css-animation/]]
+
+WebKit is an awesome piece of work, as evidenced by the way that this embedded video plays smoothly even with lots of zooming and scaling going on:
+{{{
+<html>
+<video src="jumps.mov" autoplay playcount="999">
+</video>
+</html>
+}}}
+<html><video src="jumps.mov" autoplay playcount="999"></video></html></pre>
+</div>

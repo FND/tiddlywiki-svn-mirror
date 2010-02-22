@@ -1,0 +1,14 @@
+<div title="ToDo" modifier="JeremyRuston" created="200806152349" changecount="1">
+<pre>Things to do:
+* Make the overlay menu popup at the mouse position
+* Add keyboard shortcuts, and awesome/omni bar
+* Do semantic zooming in CSS by progressively adding classNames like "lessThan20px", "lessThan10px"
+* Improve zooming to use smoother bezier splines
+* Animate map transitions
+* A background based on gradient fills
+
+Problems:
+* Zooming could be smoother
+* Dragging tiddlers sometimes judders
+* Some tiddlers don't like being opened in edit mode (I think that this is a WebKit problem)</pre>
+</div>
