@@ -1,4 +1,4 @@
-recipe: ../../core/tiddlywiki.html.recipe
+recipe: ../../contributors/JeremyRuston/verticals/Cecily/index.html.recipe
 recipe: tiddlers/split.recipe
 tiddler:tiddlers/searchBackstage.tid
 tiddler:tiddlers/search.tid
@@ -9,6 +9,14 @@ tiddler: ../../contributors/JeremyRuston/plugins/CecilyPlugin.js
 
 tiddler: ../../contributors/MichaelMahemoff/plugins/CommentsPlugin/CommentsPlugin.js
 tiddler: ../../contributors/SimonMcManus/plugins/commentSlider.js
+
+copy: /Users/pauldowney/src/TiddlyWiki/contributors/JeremyRuston/verticals/cecily/attachments/ZUI_example.png
+copy: /Users/pauldowney/src/TiddlyWiki/contributors/JeremyRuston/verticals/cecily/attachments/jumps.mov
+copy: /Users/pauldowney/src/TiddlyWiki/contributors/JeremyRuston/verticals/cecily/attachments/Seagully.jpg
+copy: /Users/pauldowney/src/TiddlyWiki/contributors/JeremyRuston/verticals/cecily/attachments/Swampglade.jpg
+copy: /Users/pauldowney/src/TiddlyWiki/contributors/JeremyRuston/verticals/cecily/attachments/Tenerife.jpg
+copy: /Users/pauldowney/src/TiddlyWiki/contributors/JeremyRuston/verticals/cecily/attachments/Weyflection.jpg
+copy: /Users/pauldowney/src/TiddlyWiki/contributors/JeremyRuston/verticals/cecily/attachments/Ecl1-11-08-1999.ogg
 
 
 prehead: shadows/MarkupPreHead.tiddler
