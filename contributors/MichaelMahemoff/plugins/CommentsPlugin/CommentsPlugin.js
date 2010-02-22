@@ -70,10 +70,9 @@ handler: function(place,macroName,params,wikifier,paramString,tiddler) {
 
 buildCommentsArea: function(rootTiddler, place, macroParams) {
   var commentsArea = createTiddlyElement(place, "div", null, "comments");
-  var headingEl, heading = getParam(macroParams, "heading") || "";
-  heading = heading.replace("%c",
+  var headingEl, heading = getParam(macroParams, "heading");
+  if (heading) heading = heading.replace("%c",
     config.macros.comments.findCommentsFromRoot(rootTiddler).length);
-  console.log(rootTiddler);
   if (heading) headingEl = createTiddlyElement(commentsArea, "h1", null, null, heading);
 
   var comments = createTiddlyElement(commentsArea, "div", null, "");
@@ -94,11 +93,11 @@ buildCommentsArea: function(rootTiddler, place, macroParams) {
   }
 
   var expandHeading = getParam(macroParams, "expandHeading");
-  if (expandHeading && expandHeading.toLowerCase()=="true") {
-    var expandableElements
+  if (heading && expandHeading && expandHeading.toLowerCase()=="true") {
+    var $expandPrompt, expandableElements;
     var $expandables = jQuery([place.commentsEl,newCommentArea]).hide();
     jQuery(headingEl)
-      .append("<span id='expandPrompt'> &raquo;</span>")
+      .append($expandPrompt = "<span id='expandPrompt'> &raquo;</span>")
       .addClass("expander").click(function() {
         $expandables.toggle();
       });
