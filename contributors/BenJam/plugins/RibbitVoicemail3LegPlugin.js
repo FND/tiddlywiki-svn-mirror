@@ -1,16 +1,16 @@
 /***
-|''Name:''|RibbitVoicemail3LeggedPlugin|
+|''Name:''|RibbitVoicemail3LegPlugin|
 |''Description:''|Collect your messages from Ribbit and store as tiddlers|
 |''Author:''|BenJam|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/BenJam/plugins/RibbitVoicemailPlugin.js |
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/BenJam/plugins/RibbitVoicemail3LegPlugin.js |
 |''Version:''|0.1|
 |''Date:''|Feb 15, 2010|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
 |''~CoreVersion:''|2.3|
-
+TODO UPDATE
 Usage:
-note: This application uses the two legged authentication model within your private domain, you can enable this for your own application inside the Kermite test suite.
+note: This application requires that you have a RIbbit for mobile account.
 {{{
 <<RibbitVoicemail username password [consumerKey]>>
 }}}
@@ -24,24 +24,51 @@ If no consumerKey is present the default key for my own application RibbitIntro 
 	
 var log = console.log;
 var consumerKey = "MDllOTljNzgtYmYwZC00YzJlLTlkZDctYmMyZmZiY2UzYjFl";
-var secretKey = "ODI5OWM2MjYtNjE2MS00YWNkLWIwNTgtMDYzYjcwMjgwYmQ1"
+var secretKey = "ODI5OWM2MjYtNjE2MS00YWNkLWIwNTgtMDYzYjcwMjgwYmQ1";
 
 config.macros.RibbitVoicemail3Leg = {
 	
 	handler: function(place, macroName, params, wikifier, paramString, tiddler){
-		/*
-		if(params.length>3){
-			log("Bah! Too many params");
-			return;
-		}
-		var username = params[0];
-		var password = params[1];
-		if(params.length==3){
-			var key=params[3];
-			this.login(username,password,key);
-		}
-		*/
-		this.defaultLogin();
+		log("Ping");
+		if (!Ribbit.isLoggedIn || !Ribbit.checkAccessTokenExpiry()){
+			Ribbit.init3Legged(consumerKey,secretKey);
+			var win = null;
+
+			var gotUrlCallback = function(url){
+				log(url);
+				var redirect = document.createElement("a");
+				redirect.href=url;
+				redirect.innrHTML="Login";
+				jQuery(place).append(redirect);
+				
+				var pollApproved = function(){
+					setTimeout(function(){
+						var cb = function(val){
+							if (!val.hasError){
+								//logged in continue with init
+								alert("Pong");
+								//do something
+								win.close();
+							}
+							else{
+								pollApproved();
+							}
+						};
+						Ribbit.checkAuthenticatedUser(cb);
+					},4000);
+				}; //pollApproved
+
+				redirect.onclick = function(){
+					alert("clicked");
+					win = window.open(url, "r4mlogin","width=1024,height=800,toolbar:no");
+					pollApproved();
+					return false;
+				}; //onclick
+				
+			};//gotURLCallback
+			
+			Ribbit.createUserAuthenticationUrl(gotUrlCallback);
+		}//if
 	},
 	
 	defaultLogin: function(){
@@ -84,5 +111,5 @@ config.macros.RibbitVoicemail3Leg = {
 		}
 		
 	}
-}
+};
 //}}}

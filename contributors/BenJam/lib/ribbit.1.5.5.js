@@ -230,7 +230,7 @@ Ribbit.sessionStorage = function(v) {
 Ribbit.readCookie = function() {
 	var n = Ribbit.cookie + "=";
 	var cks = [];
-	cks = Ribbit.sessionStorage().split(";");
+	cks = Ribbit.sessionStorage().toString().split(";"); //*** EDIT *** Added .toString();
 	var v = '{}';
 	for (var i = 0; i < cks.length; i++) {
 		var ck = cks[i];
