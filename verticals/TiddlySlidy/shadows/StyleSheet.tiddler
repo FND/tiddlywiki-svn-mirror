@@ -48,16 +48,6 @@ a#backstageShow {
     float: left;
 }
 
-#sidebar {
-    z-index: 0;
-    float: left;
-    width: 20%;
-    padding: 0;
-    margin: 0;
-    text-align: center;
-    font-size: 1em;
-}
-
 #sidebarTabs .tabContents {
     margin: 0 auto;
     text-align: left;
