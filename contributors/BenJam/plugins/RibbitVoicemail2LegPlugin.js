@@ -90,5 +90,5 @@ config.macros.RibbitVoicemail2Leg = {
 		}
 		
 	}
-}
+};
 //}}}
