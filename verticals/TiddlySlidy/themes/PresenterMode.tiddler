@@ -25,6 +25,11 @@ a#backstageShow {
     color: [[ColorPalette::SecondaryPale]];
 }
 
+/* ie6.0 hack */
+div#tiddlerDisplay div.tiddler {
+    _height: 475px;
+}
+
 /*}}}*/
 </pre>
 </div>
