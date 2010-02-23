@@ -168,6 +168,11 @@ var lastSlide = '';
         $('<label for=' + id + '>' + caption + '</label>').appendTo(place);
     };
 
+Story.prototype.onTiddlerMouseOver = function(e)
+{
+    addClass(this, "mousey");
+};
+
 
 })(jQuery);
 //}}}
