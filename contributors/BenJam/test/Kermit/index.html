@@ -1,0 +1,350 @@
+<html>
+	<head>
+		<title>Kermit 1.5.5</title>
+		<link rel="stylesheet" href="css/south-street/jquery-ui-1.7.1.custom.css" type="text/css" media="screen" />
+		<link type="text/css" href="css/fg.menu.css" media="screen" rel="stylesheet" />
+		<link type="text/css" href="css/theme/ui.all.css" media="screen" rel="stylesheet" />
+		<link type="text/css" href="css/kermit.css" media="screen" rel="stylesheet" />	
+		<link rel="shortcut icon" href="favicon.ico"/>
+	
+	</head>
+	<script type="text/javascript" src="js/jquery-1.3.2.min.js"></script>
+	<script type="text/javascript" src="js/jquery-jec.js"></script>
+	<script type="text/javascript" src="js/fg.menu.js"></script>
+	<script type="text/javascript" src="js/swfobject.js"></script>
+	<script type="text/javascript" src="js/ribbit.1.5.5.js"></script>
+	<body>
+		<div id="player" ></div>
+		<div id="wait" class="wait"><img style="position:relative;top:50%;left:50%;margin: -48px 0 0 -48px" src="images/wait.gif"/></div>
+		<div style="background:url(./images/green_bg.jpg) repeat-x;height:72px;padding:0 0 0 15px;margin:0;"><img  onclick="window.open('http://developer.ribbit.com','devportal')" src="./images/ribbitdev_logo.jpg"/></div>
+		<table>
+			<tr style="vertical-align:middle">
+				<td >
+					<a href="#" onclick="showConfig()" class="kermit-button ui-widget ui-state-default ui-corner-all">Authentication</a>
+				</td>
+				<td>
+					<a  id="menu" href="#menu-items" class="kermit-button kermit-button-icon-right ui-widget ui-state-default ui-corner-all">Resources<span class="ui-icon ui-icon-triangle-1-s"></span></a>
+					<div id="menu-items" class="hidden"></div>
+				</td>
+				<td>
+					<a href="#" onclick="showRaw()" class="kermit-button ui-widget ui-state-default ui-corner-all">Custom</a>			
+				</td>
+				
+				<td>
+					<a href="#" onclick="showPlayFile()" class="kermit-button ui-widget ui-state-default ui-corner-all">Play a file</a>			
+				</td>
+				<td id="topScriptMenu">
+					<a href="#" onclick="showScriptManager()" class="kermit-button ui-widget ui-state-default ui-corner-all">Scripts</a>			
+				</td>
+				<td>
+					<a id="history-menu" href="#history-items" style="visibility:hidden" class="kermit-button kermit-button-icon-right ui-widget ui-state-default ui-corner-all">History<span class="ui-icon ui-icon-triangle-1-s"></span></a>
+					<div id="history-items" class="hidden"><ul id="history-item-list"><li></ul></div>			
+				</td>
+				<td valign="top">
+					<div class="ui-widget output" ><input type="checkbox" id="useJsonp"  onclick="toggleJsonp();">Use JSONP instead of XML Http Request</input></div>
+					<div id="logonStatus" class="ui-widget output" style="color:#ff0000"><i>Not Logged On</i></div>
+				</td>
+			</tr>
+		</table>
+		<div id="container" style="position:absolute;top:120px;left:0px;font-size:12pt" class="ui-widget ui-corner-all">
+			<div id="layout" style="position:absolute;top:20px;left:10px" class="ui-widget ui-corner-all"></div>
+			<div id="fileplayer" style="position:absolute;top:20px;left:10px;visibility:hidden" class="3ui-widget ui-corner-all"><h2>Play a file</h2>
+			<hr/>
+			<table >
+				<tr >
+					<td>
+						Url
+					</td>
+					<td>
+						<input type="text" id="playUrlInput" size="50"  title="a relative or full url to a file on the current Ribbit environment, to which you have permission"/>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2" align="right">
+						<input type="button" id="playUrlButton" value="Play" onclick="playUrl()" />
+					</td>
+				</tr>
+			<tr>
+				<td colspan=2><hr/></td>
+			</tr>
+				<tr>
+					<td>
+						File
+					</td>
+					<td>
+						<input type="text" id="playFileInput" size="50" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						Folder
+					</td>
+					<td>
+						<input type="text" id="playFolderInput" size="50" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						Domain
+					</td>
+					<td>
+						<input type="text" id="playDomainInput" size="50" />
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2" align="right">
+						<input type="button" id="playFileButton" value="Play" onclick="playFile()" />
+					</td>
+				</tr>
+			</table>
+			</div>
+			<div id="auth" class="ui-widget ui-corner-all" style="position:absolute;top:0px;left:10px"><h2>Authentication</h2>
+			<hr/>
+				<table><tr><td >
+					<table><tr><td width="150px">
+					<tr>
+						<td>Environment</td>
+						<td>
+							<select id="environment" onchange="init()">
+								
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2"><hr/></td>
+					</tr>
+					<tr>
+						<td>Consumer Key:</td>
+						<td><input type="text" id="consumerKey" size="50" onchange="init()"></td>
+					</tr>
+					<tr> 
+						<td>Secret Key:</td>
+						<td><input type="text"  id="secretKey" size="50" onchange="init()"></td>
+					</tr>
+					</td></tr>
+					</table>
+					</td></tr> 
+					<tr>
+						<td colspan="2">
+							
+							<div id="userPasswordEntry">
+							
+							</div>
+						</td>
+					<tr> 
+						
+						<td colspan="2" style="text-align:right">
+							<hr/>
+							<input type="button" id="loginButton" value="login" onclick="logon()"/>
+							&nbsp;&nbsp;<input type="button" id="logoffButton" value="logoff" onclick="logoff()"/>
+						</td>
+					</tr>
+					
+					<tr> 
+						<td colspan="2">
+							<div style="position:relative">
+								<div id="ribbitMobile" style="position:absolute;top:0px;">
+								<hr/>
+								Alternatively, you can login through the Ribbit Mobile domain. <br/><br/>You will need to ensure the consumer key and secret you have
+								entered are for an application created, at <a href="http://developer.ribbit.com" target="_blank" class="kermitAnchor">http://developer.ribbit.com</a>, in the Ribbit Mobile Domain.
+								<p align="center"><a href="#" class="kermitAnchor largeText" onClick="ribbitMobileLogin()" >Click here to start</a>.</p>
+								</div>
+								<div id="ribbitMobileLogin" style="position:absolute;top:0px;visibility:hidden">
+								<hr/>
+								<p align="center">
+								Click below to login at Ribbit Mobile and allow the application access<br/>(opens a new window)<br/>
+								<a class="kermitAnchor largeText" href="#" target="_new" style="font-size:8pt" id="redirectAnchor"></a></p>
+								<br/><p align="center">
+								<a class="kermitAnchor largeText" href="#" onClick="ribbitMobileApproved()">Click here when you have approved</a> to complete the process</p>
+								</div>
+							</div>
+						</td>
+					</tr>
+					
+					
+					
+				</table>
+			</div>
+			<div id="raw" class="ui-widget ui-corner-all hidden">
+				<table>
+					<tr valign="top">
+						<td>
+							<table >
+								<tr>
+									<td colspan="3"><h2>Custom</h2></td>
+								</tr>
+								<tr>
+									<td></td>
+									<td align="center"> <b>Method</b></td>
+									<td align="center"><b>URI</b></td>
+								</tr>
+								<tr>
+									<td></td>
+									<td>
+									<div>
+										<select id="rawHttpMethod">
+											<option value="DELETE">DELETE</option>
+											<option value="GET" selected>GET</option>
+											<option value="PUT">PUT</option>
+											<option value="POST">POST</option>
+										</select>
+									</div>
+									</td>
+									<td><input type="text" size="28" id="rawUri" value="/"/></td>
+								</tr>
+								
+								<tr>
+									<td><b>Body</b></td>
+									<td colspan="2"><textarea id="rawBody" cols="35" rows="10"></textarea></td>
+								</tr>
+								<tr>
+									<td></td>
+									<td></td>
+									<td align="right"><input id="rawDo" type="button" value="execute" onclick="executeRaw()"></td>
+								</tr>
+							</table>
+						</td>
+						<td>
+							<table id="rawTable" style="visibility:hidden">
+								<tr>
+									<td><b>Request</b></td>
+								</tr>
+								<tr>
+									<td><div id="rawRequest" class="output"></div></td>				
+								</tr>
+								<tr>
+									<td ><b>Response</b></td>
+								</tr>
+								<tr>
+									<td><div id="rawResponse" class="output"></div></td>
+								</tr>
+								<tr>
+									<td ><b>Result</b></td>
+								</tr>
+								<tr>
+									<td colSpan="2"><div id="rawOutput" class="output"></div></td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div id="scriptManager" class="ui-widget ui-corner-all" style="position:absolute;top:0px;left:10px;visibility:hidden">
+				
+				<div id="configureUrl" style="position:absolute;top:20px;left:10px">
+					<h2>Script Manager <div id="scriptManagerTitle"></div></h2>
+					<table width="600px">
+						<tr>
+							<td colSpan="2">
+								<em>This feature is in development</em><br/>
+								There is an application developed by the Ribbit SDK team that uses the PHP Rest libraries to run <br/>
+								some simple scripts in an event driven kind of fashion<br/><br/>
+								This Kermit tool allows some administration of the script engine, and may if we get round to it include a designer as well. 
+								<br/>
+								<br/>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								Script Engine URL
+							</td>
+							<td>
+								<input type="text" id="scriptEngineUrl"/>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								Admin user name
+							</td>
+							<td>
+								<input type="text" id="scriptEngineUsername"/>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								Admin password
+							</td>
+							<td>
+								<input type="password" id="scriptEnginePassword"/>
+							</td>
+						</tr>
+						<tr>
+							<td>
+							
+							</td>
+							<td>
+								<input type="button" value="Login to your script engine" onclick="loginToScriptEngine()"/>
+							</td>
+						</tr>
+					</table>
+				
+				</div>
+				
+				<div id="scriptManagerContainer" style="position:absolute;top:20px;left:10px;width:800px;visibility:hidden">
+					<table>
+						<tr>
+							<td colspan="2">
+								<h2>Script Manager</h2> (<span id="engineUrl"></span>);<br/><br/>
+							</td>
+						</tr>
+						<tr >
+							<td valign="top">
+								<table width="160px" >
+									<tr><td valign="top">
+										<a href="#" class="engine" onclick="showScriptEditor();">Script Editor</a>
+									</td></tr>
+									<tr><td valign="top">
+										<a href="#" class="engine" onclick="getScripts();">Scripts</a>
+									</td></tr>
+									<tr><td valign="top">
+										<a href="#" class="engine" onclick="getCurrent();">Running</a>
+									</td></tr>
+									<tr><td valign="top">
+										<a href="#" class="engine" onclick="getHistory();">History</a>
+									</td></tr>
+									<tr><td valign="top">
+										<a href="#" class="engine" onclick="getDevices();">Phone Numbers</a>
+									</td></tr>
+									<tr><td valign="top">
+										<a href="#" class="engine" onclick="logoffScriptEngine();">Logoff</a>
+									</td></tr>
+								</table>
+							</td>
+							<td valign="top">
+								<div id="scriptManagerContent" ><h2>Your configuration is being validated</h2></div>
+							</td>
+						</tr>
+					</table>
+				
+				
+				</div>
+				
+			</div>
+			<div id="impersonation" style="visibility:hidden">
+				<hr/>
+				<table>
+					<tr>
+					<td width="150px">User ID to impersonate:</td>
+					<td><input type="input" id="userIdToImpersonate" size="50" ></td>
+					</tr>
+				</table>
+			</div>
+			
+			<div id="userPasswordContents" style="visibility:hidden">
+				<hr/>
+				<table>
+					<tr>
+						<td width="150px">User Name:</td>
+						<td><input type="text" id="userName" size="50" ></td>
+					</tr>
+					<tr>
+						<td>Password:</td>
+						<td><input type="password"  id="userPassword" size="50" ></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<script type="text/javascript" src="js/kermit.js"></script>
+		<script type="text/javascript" src="js/scriptEngine.js"></script>
+	</body>
+</html>

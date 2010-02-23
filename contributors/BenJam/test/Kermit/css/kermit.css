@@ -1,0 +1,117 @@
+body { font-size:62.5%; margin:0; padding:0; }
+	#menuLog { font-size:1.4em; margin:20px; }
+	.hidden { position:absolute; top:0; left:-9999px; width:1px; height:1px; overflow:hidden; }
+	
+	.kermit-button { clear:left; margin:0 4px 40px 20px; width:125px; padding: .4em 1em; text-decoration:none !important; cursor:pointer; position: relative; text-align: center; zoom: 1; }
+	.kermit-button .ui-icon { position: absolute; top: 50%; margin-top: -8px; left: 50%; margin-left: -8px; }
+	a.kermit-button { float:left;  }
+	button.kermit-button { width:auto; overflow:visible; } /* removes extra button width in IE */
+	
+	.kermit-button-icon-left { padding-left: 2.1em; }
+	.kermit-button-icon-right { padding-right: 2.1em; }
+	.kermit-button-icon-left .ui-icon { right: auto; left: .2em; margin-left: 0; }
+	.kermit-button-icon-right .ui-icon { left: auto; right: .2em; margin-left: 0; }
+	.kermit-button-icon-solo { display:block; width:8px; text-indent: -9999px; }	 /* solo icon buttons must have block properties for the text-indent to work */	
+	
+	.kermit-button.ui-state-loading .ui-icon { background: url(spinner_bar.gif) no-repeat 0 0; }
+	
+	.output{font-size:10pt;}
+	table.output {font-size:10pt; border-style:solid; border-width:1px;border-color:#33AA33}
+	table.output td{border-style:solid; border-width:1px; border-color:#AAFFAA}
+	input {
+		border: 1px solid #33AA33;
+		background-color: #eeffee; 
+	}
+	input:focus {
+		border: 1px solid #00FF00;
+		background-color: #ffffff; 
+	}
+	textarea {
+		border: 1px solid #33AA33;
+		background-color: #eeffee; 
+	}
+	textarea:focus {
+		border: 1px solid #00FF00;
+		background-color: #ffffff; 
+	}
+	select {
+		border: 1px solid #33AA33;
+		background-color: #eeffee; 
+	}
+	select:focus {
+		border: 1px solid #00FF00;
+		background-color: #ffffff; 
+	}
+	input[type="button"] {
+		border: 1px outset #000000;
+		background-color: #aabbaa;
+		color:#000000; 
+	}
+	.wait {
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		right: 0px; /* IE doesn't read this */
+		bottom: 0px; /* IE doesn't read this */
+		padding:10px;
+		background-color: #666666;
+		border: 1px solid;
+		border-color:#FFFFFF;
+		overflow: auto;
+		filter:alpha(opacity=60); 
+   		-moz-opacity: 0.6; 
+   		opacity: 0.6; 
+		visibility:hidden;
+		z-index:1000;
+		
+		height: expression(document.body.clientHeight  + "px");
+		width: expression(document.body.clientWidth + "px");
+		} 
+	.centered{
+		vertical-align:middle;
+		margin:0 auto;
+		}
+	a.novisit{
+		color:#000000;
+		text-decoration:underline;
+	}
+	a.novisit:visited{
+		color:#000000;
+		text-decoration:underline;
+	}
+	a.novisit:hover{
+		color:#111111;
+		text-decoration:underline;
+	}
+	a.engine{
+		color:#000000;
+		font-size:14pt;
+		text-decoration:underline;
+	}
+	a.engine:visited{
+		color:#000000;
+		font-size:14pt;
+		text-decoration:underline;
+	}
+	a.engine:hover{
+		color:#111111;
+		font-size:14pt;
+		text-decoration:none;
+	}
+	a.kermitAnchor{
+		color:#000000;
+		text-decoration:underline;
+	}
+	a.kermitAnchor:visited{
+		color:#000000;
+		text-decoration:underline;
+	}
+	a.kermitAnchor:hover{
+		color:#111111;
+		text-decoration:none;
+	}
+	.largeText{
+		font-size:14pt;
+		font-weight:bold;
+	}
+	
