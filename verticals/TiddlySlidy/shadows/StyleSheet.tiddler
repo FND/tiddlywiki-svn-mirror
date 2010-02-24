@@ -42,39 +42,6 @@ a#backstageShow {
     margin-top: -2.5em;
 }
 
-#sections {
-    width: 20%;
-    padding: 2em;
-    float: left;
-}
-
-#sidebarTabs .tabContents {
-    margin: 0 auto;
-    text-align: left;
-}
-#sidebarOptions {
-    padding-top:1em;
-}
-#sidebarOptions a {margin:0; padding:0; display: inline; }
-#sidebarOptions input {margin:0.4em 0.5em;}
-
-#sidebarTabs .tabContents {
-    width: 15em; 
-    overflow: hidden;
-    color: [[ColorPalette::SecondaryMid]];
-    border: 2px solid [[ColorPalette::PrimaryPale]];
-    background-color: [[ColorPalette::Background]];
-}
-
-#sidebar .tabUnselected {
-    background-color: [[ColorPalette::SecondaryMid]];
-    color: [[ColorPalette::Background]];
-}
-
-#sidebar .tiddlyLinkExisting {
-    color: [[ColorPalette::SecondaryMid]];
-}
-
 
 #displayArea {
     margin: 1em auto 1em auto;
@@ -162,17 +129,6 @@ a#backstageShow {
     background: -moz-linear-gradient(top, [[ColorPalette::SelectedLight]] 0%, [[ColorPalette::SelectedDark]] 100%);
 }
 
-#authorButtons {
-    height: 3.5em;
-    padding: 0 auto;
-}
-
-#sidebar a.button,
-#authorButtons a.button {
-    text-align: center;
-    font-size: 1.2em;
-}
-
 #mainMenu {
     width: 100%;
     position: relative;
@@ -203,8 +159,8 @@ a#backstageShow {
     width: 90%;
 }
 
-#mainMenu .selected {
-    color: [[ColorPalette::SelectedPale]];
+#mainMenu li .selected {
+    color: black;
     background-color: [[ColorPalette::PrimaryLight]];
 }
 

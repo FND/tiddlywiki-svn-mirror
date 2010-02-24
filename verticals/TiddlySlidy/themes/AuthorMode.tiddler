@@ -11,16 +11,18 @@
 </div>
 <div id='messageArea'></div>
 <div id='author'>
-    <div id="sections">
+    <div id="mainNav">
         <div id='authorButtons' refresh='content' tiddler='AuthorButtons'></div>
         <div id='mainMenu' macro='MainMenuOrder'></div>
     </div>
-    <div id='sidebar'>
-        <div id='sidebarOptions' refresh='content' tiddler='SideBarOptions'></div>
-        <div id='sidebarTabs' refresh='content' force='true' tiddler='SideBarTabs'></div>
-    </div>
-    <div id='displayArea'>
-        <div id='tiddlerDisplay'></div>
+    <div id="displayContainer">
+        <div id='displayArea'>
+            <div id='tiddlerDisplay'></div>
+        </div>
+        <div id='sidebar'>
+            <div id='sidebarOptions' refresh='content' tiddler='SideBarOptions'></div>
+            <div id='sidebarTabs' refresh='content' force='true' tiddler='SideBarTabs'></div>
+        </div>
     </div>
 </div>
 <div id='footer'></div>
@@ -29,6 +31,113 @@
 !StyleSheet
 [[StyleSheet]]
 /*{{{*/
+
+    #contentWrapper {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    #author {
+        width: 100em;
+        margin: 0 auto;
+        text-align: left;
+    }
+
+    #mainNav {
+        width: 18em;
+        max-width: 20%;
+        float: left;
+        margin: 0;
+    }
+
+    #displayContainer {
+        float: right;
+        width: 75em;
+        margin: 0;
+    }
+
+    #tiddlerDisplay {
+        display: inline-block;
+        margin: 0;
+        padding: 0;
+    }
+
+    #displayArea {
+        width: 50em;
+        display: inline;
+        margin: 0;
+        padding: 0;
+    }
+
+    #sidebar {
+        width: 18em;
+        margin: 0;
+        right: 0;
+        top: 0;
+        float: left;
+        margin: 0;
+        padding: 0;
+        margin: 0;
+        position: static;
+        float: right;
+
+        /* IE6 hack */
+        _position: absolute;
+        _top: 8em;
+    }
+
+    #footer { 
+        clear: both;
+    }
+
+#sidebarTabs .tabContents {
+    margin: 0 auto;
+    text-align: left;
+}
+#sidebarOptions {
+    padding-top:1em;
+}
+#sidebarOptions a {
+    margin:0; 
+    padding:0; 
+    display: inline; 
+}
+#sidebarOptions input {
+    margin:0.4em 0.5em;
+}
+
+#sidebarTabs .tabContents {
+    width: 15em; 
+    overflow: hidden;
+    color: [[ColorPalette::SecondaryMid]];
+    border: 2px solid [[ColorPalette::PrimaryPale]];
+    background-color: [[ColorPalette::Background]];
+    margin: 0;
+}
+
+#sidebar .tabUnselected {
+    background-color: [[ColorPalette::SecondaryMid]];
+    color: [[ColorPalette::Background]];
+    margin: 0;
+}
+
+#sidebar .tiddlyLinkExisting {
+    color: [[ColorPalette::SecondaryMid]];
+    margin: 0;
+}
+
+#authorButtons {
+    height: 3.5em;
+    padding: 0 auto;
+}
+
+#sidebar a.button,
+#authorButtons a.button {
+    text-align: center;
+    font-size: 1.2em;
+}
+
+
 /*}}}*/
 </pre>
 </div>
