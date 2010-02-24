@@ -40,6 +40,8 @@ a#backstageShow {
 #header .modeSwitch {
     float:right;
     margin-top: -2.5em;
+    margin-bottom: 1em;
+    height: 3em;
 }
 
 
