@@ -161,9 +161,11 @@ a#backstageShow {
     width: 90%;
 }
 
-#mainMenu li .selected {
-    color: black;
-    background-color: [[ColorPalette::PrimaryLight]];
+#mainMenu li a.selected,
+#mainMenu li a:hover,
+#mainMenu li a.selected:active {
+    color: [[ColorPalette::Background]];
+    background-color: [[ColorPalette::SecondaryMid]];
 }
 
 h2 {
