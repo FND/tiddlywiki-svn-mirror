@@ -10,7 +10,7 @@ if (!config.options.txtTheme) {
 /*
  *  Faster fading messages!
  */
-config.options.txtFadingMessagesTimeout = 1; 
+config.options.txtFadingMessagesTimeout = 100; 
 
 /*
  *  Disable WikiLinks
@@ -51,6 +51,12 @@ merge(config.views.wikified,{
 merge(config.views.editor,{
 	themePrompt: "Type a theme for the slide"
 });
+
+/*
+ *  auto saving
+ */
+config.options.chkAutoSave = true;
+config.options.txtBackupFolder = "backups";
 
 /*
  *  disable read-only mode for demo

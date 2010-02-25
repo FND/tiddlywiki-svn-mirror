@@ -5,7 +5,6 @@
 | Author|reintroduce search, with extension for searching fields |
 | Author|Options panel for which mode to open in, author name, etc |
 | Present|fullscreen mode |
-| Author|spell checking textarea/input box|
 | Author|new slide template based selector |
 | Present|keyboard navigation customised from theme |
 | Author|Different images for zoom/ thumbnail |
@@ -22,5 +21,6 @@
 | Author|how does tagging surface? |
 | Author|[[WYSIWYG editor|http://ckeditor.com/]] |
 | Author|template authoring |
+| Author|spell checking textarea/input box (Firefox: layout.spellcheckDefault)|
 </pre>
 </div>
