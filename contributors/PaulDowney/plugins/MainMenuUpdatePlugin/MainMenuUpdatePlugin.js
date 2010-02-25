@@ -23,7 +23,7 @@ New items added to the MainMenu as a member of an unordered list, so as to work 
 ***/
 //{{{
 /*jslint onevar: false nomen: false plusplus: false */
-/*global config story store refreshAll autoSaveChanges */
+/*global config story store refreshAll autoSaveChanges refreshPageTemplate */
 (function ($) {
     version.extensions.MainMenuUpdatePlugin = {installed: true};
 
@@ -32,22 +32,27 @@ New items added to the MainMenu as a member of an unordered list, so as to work 
 
     config.extensions.MainMenuUpdate = function (title, newTitle) {
         var t = store.getTiddler("MainMenu");
-        var text = t.text;
-        if (!newTitle) {
-            text = text.replace("*[[" + title + "]]\n", "");
-        } else {
-            if (newTitle !== title) {
-                text = text.replace("[[" + title + "]]", "[[" + newTitle + "]]");
-            } else if (text.indexOf("[[" + title  + "]]") === -1) {
-                text = text + "*[[" + title + "]]\n";
-            }
-        }
+        var text = this.transform(t.text, title, newTitle);
         store.saveTiddler(t.title, t.title, text, t.modifier, t.modified, t.tags, t.fields, true, t.created, t.creator);
 
-        // this should go ..
-        story.refreshAllTiddlers(true);
-        refreshAll();
+        // ideally this should really go, but MainMenu isn't a tiddler ..
+        refreshPageTemplate();
         autoSaveChanges();
+    };
+
+    config.extensions.MainMenuUpdate.transform = function (text, oldTitle, newTitle) {
+        if (!newTitle) {
+            text = text.replace("*[[" + oldTitle + "]]\n", "");
+        } else {
+            if (oldTitle !== newTitle) {
+                text = text.replace("[[" + oldTitle + "]]", "[[" + newTitle + "]]");
+            } 
+            if (text.indexOf("[[" + newTitle  + "]]") === -1) {
+                text = text.replace(/([^\s])\s*$/, "$1\n"); // defense against ie6 glitches
+                text = text + "*[[" + newTitle + "]]\n";
+            }
+        }
+        return text;
     };
 
     // should be possible to remove these hi-jacks
