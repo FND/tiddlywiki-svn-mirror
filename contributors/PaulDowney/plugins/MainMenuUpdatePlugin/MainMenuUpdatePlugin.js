@@ -30,9 +30,9 @@ New items added to the MainMenu as a member of an unordered list, so as to work 
     config.options.txtMainMenuTag = "slide";
     config.optionsDesc.txtMainMenuTag = "Tag of items automatically added to the MainMenu";
 
-    config.extensions.MainMenuUpdate = function (title, newTitle) {
+    config.extensions.MainMenuUpdate = function (oldTitle, newTitle) {
         var t = store.getTiddler("MainMenu");
-        var text = this.transform(t.text, title, newTitle);
+        var text = config.extensions.MainMenuUpdate.transform(t.text, oldTitle, newTitle);
         store.saveTiddler(t.title, t.title, text, t.modifier, t.modified, t.tags, t.fields, true, t.created, t.creator);
 
         // ideally this should really go, but MainMenu isn't a tiddler ..
