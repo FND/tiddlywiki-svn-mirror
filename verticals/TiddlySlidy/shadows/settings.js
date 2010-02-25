@@ -10,7 +10,7 @@ if (!config.options.txtTheme) {
 /*
  *  Faster fading messages!
  */
-config.options.txtFadingMessagesTimeout = 100; 
+config.options.txtFadingMessagesTimeout = 2; 
 
 /*
  *  Disable WikiLinks
