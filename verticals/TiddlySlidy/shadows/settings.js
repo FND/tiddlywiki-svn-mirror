@@ -3,10 +3,9 @@
 /*
  *  Theme
  */
-//TBD: make this an option/cookie ..
-config.options.txtTheme = "PresenterMode";
-//config.options.txtTheme = "AuthorMode";
-//config.options.txtTheme = "TiddlyWikiMode";
+if (!config.options.txtTheme) {
+    config.options.txtTheme = "PresenterMode";
+}
 
 /*
  *  Faster fading messages!
@@ -53,14 +52,12 @@ merge(config.views.editor,{
 	themePrompt: "Type a theme for the slide"
 });
 
-
 /*
  *  disable read-only mode for demo
  */
 config.options.chkHttpReadOnly = false;
 readOnly = false;
 showBackstage = true;
-
 
 // key mappings
 // config.macros.keybindings.keyCodes[32] = function() { story.nextTiddler(); }; 	//space
