@@ -57,7 +57,10 @@ if (!version.extensions.ThemedTiddlerPlugin) {
     Story.prototype.refreshTiddler = function (title, template, force, customFields, defaultText)
     {
         var tiddlerElem = this.__refreshTiddler.apply(this, arguments);
-        addClass(tiddlerElem, store.getTiddler(title).fields.theme);
+        var tiddler = store.getTiddler(title);
+        if (tiddler) {
+            addClass(tiddlerElem, store.getTiddler(title).fields.theme);
+        }
         return tiddlerElem;
     };
 }
