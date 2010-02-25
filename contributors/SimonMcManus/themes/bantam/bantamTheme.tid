@@ -1,0 +1,94 @@
+tags: systemTheme  excludeLists excludeSearch
+
+/***
+|''Name:''|bantamTheme|
+|''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
+|''~CoreVersion:''|2.4.0|
+|''~PageTemplate:''|##PageTemplate|
+|''~StyleSheet:''|##StyleSheet|
+
+***/
+
+!PageTemplate
+<!--{{{-->
+    
+    <link href="https://ghmc.bantamlive.com/stylesheets/compiled/screen.css?1266605276" media="screen, projection" rel="stylesheet" type="text/css" />
+    <div id='container'> 
+        <div id="header">
+            <ul id="menu">
+            <div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
+            </ul>
+            <form method="get" id="global_search" action="https://ghmc.bantamlive.com/contacts">
+                <input type="text" value="" placeholder="Search for a contact..." name="search" id="search" class="search prompt global_search ac_input placeholder" autocomplete="off"/>
+            </form>
+            <ul id="utilities">
+                <li class="">
+                    <a href="/settings/profile_info">Settings</a>
+                </li>
+                <li>
+                    <a target="_blank" href="/zendesk">Help</a>
+                </li>
+                <li>
+                    <a onclick="var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;var m = document.createElement('input'); m.setAttribute('type', 'hidden'); m.setAttribute('name', '_method'); m.setAttribute('value', 'delete'); f.appendChild(m);var s = document.createElement('input'); s.setAttribute('type', 'hidden'); s.setAttribute('name', 'authenticity_token'); s.setAttribute('value', 'hqGGL9x7JIMlXYDKtBhYaswC0FqK2YcjrbWuu+N8rcE='); f.appendChild(s);f.submit();return false;" href="https://ghmc.bantamlive.com/session">Logout</a>
+                </li>
+            </ul>
+        </div>
+        <div id='displayArea'>
+        <div id='messageArea'></div>
+        <div id='tiddlerDisplay'></div>
+    </div>
+    
+
+
+</div>
+<!--}}}-->
+
+!StyleSheet
+
+body {
+-moz-background-clip:border;
+-moz-background-inline-policy:continuous;
+-moz-background-origin:padding;
+background:#F9F9F9 none repeat scroll 0 0;
+color:#3C3C3C;
+font-family:Arial,Helvetica,sans-serif;
+font-size:13px;
+line-height:18px;
+}
+
+html body #container {
+    margin:0 auto;
+    max-width:1200px;
+    min-width:960px;
+    padding:0 10px;
+}
+
+#mainMenu {
+    font-size:1.1em;
+    left:0;
+    line-height:1.6em;
+    padding:0.5em;
+    position:static;
+    text-align:right;
+    width:100%;
+    font-weight:bolder;
+}
+
+#mainMenu a {
+    padding:1em;
+}
+
+#displayArea {
+margin:1em;
+}
+
+
+html body .button {
+    display:inline;
+}
+
+.tiddler {
+    background:#FFFFFF url(/images/feed/bg_feed.png) repeat-y scroll 0 0;
+    padding:2em;
+    margin:2em;
+}
