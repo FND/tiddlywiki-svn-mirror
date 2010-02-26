@@ -85,9 +85,11 @@ config.macros.TableOfContent.renderSpec = function(specView, spec) {
     }); 
     jQuery(".sectionHeading").hover( 
             function() { 
+					jQuery(this).next().addClass("activeButton");
                     jQuery(this).parent().addClass("draggableHover");
             },  
             function() { 
+					jQuery(this).next().removeClass("activeButton");
                     jQuery(this).parent().removeClass("draggableHover"); 
             } 
     );
@@ -136,9 +138,9 @@ config.macros.TableOfContent._renderSpec = function(specView, spec, label) {
 		createTiddlyText(sectionDiv, label.join(".")+"  :  "+this.title);
 		var a = createTiddlyElement(li, "a", null, 'deleteButton', config.macros.TableOfContent.deleteText);
 		a.onclick = function() {
-		    jQuery(this).parent().remove();
+			jQuery(this).parent().remove();
 		    config.macros.TableOfContent.specChanged();
-		}
+		};
 		config.macros.TableOfContent._renderSpec(li, this.children, label);
 	});
 }
@@ -283,10 +285,17 @@ ul {
  position:relative;
  top:-1.5em;
  margin-right:0.5em;
+opacity:0.3;
+
 }
+.activeButton {
+	opacity:1;
+}
+
 
 .deleteButton:hover {
 	cursor:pointer;
+	opacity:1;
 }
 
 .specView h5.emptySpec {
