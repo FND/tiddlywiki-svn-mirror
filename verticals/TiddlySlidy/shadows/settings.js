@@ -3,7 +3,7 @@
 /*
  *  Theme
  */
-if (!config.options.txtTheme) {
+if (!config.options.txtTheme || config.options.txtTheme == "DefaultTheme") {
     config.options.txtTheme = "PresenterMode";
 }
 
