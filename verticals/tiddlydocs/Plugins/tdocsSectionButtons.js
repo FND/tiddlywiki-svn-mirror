@@ -1,3 +1,26 @@
+/***
+|''Name''|sectionsButtons|
+|''Authors''|Simon McManus|
+|''Version''|0.1|
+|''Status''|stable|
+|''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
+|''Requires''||
+!Description
+
+Provides links to rss feeds of each section 
+
+!Usage
+{{{
+
+<<docSectionButtons>>
+
+}}}
+
+!Code
+***/
+
+//{{{
+	
 config.macros.docSectionButtons = {};
 config.macros.docSectionButtons.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
         if(typeof(tiddler.fields['server.host']) === "string") {
@@ -31,3 +54,4 @@ config.macros.docSectionButtons.handler = function(place,macroName,params,wikifi
         }
 };
 
+//}}}

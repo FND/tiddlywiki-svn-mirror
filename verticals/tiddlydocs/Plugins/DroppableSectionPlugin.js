@@ -1,3 +1,24 @@
+/***
+|''Name''|droppableSectionsPlugin|
+|''Description''|allows tiddler titles to be dropped into the tiddlydocs table of content. |
+|''Authors''|Simon McManus|
+|''Version''|0.1|
+|''Status''|stable|
+|''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
+|''Requires''||
+
+!Usage
+{{{
+
+add <<droppableSection>> to the tiddler view template. 
+
+}}}
+
+!Code
+***/
+
+//{{{
+	
 config.macros.droppableSection = {};
 config.macros.droppableSection.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 	
@@ -63,3 +84,5 @@ div.title  ul.toc {
 !(end of StyleSheet)
 
 ***/
+
+//}}}

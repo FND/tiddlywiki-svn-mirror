@@ -1,3 +1,13 @@
+/***
+!Description
+
+Strips spaces from items being saved in the cookie to prevent errors. 
+
+!Code
+***/
+
+//{{{
+
 (function() {
 
 var _saveOptionCookie = saveOptionCookie;

@@ -1,3 +1,25 @@
+/***
+|''Name''|toggleSectionHighlightsPlugin|
+|''Description''|Add a highlightSection command which can highlight the existing section in the active table of content|
+|''Authors''|Simon McManus|
+|''Version''|0.1|
+|''Status''|stable|
+|''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
+|''Requires''||
+
+!Usage
+{{{
+
+add highlightSection to the toolbarCommands
+
+}}}
+
+!Code
+***/
+
+//{{{
+	
+	
 config.macros.toggleSectionHighlights = {};
 config.macros.toggleSectionHighlights.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 	var tiddlerElem = story.findContainingTiddler(place);
