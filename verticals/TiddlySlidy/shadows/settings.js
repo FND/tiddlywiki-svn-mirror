@@ -55,7 +55,7 @@ merge(config.views.editor,{
 /*
  *  auto saving
  */
-config.options.chkAutoSave = true;
+//config.options.chkAutoSave = true;
 config.options.txtBackupFolder = "backups";
 
 /*

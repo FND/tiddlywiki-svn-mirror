@@ -166,11 +166,13 @@ var lastSlide = '';
         var id = story.tiddlerId(title) + "Toggle" + ontag;
         $(place).find('input').attr('id', id);
         $('<label for=' + id + '>' + caption + '</label>').appendTo(place);
+        return false;
     };
 
 Story.prototype.onTiddlerMouseOver = function(e)
 {
     addClass(this, "mousey");
+    return false;
 };
 
 
