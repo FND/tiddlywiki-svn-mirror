@@ -25,3 +25,6 @@ tiddler: ViewTemplate.tiddler
 
 tiddler: AuthorButtons.tiddler
 tiddler: SlideSorter.tiddler
+
+# TBD: refactor out ..
+tiddler: MainMenuWrapper.tiddler

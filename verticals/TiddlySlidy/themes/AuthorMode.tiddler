@@ -13,7 +13,7 @@
 <div id='author'>
     <div id="mainNav">
         <div id='authorButtons' refresh='content' tiddler='AuthorButtons'></div>
-        <div id='mainMenu' macro='MainMenuOrder'></div>
+        <div id='mainMenu' refresh='content' force='true' tiddler='MainMenuWrapper'></div>
     </div>
     <div id="displayContainer">
         <div id='displayArea'>
