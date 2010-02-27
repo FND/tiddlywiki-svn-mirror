@@ -137,6 +137,12 @@
     font-size: 1.2em;
 }
 
+/* ie6.0 hack */
+div#tiddlerDisplay div.viewSlide {
+    _height: 475px;
+}
+
+
 
 /*}}}*/
 </pre>
