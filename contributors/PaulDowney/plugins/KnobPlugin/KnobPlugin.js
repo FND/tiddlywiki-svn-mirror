@@ -13,6 +13,7 @@ This plugin is used by TiddlySlidy to produce the TV control panel buttons.
 
 <<knob "1">>
 <<knob |&#x25c4; >>
+<<knob |&#x25c4; "alert('go')">>
 
 !!Code
 ***/
@@ -25,15 +26,19 @@ This plugin is used by TiddlySlidy to produce the TV control panel buttons.
     config.macros.knob = {};
     config.macros.knob.handler = function (place, macroName, params) {
         var symbol = params[0] || "*";
-        var link = params[1] || "";
+        var action = params[1] || "";
         var title = params[2] || "";
         var classes = params[3] || "";
 
         var classes = classes + " knob" + (symbol.length === 1 ? "" : " squeeze");
 
-        $('<div class="' + classes + '"><a href="' + link + '"' + 
+        $('<div class="' + classes + '"><a href="#" ' + 
             (title.length ? ' title="' + title + '"': "") + 
-            '><div><div>' + symbol + '</div></div></a></div>').appendTo(place);
+            '><div><div>' + symbol + '</div></div></a></div>')
+            .click(function () {
+                eval(action);
+                return false;
+            }).appendTo(place);
     };
 
 })(jQuery);
