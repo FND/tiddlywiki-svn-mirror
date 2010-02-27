@@ -1,3 +1,3 @@
 <div title="AuthorButtons" modifier="Paul Downey" created="200801300000" tags="excludeSearch">
-<pre><html><a class="button" href="javascript:void(0)" onclick="story.displayTiddlers(null,['NewSlide'])" >New&nbsp;Slide</a></html></pre>
+<pre><html><a class="button" href="#" onclick="story.displayTiddlers(null,['NewSlide'])" >New&nbsp;Slide</a></html></pre>
 </div>
