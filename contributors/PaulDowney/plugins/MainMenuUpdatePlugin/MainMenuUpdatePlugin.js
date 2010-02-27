@@ -35,8 +35,11 @@ New items added to the MainMenu as a member of an unordered list, so as to work 
         var text = config.extensions.MainMenuUpdate.transform(t.text, oldTitle, newTitle);
         store.saveTiddler(t.title, t.title, text, t.modifier, t.modified, t.tags, t.fields, true, t.created, t.creator);
 
+        // suspend and resume notifications ..
+
         // ideally this should really go, but MainMenu isn't a tiddler ..
-        refreshPageTemplate();
+        //applyHtmlMacros($('#mainMenu')[0], t);
+        //refreshPageTemplate();
         autoSaveChanges();
     };
 
