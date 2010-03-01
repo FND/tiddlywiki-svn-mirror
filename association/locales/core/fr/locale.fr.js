@@ -472,10 +472,10 @@ merge(config.shadowTiddlers,{
 	MainMenu: "[[PourCommencer]]",
 	SiteTitle: "Mon TiddlyWiki",
 	SiteSubtitle: "organiseur personnel web interactif",
-	SiteUrl: "",
-	SideBarOptions: '<<search>><<closeAll>><<permaview>><<newTiddler>><<newJournal "DD MMM YYYY">><<saveChanges>><<slider chkSliderOptionsPanel OptionsPanel "options »" "Modifier les options avancées de ce TiddlyWiki">>',
-	SideBarTabs: '<<tabs txtMainTab Chrono "Affichage chronologique" TabTimeline Alpha "Liste alphabétique des éléments" TabAll Index "Liste des index" TabTags Suite "Autres listes" TabMore>>',
-	TabMore: '<<tabs txtMoreTab Manquants "Eléments désignés par un lien mais non créés" TabMoreMissing Orphelins "Eléments sans liens pour les appeler" TabMoreOrphans Défauts "Eléments ayant un contenu par défaut" TabMoreShadowed>>'
+	SiteUrl: " ",
+	SideBarOptions: '<<search>><<closeAll>><<permaview>><<newTiddler>><<newJournal "'+"DD MMM YYYY"+'" "' +"journal"+'">><<saveChanges>><<slider chkSliderOptionsPanel OptionsPanel "'+"options \u00bb"+'" "'+"Change TiddlyWiki advanced options"+'">>',
+	SideBarTabs: '<<tabs txtMainTab "'+"Chrono"+'" "'+ "Affichage chronologique"+'" TabTimeline "'+"Alpha"+'" "'+"Liste alphabétique des éléments"+'" TabAll "'+"Indexes"+'" "'+ "Liste des index"+'" TabTags "'+"Suite"+'" "'+"Autres listes"+'" TabMore>>',
+	TabMore: '<<tabs txtMoreTab "'+"Manquants "+'" "'+"Eléments désignés par un lien mais non  créés"+'" TabMoreMissing "'+"Orphelins "+'" "'+"Eléments sans liens pour les appeler"+'" TabMoreOrphans "'+"Défauts"+'" "'+"Eléments ayant un contenu par  défaut"+'"  TabMoreShadowed>>'
 	});
 
 merge(config.annotations,{
