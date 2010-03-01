@@ -47,19 +47,19 @@ if (!config.options['txtUserName']) config.options['txtUserName'] = "VotreNom";
 
 merge(config.tasks,{
 	save: {text: "sauvegarder", tooltip: "Sauvegarde vos modifications dans ce TiddlyWiki", action: saveChanges},
-	sync: {text: "synchroniser", tooltip: "Synchronise les modifications avec d'autres fichiers TiddlyWiki et serveurs", 				
-	content: '<<sync>>'},
+	sync: {text: "synchroniser", tooltip: "Synchronise les modifications avec d'autres fichiers TiddlyWiki et serveurs", content: '<<sync>>'},
 	importTask: {text: "importer", tooltip: "Importe des éléments et extensions depuis d'autres fichiers TiddlyWiki et serveurs", content: '<<importTiddlers>>'},
 	tweak: {text: "réglages", tooltip: "Mettre au point l'apparence et le comportement du TiddlyWiki", content: '<<options>>'},
+	upgrade: {text: "upgrade", tooltip: "Upgrade TiddlyWiki core code", content: '<<upgrade>>'},
 	plugins: {text: "extensions", tooltip: "Gère les extensions installées", content: '<<plugins>>'}
 });
-
 
 // Options that can be set in the options panel and/or cookies
 merge(config.optionsDesc,{
 	txtUserName: "Nom utilisé pour signer les modifications",
 	chkRegExpSearch: "Active les expressions régulières pour la recherche",
 	chkCaseSensitiveSearch: "Recherche sensible à la casse",
+	chkIncrementalSearch: "Incremental key-by-key searching",
 	chkAnimate: "Active les animations",
 	chkSaveBackups: "Conserve un fichier backup en enregistrant les modifications",
 	chkAutoSave: "Enregistre les modifications automatiquement",
@@ -73,6 +73,7 @@ merge(config.optionsDesc,{
 	chkInsertTabs: "Utilise la touche 'tab'pour insérer une tabulation au lieu de changer de champs",
 	txtBackupFolder: "Nom du dossier à utiliser pour les backups",
 	txtMaxEditRows: "Nombre maximum de lignes dans les zones d'édition",
+	txtTheme: "Name of the theme to use",
 	txtFileSystemCharSet: "Jeux de caractères à utiliser lors de l'enregistrement des modifications (uniquement pour Firefox/Mozilla)"});
 
 merge(config.messages,{
@@ -113,7 +114,8 @@ merge(config.messages,{
 	wrongSaveFormat: "Impossible d'enregistrer avec le format '%0'. Le format standard est utilisé.",
 	invalidFieldName: "Nom de champ invalide %0",
 	fieldCannotBeChanged: "Le champ '%0' ne peut être changé",
-	loadingMissingTiddler: "Tentative de récupération de l'élément '%0' à partir du serveur '%1' server à :\n\n'%2' dans l'espace de travail '%3'"});
+	loadingMissingTiddler: "Tentative de récupération de l'élément '%0' à partir du serveur '%1' server à :\n\n'%2' dans l'espace de travail '%3'",
+	upgradeDone: "The upgrade to version %0 is now complete\n\nClick 'OK' to reload the newly upgraded TiddlyWiki"});
 
 merge(config.messages.messageClose,{
 	text: "fermer",
@@ -135,13 +137,10 @@ config.messages.listView = {
 
 config.messages.dates.months = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre","décembre"];
 config.messages.dates.days = ["dimanche", "lundi","mardi", "mercredi", "jeudi", "vendredi", "samedi"];
-config.messages.dates.shortMonths = ["janv.", "févr.", "mars", "avr.", "mai", "juin", "juil", "août", "sept.", "oct.", "nov.", "déc."];
-config.messages.dates.shortDays = ["dim.", "lun.", "mar.", "mer.", "jeu.", "ven.", "sam."];
+config.messages.dates.shortMonths = "janv.,févr.,mars,avr.,mai,juin,juil,août,sept,oct.,nov.,déc.".split(',');
+config.messages.dates.shortDays = "dim.,lun.,mar.,mer.,jeu.,ven.,sam.".split(',');
 // suffixes for dates, eg "1st","2nd","3rd"..."30th","31st"
-config.messages.dates.daySuffixes = ["er","","","","","","","","","",
-		"","","","","","","","","","",
-		"","","","","","","","","","",
-		""];
+config.messages.dates.daySuffixes = "er,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,".split(',');
 config.messages.dates.am = "am";
 config.messages.dates.pm = "pm";
 
@@ -199,7 +198,7 @@ merge(config.macros.timeline,{
 	dateFormat: "DD MMM YYYY"});
 
 merge(config.macros.allTags,{
-	tooltip: "Afficher les éléments indexés '%0'",
+	tooltip: "Afficher les éléments indexés avec '%0'",
 	noTags: "Pas d'éléments indexés"});
 
 config.macros.list.all.prompt = "Tous les éléments par ordre alphabétique";
@@ -263,6 +262,8 @@ merge(config.macros.plugins,{
 		columns: [
 		{name: 'Selected', field: 'Selected', rowName: 'title', type: 'Selector'},
 		{name: 'Tiddler', field: 'tiddler', title: "Elément", type: 'Tiddler'},
+		{name: 'Description', field: 'Description', title: "Description", type: 'String'},
+		{name: 'Version', field: 'Version', title: "Version", type: 'String'},
 		{name: 'Size', field: 'size', tiddlerLink: 'size', title: "Taille", type: 'Size'},
 		{name: 'Forced', field: 'forced', title: "Forcée", tag: 'systemConfigForce', type: 'TagCheckbox'},
 		{name: 'Disabled', field: 'disabled', title: "Désactivée", tag: 'systemConfigDisable', type: 'TagCheckbox'},
@@ -278,8 +279,11 @@ merge(config.macros.plugins,{
 	});
 
 merge(config.macros.toolbar,{
-	moreLabel: "...",
-	morePrompt: "Fait apparaître des commandes supplémentaires"
+	moreLabel: "more",
+	morePrompt: "Fait apparaître des commandes supplémentaires",
+	lessLabel: "less",
+	lessPrompt: "Hide additional commands",
+	separator: "|"
 	});
 
 merge(config.macros.refreshDisplay,{
@@ -303,6 +307,7 @@ merge(config.macros.importTiddlers,{
 	cancelPrompt: "Annule cette importation",
 	statusOpenWorkspace: "Ouverture de l'espace de travail",
 	statusGetTiddlerList: "Obtenir la liste des éléments disponibles",
+	errorGettingTiddlerList: "Error getting list of tiddlers, click Cancel to try again",
 	step3Title: "Etape 3: Choisir les éléments à importer",
 	step3Html: "<input type='hidden' name='markList'></input><br><input type='checkbox' checked='true' name='chkSync'>Conserve ces éléments liés à ce serveur pour pouvoir synchroniser avec les changements ultérieurs</input><br><input type='checkbox' name='chkSave'>Enregistre les détails de ce serveur dans un élément 'systemServer' nommé :</input> <input type='text' size=25 name='txtSaveTiddler'>",
 	importLabel: "importer",
@@ -312,7 +317,7 @@ merge(config.macros.importTiddlers,{
 	step4Html: "<input type='hidden' name='markReport'></input>", // DO NOT TRANSLATE
 	doneLabel: "fait",
 	donePrompt: "Ferme cet assistant",
-	statusDoingImport: "Importe ces éléments",
+	statusDoingImport: "Importing tiddlers",
 	statusDoneImport: "Tous les éléments ont été importés",
 	systemServerNamePattern: "%2 sur %1",
 	systemServerNamePatternNoWorkspace: "%1",
@@ -328,6 +333,34 @@ merge(config.macros.importTiddlers,{
 			],
 		rowClasses: [
 			]}
+	});
+
+merge(config.macros.upgrade,{
+	wizardTitle: "Upgrade TiddlyWiki core code",
+	step1Title: "Update or repair this TiddlyWiki to the latest release",
+	step1Html: "You are about to upgrade to the latest release of the TiddlyWiki core code (from <a href='%0' class='externalLink' target='_blank'>%1</a>). Your content will be preserved across the upgrade.<br><br>Note that core upgrades have been known to interfere with older plugins. If you run into problems with the upgraded file, see <a href='http://www.tiddlywiki.org/wiki/CoreUpgrades' class='externalLink' target='_blank'>http://www.tiddlywiki.org/wiki/CoreUpgrades</a>",
+	errorCantUpgrade: "Unable to upgrade this TiddlyWiki. You can only perform upgrades on TiddlyWiki files stored locally",
+	errorNotSaved: "You must save changes before you can perform an upgrade",
+	step2Title: "Confirm the upgrade details",
+	step2Html_downgrade: "You are about to downgrade to TiddlyWiki version %0 from %1.<br><br>Downgrading to an earlier version of the core code is not recommended",
+	step2Html_restore: "This TiddlyWiki appears to be already using the latest version of the core code (%0).<br><br>You can continue to upgrade anyway to ensure that the core code hasn't been corrupted or damaged",
+	step2Html_upgrade: "You are about to upgrade to TiddlyWiki version %0 from %1",
+	upgradeLabel: "upgrade",
+	upgradePrompt: "Prepare for the upgrade process",
+	statusPreparingBackup: "Preparing backup",
+	statusSavingBackup: "Saving backup file",
+	errorSavingBackup: "There was a problem saving the backup file",
+	statusLoadingCore: "Loading core code",
+	errorLoadingCore: "Error loading the core code",
+	errorCoreFormat: "Error with the new core code",
+	statusSavingCore: "Saving the new core code",
+	statusReloadingCore: "Reloading the new core code",
+	startLabel: "start",
+	startPrompt: "Start the upgrade process",
+	cancelLabel: "annuler",
+	cancelPrompt: "Cancel the upgrade process",
+	step3Title: "Upgrade cancelled",
+	step3Html: "You have cancelled the upgrade process"
 	});
 
 merge(config.macros.sync,{
@@ -354,13 +387,13 @@ merge(config.macros.sync,{
 	hasChanged: "Changé en mode déconnecté",
 	hasNotChanged: "Inchangé pendant la déconnexion",
 	syncStatusList: {
-		none: {text: "...", color: "none"},
-		changedServer: {text: "Changé sur le serveur", color: '#80ff80'},
-		changedLocally: {text: "Changé durant la déconnexion", color: '#80ff80'},
-		changedBoth: {text: "Changé pendant la déconnexion et sur le serveur", color: '#ff8080'},
-		notFound: {text: "Non trouvé sur le serveur", color: '#ffff80'},
-		putToServer: {text: "Modifications enreistrées sur le serveur", color: '#ff80ff'},
-		gotFromServer: {text: "Récupère modificaion depuis le serveur", color: '#80ffff'}
+		none: {text: "...", display:null, className:'notChanged'},
+		changedServer: {text: "Changé sur le serveur", display:null, className:'changedServer'},
+		changedLocally: {text: "Changé en mode déconnecté", display:null, className:'changedLocally'},
+		changedBoth: {text: "Changé pendant la déconnexion et sur le serveur", display:null, className:'changedBoth'},
+		notFound: {text: "Non trouvé sur le serveur", display:null, className:'notFound'},
+		putToServer: {text: "Modifications enreistrées sur le serveur", display:null, className:'putToServer'},
+		gotFromServer: {text: "Récupère modificaion depuis le serveur", display:null, className:'gotFromServer'}
 		}
 	});
 
@@ -413,7 +446,7 @@ merge(config.commands.jump,{
 merge(config.commands.syncing,{
 	text: "synchronisation",
 	tooltip: "Controle la synchronisation de cet élémnt avec un server ou un fichier externe",
-	currentlySyncing: "<div>Actuellement synchronisation avec <span class='popupHighlight'>'%0'</span> à :</"+"div><div>hôte : <span class='popupHighlight'>%1</span></"+"div><div>espace de travail : <span class='popupHighlight'>%2</span></"+"div>", // Note escaping of closing <div> tag
+	currentlySyncing: '<div>'+"Actuellement synchronisation avec "+'<span class="popupHighlight">"%0"</span> '+"à :"+'</'+'div><div>'+"hôte :"+'<span class="popupHighlight">%1</span></'+'div><div>'+"espace de travail :"+'<span class="popupHighlight">%2</span></'+'div>', // Note escaping of closing <div> tag
 	notCurrentlySyncing: "Pas actuellement en synchronisation",
 	captionUnSync: "Arrête la synchronisation de cet élément",
 	chooseServer: "Synchronise cet élément avec un autre serveur :",
@@ -435,16 +468,15 @@ merge(config.commands.fields,{
 			]}});
 
 merge(config.shadowTiddlers,{
-	DefaultTiddlers: "PourCommencer",
-	MainMenu: "PourCommencer",
+	DefaultTiddlers: "[[PourCommencer]]",
+	MainMenu: "[[PourCommencer]]",
 	SiteTitle: "Mon TiddlyWiki",
 	SiteSubtitle: "organiseur personnel web interactif",
-	SiteUrl: "http://www.tiddlywiki.com/",
-	PourCommencer: "Pour utiliser ce carnet TiddlyWiki, commencez par modifier les éléments suivants (//tiddlers// dans le jargon TiddlyWiki) :\n\n* SiteTitle & SiteSubtitle: Le titre et le sous-titre ci-dessus (après sauvegarde et rafraîchissement ils deviendront votre titre de page, qui s'affichera aussi dans la barre titre du navigateur)\n* MainMenu: Le menu (généralement à gauche)\n* DefaultTiddlers: Liste les noms des éléments que vous voulez voir s'afficher à l'ouverture de votre TiddlyWiki. \n\nEntrez également le nom utilisateur avec lequel seront signées chacune de vos entrées : <<option txtUserName>>",
-	OptionsPanel: "Vos options de configuration de TiddlyWiki sont sauvegardées par votre navigateur (cookies).\n\nNom d'utilisateur pour signer vos entrées : entrez-le sous la forme d'un nom Wiki (par exemple RaymondQueneau).<<option txtUserName>>\n<<option chkSaveBackups>>Backup de chaque version\n<<option chkAutoSave>>Sauvegarde automatique après chaque entrée validée>>\n<<option chkRegExpSearch>>Expression régulières dans les recherches\n<<option chkCaseSensitiveSearch>>Respecter la casse dans les recherches\n<<option chkAnimate>>Ouverture animée des éléments\n-----\nVoir également [[Options complémentaires|AdvancedOptions]]",
+	SiteUrl: "",
 	SideBarOptions: '<<search>><<closeAll>><<permaview>><<newTiddler>><<newJournal "DD MMM YYYY">><<saveChanges>><<slider chkSliderOptionsPanel OptionsPanel "options »" "Modifier les options avancées de ce TiddlyWiki">>',
 	SideBarTabs: '<<tabs txtMainTab Chrono "Affichage chronologique" TabTimeline Alpha "Liste alphabétique des éléments" TabAll Index "Liste des index" TabTags Suite "Autres listes" TabMore>>',
-	TabMore: '<<tabs txtMoreTab Manquants "Eléments désignés par un lien mais non créés" TabMoreMissing Orphelins "Eléments sans liens pour les appeler" TabMoreOrphans Défauts "Eléments ayant un contenu par défaut" TabMoreShadowed>>'});
+	TabMore: '<<tabs txtMoreTab Manquants "Eléments désignés par un lien mais non créés" TabMoreMissing Orphelins "Eléments sans liens pour les appeler" TabMoreOrphans Défauts "Eléments ayant un contenu par défaut" TabMoreShadowed>>'
+	});
 
 merge(config.annotations,{
 	AdvancedOptions: "Cet élément par défaut permet d'accéder a différentes options avancées",
@@ -478,6 +510,9 @@ merge(config.annotations,{
 	TabMoreShadowed: "Cet élément par défaut contient le contenu de l'onglet 'Défauts' dans la barre de droite de l'écran",
 	TabTags: "Cet élément par défaut contient le contenu de l'onglet 'Index' dans la barre de droite de l'écran",
 	TabTimeline: "Cet élément par défaut contient le contenu de l'onglet 'Chrono' dans la barre de droite de l'écran",
+	ToolbarCommands: "This shadow tiddler determines which commands are shown in tiddler toolbars",
 	ViewTemplate: "Le gabarit HTML dans cet élément par défaut determine comment sont présentés les éléments"
 	});
 //}}}
+
+
