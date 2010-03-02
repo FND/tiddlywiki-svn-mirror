@@ -41,6 +41,7 @@ config.macros.bookmarklet ={
         if (!config.defaultCustomFields)
             throw 'defaultCustomFields Not Found. This plugin requires TiddlyWeb to work.';
         var urlBase = config.defaultCustomFields['server.host'];
+        urlBase += (urlBase[urlBase.length-1] !== '/') ? '/' : '';
         var path = escape(config.defaultCustomFields['server.workspace']);
         
         var tiddler = params.length > 0 ? ',%22' + escape(params[0]) + '%22' : '';
