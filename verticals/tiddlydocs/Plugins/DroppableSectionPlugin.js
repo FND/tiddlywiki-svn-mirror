@@ -35,7 +35,7 @@ config.macros.droppableSection.handler = function(place,macroName,params,wikifie
 		accept: 'toc-item',
 		helperclass: 'helper', 
 		autoScroll: true,
-		onOut: function() {
+		onHover: function() {
 	console.log(this, arguments);
 		},
 		onStart: function() {
@@ -44,7 +44,7 @@ config.macros.droppableSection.handler = function(place,macroName,params,wikifie
 		onStop: function() {
 			console.log(this);
 			jQuery(this).remove();
-				story.refreshTiddler(this.id,1,true);
+			story.refreshTiddler(this.id,1,true);
 		},
 		handle: '.toc-sort-handle'
 	});

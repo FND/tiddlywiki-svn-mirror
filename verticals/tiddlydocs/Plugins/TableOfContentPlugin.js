@@ -136,25 +136,32 @@ config.macros.TableOfContent._renderSpec = function(specView, spec, label) {
 			else
 				story.displayTiddler(this.id, this.id.replace("_div", ""), config.macros.TableOfContent.viewTemplate,null, null, null, null,this);
 		}
-		
-		
+	
 		jQuery(sectionDiv).hover( 
                 function() { 
-                    jQuery(this).next().show();
+                  jQuery(this).next().css('opacity', '1');
                 },  
                 function() {                  
-                   jQuery(this).next().hide();
+                  jQuery(this).next().css('opacity', '0');
                 } 
         );
         
         
 		createTiddlyText(sectionDiv, label.join(".")+"  :  "+this.title);
-		var a = createTiddlyElement(li, "a", null, 'deleteButton', config.macros.TableOfContent.deleteText);
+		var a = createTiddlyElement(li, "a", null, 'button deleteButton', config.macros.TableOfContent.deleteText);
+       jQuery(a).css('opacity', '0');
 		a.onclick = function() {
 			jQuery(this).parent().remove();
 		    config.macros.TableOfContent.specChanged();
 		};
-        jQuery(a).hide();
+		jQuery(a).hover(
+			function() { 
+              jQuery(this).css('opacity', '1');
+            },  
+            function() {                  
+              jQuery(this).css('opacity', '0');
+            }
+		)
 		config.macros.TableOfContent._renderSpec(li, this.children, label);
 	});
 }
@@ -299,23 +306,17 @@ ul {
 	left:-1.5em;
 }
 
-.deleteButton {
+html body a.deleteButton {
+ cursor:pointer;
  float:right;
  position:relative;
- top:-1.5em;
+ top:-1.6em;
  margin-right:0.5em;
-opacity:0.3;
-
-}
-.activeButton {
-	opacity:1;
+background:[[ColorPalette::Background]];
+color:[[ColorPalette::Foreground]];
 }
 
 
-.deleteButton:hover {
-	cursor:pointer;
-	opacity:1;
-}
 
 .specView h5.emptySpec {
 	position:relative;
