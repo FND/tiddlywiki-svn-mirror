@@ -85,12 +85,13 @@ config.macros.TableOfContent.renderSpec = function(specView, spec) {
     }); 
     jQuery(".sectionHeading").hover( 
             function() { 
-					jQuery(this).next().addClass("activeButton");
                     jQuery(this).parent().addClass("draggableHover");
+                    jQuery(this).addClass("draggableChildHover");
             },  
             function() { 
-					jQuery(this).next().removeClass("activeButton");
-                    jQuery(this).parent().removeClass("draggableHover"); 
+                    jQuery(this).parent().removeClass("draggableHover");
+                    jQuery(this).removeClass("draggableChildHover");
+
             } 
     );
 
@@ -135,12 +136,25 @@ config.macros.TableOfContent._renderSpec = function(specView, spec, label) {
 			else
 				story.displayTiddler(this.id, this.id.replace("_div", ""), config.macros.TableOfContent.viewTemplate,null, null, null, null,this);
 		}
+		
+		
+		jQuery(sectionDiv).hover( 
+                function() { 
+                    jQuery(this).next().show();
+                },  
+                function() {                  
+                   jQuery(this).next().hide();
+                } 
+        );
+        
+        
 		createTiddlyText(sectionDiv, label.join(".")+"  :  "+this.title);
 		var a = createTiddlyElement(li, "a", null, 'deleteButton', config.macros.TableOfContent.deleteText);
 		a.onclick = function() {
 			jQuery(this).parent().remove();
 		    config.macros.TableOfContent.specChanged();
 		};
+        jQuery(a).hide();
 		config.macros.TableOfContent._renderSpec(li, this.children, label);
 	});
 }
@@ -204,9 +218,14 @@ config.macros.TableOfContent.refresh=function(place,macroName,params,wikifier,pa
 }
 
 html body li.draggableHover {
-	border:2px dashed #fff;
-	border-right:0px solid;
-	background:#eee;
+    color:[[ColorPalette::PrimaryDark]]; 
+    background:[[ColorPalette::SecondaryLight]]; 
+    border-color:[[ColorPalette::SecondaryMid]];
+	cursor:move;
+}
+
+html body div.draggableChildHover {
+	background:[[ColorPalette::SecondaryMid]];
 	cursor:move;
 }
 
