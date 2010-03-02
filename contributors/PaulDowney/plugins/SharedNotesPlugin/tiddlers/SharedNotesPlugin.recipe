@@ -1,0 +1,11 @@
+tiddler: SharedNotesPlugin.js
+tiddler: SharedNotesFeedPlugin.js
+tiddler: SharedNotesAdaptor.js
+
+# Dependencies
+tiddler: ../../../PhilHawksworth/plugins/FeedListManagerPlugin.js
+tiddler: ../../../PhilHawksworth/plugins/TextToXMLDOMPlugin.js
+tiddler: ../../../MartinBudden/adaptors/ImportWorkspacePlugin.js
+
+recipe: ../GetFirstElementValuePlugin/GetFirstElementValuePlugin.recipe
+recipe: ../LogMessagePlugin/LogMessagePlugin.recipe
