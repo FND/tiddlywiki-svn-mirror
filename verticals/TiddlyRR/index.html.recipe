@@ -10,13 +10,13 @@ tiddler: ../../contributors/JeremyRuston/plugins/CecilyPlugin.js
 tiddler: ../../contributors/MichaelMahemoff/plugins/CommentsPlugin/CommentsPlugin.js
 tiddler: ../../contributors/SimonMcManus/plugins/commentSlider.js
 
-copy: /Users/pauldowney/src/TiddlyWiki/contributors/JeremyRuston/verticals/cecily/attachments/ZUI_example.png
-copy: /Users/pauldowney/src/TiddlyWiki/contributors/JeremyRuston/verticals/cecily/attachments/jumps.mov
-copy: /Users/pauldowney/src/TiddlyWiki/contributors/JeremyRuston/verticals/cecily/attachments/Seagully.jpg
-copy: /Users/pauldowney/src/TiddlyWiki/contributors/JeremyRuston/verticals/cecily/attachments/Swampglade.jpg
-copy: /Users/pauldowney/src/TiddlyWiki/contributors/JeremyRuston/verticals/cecily/attachments/Tenerife.jpg
-copy: /Users/pauldowney/src/TiddlyWiki/contributors/JeremyRuston/verticals/cecily/attachments/Weyflection.jpg
-copy: /Users/pauldowney/src/TiddlyWiki/contributors/JeremyRuston/verticals/cecily/attachments/Ecl1-11-08-1999.ogg
+copy: ../../contributors/JeremyRuston/verticals/cecily/attachments/ZUI_example.png
+copy: ../../contributors/JeremyRuston/verticals/cecily/attachments/jumps.mov
+copy: ../../contributors/JeremyRuston/verticals/cecily/attachments/Seagully.jpg
+copy: ../../contributors/JeremyRuston/verticals/cecily/attachments/Swampglade.jpg
+copy: ../../contributors/JeremyRuston/verticals/cecily/attachments/Tenerife.jpg
+copy: ../../contributors/JeremyRuston/verticals/cecily/attachments/Weyflection.jpg
+copy: ../../contributors/JeremyRuston/verticals/cecily/attachments/Ecl1-11-08-1999.ogg
 
 
 prehead: shadows/MarkupPreHead.tiddler
