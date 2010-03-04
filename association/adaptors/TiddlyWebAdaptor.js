@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|FND|
 |''Contributors''|Chris Dent, Martin Budden|
-|''Version''|1.1.2|
+|''Version''|1.1.3|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/|
@@ -313,7 +313,6 @@ adaptor.prototype.putTiddler = function(tiddler, context, userParams, callback) 
 	var payload = {
 		title: tiddler.title,
 		text: tiddler.text,
-		creator: tiddler.creator,
 		modifier: tiddler.modifier,
 		tags: tiddler.tags,
 		fields: $.extend({}, tiddler.fields)
