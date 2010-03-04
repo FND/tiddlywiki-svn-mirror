@@ -3,9 +3,9 @@
 |''Description''|provides access to tiddler revisions|
 |''Author''|FND|
 |''Contributors''|Martin Budden|
-|''Version''|0.1.8|
+|''Version''|0.2.0|
 |''Status''|@@beta@@|
-|''Source''|http://devpad.tiddlyspot.com/#RevisionsCommandPlugin|
+|''Source''|http://svn.tiddlywiki.org/Trunk/association/plugins/RevisionsCommandPlugin.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/plugins/|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
 |''CoreVersion''|2.4.2|
@@ -15,20 +15,21 @@ Extend [[ToolbarCommands]] with {{{revisions}}}.
 !Revision History
 !!v0.1 (2009-07-23)
 * initial release (renamed from experimental ServerCommandsPlugin)
+!!v0.1 (2010-03-04)
+* suppressing wikification in diff view
 !To Do
 * strip server.* fields from revision tiddlers
 * resolve naming conflicts
 * i18n, l10n
 * code sanitizing
 * documentation
-* rename?
 !Code
 ***/
 //{{{
 (function() {
 
-if(!version.extensions.ServerCommandsPlugin) { //# ensure that the plugin is only installed once
-version.extensions.ServerCommandsPlugin = { installed: true };
+jQuery.twStylesheet(".diff { white-space: pre, font-family: monospace }",
+	{ id: "diff" });
 
 var cmd; //# alias
 cmd = config.commands.revisions = {
@@ -147,7 +148,7 @@ cmd = config.commands.revisions = {
 	displayTiddlerDiffs: function(context, userParams) {
 		var tiddler = context.tiddler;
 		tiddler.title += cmd.diffSuffix.format([context.rev1, context.rev2]);
-		tiddler.text = context.diff;
+		tiddler.text = '{{diff{\n<nowiki>\n' + context.diff + '\n</nowiki>\n}}}';
 		tiddler.fields.doNotSave = "true"; // XXX: correct?
 		if(!store.getTiddler(tiddler.title)) {
 			store.addTiddler(tiddler);
@@ -171,8 +172,6 @@ cmd = config.commands.revisions = {
 		return tiddler.fields[name] || config.defaultCustomFields[name];
 	}
 };
-
-} //# end of "install only once"
 
 })();
 //}}}
