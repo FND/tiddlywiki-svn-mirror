@@ -36,8 +36,8 @@
 <div class='editSlide threeImagesSlideEdit'>
     <div class="label">Title</div><div class="title editor" macro="edit title"></div>
     <div class="label">Subtitle</div><div class="subtitle editor" macro="edit subtitle"></div>
-    <div class="label">Caption</div><div class="subtitle editor" macro="edit caption1"></div>
-    <div class="label">Image</div><div class="subtitle editor" macro="edit image1"></div>
+    <div class="label">Caption</div><div class="subtitle editor" macro="edit caption"></div>
+    <div class="label">Image</div><div class="subtitle editor" macro="edit image"></div>
     <div class="label">Caption</div><div class="subtitle editor" macro="edit caption2"></div>
     <div class="label">Image</div><div class="subtitle editor" macro="edit image2"></div>
     <div class="label">Caption</div><div class="subtitle editor" macro="edit caption3"></div>
