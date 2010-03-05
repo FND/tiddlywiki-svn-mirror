@@ -13,7 +13,7 @@ config.macros.taggingDetails.handler = function(place,macroName,params,wikifier,
 		var altClass = (t%2 == 0)? 'alternateItem':'';
 		var li = createTiddlyElement(ul,"li", null, 'detailList companyListItem '+altClass);
 		li.onclick = function() {
-			story.displayTiddler(this, [this.firstChild.text]);
+			story.displayTiddler(this, [this.firstChild.textContent], config.options.txtTheme+'##CompaniesViewTemplate');
 		}
 		createTiddlyText(li, tagged[t].title);
 		var uri = store.getTiddlerText(tagged[t].title+"_URL");

@@ -53,13 +53,8 @@ tags: systemTheme excludeLists excludeSearch
 !ViewTemplate 
 <!--{{{-->
 <div class='tiddlerRightColumn'>
-	<div class='title'>Add New Company</div>
-	<div class='content'>
 		<div macro='newInlineTiddler'></div>
-	</div>
 </div>
-
-
 <div class='title' macro='view title'></div>
 <div class='tagged' macro='tags'></div>
 <div class='tiddlerContainer'>
@@ -243,22 +238,43 @@ padding:1em;
 .tiddlerRightColumn {
 	float:right;
 	width:30%;
-	border:0.5em solid #D5EAFF;
 }
 
-.tiddlerRightColumn .title {
+.tiddlerRightColumn .wizard {
 	background:#D5EAFF;
 	width:95%;
+	border:1px solid #D5EAFF;
+	padding:0.4em;
 }
 
-.tiddlerRightColumn .content {
-	padding:1em;
-	border:1px solid #ddd;
+.wizardFooter {
+	background:#D5EAFF;
 }
 
+.wizardStep {
+	border:1px solid #DDDDDD;
+}
 
 .smallTextArea {
 	width:90%;
 	background:#FFFFFF none repeat scroll 0 0;
 	border:1px solid #B8DAB7;
+}
+
+
+ .wizard .button {
+background:#346596;
+border:1px solid #2b5986;
+color:#fff;
+padding:0.5em 1em;
+font-size:0.9em;
+}
+
+.wizard h1 {
+	font-size:1em;
+	margin-top:0;
+	padding-top:0;
+	color:#1B3153;
+	font-size:13px;
+	margin:0;
 }
