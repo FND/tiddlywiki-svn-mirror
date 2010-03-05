@@ -219,6 +219,30 @@ if (!version.extensions.MainMenuOrderPlugin) {
 
 })(jQuery);
 
+// core code until TW 2.5.5 is released ..
+config.macros.tiddler.transclude = function(wrapper,tiddlerName,args)
+{
+    var text = store.getTiddlerText(tiddlerName);
+    if(!text)
+        return;
+    var stack = config.macros.tiddler.tiddlerStack;
+    if(stack.indexOf(tiddlerName) !== -1)
+        return;
+    stack.push(tiddlerName);
+    try {
+        if(typeof args == "string")
+            args = args.readBracketedList();
+        var n = args ? Math.min(args.length,9) : 0;
+        for(var i=0; i<n; i++) {
+            var placeholderRE = new RegExp("\\$" + (i + 1),"mg");
+            text = text.replace(placeholderRE,args[i]);
+        }
+        config.macros.tiddler.renderText(wrapper,text,tiddlerName,params);
+    } finally {
+        stack.pop();
+    }
+};
+
 (function ($) {
     config.macros.MainMenuOrder = {};
     config.macros.MainMenuOrder.update = function () {
