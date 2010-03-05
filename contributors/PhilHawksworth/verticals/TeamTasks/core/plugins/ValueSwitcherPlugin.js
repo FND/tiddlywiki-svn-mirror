@@ -167,6 +167,8 @@ if(!version.extensions.ValueSwitcher)
 				var tiddler =  store.getTiddler(title);
 				store.setValue(tiddler,ttField,value);
 				story.saveTiddler(title);
+				refreshAll();
+
 			}
 			return false;
 		}
