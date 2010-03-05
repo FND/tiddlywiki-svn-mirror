@@ -1,10 +1,13 @@
-tags: systemTheme  excludeLists excludeSearch
+tags: systemTheme excludeLists excludeSearch
 
 /***
 |''Name:''|bantamTheme|
 |''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''~CoreVersion:''|2.4.0|
 |''~PageTemplate:''|##PageTemplate|
+|''~ViewTemplate:''|##ViewTemplate|
+|''~EditTemplate:''|##EditTemplate|
+|''~CompaniesViewTemplate:''|##CompaniesViewTemplate|
 |''~StyleSheet:''|##StyleSheet|
 
 ***/
@@ -33,9 +36,13 @@ tags: systemTheme  excludeLists excludeSearch
                 </li>
             </ul>
         </div>
+<br/>
+<br/>
+
         <div id='displayArea'>
         <div id='messageArea'></div>
         <div id='tiddlerDisplay'></div>
+
     </div>
     
 
@@ -43,17 +50,64 @@ tags: systemTheme  excludeLists excludeSearch
 </div>
 <!--}}}-->
 
+!ViewTemplate 
+<!--{{{-->
+<div class='tiddlerRightColumn'>
+	<div class='title'>Add New Company</div>
+	<div class='content'>
+		<div macro='newInlineTiddler'></div>
+	</div>
+</div>
+
+
+<div class='title' macro='view title'></div>
+<div class='tagged' macro='tags'></div>
+<div class='tiddlerContainer'>
+<!--<div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>-->
+<div class='subtitle'><span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
+<div class='viewer' macro='view text wikified'></div>
+<div class='tagging' macro='taggingDetails'></div>
+<div class='tagClear'></div>
+</div>
+
+<!--}}}-->
+
+!EditTemplate
+<!--{{{-->
+<div class='toolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
+<div class='title' macro='view title'></div>
+<div class='editor' macro='edit title'></div>
+<div macro='annotations'></div>
+<div class='editor' macro='edit text'></div>
+<div class='editor' macro='edit tags'></div><div class='editorFooter'><span macro='message views.editor.tagPrompt'></span><span macro='tagChooser excludeLists'></span></div>
+<!--}}}-->
+
+!CompaniesViewTemplate 
+<!--{{{-->
+<div class='title' macro='view title'>Company : </div>
+<div class='tagged' macro='tags'></div>
+<div class='tiddlerContainer'>
+
+<div macro="structuredContent stylePreamble:true CompanyStructure"></div>
+
+<!--<div class='viewer' macro='view text wikified'></div>-->
+<div class='tagging' macro='taggingDetails'></div>
+<div class='tagClear'></div>
+</div>
+<!--}}}-->
+
+
 !StyleSheet
 
 body {
--moz-background-clip:border;
--moz-background-inline-policy:continuous;
--moz-background-origin:padding;
-background:#F9F9F9 none repeat scroll 0 0;
-color:#3C3C3C;
-font-family:Arial,Helvetica,sans-serif;
-font-size:13px;
-line-height:18px;
+	-moz-background-clip:border;
+	-moz-background-inline-policy:continuous;
+	-moz-background-origin:padding;
+	background:#F9F9F9 none repeat scroll 0 0;
+	color:#3C3C3C;
+	font-family:Arial,Helvetica,sans-serif;
+	font-size:13px;
+	line-height:18px;
 }
 
 html body #container {
@@ -79,16 +133,132 @@ html body #container {
 }
 
 #displayArea {
-margin:1em;
+	margin:1em;
 }
 
+#sidebar {
+	float:right;
+	font-size:0.9em;
+	position:relative;
+	right:8em;
+	top:-24em;
+	width:26em;
+}
 
 html body .button {
     display:inline;
 }
 
-.tiddler {
-    background:#FFFFFF url(/images/feed/bg_feed.png) repeat-y scroll 0 0;
-    padding:2em;
-    margin:2em;
+.tiddler .title {
+	background:#EEEEEE none repeat scroll 0 0;
+	color:#666666;
+	padding:0.5em;
+	color:#0E3258;
+	font-size:18px;
+	font-weight:bold;
+	line-height:40px;
+	padding:0 10px;
+	width:65%;
+}
+
+.tiddler .tiddlerContainer {
+	border:2px solid #E1E1E1;
+	border-left:0px;
+	background:#fff;
+	width:66.5%
+}
+
+.selected .tagging {
+background:#fff;
+border:1px solid #ddd;
+opacity:1;
+}
+.tagging {
+	opacity:0.8;
+	background:white none repeat scroll 0 0;
+	width:98%;
+	border:1px solid #eee;
+	padding:0em;
+	margin:0em;
+}
+.listTitle {
+background:#D5EAFF;
+}
+
+.toolbar {
+	float:left;
+	padding:0.5em;
+}
+
+.subtitle {
+	background: #EAF5FF;
+	padding:0.5em;
+
+}
+
+
+.section {
+	float:right;
+	width:100%;
+}
+
+.section h2 {
+font-weight:bold;
+background: #EAF5FF;
+border-bottom:1px solid #ddd;
+}
+.structuredContent .section span {
+}
+
+.structuredContent .section span.editLink {
+	float:right;
+}
+
+
+.detailList {
+	padding:1em;
+	border-bottom:1px solid #ddd; 
+}
+
+.alternateItem {
+	background:#F8F8F8;
+	
+}
+.companyListItem:hover {
+background: #eee url(http://www.barefootinc.com/i/icons/company_big.gif) no-repeat;
+;
+cursor:pointer;
+}
+
+.companyListItem{
+	background-image: url(http://www.barefootinc.com/i/icons/company_big.gif);
+	background-repeat: no-repeat;
+	padding-left:5em;
+}
+
+.companyListItem a {
+padding:1em;
+}
+
+.tiddlerRightColumn {
+	float:right;
+	width:30%;
+	border:0.5em solid #D5EAFF;
+}
+
+.tiddlerRightColumn .title {
+	background:#D5EAFF;
+	width:95%;
+}
+
+.tiddlerRightColumn .content {
+	padding:1em;
+	border:1px solid #ddd;
+}
+
+
+.smallTextArea {
+	width:90%;
+	background:#FFFFFF none repeat scroll 0 0;
+	border:1px solid #B8DAB7;
 }

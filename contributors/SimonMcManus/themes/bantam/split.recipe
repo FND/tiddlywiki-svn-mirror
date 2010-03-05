@@ -1,3 +1,10 @@
 tiddler: bantamTheme.tid
 tiddler: setTheme.js
 tiddler: MainMenu.tid
+tiddler: ../../plugins/newTiddlerPlugin.js
+tiddler: taggingDetails.js
+tiddler: elvis/StructuredDataPlugin.js
+tiddler: elvis/CompanyStructure.tid
+
+
+tiddler: ../../../EricShulman/plugins/TaggedTemplateTweak.js
