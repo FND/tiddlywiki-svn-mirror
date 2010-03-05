@@ -26,24 +26,20 @@ config.macros.droppableSection.handler = function(place,macroName,params,wikifie
 	var tiddlerElem = story.findContainingTiddler(place);
  	var containingTiddlerTitle = tiddlerElem.getAttribute("tiddler"); 
 	var strippedTidTitle = config.macros.droppableSection.strip(containingTiddlerTitle);
-	var ul = createTiddlyElement(place, "ul", strippedTidTitle+"DroppableSectionList", "toc");
+	var ul = createTiddlyElement(place, "ul", strippedTidTitle+"DroppableSectionList", "toc notHoverable");
 	   	var li = createTiddlyElement(ul, "li", containingTiddlerTitle, "clear-element toc-item left");
 
 	var sectionDiv = createTiddlyElement(li, "div", containingTiddlerTitle+'_div', " toc-sort-handle toc-droppable-heading");
 	createTiddlyText(sectionDiv, containingTiddlerTitle);
 	jQuery("#"+strippedTidTitle+"DroppableSectionList").NestedSortable({
 		accept: 'toc-item',
+		noHover: 'notHoverable',
 		helperclass: 'helper', 
 		autoScroll: true,
-		onHover: function() {
-	console.log(this, arguments);
-		},
 		onStart: function() {
 				story.refreshTiddler(this.id,1,true);
 		},
 		onStop: function() {
-			console.log(this);
-			jQuery(this).remove();
 			story.refreshTiddler(this.id,1,true);
 		},
 		handle: '.toc-sort-handle'

@@ -33,6 +33,7 @@ jQuery.iNestedSortable = {
 			//I don't think "o" is even used, but it is in the function declaration
 			return jQuery.iNestedSortable.oldCheckHover(e,o);
 		}
+
 	},
 	oldCheckHover : jQuery.iSort.checkhover,
 	newCheckHover : function (e) {

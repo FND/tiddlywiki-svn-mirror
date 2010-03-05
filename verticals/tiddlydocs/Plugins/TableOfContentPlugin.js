@@ -68,8 +68,9 @@ config.macros.TableOfContent.renderSpec = function(specView, spec) {
 		createTiddlyElement(specView, "h5", null, 'emptySpec', config.macros.TableOfContent.emptyDocumentSpecPrompt+window.activeDocument+'".');
 	}
 	jQuery("#ul0").NestedSortable({
-		accept: 'toc-item',
-		noNestingClass: "no-nesting", 
+			accept: 'toc-item',
+			noHoverClass: 'notHoverable',
+			noNestingClass: "no-nesting", 
             helperclass: 'helper', 
             onChange: function(serialized) { 
               config.macros.TableOfContent.specChanged();
