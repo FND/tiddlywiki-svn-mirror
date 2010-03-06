@@ -5,6 +5,8 @@ tiddler: ../../plugins/newTiddlerPlugin.js
 tiddler: taggingDetails.js
 tiddler: elvis/StructuredDataPlugin.js
 tiddler: elvis/CompanyStructure.tid
+tiddler: elvis/ScoutStructure.tid
+
 tiddler: elvis/StatusSection.tid
 tiddler: elvis/StageSection.tid
 tiddler: elvis/DescriptionSection.tid

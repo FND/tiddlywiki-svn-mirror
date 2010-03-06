@@ -1,0 +1,10 @@
+modifier: smm 
+
+|style|long|
+|showTitle|true|
+|editType|textarea|
+
+!preText
+
+
+!postText

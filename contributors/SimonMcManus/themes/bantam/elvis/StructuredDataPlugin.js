@@ -42,7 +42,7 @@
   };
 
   $.fn.textareaEdit = function(sectionName, sectionEditOptions) {
-    return $("<textarea nam='"+sectionName+"' rows='4' cols='60' class='StructureEditBox' />");
+    return $("<textarea name='"+sectionName+"' rows='4' cols='60' class='StructureEditBox' />");
   };
   
   $.fn.dropdownEdit = function(sectionName, sectionEditOptions) {

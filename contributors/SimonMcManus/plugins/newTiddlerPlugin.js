@@ -3,7 +3,7 @@ config.macros.newInlineTiddler = {};
 config.macros.newInlineTiddler.handler = function(place,macroName,params,wikifier,paramString,tiddler)
 {
  	var w = new Wizard();
-	w.createWizard(place,'Add to '+tiddler.title);
+	w.createWizard(place,'Add New '+tiddler.title);
 	w.setValue('tiddler', tiddler.title);
 	var html = [];
 	var structure = store.getTiddlerText(tiddler.title+"Structure");
@@ -11,7 +11,7 @@ config.macros.newInlineTiddler.handler = function(place,macroName,params,wikifie
 		createTiddlyText(place, "No structure defined");
 		return false;
 	}
-	var items = structure.split("\n", 2);
+	var items = structure.split("\n", 5);
 	jQuery.each(items, function(i, value) {
 		var id = value.substring(0, value.length-7);
 		var editType = store.getTiddlerSlice(value, 'editType');
@@ -21,7 +21,7 @@ config.macros.newInlineTiddler.handler = function(place,macroName,params,wikifie
 		html.push(jQuery("<div/>")[editType+"Edit"](id, store.getTiddlerText(value+'##editOptions')).parent().html());
 		
 	});
-	w.addStep(null, "<div id='"+tiddler.title+"WizardContainer'>Name : <br/><input name='companyName'/><br/>"+html.join(" ")+"</div>");
+	w.addStep(null, "<div id='"+tiddler.title+"WizardContainer'>Name : <br/><input name='companyName' class='StructureEditBox'/><br/>"+html.join(" ")+"</div>");
 	 w.setButtons([
 	{caption: 'create '+tiddler.title, tooltip: 'click to create the task', onClick:function() { config.macros.newInlineTiddler.onCreate(w); }}
 	]);	
@@ -36,17 +36,19 @@ config.macros.newInlineTiddler.onCreate = function(w) {
 	}
 	autoSaveChanges(true, w.formElem.companyName.value);
 	
-	
+	store.suspendNotifications();
 	jQuery.each(w.formElem, function(item, value) {
 	
 		if(value.value != null && value.name !='companyName' && value.name !=""){
+			console.log(value.name);
 			var tiddlerName = w.formElem.companyName.value+"_"+value.name;
-			t = store.saveTiddler(tiddlerName, tiddlerName, w.formElem.URL.value, null, null, "",  config.defaultCustomFields);
+			t = store.saveTiddler(tiddlerName, tiddlerName, w.formElem[value.name].value, null, null, "",  config.defaultCustomFields);
 			t.fields['server.title'] = tiddlerName; // unnecessary hack 
 			autoSaveChanges(true, [t]);
 			
 		}
 	})
+	store.resumeNotifications();
 
 
 	story.refreshTiddler(tiddler, null, true);
