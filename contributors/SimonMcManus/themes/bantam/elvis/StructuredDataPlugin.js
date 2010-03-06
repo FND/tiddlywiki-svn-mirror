@@ -98,7 +98,7 @@
         var sectionEl = $("<div class='section'/>").data("tiddlerTitle", tiddlerTitle);
         $(sectionEl)[getSlice(section, "style","long")+"Section"](sectionName).appendTo(structuredContent);
         var editBox = $(sectionEl)[getSlice(section, "editType", "textarea")+"Edit"](sectionName, getSection(section, "editOptions"));
-        populatePreamble(sectionEl, getSection(section, "Preamble"));
+  populatePreamble(sectionEl, getSection(section, "Preamble"));
         wireEvents(sectionEl, section, sectionContentTiddler, editBox);
         finaliseUIUsingOptions(sectionEl, section);
       });

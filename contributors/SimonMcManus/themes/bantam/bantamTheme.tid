@@ -56,7 +56,7 @@ tags: systemTheme excludeLists excludeSearch
 		<div macro='newInlineTiddler'></div>
 </div>
 <div class='title' macro='view title'></div>
-<div class='tagged' macro='tags'></div>
+<!--<div class='tagged' macro='tags'></div>-->
 <div class='tiddlerContainer'>
 <!--<div class='toolbar' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>-->
 <div class='subtitle'><span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
@@ -220,15 +220,17 @@ border-bottom:1px solid #ddd;
 	
 }
 .companyListItem:hover {
-background: #eee url(http://www.barefootinc.com/i/icons/company_big.gif) no-repeat;
-;
+background: #eee url(http://img.skitch.com/20100306-neacjdtnpsctccnchmeus6nsds.jpg) no-repeat left center;
 cursor:pointer;
 }
 
 .companyListItem{
-	background-image: url(http://www.barefootinc.com/i/icons/company_big.gif);
+	background-image: url(http://img.skitch.com/20100306-neacjdtnpsctccnchmeus6nsds.jpg);
 	background-repeat: no-repeat;
-	padding-left:5em;
+	background-position:left center;
+	padding-left:4em;
+	
+	
 }
 
 .companyListItem a {
@@ -277,4 +279,10 @@ font-size:0.9em;
 	color:#1B3153;
 	font-size:13px;
 	margin:0;
+}
+
+.zoomer {
+	background:none; 
+	color:#ddd; 
+	border:3px solid #ddd;
 }

@@ -17,11 +17,7 @@ twanager bag documents<<EOF
 {"policy": {"accept": ["NONE"]}}
 EOF
 
-twanager twimport ckeditor http://svn.tiddlywiki.org/Trunk/verticals/ckeditor/split.html.recipe
 
-twanager twimport tiddlydocs http://svn.tiddlywiki.org/Trunk/verticals/tiddlydocs/pieces/parts.html.recipe
-
-twanager twimport mydocs http://svn.tiddlywiki.org/Trunk/verticals/tiddlydocs/themes/MyDocs/split.recipe
 
 twanager recipe ckeditor<<EOF
 /bags/system/tiddlers
@@ -41,6 +37,8 @@ twanager recipe mydocs<<EOF
 /bags/ckeditor/tiddlers
 /bags/documents/tiddlers
 EOF
+
+./update.sh
 
 
 #pip install -U tiddlywebplugins.tiddlydocs 
