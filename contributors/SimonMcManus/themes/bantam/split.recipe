@@ -6,5 +6,7 @@ tiddler: taggingDetails.js
 tiddler: elvis/StructuredDataPlugin.js
 tiddler: elvis/CompanyStructure.tid
 tiddler: elvis/StatusSection.tid
+tiddler: elvis/StageSection.tid
+tiddler: elvis/DescriptionSection.tid
 
 tiddler: ../../../EricShulman/plugins/TaggedTemplateTweak.js

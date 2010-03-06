@@ -42,7 +42,7 @@
   };
 
   $.fn.textareaEdit = function(sectionName, sectionEditOptions) {
-    return $("<textarea rows='4' cols='60' class='StructureEditBox' />");
+    return $("<textarea nam='"+sectionName+"' rows='4' cols='60' class='StructureEditBox' />");
   };
   
   $.fn.dropdownEdit = function(sectionName, sectionEditOptions) {
@@ -51,12 +51,12 @@
     for (var i=0; i<editOptions.length; i++) {
         options += "<option value='"+editOptions[i]+"'>"+editOptions[i]+"</option>";
     }
-    return $("<select class='StructureEditBox' />")
+    return $("<select name='"+sectionName+"'class='StructureEditBox' />")
         .append(options);
   };
   
   $.fn.textEdit = function(sectionName, sectionEditOptions) {
-    return $("<input type='text' class='StructureEditBox' />");
+    return $("<input name='"+sectionName+"' type='text' class='StructureEditBox' />");
   };
 
   $.fn.updateSection = function(section, sectionContentTiddler) {
