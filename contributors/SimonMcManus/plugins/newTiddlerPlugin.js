@@ -41,11 +41,9 @@ config.macros.newInlineTiddler.onCreate = function(w) {
 	
 		if(value.value != null && value.name !='companyName' && value.name !=""){
 			var tiddlerName = w.formElem.companyName.value+"_"+value.name;
-			console.log(config.defaultCustomFields);
-			t = store.saveTiddler(tiddlerName, tiddlerName, 'http://google.com', null, null, "",  config.defaultCustomFields);
+			t = store.saveTiddler(tiddlerName, tiddlerName, w.formElem.URL.value, null, null, "",  config.defaultCustomFields);
 			t.fields['server.title'] = tiddlerName; // unnecessary hack 
-//			console.log('tname = ', t);
-			autoSaveChanges(false, [t]);
+			autoSaveChanges(true, [t]);
 			
 		}
 	})
