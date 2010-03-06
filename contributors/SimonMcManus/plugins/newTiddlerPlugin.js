@@ -36,18 +36,19 @@ config.macros.newInlineTiddler.onCreate = function(w) {
 	}
 	autoSaveChanges(true, w.formElem.companyName.value);
 	
+	
 	jQuery.each(w.formElem, function(item, value) {
 	
 		if(value.value != null && value.name !='companyName' && value.name !=""){
 			var tiddlerName = w.formElem.companyName.value+"_"+value.name;
-//			t = store.saveTiddler(tiddlerName, tiddlerName, 'http://google.com', null, null, "", merge({}, config.defaultCustomFields));
-//			t.fields['server.type'] = tiddlerName; // unnecessary hack 
-			console.log('tname = '+tiddlerName);
-//			autoSaveChanges(null, tiddlerName);
+			console.log(config.defaultCustomFields);
+			t = store.saveTiddler(tiddlerName, tiddlerName, 'http://google.com', null, null, "",  config.defaultCustomFields);
+			t.fields['server.title'] = tiddlerName; // unnecessary hack 
+//			console.log('tname = ', t);
+			autoSaveChanges(false, [t]);
 			
 		}
 	})
-
 
 
 	story.refreshTiddler(tiddler, null, true);
