@@ -12,7 +12,6 @@ config.macros.taggingDetails.handler = function(place,macroName,params,wikifier,
 	for(var t=0; t<tagged.length; t++) {
 		var altClass = (t%2 == 0)? 'alternateItem':'';
 
-console.log('t is ',tiddler.title);
 		var li = createTiddlyElement(ul,"li", tagged[t].title+'ListItem', 'detailList '+tiddler.title+'ListItem '+altClass);
 		li.onclick = function() {
 			story.displayTiddler(this, [this.firstChild.textContent], config.options.txtTheme+'##CompaniesViewTemplate');

@@ -35,12 +35,10 @@ config.macros.newInlineTiddler.onCreate = function(w) {
 		store.saveTiddler(w.formElem.companyName.value, w.formElem.companyName.value, "This is a new entry.", null, null, tiddler, config.defaultCustomFields);
 	}
 	autoSaveChanges(true, w.formElem.companyName.value);
-	
 	store.suspendNotifications();
 	jQuery.each(w.formElem, function(item, value) {
 	
 		if(value.value != null && value.name !='companyName' && value.name !=""){
-			console.log(value.name);
 			var tiddlerName = w.formElem.companyName.value+"_"+value.name;
 			t = store.saveTiddler(tiddlerName, tiddlerName, w.formElem[value.name].value, null, null, "",  config.defaultCustomFields);
 			t.fields['server.title'] = tiddlerName; // unnecessary hack 
@@ -49,11 +47,7 @@ config.macros.newInlineTiddler.onCreate = function(w) {
 		}
 	})
 	store.resumeNotifications();
-
-
 	story.refreshTiddler(tiddler, null, true);
-
-
 	var start = document.getElementById(tiddler+'WizardContainer');
 	var destination = document.getElementById(w.formElem.companyName.value+"ListItem");
 	anim.startAnimating(new Zoomer('boo',start,destination,null),new Scroller(destination));
