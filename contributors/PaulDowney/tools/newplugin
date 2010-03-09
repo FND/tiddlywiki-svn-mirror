@@ -55,13 +55,13 @@ template "$plugin.js" <<!
 ***/
 //{{{
 /*jslint onevar: false nomen: false plusplus: false */
-/*global config */
-(function(\$) {
+/*global jQuery config */
+(function (\$) {
     version.extensions.$plugin = {installed: true};
 
 	// stuff
 
-})(jQuery);
+}(jQuery));
 //}}}
 !
 
@@ -179,7 +179,7 @@ jquery: ${plugin}Tests.js
 
 template "test/${plugin}Tests.js" <<!
 /*global story, jQuery, document, module, test, same */
-(function(\$) {
+(function (\$) {
     jQuery(document).ready(function () {
         module("$plugin");
 
