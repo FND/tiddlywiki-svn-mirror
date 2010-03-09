@@ -2,7 +2,7 @@
 recipe: $TW_ROOT/contributors/PaulDowney/plugins/ThemeButtonPlugin/ThemeButtonPlugin.recipe
 
 # display one tiddler at a time
-tiddler: $TW_ROOT/contributors/EricShulman/plugins/SinglePageModePlugin.js
+recipe: $TW_ROOT/contributors/PaulDowney/plugins/SingleTiddlerPlugin/SingleTiddlerPlugin.recipe
 
 # force refresh on theme switch
 recipe: $TW_ROOT/contributors/PaulDowney/plugins/ThemeSwitchRefreshPlugin/ThemeSwitchRefreshPlugin.recipe
