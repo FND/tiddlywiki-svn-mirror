@@ -25,7 +25,7 @@ macro provides a view on the table of content for the currently active document
 //{{{
 	
 config.macros.TableOfContent={
-	'emptyDocumentSpecPrompt':'Click the "New Section" link above to add a section to the document "',
+	'emptyDocumentSpecPrompt':'Click the "New Section" link above to add a section to the document. Document section titles can be dragged into the table of contents.',
 	'editTemplate':'TableOfContentPlugin##EditSectionTemplate', 
 	'viewTemplate':DEFAULT_VIEW_TEMPLATE,
 	'dragToolTip': 'Drag and drop to re-arrange sections in the table of content.',
@@ -43,17 +43,17 @@ config.macros.TableOfContent.handler=function(place,macroName,params,wikifier,pa
 };
 
 config.macros.TableOfContent.specChanged = function() {
-                window.testSpec = config.macros.TableOfContent.buildSpec(); 
-                        if(store.tiddlerExists(window.activeDocument)) { 
-                                var specTiddler = store.getTiddler(window.activeDocument); 
-                                var fields = merge(specTiddler.fields, config.defaultCustomFields); 
-                        } else { 
-                                var fields = config.defaultCustomFields; 
-                        } 
-                var spec = { format: { name: 'TiddlyDocsSpec', majorVersion:'0', minorVersion:'1' }, content: window.testSpec}; 
-                store.saveTiddler(window.activeDocument, window.activeDocument, jQuery.toJSON(spec), null, null, "document", fields); 
-                autoSaveChanges(true, window.activeDocument);
-				refreshAll();
+	window.testSpec = config.macros.TableOfContent.buildSpec(); 
+	if(store.tiddlerExists(window.activeDocument)) { 
+		var specTiddler = store.getTiddler(window.activeDocument); 
+		var fields = merge(specTiddler.fields, config.defaultCustomFields); 
+	} else { 
+	    var fields = config.defaultCustomFields; 
+	} 
+	var spec = { format: { name: 'TiddlyDocsSpec', majorVersion:'0', minorVersion:'1' }, content: window.testSpec}; 
+	store.saveTiddler(window.activeDocument, window.activeDocument, jQuery.toJSON(spec), null, null, "document", fields); 
+	autoSaveChanges(true, window.activeDocument);
+	refreshAll();
 }
 
 config.macros.TableOfContent.renderSpec = function(specView, spec) {
@@ -65,7 +65,10 @@ config.macros.TableOfContent.renderSpec = function(specView, spec) {
 	if(spec[0]) {
 		config.macros.TableOfContent._renderSpec(specView, spec, []);
 	} else {
-		createTiddlyElement(specView, "h5", null, 'emptySpec', config.macros.TableOfContent.emptyDocumentSpecPrompt+window.activeDocument+'".');
+				spec[0] = {};
+				spec[0].title = 'Empty Document';
+				spec[0].children = [];
+				config.macros.TableOfContent._renderSpec(specView, spec, []);		
 	}
 	jQuery("#ul0").NestedSortable({
 			accept: 'toc-item',
@@ -105,23 +108,30 @@ config.macros.TableOfContent.buildSpec = function() {
 config.macros.TableOfContent._buildSpec = function (liList) {
 	var spec = [];
 	liList.each(function() {
-		var li=this;
-		var node = {
-			title: li.id
-		};
-		node.children = config.macros.TableOfContent._buildSpec(jQuery(li).children("ul").children("li"));
-		spec.push(node);
+		if(this.id != 'empty'){
+			var li=this;
+			var node = {
+				title: li.id
+			};
+			node.children = config.macros.TableOfContent._buildSpec(jQuery(li).children("ul").children("li"));
+			spec.push(node);
+		}
  	});
   return spec;
 }
  
 config.macros.TableOfContent._renderSpec = function(specView, spec, label) {
+	var ul = createTiddlyElement(specView, "ul", "ul"+(window.ulCount++), "toc");
+	if(spec[0] && spec[0].title == 'Empty Document'){
+			var li = createTiddlyElement(ul, "li", 'empty', "clear-element toc-item no-nesting left");
+			var sectionDiv = createTiddlyElement(li, "h5", null, null, config.macros.TableOfContent.emptyDocumentSpecPrompt);	
+			return false;
+	}
 	var childCount=1;
 	label=label.concat([0])
-	var ul = createTiddlyElement(specView, "ul", "ul"+(window.ulCount++), "toc");
 	jQuery.each(spec, function() {
 		label[label.length-1]++;
-	   	var li = createTiddlyElement(ul, "li", this.title, "clear-element toc-item left");
+		var li = createTiddlyElement(ul, "li", this.title, "clear-element toc-item left");
 		if(store.getTiddler(this.title)!=null){
 			if(store.getTiddler(this.title).fields.tt_status == "Complete"){
 				var sectionClass = "completed"; 
@@ -137,7 +147,6 @@ config.macros.TableOfContent._renderSpec = function(specView, spec, label) {
 			else
 				story.displayTiddler(this.id, this.id.replace("_div", ""), config.macros.TableOfContent.viewTemplate,null, null, null, null,this);
 		}
-	
 		jQuery(sectionDiv).hover( 
                 function() { 
                   jQuery(this).next().css('opacity', '1');
@@ -146,8 +155,6 @@ config.macros.TableOfContent._renderSpec = function(specView, spec, label) {
                   jQuery(this).next().css('opacity', '0');
                 } 
         );
-        
-        
 		createTiddlyText(sectionDiv, label.join(".")+"  :  "+this.title);
 		var a = createTiddlyElement(li, "a", null, 'button deleteButton', config.macros.TableOfContent.deleteText);
        jQuery(a).css('opacity', '0');
