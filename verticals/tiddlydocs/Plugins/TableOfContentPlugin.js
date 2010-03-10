@@ -311,7 +311,6 @@ ul {
 
 .specView {
 	position:relative;
-	left:-1.5em;
 }
 
 html body a.deleteButton {
