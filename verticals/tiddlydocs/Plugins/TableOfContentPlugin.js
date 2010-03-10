@@ -245,7 +245,7 @@ html body div.draggableChildHover {
 }
 
 li.toc-item {
-	border:2px solid transparent;
+	border:2px solid [[ColorPalette::Background]];
 	border-right:0px solid;
 	list-style:none;
 }
