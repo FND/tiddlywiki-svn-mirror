@@ -1,8 +1,8 @@
-<div title="NewFeatures" modifier="FND" created="200704141410" modified="200908060000">
-<pre>Release 2.5.3 is primarily a bugfix release, but also contains usability enhancements:
-* Reverted changes to the file system code that were made in 2.5.2
-* Fixed problem with lack of confirmation prompt when cancelling editing on new and shadow tiddlers
-* Improved feedback on dynamic loading of tiddlers
+<div title="NewFeatures" modifier="FND" created="200704141410" modified="201003110000">
+<pre>Release 2.6.0 provides a variety of bugfixes and enhancements:
+* Added //WindowTitle// shadow tiddler
+* Added //creator// tiddler field
+* Upgraded to [[jQuery|http://jquery.com]] 1.4.2
 
 For the full release notes see:
 http://trac.tiddlywiki.org/wiki/History
