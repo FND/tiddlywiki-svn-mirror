@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|FND|
 |''Contributors''|Chris Dent, Martin Budden|
-|''Version''|1.1.4|
+|''Version''|1.1.5|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/|
@@ -329,7 +329,8 @@ adaptor.putTiddlerCallback = function(status, context, responseText, uri, xhr) {
 	context.statusText = xhr.statusText;
 	context.httpStatus = xhr.status;
 	if(context.status) {
-		context.adaptor.getTiddler(context.tiddler.title, context);
+		context.adaptor.getTiddler(context.tiddler.title, context,
+			context.userParams, context.callback);
 	} else if(context.callback) {
 		context.callback(context, context.userParams);
 	}
