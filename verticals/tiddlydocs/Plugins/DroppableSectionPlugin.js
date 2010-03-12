@@ -37,7 +37,7 @@ config.macros.droppableSection.handler = function(place,macroName,params,wikifie
 		helperclass: 'helper', 
 		autoScroll: true,
 		onStart: function() {
-				story.refreshTiddler(this.id,1,true);
+			story.refreshTiddler(this.id,1,true);
 		},
 		onStop: function() {
 			story.refreshTiddler(this.id,1,true);
@@ -58,7 +58,7 @@ store.addNotification("DroppableSectionPluginStyles", refreshStyles);
 !StyleSheet
 
 .toc-droppable-heading {
-	border:2px dashed transparent;
+	border:2px dashed [[ColorPalette::Background]];
 	cursor:move;
 }
 

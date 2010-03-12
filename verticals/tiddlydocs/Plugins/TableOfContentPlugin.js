@@ -149,15 +149,15 @@ config.macros.TableOfContent._renderSpec = function(specView, spec, label) {
 		}
 		jQuery(sectionDiv).hover( 
                 function() { 
-                  jQuery(this).next().css('opacity', '1');
+	   				jQuery(this).children().css('opacity', '1');
                 },  
                 function() {                  
-                  jQuery(this).next().css('opacity', '0');
+                 	jQuery(this).children().css('opacity', '0');
                 } 
         );
-		createTiddlyText(sectionDiv, label.join(".")+"  :  "+this.title);
-		var a = createTiddlyElement(li, "a", null, 'button deleteButton', config.macros.TableOfContent.deleteText);
-       jQuery(a).css('opacity', '0');
+	createTiddlyText(sectionDiv, label.join(".")+"  :  "+this.title);
+	var a = createTiddlyElement(sectionDiv, "a", null, 'button deleteButton', config.macros.TableOfContent.deleteText);
+    jQuery(a).css('opacity', '0');
 		a.onclick = function() {
 			jQuery(this).parent().remove();
 		    config.macros.TableOfContent.specChanged();
@@ -209,7 +209,6 @@ config.macros.TableOfContent.refresh=function(place,macroName,params,wikifier,pa
 .helper {		
 	border:2px dashed #777777;
 }
-
 
 .deleteHelper {
 	background-color:#eee;
@@ -314,13 +313,12 @@ ul {
 }
 
 html body a.deleteButton {
- cursor:pointer;
- float:right;
- position:relative;
- top:-1.6em;
- margin-right:0.5em;
-background:[[ColorPalette::Background]];
-color:[[ColorPalette::Foreground]];
+	cursor:pointer;
+	float:right;
+	position:absolute;
+	right:1em;
+	background:[[ColorPalette::Background]];
+	color:[[ColorPalette::Foreground]];
 }
 
 
