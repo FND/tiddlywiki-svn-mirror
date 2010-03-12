@@ -469,6 +469,7 @@ jQuery.iNestedSortable = {
 		}
 	},
 	destroy: function () {
+		
 		return this.each(
 			function () {
 				if(this.isNestedSortable) {

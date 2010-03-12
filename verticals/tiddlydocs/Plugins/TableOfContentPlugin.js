@@ -161,7 +161,8 @@ config.macros.TableOfContent._renderSpec = function(specView, spec, label) {
     
 		jQuery(a).css('opacity', '0');
 		a.onclick = function() {
-			jQuery(this).parent().remove();
+			console.log(jQuery(this).parent().parent());
+			jQuery(this).parent().parent().remove();
 		    config.macros.TableOfContent.specChanged();
 		};
 		config.macros.TableOfContent._renderSpec(li, this.children, label);
