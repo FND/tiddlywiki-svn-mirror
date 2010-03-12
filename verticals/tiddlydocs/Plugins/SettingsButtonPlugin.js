@@ -24,7 +24,8 @@
 config.macros.settingsButton = {};
 config.macros.settingsButton.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 	var settingsClick = function() {
-		story.displayTiddler(null, "Settings")
+		story.displayTiddler(null, "Settings");
+		return false;
 	}
 	createTiddlyButton(place, 'Settings', 'Click here to change your settings', settingsClick,"settingsButton button");
 }

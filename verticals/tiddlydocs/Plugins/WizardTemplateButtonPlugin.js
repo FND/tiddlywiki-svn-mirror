@@ -30,7 +30,8 @@ Provides a macro that can be called with <<newDocument>>. The macro craetes a fo
 config.macros.newDocumentButton = {};
 config.macros.newDocumentButton.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 	var newDoc = function() {
-		story.displayTiddler(null, "CreateNewDocument", "WizardTemplateButtonPlugin##simpleWizardView")
+		story.displayTiddler(null, "CreateNewDocument", "WizardTemplateButtonPlugin##simpleWizardView");
+		return false;
 	}
 	createTiddlyButton(place,'Create New Document', 'Click here to create a new document', newDoc,"newDocumentButton button");
 }
