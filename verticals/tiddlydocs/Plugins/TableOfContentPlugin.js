@@ -155,23 +155,18 @@ config.macros.TableOfContent._renderSpec = function(specView, spec, label) {
                  	jQuery(this).children().css('opacity', '0');
                 } 
         );
-	createTiddlyText(sectionDiv, label.join(".")+"  :  "+this.title);
-	var a = createTiddlyElement(sectionDiv, "a", null, 'button deleteButton', config.macros.TableOfContent.deleteText);
-    jQuery(a).css('opacity', '0');
+		createTiddlyText(sectionDiv, label.join(".")+"  :  "+this.title);
+	
+		var a = createTiddlyElement(sectionDiv, "a", null, 'button deleteButton', config.macros.TableOfContent.deleteText);
+    
+		jQuery(a).css('opacity', '0');
 		a.onclick = function() {
 			jQuery(this).parent().remove();
 		    config.macros.TableOfContent.specChanged();
 		};
-		jQuery(a).hover(
-			function() { 
-              jQuery(this).css('opacity', '1');
-            },  
-            function() {                  
-              jQuery(this).css('opacity', '0');
-            }
-		)
 		config.macros.TableOfContent._renderSpec(li, this.children, label);
 	});
+	
 }
 
 config.macros.TableOfContent.refresh=function(place,macroName,params,wikifier,paramString,tiddler){
