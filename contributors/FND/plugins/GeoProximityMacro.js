@@ -4,7 +4,7 @@
 |''Author''|FND|
 |''Version''|0.1.0|
 |''Status''|@@experimental@@|
-|''Source''|http://svn.tiddlywiki.org/Trunk/contributors/FND/GeoProximityMacro.js|
+|''Source''|http://svn.tiddlywiki.org/Trunk/contributors/FND/plugins/GeoProximityMacro.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
 !Usage
