@@ -61,9 +61,9 @@ config.commands.deleteTiddler.isEnabled = function(tiddler) {
 };
 
 // hijack Tiddler.prototype.isReadOnly to use permissions
-var original = Tiddler.prototype.isReadOnly;
+var _isReadOnly = Tiddler.prototype.isReadOnly;
 Tiddler.prototype.isReadOnly = function() {
-	var readOnly = original.apply(this, arguments); // global read-only mode
+	var readOnly = _isReadOnly.apply(this, arguments); // global read-only mode
 	return readOnly || !hasPermission("write", this);
 };
 
