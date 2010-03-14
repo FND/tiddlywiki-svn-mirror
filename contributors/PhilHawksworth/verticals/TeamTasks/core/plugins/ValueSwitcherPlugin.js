@@ -1,8 +1,8 @@
 /***
 |''Name:''|ValueSwitcherPlugin|
 |''Description:''|Gather values from a definition tiddler, and present the user with a UI for setting a value from those available options as an extended field |
-|''Version:''|0.2.1|
-|''Date:''|13 Mar, 2009|
+|''Version:''|0.2.2|
+|''Date:''|13 Mar, 2010|
 |''Source:''|http://www.hawksworx.com/playground/TeamTasks/#ValueTogglerPlugin|
 |''Author:''|PhilHawksworth (phawksworth (at) gmail (dot) com)|
 |''License:''|[[BSD open source license]]|
@@ -151,7 +151,6 @@ if(!version.extensions.ValueSwitcher)
 				var extField = option[0];
 				var extFieldVal = option[1];
 				store.setValue(tiddler,extField,extFieldVal);
-				story.saveTiddler(title);
 			}
 		},
 
@@ -166,7 +165,6 @@ if(!version.extensions.ValueSwitcher)
 				var title = t.getAttribute('tiddler');
 				var tiddler =  store.getTiddler(title);
 				store.setValue(tiddler,ttField,value);
-				story.saveTiddler(title);
 				refreshAll();
 
 			}
