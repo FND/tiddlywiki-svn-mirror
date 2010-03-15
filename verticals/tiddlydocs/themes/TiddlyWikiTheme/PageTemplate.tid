@@ -9,7 +9,7 @@ modifier: Simon McManus
 </div>
 <div macro='settingsButton'></div>
 <div macro='newDocumentButton'></div>
-<div macro='docTabsNew'></div>
+<div macro='docTabs'></div>
 
 
 <div class='headerForeground'>
