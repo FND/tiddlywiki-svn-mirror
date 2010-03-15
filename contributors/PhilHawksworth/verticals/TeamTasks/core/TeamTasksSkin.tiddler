@@ -5,8 +5,7 @@
 |''Description:''|The basic TeamTasks theme |
 |''Author:''|Phil Hawksworth - ph [at] osmosoft [dot] com |
 |''~CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PhilHawksworth/verticals/TeamTasks/teamtasks/TeamTasksSkin.tiddler |
-|''Version:''|0.4|
-|''Date:''|March 28th, 2008|
+|''Version:''|0.4.1|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''~CoreVersion:''|2.4.0|
@@ -77,7 +76,7 @@
 <div class='task'>
 	<table>
 	<tr>
-		<td class='taskbody'><div class='viewer edit' macro='edit text wikified'></div></td>
+		<td class='taskbody'><div class='viewer edit' macro='edit text'></div></td>
 		<td class='taskControls'><div class='taskControls' macro='tiddler TaskTiddlerControls'></div></td>
 	</tr>
 	</table>
