@@ -31,7 +31,7 @@ config.macros.droppableSection.refresh = function(place) {
  	var containingTiddlerTitle = tiddlerElem.getAttribute("tiddler"); 
 	var strippedTidTitle = config.macros.droppableSection.strip(containingTiddlerTitle);
 	var ul = createTiddlyElement(place, "ul", strippedTidTitle+"DroppableSectionList", "toc notHoverable");
-   	var li = createTiddlyElement(ul, "li", containingTiddlerTitle, "clear-element toc-item left");
+   	var li = createTiddlyElement(ul, "li", containingTiddlerTitle, "clear-element toc-item left ul-toc-droppable-heading");
 	var sectionDiv = createTiddlyElement(li, "div", containingTiddlerTitle+'_div', " toc-sort-handle toc-droppable-heading");
 	createTiddlyText(sectionDiv, containingTiddlerTitle);
 	jQuery("#"+strippedTidTitle+"DroppableSectionList").NestedSortable({
@@ -64,13 +64,18 @@ store.addNotification("DroppableSectionPluginStyles", refreshStyles);
 /***
 !StyleSheet
 
+
+.ul-toc-droppable-heading {
+	border:2px solid transparent;
+}
+
 .toc-droppable-heading {
 	border:2px dashed [[ColorPalette::Background]];
 	cursor:move;
 }
 
 .toc-droppable-heading:hover {
-	border:2px dashed #fff;
+	border:2px dashed red;
 	background:#eee;
 	cursor:move;
 }

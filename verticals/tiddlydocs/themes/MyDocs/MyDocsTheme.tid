@@ -152,6 +152,8 @@ tags: systemTheme  excludeLists excludeSearch
 	.iconShift {
 	top:1em;
 	}
+	
+	
 	</style>
 	<![endif]-->
 	
@@ -162,6 +164,14 @@ tags: systemTheme  excludeLists excludeSearch
 	<!--[if IE 6]>
 	<style type="text/css">
 
+	html body li.toc-item {
+		border:1px solid white;
+	}
+	
+	html body .ul-toc-droppable-heading {
+		border:2px solid #eee;
+	}
+	
 	html body #tiddlerDisplay {
 		width:60%;
 	}

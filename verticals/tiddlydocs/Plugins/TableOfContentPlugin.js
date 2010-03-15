@@ -240,7 +240,7 @@ html body div.draggableChildHover {
 }
 
 li.toc-item {
-	border:2px solid [[ColorPalette::Background]];
+	border:2px solid red;
 	border-right:0px solid;
 	list-style:none;
 }
