@@ -6,7 +6,7 @@
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/verticals/tiddlydocs/Plugins/tdocsCKEditorSettings.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/verticals/tiddlydocs/Plugins/tdocsCKEditorSettings.js |
-|''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
+|''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
 |''Requires''||
 !Description
 

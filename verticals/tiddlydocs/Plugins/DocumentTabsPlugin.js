@@ -4,7 +4,7 @@
 |''Authors''|Simon McManus|
 |''Version''|0.1|
 |''Status''|stable|
-|''License''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
+|''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
 |''Requires''||
 !Description
 
