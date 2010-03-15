@@ -1,0 +1,314 @@
+tags: systemTheme excludeLists excludeSearch
+
+/***
+|''Name:''|elvisTheme|
+|''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
+|''~CoreVersion:''|2.4.0|
+|''~PageTemplate:''|##PageTemplate|
+|''~ViewTemplate:''|##ViewTemplate|
+|''~EditTemplate:''|##EditTemplate|
+|''~CompaniesViewTemplate:''|##CompaniesViewTemplate|
+|''~StyleSheet:''|##StyleSheet|
+
+***/
+
+!PageTemplate
+<!--{{{-->
+    
+    <link href="https://ghmc.bantamlive.com/stylesheets/compiled/screen.css?1266605276" media="screen, projection" rel="stylesheet" type="text/css" />
+    <div id='container'> 
+        <div id="header">
+            <ul id="menu">
+            <div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
+            </ul>
+            <form method="get" id="global_search" action="">
+                <input type="text" value="" placeholder="Search for a contact..." name="search" id="search" class="search prompt global_search ac_input placeholder" autocomplete="off"/>
+            </form>
+            <ul id="utilities">
+                <li class="">
+                    <a href="/settings/profile_info">Settings</a>
+                </li>
+                <li>
+                    <a target="_blank" href="/zendesk">Help</a>
+                </li>
+                <li>
+                    <a >Logout</a>
+                </li>
+            </ul>
+        </div>
+<br/>
+<br/>
+
+        <div id='displayArea'>
+        <div id='messageArea'></div>
+        <div id='tiddlerDisplay'></div>
+
+    </div>
+    
+
+
+</div>
+<!--}}}-->
+
+!ViewTemplate 
+<!--{{{-->
+<div class='tiddlerRightColumn'>
+		<div macro='newInlineTiddler'></div>
+</div>
+<div class='title' macro='view title'></div>
+<!--<div class='tagged' macro='tags'></div>-->
+<div class='tiddlerContainer'>
+<div class='summaryBar' macro='taggingCount'></div>
+
+
+<div class='subtitle'><span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
+<!--<div class='viewer' macro='view text wikified'></div>-->
+<div class='tagging' macro='taggingDetails'></div>
+<div class='tagClear'></div>
+</div>
+
+<!--}}}-->
+
+!EditTemplate
+<!--{{{-->
+<div class='toolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
+<div class='title' macro='view title'></div>
+<div class='editor' macro='edit title'></div>
+<div macro='annotations'></div>
+<div class='editor' macro='edit text'></div>
+<div class='editor' macro='edit tags'></div><div class='editorFooter'><span macro='message views.editor.tagPrompt'></span><span macro='tagChooser excludeLists'></span></div>
+<!--}}}-->
+
+!CompaniesViewTemplate 
+<!--{{{-->
+<div class='title' macro='view title'>Company : </div>
+<div class='tagged' macro='tags'></div>
+<div class='tiddlerContainer'>
+
+<div macro="structuredContent stylePreamble:true CompanyStructure"></div>
+
+<!--<div class='viewer' macro='view text wikified'></div>-->
+<div class='tagging' macro='taggingDetails'></div>
+<div class='tagClear'></div>
+</div>
+<!--}}}-->
+
+
+!StyleSheet
+
+body {
+	-moz-background-clip:border;
+	-moz-background-inline-policy:continuous;
+	-moz-background-origin:padding;
+	background:#F9F9F9 none repeat scroll 0 0;
+	color:#3C3C3C;
+	font-family:Arial,Helvetica,sans-serif;
+	font-size:13px;
+	line-height:18px;
+}
+
+html body #container {
+    margin:0 auto;
+    max-width:1200px;
+    min-width:960px;
+    padding:0 10px;
+}
+
+#mainMenu {
+    font-size:1.1em;
+    left:0;
+    line-height:1.6em;
+    padding:0.5em;
+    position:static;
+    text-align:right;
+    width:100%;
+    font-weight:bolder;
+}
+
+#mainMenu a {
+    padding:1em;
+}
+
+#displayArea {
+	margin:1em;
+}
+
+#sidebar {
+	float:right;
+	font-size:0.9em;
+	position:relative;
+	right:8em;
+	top:-24em;
+	width:26em;
+}
+
+html body .button {
+    display:inline;
+}
+
+.tiddler .title {
+	background:#EEEEEE none repeat scroll 0 0;
+	color:#666666;
+	padding:0.5em;
+	color:#0E3258;
+	font-size:18px;
+	font-weight:bold;
+	line-height:40px;
+	padding:0 10px;
+	width:65%;
+}
+
+.tiddler .tiddlerContainer {
+	border:1px solid #C0C7CF;
+	border-left:0px;
+	background:#fff;
+	width:66.5%
+}
+
+.selected .tagging {
+	background:#fff;
+	border-color:#ddd;
+	border-width:1px 0;
+	opacity:1;
+}
+.tagging {
+	opacity:0.8;
+	background:white none repeat scroll 0 0;
+	width:100%;
+	border-color:#eee;
+	border-width:1px 0;
+	padding:0em;
+}
+
+.tagging ul{
+	margin:0em;
+}
+.summaryBar {
+	background:#EAF5FF;
+	border-bottom:1px solid #D6E4F1;
+	padding:0.4em;
+	z-index:2;
+}
+
+.toolbar {
+	float:left;
+	padding:0.5em;
+}
+
+.subtitle {
+	background: #EAF5FF;
+	padding:0.5em;
+
+}
+
+
+.section {
+	float:right;
+	width:100%;
+}
+
+.section h2 {
+font-weight:bold;
+background: #EAF5FF;
+border-bottom:1px solid #ddd;
+}
+.structuredContent .section span {
+}
+
+.structuredContent .section span.editLink {
+	float:right;
+}
+
+
+.detailList {
+	padding:1em;
+	border-bottom:1px solid #ddd; 
+}
+
+.alternateItem {
+	background:#F8F8F8;
+	
+}
+.CompanyListItem:hover {
+background: #eee url(http://img.skitch.com/20100306-neacjdtnpsctccnchmeus6nsds.jpg) no-repeat left center;
+cursor:pointer;
+}
+
+.CompanyListItem{
+	background-image: url(http://img.skitch.com/20100306-neacjdtnpsctccnchmeus6nsds.jpg);
+	background-repeat: no-repeat;
+	background-position:left center;
+	padding-left:4em;
+	
+	
+}
+
+
+.ScoutListItem:hover {
+background: #eee url(http://img.skitch.com/20100306-kfk6bs5gseic8gxma1xi6hsdh5.jpg) no-repeat left center;
+cursor:pointer;
+}
+
+.ScoutListItem{
+	background-image: url(http://img.skitch.com/20100306-kfk6bs5gseic8gxma1xi6hsdh5.jpg);
+	background-repeat: no-repeat;
+	background-position:left center;
+	padding-left:4em;
+	
+	
+}
+
+
+.companyListItem a {
+padding:1em;
+}
+
+.tiddlerRightColumn {
+	float:right;
+	width:33%;
+}
+
+.tiddlerRightColumn .wizard {
+	background:#EAF5FF;
+	width:95%;
+	border:1px solid #D5EAFF;
+	padding:0.4em;
+}
+
+.wizardFooter {
+	background:#EAF5FF;
+}
+
+.wizardStep {
+	border:1px solid #DDDDDD;
+}
+
+.wizard textarea, .wizard .StructureEditBox {
+	width:90%;
+	background:#FFFFFF none repeat scroll 0 0;
+	border:1px solid #B8DAB7;
+}
+
+
+ .wizard .button {
+background:#346596;
+border:1px solid #2b5986;
+color:#fff;
+padding:0.5em 1em;
+font-size:0.9em;
+}
+
+.wizard h1 {
+	font-size:1em;
+	margin-top:0;
+	padding-top:0;
+	color:#1B3153;
+	font-size:13px;
+	margin:0;
+}
+
+.zoomer {
+	background:none; 
+	color:#ddd; 
+	border:3px solid #ddd;
+}

@@ -1,0 +1,14 @@
+tiddler: elvisTheme.tid
+tiddler: setTheme.js
+tiddler: MainMenu.tid
+tiddler: ../../plugins/newTiddlerPlugin.js
+tiddler: taggingDetails.js
+tiddler: elvis/StructuredDataPlugin.js
+tiddler: elvis/CompanyStructure.tid
+tiddler: elvis/ScoutStructure.tid
+
+tiddler: elvis/StatusSection.tid
+tiddler: elvis/StageSection.tid
+tiddler: elvis/DescriptionSection.tid
+
+tiddler: ../../../EricShulman/plugins/TaggedTemplateTweak.js
