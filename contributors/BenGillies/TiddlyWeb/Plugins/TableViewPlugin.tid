@@ -6,7 +6,7 @@ tags: systemConfig
 
 /***
 |TableViewPlugin|
-|Version|0.2|
+|Version|0.3|
 |Author|Ben Gillies|
 |Type|plugin|
 |Description|view tiddlers in a table suitable for copying into excel|
@@ -75,46 +75,52 @@ In this case, title is always used as the default first column.
                 }
             }
             
+            //set up the table
+            var table = jQuery('<table class="reportTable" />');
+            jQuery('<div class="reportContainer" />').append(table).appendTo(place);
+            
             //construct the table heading
-            var defaultTitleColumn = columnTiddler ? '<th>title</th>' : '';
-            var tableHead = '<thead><tr>' + defaultTitleColumn;
-            for (var i=0; i<headings.length; i++) {
-                tableHead += '<th>' + headings[i] + '</th>';
+            var tableHeading = jQuery('<tr />').appendTo(jQuery('<thead/>').appendTo(table));
+            if (columnTiddler) {
+                jQuery('<th />').text('title').appendTo(tableHeading);
             }
-            tableHead += '</tr></thead>';
+            for (var i=0; i<headings.length; i++) {
+                jQuery('<th />').text(headings[i]).appendTo(tableHeading);
+            }
             
             //construct the table body
-            var tableBody = '<tbody>';
+            var tableBody = jQuery('<tbody />').appendTo(table);
             for (var i=0; i < tiddlers.length; i++) {
                 var tiddler = tiddlers[i];
-                
-                var defaultTitleText = columnTiddler ? '<td>' + tiddler.title + '</td>' : '';
-                var tableRow = '<tr>' + defaultTitleText;
+                var currentRow = jQuery('<tr />').appendTo(tableBody);
+                if (columnTiddler) {
+                    var titlePlace = jQuery('<td />').appendTo(currentRow);
+                    createTiddlyLink(titlePlace[0], tiddler.title, true);
+                }
                 for (var j=0; j<headings.length; j++) {
                     var heading = headings[j];
-                    var tableValue = '';
+                    var currentCell = jQuery('<td />').appendTo(currentRow);
+                    //get the value for this cell from a similarly named tiddler (eg - Foo_fieldName)
                     var fetchValue = function() {
                         var subTiddlerName = tiddler.title + '_' + heading;
                         var cellTiddler = store.getTiddler(subTiddlerName);
-                        if (cellTiddler) {               
-                            var tmpPlace = document.createElement("div")
-                            wikify(cellTiddler.text, tmpPlace);  
-                            return tmpPlace.innerHTML;
+                        if (cellTiddler) {
+                            return cellTiddler.text;
                         } else {
                            return '';
                         }
                     }
-                    tableValue = (heading in tiddler) ? tiddler[heading] : tiddler.fields[heading] || fetchValue();
-                    tableRow += '<td>' + tableValue + '</td>';
+                    if (heading === 'title') {
+                        createTiddlyLink(currentCell[0], tiddler.title, true);
+                    } else if (heading in tiddler) {
+                        wikify(tiddler[heading], currentCell[0]);
+                    } else if (heading in tiddler.fields) {
+                        wikify(tiddler.fields[heading], currentCell[0]);
+                    } else {
+                        wikify(fetchValue(), currentCell[0]);
+                    }
                 }
-                tableRow += '</tr>';
-                tableBody += tableRow;
             }
-            tableBody += '</tbody>';
-            
-            var table = '<div class="reportContainer"><table class="reportTable">' + tableHead + tableBody + '</table></div>';
-            
-            jQuery(place).append(table);
         }
     }
 //}}}
