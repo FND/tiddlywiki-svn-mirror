@@ -1,5 +1,5 @@
 /***
-|''Name''|DocumentTabsPlugin|
+|''Name''|DocumentTabsPlugin (for MyDocs)|
 |''Description''|Provides tabs which users can use to change the current active document to any document which already exists.|
 |''Authors''|Simon McManus|
 |''Version''|0.1|

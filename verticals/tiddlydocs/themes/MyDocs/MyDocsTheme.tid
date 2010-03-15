@@ -20,10 +20,8 @@ tags: systemTheme  excludeLists excludeSearch
     <div class="body">
       <div class="sections">
 	<div id='messageArea'><div class='messageBox'></div></div>
-
-        <div id="menu">
+       <div id="menu">
         </div>
-
         <div class="header">
 <div id="wholesale_search_wrapper">
   <div id="search_bar">
@@ -67,12 +65,14 @@ tags: systemTheme  excludeLists excludeSearch
     </div>
   </div>
 
+
 <div macro='docTabs'></div>
     
     
   
 </div>
         </div>
+		<div macro='newDocumentButton template:MyDocsTheme##wizardViewTemplate'></div>
 	
         <div id="container">
 <div class='leftColumn'>
@@ -341,3 +341,8 @@ tags: systemTheme  excludeLists excludeSearch
 	[[MyDocsCSSConainer]]
 [[MyDocsCSSOverride]]
 [[MyDocsStyleSheet]]
+
+html body a.newDocumentButton {
+background:red !important;
+font-size:2em;
+}

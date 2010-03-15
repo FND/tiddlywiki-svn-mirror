@@ -366,6 +366,10 @@ html body #tiddlerDisplay {
 
 // END NESTED SORTABLE CSS
 
+
+
+
+
 	.portletContainer{
 		background-color:#ffffff;
 		margin-bottom:1em;
