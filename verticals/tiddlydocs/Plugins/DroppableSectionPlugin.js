@@ -75,7 +75,7 @@ store.addNotification("DroppableSectionPluginStyles", refreshStyles);
 }
 
 .toc-droppable-heading:hover {
-	border:2px dashed red;
+	border:2px dashed [[ColorPalette::Foreground]];
 	background:#eee;
 	cursor:move;
 }
