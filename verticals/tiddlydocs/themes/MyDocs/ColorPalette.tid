@@ -1,0 +1,17 @@
+modifier: smm
+
+Background: #fff
+Foreground: #000
+PrimaryPale: #8cf
+PrimaryLight: #18f
+PrimaryMid: #04b
+PrimaryDark: #eee
+SecondaryPale: #ffc
+SecondaryLight: #eee
+SecondaryMid: #ddd
+SecondaryDark: #841
+TertiaryPale: #eee
+TertiaryLight: #ccc
+TertiaryMid: #999
+TertiaryDark: #666
+Error: #f88
