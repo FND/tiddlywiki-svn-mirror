@@ -34,7 +34,7 @@ config.macros.newDocumentButton.handler = function(place,macroName,params,wikifi
 		story.displayTiddler(null,"CreateNewDocument", template);
 		return false;
 	}
-	text = (text)?text:'Create New Document';
+	text = (text!=null)?text:'Create New Document';
 	createTiddlyButton(place, text, 'Click here to create a new document', newDoc,"newDocumentButton button");
 }
 
