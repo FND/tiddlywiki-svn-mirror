@@ -160,10 +160,11 @@ config.macros.TableOfContent._renderSpec = function(specView, spec, label) {
 		var a = createTiddlyElement(sectionDiv, "a", null, 'button deleteButton', config.macros.TableOfContent.deleteText);
     
 		jQuery(a).css('opacity', '0');
-		a.onclick = function() {
+		jQuery(a).click(function() {
 			jQuery(this).parent().parent().remove();
 		    config.macros.TableOfContent.specChanged();
-		};
+			return false;
+		})
 		config.macros.TableOfContent._renderSpec(li, this.children, label);
 	});
 	
