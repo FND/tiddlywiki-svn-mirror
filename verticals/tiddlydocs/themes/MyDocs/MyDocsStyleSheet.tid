@@ -108,26 +108,27 @@ h1 {
 	font-family:arial black;
 }
 
-.siteSubtitle{
-	color:#ddd;
-	font-size:1em;
-	font-family:arial black;
+	.siteSubtitle{
+		color:#ddd;
+		font-size:1em;
+		font-family:arial black;
 
-}
+	}
 
-.editor input, .editor textarea {
-	border:1px solid #C7C7C7;
-	margin:0.5em;
-}
+	.editor input, .editor textarea {
+		border:1px solid #C7C7C7;
+		margin:0.5em;
+	}
 
- .deleteHelper {
-	background-color:red;
-	border:2px dashed #777777;
-	color:#333;
-}
-.left {
-	text-align: left;
-}
+	.deleteHelper {
+		background-color:red;
+		border:2px dashed #777777;
+		color:#333;
+	}
+	
+	.left {
+		text-align: left;
+	}
 
 
 /* TIDDLYWIKI CSS */
@@ -145,7 +146,7 @@ h1 {
 	}
 
 
-html body #tiddlerDisplay {
+	html body #tiddlerDisplay {
 		float:right;
 		height:100%;
 		margin:0 2em 0 0;
