@@ -8895,7 +8895,7 @@ function log() { if (console &amp;&amp; console.firebug) console.log.apply(conso
 // function log() { if (console &amp;&amp; console.firebug) console.log.apply(console, arguments); }
 </pre>
 </div>
-<div title="RibbitVoiceCommentsPlugin" modifier="BenJam" created="201003161039" tags="systemConfig">
+<div title="RibbitVoiceCommentsPlugin" modifier="BenJam" created="201003161519" tags="systemConfig">
 <pre>/***
 |''Name:''|RibbitCommentsPlugin|
 |''Description:''|Collect comments by voice|
@@ -8907,7 +8907,15 @@ function log() { if (console &amp;&amp; console.firebug) console.log.apply(conso
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
 |''~CoreVersion:''|2.3|
 
-Usage
+Usage:
+
+&lt;&lt;voiceComments [authMode], [user], [password] [consumerKey], [secretKey]&gt;&gt;
+
+authMode: the authentication mode to use, '2' for private domain authentication, or '3' for public domain
+user: the username of the account to collect from in 2Legged authentication
+password: the password of the account to collect from in 3Legged authentication
+consumerKey: the consumer key of the Ribbit application hosting a comments service (2Leg and 3Leg authentication)
+secretKey: The secret key of the RIbbit application hosting a comments service for 3Legged authentication
 
 ***/
 //{{{
@@ -8916,26 +8924,23 @@ Usage
 
     var consumerKey = &quot;MzdmMjdjZGItZjAyMC00YzIzLTgxMDItYzkyOWQ2ZDdhYjY3&quot;;
     var secretKey =&quot;YWIyNjFlN2YtNWU5Ni00YWFjLThkZTMtOTkxOTdmYWJjZTkx&quot;;
-    var username = &quot;benjamin.nickolls@gmail.com&quot;;
-    var password = &quot;password&quot;;
-    var tiddler;
-        
+
     var log = console.log;
 
-    config.macros.RibbitVoiceComments = {
+    config.macros.voiceComments = {
         
         handler: function(place, macroName, params, wikifier, paramString, tiddler){
 			var macroParams = paramString.parseParams();
+			log(macroParams);
             if(Ribbit.userId!=null){
 				log(&quot;Logged in on previous session&quot;);
-            }
-            // login(consumerKey, secretKey, username, password, getComments);
-			createLogin(place, tiddler);
+            }        
+			
         }
 
     };
-
-	function createLogin(place, tiddler){
+	//three leg (public) domain at r4m.ribbit.com (requires a redirect)
+	function login3Leg(place,macroParams){
 		if(!Ribbit.isLoggedIn || !Ribbit.checkAccessTokenExpiry()){
 			Ribbit.init3Legged(consumerKey, secretKey);
 			var win=null;
@@ -8950,6 +8955,7 @@ Usage
 							if(!result.hasError){
 								log(&quot;Logged in, now do something useful with it!&quot;)
 								win.close();
+								return
 							}
 							else{
 								pollApproved();
@@ -8958,7 +8964,6 @@ Usage
 						Ribbit.checkAuthenticatedUser(callBack);
 					},4000); //setTimeout
 				}; //pollApproved
-				tiddler.body = &quot;Please login to Ribbit to collect your comments\n&quot;;
 				createTiddlyButton(place,&quot;Login&quot;, null, function(){
 					win = window.open(url, &quot;r4mlogin&quot;,&quot;width=1024,height=800,toolbar:no&quot;);
 					pollApproved();
@@ -8970,29 +8975,34 @@ Usage
 			//get a unique url for Ribbit login and send to callback
 			Ribbit.createUserAuthenticationUrl(gotUrlCallback);
 		}//if
+	}//login
+	
+	//2legged (private domain) authentication 
+	function login2Leg(place, macroParams){
+		if(Ribbit.userId!==null){
+			log(&quot;User already logged in&quot;)
+			return
+		}
+		
+		var username = getParam(macroParams,&quot;user&quot;);
+		var password = getParam(macroParams,&quot;pass&quot;);
+		
+		if(getParam(macroParms,&quot;consumerKey&quot;)!==null){
+			log(&quot;Overwriting consumer key&quot;);
+			consumerKey = getParams(macroParams,&quot;consumerKey&quot;);
+			log(consumerKey);
+		}
+		Ribbit.init(consumerKey);
+		Ribbit.login(function(result){
+			if(result.hasError){
+				log(result);
+			}else{
+				log(&quot;Logged in, now do something useful with it!&quot;)
+				return
+			}
+		},username, password);
+		return
 	}
-
-    // function login(consumerKey, secretKey, username, password, callback){
-    //     Ribbit.init(consumerKey);
-    //     Ribbit.login(function(result){
-    //         if (result.hasError){
-    //             Log(&quot;Bah! Couldn't login&quot;);
-    //         }
-    //         Ribbit.Messages().getReceivedMessages(getComments,0,100);
-    //     },username,password);
-    // }
-    // 
-    // function getComments(result){
-    //     if(result.hasError){
-    //         Log(&quot;Bah couldn't get any messages&quot;);
-    //     }else if(result.entry.length!=0){
-    //         for(var i=0;i&lt;result.entry.length;i++){
-    //             var message = result.entry[i];
-    //             var comment = message.body;
-    //             config.macros.comments.addComment(tiddler,comment);
-    //         }
-    //     }
-    // }
 
 })(jQuery);
 
@@ -9001,7 +9011,7 @@ Usage
 </div>
 <div title="ThatThing" modifier="BenJam">
 <pre>
-&lt;&lt;RibbitVoiceComments&gt;&gt;
+&lt;&lt;voiceComments username: benjamin.nickolls@gmail.com password: password auth:2&gt;&gt;
 </pre>
 </div>
 </div>

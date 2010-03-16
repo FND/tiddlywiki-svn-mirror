@@ -10,44 +10,50 @@
 |''~CoreVersion:''|2.3|
 TODO UPDATE
 Usage:
-note: This application requires that you have a RIbbit for mobile account.
+note: This application requires that you have a Ribbit for mobile account.
 {{{
-<<RibbitVoicemail username password [consumerKey]>>
-}}}
-username: Ribbit account username
-password: Ribbit account password
-consumerKey: Ribbit application consumer key
+<<RibbitVoicemail consumerKey [secretKey] [username] [password]  [markRead]>>
 
-If no consumerKey is present the default key for my own application RibbitIntro is used
+consumerKey: your Ribbit application consumer key
+secretKey: your Ribbit application secretKey (3Legged auth only)
+username: your Ribbit application username (2Legged auth only)
+password: your Ribbit application password (2Legged auth only)
+markRead: whether or not you want to mark messages downloaded as read (default no)
+}}}
 ***/
 //{{{
 
-(function($){
+(function($) {
 	
-	var log = console.log;
-	var consumer = "MDllOTljNzgtYmYwZC00YzJlLTlkZDctYmMyZmZiY2UzYjFl";
-	var secret = "ODI5OWM2MjYtNjE2MS00YWNkLWIwNTgtMDYzYjcwMjgwYmQ1";
+    var log = console.log;
 
-	config.macros.RibbitVoicemail = {
-		
-		handler:function(place, macroName, params, wikifier, paramString, tiddler){
-			var macroParams = paramString.parseParams(null, null, true);
-			if(Ribbit.userId!==null){
-				log("using previous session");
-				Ribbit.Messages().getReceivedMessages(getMessages,0,100);
+    config.macros.voiceComments = {
+
+        handler: function(place, macroName, params, wikifier, paramString, tiddler){
+			var macroParams = paramString.parseParams();
+			log(macroParams);
+            if(Ribbit.userId!=null){
+				log("Logged in on previous session");
+            }        
+			if(getParams(macroParams,"secretKey")!==null){
+				//user wants to do a 3LeggedAuthentication
+				login3Leg(place, macroParams);
 			}
-			else{
-				login(place,tiddler, macroParams);
-			}
-			
-		}
-	};
-	
-	function login(place){
+			getMessages();
+        }
+
+    };
+	//three leg (public) domain at r4m.ribbit.com (requires a redirect)
+	function login3Leg(place,macroParams){
 		if(!Ribbit.isLoggedIn || !Ribbit.checkAccessTokenExpiry()){
-			Ribbit.init3Legged(consumerKey, secretKey);
-			var win=null;
 			
+			var cKey = getParams(macroParams,"consumerKey");
+			var sKey = getParams(macroParams,"secretKey");
+			
+			Ribbit.init3Legged(cKey, sKey);
+			
+			var win=null;
+
 			//innner function to handle login on seperate window
 			var gotUrlCallback = function(url){
 				log(url);				
@@ -56,9 +62,9 @@ If no consumerKey is present the default key for my own application RibbitIntro 
 					setTimeout(function(){
 						var callBack = function(result){
 							if(!result.hasError){
-								log("Logged in now do something useful with it");
-								Ribbit.Messages().getReceivedMessages(getMessages,0,100);
+								log("Logged in, now do something useful with it!");
 								win.close();
+								return;
 							}
 							else{
 								pollApproved();
@@ -66,42 +72,66 @@ If no consumerKey is present the default key for my own application RibbitIntro 
 						};//callBack
 						Ribbit.checkAuthenticatedUser(callBack);
 					},4000); //setTimeout
-				} //pollApproved
+				}; //pollApproved
 				createTiddlyButton(place,"Login", null, function(){
 					win = window.open(url, "r4mlogin","width=1024,height=800,toolbar:no");
 					pollApproved();
 					return false;
 				});
-				
-			}//gotUrlCallback
+
+			};//gotUrlCallback
+
+			//get a unique url for Ribbit login and send to callback
 			Ribbit.createUserAuthenticationUrl(gotUrlCallback);
 		}//if
 	}//login
-	
-	//TODO sort this out
-	function getMessages(result){
-		if (result.hasError){
-			log("Bah! couldn't collect messages");
-		}else{
-			if(result.entry.length !=0){	
-				store.suspendNotifications();
-				for(var i=0;i<result.entry.length;i++){
-					var message = result.entry[i];
-					//seperate id and sender elements
-					var id = new String(message.id).split(':')[1];
-					var sender = new String(message.sender).split(':')[1];
-					//construct a decent title and body
-					var title = message.type+" "+id+" from "+sender;
-					var body = message.body+"\n\n[[.mp3|"+ message.mediaUri +"]]";
-					var tags = [message.type];
-					var timestamp = Date.parse(message.time);
-					store.saveTiddler(title,title,body,sender,timestamp,tags,config.defaultCustomFields,null,timestamp,sender);
-				}
-				store.resumeNotifications();
-				refreshAll();
-			}
+
+	//2legged (private domain) authentication 
+	function login2Leg(place, macroParams){
+		if(Ribbit.userId!==null){
+			log("User already logged in");
+			return;
 		}
-		
+		var cKey = getParams(macroParams,"consumerKey");
+		var username = getParam(macroParams,"username");
+		var password = getParam(macroParams,"password");
+
+		Ribbit.init(cKey);
+		Ribbit.login(function(result){
+			if(result.hasError){
+				log(result);
+			}else{
+				log("Logged in, now do something useful with it!");
+				return;
+			}
+		},username, password);
+		return;
 	}
-}(jQuery);
+	
+	function getMessages(macroParams){
+		Ribbit.Messages().getReceivedMessages(function(result){
+			if (result.hasError){
+				log("Bah! couldn't collect messages");
+			}else{
+				if(result.entry.length !=0){	
+					store.suspendNotifications();
+					for(var i=0;i<result.entry.length;i++){
+						var message = result.entry[i];
+						var id = new String(message.id).split(':')[1];
+						var sender = new String(message.sender).split(':')[1];
+						var title = message.type+" "+id+" from "+sender;
+						var body = message.body+"\n\n[[.mp3|"+ message.mediaUri +"]]";
+						var tags = [message.type];
+						var timestamp = Date.parse(message.time);
+						store.saveTiddler(title,title,body,sender,timestamp,tags,config.defaultCustomFields,null,timestamp,sender);
+					}
+					store.resumeNotifications();
+					refreshAll();
+				}
+			}
+		},0,100);
+	}
+
+})(jQuery);
+
 //}}}

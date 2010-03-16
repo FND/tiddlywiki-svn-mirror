@@ -1,0 +1,3 @@
+recipe: $TW_ROOT/core/tiddlywiki.html.recipe
+recipe: ../../plugins/RibbitVoicemail.recipe
+tiddler: GetVoicemail.tid

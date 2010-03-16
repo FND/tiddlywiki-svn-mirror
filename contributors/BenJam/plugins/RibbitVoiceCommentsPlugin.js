@@ -37,7 +37,12 @@ secretKey: The secret key of the RIbbit application hosting a comments service f
             if(Ribbit.userId!=null){
 				log("Logged in on previous session");
             }        
-			
+			if(params.length>0){
+				login3leg(place,macroParams);
+			}
+			else{
+				login2Leg(macroParams)
+			}
         }
 
     };
