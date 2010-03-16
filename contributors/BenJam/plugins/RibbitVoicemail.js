@@ -28,7 +28,7 @@ If no consumerKey is present the default key for my own application RibbitIntro 
 	var consumer = "MDllOTljNzgtYmYwZC00YzJlLTlkZDctYmMyZmZiY2UzYjFl";
 	var secret = "ODI5OWM2MjYtNjE2MS00YWNkLWIwNTgtMDYzYjcwMjgwYmQ1";
 
-	config.macros.RibbitVoicemail3Leg = {
+	config.macros.RibbitVoicemail = {
 		
 		handler:function(place, macroName, params, wikifier, paramString, tiddler){
 			var macroParams = paramString.parseParams(null, null, true);
@@ -66,7 +66,7 @@ If no consumerKey is present the default key for my own application RibbitIntro 
 						};//callBack
 						Ribbit.checkAuthenticatedUser(callBack);
 					},4000); //setTimeout
-				}; //pollApproved
+				} //pollApproved
 				createTiddlyButton(place,"Login", null, function(){
 					win = window.open(url, "r4mlogin","width=1024,height=800,toolbar:no");
 					pollApproved();
@@ -78,6 +78,7 @@ If no consumerKey is present the default key for my own application RibbitIntro 
 		}//if
 	}//login
 	
+	//TODO sort this out
 	function getMessages(result){
 		if (result.hasError){
 			log("Bah! couldn't collect messages");
