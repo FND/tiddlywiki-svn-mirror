@@ -40,10 +40,10 @@ config.macros.droppableSection.refresh = function(place) {
 		helperclass: 'helper', 
 		autoScroll: true,
 		onStart: function() {
-//		story.refreshTiddler(this.id,1,true);
+			story.refreshTiddler(this.id,1,true);
 		},
 		onStop: function() {
-//			story.refreshTiddler(this.id,1,true);
+			story.refreshTiddler(this.id,1,true);
 		},
 		handle: '.toc-sort-handle'
 	});
