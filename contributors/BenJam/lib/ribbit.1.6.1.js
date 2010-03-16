@@ -230,7 +230,7 @@ Ribbit.sessionStorage = function(v) {
 Ribbit.readCookie = function() {
 	var n = Ribbit.cookie + "=";
 	var cks = [];
-	cks = Ribbit.sessionStorage().split(";");
+	cks = Ribbit.sessionStorage().toString().split(";");
 	var v = '{}';
 	for (var i = 0; i < cks.length; i++) {
 		var ck = cks[i];
@@ -2073,6 +2073,52 @@ Ribbit.Device = function() {
 	return this;
 };
 /**
+ * 
+ */
+Ribbit.Device.LOCALE_GBR = "GBR";
+/**
+ * 
+ */
+Ribbit.Device.LOCALE_USA = "USA";
+/**
+ * Allocates a specified Inbound Number to the current User
+ *
+ * @public
+ * @function
+ *  
+ * @param callback function: A method that takes a single argument, which will be invoked when the call to the Ribbit server completes
+ * @param number string:  (required)
+ * @return An inboundNumber identifier, or a RibbitException
+ */
+Ribbit.Device.prototype.allocateInboundNumber = function(callback, number) {
+	function allocateInboundNumberCallback(val) {
+		var ret = null;
+		if ((val.status && val.status >= 400) || (val.hasError && val.hasError === true)) {
+			ret = val;
+		} else {
+			ret = val;
+		}
+		return Ribbit.respond(callback, ret);
+	}
+	if (typeof arguments[0] === "object" && arguments[0] !== null) {
+		var a = arguments[0];
+		number = a.number;
+		callback = a.callback;
+	}
+	var exceptions = [];
+	if (!Ribbit.Util.isValidString(number)) {
+		exceptions.push("number is required");
+	}
+	if (exceptions.length > 0) {
+		return Ribbit.checkParameterErrors(callback, exceptions);
+	}
+	var allocateInboundNumberMethodCallback = Ribbit.asynchronous ? allocateInboundNumberCallback : null;
+	var allocateInboundNumberResponse = Ribbit.Devices().createDevice(allocateInboundNumberMethodCallback, "@purpose/tel:" + number, "Purpose number", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+	if (!Ribbit.asynchronous) {
+		return allocateInboundNumberCallback(allocateInboundNumberResponse);
+	}
+};
+/**
  * Registers a new device to the current User
  *
  * @public
@@ -2460,6 +2506,165 @@ Ribbit.Device.prototype.createMailDevice = function(callback, emailAddress, name
 	var createMailDeviceResponse = Ribbit.Devices().createDevice(createMailDeviceMethodCallback, "mailto:" + emailAddress, name, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "mailCheck", null, null);
 	if (!Ribbit.asynchronous) {
 		return createMailDeviceCallback(createMailDeviceResponse);
+	}
+};
+/**
+ * Finds a selection of available Inbound Numbers based on a search string and specified Locale.  These numbers can then be allocated to the current User by using  {@link allocateInboundNumber}.
+ *
+ * @public
+ * @function
+ *  
+ * @param callback function: A method that takes a single argument, which will be invoked when the call to the Ribbit server completes
+ * @param searchFilter string: A pattern to search for in available Inbound Numbers (required)
+ * @param locale string: A country code. Currently 'GBR' and 'USA' are supported, defaults to 'USA' (required)
+ * @param maxResults int: The maximum number of results to return when getting a list of available Inbound Numbers (required)
+ * @return array: an array, each entry of which contains an object of details about the InboundNumber, or a RibbitException
+ */
+Ribbit.Device.prototype.findAvailableInboundNumberSelectionForLocale = function(callback, searchFilter, locale, maxResults) {
+	function findAvailableInboundNumberSelectionForLocaleCallback(val) {
+		var ret = null;
+		if ((val.status && val.status >= 400) || (val.hasError && val.hasError === true)) {
+			ret = val;
+		} else {
+			if (val === 'null') {
+				ret = [];
+			} else {
+				ret = Ribbit.Util.makeOrderedArray(Ribbit.Util.JSON.parse(val).entry);
+			}
+		}
+		return Ribbit.respond(callback, ret);
+	}
+	if (typeof arguments[0] === "object" && arguments[0] !== null) {
+		var a = arguments[0];
+		searchFilter = a.searchFilter;
+		locale = a.locale;
+		maxResults = a.maxResults;
+		callback = a.callback;
+	}
+	if (Ribbit.getActiveUserId() === null) {
+		return Ribbit.respond(callback, new Ribbit.AuthenticatedUserRequiredException());
+	}
+	var userId = Ribbit.getActiveUserId();
+	var exceptions = [];
+	if (Ribbit.Util.isSet(searchFilter)) {
+		searchFilter = "" + searchFilter;
+	}
+	if (!Ribbit.Util.isValidString(searchFilter)) {
+		exceptions.push("searchFilter is required");
+	}
+	if (!Ribbit.Util.isValidString(locale)) {
+		exceptions.push("locale is required");
+	}
+	if (!Ribbit.Util.isPositiveInteger(maxResults)) {
+		exceptions.push("maxResults is required");
+	}
+	if (exceptions.length > 0) {
+		return Ribbit.checkParameterErrors(callback, exceptions);
+	}
+	var findAvailableInboundNumberSelectionForLocaleMethodCallback = Ribbit.asynchronous ? findAvailableInboundNumberSelectionForLocaleCallback : null;
+	var uri = "devices/@purpose?maxResults=" + maxResults + "&filterBy=status,location,id&filterOp=all&filterValue=available," + locale + "," + searchFilter;
+	var findAvailableInboundNumberSelectionForLocaleResponse = Ribbit.signedRequest().doGet(uri, findAvailableInboundNumberSelectionForLocaleMethodCallback);
+	if (!Ribbit.asynchronous) {
+		return findAvailableInboundNumberSelectionForLocaleCallback(findAvailableInboundNumberSelectionForLocaleResponse);
+	}
+};
+/**
+ * Gets a selection of available Inbound Numbers.  These numbers can then be allocated to the current User by using  {@link allocateInboundNumber}.
+ *
+ * @public
+ * @function
+ *  
+ * @param callback function: A method that takes a single argument, which will be invoked when the call to the Ribbit server completes
+ * @param maxResults int: The maximum number of results to return when getting a list of available Inbound Numbers (required)
+ * @return array: an array, each entry of which contains an object of details about the InboundNumber, or a RibbitException
+ */
+Ribbit.Device.prototype.getAvailableInboundNumberSelection = function(callback, maxResults) {
+	function getAvailableInboundNumberSelectionCallback(val) {
+		var ret = null;
+		if ((val.status && val.status >= 400) || (val.hasError && val.hasError === true)) {
+			ret = val;
+		} else {
+			if (val === 'null') {
+				ret = [];
+			} else {
+				ret = Ribbit.Util.makeOrderedArray(Ribbit.Util.JSON.parse(val).entry);
+			}
+		}
+		return Ribbit.respond(callback, ret);
+	}
+	if (typeof arguments[0] === "object" && arguments[0] !== null) {
+		var a = arguments[0];
+		maxResults = a.maxResults;
+		callback = a.callback;
+	}
+	if (Ribbit.getActiveUserId() === null) {
+		return Ribbit.respond(callback, new Ribbit.AuthenticatedUserRequiredException());
+	}
+	var userId = Ribbit.getActiveUserId();
+	var exceptions = [];
+	if (!Ribbit.Util.isPositiveInteger(maxResults)) {
+		exceptions.push("maxResults is required");
+	}
+	if (exceptions.length > 0) {
+		return Ribbit.checkParameterErrors(callback, exceptions);
+	}
+	var getAvailableInboundNumberSelectionMethodCallback = Ribbit.asynchronous ? getAvailableInboundNumberSelectionCallback : null;
+	var uri = "devices/@purpose?maxResults=" + maxResults + "&filterBy=status&filterValue=available";
+	var getAvailableInboundNumberSelectionResponse = Ribbit.signedRequest().doGet(uri, getAvailableInboundNumberSelectionMethodCallback);
+	if (!Ribbit.asynchronous) {
+		return getAvailableInboundNumberSelectionCallback(getAvailableInboundNumberSelectionResponse);
+	}
+};
+/**
+ * Gets a selection of available Inbound Numbers for the specified Locale.  These numbers can then be allocated to the current User by using  {@link allocateInboundNumber}.
+ *
+ * @public
+ * @function
+ *  
+ * @param callback function: A method that takes a single argument, which will be invoked when the call to the Ribbit server completes
+ * @param locale string: A country code. Currently 'GBR' and 'USA' are supported, defaults to 'USA' (required)
+ * @param maxResults int: The maximum number of results to return when getting a list of available Inbound Numbers (required)
+ * @return array: an array, each entry of which contains an object of details about the InboundNumber, or a RibbitException
+ */
+Ribbit.Device.prototype.getAvailableInboundNumberSelectionForLocale = function(callback, locale, maxResults) {
+	function getAvailableInboundNumberSelectionForLocaleCallback(val) {
+		var ret = null;
+		if ((val.status && val.status >= 400) || (val.hasError && val.hasError === true)) {
+			ret = val;
+		} else {
+			if (val === 'null') {
+				ret = [];
+			} else {
+				ret = Ribbit.Util.makeOrderedArray(Ribbit.Util.JSON.parse(val).entry);
+			}
+		}
+		return Ribbit.respond(callback, ret);
+	}
+	if (typeof arguments[0] === "object" && arguments[0] !== null) {
+		var a = arguments[0];
+		locale = a.locale;
+		maxResults = a.maxResults;
+		callback = a.callback;
+	}
+	if (Ribbit.getActiveUserId() === null) {
+		return Ribbit.respond(callback, new Ribbit.AuthenticatedUserRequiredException());
+	}
+	var userId = Ribbit.getActiveUserId();
+	var exceptions = [];
+	if (!Ribbit.Util.isValidString(locale)) {
+		exceptions.push("locale is required");
+	}
+	if (!Ribbit.Util.isPositiveInteger(maxResults)) {
+		exceptions.push("maxResults is required");
+	}
+	if (exceptions.length > 0) {
+		return Ribbit.checkParameterErrors(callback, exceptions);
+	}
+	var getAvailableInboundNumberSelectionForLocaleMethodCallback = Ribbit.asynchronous ? getAvailableInboundNumberSelectionForLocaleCallback : null;
+	var uri = "devices/@purpose?maxResults=" + maxResults + "&filterBy=status,location&filterOp=all&filterValue=available," + locale;
+	var getAvailableInboundNumberSelectionForLocaleResponse = Ribbit.signedRequest().doGet(uri, getAvailableInboundNumberSelectionForLocaleMethodCallback);
+	if (!Ribbit.asynchronous) {
+		return getAvailableInboundNumberSelectionForLocaleCallback(getAvailableInboundNumberSelectionForLocaleResponse);
 	}
 };
 /**
@@ -4876,7 +5081,7 @@ Ribbit.customHeaders = function() {
 /**
  *  The user agent string passed in each request
  */
-Ribbit.userAgent = "ribbit_javascript_library_1.5.5";
+Ribbit.userAgent = "ribbit_javascript_library_1.6.1";
 /**
  *  The Ribbit library stores its configuration in a session cookie. This variable is the name of that cookie.
  */
@@ -5004,9 +5209,10 @@ Ribbit.Users = function() {
 /**
  * @class Base class for RibbitExceptions.
  */
-Ribbit.RibbitException = function(errorMessage, httpStatus) {
+Ribbit.RibbitException = function(errorMessage, httpStatus, uri) {
 	this.message = errorMessage;
 	this.status = httpStatus;
+	this.uri = uri;
 	this.hasError = true;
 };
 /**
@@ -5085,6 +5291,11 @@ Ribbit.RibbitSignedRequest.prototype.makeUri = function(uri) {
 	} else {
 		out = Ribbit.endpoint + Ribbit.Util.checkEndPointForSlash() + uri;
 	}
+	if (out.indexOf("?") > 0) {
+		var uriBits = out.split("?");
+		uriBits[1] = uriBits[1].replace("@", "%40", "g").replace(",", "%2C", "g");
+		out = uriBits[0] + "?" + uriBits[1];
+	}
 	return out;
 };
 Ribbit.RibbitSignedRequest.prototype.doGet = function(uri, callback) {
@@ -5142,14 +5353,7 @@ Ribbit.RibbitSignedRequest.prototype.callback = function(resp) {
 	} else if (resp.responseStatus.toString().substr(0, 1) == '2') {
 		return Ribbit.respond(this._callback, resp.responseText);
 	} else {
-		var error_message = "";
-		if (resp.responseStatus === 400 || resp.responseStatus === 403 || resp.responseStatus === 404 || resp.responseStatus === 409) {
-			error_message = Ribbit.Util.isValidString(resp.responseText) ? resp.responseText : this.translateStatus(resp.responseStatus);
-		} else {
-			error_message = this.translateStatus(resp.responseStatus);
-		}
-		var e = new Ribbit.RibbitException(error_message, resp.responseStatus);
-		return Ribbit.respond(this._callback, e);
+		return Ribbit.respond(this._callback, new Ribbit.RibbitException(resp.responseText, resp.responseStatus, this._uri));
 	}
 };
 Ribbit.RibbitSignedRequest.prototype.signForOAuth = function(clearText) {
@@ -5249,50 +5453,12 @@ Ribbit.RibbitSignedRequest.prototype.send = function(method, body, x_auth_userna
 		this._oAuthRequest = new Ribbit.JsonpRequest(method, this._uri, headers, body, this);
 		this._oAuthRequest.execute();
 	} else {
-		var webRequestCallback = Ribbit.asynchronous ? this.callback : null;
-		this._oAuthRequest = new Ribbit.WebRequest(method, this._uri, headers, body, webRequestCallback);
+		this._oAuthRequest = new Ribbit.WebRequest(method, this._uri, headers, body, Ribbit.asynchronous ? this : null);
 		var resp = this._oAuthRequest.execute();
 		if (!Ribbit.asynchronous) {
 			return this.callback(resp);
 		}
 	}
-};
-Ribbit.RibbitSignedRequest.prototype.translateStatus = function(httpStatus) {
-	var error_string = null;
-	if (httpStatus >= 500) {
-		error_string = "An unexpected error has occured";
-	} else {
-		switch (httpStatus) {
-		case 400:
-			error_string = "The request was malformed";
-			break;
-		case 401:
-			error_string = "The request was not authorized";
-			break;
-		case 402:
-			error_string = "The account has insufficient credit";
-			break;
-		case 403:
-			error_string = "The request was forbidden";
-			break;
-		case 404:
-			error_string = "The requested resource was not found";
-			break;
-		case 406:
-			error_string = "The request was not acceptable";
-			break;
-		case 407:
-			error_string = "Proxy credentials must be specified or were incorrect";
-			break;
-		case 408:
-			error_string = "The request timed out";
-			break;
-		case 409:
-			error_string = this._uri + " already exists";
-			break;
-		}
-	}
-	return error_string;
 };
 Ribbit.requestToken = "";
 Ribbit.requestSecret = "";
@@ -5627,6 +5793,64 @@ Ribbit.startSessionCheckTimer = function() {
 		}
 	},
 	10000);
+};
+Ribbit.getAuthenticatedUserInPopup = function(callback, name, windowOptions) {
+	var win = null;
+	//works around internet explorer 8 showing dialogs for cross ssl requests and blocking win.close
+	//will result in a beep every 5 seconds after approval until the user clears dialogs.
+	var closeWin = function() {
+		(function() {
+			try {
+				if (!win.closed) {
+					win.close();
+				}
+			} catch(e) {}
+		})();
+		if (win !== null && !win.closed) {
+			setTimeout(closeWin, 5000);
+		}
+	};
+	var gotUrlCallback = function(result) {
+		if (result.hasError) {
+			callback(new Ribbit.RibbitException("Cannot get request token, check application credentials.", 0));
+		} else {
+			var timeOutPoint = new Date().getTime() + 300000;
+			var pollApproved = function() {
+				var w = true;
+				setTimeout(function() {
+					if (w && (win === null || typeof(win) === "undefined")) {
+						callback(new Ribbit.RibbitException("Could not open a new window. Pop ups may be blocked.", 0));
+					} else {
+						var closed = false;
+						try {
+							closed = win.closed;
+						} catch(e) {}
+						w = false;
+						var cb = function(val) {
+							if (!val.hasError) {
+								closeWin();
+								callback(true);
+							} else if (new Date().getTime() > timeOutPoint) {
+								closeWin();
+								callback(new Ribbit.RibbitException("Timed out.", 0));
+							} else if (closed) {
+								callback(new Ribbit.RibbitException("User closed window without authenticating.", 0));
+							} else {
+								pollApproved();
+							}
+						};
+						Ribbit.checkAuthenticatedUser(cb);
+					}
+				},
+				4000);
+			};
+			name = name === undefined ? "RibbitLogin" : name;
+			windowOptions = windowOptions === undefined ? "width=1024,height=800,toolbar:no" : windowOptions;
+			win = window.open(result, name, windowOptions);
+			pollApproved();
+		}
+	};
+	Ribbit.createUserAuthenticationUrl(gotUrlCallback);
 };
 Ribbit.Util = {};
 /*
@@ -5995,7 +6219,7 @@ Ribbit.Util.createQueryString = function(startIndex, count, filterBy, filterValu
  * Tod Gentille, Luke Smith (http://lucassmith.name), Rival, Cagri Ekin,
  * booeyOH, Dino, Leslie Hoare, Ben Bryan, Diogo Resende, Howard Yeend,
  * gabriel paderni, FGFEmperor, baris ozdil, Yannoo, jakes, Allan Jensen
- * (http://www.winternet.no), Benjamin Lupton, Atli Þór
+ * (http://www.winternet.no), Benjamin Lupton, Atli ÃžÃ³r
  * 
  * Dual licensed under the MIT (MIT-LICENSE.txt)
  * and GPL (GPL-LICENSE.txt) licenses.
@@ -6260,14 +6484,16 @@ Ribbit.WebRequest.prototype.processResponse = function() {
 		responseLocation: (this.xhr.status == 201 || this.xhr.status == 202) ? this.xhr.getResponseHeader("LOCATION") : ""
 	};
 };
-Ribbit.WebRequest.prototype.onXHRStateChange = function() {
-	if (this.xhr.readyState == 4) {
-		this.sr.callback(this.processResponse());
-	}
-};
 Ribbit.WebRequest.prototype.execute = function() {
 	if (Ribbit.asynchronous) {
-		this.xhr.onreadystatechange = this.onXHRStateChange;
+		var iv = setInterval(function(wr) {
+			return function() {
+				if (wr.xhr.readyState == 4) {
+					clearInterval(iv);
+					wr.sr.callback(wr.processResponse());
+				}
+			};
+		}(this), 50);
 	}
 	this.xhr.send(this.b);
 	Ribbit.accessTokenLastUsedTime = new Date().getTime();
@@ -7065,9 +7291,10 @@ Ribbit.User.prototype.requestPasswordReset = function(callback, userId) {
  * @param pwdStatus string: Set to 'reset' to have a new password sent to the User's email. (optional)
  * @param accountId Long: The billing account ID used by this user, this must refer to a valid account in order for the user to conduct billable activity such as making calls, requesting purpose numbers etc. The account ID may be updated for a given user if and only if the authorized user making the request is the owner of the billing account or else the account ID is the same as the billing account ID used by the developer that "owns" the application making the request. (optional)
  * @param domain string: The Domain to which the User belongs. (optional)
+ * @param locale string: The locale assigned to the user. (optional)
  * @return object: an object containing details about the UserResource, or a RibbitException
  */
-Ribbit.User.prototype.updateUser = function(callback, login, password, firstName, lastName, pwdStatus, accountId, domain) {
+Ribbit.User.prototype.updateUser = function(callback, login, password, firstName, lastName, pwdStatus, accountId, domain, locale) {
 	function updateUserCallback(val) {
 		var ret = null;
 		if ((val.status && val.status >= 400) || (val.hasError && val.hasError === true)) {
@@ -7086,6 +7313,7 @@ Ribbit.User.prototype.updateUser = function(callback, login, password, firstName
 		pwdStatus = a.pwdStatus;
 		accountId = a.accountId;
 		domain = a.domain;
+		locale = a.locale;
 		callback = a.callback;
 	}
 	if (Ribbit.getActiveUserId() === null) {
@@ -7093,7 +7321,7 @@ Ribbit.User.prototype.updateUser = function(callback, login, password, firstName
 	}
 	var userId = Ribbit.getActiveUserId();
 	var exceptions = [];
-	if (!Ribbit.Util.isSet(login) && !Ribbit.Util.isSet(password) && !Ribbit.Util.isSet(firstName) && !Ribbit.Util.isSet(lastName) && !Ribbit.Util.isSet(pwdStatus) && !Ribbit.Util.isSet(accountId) && !Ribbit.Util.isSet(domain)) {
+	if (!Ribbit.Util.isSet(login) && !Ribbit.Util.isSet(password) && !Ribbit.Util.isSet(firstName) && !Ribbit.Util.isSet(lastName) && !Ribbit.Util.isSet(pwdStatus) && !Ribbit.Util.isSet(accountId) && !Ribbit.Util.isSet(domain) && !Ribbit.Util.isSet(locale)) {
 		exceptions.push("At least one parameter must be supplied");
 	}
 	if (!Ribbit.Util.isValidStringIfDefined(login)) {
@@ -7116,6 +7344,9 @@ Ribbit.User.prototype.updateUser = function(callback, login, password, firstName
 	}
 	if (!Ribbit.Util.isValidStringIfDefined(domain)) {
 		exceptions.push("When defined, domain must be a string of one or more characters");
+	}
+	if (!Ribbit.Util.isValidStringIfDefined(locale)) {
+		exceptions.push("When defined, locale must be a string of one or more characters");
 	}
 	if (exceptions.length > 0) {
 		return Ribbit.checkParameterErrors(callback, exceptions);
@@ -7142,11 +7373,49 @@ Ribbit.User.prototype.updateUser = function(callback, login, password, firstName
 	if (Ribbit.Util.isSet(domain)) {
 		params.domain = domain;
 	}
+	if (Ribbit.Util.isSet(locale)) {
+		params.locale = locale;
+	}
 	var updateUserMethodCallback = Ribbit.asynchronous ? updateUserCallback : null;
 	var uri = "users/" + userId;
 	var updateUserResponse = Ribbit.signedRequest().doPut(uri, params, updateUserMethodCallback);
 	if (!Ribbit.asynchronous) {
 		return updateUserCallback(updateUserResponse);
+	}
+};
+/**
+ * Update the locale assigned to the user
+ * This method is asynchronous. Subscribe to the event updateUserComplete for the response.
+ 
+ * When the request is successful, RibbitEventArgs.Success will be true, and RibbitEventArgs.Data will be a null value
+ * When the request is unsuccessful, RibbitEventArgs.Success will be false, RibbitEventArgs.Data will be null and RibbitEventArgs.Exception will contain failure information
+ 
+ *
+ * @public
+ * @function
+ *  
+ * @param callback function: A method that takes a single argument, which will be invoked when the call to the Ribbit server completes
+ * @param locale string: The locale assigned to the user. (optional)
+ */
+Ribbit.User.prototype.setLocale = function(callback, locale) {
+	function setLocaleCallback(val) {
+		var ret = null;
+		if ((val.status && val.status >= 400) || (val.hasError && val.hasError === true)) {
+			ret = val;
+		} else {
+			ret = Ribbit.Util.isString(val) ? Ribbit.Util.JSON.parse(val).entry : val;
+		}
+		return Ribbit.respond(callback, ret);
+	}
+	if (typeof arguments[0] === "object" && arguments[0] !== null) {
+		var a = arguments[0];
+		locale = a.locale;
+		callback = a.callback;
+	}
+	var setLocaleMethodCallback = Ribbit.asynchronous ? setLocaleCallback : null;
+	var setLocaleResponse = Ribbit.Users().updateUser(setLocaleMethodCallback, null, null, null, null, null, null, null, locale);
+	if (!Ribbit.asynchronous) {
+		return setLocaleCallback(setLocaleResponse);
 	}
 };
 /*jslint evil: true */

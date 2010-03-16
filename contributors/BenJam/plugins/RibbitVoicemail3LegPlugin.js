@@ -21,73 +21,64 @@ consumerKey: Ribbit application consumer key
 If no consumerKey is present the default key for my own application RibbitIntro is used
 ***/
 //{{{
-	
-var log = console.log;
-var consumerKey = "MDllOTljNzgtYmYwZC00YzJlLTlkZDctYmMyZmZiY2UzYjFl";
-var secretKey = "ODI5OWM2MjYtNjE2MS00YWNkLWIwNTgtMDYzYjcwMjgwYmQ1";
 
-config.macros.RibbitVoicemail3Leg = {
+(function($){
 	
-	handler: function(place, macroName, params, wikifier, paramString, tiddler){
-		log("Ping");
-		if (!Ribbit.isLoggedIn || !Ribbit.checkAccessTokenExpiry()){
-			Ribbit.init3Legged(consumerKey,secretKey);
-			var win = null;
+	var log = console.log;
+	var consumer = "MDllOTljNzgtYmYwZC00YzJlLTlkZDctYmMyZmZiY2UzYjFl";
+	var secret = "ODI5OWM2MjYtNjE2MS00YWNkLWIwNTgtMDYzYjcwMjgwYmQ1";
 
+	config.macros.RibbitVoicemail3Leg = {
+		
+		handler:function(place, macroName, params, wikifier, paramString, tiddler){
+			var macroParams = paramString.parseParams(null, null, true);
+			if(Ribbit.userId!==null){
+				log("using previous session");
+				Ribbit.Messages().getReceivedMessages(getMessages,0,100);
+			}
+			else{
+				login(place,tiddler, macroParams);
+			}
+			
+		}
+	};
+	
+	function login(place){
+		if(!Ribbit.isLoggedIn || !Ribbit.checkAccessTokenExpiry()){
+			Ribbit.init3Legged(consumerKey, secretKey);
+			var win=null;
+			
+			//innner function to handle login on seperate window
 			var gotUrlCallback = function(url){
-				log(url);
-				var redirect = document.createElement("a");
-				redirect.href=url;
-				redirect.innrHTML="Login";
-				jQuery(place).append(redirect);
-				
+				log(url);				
+				//poll the newly created window for login
 				var pollApproved = function(){
 					setTimeout(function(){
-						var cb = function(val){
-							if (!val.hasError){
-								//logged in continue with init
-								alert("Pong");
-								//do something
+						var callBack = function(result){
+							if(!result.hasError){
+								log("Logged in now do something useful with it");
+								Ribbit.Messages().getReceivedMessages(getMessages,0,100);
 								win.close();
 							}
 							else{
 								pollApproved();
 							}
-						};
-						Ribbit.checkAuthenticatedUser(cb);
-					},4000);
+						};//callBack
+						Ribbit.checkAuthenticatedUser(callBack);
+					},4000); //setTimeout
 				}; //pollApproved
-
-				redirect.onclick = function(){
-					alert("clicked");
+				createTiddlyButton(place,"Login", null, function(){
 					win = window.open(url, "r4mlogin","width=1024,height=800,toolbar:no");
 					pollApproved();
 					return false;
-				}; //onclick
+				});
 				
-			};//gotURLCallback
-			
+			}//gotUrlCallback
 			Ribbit.createUserAuthenticationUrl(gotUrlCallback);
 		}//if
-	},
+	}//login
 	
-	defaultLogin: function(){
-		Ribbit.init3Legged(consumerKey,secretKey); 
-		Ribbit.getAuthenticatedUser("config.macros.RibbitVoicemail3Leg.loginCallback");
-	},
-	
-	loginCallback: function(result){
-		log(result);
-		if(!result){
-			log("Bah! Couldn't log in");
-		}
-		else{
-			log(Ribbit.username);
-			Ribbit.Messages().getReceivedMessages(this.getVoicemail,0,100);  
-		}	
-	},
-
-	getVoicemail: function(result){
+	function getMessages(result){
 		if (result.hasError){
 			log("Bah! couldn't collect messages");
 		}else{
@@ -111,5 +102,5 @@ config.macros.RibbitVoicemail3Leg = {
 		}
 		
 	}
-};
+}(jQuery);
 //}}}

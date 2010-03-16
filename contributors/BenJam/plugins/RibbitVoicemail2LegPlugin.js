@@ -21,7 +21,6 @@ consumerKey: Ribbit application consumer key
 If no consumerKey is present the default key for my own application RibbitIntro is used
 ***/
 //{{{
-	
 var log = console.log;
 var consumerKey = "MzdmMjdjZGItZjAyMC00YzIzLTgxMDItYzkyOWQ2ZDdhYjY3";
 
