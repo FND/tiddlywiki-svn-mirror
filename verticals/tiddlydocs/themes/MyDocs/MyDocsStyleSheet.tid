@@ -151,8 +151,8 @@ html body #tiddlerDisplay {
 		margin:0 2em 0 0;
 		overflow:hidden;
 		padding:0;
+		top:-1.5em;
 		position:relative;
-		top:2em;
 		width:66%;
 	}
 
