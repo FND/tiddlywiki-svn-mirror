@@ -24,6 +24,8 @@ add saveNewSection to the ToolbarCommands tiddler.
 
 //{{{
 	
+if(config.options.txtAutoAddSection==null)
+	config.options.txtAutoAddSection = 'top';
 	
 config.commands.saveNewSection = {};
 config.commands.saveNewSection.find = function(needle, haystack) {
