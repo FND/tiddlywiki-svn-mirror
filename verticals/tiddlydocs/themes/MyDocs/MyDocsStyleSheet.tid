@@ -488,6 +488,17 @@ a:link {
 
 }
 
+html body a.newDocumentButton,html body a.newDocumentButton:hover {
+	width:	104px;
+	height:15px;
+	background: url(/doccollab/static/mydocs_images/new_document.jpg);
+	position:relative ;
+	float:right;
+	border:0px;
+	top:-4em;
+	z-index:999;
+}
+
 /* END REVISIONS */
 
 

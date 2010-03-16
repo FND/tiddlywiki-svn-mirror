@@ -72,9 +72,10 @@ tags: systemTheme  excludeLists excludeSearch
   
 </div>
         </div>
-		<div macro='newDocumentButton template:MyDocsTheme##wizardViewTemplate'></div>
 	
         <div id="container">
+		<div macro='newDocumentButton template:MyDocsTheme##wizardViewTemplate'></div>
+
 <div class='leftColumn'>
 	<div class="portletContainer leftColumnItem">
 		<div class="portletToolbar portletToolbarLeft">

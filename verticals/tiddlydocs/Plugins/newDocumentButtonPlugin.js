@@ -27,12 +27,15 @@ config.macros.newDocumentButton = {};
 config.macros.newDocumentButton.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 	var params = paramString.parseParams("anon",null,true,false,false);
 	var template = getParam(params,"template",null);
+	var text = getParam(params,"text",null);
+
 	var newDoc = function() {
+		text = (text)?text:'Create New Document';
 		template = (template)?template:"newDocumentButtonPlugin##simpleWizardView";
-		story.displayTiddler(null, "CreateNewDocument", template);
+		story.displayTiddler(null,"CreateNewDocument", template);
 		return false;
 	}
-	createTiddlyButton(place,'Create New Document', 'Click here to create a new document', newDoc,"newDocumentButton button");
+	createTiddlyButton(place, text, 'Click here to create a new document', newDoc,"newDocumentButton button");
 }
 
 config.shadowTiddlers["newDocumentButtonPluginStyles"] = store.getTiddlerText("newDocumentButtonPlugin##StyleSheet");

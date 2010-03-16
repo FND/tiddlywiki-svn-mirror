@@ -53,8 +53,7 @@ config.macros.docTabs.refresh = function() {
 		}
 	selectedHtml += '<li class="tab spacer"/>';
 	}
-	var newdoc = '<li class="tab tabalignment3OP tabalignment3" id="add_gadget"><a  class="thickbox mis addFromCatalogue"  id="AddFromCatalogueDialogue" href="#"><img style="border: medium none ;" src="/doccollab/static/mydocs_images/new_document.jpg" class="addGadgetCatImg"/></a>';
-	html = selectedHtml  + newdoc;
+	html = selectedHtml;
 	jQuery('#tab_bar:first-child').html(html);
 	var addClick = function() {
 			story.displayTiddler(null, "Create New Document", config.options.txtTheme+'##wizardViewTemplate');
