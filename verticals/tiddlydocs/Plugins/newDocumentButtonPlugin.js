@@ -30,11 +30,11 @@ config.macros.newDocumentButton.handler = function(place,macroName,params,wikifi
 	var text = getParam(params,"text",null);
 
 	var newDoc = function() {
-		text = (text)?text:'Create New Document';
 		template = (template)?template:"newDocumentButtonPlugin##simpleWizardView";
 		story.displayTiddler(null,"CreateNewDocument", template);
 		return false;
 	}
+	text = (text)?text:'Create New Document';
 	createTiddlyButton(place, text, 'Click here to create a new document', newDoc,"newDocumentButton button");
 }
 
