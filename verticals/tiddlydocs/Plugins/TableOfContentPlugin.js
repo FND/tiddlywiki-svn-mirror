@@ -315,7 +315,7 @@ html body a.deleteButton {
 	float:right;
 	position:absolute;
 	right:1em;
-	background:[[ColorPalette::Background]];
+	border:0em;
 	color:[[ColorPalette::Foreground]];
 }
 
