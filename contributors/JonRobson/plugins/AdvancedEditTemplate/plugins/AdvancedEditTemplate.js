@@ -883,7 +883,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
       	    if(m.length == 1) m= "0"+m;
       	    //console.log(y,m,d,"togo");
       	    var val = y+m+d+"0000";
-      	    console.log("saving value " + val)
+      	    //console.log("saving value " + val)
       	    config.macros.AdvancedEditTemplate.setMetaData(title,metaDataName,val,autosavechanges);
     	      
       	});
@@ -896,12 +896,12 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 		,setupEmbeddedVideo: function(place){
 		    place.append("video url:<input type='text' class='videoinput'/>");
 		    jQuery(".videoinput",place).change(function(){
-		        alert("cool");
+		        //alert("cool");
 		    });
 		    
 		}
 		,createCheckBox: function(place,title,metaDataName,autosavechanges){
-		         alert("chk");
+		    
 		        		var c = document.createElement("input");
 		        		
 					c.setAttribute("type","checkbox");
