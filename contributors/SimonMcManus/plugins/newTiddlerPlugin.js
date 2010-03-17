@@ -11,7 +11,7 @@ config.macros.newInlineTiddler.handler = function(place,macroName,params,wikifie
 		createTiddlyText(place, "No structure defined");
 		return false;
 	}
-	var items = structure.split("\n", 5);
+	var items = structure.split("\n", 10);
 	jQuery.each(items, function(i, value) {
 		var id = value.substring(0, value.length-7);
 		var editType = store.getTiddlerSlice(value, 'editType');
