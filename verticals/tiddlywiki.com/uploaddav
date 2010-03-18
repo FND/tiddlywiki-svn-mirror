@@ -8,7 +8,7 @@ echo "ERROR: DAV uploading deprecated - use SSH upload script instead."
 exit 1
 
 # default values
-DEFAULT_RELEASE="2.5.2"
+DEFAULT_RELEASE="2.6.0"
 RELEASE=${1:-$DEFAULT_RELEASE}
 HOST="webdav.tiddlywiki.com"
 USER="releasemanager"
