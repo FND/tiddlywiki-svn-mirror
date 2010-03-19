@@ -3,7 +3,7 @@
 |''Description''|provides access to tiddler revisions|
 |''Author''|FND|
 |''Contributors''|Martin Budden|
-|''Version''|0.2.0|
+|''Version''|0.3.0|
 |''Status''|@@beta@@|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/plugins/RevisionsCommandPlugin.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/plugins/|
@@ -102,7 +102,9 @@ cmd = config.commands.revisions = {
 	revisionSelected: function(ev) {
 		var e = ev || window.event;
 		e.cancelBubble = true;
-		if(e.stopPropagation) e.stopPropagation();
+		if(e.stopPropagation) {
+			e.stopPropagation();
+		}
 		var n = resolveTarget(e);
 		var index = n.getAttribute("index");
 		var col = n.getAttribute("col");
