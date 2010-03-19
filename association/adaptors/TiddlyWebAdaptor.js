@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|FND|
 |''Contributors''|Chris Dent, Martin Budden|
-|''Version''|1.1.5|
+|''Version''|1.2.0|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/|
@@ -537,57 +537,6 @@ adaptor.getTiddlerDiffCallback = function(status, context, responseText, uri, xh
 	if(status) {
 		context.diff = responseText;
 	}
-	if(context.callback) {
-		context.callback(context, context.userParams);
-	}
-};
-adaptor.prototype.getRecipes = function(context,userParams,callback)
-{
-	context = this.setContext(context, userParams,callback);
-	var uriTemplate = "%0/recipes/%1.%2";
-	var uri = uriTemplate.format([context.host, context.recipe, context.format||"json"]);
-	var req = httpReq("GET", uri, adaptor.getRecipesCallback, context);
-	return typeof req == 'string' ? req : true;
-};
-
-adaptor.getRecipesCallback = function(status,context,responseText,uri,xhr)
-{
-	context.status = false;
-	if(status) {
-		try {
-			context.recipes = jQuery.evalJSON(responseText);
-		} catch (ex) {
-			context.statusText = exceptionText(ex, adaptor.serverParsingErrorMessage);
-			if(context.callback) {
-				context.callback(context, context.userParams);
-			}
-			return;
-		}
-		context.status = true;
-	} else {
-		context.statusText = xhr.statusText;
-	}
-	if(context.callback) {
-		context.callback(context, context.userParams);
-	}
-};
-
-adaptor.prototype.putRecipe = function(context,userParams,callback)
-{
-	context = this.setContext(context, userParams, callback);
-	var uriTemplate = "%0/recipes/%1";
-	var uri = uriTemplate.format([context.host, context.recipe]);
-	var headers = null;
-	var payload = $.toJSON(context.recipes);
-	var req = httpReq("PUT", uri, adaptor.putRecipeCallback, context, headers, payload, adaptor.mimeType, null, null, true);
-	return typeof req == 'string' ? req : true;
-};
-
-adaptor.putRecipeCallback = function(status,context,responseText,uri,xhr)
-{
-	context.status = [204, 1223].contains(xhr.status);
-	context.statusText = xhr.statusText;
-	context.httpStatus = xhr.status;
 	if(context.callback) {
 		context.callback(context, context.userParams);
 	}
