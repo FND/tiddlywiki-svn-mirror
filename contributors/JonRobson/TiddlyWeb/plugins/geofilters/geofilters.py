@@ -54,12 +54,11 @@ def geo_near_tiddlers(lat,lng,radius,tiddlers,units="kms"):
   
   near_tiddlers = []
   for tiddler in filtered_sample:
-    if "latitude" in tiddler.fields and "longitude" in tiddler.fields:
-      testlat = float(tiddler.fields["latitude"])
-      testlng = float(tiddler.fields["longitude"])
-      isNear = geoproximity(lat,lng,radius,testlat,testlng,units=units)
-      if isNear:
-        yield tiddler
+    testlat = float(tiddler.fields["latitude"])
+    testlng = float(tiddler.fields["longitude"])
+    isNear = geoproximity(lat,lng,radius,testlat,testlng,units=units)
+    if isNear:
+      yield tiddler
   
   return
   
