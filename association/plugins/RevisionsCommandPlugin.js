@@ -148,7 +148,7 @@ cmd = config.commands.revisions = {
 	displayTiddlerDiffs: function(context, userParams) {
 		var tiddler = context.tiddler;
 		tiddler.title += cmd.diffSuffix.format([context.rev1, context.rev2]);
-		tiddler.text = '{{diff{\n<nowiki>\n' + context.diff + '\n</nowiki>\n}}}';
+		tiddler.text = '{{diff{\n{{{\n' + context.diff + '\n}}}\n}}}';
 		tiddler.fields.doNotSave = "true"; // XXX: correct?
 		if(!store.getTiddler(tiddler.title)) {
 			store.addTiddler(tiddler);
