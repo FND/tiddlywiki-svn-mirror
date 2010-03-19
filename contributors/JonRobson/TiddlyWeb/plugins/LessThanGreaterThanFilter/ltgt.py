@@ -27,6 +27,7 @@ def field_in_fields(tiddler, attribute, value):
 
 def lt(command, tiddlers):
     field, val = command.split(':')
+    val = float(val)
     # un-generate the tiddlers so we can use the list multiple times
     tiddlers = list(tiddlers)
     for tiddler in tiddlers:
@@ -43,8 +44,10 @@ def lt(command, tiddlers):
 
 def gt(command, tiddlers):
     field, val = command.split(':')
+    val = float(val)
     # un_generate the tiddlers so we can use the list multiple times
     tiddlers = list(tiddlers)
+    
     for tiddler in tiddlers:
         if field in tiddler.fields:
             field_value = float(tiddler.fields[field])
