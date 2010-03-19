@@ -10,8 +10,10 @@ near=51.498558,-0.134304,2.1miles (searches 2.1 mile radius)
 based on C+ function located here http://www.experts-exchange.com/Database/GIS_and_GPS/Q_23027761.html
 
 '''
+
+#adheres to w3c standard http://www.w3.org/2003/01/geo/
 LATITUDE_FIELD = "geo.lat"
-LONGITUDE_FIELD = "geo.lng"
+LONGITUDE_FIELD = "geo.long" 
 from tiddlyweb.filters import FILTER_PARSERS
 
 SINGLE_DEG_AT_ZERO_ZERO_IN_MILES = 69.046767
