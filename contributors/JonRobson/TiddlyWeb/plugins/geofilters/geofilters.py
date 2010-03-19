@@ -2,7 +2,10 @@
 Requires LessThanGreaterThanFilter (http://svn.tiddlywiki.org/Trunk/contributors/JonRobson/TiddlyWeb/plugins/LessThanGreatThenFilter/ltgt.py)
 provides a filter near=lat,lng,radius
 which returns all tiddlers with a field "longitude" and field "latitude" that is within the given radius of the given longitude and latitude coordinate.
-radius must be in miles
+radius can be in miles or kms (kms is default)
+near=51.498558,-0.134304,2.1 (searches 2.1km radius)
+near=51.498558,-0.134304,2.1kms (same)
+near=51.498558,-0.134304,2.1miles (searches 2.1 mile radius)
 
 based on C+ function located here http://www.experts-exchange.com/Database/GIS_and_GPS/Q_23027761.html
 
@@ -10,9 +13,10 @@ based on C+ function located here http://www.experts-exchange.com/Database/GIS_a
 from tiddlyweb.filters import FILTER_PARSERS
 
 SINGLE_DEG_AT_ZERO_ZERO_IN_MILES = 69.046767
+SINGLE_DEG_AT_ZERO_ZERO_IN_KMS = 111.226306#based on circumference being mean of 40041.47
 import math
 
-def geoproximity(lat,lng, radius, testlat,testlng):
+def geoproximity(lat,lng, radius, testlat,testlng,units="kms"):
   oneRad = 3.1415926 / 180.0
   lng1 = lng  * oneRad
   lat1 = lat * oneRad
@@ -22,15 +26,24 @@ def geoproximity(lat,lng, radius, testlat,testlng):
   d = d / oneRad
 
   d *= 60         #result in nautical miles
-  d *= 1.15077945 #result in statute miles
-
+  
+  if units == 'miles':
+    d *= 1.15077945 #result in statute miles
+  elif units == 'kms':
+    d *= 1.85200
   return d<=radius
 from tiddlyweb import filters
 import logging
-def geo_near_tiddlers(lat,lng,radius,tiddlers):
+import re
+
+def geo_near_tiddlers(lat,lng,radius,tiddlers,units="kms"):
   #create bounding box around 
-  degrees = radius / SINGLE_DEG_AT_ZERO_ZERO_IN_MILES
-  
+  if units == 'miles':
+    degrees = radius / SINGLE_DEG_AT_ZERO_ZERO_IN_MILES
+  elif units == 'kms':
+    degrees = radius / SINGLE_DEG_AT_ZERO_ZERO_IN_KMS
+  else:
+    raise "unknown unit type: please use kms or miles"
   lat1 = lat - degrees
   lat2 = lat + degrees
   lng1 = lng - degrees
@@ -44,7 +57,7 @@ def geo_near_tiddlers(lat,lng,radius,tiddlers):
     if "latitude" in tiddler.fields and "longitude" in tiddler.fields:
       testlat = float(tiddler.fields["latitude"])
       testlng = float(tiddler.fields["longitude"])
-      isNear = geoproximity(lat,lng,radius,testlat,testlng)
+      isNear = geoproximity(lat,lng,radius,testlat,testlng,units=units)
       if isNear:
         yield tiddler
   
@@ -53,7 +66,20 @@ def geo_near_tiddlers(lat,lng,radius,tiddlers):
 def near_parse(command):
   params = command.split(",")
   def selector(tiddlers, indexable=False, environ={}):
-      return geo_near_tiddlers(float(params[0]),float(params[1]),float(params[2]),tiddlers)
+      units = "miles"
+      regex = "(\d+\.?\d*)([a-z]+)"
+      match = re.search(regex,params[2])
+      if match:
+        radius = float(match.group(1))
+        units =match.group(2)
+        if units == 'km':
+          units = 'kms'
+        elif units == 'mile':
+          units = "miles"
+      else:
+        radius = float(params[2])
+      
+      return geo_near_tiddlers(float(params[0]),float(params[1]),radius,tiddlers,units)
   return selector
 
 FILTER_PARSERS['near'] = near_parse
