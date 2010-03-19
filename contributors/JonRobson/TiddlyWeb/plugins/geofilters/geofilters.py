@@ -10,6 +10,8 @@ near=51.498558,-0.134304,2.1miles (searches 2.1 mile radius)
 based on C+ function located here http://www.experts-exchange.com/Database/GIS_and_GPS/Q_23027761.html
 
 '''
+LATITUDE_FIELD = "geo.lat"
+LONGITUDE_FIELD = "geo.lng"
 from tiddlyweb.filters import FILTER_PARSERS
 
 SINGLE_DEG_AT_ZERO_ZERO_IN_MILES = 69.046767
@@ -48,14 +50,14 @@ def geo_near_tiddlers(lat,lng,radius,tiddlers,units="kms"):
   lat2 = lat + degrees
   lng1 = lng - degrees
   lng2 = lng + degrees
-  filter_string = "select=field:longitude&select=field:latitude&gt=latitude:%s&lt=latitude:%s&gt=longitude:%s&lt=longitude:%s"%(lat1,lat2,lng1,lng2)
+  filter_string = "select=field:%s&select=field:%s&gt=%s:%s&lt=%s:%s&gt=%s:%s&lt=%s:%s"%(LONGITUDE_FIELD,LATITUDE_FIELD,LATITUDE_FIELD,lat1,LATITUDE_FIELD,lat2,LONGITUDE_FIELD,lng1,LONGITUDE_FIELD,lng2)
   logging.debug("filter string lt gt %s"%filter_string)
   filtered_sample = filters.recursive_filter(filters.parse_for_filters(filter_string)[0],tiddlers)
   
   near_tiddlers = []
   for tiddler in filtered_sample:
-    testlat = float(tiddler.fields["latitude"])
-    testlng = float(tiddler.fields["longitude"])
+    testlat = float(tiddler.fields[LATITUDE_FIELD])
+    testlng = float(tiddler.fields[LONGITUDE_FIELD])
     isNear = geoproximity(lat,lng,radius,testlat,testlng,units=units)
     if isNear:
       yield tiddler
