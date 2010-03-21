@@ -36,7 +36,7 @@ config.macros.radio = {
 				attr("name", group).val(item);
 			container.append(radio).append(item);
 		});
-		$("<form />").append(container).appendTo(place);
+		$('<form action="" />').append(container).appendTo(place);
 	}
 };
 
