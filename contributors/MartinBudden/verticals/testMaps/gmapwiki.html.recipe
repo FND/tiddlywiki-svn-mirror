@@ -1,0 +1,10 @@
+recipe: ../../../../core/tiddlywiki.html.recipe
+prehead: PreHead.js
+recipe: shadows/split.recipe
+recipe: content/split.recipe
+#recipe: templates/split.recipe
+tiddler: ../../mystyle/Styles_HorizontalMainMenu.tiddler
+tiddler: ../../plugins/settings.js
+tiddler: gmap.js
+tiddler: Map.tiddler
+tiddler: gitscob.tiddler

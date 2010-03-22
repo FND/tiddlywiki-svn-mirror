@@ -1,0 +1,3 @@
+recipe: plugins/split.recipe
+recipe: content/split.recipe
+recipe: shadows/split.recipe
