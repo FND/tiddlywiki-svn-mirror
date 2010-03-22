@@ -1,4 +1,4 @@
-tiddler: ../jquery/InterfaceElements.js
-tiddler: ../jquery/iNestedSortable.js
-tiddler: ../jquery/iNestedSortablesExtension.js
-tiddler: ../jquery/JSON.js
+tiddler: ../Plugins/jquery/InterfaceElements.js
+tiddler: ../Plugins/jquery/iNestedSortable.js
+tiddler: ../Plugins/jquery/iNestedSortablesExtension.js
+tiddler: ../Plugins/jquery/JSON.js
