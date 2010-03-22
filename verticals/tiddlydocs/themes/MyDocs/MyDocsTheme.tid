@@ -118,7 +118,7 @@ tags: systemTheme  excludeLists excludeSearch
 	<style type="text/css">
 
 	html body #tiddlerDisplay {
-		top:1em;
+		top:-3em;
 	}
 	html body .toc-title {
 		position:relative;
