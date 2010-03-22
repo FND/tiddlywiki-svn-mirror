@@ -30,18 +30,54 @@ def field_in_fields(tiddler, attribute, value):
 def comparedate(date1,date2):
   #if date1 < date2 return -1 else return 1
   logging.debug("ltgt.py: compare %s with %s"%(date1,date2))
-  y1 = date1[0:4]
-  y2 = date2[0:4]
-  m1 = date1[4:6]
-  m2 = date2[4:6]
-  d1 = date1[6:8]
-  d2 = date2[6:8]
-  h1 = date1[8:10]
-  h2 = date2[8:10]
-  min1 = date1[10:12]
-  min2 = date2[10:12]
-  s1 = date1[12:14]
-  s2 = date1[12:14]
+  try:
+    y1 = float(date1[0:4])
+  except ValueError:
+    y1 = 0
+  try: 
+    y2 = float(date2[0:4])
+  except ValueError:
+    y2 = 0
+  try:
+    m1 = float(date1[4:6])
+  except ValueError:
+    m1 = 0
+  try:
+    m2 = float(date2[4:6])
+  except ValueError:
+    m2 = 0
+  try:
+    d1 = float(date1[6:8])
+  except ValueError:
+    d1 = 0
+  try:
+    d2 = float(date2[6:8])
+  except ValueError:
+    d2 = 0
+  try:
+    h1 = float(date1[8:10])
+  except ValueError:
+    h1 = 0
+  try:
+    h2 = float(date2[8:10])
+  except ValueError:
+    h2 = 0
+  try:
+    min1 = float(date1[10:12])
+  except ValueError:
+    min1 = 0
+  try:
+    min2 = float(date2[10:12])
+  except ValueError:
+    min2 = 0
+  try:
+    s1 = float(date1[12:14])
+  except ValueError:
+    s1 = 0
+  try:
+    s2 = float(date2[12:14])
+  except ValueError:
+    s2 = 0
   if y1 < y2:
     return -1
   elif y1 > y2:

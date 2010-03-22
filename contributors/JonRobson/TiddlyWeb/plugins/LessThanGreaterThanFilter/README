@@ -8,3 +8,5 @@ would give you all tiddlers with a field 'fieldname' who's value is less than 4
 eg. this would match tiddlers with field 'fieldname' =1,'fieldname' =2,'fieldname' =2.5 etc..
 but would not match 'fieldname' =4 or 'fieldname' =5.
 
+If the field is one of modified or created, the value given is treated as a date in YYYYMMDDHHMMSS form
+eg. gt=modified:20100109 would give you all tiddlers which have been modified since 9th January 2010. Note hours, minutes and seconds are optional.
