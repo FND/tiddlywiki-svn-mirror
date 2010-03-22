@@ -1,0 +1,22 @@
+A TiddlyWeb plugin that provides ability to query tiddlers with geodata near a given location
+
+This provides a new filter for TiddlyWeb aimed at geotiddlers (tiddlers containing longitude and latitude information expressed in fields with names "geo.long" and "geo.lat respectively")
+
+It adds a near filter which allows you to query tiddlers by proximity
+the argument given is comma separated with latitude first, longitude second and radius third.
+eg.
+
+tiddlers/bag/geotiddlers?near=50,0,5km
+
+you can also request in miles
+tiddlers/bag/geotiddlers?near=50,0,5miles
+
+The resulting distance (in miles or kms depending on what was called) is added to a temporary tiddler field called "_geo.proximity"
+
+To install
+Simply update your tiddlywebconfig to supply the following.
+    config = {
+        'system_plugins': ['tiddlywebplugins.ltgt','tiddlywebplugins.geofilters'],
+    }
+
+This package is licensed under the same terms as TiddlyWeb itself.
