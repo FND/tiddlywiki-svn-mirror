@@ -1,4 +1,4 @@
-recipe: ../../pieces/parts.html.recipe
+recipe: ../../coreplugins.split.recipe
 
 tiddler: SiteSubtitle.tid
 tiddler: MainMenu.tid
