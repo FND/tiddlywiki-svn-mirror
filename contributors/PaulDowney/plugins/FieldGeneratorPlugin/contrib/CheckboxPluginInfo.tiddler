@@ -1,0 +1,166 @@
+<div title="CheckboxPluginInfo" modifier="ELSDesignStudios" created="200801090021" modified="200801090024" tags="pluginInfo" checked="false" demofield="false">
+<pre>|Name|CheckboxPluginInfo|
+|Source|http://www.TiddlyTools.com/#CheckboxPlugin|
+|Documentation|http://www.TiddlyTools.com/#CheckboxPluginInfo|
+|Version|2.4.0|
+|Author|Eric Shulman|
+|License|http://www.TiddlyTools.com/#LegalStatements|
+|~CoreVersion|2.1|
+|Type|documentation|
+|Description|documentation for CheckboxPlugin|
+This plugin extends the TiddlyWiki syntax to allow definition of checkboxes that can be embedded directly in tiddler content.  Checkbox states are preserved by:
+* setting/removing tags on specified tiddlers,
+* or, setting custom field values on specified tiddlers,
+* or, saving to a locally-stored cookie ID,
+* or, automatically modifying the tiddler source content (deprecated).
+When an ID is assigned to the checkbox, it enables direct programmatic access to the checkbox DOM element, as well as creating an entry in TiddlyWiki's config.options[ID] internal data.  In addition to tracking the checkbox state, you can also specify custom javascript for programmatic initialization and onClick event handling for any checkbox, so you can provide specialized side-effects in response to state changes.
+!!!!!Inline (wiki syntax) Usage
+<<<
+//{{{
+[ ]or[_] and [x]or[X]
+//}}}
+Simple checkboxes using 'Inline X' storage.  The current unchecked/checked state is indicated by the character between the {{{[}}} and {{{]}}} brackets ("_" means unchecked, "X" means checked).  When you click on a checkbox, the current state is retained by directly modifying the tiddler content to place the corresponding "_" or "X" character in between the brackets.
+>//''NOTE: 'Inline X' syntax has been deprecated...''  This storage format only works properly for checkboxes that are directly embedded and accessed from content in a single tiddler.  However, if that tiddler is 'transcluded' into another (by using the {{{<<tiddler TiddlerName>>}}} macro), the 'Inline X' will be ''erroneously stored in the containing tiddler's source content, resulting in corrupted content in that tiddler.''  For anything but the most simple of "to do list" uses, you should select from the various alternative storage methods described below...//
+//{{{
+[x=id]
+//}}}
+Assign an optional ID to the checkbox so you can use {{{document.getElementByID("id")}}} to manipulate the checkbox DOM element, as well as tracking the current checkbox state in {{{config.options["id"]}}}.  If the ID starts with "chk" the checkbox state will also be saved in a cookie, so it can be automatically restored whenever the checkbox is re-rendered (overrides any default {{{[x]}}} or {{{[_]}}} value).  If a cookie value is kept, the "_" or "X" character in the tiddler content remains unchanged, and is only applied as the default when a cookie-based value is not currently defined.
+//{{{
+[x(title|tag)] or [x(title:tag)]
+//}}}
+Initializes and tracks the current checkbox state by setting or removing a particular tag value from a specified tiddler.  If you omit the tiddler title (and the | or : separator), the specified tag is assigned to the current tiddler.  If you omit the tag value, as in {{{(title|)}}}, the default tag, {{{checked}}}, is assumed.  Omitting both the title and tag, {{{()}}}, tracks the checkbox state by setting the "checked" tag on the current tiddler.  When tag tracking is used, the "_" or "X" character in the tiddler content remains unchanged, and is not used to set or track the checkbox state.  If a tiddler title named in the tag does not exist, the checkbox state defaults to the "inline X" value.  If this value is //checked//, or is subsequently changed to //checked//, it will automatically create the missing tiddler and then add the tag to it.  //''NOTE: beginning with version 2.1.2 of this plugin, the "|" separator is the preferred separator between the title and tag name, as it avoids syntactic ambiguity when ":" is used within tiddler titles or tag names.''//
+//{{{
+[x(field@tiddler)]
+//}}}
+Initializes and tracks the current checkbox state by setting a particular custom field value from a specified tiddler.  If you omit the tiddler title (but not the "@" separator), the specified field on the current tiddler is used.  If you omit the field name, as in {{{(@tiddler)}}}, a default fieldname of {{{checked}}} is assumed.  Omitting both the field and the tiddler title, {{{(@)}}}, defaults to setting the "checked" field on the current tiddler.  When field tracking is used, the "_" or "X" character in the tiddler content remains unchanged, and is not used to set or track the checkbox state.  If the tiddler title named in the parameter does not exist, the checkbox state defaults to the "inline X" value.  If this value is //checked// or is subsequently changed to //checked//, it will automatically create the missing tiddler and then add the field to it.
+//{{{
+[x{javascript}{javascript}{javascript}]
+//}}}
+You can define optional javascript code segments to add custom initialization and/or 'onClick' handlers to a checkbox.  The current checkbox state (and it's other DOM attributes) can be set or read from within these code segments by reference to a globally-defined context object, "place" (which can also be referenced as "window.place").
+
+The first code segment will be executed when the checkbox is initially displayed, so that you can programmatically determine it's starting checked/unchecked state.  The second code segment (if present) is executed whenever the checkbox is clicked, but //before the regular checkbox processing in performed// ("onClickBefore"), so that you can apply programmed responses or intercept and override the checkbox state based on custom logic.  The third code segment (if present) is executed whenver the checkbox is clicked, //after the regular checkbox processing has completed// ("onClickAfter"), so that you can include "side-effect" processing based on the checkbox state just applied.
+
+>Note: if you want to use the default checkbox initialization processing with a custom onClickBefore/After function, use this syntax:
+>{{{[x(tag){}{javascript}]}}} or {{{[x(tag){}{}{javascript}]}}}
+<<<
+!!!!!Macro usage
+<<<
+In addition to embedded checkboxes using the wiki syntax described above, a ''macro-based syntax'' is also provided, for use in templates where wiki syntax cannot be directly used.  This macro syntax can also be used in tiddler content, as an alternative to the wiki syntax.  When embedded in [[PageTemplate]], [[ViewTemplate]], or [[EditTemplate]] (or custom alternative templates), use the following macro syntax:
+//{{{
+<span macro="checkbox target checked id onInit onClickBefore onClickAfter"></span>
+//}}}
+or, when embedded in tiddler content, use the following macro syntax:
+//{{{
+<<checkbox target checked id onInit onClickBefore onClickAfter>>
+//}}}
+where:
+''target''
+>is either a tag reference (e.g., ''tagname|tiddlername'') or a field reference (e.g. ''fieldname@tiddlername''), as described above.
+''checked'' (optional)
+>is a keyword that sets the initial state of the checkbox to "checked".  When omitted, the default checkbox state is "unchecked".
+''id'' (optional)
+>specifies an internal config.options.* ID, as described above.  If the ID begins with "chk", a cookie-based persistent value will be created to track the checkbox state in between sessions.
+''onInit'' (optional)
+>contains a javascript event handler to be performed when the checkbox is initially rendered (see details above).
+''onClickBefore'' and/or ''onClickAfter'' (optional)
+>contains a javascript event handler to be performed each time the checkbox is clicked (see details above).  //note: to use the default onInit handler with a custom onClickBefore/After handler, use "" (empty quotes) or {} (empty function) as a placeholder for the onInit and/or onClickBefore parameters//
+<<<
+!!!!!Examples
+<<<
+''checked and unchecked static default ("inline X") values:''
+//{{{
+[X] label
+[_] label
+//}}}
+>[X] label
+>[_] label
+''document-based value (id='demo', no cookie):''
+//{{{
+[_=demo] label
+//}}}
+>[_=demo] label
+''cookie-based value  (id='chkDemo'):''
+
+
+
+
+
+//{{{
+[_=chkDemo] label
+//}}}
+>[_=chkDemo] label
+''tag-based value (TogglyTagging):''
+//{{{
+[_(CheckboxPluginInfo|demotag)]
+[_(CheckboxPluginInfo|demotag){place.refresh.tagged=place.refresh.container=false}]
+//}}}
+>[_(CheckboxPluginInfo|demotag)] toggle 'demotag' (and refresh tiddler display)
+>[_(CheckboxPluginInfo|demotag){place.refresh.tagged=place.refresh.container=false}] toggle 'demotag' (no refresh)
+''field-based values:''
+//{{{
+[_(demofield@CheckboxPluginInfo)] demofield@CheckboxPluginInfo
+[_(demofield@)] demofield@ (equivalent to demonfield@ current tiddler)
+[_(checked@CheckboxPluginInfo)] checked@CheckboxPluginInfo
+[_(@CheckboxPluginInfo)] @CheckboxPluginInfo
+[_(@)] @ (equivalent to checked@ current tiddler)
+//}}}
+>[_(demofield@CheckboxPluginInfo)] demofield@CheckboxPluginInfo
+>[_(demofield@)] demofield@ (current tiddler)
+>[_(checked@CheckboxPluginInfo)] checked@CheckboxPluginInfo
+>[_(@CheckboxPluginInfo)] @CheckboxPluginInfo
+>[_(@)] toggle field: @ (defaults to "checked@here")
+>click to view current: <<toolbar fields>>
+''custom init and onClick functions:''
+//{{{
+[X{place.checked=true}{alert(place.checked?"on":"off")}] message box with checkbox state
+//}}}
+>[X{place.checked=true}{alert(place.checked?"on":"off")}] message box with checkbox state
+''retrieving option values:''
+>config.options['demo']=<script>return config.options['demo']?"true":"false";</script>
+>config.options['chkDemo']=<script>return config.options['chkDemo']?"true":"false";</script>
+<<<
+!!!!!Configuration
+<<<
+Normally, when a checkbox state is changed, the affected tiddlers are automatically re-rendered, so that any checkbox-dependent dynamic content can be updated.  There are three possible tiddlers to be re-rendered, depending upon where the checkbox is placed, and what kind of storage method it is using.
+*''container'': the tiddler in which the checkbox is displayed. (e.g., this tiddler)
+*''tagged'': the tiddler that is being tagged (e.g., "~MyTask" when tagging "~MyTask:done")
+*''tagging'': the "tag tiddler" (e.g., "~done" when tagging "~MyTask:done")
+You can set the default refresh handling for all checkboxes in your document by using the following javascript syntax either in a systemConfig plugin, or as an inline script.  (Substitute true/false values as desired):
+{{{config.checkbox.refresh = { tagged:true, tagging:true, container:true };}}}
+
+You can also override these defaults for any given checkbox by using an initialization function to set one or more of the refresh options.  For example:
+{{{[_{place.refresh.container=false}]}}}
+<<<
+!!!!!Revisions
+<<<
+2008.01.08 [*.*.*] plugin size reduction: documentation moved to [[CheckboxPluginInfo]]
+2008.01.05 2.4.0 set global "window.place" to current checkbox element when processing checkbox clicks.  This allows init/beforeClick/afterClick handlers to reference RELATIVE elements, including using "story.findContainingTiddler(place)".  Also, wrap handlers in "function()" so "return" can be used within handler code.
+2008.01.02 2.3.0 split optional custom onClick handling into separate onClickBefore and onClickAfter handlers.  The onClickBefore handler permits interception of the click BEFORE the checkbox is set.  onClickAfter allows follow-on 'side-effect' processing to occur AFTER the checkbox is set.
+2007.12.04 [*.*.*] update for TW2.3.0: replaced deprecated core functions, regexps, and macros
+2007.08.06 2.2.5 supress automatic refresh of any tiddler that is currently being edited.  Ensures that current tiddler edit sessions are not prematurely discarded (losing any changes).  However, if checkbox changes a tag on a tiddler being edited, update the "tags" input field (if any) so that saving the edited tiddler correctly reflects any changes due to checkbox activity... see refreshEditorTagField().
+2007.07.13 - 2.2.4 in handler(), fix srctid reference (was "w.tiddler", should have been "w.tiddler.title").  This fixes broken 'inline X' plus fatal macro error when using PartTiddlerPlugin.  Thanks to cmari for reporting the problem and UdoBorkowski for finding the code error.
+2007.06.21 - 2.2.3 suppress automatic refresh of tiddler when using macro-syntax to prevent premature end of tiddler editing session.
+2007.06.20 - 2.2.2 fixed handling for 'inline X' when checkboxes are contained in a 'trancluded' tiddler.  Now, regardless of where an inline X checkbox appears, the X will be placed in the originating source tiddler, rather than the tiddler in which the checkbox appears.
+2007.06.17 - 2.2.1 Refactored code to add checkbox //macro// syntax for use in templates (e.g., {{{macro="checkbox ..."}}}. Also, code cleanup of existing tag handling.
+2007.06.16 - 2.2.0 added support for tracking checkbox states using tiddler fields via "(fieldname@tiddlername)" syntax.
+2006.05.04 - 2.1.3 fix use of findContainingTiddler() to check for a non-null return value, so that checkboxes won't crash when used outside of tiddler display context (such as in header, sidebar or mainmenu)
+2006.03.11 - 2.1.2 added "|" as delimiter to tag-based storage syntax (e.g. "tiddler|tag") to avoid parsing ambiguity when tiddler titles or tag names contain ":".   Using ":" as a delimiter is still supported but is deprecated in favor of the new "|" usage.  Based on a problem reported by JeffMason.
+2006.02.25 - 2.1.0 added configuration options to enable/disable forced refresh of tiddlers when toggling tags
+2006.02.23 - 2.0.4 when toggling tags, force refresh of the tiddler containing the checkbox.
+2006.02.23 - 2.0.3 when toggling tags, force refresh of the 'tagged tiddler' so that tag-related tiddler content (such as "to-do" lists) can be re-rendered.
+2006.02.23 - 2.0.2 when using tag-based storage, allow use [[ and ]] to quote tiddler or tag names that contain spaces:
+{{{[x([[Tiddler with spaces]]:[[tag with spaces]])]}}}
+2006.01.10 - 2.0.1 when toggling tags, force refresh of the 'tagging tiddler'.  For example, if you toggle the "systemConfig" tag on a plugin, the corresponding "systemConfig" TIDDLER will be automatically refreshed (if currently displayed), so that the 'tagged' list in that tiddler will remain up-to-date.
+2006.01.04 - 2.0.0 update for ~TW2.0
+2005.12.27 - 1.1.2 Fix lookAhead regExp handling for {{{[x=id]}}}, which had been including the "]" in the extracted ID.  
+Added check for "chk" prefix on ID before calling saveOptionCookie()
+2005.12.26 - 1.1.2 Corrected use of toUpperCase() in tiddler re-write code when comparing {{{[X]}}} in tiddler content with checkbox state. Fixes a problem where simple checkboxes could be set, but never cleared.
+2005.12.26 - 1.1.0 Revise syntax so all optional parameters are included INSIDE the [ and ] brackets.  Backward compatibility with older syntax is supported, so content changes are not required when upgrading to the current version of this plugin.   Based on a suggestion by GeoffSlocock
+2005.12.25 - 1.0.0 added support for tracking checkbox state using tags ("TogglyTagging")
+Revised version number for official post-beta release.
+2005.12.08 - 0.9.3 support separate 'init' and 'onclick' function definitions.
+2005.12.08 - 0.9.2 clean up lookahead pattern
+2005.12.07 - 0.9.1 only update tiddler source content if checkbox state is actually different.  Eliminates unnecessary tiddler changes (and 'unsaved changes' warnings)
+2005.12.07 - 0.9.0 initial BETA release
+<<<</pre>
+</div>
