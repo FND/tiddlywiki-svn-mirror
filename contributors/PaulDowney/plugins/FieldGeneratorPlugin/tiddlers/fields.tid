@@ -2,37 +2,37 @@ modifier: PaulDowney
 tags:
 
 |!Area|!Label|!Type|!Description|
-|visual||checkbox|Do you consider yourself to be visually impaired?|
-|visual|nav_independently|checkbox|Do you have enough sight to navigate independently in a restaurant?|
-|visual|vis_assistance_dog|checkbox|Do you require use of an assistance dog?|
-|visual|braille|checkbox|Do you require use of Braille or audio tapes within the facility?|
-|visual|noise_level|checkbox|Do you require a low level of background noise?|
-|visual|accessible_parking|checkbox|Will you need access to accessible parking?|
-|visual|vis_alarms|checkbox|Do you require visual alarms in public facilities?|
-|visual|vis_trained_assistance|checkbox|Do you require trained assistance from staff?|
-|mobility||checkbox|Do you consider yourself to be mobility impaired?|
-|mobility|climb_stairs|checkbox|Are you able to climb a flight of stairs provided there are hand rails?|
-|mobility|temp_wheelchair|checkbox|Are you able to get around with handrails but have temporary use of a wheel chair?|
-|mobility|own_wheelchair|checkbox|If you use a wheel chair occasionally do you have your own wheel chair?|
-|mobility|chair_dimensions|free text|If you own a wheel chair what are the dimensions?|
-|mobility|turning_circle|free text|If you own a wheel chair what is the turning circle?|
-|mobility|wheelchair_independent|checkbox|Do you depend on the use of a wheel chair but are able to get around independently?|
-|mobility|wheelchair_perm_assistance|checkbox|Do you depend on the use of a wheel chair and require permenant assistance?|
-|mobility|mob_trained_assistance|checkbox|Do you require trained assistance?|
-|hearing||checkbox|Do you consider yourself to be hearing impaired?|
-|hearing|text_phone|checkbox|Do you require a text phone?|
-|hearing|counter_loop|checkbox|Do you require use of a counter loop system / inductive coupler at the premises?|
-|hearing|vis_indicators|checkbox|Do you require strong visual indications (i.e flashing lights)?|
-|hearing|hearing_assistance_dog|checkbox|Do you require use of a service dog?|
-|hearing|bsl|checkbox|Do you require signing (BSL interpreter)?|
-|hearing|hearing_trained_assistance|checkbox|Will you require trained assistance from staff?|
-|general|interest_city|checkbox|I am interested in cities / city breaks?|
-|general|interest_countryside|checkbox|I am interested in countryside?|
-|general|interest_his|checkbox|I am interested in history and heritage?|
-|general|interest_museums|checkbox|I am interested in museums and galleries?|
-|general|interest_music|checkbox|I am interested in music?|
-|general|interest_restaurant|checkbox|I am interested in restaurants and dining?|
-|general|interest_shopping|checkbox|I am interested in shopping?|
-|general|interest_sightseeing|checkbox|I am interested in sight-seeing?|
-|general|interest_sport|checkbox|I am interested in sport?|
-|general|interest_theatre|checkbox|I am interested in theatre, musicals and shows?|
+|visual||checkbox|Do you consider yourself to be visually impaired|
+|visual|nav_independently|checkbox|Do you have enough sight to navigate independently in a restaurant|
+|visual|vis_assistance_dog|checkbox|Do you require use of an assistance dog|
+|visual|braille|checkbox|Do you require use of Braille or audio tapes within the facility|
+|visual|noise_level|checkbox|Do you require a low level of background noise|
+|visual|accessible_parking|checkbox|Will you need access to accessible parking|
+|visual|vis_alarms|checkbox|Do you require visual alarms in public facilities|
+|visual|vis_trained_assistance|checkbox|Do you require trained assistance from staff|
+|mobility||checkbox|Do you consider yourself to be mobility impaired|
+|mobility|climb_stairs|checkbox|Are you able to climb a flight of stairs provided there are hand rails|
+|mobility|temp_wheelchair|checkbox|Are you able to get around with handrails but have temporary use of a wheel chair|
+|mobility|own_wheelchair|checkbox|If you use a wheel chair occasionally do you have your own wheel chair|
+|mobility|chair_dimensions|text|If you own a wheel chair what are the dimensions|
+|mobility|turning_circle|text|If you own a wheel chair what is the turning circle|
+|mobility|wheelchair_independent|checkbox|Do you depend on the use of a wheel chair but are able to get around independently|
+|mobility|wheelchair_perm_assistance|checkbox|Do you depend on the use of a wheel chair and require permenant assistance|
+|mobility|mob_trained_assistance|checkbox|Do you require trained assistance|
+|hearing||checkbox|Do you consider yourself to be hearing impaired|
+|hearing|text_phone|checkbox|Do you require a text phone|
+|hearing|counter_loop|checkbox|Do you require use of a counter loop system / inductive coupler at the premises|
+|hearing|vis_indicators|checkbox|Do you require strong visual indications (i.e flashing lights)|
+|hearing|hearing_assistance_dog|checkbox|Do you require use of a service dog|
+|hearing|bsl|checkbox|Do you require signing (BSL interpreter)|
+|hearing|hearing_trained_assistance|checkbox|Will you require trained assistance from staff|
+|general|interest_city|checkbox|I am interested in cities / city breaks|
+|general|interest_countryside|checkbox|I am interested in countryside|
+|general|interest_his|checkbox|I am interested in history and heritage|
+|general|interest_museums|checkbox|I am interested in museums and galleries|
+|general|interest_music|checkbox|I am interested in music|
+|general|interest_restaurant|checkbox|I am interested in restaurants and dining|
+|general|interest_shopping|checkbox|I am interested in shopping|
+|general|interest_sightseeing|checkbox|I am interested in sight-seeing|
+|general|interest_sport|checkbox|I am interested in sport|
+|general|interest_theatre|checkbox|I am interested in theatre, musicals and shows|

@@ -26,10 +26,13 @@ depends upon CheckBoxPlugin
 			var t = "";
 			for (var i = 1; i < fields.length; i++) {
 				var f = fields[i].split("|");
-				if (f[1]) {
+				if (f[3] == "checkbox") {
 					var name = f[2];
 					name = f[1] + (name ? ".":"") + f[2];
 					t = t + "[" + (tiddler.fields[name] ? "X" : "_") + "(" + name + "@" + target + ")" + "] " + f[4] + "\n";
+				} else if (f[3] == "text") {
+					t = t + f[4] + ": <<edit " + name + tiddler.fields[name] + ">>\n";
+					
 				}
 			}
 			wikify(t, place, null, tiddler);
