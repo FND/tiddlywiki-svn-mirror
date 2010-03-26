@@ -1,10 +1,13 @@
 recipe: ../../core/tiddlywiki.html.recipe
 tiddler: ../../contributors/FND/plugins/jQueryDocsImportMacro.js
 tiddler: ../../contributors/FND/plugins/SimpleSearchPlugin.js
+tiddler: ../../contributors/FND/plugins/TagsplorerMacro.js
 tiddler: ../../contributors/FND/plugins/WebLinkerMacro.js
 tiddler: plugins/_config.js
 tiddler: shadows/SiteTitle.tiddler
 tiddler: shadows/SiteSubtitle.tiddler
 tiddler: shadows/ViewTemplate.tid
+tiddler: shadows/DefaultTiddlers.tid
 tiddler: shadows/MainMenu.tid
 tiddler: shadows/StyleSheet.tid
+tiddler: content/Navigation.tid
