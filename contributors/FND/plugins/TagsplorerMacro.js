@@ -19,11 +19,11 @@
 !!v1.0 (2010-03-21)
 * initial release
 !!v1.1 (2010-03-26)
+* added sorting for tag and tiddler collections
 * added section headings
 * adjusted styling
 !To Do
 * refresh handling
-* sorting for tag/tiddler lists
 * "open all" functionality
 * animations for new/removed tags/tiddlers (requires array diff'ing)
 !StyleSheet
@@ -186,7 +186,7 @@ config.macros.tagsplorer = $.extend(macro, {
 });
 
 var getTiddlers = function(tags) {
-	var tiddlers = store.getTiddlers();
+	var tiddlers = store.getTiddlers("title"); // XXX: more efficient to sort after filtering!?
 	for(var i = 0; i < tags.length; i++) {
 		tiddlers = filterTiddlers(tiddlers, tags[i]);
 	}
@@ -212,7 +212,7 @@ var getTagSelection = function(tiddlers, exclude) {
 			}
 		}
 	}
-	return tags;
+	return tags.sort();
 };
 
 var createTagElement = function(container, label, tooltip, action) {
