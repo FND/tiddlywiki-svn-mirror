@@ -1,8 +1,8 @@
 /***
 |''Name''|TagsplorerMacro|
-|''Description''|tag-based tiddler navigation|
+|''Description''|tag-based faceted tiddler navigation|
 |''Author''|FND|
-|''Version''|1.0.0|
+|''Version''|1.1.0|
 |''Status''|@@experimental@@|
 |''Source''|http://svn.tiddlywiki.org/Trunk/contributors/FND/plugins/TagsplorerMacro.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/|
@@ -18,22 +18,47 @@
 !Revision History
 !!v1.0 (2010-03-21)
 * initial release
+!!v1.1 (2010-03-26)
+* added section headings
+* adjusted styling
 !To Do
 * refresh handling
 * sorting for tag/tiddler lists
+* "open all" functionality
 * animations for new/removed tags/tiddlers (requires array diff'ing)
 !StyleSheet
+.tagsplorer {
+	border: 1px solid [[ColorPalette::TertiaryLight]];
+	padding: 5px;
+	background-color: [[ColorPalette::TertiaryPale]];
+}
+
+.tagsplorer h3,
 .tagsplorer ul {
 	margin: 0;
 	padding: 0;
 }
 
+.tagsplorer h3 {
+	margin: 0 -5px;
+	padding: 0 5px;
+	border: none;
+}
+
+.tagsplorer h3.tags {
+	float: left;
+	margin-right: 1em;
+}
+
+.tagsplorer h3.tiddlers {
+	margin-top: 5px;
+	border-top: 1px solid [[ColorPalette::TertiaryLight]];
+	padding-top: 5px;
+}
+
 .tagsplorer .tagSelection {
 	overflow: auto;
-	border: 1px solid [[ColorPalette::TertiaryLight]];
-	padding: 5px;
 	list-style-type: none;
-	background-color: [[ColorPalette::TertiaryPale]];
 }
 
 .tagsplorer .tagSelection li {
@@ -42,7 +67,7 @@
 }
 
 .tagsplorer .tiddlerList {
-	margin: 5px 0 10px 1.5em;
+	margin-left: 1.5em;
 }
 !Code
 ***/
@@ -56,10 +81,13 @@ var macro = config.macros.tagsplorer = {};
 
 config.macros.tagsplorer = $.extend(macro, {
 	locale: {
-		newTagLabel: "new",
+		tagsLabel: "Tags",
+		tiddlersLabel: "Tiddlers",
+		newTagLabel: "[+]",
 		newTagTooltip: "add tag to filter",
-		delTagTooltip: "remove tag",
-		noTagLabel: "N/A"
+		delTagTooltip: "remove tag from filter",
+		noTagsLabel: "N/A",
+		noTiddlersLabel: "N/A"
 	},
 
 	handler: function(place, macroName, params, wikifier, paramString, tiddler) {
@@ -67,7 +95,11 @@ config.macros.tagsplorer = $.extend(macro, {
 		var tiddlers = getTiddlers(tags);
 
 		var container = $('<div class="tagsplorer" />').
+			append('<h3 class="tags" />').children(":last").
+				text(this.locale.tagsLabel).end().
 			append('<ul class="tagSelection" />').
+			append('<h3 class="tiddlers" />').children(":last").
+				text(this.locale.tiddlersLabel).end().
 			append('<ul class="tiddlerList" />');
 
 		macro.refreshTags(tags, container);
@@ -89,7 +121,7 @@ config.macros.tagsplorer = $.extend(macro, {
 				createTagElement(popup, tag, macro.locale.newTagTooltip, macro.onTagClick);
 			});
 		} else {
-			createTagElement(popup, macro.locale.noTagLabel);
+			createTagElement(popup, macro.locale.noTagsLabel);
 		}
 		$(popup).data({
 			container: container,
@@ -140,10 +172,14 @@ config.macros.tagsplorer = $.extend(macro, {
 		var clone = orig.clone().empty();
 		clone.data("tiddlers", tiddlers);
 
-		$.each(tiddlers, function(i, tiddler) {
-			var el = $("<li />").appendTo(clone)[0];
-			createTiddlyLink(el, tiddler.title, true);
-		});
+		if(tiddlers.length) {
+			$.each(tiddlers, function(i, tiddler) {
+				var el = $("<li />").appendTo(clone)[0];
+				createTiddlyLink(el, tiddler.title, true);
+			});
+		} else {
+			$("<li />").text(macro.locale.noTiddlersLabel).appendTo(clone)[0];
+		}
 
 		orig.replaceWith(clone);
 	}
