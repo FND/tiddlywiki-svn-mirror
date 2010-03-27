@@ -2,8 +2,8 @@
 |''Name''|TagsplorerMacro|
 |''Description''|tag-based faceted tiddler navigation|
 |''Author''|FND|
-|''Version''|1.1.0|
-|''Status''|@@experimental@@|
+|''Version''|1.2.0|
+|''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/contributors/FND/plugins/TagsplorerMacro.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
@@ -11,10 +11,10 @@
 |''Keywords''|navigation tagging|
 !Usage
 {{{
-<<tagsplorer [tag] [tag] ... >>
+<<tagsplorer [exclude:<tagName>] [tag] [tag] ... >>
 }}}
 !!Examples
-<<tagsplorer systemConfig>>
+<<tagsplorer exclude:excludeLists systemConfig>>
 !Revision History
 !!v1.0 (2010-03-21)
 * initial release
@@ -22,6 +22,8 @@
 * added sorting for tag and tiddler collections
 * added section headings
 * adjusted styling
+!!v1.2 (2010-03-27)
+* added exclude parameter for excludeLists support
 !To Do
 * refresh handling
 * "open all" functionality
@@ -91,8 +93,10 @@ config.macros.tagsplorer = $.extend(macro, {
 	},
 
 	handler: function(place, macroName, params, wikifier, paramString, tiddler) {
-		var tags = params;
-		var tiddlers = getTiddlers(tags);
+		var prms = paramString.parseParams("anon", null, true);
+		var excludeTag = getParam(prms, "exclude", null);
+		var tags = prms[0].anon;
+		var tiddlers = getTiddlers(tags, excludeTag);
 
 		var container = $('<div class="tagsplorer" />').
 			append('<h3 class="tags" />').children(":last").
@@ -100,7 +104,8 @@ config.macros.tagsplorer = $.extend(macro, {
 			append('<ul class="tagSelection" />').
 			append('<h3 class="tiddlers" />').children(":last").
 				text(this.locale.tiddlersLabel).end().
-			append('<ul class="tiddlerList" />');
+			append('<ul class="tiddlerList" />').
+			data("excludeTag", excludeTag);
 
 		macro.refreshTags(tags, container);
 		macro.refreshTiddlers(tiddlers, container);
@@ -134,21 +139,19 @@ config.macros.tagsplorer = $.extend(macro, {
 	onTagClick: function(ev) {
 		var btn = $(this);
 		var popup = btn.closest(".popup");
-		var container = popup.data("container");
-		var tags = popup.data("tags");
-		var tiddlers = popup.data("tiddlers");
+		var data = popup.data();
 		var tag = btn.text();
-		tags.pushUnique(tag);
-		tiddlers = filterTiddlers(tiddlers, tag);
-		macro.refreshTags(tags, container);
-		macro.refreshTiddlers(tiddlers, container);
+		data.tags.pushUnique(tag);
+		data.tiddlers = filterTiddlers(data.tiddlers, tag);
+		macro.refreshTags(data.tags, data.container);
+		macro.refreshTiddlers(data.tiddlers, data.container);
 	},
 	delTag: function(ev) {
 		var btn = $(this);
 		var container = btn.closest(".tagsplorer");
 		var tags = container.find(".tagSelection").data("tags");
 		tags.remove(btn.text());
-		var tiddlers = getTiddlers(tags);
+		var tiddlers = getTiddlers(tags, container.data("excludeTag"));
 		btn.parent().remove();
 		macro.refreshTags(tags, container);
 		macro.refreshTiddlers(tiddlers, container);
@@ -178,15 +181,15 @@ config.macros.tagsplorer = $.extend(macro, {
 				createTiddlyLink(el, tiddler.title, true);
 			});
 		} else {
-			$("<li />").text(macro.locale.noTiddlersLabel).appendTo(clone)[0];
+			$("<li />").text(macro.locale.noTiddlersLabel).appendTo(clone);
 		}
 
 		orig.replaceWith(clone);
 	}
 });
 
-var getTiddlers = function(tags) {
-	var tiddlers = store.getTiddlers("title"); // XXX: more efficient to sort after filtering!?
+var getTiddlers = function(tags, excludeTag) {
+	var tiddlers = store.getTiddlers("title", excludeTag);
 	for(var i = 0; i < tags.length; i++) {
 		tiddlers = filterTiddlers(tiddlers, tags[i]);
 	}
