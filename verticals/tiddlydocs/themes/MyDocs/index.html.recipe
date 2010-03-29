@@ -1,0 +1,8 @@
+recipe: ../../coreplugins.split.recipe
+
+recipe: split.recipe
+tiddler: ../../Plugins/DocumentTabsPlugin.js
+
+tiddler: ../../content/StatusDefinitions.tid
+
+
