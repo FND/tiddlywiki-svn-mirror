@@ -28,7 +28,7 @@ config.macros.docTabs = {};
 config.macros.docTabs.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 		var tagged = store.getTaggedTiddlers('document').reverse();
 		var cookie = "documentTabs";
-		var wrapper = createTiddlyElement(null,"div",null,"docTabset tabsetWrapper taggedTabset" + cookie);
+		var wrapper = createTiddlyElement(null,"div",null,"docTabset tabsetWrapper taggedTabset " + cookie);
 		var tabset = createTiddlyElement(wrapper,"div",null,"tabset");
 		var validTab = false;
 		tabset.setAttribute("cookie",cookie);
@@ -114,7 +114,9 @@ html body .headerShadow, html body .headerForeground{
 	position:relative;
 	top:0.5em;
 }
-
+.taggedTabset {
+	line-height:2.5em;
+}
 
 !(end of StyleSheet)
 ***/

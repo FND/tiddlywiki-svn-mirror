@@ -1,0 +1,18 @@
+modifier: SMM
+
+<div class="portletContainer">
+	<div class="portletToolbar">
+		<div class="portletCornerLeft"></div>
+		<div class="portletCornerRight"></div>
+		<div class="portletTitle iconShift">
+			<div class='title' macro='edit title'>
+<div class='title-right editIconShift'>
+<div class='toolbar editToolbar' macro='toolbar [[ToolbarCommands::NewSectionToolbar]]'></div>
+</div>
+</div>
+		</div>
+	</div>
+	<div class="portletContent portletContentIconShift">
+		<div class='editor' macro='edit text'></div>
+	</div>
+</div>
