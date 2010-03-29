@@ -9,6 +9,8 @@ tiddler: ColorPalette.tid
 tiddler: ../../content/TaskTiddlerControls.tid
 
 recipe: ../../../ckeditor/split.html.recipe
+tiddler: ../../content/UserDefinitions.tid
+tiddler: ../../content/StatusDefinitions.tid
 tiddler: ../../Plugins/tdocsCKEditorSettings.js
 
 tiddler: ../../content/ToolbarCommands.tid
