@@ -81,8 +81,8 @@ Story.prototype.saveNewSection = function(title, minorUpdate) {
 	if(config.options.chkAutoAddSection != 'none') {
 		addToToc(_title, window.activeDocument);
 	}
-	var tiddler = store.getTiddler(_title);
-	autoSaveChanges(null, [tiddler, window.activeDocument]);
+//	var tiddler = store.getTiddler(_title);
+	autoSaveChanges(null, [window.activeDocument]);
 	refreshAll();
 	return _title;
 };
