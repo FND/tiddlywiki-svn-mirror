@@ -212,7 +212,7 @@ tags: systemTheme  excludeLists excludeSearch
 </div>
 <!--}}}-->
 
-!tiddlerEditTemplate
+!wizardEditTemplate
 <!--{{{-->
 <div class="portletContainer">
 	<div class="portletToolbar">

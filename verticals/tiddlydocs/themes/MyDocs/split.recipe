@@ -6,6 +6,8 @@ tiddler: MyDocsCSSOverride.tid
 tiddler: MyDocsCSSConainer.tid
 tiddler: NewSectionTemplate.tid
 tiddler: ColorPalette.tid
+tiddler: DefaultTiddlers.tid
+tiddler: MyDocsActivity.tid
 tiddler: ../../content/TaskTiddlerControls.tid
 recipe: ../../../ckeditor/split.html.recipe
 tiddler: ../../content/UserDefinitions.tid
