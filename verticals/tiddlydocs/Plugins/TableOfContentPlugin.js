@@ -34,7 +34,7 @@ config.macros.TableOfContent={
 
 config.macros.TableOfContent.strip=function(s) {
 	return s.replace(/ /g,'');
-}
+};
 
 config.macros.TableOfContent.handler=function(place,macroName,params,wikifier,paramString,tiddler){
 	config.shadowTiddlers["tdocsMenuStyles"] = store.getTiddlerText("TableOfContentPlugin##StyleSheet");
@@ -54,7 +54,7 @@ config.macros.TableOfContent.specChanged = function() {
 	store.saveTiddler(window.activeDocument, window.activeDocument, jQuery.toJSON(spec), null, null, "document", fields); 
 	autoSaveChanges(true, window.activeDocument);
 	refreshAll();
-}
+};
 
 config.macros.TableOfContent.renderSpec = function(specView, spec) {
 	window.ulCount=0;
@@ -99,11 +99,11 @@ config.macros.TableOfContent.renderSpec = function(specView, spec) {
             } 
     );
 
-}
+};
 
 config.macros.TableOfContent.buildSpec = function() {
   return config.macros.TableOfContent._buildSpec(jQuery(".specView > ul > li"));
-}
+};
 
 config.macros.TableOfContent._buildSpec = function (liList) {
 	var spec = [];
@@ -118,7 +118,7 @@ config.macros.TableOfContent._buildSpec = function (liList) {
 		}
  	});
   return spec;
-}
+};
  
 config.macros.TableOfContent._renderSpec = function(specView, spec, label) {
 	var ul = createTiddlyElement(specView, "ul", "ul"+(window.ulCount++), "toc");
@@ -169,15 +169,15 @@ config.macros.TableOfContent._renderSpec = function(specView, spec, label) {
 		})
 		config.macros.TableOfContent._renderSpec(li, this.children, label);
 	});
-	
-}
+};
 
 config.macros.TableOfContent.refresh=function(place,macroName,params,wikifier,paramString,tiddler){
 	if(store.tiddlerExists(window.activeDocument)) {
-		var testSpec = jQuery.parseJSON(store.getTiddlerText(window.activeDocument)).content;
+		console.log('exists ', window.activeDocument);
+		var spec = jQuery.parseJSON(store.getTiddlerText(window.activeDocument)).content;
 	}
 	var specView = createTiddlyElement(place, "div", "", "specView");	
-	config.macros.TableOfContent.renderSpec(specView, testSpec);
+	config.macros.TableOfContent.renderSpec(specView, spec);
 }	
 
 

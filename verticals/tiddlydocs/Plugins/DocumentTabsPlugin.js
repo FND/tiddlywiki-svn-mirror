@@ -46,8 +46,10 @@ config.macros.docTabs.handler = function(place,macroName,params,wikifier,paramSt
 				if (answer){
 					store.removeTiddler(this.parentNode.title);
 					autoSaveChanges(true, this.parentNode.title);
-//					window.activeDocument = store.getTaggedTiddlers('document')[0].title;
+					window.activeDocument = store.getTaggedTiddlers('document')[0].title;
+					refreshAll();
 				}
+				return false;
 			});
 			tab.setAttribute("tab",label);
 			if(config.options[cookie] == label)

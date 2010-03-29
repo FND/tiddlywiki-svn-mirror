@@ -508,8 +508,20 @@ html body .tabWrapper {
 	 height:40px !important;
 }
 
+.docTabSelected {
+	background:#fff;
+	
+}
+
+.docTabUnselected {
+	background:#434344;
+	color:#fff;
+}
+
 .docTabSelected,  .docTabUnselected {
 	height:2em;
+	border:1px solid white;
+	font-weight:bolder;
 }
 
 .tabset {
