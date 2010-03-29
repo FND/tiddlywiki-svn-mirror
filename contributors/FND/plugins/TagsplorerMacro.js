@@ -97,7 +97,7 @@ config.macros.tagsplorer = $.extend(macro, {
 	handler: function(place, macroName, params, wikifier, paramString, tiddler) {
 		var prms = paramString.parseParams("anon", null, true);
 		var excludeTag = getParam(prms, "exclude", null);
-		var tags = prms[0].anon;
+		var tags = prms[0].anon || [];
 		var tiddlers = getTiddlers(tags, excludeTag);
 
 		var container = $('<div class="tagsplorer" />').
