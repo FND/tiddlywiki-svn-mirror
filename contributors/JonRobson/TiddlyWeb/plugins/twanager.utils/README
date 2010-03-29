@@ -1,0 +1,9 @@
+Adds various twanager utils which allow you to:
+* lowercase all tags in a given bag
+* uppercase all tags in a given bag
+* remove whitespace from any tags in a given bag
+* set a given field across all tiddlers in a bag
+* remove a given field across all tiddlers in a bag
+* map tags to another tag eg. Cat -> cat <- kitty
+
+This package is licensed under the same terms as TiddlyWeb itself.

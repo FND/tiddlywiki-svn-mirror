@@ -1,9 +1,10 @@
 # YOU NEED TO EDIT THESE
 AUTHOR = 'Jon Robson'
 AUTHOR_EMAIL = 'jdlrobson@gmail.com'
-NAME = 'tiddlywebplugins.imrss'
-DESCRIPTION = 'Allows you to import rss/atom feeds into tiddlers on your TiddlyWeb through a twanager command imrss. Also provides imrsswithtags which provides a mechanism to tag non-tagged rss feeds.'
+NAME = 'tiddlywebplugins.twanagerutils'
+DESCRIPTION = 'Provides lots of useful twanager utils for managing your TiddlyWeb'
 VERSION = '0.9'
+
 
 import os
 from setuptools import setup, find_packages
@@ -19,6 +20,6 @@ setup(
     url = 'http://pypi.python.org/pypi/%s' % NAME,
     packages = find_packages(exclude=['test']),
     platforms = 'Posix; MacOS X; Windows',
-    install_requires = ['setuptools', 'tiddlyweb','feedparser','tiddlyweb.test'],
+    install_requires = ['setuptools', 'tiddlyweb'],
     zip_safe = False
     )

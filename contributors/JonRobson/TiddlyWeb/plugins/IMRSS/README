@@ -1,5 +1,5 @@
 A TiddlyWeb plugin that allows you to import rss feeds to bags through a twanager command
-
+To use just add "tiddlywebplugins.imrss" to your twanager_plugins
 
 Each item in an rss feed is mapped to a tiddler by the following rules
 
