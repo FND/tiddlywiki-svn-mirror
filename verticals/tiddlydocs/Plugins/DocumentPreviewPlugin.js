@@ -24,9 +24,12 @@ Provides a macro <<docPreview>> which collects together the html sections of the
 
 //{{{
 	
-config.macros.docPreview = {};
+config.macros.docPreview = {
+	buttonText: 'Preview',
+	buttonToolTip: "click to see a preview of the current document."
+};
 config.macros.docPreview.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
-	createTiddlyButton(place, "show preview", "click to see a preview of the current document.",  config.macros.docPreview.showWindow);
+	createTiddlyButton(place, config.macros.docPreview.buttonText, config.macros.docPreview.buttonToolTip,  config.macros.docPreview.showWindow);
 };
 
 config.macros.docPreview.showWindow = function(){

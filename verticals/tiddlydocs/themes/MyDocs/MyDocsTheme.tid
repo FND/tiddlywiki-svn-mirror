@@ -84,7 +84,8 @@ tags: systemTheme  excludeLists excludeSearch
 			<div class="portletTitle iconShift">
 				<div class='title toc-title'>Table of Content</div>
 				<div id='buttonHolder'>
-					<div macro='newTiddler label:"New Section" template:"NewSectionTemplate"' class='title-right'></div>	
+					<div macro='newTiddler label:"New Section" template:"NewSectionTemplate"' class='title-right'></div>
+					<div macro='docPreview' class='title-right'></div>
 				</div>
 			</div>
 
