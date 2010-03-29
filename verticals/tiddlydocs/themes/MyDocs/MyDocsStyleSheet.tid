@@ -493,10 +493,10 @@ a:link {
 html body a.newDocumentButton, html body a.newDocumentButton:hover {
 	width:	104px;
 	height:15px;
-	background: url(/doccollab/static/mydocs_images/new_document.jpg);
+	background: url(/doccollab/static/mydocs_images/new_document.jpg) !important;
 	position:relative ;
 	float:right;
-	border:0px;
+	border:0px !important;
 	top:-4em;
 	z-index:999;
 }
