@@ -252,7 +252,7 @@ tags: systemTheme  excludeLists excludeSearch
 		</div>
 	</div>
 	<div class="portletContent portletContentIconShift">
-			<div class='taskControls' macro='tiddler TaskTiddlerControls'></div>
+<!--			<div class='taskControls' macro='tiddler TaskTiddlerControls'></div>-->
 		<div class='editor' macro='editHtml text'></div>
 <div macro='commentSlider'>
 	<div class='right links' macro='docSectionButtons'>

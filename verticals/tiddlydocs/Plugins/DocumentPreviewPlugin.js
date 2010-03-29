@@ -26,13 +26,15 @@ Provides a macro <<docPreview>> which collects together the html sections of the
 	
 config.macros.docPreview = {};
 config.macros.docPreview.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
-	var spec = jQuery.parseJSON(store.getTiddlerText(window.activeDocument));
-	createTiddlyElement(place, "br");
-	createTiddlyElement(place, "br");
-	var html = config.macros.docPrint.recurse([], spec,  0, []).join("\n");
-	var x = window.open('', '', 'scrollbars=yes,menubar=no,height=600,width=800,resizable=yes,toolbar=no,location=no,status=no');
-	x.document.write(html);
-}
+	createTiddlyButton(place, "show preview", "click to see a preview of the current document.",  config.macros.docPreview.showWindow);
+};
+
+config.macros.docPreview.showWindow = function(){
+		var spec = jQuery.parseJSON(store.getTiddlerText(window.activeDocument)).content;
+		var html = config.macros.docPreview.recurse([], spec,  0, []).join("\n");
+		var x = window.open('', '', 'scrollbars=yes,menubar=no,height=600,width=800,resizable=yes,toolbar=no,location=no,status=no');
+		x.document.write(html);
+};
 
 config.macros.docPreview.recurse = function(html, item, level, label) {
     level++;

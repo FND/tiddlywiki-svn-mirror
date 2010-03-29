@@ -13,6 +13,8 @@ tiddler: ../../content/UserDefinitions.tid
 tiddler: ../../content/StatusDefinitions.tid
 tiddler: ../../Plugins/tdocsCKEditorSettings.js
 
+tiddler: ../../Plugins/DocumentPreviewPlugin.js
+
 tiddler: ../../content/ToolbarCommands.tid
 
 
