@@ -1,0 +1,30 @@
+A TiddlyWeb plugin that allows you to import rss feeds to bags through a twanager command
+
+
+Each item in an rss feed is mapped to a tiddler by the following rules
+
+title: 
+  guid / id attribute (preferred)
+  OR url with ":","/" and "." replaced with "_" character
+text:
+  The text by default is saved as a link <html><p><b><a href='{{rss link}}'>{{rss title}}</a><br>{{rss description}} </p></html>
+geo.long and geo.lat:
+  if geo data is present, the longitude and latitude will be matched to these feeds
+modifier:
+  the author of the rss item
+modified:
+  the date field is used if present if not then the current date on time of command is taken
+
+You can also create customisations by providing a handler. For example:
+
+1) add to tiddlywebconfig
+"imrss":{"module": "my_module"}
+2) create a module my_module.py, inside which paste
+def generic_handler(url,tiddler,feed_entry,feed=False,host=""):
+  tiddler.text = "foo"
+  return tiddler
+3) run twanager imrss http://rssurl foo
+
+The result will be tiddlers in foo from the rss feed, all with "foo" as the text. Obviously this example is rubbish but hopefully it gives you a starting point to explore further customisations.
+
+This package is licensed under the same terms as TiddlyWeb itself.

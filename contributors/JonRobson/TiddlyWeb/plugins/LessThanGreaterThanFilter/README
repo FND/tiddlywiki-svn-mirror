@@ -10,3 +10,5 @@ but would not match 'fieldname' =4 or 'fieldname' =5.
 
 If the field is one of modified or created, the value given is treated as a date in YYYYMMDDHHMMSS form
 eg. gt=modified:20100109 would give you all tiddlers which have been modified since 9th January 2010. Note hours, minutes and seconds are optional.
+
+This package is licensed under the same terms as TiddlyWeb itself.

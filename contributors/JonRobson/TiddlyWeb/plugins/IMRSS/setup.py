@@ -1,16 +1,12 @@
 # YOU NEED TO EDIT THESE
 AUTHOR = 'Jon Robson'
 AUTHOR_EMAIL = 'jdlrobson@gmail.com'
-NAME = 'tiddlywebplugins.geofilters'
-DESCRIPTION = 'Provides new filter near=lat,long,radius to allow queries against geo tiddlers (tiddlers with geo.long and geo.lat fields)'
-VERSION = '0.92'
-
+NAME = 'tiddlywebplugins.imrss'
+DESCRIPTION = 'Allows you to import rss/atom feeds into tiddlers on your TiddlyWeb through a twanager command imrss. Also provides imrsswithtags which provides a mechanism to tag non-tagged rss feeds.'
+VERSION = '0.9'
 
 import os
-
 from setuptools import setup, find_packages
-
-
 # You should carefully review the below (install_requires especially).
 setup(
     namespace_packages = ['tiddlywebplugins'],
@@ -23,6 +19,6 @@ setup(
     url = 'http://pypi.python.org/pypi/%s' % NAME,
     packages = find_packages(exclude=['test']),
     platforms = 'Posix; MacOS X; Windows',
-    install_requires = ['setuptools', 'tiddlyweb','tiddlywebplugins.ltgt'],
+    install_requires = ['setuptools', 'tiddlyweb','feedparser'],
     zip_safe = False
     )

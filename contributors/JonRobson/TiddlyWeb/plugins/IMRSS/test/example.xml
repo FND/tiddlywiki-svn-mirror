@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+ 
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:gml="http://www.opengis.net/gml" xmlns:georss="http://www.georss.org/georss">
+ 
+	<title>Example Feed</title>
+	<subtitle>A subtitle.</subtitle>
+	<link href="http://example.org/feed/" rel="self" />
+	<link href="http://example.org/" />
+	<id>urn:uuid:60a76c80-d399-11d9-b91C-0003939e0af6</id>
+	<updated>2003-12-13T18:30:02Z</updated>
+	<author>
+		<name>John Doe</name>
+		<email>johndoe@example.com</email>
+	</author>
+ 
+	<entry>
+		<title>Atom-Powered Robots Run Amok</title>
+		<link href="http://example.org/2003/12/13/atom03" />
+		<id>unique2</id>
+		<updated>2003-12-13T18:30:02Z</updated>
+		<summary>The world is very scared.</summary>
+	</entry>
+ 
+ 	<entry>
+		<title>This test passed</title>
+		<link href="http://google.co.uk/foo.html" />
+		<updated>2001-12-13T18:30:02Z</updated>
+		<summary>Some awesome text about jon.</summary>
+		<georss:where>
+      <gml:Point>
+        <gml:pos>51.023 0.429</gml:pos>
+      </gml:Point>
+    </georss:where>
+    
+	</entry>
+</feed>

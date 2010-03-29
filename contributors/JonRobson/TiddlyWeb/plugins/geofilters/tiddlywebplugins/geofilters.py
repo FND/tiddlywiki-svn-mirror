@@ -26,16 +26,22 @@ def geoproximity(lat,lng, radius, testlat,testlng,units="kms"):
   lat1 = lat * oneRad
   lng2 = testlng * oneRad
   lat2 = testlat * oneRad
+  if units == 'miles':
+    mult = 1.15077945 #result in statute miles
+  elif units == 'kms':
+    mult = 1.85200
+
+  # get a lower limit for distance
+  d = mult * 60.0 * abs(lat1 - lat2)
+  if d > radius:
+    return (False,None)
+
   d = 2 * math.asin(math.sqrt(math.pow(math.sin((lat1 - lat2) / 2), 2) + math.cos(lat1) * math.cos(lat2) * math.pow(math.sin((lng1 - lng2) / 2), 2) ))
   d = d / oneRad
-
   d *= 60         #result in nautical miles
-  
-  if units == 'miles':
-    d *= 1.15077945 #result in statute miles
-  elif units == 'kms':
-    d *= 1.85200
+  d *= mult
   return (d<=radius,d)
+
 from tiddlyweb import filters
 import logging
 import re
@@ -62,8 +68,7 @@ def geo_near_tiddlers(lat,lng,radius,tiddlers,units="kms"):
       testlat = float(tiddler.fields[LATITUDE_FIELD])
       testlng = float(tiddler.fields[LONGITUDE_FIELD])
       isNear = geoproximity(lat,lng,radius,testlat,testlng,units=units)
-      if isNear[0]:
-        tiddler.fields["_geo.proximity"] = isNear[1]
+      if isNear:
         yield tiddler
     except ValueError:
       #ignore tiddlers which have an empty string for this value
