@@ -344,7 +344,3 @@ tags: systemTheme  excludeLists excludeSearch
 [[MyDocsCSSOverride]]
 [[MyDocsStyleSheet]]
 
-html body a.newDocumentButton {
-background:red !important;
-font-size:2em;
-}

@@ -22,8 +22,6 @@ Provides tabs which users can use to change the current active document to any d
 
 //{{{
 	
-// NEW 
-
 config.macros.docTabs = {};
 config.macros.docTabs.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 		var tagged = store.getTaggedTiddlers('document').reverse();
@@ -44,13 +42,12 @@ config.macros.docTabs.handler = function(place,macroName,params,wikifier,paramSt
 			var tab = createTiddlyButton(tabset,tabLabel,prompt,config.macros.docTabs.onTabClick,tabSelected);
 			var delButton = createTiddlyElement(tab, "a", null, null, ' x');
 			jQuery(delButton).click(function(){
-				var answer = confirm("Are you sure you want to delete the document : "+this.parentNode.title)
+				var answer = confirm("Are you sure you want to delete the document : "+this.parentNode.title);
 				if (answer){
 					store.removeTiddler(this.parentNode.title);
 					autoSaveChanges(true, this.parentNode.title);
+//					window.activeDocument = store.getTaggedTiddlers('document')[0].title;
 				}
-			
-				console.log(this.parentNode.title);
 			});
 			tab.setAttribute("tab",label);
 			if(config.options[cookie] == label)
@@ -66,7 +63,6 @@ config.macros.docTabs.onTabClick = function() {
 	refreshAll();
 	
 };
-
 
 config.macros.docTabs.switchDoc = function (title) {
 	window.activeDocument = title;
