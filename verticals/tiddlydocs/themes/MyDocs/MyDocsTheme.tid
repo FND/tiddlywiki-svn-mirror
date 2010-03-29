@@ -64,11 +64,11 @@ tags: systemTheme  excludeLists excludeSearch
 <img height="55" width="565" title="MyPage" src="/doccollab/static/mydocs_images/BTW_blank.jpg" class="bannerLogo"/>
     </div>
   </div>
-
+<div id="tab_wrapper" class='tabWrapper' style='background-color: rgb(128, 128, 128);'>
 
 <div macro='docTabs'></div>
     
-    
+    </div>
   
 </div>
         </div>

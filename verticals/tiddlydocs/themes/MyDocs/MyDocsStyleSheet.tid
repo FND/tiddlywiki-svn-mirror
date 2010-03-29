@@ -503,5 +503,16 @@ html body a.newDocumentButton,html body a.newDocumentButton:hover {
 
 /* END REVISIONS */
 
+html body .tabWrapper {
+	
+	 height:40px !important;
+}
 
+.docTabSelected,  .docTabUnselected {
+	height:2em;
+}
+
+.tabset {
+	padding:0 0 0 0.5em;
+}
 <!--}}}-->
