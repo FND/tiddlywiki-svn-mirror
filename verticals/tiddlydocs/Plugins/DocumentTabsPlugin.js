@@ -44,10 +44,10 @@ config.macros.docTabs.handler = function(place,macroName,params,wikifier,paramSt
 			jQuery(delButton).click(function(){
 				var answer = confirm("Are you sure you want to delete the document : "+this.parentNode.title);
 				if (answer){
+					jQuery(this.parentNode).fadeOut("slow");
 					store.removeTiddler(this.parentNode.title);
 					autoSaveChanges(true, this.parentNode.title);
 					window.activeDocument = store.getTaggedTiddlers('document')[0].title;
-					refreshAll();
 				}
 				return false;
 			});

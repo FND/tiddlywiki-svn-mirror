@@ -173,7 +173,6 @@ config.macros.TableOfContent._renderSpec = function(specView, spec, label) {
 
 config.macros.TableOfContent.refresh=function(place,macroName,params,wikifier,paramString,tiddler){
 	if(store.tiddlerExists(window.activeDocument)) {
-		console.log('exists ', window.activeDocument);
 		var spec = jQuery.parseJSON(store.getTiddlerText(window.activeDocument)).content;
 	}
 	var specView = createTiddlyElement(place, "div", "", "specView");	
