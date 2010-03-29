@@ -2,7 +2,7 @@
 |''Name''|TagsplorerMacro|
 |''Description''|tag-based faceted tiddler navigation|
 |''Author''|FND|
-|''Version''|1.2.0|
+|''Version''|1.3.0|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/contributors/FND/plugins/TagsplorerMacro.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/|
@@ -24,6 +24,8 @@
 * adjusted styling
 !!v1.2 (2010-03-27)
 * added exclude parameter for excludeLists support
+!!v1.3 (2010-03-29)
+* added automatic scrolling after tag selection
 !To Do
 * refresh handling
 * "open all" functionality
@@ -143,6 +145,11 @@ config.macros.tagsplorer = $.extend(macro, {
 		var tag = btn.text();
 		data.tags.pushUnique(tag);
 		data.tiddlers = filterTiddlers(data.tiddlers, tag);
+		if(config.options.chkAnimate && anim && typeof Scroller == "function") {
+			anim.startAnimating(new Scroller(data.container[0]));
+		} else {
+			window.scrollTo(0, ensureVisible(data.container[0]));
+		}
 		macro.refreshTags(data.tags, data.container);
 		macro.refreshTiddlers(data.tiddlers, data.container);
 	},
