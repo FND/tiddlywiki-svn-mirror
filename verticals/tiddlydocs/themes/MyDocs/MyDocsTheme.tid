@@ -204,7 +204,7 @@ tags: systemTheme  excludeLists excludeSearch
 			<div class='title ' macro='view title'>
 
 <div class='title-right'>
-<div class='toolbar right' macro='toolbar [[ToolbarCommands::viewToolbar]]'></div>
+<div class='toolbar right' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
 
 </div>
 </div>
@@ -307,7 +307,7 @@ tags: systemTheme  excludeLists excludeSearch
 			<!--<div  class='title' macro='droppableSection'>-->
 			
 <div class='title-right'>
-<div class='toolbar right' macro='toolbar [[ToolbarCommands::viewToolbar]]'></div>
+<div class='toolbar right' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
 
 </div>
 </div>

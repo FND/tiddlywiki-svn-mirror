@@ -1,5 +1,5 @@
 modifier: Simon McManus
 
-|~viewToolbar| +editTiddler revisions closeTiddler |
+|~ViewToolbar| +editTiddler revisions closeTiddler |
 |~EditToolbar| +saveTiddler revisions  -cancelTiddler deleteTiddler |
 |~NewSectionToolbar|+saveNewSection -cancelTiddler|
