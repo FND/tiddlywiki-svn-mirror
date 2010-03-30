@@ -530,4 +530,8 @@ a.docTabUnselected {
 .tabset {
 	padding:0 0 0 0.5em;
 }
+
+div.docTabset  {
+	width:90%;
+}
 <!--}}}-->

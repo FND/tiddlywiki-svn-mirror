@@ -11,6 +11,6 @@ padding:1em;
 z-index:999;
 }
 
-.docTabset  {
+div.docTabset  {
 	width:80%;
 }
