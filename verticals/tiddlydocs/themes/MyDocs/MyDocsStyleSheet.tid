@@ -76,8 +76,7 @@ html body .title {
 	left:2em;
 	position:relative;
 	text-align:right;
-	z-index:1;
-	top:1.1em;
+	z-index:99;
 }
 
 h1 {
@@ -507,7 +506,7 @@ html body a.newDocumentButton, html body a.newDocumentButton:hover {
 
 
 a.docTabSelected,  a.docTabUnselected {
-	height:1.9em;
+	height:1.3em;
 	border:1px solid white;
 	font-weight:bolder;
 	font-size:1.3em;

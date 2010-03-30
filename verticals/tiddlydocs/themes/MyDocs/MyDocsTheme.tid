@@ -17,107 +17,89 @@ tags: systemTheme  excludeLists excludeSearch
 !PageTemplate
 <!--{{{-->
 	
-    <div class="body">
-      <div class="sections">
-	<div id='messageArea'><div class='messageBox'></div></div>
-       <div id="menu">
-        </div>
-        <div class="header">
-<div id="wholesale_search_wrapper">
-  <div id="search_bar">
-    <div id="header2">
-      <div id="flr_h2left1">
-		<div macro='saveNotification'></div>
-		<!--TOP2 LINKS LEFT -->
-
-      </div>
-      <div id="flr_h2left">
-	    <div id="flr_h2leftb">
-		<div macro='search'></div>
-		<div macro='secretBackstage'></div>
-        </div>
-        <div id="flr_h2lefta">
-
-          <div id="show_logout">
-
-			<a href='#' onClick="story.closeAllTiddlers(); return true;">Close All</a>
-	          <span class="hgrey1">|</span>
-	
-	
-		<a href='#' onClick="story.displayTiddler(null, 'Settings'); return true;">Settings</a>
-          <span class="hgrey1">|</span>
-    	<a tabindex="14" class="plink"  href="/portalzone/editProfile/editProfile.do" class="plink" title="Profile">Profile</a>
-	<span class="hgrey1">|</span>
-
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="portal-header">
-    <div id="logoSpacer" class="floatleft">
-      <img alt="MyPage" title="MyPage"
-          src="/doccollab/static/mydocs_images/MyDocs.png" height='60px'/>
-    </div>
-    <div id="ajaxMessageHolder" class="middle">
-
-      <div id="ajax_message_wrapper">
-        <div id="ajax_message">
-        </div>
-      </div>
-    </div>
-    <div id="logoHolder" class="right">
-<img height="55" width="565" title="MyPage" src="/doccollab/static/mydocs_images/BTW_blank.jpg" class="bannerLogo"/>
-    </div>
-  </div>
-<div id="tab_wrapper" class='tabWrapper' style='background-color: rgb(128, 128, 128);'>
-
-<div macro='docTabs'></div>
-    
-    </div>
-  
-</div>
-        </div>
-	
-        <div id="container">
-		<div macro='newDocumentButton template:MyDocsTheme##wizardViewTemplate text:""'></div>
-
-<div class='leftColumn'>
-	<div class="portletContainer leftColumnItem">
-		<div class="portletToolbar portletToolbarLeft">
-			<div class="portletCornerLeft"></div>
-			<div class="portletCornerRight"></div>
-			<div class="portletTitle iconShift">
-				<div class='title toc-title'>Table of Content</div>
-				<div id='buttonHolder'>
-					<div macro='newTiddler label:"New Section" template:"NewSectionTemplate"' class='title-right'></div>
-					<div macro='docPreview' class='title-right'></div>
+<div class="body">
+	<div class="sections">
+		<div id='messageArea'>
+			<div class='messageBox'></div>
+		</div>
+		<div id="menu"></div>
+		<div class="header">
+			<div id="wholesale_search_wrapper">
+				<div id="search_bar">
+					<div id="header2">
+						<div id="flr_h2left1">
+							<div macro='saveNotification'></div>
+							<!--TOP2 LINKS LEFT -->
+						</div>
+						<div id="flr_h2left">
+							<div id="flr_h2leftb">
+								<div macro='search'></div>
+								<div macro='secretBackstage'></div>
+							</div>
+						<div id="flr_h2lefta">
+							<div id="show_logout">
+								<a href='#' onClick="story.closeAllTiddlers(); return true;">Close All</a>
+								<span class="hgrey1">|</span>
+								<a href='#' onClick="story.displayTiddler(null, 'Settings'); return true;">Settings</a>
+								<span class="hgrey1">|</span>
+								<a tabindex="14" class="plink"  href="/portalzone/editProfile/editProfile.do" class="plink" title="Profile">Profile</a>
+								<span class="hgrey1">|</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="portal-header">
+					<div id="logoSpacer" class="floatleft">
+						<img alt="MyPage" title="MyPage" src="/doccollab/static/mydocs_images/MyDocs.png" height='60px'/>
+					</div>
+					<div id="ajaxMessageHolder" class="middle">
+						<div id="ajax_message_wrapper">
+							<div id="ajax_message"></div>
+						</div>
+					</div>
+					<div id="logoHolder" class="right">
+						<img height="55" width="565" title="MyPage" src="/doccollab/static/mydocs_images/BTW_blank.jpg" class="bannerLogo"/>
+					</div>
+				</div>
+				<div id="tab_wrapper" class='tabWrapper' style='background-color: rgb(128, 128, 128);'>
+					<div macro='docTabs'></div>
 				</div>
 			</div>
-
 		</div>
-		<div class="portletContent">
-		<div id='mainMenu' refresh='content' force='true' tiddler='MainMenu'></div>
+		<div id="container">
+			<div macro='newDocumentButton template:MyDocsTheme##wizardViewTemplate text:""'></div>
+			<div class='leftColumn'>
+				<div class="portletContainer leftColumnItem">
+					<div class="portletToolbar portletToolbarLeft">
+						<div class="portletCornerLeft"></div>
+						<div class="portletCornerRight"></div>
+						<div class="portletTitle iconShift">
+							<div class='title toc-title'>Table of Content</div>
+							<div id='buttonHolder'>
+								<div macro='newTiddler label:"New Section" template:"NewSectionTemplate"' class='title-right'></div>
+								<div macro='docPreview' class='title-right'></div>
+							</div>
+						</div>
+					</div>
+					<div class="portletContent">
+						<div id='mainMenu' refresh='content' force='true' tiddler='MainMenu'></div>
+					</div>
+				</div>
+				<br />
+				<br />
+			</div>
 		</div>
+		<div id='tiddlerDisplay'></div>
 	</div>
-	<br />
-	<br />
+	<div class="footer">
+		<div>
+			<div id="footerleft" class="inline floatleft">
+				<a href="/pages/static/mp/disclaimer.html" class="footlink" title="Disclaimer">BT Wholesale is not responsible for the content of external internet sites</a>
+			</div>
+			<div id="footerright" class="inline floatright"></div>
+		</div>
+	</div>	
 </div>
-</div>
-
-<div id='tiddlerDisplay'></div>
-    </div>
-    <div class="footer">
-
-<div>
-  <div id="footerleft" class="inline floatleft">
-    <a href="/pages/static/mp/disclaimer.html" class="footlink" title="Disclaimer">BT Wholesale is not responsible for the content of external internet sites</a>
-  </div>
-  <div id="footerright" class="inline floatright">
-  </div>
-</div>
-
-    </div>
-
 
 
 	<!--[if IE]>
@@ -211,7 +193,7 @@ tags: systemTheme  excludeLists excludeSearch
 		</div>
 	</div>
 	<div class="portletContent portletContentIconShift">
-	<div  style='z-index:2;' class='toolbar' ></div>
+	<div  style='z-index:999;' class='toolbar' ></div>
 		<div class='wizardViewer'  style='background:padding:1em' macro='view text wikified'></div>
 	</div>
 </div>
