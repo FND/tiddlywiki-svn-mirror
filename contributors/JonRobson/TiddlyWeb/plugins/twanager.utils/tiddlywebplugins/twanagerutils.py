@@ -24,7 +24,7 @@ def removefield(args):
     tid = store.get(tiddler)
     if field_name in tid.fields:
       del tid.fields[field_name]
-      print "deleted %s"%tid.title
+      print "deleted field %s from %s"%(field_name,tid.title)
       store.put(tid)
       
 @make_command()

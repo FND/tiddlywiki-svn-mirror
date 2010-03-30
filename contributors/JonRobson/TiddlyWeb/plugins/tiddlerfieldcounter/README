@@ -1,0 +1,15 @@
+Adds the url /count/<<fieldname>>/<<bagname>> which allows you to list the different values of a field or tag alongside the number of times they occur.
+
+Results are returned as a new line separated list with the tag on the left and the number of occurances on the right of the last trailing whitespace.
+tag1 42
+tag2 12
+tag3 4
+You can limit the number of results returned by the use of a max querystring
+eg. /count/tag/bag?max=2 in the above example would return
+tag1 42
+tag2 12
+
+Based on work by Jonathan Lister to count tags
+See the tests for further enlightenment
+
+This package is licensed under the same terms as TiddlyWeb itself.

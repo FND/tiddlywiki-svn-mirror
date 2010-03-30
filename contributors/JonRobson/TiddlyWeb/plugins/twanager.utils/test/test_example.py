@@ -5,12 +5,11 @@ from tiddlyweb.config import config
 from tiddlyweb.model.bag import Bag
 from tiddlyweb.model.tiddler import Tiddler
 from tiddlyweb.store import Store
+from tiddlyweb.store import NoTiddlerError, NoBagError, NoRecipeError
 from tiddlyweb import control
+
 def setup_module(module):
-    """
-  Need to clean up the store here.
-  """
-    module.store = Store(config['server_store'][0], config['server_store'][1],environ={'tiddlyweb.config': config})
+  module.store = Store(config['server_store'][0], config['server_store'][1],environ={'tiddlyweb.config': config})
     
 def setup_testdata():
   testdata = [
@@ -33,8 +32,11 @@ def setup_testdata():
 
   
   bag = Bag("tmp")
-  store.delete(bag)#delete any existing one
-  
+  try:
+    store.delete(bag)#delete any existing one
+  except NoBagError:
+    pass
+    
   store.put(bag)
   for tiddler in tiddlers:
     store.put(tiddler)
