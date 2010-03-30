@@ -33,7 +33,7 @@ var VismoCanvas = function(element,options){
     }	
   this.id = element.id
 	this.options = options;
-
+  
 	var wrapper = element;
 	
 	this.settings = {};
@@ -473,6 +473,7 @@ VismoCanvas.prototype = {
     if(transformation.scale.x) sc = transformation.scale.x; else sc = 1;
     //determine point size
     var ps = this.options.pointsize / parseFloat(sc);
+    
     tran = transformation;
     var o = tran.origin,t = tran.translate, s = tran.scale;
     jQuery(this.canvas).css({left:o.x+(t.x*s.x),top:o.y +(s.y*t.y),zoom:s.x});    
@@ -502,6 +503,8 @@ VismoCanvas.prototype = {
         if(!vs)break;
         var st = vs.properties.shape 
         if(st == 'domElement')tran = transformation;
+        vs.setDimensions(ps,ps);
+        vs.properties.strokeWidth /= s.x;
         vs.render(that.canvas,tran,projection,true,null,dimensions);        
         if(vs.vmlfill && !vs.vmlfill.opacity && globalAlpha){
           vs.vmlfill.opacity =globalAlpha;
@@ -522,17 +525,19 @@ VismoCanvas.prototype = {
         
 	}
 	,canvas_render: function(args){
+	  var paintedXPixels = {}, paintedYPixels = {};
     var projection = arguments[0];
     this.render = this.canvas_render;
     var that = this;
     var transformation = this.getTransformation();
     if(this.options.beforeRender) this.options.beforeRender(this);	
+    var sc;
     if(transformation.scale.x) sc = transformation.scale.x; else sc = 1;
     //determine point size
     var ps = this.options.pointsize / parseFloat(sc);
-
-
-
+    if(ps > this.options.pointsize){
+      ps = this.options.pointsize;
+    }
     var appendTo;
     var mem =that.getMemory();
     this._setupCanvasEnvironment();
@@ -556,21 +561,20 @@ VismoCanvas.prototype = {
     }
 	
 		appendTo = that.canvas;
-	
-		for(var i=0; i < mem.length; i++){
-		    var sh = mem[i];
-		    var st = sh.getShape();
-	        if(sh.optimise(that.canvas,transformation,projection)){
-			    if(st == 'domElement')tran = transformation;
+  		for(var i=0; i < mem.length; i++){
+          var vs = mem[i];
+          var st = vs.getShape();
+          if(st == 'point'){
+            vs.setDimensions(ps,ps);
+          }
+          if(vs.optimise(that.canvas,transformation,projection)){
+          if(st == 'domElement')tran = transformation;
+          //else if(st == 'point')vismoShape.setDimensions(ps,ps);
+          vs.render(that.canvas,tran,projection,true,that.settings.browser);
 			    
-			    sh.render(that.canvas,tran,projection,true,that.settings.browser);
-			    
-				if(sh.vmlfill && that.settings.globalAlpha) {
-					sh.vmlfill.opacity =that.settings.globalAlpha;
-				}
-			}
-		}
-	    if(ctx)ctx.restore();
+  			}
+  		}
+  	  if(ctx)ctx.restore();
 	}
 	,render: function(args){
     var projection = arguments[0];
@@ -682,7 +686,9 @@ VismoCanvas.prototype = {
 	,add: function(args){
 	    var vismoShape = arguments[0];
 	    this.needsSort = true;
+
 	    if(!vismoShape._isVismoShape){
+
 	        vismoShape = new VismoShape(vismoShape);
 	    
 	    }
@@ -693,14 +699,15 @@ VismoCanvas.prototype = {
 		if(!this.memory) this.memory = [];
 		
 		vismoShape.vismoCanvas = this;
+
 		if(!vismoShape.getProperty("id")){
 		    var newid  = this.memory.length +"_" + Math.random();
 		    vismoShape.setProperty("id",newid);
 		}
+		if(this.options.lineWidth) vismoShape.setProperty("lineWidth",this.options.lineWidth);		
 		vismoShape._canvasref = this._referenceid;
 		var id = vismoShape.properties.id;
 		this.memory.push(vismoShape);
-		
 		
 		this._idtoshapemap[id] = vismoShape;
 		vismoShape._vismoClickingID = id;

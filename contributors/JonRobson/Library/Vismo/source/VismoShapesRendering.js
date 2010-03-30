@@ -1,6 +1,7 @@
 
 var VismoCanvasRenderer = {
 	renderShape: function(canvas,vismoShape){
+
 	    var ctx = canvas.getContext('2d');
 		var shapetype =vismoShape.properties.shape;
 		if(vismoShape.properties["lineWidth"]){

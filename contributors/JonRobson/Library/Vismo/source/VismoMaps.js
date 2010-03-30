@@ -1,5 +1,6 @@
 /*
 A package for rendering geojson polygon and point features easily to create maps
+added startpos : [lat,lon]
 */
 var GeoTag = function(longitude,latitude,properties){
 	var geo = {};
@@ -57,14 +58,28 @@ var VismoMap = function(wrapper,options){
 	var handler = function(t){
 	    that.transform(t);
 	}
-	//if(!options.vismoController) options.vismoController = {};
-	if(options.vismoController)options.vismoController.handler = handler;
+	if(typeof(options.vismoController) == 'undefined' && options.vismoController !== false) options.vismoController = {};
+	
+	
+	if(options.vismoController){
+	  options.vismoController.handler = handler;
+	  if(options.zoomfactor) options.vismoController.zoomfactor = options.zoomfactor;
+	  if(options.vismoController.transformation) options.fullscreen = false; //can't have both..
+	}
+	if(options.startpos || options.zoom && !options.vismoController.transformation){
 
+    var tx = options.startpos[0] || 0;
+    var ty = options.startpos[1] || 0;
+    var sx = options.zoom || 1;
+    options.vismoController.transformation = {translate:{x:-tx,y:ty},scale:{x:sx,y:sx}};
+	}
+  
 	this.vismoCanvas = new VismoCanvas(wrapper,options);
+
 	this.controller = this.vismoCanvas.vismoController;
   if(this.controller)this.transform(this.controller.transformation); //set initial transformation	
 	//run stuff
-	
+
 	this._fittocanvas = true;
 	this.geofeatures = {};
 	this.features = [];
@@ -109,7 +124,10 @@ var VismoMap = function(wrapper,options){
 	else if(options.kml){
 	    this.drawFromGeojson(VismoConversion.kmlToGeoJson(options.kml),options.fullscreen);
 	}
-
+	else{
+	  alert("Please supply kml, geojson or georss parameter in your options so I know what geodata to draw!");
+	}
+  
 	return eMap;
 };  
 VismoMap.prototype = {
@@ -407,6 +425,24 @@ VismoMap.prototype = {
 	,getVismoCanvas: function(args){
 	        return this.vismoCanvas;
 	}
+	,paint: function(resolver){ /* a helper for chloropleth maps*/
+	  /* 
+	  the resolver is one of 2 things
+	  1) a json is in the form "shape name": "color" where shape name represents the property value name shape in the map 
+	 2) a function function(shape name){returns color};
+	  */
+	  var isFunction = eval(typeof(resolver) == 'function');
+	  var shapes = this.getVismoShapes();
+    for(var i=0; i < shapes.length; i++){
+      var prop = shapes[i].properties;
+      var name = prop["name"];
+      var newfill;
+      if(isFunction) newfill=resolver(name);
+	    else newfill= data[name];
+	    prop.fill = newfill;
+	  }
+	  this.redraw();
+	}
 };
 
 
@@ -455,6 +491,7 @@ VismoMap.Feature.prototype = {
             }
         }
 	}
+	
 	,addOuterVismoShape: function(args){
 		var shape = arguments[0];
 		this.outers.push(shape);
@@ -537,4 +574,148 @@ VismoMap.Feature.prototype = {
 	        shapes[i].setProperty(id,val);
 	    }
 	}
+};
+
+jQuery.fn.chloromap = function(options){
+  
+  var result = [];
+  var themedata = options.themedata;
+  var themes = themedata.themes;
+  /*
+  theme looks like this
+  "id":{
+    "name": "the theme name",
+    "values":{"Status Changed":"rgb(255,0,0)","New Site":"rgb(0,255,0)", "Window Changed": "rgb(0,0,255)"}
+  }
+  */
+  
+  var range = {};
+  var newformat = {};
+  var lookupcolor = {};
+  for(var i in themes){
+    /*
+    for some reason I previously defined a theme as 
+    "theme name":{
+      "id": "1",
+      "values":{"Status Changed":"rgb(255,0,0)","New Site":"rgb(0,255,0)", "Window Changed": "rgb(0,0,255)"}
+    }
+    the following code deals with this old format.
+    */
+    var theme = themes[i];
+    var themeid =theme.id;
+    if(themeid){
+      newformat[themeid] = {name:i,values:theme.values}
+    }
+    else{
+      newformat[i] = themes[i];
+    }
+    
+    /* deal with range data */
+    var data = themedata.data;
+    if(newformat[i].rangetype){
+      if(!range[i]) range[i] = {};
+      for(var j in data){
+        var value = parseInt(data[j][i]);
+        if(!isNaN(value)){
+        
+          if(value){
+            if(!range[i].from || value < range[i].from) range[i].from = value;
+            if(!range[i].to || value > range[i].to) range[i].to = value;
+          }
+        }
+      }
+      //now have a range to work from.
+      lookupcolor[i] = {};
+      var range_for_i = range[i].to- range[i].from;
+      for(var j in data){
+      var str =data[j][i];
+        var value = parseInt(str);
+        if(!isNaN(value)){
+          var colorValue =255 * (value - range[i].from)/range_for_i;
+          lookupcolor[i][j] =  parseInt(colorValue);
+        }
+        
+      }
+      
+      
+      
+      //signal that when painting should use value as colour.
+      
+    }
+  }
+
+  if(!options.nodatacolor)options.nodatacolor = "#ffffff";
+  themedata.themes = newformat;
+  themes = newformat;
+  function createKey(place,themeid){
+      jQuery(place).html("");
+      jQuery(place).css({display:""});
+      var createKeyValue = function(keycolor,keylabel,className){
+        if(!keycolor || !keylabel){return;}
+        if(!className){ className = "";}else {className = " "+className;}
+        var html = ["<div class='keyvaluepair'><div class='keyColor",className,"' style='background-color:",keycolor,"'>&nbsp</div><div class='keyLabel"+className+"'>",keylabel,"</div></div>"].join("");
+        jQuery(key).append(html);                 
+      };
+      createKeyValue(options.nodatacolor,"No data","hideable") ;
+      if(themeid){
+        jQuery(key).css({display:""});
+        var index;   
+        var theme = themes[themeid];
+        for(index in theme.values){
+          var text = "" +index;  
+          createKeyValue(theme.values[index],text);
+        }
+      }
+  }
+  
+  if(!options.text)options.text = {};
+  if(!options.text.pleaseselect)options.text.pleaseselect = "-- please select a theme --";
+
+  /*create theme selector */
+  var dropdownhtml = "<select name='theme_name'><option value=''>"+options.text.pleaseselect+"</option>";
+  
+  for(var id in themes){
+    dropdownhtml += '<option value="'+id+'">'+themes[id].name+'</option>';
+  }
+  dropdownhtml +="</select>";
+  
+  var data = themedata.data;
+
+  /*data looks like this: 
+  {
+  shapename:{themeid:themevalue}
+  }
+  */
+
+  for(var i=0; i < this.length;i++){
+    var holder = this[i];
+    jQuery(holder).html("<div class='vthemes'>dropdown here</div><div class='vmap'></div><div class='vmapkey'></div>");
+    
+    var vmap =new VismoMap(jQuery(".vmap",holder)[0],options);
+    var key = jQuery(".vmapkey",holder)[0];
+    var changetheme = function(e){
+      if(!e || !e.target)return;
+      var themeid = e.target.value;
+      var getcolor = function(shapename){
+        var theme = themedata.themes[themeid];
+        if(theme.values){
+          var values = theme.values;
+          if(data[shapename])return values[data[shapename][themeid]];
+          else return options.nodatacolor;
+        }
+        else{
+          var amount  =lookupcolor[themeid][shapename];
+          //console.log(amount);
+          if(amount)return theme.basecolor.replace("X",amount)
+        }
+      }
+      vmap.paint(getcolor);
+      createKey(key,themeid);
+      
+    }
+    jQuery(".vthemes",holder).html(dropdownhtml).change(changetheme);
+    result.push(vmap);
+  }
+  return result;
+  
 };

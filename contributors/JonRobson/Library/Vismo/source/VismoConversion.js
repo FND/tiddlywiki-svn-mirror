@@ -36,7 +36,7 @@ var VismoConversion ={
 				}
 			}
 		}
-		console.log(coordsDropped,"dropped");
+		//console.log(coordsDropped,"dropped");
 		return newdata;
 	}
 	,svgToGeoJson: function(svg,canvas){

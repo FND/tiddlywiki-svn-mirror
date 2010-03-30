@@ -3,7 +3,7 @@
 |''Description:''|An opensource library of javascript code designed to create clickable graphics in canvas with VML alternative for Internet Explorer browsers. The purpose of this is to provide hackable, extendable graphics based plugins without being locked in to consumer products such as Flash.|
 |''Author:''|JonRobson (http://www.jonrobson.me.uk/Vismo)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/JonRobson/Library/Vismo/|
-|''Version:''|0.9 |
+|''Version:''|0.95 |
 |''Dependencies:''| Requires jQuery|
 |''Comments:''|Please raise questions and make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
@@ -53,7 +53,7 @@ var VismoCanvas = function(element,options){
     }	
   this.id = element.id
 	this.options = options;
-
+  
 	var wrapper = element;
 	
 	this.settings = {};
@@ -493,6 +493,7 @@ VismoCanvas.prototype = {
     if(transformation.scale.x) sc = transformation.scale.x; else sc = 1;
     //determine point size
     var ps = this.options.pointsize / parseFloat(sc);
+    
     tran = transformation;
     var o = tran.origin,t = tran.translate, s = tran.scale;
     jQuery(this.canvas).css({left:o.x+(t.x*s.x),top:o.y +(s.y*t.y),zoom:s.x});    
@@ -522,6 +523,8 @@ VismoCanvas.prototype = {
         if(!vs)break;
         var st = vs.properties.shape 
         if(st == 'domElement')tran = transformation;
+        vs.setDimensions(ps,ps);
+        vs.properties.strokeWidth /= s.x;
         vs.render(that.canvas,tran,projection,true,null,dimensions);        
         if(vs.vmlfill && !vs.vmlfill.opacity && globalAlpha){
           vs.vmlfill.opacity =globalAlpha;
@@ -542,17 +545,19 @@ VismoCanvas.prototype = {
         
 	}
 	,canvas_render: function(args){
+	  var paintedXPixels = {}, paintedYPixels = {};
     var projection = arguments[0];
     this.render = this.canvas_render;
     var that = this;
     var transformation = this.getTransformation();
     if(this.options.beforeRender) this.options.beforeRender(this);	
+    var sc;
     if(transformation.scale.x) sc = transformation.scale.x; else sc = 1;
     //determine point size
     var ps = this.options.pointsize / parseFloat(sc);
-
-
-
+    if(ps > this.options.pointsize){
+      ps = this.options.pointsize;
+    }
     var appendTo;
     var mem =that.getMemory();
     this._setupCanvasEnvironment();
@@ -566,30 +571,30 @@ VismoCanvas.prototype = {
     var tr = transformation.translate;
     var s = transformation.scale;
     var r = transformation.rotate;
+
     if(o && s && tr){
-    	if(o.x)ctx.translate(o.x,o.y);
-    	if(s.x)ctx.scale(s.x,s.y);
-    	if(tr.x)ctx.translate(tr.x,tr.y);
+    	if(typeof(o.x) == 'number')ctx.translate(o.x,o.y);
+    	if(typeof(s.x) == 'number')ctx.scale(s.x,s.y);
+    	if(typeof(tr.x) == 'number')ctx.translate(tr.x,tr.y);
     }
     if(r && r.x)ctx.rotate(r.x);
     }
 	
 		appendTo = that.canvas;
-	
-		for(var i=0; i < mem.length; i++){
-		    var sh = mem[i];
-		    var st = sh.getShape();
-	        if(sh.optimise(that.canvas,transformation,projection)){
-			    if(st == 'domElement')tran = transformation;
+  		for(var i=0; i < mem.length; i++){
+          var vs = mem[i];
+          var st = vs.getShape();
+          if(st == 'point'){
+            vs.setDimensions(ps,ps);
+          }
+          if(vs.optimise(that.canvas,transformation,projection)){
+          if(st == 'domElement')tran = transformation;
+          //else if(st == 'point')vismoShape.setDimensions(ps,ps);
+          vs.render(that.canvas,tran,projection,true,that.settings.browser);
 			    
-			    sh.render(that.canvas,tran,projection,true,that.settings.browser);
-			    
-				if(sh.vmlfill && that.settings.globalAlpha) {
-					sh.vmlfill.opacity =that.settings.globalAlpha;
-				}
-			}
-		}
-	    if(ctx)ctx.restore();
+  			}
+  		}
+  	  if(ctx)ctx.restore();
 	}
 	,render: function(args){
     var projection = arguments[0];
@@ -701,7 +706,9 @@ VismoCanvas.prototype = {
 	,add: function(args){
 	    var vismoShape = arguments[0];
 	    this.needsSort = true;
+
 	    if(!vismoShape._isVismoShape){
+
 	        vismoShape = new VismoShape(vismoShape);
 	    
 	    }
@@ -712,14 +719,15 @@ VismoCanvas.prototype = {
 		if(!this.memory) this.memory = [];
 		
 		vismoShape.vismoCanvas = this;
+
 		if(!vismoShape.getProperty("id")){
 		    var newid  = this.memory.length +"_" + Math.random();
 		    vismoShape.setProperty("id",newid);
 		}
+		if(this.options.lineWidth) vismoShape.setProperty("lineWidth",this.options.lineWidth);		
 		vismoShape._canvasref = this._referenceid;
 		var id = vismoShape.properties.id;
 		this.memory.push(vismoShape);
-		
 		
 		this._idtoshapemap[id] = vismoShape;
 		vismoShape._vismoClickingID = id;
@@ -835,7 +843,7 @@ VismoCanvas.prototype = {
 		
 		var offset = jQuery(target).offset();
 
-        var xy= VismoClickingUtils.scrollXY();
+    var xy= VismoClickingUtils.scrollXY();
 		x = e.clientX + xy.x - offset.left;
 		y = e.clientY + xy.y - offset.top;
 
@@ -1184,10 +1192,12 @@ VismoCanvas.prototype = {
 		return node;
 	}
 	,getMouseFromEventRelativeToElement: function (e,x,y,target){
+
 		if(!e) e = window.event;
 
 		var offset = jQuery(target).offset();
-		if(!offset.left) return false;
+
+		if(offset.left === false) return false;
 		
 		var scroll = this.scrollXY();
 		oldx = e.clientX + scroll.x - offset.left;
@@ -1244,74 +1254,71 @@ Will be changed to take a handler parameter rather then a targetjs
 
 
 var VismoController = function(elem,options){ //elem must have style.width and style.height etM  
-   
     if(elem.length){ //for jquery
-        var result = [];
-        for(var i=0; i < elem.length; i++){
-            var x = new VismoController(elem[i],options);
-            result.push(x);
-        }
-        return x;
+      var result = [];
+      for(var i=0; i < elem.length; i++){
+          var x = new VismoController(elem[i],options);
+          result.push(x);
+      }
+      return x;
     }
-     
     if(!options)options = {};
-        if(elem.vismoController) throw "this already has a vismo controller!"
-        elem.vismoController = true;// this;              
-	this.enabledControls = [];
+    if(!options.zoomfactor)options.zoomfactor=2;
+    if(elem.vismoController) throw "this already has a vismo controller!"
+    elem.vismoController = true;// this;              
+    this.enabledControls = [];
+    if(typeof elem == 'string') elem= document.getElementById(elem);
+    this.setLimits({});
+    //jQuery(elem).css()
+    //if(!elem.style || !elem.style.position) elem.style.position = "relative";
+    this.wrapper = elem; //a dom element to detect mouse actions
+    this.handler = options.handler; //a js object to run actions on (with pan and zoom functions)	
+    this.defaultCursor = "";
+    var md = elem.onmousedown;
+    var mu = elem.onmouseup;
+    var mm = elem.onmousemove;
+    for(var i=0; i < elem.childNodes.length; i++){
+      var child = elem.childNodes[i];
+      try{
+        child.onmousedown = function(e){if(md)md(e);}
+        child.onmouseup = function(e){if(mu)mu(e);}
+        child.onmousemove = function(e){if(mm)mm(e);}
+      }
+      catch(e){
 
-	if(typeof elem == 'string') elem= document.getElementById(elem);
-	this.setLimits({});
-	
-	//jQuery(elem).css()
-	//if(!elem.style || !elem.style.position) elem.style.position = "relative";
-	this.wrapper = elem; //a dom element to detect mouse actions
-	this.handler = options.handler; //a js object to run actions on (with pan and zoom functions)	
-	this.defaultCursor = "";
-	var md = elem.onmousedown;
-	var mu = elem.onmouseup;
-	var mm = elem.onmousemove;
-	for(var i=0; i < elem.childNodes.length; i++){
-		var child = elem.childNodes[i];
-	    try{
-		child.onmousedown = function(e){if(md)md(e);}
-		child.onmouseup = function(e){if(mu)mu(e);}
-		child.onmousemove = function(e){if(mm)mm(e);}
-		}
-		catch(e){
-		    
-		}
-	}
-        
-	controlDiv = document.createElement('div');
-	controlDiv.style.position = "absolute";
-	controlDiv.style.top = "0";
-	controlDiv.style.left = "0";
-	controlDiv.className = 'vismoControls';
-	jQuery(controlDiv).css({'z-index':10000, height:"120px",width:"60px"});
-	this.wrapper.appendChild(controlDiv);
-	this.controlDiv = controlDiv;
-	
+      }
+    }
+      
+  controlDiv = document.createElement('div');
+  controlDiv.style.position = "absolute";
+  controlDiv.style.top = "0";
+  controlDiv.style.left = "0";
+  controlDiv.className = 'vismoControls';
+  jQuery(controlDiv).css({'z-index':10000, height:"120px",width:"60px"});
+  this.wrapper.appendChild(controlDiv);
+  this.controlDiv = controlDiv;
+
   this.controlCanvas = new VismoCanvas(this.controlDiv);
-	jQuery(this.controlDiv).mouseover(function(e){e.stopPropagation();e.preventDefault();});
-	//this.controlDiv.vismoController = this;
-	var vismoController = this;
-	var preventDef = function(e){
+  jQuery(this.controlDiv).mouseover(function(e){e.stopPropagation();e.preventDefault();});
+  //this.controlDiv.vismoController = this;
+  var vismoController = this;
+  var preventDef = function(e){
                 if (e && e.stopPropagation) //if stopPropagation method supported
                  e.stopPropagation()
                 else
                  e.cancelBubble=true
           return false;      
-	};
-	var that = this;
-	var f = function(e,s){
-	        var vismoController = that;
-	        vismoController._panzoomClickHandler(e,s,vismoController);
-	        return preventDef(e);
-	};
-	this.controlCanvas.mouse({up:preventDef,down:f,dblclick:preventDef});
+  };
+  var that = this;
+  var f = function(e,s){
+          var vismoController = that;
+          vismoController._panzoomClickHandler(e,s,vismoController);
+          return preventDef(e);
+  };
+  this.controlCanvas.mouse({up:preventDef,down:f,dblclick:preventDef});
 
-	//this.wrapper.vismoController = this;
-	var start_transformation = options.transformation;
+  //this.wrapper.vismoController = this;
+  var start_transformation = options.transformation;
   if(start_transformation){
     if(!start_transformation.origin) start_transformation.origin = {};
     this.transformation = start_transformation;
@@ -1319,48 +1326,48 @@ var VismoController = function(elem,options){ //elem must have style.width and s
   else{
     this.transformation = {'translate':{x:0,y:0}, 'scale': {x:1, y:1},'rotate': {x:0,y:0,z:0},origin:{}};	
   }	
-	             
-	             
-	
-	this.transformation.origin.x = jQuery(elem).width() / 2;
-	this.transformation.origin.y = jQuery(elem).height() / 2;
+             
+             
+
+  this.transformation.origin.x = jQuery(elem).width() / 2;
+  this.transformation.origin.y = jQuery(elem).height() / 2;
   var t = this.transformation;
 
-	//looks for specifically named function in targetjs
-	if(!this.handler) {
-	    alert("no transform handler function defined");
-	}
-	//this.wrapper.vismoController = this;
-	this.enabled = true;
+  //looks for specifically named function in targetjs
+  if(!this.handler) {
+      alert("no transform handler function defined");
+  }
+  //this.wrapper.vismoController = this;
+  this.enabled = true;
 
 
-	if(!options) options = {};
-	if(!options.controls)options.controls =['pan','zoom','mousepanning','mousewheelzooming'];
-	this.options = options;
-	if(!this.options.controlStroke){
+  if(!options) options = {};
+  if(!options.controls)options.controls =['pan','zoom','mousepanning','mousewheelzooming'];
+  this.options = options;
+  if(!this.options.controlStroke){
         this.options.controlStroke = "#000000";
     }
     if(!this.options.controlFill){
         this.options.controlFill = "rgba(150,150,150,0.7)";
     }
+  
+  
+  this.addControls(this.options.controls);
+  this.limits = {scale:{}};
+  if(this.options.maxZoom) {
+      this.limits.scale.x =this.options.maxZoom;
+      this.limits.scale.y = this.options.maxZoom;
+  }
+  if(this.options.minZoom){
     
-    
-	this.addControls(this.options.controls);
-	this.limits = {scale:{}};
-	if(this.options.maxZoom) {
-	    this.limits.scale.x =this.options.maxZoom;
-	    this.limits.scale.y = this.options.maxZoom;
-    }
-    if(this.options.minZoom){
-        
-        this.limits.scale.minx =this.options.minZoom;
-         this.limits.scale.miny =this.options.minZoom;
-    }
+      this.limits.scale.minx =this.options.minZoom;
+       this.limits.scale.miny =this.options.minZoom;
+  }
 
-    this.pansensitivity =100;
-    if(this.options.pansensitivity){
-        this.pansensitivity =this.options.pansensitivity;
-    }
+  this.pansensitivity =100;
+  if(this.options.pansensitivity){
+      this.pansensitivity =this.options.pansensitivity;
+  }
 
   jQuery(window).unload(function(){
     that.controlCanvas = null;
@@ -2052,12 +2059,12 @@ VismoController.prototype = {
 				t.translate.y -= pan.y;
 				break;
 			case "in":
-				scale.x *= 2;
-				scale.y *= 2;
+				scale.x *= this.options.zoomfactor;
+				scale.y *= this.options.zoomfactor;
 				break;
 			case "out":
-				scale.x /= 2;
-				scale.y /= 2;			
+				scale.x /= this.options.zoomfactor;
+				scale.y /= this.options.zoomfactor;			
 				break;
 			case "rotatezright":
 				if(!t.rotate.z) t.rotate.z = 0;
@@ -2086,9 +2093,7 @@ VismoController.prototype = {
                 //console.log("done",controller);
 		return false;
 	}
-};
-/*VismoController.prototype.panzoomcontrolsSVG ="<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><!-- Created with Inkscape (http://www.inkscape.org/) --><svg   xmlns:dc=\"http://purl.org/dc/elements/1.1/\"   xmlns:cc=\"http://creativecommons.org/ns#\"   xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"   xmlns:svg=\"http://www.w3.org/2000/svg\"   xmlns=\"http://www.w3.org/2000/svg\"   xmlns:sodipodi=\"http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd\"   xmlns:inkscape=\"http://www.inkscape.org/namespaces/inkscape\"   width=\"60px\"   height=\"120px\"   id=\"svg3820\"   sodipodi:version=\"0.32\"   inkscape:version=\"0.46\"   sodipodi:docname=\"panzoomcontrols.svg\"   inkscape:output_extension=\"org.inkscape.output.svg.inkscape\">  <defs     id=\"defs3\">    <linearGradient       id=\"linearGradient3735\">      <stop         style=\"stop-color:#ffffff;stop-opacity:1;\"         offset=\"0\"         id=\"stop3737\" />      <stop         style=\"stop-color:#0000f0;stop-opacity:1;\"         offset=\"1\"         id=\"stop3739\" />    </linearGradient>    <linearGradient       id=\"linearGradient3745\">      <stop         style=\"stop-color:#000000;stop-opacity:1;\"         offset=\"0\"         id=\"stop3747\" />      <stop         style=\"stop-color:#ffffef;stop-opacity:0;\"         offset=\"1\"         id=\"stop3749\" />    </linearGradient>    <inkscape:perspective       sodipodi:type=\"inkscape:persp3d\"       inkscape:vp_x=\"0 : 526.18109 : 1\"       inkscape:vp_y=\"6.123234e-14 : 1000 : 0\"       inkscape:vp_z=\"744.09448 : 526.18109 : 1\"       inkscape:persp3d-origin=\"372.04724 : 350.78739 : 1\"       id=\"perspective3826\" />  </defs>  <sodipodi:namedview     inkscape:document-units=\"mm\"     id=\"base\"     pagecolor=\"#ffffff\"     bordercolor=\"#666666\"     borderopacity=\"1.0\"     inkscape:pageopacity=\"0.0\"     inkscape:pageshadow=\"2\"     inkscape:zoom=\"4\"     inkscape:cx=\"14.379355\"     inkscape:cy=\"60.049799\"     inkscape:current-layer=\"layer1\"     showgrid=\"true\"     inkscape:window-width=\"1440\"     inkscape:window-height=\"776\"     inkscape:window-x=\"-84\"     inkscape:window-y=\"22\" />  <metadata     id=\"metadata4\">    <rdf:RDF>      <cc:Work         rdf:about=\"\">        <dc:format>image/svg+xml</dc:format>        <dc:type           rdf:resource=\"http://purl.org/dc/dcmitype/StillImage\" />      </cc:Work>    </rdf:RDF>  </metadata>  <g     inkscape:label=\"Layer 1\"     inkscape:groupmode=\"layer\"     id=\"layer1\">    <rect       style=\"opacity:1;fill:#fafafa;fill-opacity:1;stroke:#000000;stroke-width:1.25095212000000000;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1\"       id=\"rect4374\"       width=\"3.036346\"       height=\"29.855259\"       x=\"26.456741\"       y=\"77.110023\" />    <path       sodipodi:type=\"arc\"       style=\"opacity:0;fill:#ffc100;fill-opacity:0.18999999;fill-rule:evenodd;stroke:#00d300;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0.98500001\"       id=\"path2811\"       sodipodi:cx=\"36.681629\"       sodipodi:cy=\"40.457794\"       sodipodi:rx=\"22.848825\"       sodipodi:ry=\"23.466362\"       d=\"M 59.530455,40.457794 A 22.848825,23.466362 0 1 1 13.832804,40.457794 A 22.848825,23.466362 0 1 1 59.530455,40.457794 z\"       transform=\"translate(-10.077156,-13.286926)\" />    <path       sodipodi:type=\"star\"       style=\"fill:#ffffff\"       id=\"path2817\"       sodipodi:sides=\"5\"       sodipodi:cx=\"21.984276\"       sodipodi:cy=\"13.286215\"       sodipodi:r1=\"0.34933102\"       sodipodi:r2=\"0.17466551\"       sodipodi:arg1=\"-0.78539816\"       sodipodi:arg2=\"-0.15707963\"       inkscape:flatsided=\"false\"       inkscape:rounded=\"0\"       inkscape:randomized=\"0\"       d=\"M 22.23129,13.0392 L 22.156791,13.258891 L 22.295532,13.444808 L 22.063572,13.441843 L 21.929628,13.631245 L 21.860769,13.409722 L 21.639246,13.340862 L 21.828648,13.206918 L 21.825683,12.974959 L 22.0116,13.1137 L 22.23129,13.0392 z\"       transform=\"translate(-2.9137398,-0.9362086)\" />    <path       sodipodi:type=\"arc\"       style=\"fill:#fafafa;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.99893030000000005;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;opacity:1\"       id=\"path3847\"       sodipodi:cx=\"113.64216\"       sodipodi:cy=\"108.12209\"       sodipodi:rx=\"23.233507\"       sodipodi:ry=\"20.960665\"       d=\"M 136.87567,108.12209 A 23.233507,20.960665 0 1 1 90.408651,108.12209 A 23.233507,20.960665 0 1 1 136.87567,108.12209 z\"       transform=\"matrix(0.9778731,0,0,-1.0598112,-84.661617,141.94941)\" />    <path       style=\"fill:#dcdcdc;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1\"       d=\"M 39.621219,21.031683 L 47.389849,26.975113 L 39.969679,33.117243 L 41.484209,27.164163 L 39.621219,21.031683 z\"       id=\"north\"       inkscape:label=\"north\"       sodipodi:nodetypes=\"ccccc\" />    <path       style=\"fill:#dcdcdc;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1\"       d=\"M 20.231889,13.770245 L 26.175319,6.0016174 L 32.317449,13.421792 L 26.364359,11.907259 L 20.231889,13.770245 z\"       id=\"path3757\"       inkscape:label=\"north\"       sodipodi:nodetypes=\"ccccc\" />    <path       style=\"fill:#dcdcdc;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1\"       d=\"M 20.048989,40.437803 L 25.992419,48.206433 L 32.134549,40.786253 L 26.181459,42.300793 L 20.048989,40.437803 z\"       id=\"path3761\"       inkscape:label=\"north\"       sodipodi:nodetypes=\"ccccc\" />    <path       style=\"fill:#dcdcdc;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1\"       d=\"M 12.629649,33.160653 L 4.8610222,27.217223 L 12.281197,21.075093 L 10.766664,27.028173 L 12.629649,33.160653 z\"       id=\"path3765\"       inkscape:label=\"north\"       sodipodi:nodetypes=\"ccccc\" />    <path       sodipodi:type=\"arc\"       style=\"fill:#ff0000;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1\"       id=\"path3849\"       sodipodi:cx=\"114.65231\"       sodipodi:cy=\"133.62845\"       sodipodi:rx=\"0\"       sodipodi:ry=\"2.5253813\"       d=\"M 114.65231,133.62845 A 0,2.5253813 0 1 1 114.65231,133.62845 A 0,2.5253813 0 1 1 114.65231,133.62845 z\" />    <path       sodipodi:type=\"arc\"       style=\"fill:#fafafa;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:3.29227274000000003;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;opacity:1\"       id=\"path4600\"       sodipodi:cx=\"113.64216\"       sodipodi:cy=\"108.12209\"       sodipodi:rx=\"23.233507\"       sodipodi:ry=\"20.960665\"       d=\"M 136.87567,108.12209 A 23.233507,20.960665 0 1 1 90.408651,108.12209 A 23.233507,20.960665 0 1 1 136.87567,108.12209 z\"       transform=\"matrix(0.3044572,0,0,-0.3133744,-6.349179,108.99488)\" />    <path       sodipodi:type=\"arc\"       style=\"fill:#fafafa;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:3.29227274000000003;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;opacity:1\"       id=\"path4602\"       sodipodi:cx=\"113.64216\"       sodipodi:cy=\"108.12209\"       sodipodi:rx=\"23.233507\"       sodipodi:ry=\"20.960665\"       d=\"M 136.87567,108.12209 A 23.233507,20.960665 0 1 1 90.408651,108.12209 A 23.233507,20.960665 0 1 1 136.87567,108.12209 z\"       transform=\"matrix(0.3044572,0,0,-0.3133744,-6.5991733,140.49488)\" />    <path       style=\"fill:#dcdcdc;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1\"       d=\"M 29.344931,79.34136 L 26.693281,79.164583 L 26.870057,76.336156 L 22.804193,76.159379 L 23.157747,73.330952 L 26.870057,73.507729 L 26.870057,70.856078 L 29.875261,71.032855 L 29.875261,73.684505 L 33.587572,74.038059 L 33.587572,76.512933 L 29.521708,76.336156 L 29.344931,79.34136 z\"       id=\"path3299\" />    <path       style=\"fill:#dcdcdc;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1\"       d=\"M 26.781669,107.80241 L 22.715805,107.62563 L 23.069359,104.79721 L 26.781669,104.97398 L 29.786873,105.15076 L 33.499184,105.50431 L 33.499184,107.97919 L 29.43332,107.80241 L 26.781669,107.80241 z\"       id=\"path3301\"       sodipodi:nodetypes=\"ccccccccc\" />  </g></svg>";*/
-var VismoClickingUtils = {
+};var VismoClickingUtils = {
         //to be implemented..
         inVisibleArea: function(vismoCanvas,vismoShape){
                 var bb = vismoShape.getBoundingBox();
@@ -2215,10 +2220,12 @@ var VismoClickingUtils = {
 		return node;
 	}
 	,getMouseFromEventRelativeToElement: function (e,x,y,target){
+
 		if(!e) e = window.event;
 
 		var offset = jQuery(target).offset();
-		if(!offset.left) return false;
+
+		if(offset.left === false) return false;
 		
 		var scroll = this.scrollXY();
 		oldx = e.clientX + scroll.x - offset.left;
@@ -2738,6 +2745,7 @@ var VismoFileUtils= {
 	}
 };/*
 A package for rendering geojson polygon and point features easily to create maps
+added startpos : [lat,lon]
 */
 var GeoTag = function(longitude,latitude,properties){
 	var geo = {};
@@ -2795,14 +2803,29 @@ var VismoMap = function(wrapper,options){
 	var handler = function(t){
 	    that.transform(t);
 	}
-	//if(!options.vismoController) options.vismoController = {};
-	if(options.vismoController)options.vismoController.handler = handler;
+	if(typeof(options.vismoController) == 'undefined' && options.vismoController !== false) options.vismoController = {};
+	
+	
+	if(options.vismoController){
+	  options.vismoController.handler = handler;
+	  if(options.zoomfactor) options.vismoController.zoomfactor = options.zoomfactor;
+	  if(options.vismoController.transformation) options.fullscreen = false; //can't have both..
+	}
+	console.log(options)
+	if(options.startpos || options.zoom && !options.vismoController.transformation){
 
+    var tx = options.startpos[0] || 0;
+    var ty = options.startpos[1] || 0;
+    var sx = options.zoom || 1;
+    options.vismoController.transformation = {translate:{x:-tx,y:ty},scale:{x:sx,y:sx}};
+	}
+  
 	this.vismoCanvas = new VismoCanvas(wrapper,options);
+
 	this.controller = this.vismoCanvas.vismoController;
   if(this.controller)this.transform(this.controller.transformation); //set initial transformation	
 	//run stuff
-	
+
 	this._fittocanvas = true;
 	this.geofeatures = {};
 	this.features = [];
@@ -2847,7 +2870,10 @@ var VismoMap = function(wrapper,options){
 	else if(options.kml){
 	    this.drawFromGeojson(VismoConversion.kmlToGeoJson(options.kml),options.fullscreen);
 	}
-
+	else{
+	  alert("Please supply kml, geojson or georss parameter in your options so I know what geodata to draw!");
+	}
+  
 	return eMap;
 };  
 VismoMap.prototype = {
@@ -3145,6 +3171,24 @@ VismoMap.prototype = {
 	,getVismoCanvas: function(args){
 	        return this.vismoCanvas;
 	}
+	,paint: function(resolver){ /* a helper for chloropleth maps*/
+	  /* 
+	  the resolver is one of 2 things
+	  1) a json is in the form "shape name": "color" where shape name represents the property value name shape in the map 
+	 2) a function function(shape name){returns color};
+	  */
+	  var isFunction = eval(typeof(resolver) == 'function');
+	  var shapes = this.getVismoShapes();
+    for(var i=0; i < shapes.length; i++){
+      var prop = shapes[i].properties;
+      var name = prop["name"];
+      var newfill;
+      if(isFunction) newfill=resolver(name);
+	    else newfill= data[name];
+	    prop.fill = newfill;
+	  }
+	  this.redraw();
+	}
 };
 
 
@@ -3193,6 +3237,7 @@ VismoMap.Feature.prototype = {
             }
         }
 	}
+	
 	,addOuterVismoShape: function(args){
 		var shape = arguments[0];
 		this.outers.push(shape);
@@ -3275,6 +3320,150 @@ VismoMap.Feature.prototype = {
 	        shapes[i].setProperty(id,val);
 	    }
 	}
+};
+
+jQuery.fn.chloromap = function(options){
+  
+  var result = [];
+  var themedata = options.themedata;
+  var themes = themedata.themes;
+  /*
+  theme looks like this
+  "id":{
+    "name": "the theme name",
+    "values":{"Status Changed":"rgb(255,0,0)","New Site":"rgb(0,255,0)", "Window Changed": "rgb(0,0,255)"}
+  }
+  */
+  
+  var range = {};
+  var newformat = {};
+  var lookupcolor = {};
+  for(var i in themes){
+    /*
+    for some reason I previously defined a theme as 
+    "theme name":{
+      "id": "1",
+      "values":{"Status Changed":"rgb(255,0,0)","New Site":"rgb(0,255,0)", "Window Changed": "rgb(0,0,255)"}
+    }
+    the following code deals with this old format.
+    */
+    var theme = themes[i];
+    var themeid =theme.id;
+    if(themeid){
+      newformat[themeid] = {name:i,values:theme.values}
+    }
+    else{
+      newformat[i] = themes[i];
+    }
+    
+    /* deal with range data */
+    var data = themedata.data;
+    if(newformat[i].rangetype){
+      if(!range[i]) range[i] = {};
+      for(var j in data){
+        var value = parseInt(data[j][i]);
+        if(!isNaN(value)){
+        
+          if(value){
+            if(!range[i].from || value < range[i].from) range[i].from = value;
+            if(!range[i].to || value > range[i].to) range[i].to = value;
+          }
+        }
+      }
+      //now have a range to work from.
+      lookupcolor[i] = {};
+      var range_for_i = range[i].to- range[i].from;
+      for(var j in data){
+      var str =data[j][i];
+        var value = parseInt(str);
+        if(!isNaN(value)){
+          var colorValue =255 * (value - range[i].from)/range_for_i;
+          lookupcolor[i][j] =  parseInt(colorValue);
+        }
+        
+      }
+      
+      
+      
+      //signal that when painting should use value as colour.
+      
+    }
+  }
+
+  if(!options.nodatacolor)options.nodatacolor = "#ffffff";
+  themedata.themes = newformat;
+  themes = newformat;
+  function createKey(place,themeid){
+      jQuery(place).html("");
+      jQuery(place).css({display:""});
+      var createKeyValue = function(keycolor,keylabel,className){
+        if(!keycolor || !keylabel){return;}
+        if(!className){ className = "";}else {className = " "+className;}
+        var html = ["<div class='keyvaluepair'><div class='keyColor",className,"' style='background-color:",keycolor,"'>&nbsp</div><div class='keyLabel"+className+"'>",keylabel,"</div></div>"].join("");
+        jQuery(key).append(html);                 
+      };
+      createKeyValue(options.nodatacolor,"No data","hideable") ;
+      if(themeid){
+        jQuery(key).css({display:""});
+        var index;   
+        var theme = themes[themeid];
+        for(index in theme.values){
+          var text = "" +index;  
+          createKeyValue(theme.values[index],text);
+        }
+      }
+  }
+  
+  if(!options.text)options.text = {};
+  if(!options.text.pleaseselect)options.text.pleaseselect = "-- please select a theme --";
+
+  /*create theme selector */
+  var dropdownhtml = "<select name='theme_name'><option value=''>"+options.text.pleaseselect+"</option>";
+  
+  for(var id in themes){
+    dropdownhtml += '<option value="'+id+'">'+themes[id].name+'</option>';
+  }
+  dropdownhtml +="</select>";
+  
+  var data = themedata.data;
+
+  /*data looks like this: 
+  {
+  shapename:{themeid:themevalue}
+  }
+  */
+
+  for(var i=0; i < this.length;i++){
+    var holder = this[i];
+    jQuery(holder).html("<div class='vthemes'>dropdown here</div><div class='vmap'></div><div class='vmapkey'></div>");
+    
+    var vmap =new VismoMap(jQuery(".vmap",holder)[0],options);
+    var key = jQuery(".vmapkey",holder)[0];
+    var changetheme = function(e){
+      if(!e || !e.target)return;
+      var themeid = e.target.value;
+      var getcolor = function(shapename){
+        var theme = themedata.themes[themeid];
+        if(theme.values){
+          var values = theme.values;
+          if(data[shapename])return values[data[shapename][themeid]];
+          else return options.nodatacolor;
+        }
+        else{
+          var amount  =lookupcolor[themeid][shapename];
+          //console.log(amount);
+          if(amount)return theme.basecolor.replace("X",amount)
+        }
+      }
+      vmap.paint(getcolor);
+      createKey(key,themeid);
+      
+    }
+    jQuery(".vthemes",holder).html(dropdownhtml).change(changetheme);
+    result.push(vmap);
+  }
+  return result;
+  
 };
 
 /*
@@ -3921,36 +4110,26 @@ var VismoUtils = {
   },
   scrubNode: function(e)
     {
-      
-      try{
-        if(!VismoUtils.browser.isIE)
+      if(!VismoUtils.browser.isIE)
         return;
-      
-        var att = e.attributes;
-      
-        if(att) {
-          for(var t=0; t<att.length; t++) {
-            var n = att[t].name;
-            if(n !== "style" && (typeof e[n] === "function" || (typeof e[n] === "object" && e[n] != null))) {
-              try {
-                e[n] = null;
-              } catch(ex) {
-              }
+      var att = e.attributes;
+      if(att) {
+        for(var t=0; t<att.length; t++) {
+          var n = att[t].name;
+          if(n !== "style" && (typeof e[n] === "function" || (typeof e[n] === "object" && e[n] != null))) {
+            try {
+              e[n] = null;
+            } catch(ex) {
             }
           }
         }
-        e.id = "_garbageCollected";
-        var c = e.firstChild;
-        while(c) {
-           VismoUtils.scrubNode(c);
-           c = c.nextSibling;
-        }
-        //e.innerHTML = "";
-        jQuery(e).remove();
       }
-      finally{
-        e = null;
+      var c = e.firstChild;
+      while(c) {
+         VismoUtils.scrubNode(c);
+        c = c.nextSibling;
       }
+      e.parentNode.removeChild(e);
     }
     
   ,mergejsons: function(prop1,prop2){    
@@ -4469,7 +4648,8 @@ VismoShape.prototype={
     }
     VismoTimer.end("VismoShapes._calculateBounds"); 
   }
-  ,getCanvas: function(){
+
+    ,getCanvas: function(){
         return this.vismoCanvas;
     }
   ,setRadius: function(rx,ry){
@@ -4726,6 +4906,7 @@ VismoShape.prototype={
 };
 var VismoCanvasRenderer = {
 	renderShape: function(canvas,vismoShape){
+
 	    var ctx = canvas.getContext('2d');
 		var shapetype =vismoShape.properties.shape;
 		if(vismoShape.properties["lineWidth"]){
@@ -5907,6 +6088,7 @@ VismoVector.prototype = {
 var VismoTimer = {
     startsAt:{},
     timed: {},
+    timelast: {},
     clear: function(){
      
      var i;
@@ -5922,6 +6104,7 @@ var VismoTimer = {
       VismoTimer.end= function(id){
           var d = new Date();
           this.timed[id] += (d-this.startsAt[id]);
+          
       }
     }
     ,start: function(){}
@@ -5929,13 +6112,16 @@ var VismoTimer = {
     ,summarise: function(selector){
         var text ="";
         for(i in this.timed){
-             text += i +": " + this.timed[i] .toString() +"\n";
-               
+          var diffstr = "";
+          if(VismoTimer.timelast[i]){
+            var diff = this.timed[i] - this.timelast[i];
+            diffstr = " (+"+diff+")";   
+          }
+          text += i +": " + this.timed[i].toString() +diffstr+"\n";
+          VismoTimer.timelast[i]= VismoTimer.timed[i];
         }
         if(selector)jQuery(selector).html(text);
         else return text;
     }
     ,blankf: function(){}
 };
-//VismoTimer.start = VismoTimer.blankf;
-//VismoTimer.end = VismoTimer.blankf;

@@ -469,6 +469,7 @@ VismoVector.prototype = {
 var VismoTimer = {
     startsAt:{},
     timed: {},
+    timelast: {},
     clear: function(){
      
      var i;
@@ -484,6 +485,7 @@ var VismoTimer = {
       VismoTimer.end= function(id){
           var d = new Date();
           this.timed[id] += (d-this.startsAt[id]);
+          
       }
     }
     ,start: function(){}
@@ -491,13 +493,16 @@ var VismoTimer = {
     ,summarise: function(selector){
         var text ="";
         for(i in this.timed){
-             text += i +": " + this.timed[i] .toString() +"\n";
-               
+          var diffstr = "";
+          if(VismoTimer.timelast[i]){
+            var diff = this.timed[i] - this.timelast[i];
+            diffstr = " (+ n"+diff+")";   
+          }
+          text += i +": " + this.timed[i].toString() +diffstr+"\n";
+          VismoTimer.timelast[i]= VismoTimer.timed[i];
         }
         if(selector)jQuery(selector).html(text);
         else return text;
     }
     ,blankf: function(){}
 };
-//VismoTimer.start = VismoTimer.blankf;
-//VismoTimer.end = VismoTimer.blankf;
