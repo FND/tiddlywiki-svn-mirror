@@ -1,5 +1,6 @@
 <div title="Map" modifier="MartinBudden">
-<pre><<gmap "[tag[tate]]">>
+<pre>
+<<gmap>>
 
 
 

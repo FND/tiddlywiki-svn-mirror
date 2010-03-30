@@ -5,6 +5,6 @@ recipe: content/split.recipe
 #recipe: templates/split.recipe
 tiddler: ../../mystyle/Styles_HorizontalMainMenu.tiddler
 tiddler: ../../plugins/settings.js
+tiddler: button.js
 tiddler: gmap.js
 tiddler: Map.tiddler
-tiddler: gitscob.tiddler

@@ -1,0 +1,8 @@
+<div title="SideBarOptions">
+<pre>
+<<button "Get Profile" getProfile>>
+<<button "Get Location" getLocation>>
+<<button "Nearest Toilets" nearestToilets>>
+<<search>><<closeAll>><<newTiddler>><<saveChanges>><<slider chkSliderOptionsPanel OptionsPanel "options" "Change TiddlyWiki advanced options">>'
+</pre>
+</div>
