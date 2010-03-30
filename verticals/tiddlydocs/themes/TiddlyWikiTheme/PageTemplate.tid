@@ -6,10 +6,10 @@ modifier: Simon McManus
 <div class='headerShadow'>
 <span class='siteTitle' refresh='content' tiddler='SiteTitle'></span>&nbsp;
 <span class='siteSubtitle' refresh='content' tiddler='SiteSubtitle'></span>
-</div>
 <div macro='settingsButton'></div>
 <div macro='newDocumentButton'></div>
 <div macro='docTabs'></div>
+</div>
 
 
 <div class='headerForeground'>

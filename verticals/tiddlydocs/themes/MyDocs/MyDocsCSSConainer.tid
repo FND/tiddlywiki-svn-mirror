@@ -35,7 +35,7 @@ tags:  excludeLists excludeSearch
 #tab_wrapper{visibility:hidden;height:34px;width:100%;position:relative;z-index:30;float:right;}
 .selectedtab{background-color:#FFF;font-weight:bold;color:#606060;}
 .unselectedtab{color:#FFF;cursor:pointer;background-color:#555;border:1px solid #FFF;height:40px;}
-.tab span{display:inline;padding-left:10px;padding-right:5px;white-space:pre;}
+.tab span{display:inline;padding-left:2px;padding-right:2px;white-space:pre;}
 .email{font-weight:bold;}
 #ajax_message{background-color:#888;color:#FFF;display:inline;font-weight:bold;opacity:.5;padding:3px 10px 6px 10px;vertical-align:middle;}
 #ajax_message_wrapper{display:table-cell;height:100%;text-align:center;vertical-align:middle;width:100%;visibility:hidden;}

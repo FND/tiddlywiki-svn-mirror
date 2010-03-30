@@ -503,25 +503,28 @@ html body a.newDocumentButton, html body a.newDocumentButton:hover {
 
 /* END REVISIONS */
 
-html body .tabWrapper {
-	
-	 height:40px !important;
-}
 
-.docTabSelected {
-	background:#fff;
-	
-}
 
-.docTabUnselected {
-	background:#434344;
-	color:#fff;
-}
 
-.docTabSelected,  .docTabUnselected {
-	height:2em;
+a.docTabSelected,  a.docTabUnselected {
+	height:1.9em;
 	border:1px solid white;
 	font-weight:bolder;
+	font-size:1.3em;
+	border-bottom:1px solid #777;
+	padding-top:4px;
+	margin-top:5px;
+}
+
+html body a.docTabSelected {
+	background:#F3F3F3;
+	color:#222;
+	border-bottom:1px solid #f3f3f3;
+}
+
+a.docTabUnselected {
+	background:#434344;	
+	color:#fff;
 }
 
 .tabset {

@@ -1,10 +1,6 @@
 modifier: Simon McManus
 
 
-#mainMenu {
-	top:9em;
-}
-
 #mainMenu .button {
 float:right;
 }
@@ -16,5 +12,5 @@ z-index:999;
 }
 
 .docTabset  {
-	width:70%;
+	width:80%;
 }

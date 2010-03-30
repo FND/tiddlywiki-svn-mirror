@@ -23,6 +23,7 @@ Provides tabs which users can use to change the current active document to any d
 //{{{
 	
 config.macros.docTabs = {
+	deleteLink:"x"
 //	max:10,
 //	maxAlternative: "<<docSwitcher>>"
 };
@@ -48,7 +49,8 @@ config.macros.docTabs.handler = function(place,macroName,params,wikifier,paramSt
 				tabLabel = label;
 			var prompt = tagged[t].title;
 			var tab = createTiddlyButton(tabset,tabLabel,prompt,config.macros.docTabs.onTabClick,tabSelected);
-			var delButton = createTiddlyElement(tab, "a", null, null, ' x');
+			var delButton = createTiddlyElement(tab, "a", null, null, config.macros.docTabs.deleteLink);
+			createTiddlyText(tab, " "); 
 			jQuery(delButton).click(function(){
 				var answer = confirm("Are you sure you want to delete the document : "+this.parentNode.title);
 				if (answer){
@@ -117,8 +119,7 @@ html body .headerShadow, html body .headerForeground{
 
 .docTabset {
 	padding:1em;
-	position:relative;
-	top:0.5em;
+	margin-bottom:-1.2em;
 }
 .taggedTabset {
 	line-height:2.5em;
