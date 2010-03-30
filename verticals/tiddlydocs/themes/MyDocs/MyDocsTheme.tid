@@ -315,7 +315,12 @@ tags: systemTheme  excludeLists excludeSearch
 	</div>
 	<div class="portletContent portletContentIconShift">
 			<div style='z-index:22' class='taskControls' macro='tiddler TaskTiddlerControls'></div>
-		<div class='viewer' macro='view text wikified'></div>		 
+		<div class='viewer' macro='view text wikified'></div>	
+		
+		<div class='subtitle'><span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
+		
+		
+			 
 <div macro='commentSlider noCount'>
 	<div class='right links' macro='docSectionButtons'>
 	</div>

@@ -22,7 +22,10 @@ Provides tabs which users can use to change the current active document to any d
 
 //{{{
 	
-config.macros.docTabs = {};
+config.macros.docTabs = {
+//	max:10,
+//	maxAlternative: "<<docSwitcher>>"
+};
 config.macros.docTabs.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 		var tagged = store.getTaggedTiddlers('document').reverse();
 		var cookie = "documentTabs";
@@ -30,6 +33,11 @@ config.macros.docTabs.handler = function(place,macroName,params,wikifier,paramSt
 		var tabset = createTiddlyElement(wrapper,"div",null,"tabset");
 		var validTab = false;
 		tabset.setAttribute("cookie",cookie);
+	/*	if(tagged.length > config.macros.docTabs.max){
+			wikify(config.macros.docTabs.maxAlternative, place);
+			return false;
+		}
+	*/
 		for(var t=0; t<tagged.length; t++) {
 			if(tagged[t].title == window.activeDocument){
 				var tabSelected = "tab tabSelected docTabSelected";

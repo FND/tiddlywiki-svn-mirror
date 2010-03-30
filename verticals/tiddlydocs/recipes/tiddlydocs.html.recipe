@@ -5,6 +5,7 @@ tiddler: ../content/CreateNewDocument.tid
 tiddler: ../Plugins/saveNewSection.js
 tiddler: ../Plugins/DeleteZonePlugin.js
 tiddler: ../Plugins/DocumentTabsPlugin.js
+tiddler: ../Plugins/DocumentSwitchPlugin.js
 tiddler: ../Plugins/newDocumentButtonPlugin.js
 tiddler: ../Plugins/SettingsButtonPlugin.js
 
