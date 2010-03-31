@@ -10,6 +10,7 @@ tiddler: DefaultTiddlers.tid
 tiddler: MyDocsActivity.tid
 tiddler: ../../content/TaskTiddlerControls.tid
 recipe: ../../../ckeditor/split.html.recipe
+tiddler: ../../content/Settings.tid
 tiddler: ../../content/UserDefinitions.tid
 tiddler: ../../content/StatusDefinitions.tid
 tiddler: ../../Plugins/tdocsCKEditorSettings.js
