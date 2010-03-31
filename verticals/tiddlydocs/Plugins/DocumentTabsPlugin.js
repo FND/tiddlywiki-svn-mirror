@@ -23,9 +23,8 @@ Provides tabs which users can use to change the current active document to any d
 //{{{
 	
 config.macros.docTabs = {
-	deleteLink:"x"
-//	max:10,
-//	maxAlternative: "<<docSwitcher>>"
+	deleteLink:"x", 
+	deleteToolTip:"Click to delete this document.",
 };
 config.macros.docTabs.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 		var tagged = store.getTaggedTiddlers('document').reverse();
@@ -34,11 +33,6 @@ config.macros.docTabs.handler = function(place,macroName,params,wikifier,paramSt
 		var tabset = createTiddlyElement(wrapper,"div",null,"tabset");
 		var validTab = false;
 		tabset.setAttribute("cookie",cookie);
-	/*	if(tagged.length > config.macros.docTabs.max){
-			wikify(config.macros.docTabs.maxAlternative, place);
-			return false;
-		}
-	*/
 		for(var t=0; t<tagged.length; t++) {
 			if(tagged[t].title == window.activeDocument){
 				var tabSelected = "tab tabSelected docTabSelected";
@@ -49,7 +43,8 @@ config.macros.docTabs.handler = function(place,macroName,params,wikifier,paramSt
 				tabLabel = label;
 			var prompt = tagged[t].title;
 			var tab = createTiddlyButton(tabset,tabLabel,prompt,config.macros.docTabs.onTabClick,tabSelected);
-			var delButton = createTiddlyElement(tab, "a", null, null, config.macros.docTabs.deleteLink);
+			var delButton = createTiddlyElement(tab, "a", null, 'deleteDocumentButton', config.macros.docTabs.deleteLink);
+			delButton.title = config.macros.docTabs.deleteToolTip;
 			createTiddlyText(tab, " "); 
 			jQuery(delButton).click(function(){
 				var answer = confirm("Are you sure you want to delete the document : "+this.parentNode.title);
@@ -123,6 +118,16 @@ html body .headerShadow, html body .headerForeground{
 }
 .taggedTabset {
 	line-height:2.5em;
+}
+
+a.deleteDocumentButton {
+	padding:1px 3px;
+	margin-left:3px;
+}
+
+a.deleteDocumentButton:hover {
+	background:[[ColorPalette::SecondaryLight]]; 
+	border-color:[[ColorPalette::SecondaryMid]];
 }
 
 !(end of StyleSheet)
