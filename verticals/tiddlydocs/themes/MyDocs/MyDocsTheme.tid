@@ -22,7 +22,6 @@ tags: systemTheme  excludeLists excludeSearch
 		<div id='messageArea'>
 			<div class='messageBox'></div>
 		</div>
-		<div id="menu"></div>
 		<div class="header">
 			<div id="wholesale_search_wrapper">
 				<div id="search_bar">
@@ -61,7 +60,7 @@ tags: systemTheme  excludeLists excludeSearch
 						<img height="55" width="565" title="MyPage" src="/doccollab/static/mydocs_images/BTW_blank.jpg" class="bannerLogo"/>
 					</div>
 				</div>
-				<div id="tab_wrapper" class='tabWrapper' style='background-color: rgb(128, 128, 128);'>
+				<div id="tab_wrapper" class='tabWrapper'>
 					<div macro='docTabs'></div>
 				</div>
 			</div>
@@ -85,18 +84,13 @@ tags: systemTheme  excludeLists excludeSearch
 						<div id='mainMenu' refresh='content' force='true' tiddler='MainMenu'></div>
 					</div>
 				</div>
-				<br />
-				<br />
 			</div>
 		</div>
 		<div id='tiddlerDisplay'></div>
 	</div>
 	<div class="footer">
-		<div>
-			<div id="footerleft" class="inline floatleft">
-				<a href="/pages/static/mp/disclaimer.html" class="footlink" title="Disclaimer">BT Wholesale is not responsible for the content of external internet sites</a>
-			</div>
-			<div id="footerright" class="inline floatright"></div>
+		<div >
+			<a href="/pages/static/mp/disclaimer.html" class="footlink" title="Disclaimer">BT Wholesale is not responsible for the content of external internet sites</a>
 		</div>
 	</div>	
 </div>

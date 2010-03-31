@@ -350,6 +350,10 @@ h1 {
 		padding:0.2em
 	}
 	
+	ul.toc {
+		margin: 0 1em;
+	}
+	
 	div.toc-sort-handle {
 		padding:0em;
 		margin:0em;
@@ -532,5 +536,9 @@ a.docTabUnselected {
 
 div.docTabset  {
 	width:90%;
+}
+
+html body div.header div.tabWrapper {
+	background-color: #aaa !important;
 }
 <!--}}}-->
