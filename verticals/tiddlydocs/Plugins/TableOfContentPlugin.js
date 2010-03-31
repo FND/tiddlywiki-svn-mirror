@@ -138,10 +138,7 @@ config.macros.TableOfContent._renderSpec = function(specView, spec, label) {
 		}else{
 			var sectionClass = "";
 		}
-		
-
 		var exists = (store.tiddlerExists(this.title)) ? "" : "sectionNotExist";
-		
 	    var sectionDiv = createTiddlyElement(li, "div", this.title+"_div", "sectionHeading toc-sort-handle "+sectionClass+" "+config.macros.TableOfContent.strip(this.title)+"_div "+exists);	
 		sectionDiv.title = config.macros.TableOfContent.dragToolTip;
 		sectionDiv.onclick = function() {
@@ -159,9 +156,7 @@ config.macros.TableOfContent._renderSpec = function(specView, spec, label) {
                 } 
         );
 		createTiddlyText(sectionDiv, label.join(".")+"  :  "+this.title);
-	
-		var a = createTiddlyElement(sectionDiv, "a", null, 'button deleteButton', config.macros.TableOfContent.deleteText);
-    
+		var a = createTiddlyElement(sectionDiv, "a", null, 'button deleteButton', config.macros.TableOfContent.deleteText);    
 		jQuery(a).css('opacity', '0');
 		jQuery(a).click(function() {
 			jQuery(this).parent().parent().fadeOut('slow', function() {
@@ -272,6 +267,7 @@ div.subtitle {
 	font-size:0.7em;
 	padding:0.5em;
 }
+
 div.title {
 	font-weight:none;
 	padding:0em 0.5em 0 0.2em;
@@ -321,13 +317,10 @@ html body a.deleteButton {
 	color:[[ColorPalette::Foreground]];
 }
 
-
-
 .specView h5.emptySpec {
 	position:relative;
 	left:4em;
 }
-
 
 .highlight {
 	background-color:red;
