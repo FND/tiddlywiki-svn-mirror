@@ -133,11 +133,10 @@ config.macros.TableOfContent._renderSpec = function(specView, spec, label) {
 		label[label.length-1]++;
 		var li = createTiddlyElement(ul, "li", this.title, "clear-element toc-item left");
 		if(store.getTiddler(this.title)!=null){
-			if(store.getTiddler(this.title).fields.tt_status == "Complete"){
+			if(store.getTiddler(this.title).fields.tt_status == "Complete")
 				var sectionClass = "completed"; 
-			}else{ 
-				var sectionClass = "incomplete";
-			}
+		}else{
+			var sectionClass = "";
 		}
 	    var sectionDiv = createTiddlyElement(li, "div", this.title+"_div", "sectionHeading toc-sort-handle "+sectionClass+" "+config.macros.TableOfContent.strip(this.title)+"_div");	
 		sectionDiv.title = config.macros.TableOfContent.dragToolTip;
