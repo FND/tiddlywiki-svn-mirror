@@ -123,7 +123,7 @@ config.macros.TableOfContent._buildSpec = function (liList) {
 config.macros.TableOfContent._renderSpec = function(specView, spec, label) {
 	var ul = createTiddlyElement(specView, "ul", "ul"+(window.ulCount++), "toc");
 	if(spec[0] && spec[0].title == 'Empty Document'){
-			var li = createTiddlyElement(ul, "li", 'empty', "clear-element toc-item no-nesting left");
+			var li = createTiddlyElement(ul, "li", 'empty', "clear-element toc-item no-nesting left ");
 			var sectionDiv = createTiddlyElement(li, "h5", null, null, config.macros.TableOfContent.emptyDocumentSpecPrompt);	
 			return false;
 	}
@@ -138,7 +138,11 @@ config.macros.TableOfContent._renderSpec = function(specView, spec, label) {
 		}else{
 			var sectionClass = "";
 		}
-	    var sectionDiv = createTiddlyElement(li, "div", this.title+"_div", "sectionHeading toc-sort-handle "+sectionClass+" "+config.macros.TableOfContent.strip(this.title)+"_div");	
+		
+
+		var exists = (store.tiddlerExists(this.title)) ? "" : "sectionNotExist";
+		
+	    var sectionDiv = createTiddlyElement(li, "div", this.title+"_div", "sectionHeading toc-sort-handle "+sectionClass+" "+config.macros.TableOfContent.strip(this.title)+"_div "+exists);	
 		sectionDiv.title = config.macros.TableOfContent.dragToolTip;
 		sectionDiv.onclick = function() {
 			if(config.options.chkOpenEditView == true)
@@ -329,6 +333,9 @@ html body a.deleteButton {
 	background-color:red;
 }
 
+.sectionNotExist {
+	font-style:italic;
+}
 
 !(end of StyleSheet)
 
