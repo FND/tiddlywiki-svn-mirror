@@ -297,9 +297,7 @@ h1 {
 		color:#666;
 	}
 
-	.deleteComment {
-		display:none;
-	}
+
 
 	.comment {
 		border:1px solid #F3F3F3;
