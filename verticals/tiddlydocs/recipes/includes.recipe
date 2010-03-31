@@ -1,4 +1,11 @@
-tiddler: ../Plugins/jquery/InterfaceElements.js
+
+#tiddler: ../Plugins/jquery/InterfaceElements.js
+tiddler: ../Plugins/jquery/InterfaceElements/01_iutil.js
+tiddler: ../Plugins/jquery/InterfaceElements/02_idrag.js
+tiddler: ../Plugins/jquery/InterfaceElements/03_idrop.js
+tiddler: ../Plugins/jquery/InterfaceElements/04_isortables.js
+
 tiddler: ../Plugins/jquery/iNestedSortable.js
+
 tiddler: ../Plugins/jquery/iNestedSortablesExtension.js
 tiddler: ../Plugins/jquery/JSON.js
