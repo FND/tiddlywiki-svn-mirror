@@ -509,10 +509,9 @@ html body a.newDocumentButton, html body a.newDocumentButton:hover {
 
 a.docTabSelected,  a.docTabUnselected {
 	height:1.3em;
-	border:1px solid white;
+	border:1px solid #AAA;
 	font-weight:bolder;
 	font-size:1.3em;
-	border-bottom:1px solid #777;
 	padding-top:4px;
 	margin-top:5px;
 }
@@ -525,6 +524,7 @@ html body a.docTabSelected {
 
 a.docTabUnselected {
 	background:#434344;	
+	border-bottom:1px solid #777;
 	color:#fff;
 }
 
@@ -540,8 +540,8 @@ div.docTabset  {
     background:#fff;
     padding:0.5em 3em 3em 1em;
     margin:1em;
-    border:1px solid #eee;
-      height:50px
+    border:1px solid #C4C4C4;
+     height:50px
 }
 
 html body div.header div.tabWrapper {
