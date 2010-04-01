@@ -70,7 +70,7 @@ tags: systemTheme  excludeLists excludeSearch
 			<div class='leftColumn'>
 			
 				<div class='activeDocSummary'>
-				<h2> The Internet </h2>
+				<h2> <div macro='activeDocument'></div> </h2>
 			    		<div macro='newTiddler label:"New Section" template:"NewSectionTemplate"' class='title-right'></div>
 						<div macro='docPreview' class='title-right'></div><br/><br/>
 						<div macro='removeActiveDocumentLink'></div>
