@@ -29,7 +29,8 @@ config.macros.TableOfContent={
 	'editTemplate':'TableOfContentPlugin##EditSectionTemplate', 
 	'viewTemplate':DEFAULT_VIEW_TEMPLATE,
 	'dragToolTip': 'Drag and drop to re-arrange sections in the table of content.',
-	'deleteText': 'remove'
+	'deleteText': 'remove',
+	'noDocSelectedText': 'No document selected'
 };
 
 config.macros.TableOfContent.strip=function(s) {
@@ -172,9 +173,11 @@ config.macros.TableOfContent._renderSpec = function(specView, spec, label) {
 config.macros.TableOfContent.refresh=function(place,macroName,params,wikifier,paramString,tiddler){
 	if(store.tiddlerExists(window.activeDocument)) {
 		var spec = jQuery.parseJSON(store.getTiddlerText(window.activeDocument)).content;
+		var specView = createTiddlyElement(place, "div", "", "specView");	
+		config.macros.TableOfContent.renderSpec(specView, spec);
+	}else{
+		createTiddlyElement(place, "span", null, "noDocSelected error", config.macros.TableOfContent.noDocSelectedText)
 	}
-	var specView = createTiddlyElement(place, "div", "", "specView");	
-	config.macros.TableOfContent.renderSpec(specView, spec);
 }	
 
 

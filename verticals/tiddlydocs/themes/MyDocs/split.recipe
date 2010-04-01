@@ -15,6 +15,7 @@ tiddler: ../../content/UserDefinitions.tid
 tiddler: ../../content/StatusDefinitions.tid
 tiddler: ../../Plugins/tdocsCKEditorSettings.js
 tiddler: ../../Plugins/DocumentPreviewPlugin.js
+tiddler: ../../Plugins/removeActiveDocumentLinkPlugin.js
 tiddler: ../../content/ToolbarCommands.tid
 tiddler: ../../../../contributors/MichaelMahemoff/plugins/CommentsPlugin/CommentsPlugin.js
 tiddler: ../../../../contributors/MichaelMahemoff/lib/modal/js/jquery.modal.js

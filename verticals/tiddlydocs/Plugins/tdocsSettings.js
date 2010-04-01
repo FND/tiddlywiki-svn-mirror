@@ -14,11 +14,8 @@ config.commands.editHtml={
 config.views.wikified.defaultText= "Enter section text here.";
 
 // set the document from the hash
-var hash =  window.location.hash.substring(1);
-if(hash!="" && hash!="#")
-	window.activeDocument = window.location.hash.substring(1);
-else
-	window.activeDocument = 'The Internet';	
+if(store.getTaggedTiddlers('document')[0])
+	window.activeDocument = store.getTaggedTiddlers('document')[0].title;	
 	
 //config.macros.ccLogin.defaults.username = 'username';	
 //config.macros.ccLogin.defaults.password = 'password';

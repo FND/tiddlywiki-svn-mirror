@@ -23,11 +23,14 @@ Provides tabs which users can use to change the current active document to any d
 //{{{
 	
 config.macros.docTabs = {
-	deleteLink:"x", 
-	deleteToolTip:"Click to delete this document.",
+	"noDocsFound": "No Documents Found."
 };
 config.macros.docTabs.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 		var tagged = store.getTaggedTiddlers('document').reverse();
+		if(tagged.length == 0) {
+			createTiddlyElement(place,"div", null, 'error ', config.macros.docTabs.noDocsFound);
+			return false;
+		}
 		var cookie = "documentTabs";
 		var wrapper = createTiddlyElement(null,"div",null,"docTabset tabsetWrapper taggedTabset " + cookie);
 		var tabset = createTiddlyElement(wrapper,"div",null,"tabset");
@@ -43,21 +46,7 @@ config.macros.docTabs.handler = function(place,macroName,params,wikifier,paramSt
 				tabLabel = label;
 			var prompt = tagged[t].title;
 			var tab = createTiddlyButton(tabset,tabLabel,prompt,config.macros.docTabs.onTabClick,tabSelected);
-			var delButton = createTiddlyElement(tab, "a", null, 'deleteDocumentButton', config.macros.docTabs.deleteLink);
-			delButton.title = config.macros.docTabs.deleteToolTip;
 			createTiddlyText(tab, " "); 
-			jQuery(delButton).click(function(){
-			//	var answer = confirm("Are you sure you want to delete the document : "+this.parentNode.title);
-			//	if (answer){
-					jQuery(this.parentNode).fadeOut("slow");
-					store.setTiddlerTag(this.parentNode.title,false,"document");
-					store.setTiddlerTag(this.parentNode.title,true,"documentDisabled");
-				//	store.removeTiddler(this.parentNode.title);
-					autoSaveChanges(true, this.parentNode.title);
-					window.activeDocument = store.getTaggedTiddlers('document')[0].title;
-			//	}
-				return false;
-			});
 			tab.setAttribute("tab",label);
 			if(config.options[cookie] == label)
 				validTab = true;

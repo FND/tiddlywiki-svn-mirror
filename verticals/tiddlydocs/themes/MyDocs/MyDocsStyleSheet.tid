@@ -538,7 +538,7 @@ div.docTabset  {
 
 .activeDocSummary{
     background:#fff;
-    padding:1em;
+    padding:0.5em 3em 3em 1em;
     margin:1em;
     border:1px solid #eee;
       height:50px

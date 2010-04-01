@@ -69,15 +69,12 @@ tags: systemTheme  excludeLists excludeSearch
 			<div macro='newDocumentButton template:MyDocsTheme##wizardViewTemplate text:""'></div>
 			<div class='leftColumn'>
 			
-			<div class='activeDocSummary'>
-			    active doc : The Internet <br/>
-			    <div style='float:right;'>
-			        <a href=''>remove this document</a><br />
-	               <a href=''>print this document</a><br />
-	                   <a href=''>add new section this document</a><br />
-			        <div macro=''></div>
+				<div class='activeDocSummary'>
+				<h2> The Internet </h2>
+			    		<div macro='newTiddler label:"New Section" template:"NewSectionTemplate"' class='title-right'></div>
+						<div macro='docPreview' class='title-right'></div><br/><br/>
+						<div macro='removeActiveDocumentLink'></div>
 			    </div>
-			</div>
 				<div class="portletContainer leftColumnItem">
 					<div class="portletToolbar portletToolbarLeft">
 						<div class="portletCornerLeft"></div>
@@ -85,8 +82,7 @@ tags: systemTheme  excludeLists excludeSearch
 						<div class="portletTitle iconShift">
 							<div class='title toc-title'>Table of Content</div>
 							<div id='buttonHolder'>
-								<div macro='newTiddler label:"New Section" template:"NewSectionTemplate"' class='title-right'></div>
-								<div macro='docPreview' class='title-right'></div>
+							
 							</div>
 						</div>
 					</div>
