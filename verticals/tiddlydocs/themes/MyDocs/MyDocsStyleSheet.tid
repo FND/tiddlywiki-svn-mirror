@@ -536,6 +536,14 @@ div.docTabset  {
 	width:90%;
 }
 
+.activeDocSummary{
+    background:#fff;
+    padding:1em;
+    margin:1em;
+    border:1px solid #eee;
+      height:50px
+}
+
 html body div.header div.tabWrapper {
 	background-color: #aaa !important;
 }

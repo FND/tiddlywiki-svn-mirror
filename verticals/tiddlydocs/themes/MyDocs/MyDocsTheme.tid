@@ -68,6 +68,16 @@ tags: systemTheme  excludeLists excludeSearch
 		<div id="container">
 			<div macro='newDocumentButton template:MyDocsTheme##wizardViewTemplate text:""'></div>
 			<div class='leftColumn'>
+			
+			<div class='activeDocSummary'>
+			    active doc : The Internet <br/>
+			    <div style='float:right;'>
+			        <a href=''>remove this document</a><br />
+	               <a href=''>print this document</a><br />
+	                   <a href=''>add new section this document</a><br />
+			        <div macro=''></div>
+			    </div>
+			</div>
 				<div class="portletContainer leftColumnItem">
 					<div class="portletToolbar portletToolbarLeft">
 						<div class="portletCornerLeft"></div>
