@@ -2,7 +2,7 @@
 |''Name''|TagsplorerMacro|
 |''Description''|tag-based faceted tiddler navigation|
 |''Author''|FND|
-|''Version''|1.3.1|
+|''Version''|1.3.2|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/contributors/FND/plugins/TagsplorerMacro.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/|
@@ -67,7 +67,17 @@
 
 .tagsplorer .tagSelection li {
 	float: left;
-	margin-right: 0.5em;
+}
+
+.tagsplorer .tagSelection li a.tag {
+	border: 1px solid [[ColorPalette::TertiaryLight]];
+	border-top-right-radius: 0.7em;
+	-webkit-border-top-right-radius: 0.7em;
+	-moz-border-radius-topright: 0.7em;
+	border-bottom-right-radius: 0.7em;
+	-webkit-border-bottom-right-radius: 0.7em;
+	-moz-border-radius-bottomright: 0.7em;
+	padding: 0 0.5em 0 0.3em;
 }
 
 .tagsplorer .tiddlerList {
@@ -173,7 +183,7 @@ config.macros.tagsplorer = $.extend(macro, {
 
 		var self = this;
 		$.each(tags, function(i, tag) {
-			createTagElement(clone, tag, self.locale.delTagTooltip, self.delTag);
+			createTagElement(clone, tag, self.locale.delTagTooltip, self.delTag, "tag");
 		});
 		createTagElement(clone, this.locale.newTagLabel, this.locale.newTagTooltip, this.newTagClick).
 			addClass("button");
@@ -228,11 +238,12 @@ var getTagSelection = function(tiddlers, exclude) {
 	return tags.sort();
 };
 
-var createTagElement = function(container, label, tooltip, action) {
+var createTagElement = function(container, label, tooltip, action, className) {
 	var el = $("<li />").appendTo(container);
 	return $('<a href="javascript:;" />').
-		text(label).
+		addClass(className || "").
 		attr("title", tooltip || "").
+		text(label).
 		click(action || null).
 		appendTo(el);
 };
