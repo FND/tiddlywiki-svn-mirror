@@ -547,4 +547,12 @@ div.docTabset  {
 html body div.header div.tabWrapper {
 	background-color: #aaa !important;
 }
+
+.defaultToolbarRight {
+    font-size:0.9em;
+    position:relative;
+    right:-1.2em;
+    top:-1.2em;
+    
+}
 <!--}}}-->

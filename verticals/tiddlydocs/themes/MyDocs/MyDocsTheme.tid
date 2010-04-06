@@ -5,18 +5,15 @@ tags: systemTheme  excludeLists excludeSearch
 |''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''~CoreVersion:''|2.4.0|
 |''~PageTemplate:''|##PageTemplate|
-|''~wizardViewTemplate:''|##wizardViewTemplate|
-|''~newEditTemplate:''|##newEditTemplate|
-|''~ViewTemplate:''|##ViewTemplate|
-|''~tiddlerEditTemplate:''|##tiddlerEditTemplate|
 |''~EditTemplate:''|##EditTemplate|
-|''~documentViewTemplate:''|##documentViewTemplate|
+|''~ViewTemplate:''|##ViewTemplate|
+|''~wizardViewTemplate:''|##wizardViewTemplate|
+|''~wizardEditTemplate:''|##wizardEditTemplate|
 |''~StyleSheet:''|##StyleSheet|
 ***/
 
 !PageTemplate
 <!--{{{-->
-	
 <div class="body">
 	<div class="sections">
 		<div id='messageArea'>
@@ -28,7 +25,6 @@ tags: systemTheme  excludeLists excludeSearch
 					<div id="header2">
 						<div id="flr_h2left1">
 							<div macro='saveNotification'></div>
-							<!--TOP2 LINKS LEFT -->
 						</div>
 						<div id="flr_h2left">
 							<div id="flr_h2leftb">
@@ -37,8 +33,6 @@ tags: systemTheme  excludeLists excludeSearch
 							</div>
 						<div id="flr_h2lefta">
 							<div id="show_logout">
-								<a href='#' onClick="story.closeAllTiddlers(); return true;">Close All</a>
-								<span class="hgrey1">|</span>
 								<a href='#' onClick="story.displayTiddler(null, 'Settings'); return true;">Settings</a>
 								<span class="hgrey1">|</span>
 								<a tabindex="14" class="plink"  href="/portalzone/editProfile/editProfile.do" class="plink" title="Profile">Profile</a>
@@ -101,7 +95,6 @@ tags: systemTheme  excludeLists excludeSearch
 	</div>	
 </div>
 
-
 	<!--[if IE]>
 	<style type="text/css">
 
@@ -141,14 +134,8 @@ tags: systemTheme  excludeLists excludeSearch
 	.iconShift {
 	top:1em;
 	}
-	
-	
 	</style>
 	<![endif]-->
-	
-	
-	
-	
 	
 	<!--[if IE 6]>
 	<style type="text/css">
@@ -167,12 +154,61 @@ tags: systemTheme  excludeLists excludeSearch
 	html body #tiddlerDisplay {
 		width:60%;
 	}
-
 	</style>
 	<![endif]-->
+<!--}}}-->
 
+!EditTemplate
+<!--{{{-->
+<div class="portletContainer">
+	<div class="portletToolbar">
+		<div class="portletCornerLeft"></div>
+		<div class="portletCornerRight"></div>
+		<div class="portletTitle iconShift">
+			<div class='title' macro='view title'>Editing Section :
+                <div class='title-right editIconShift'>
+                    <div class='toolbar editToolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
+                </div>
+            </div>
+		</div>
+	</div>
+	<div class="portletContent portletContentIconShift">
+		<div class='editor' macro='editHtml text'></div>
+        <div macro='commentSlider'>
+	        <div class='right links' macro='docSectionButtons'>
+	        </div>
+        </div>
+	</div>
+</div>
+<!--}}}-->
 
-
+!ViewTemplate
+<!--{{{-->
+<div class="portletContainer">
+	<div class="portletToolbar">
+		<div class="portletCornerLeft"></div>
+		<div class="portletCornerRight"></div>
+		<div class="portletTitle iconShift">
+		    <div  class='title' macro='droppableSection'></div>
+            <div class='title-right'>
+                <div class='toolbar right defaultToolbarRight' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
+            </div>
+        </div>
+	</div>
+</div>
+<div class="portletContent portletContentIconShift">
+	<div style='z-index:22' class='taskControls' macro='tiddler TaskTiddlerControls'></div>
+	<div class='viewer' macro='view text wikified'></div>	
+	<div class='subtitle'>
+        <span macro='view modifier link'></span>,
+        <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> 
+        <span macro='view created date'></span>)
+    </div>
+    <div macro='commentSlider noCount'>
+        <div class='right links' macro='docSectionButtons'></div>
+    </div>
+</div>
+</div>
 <!--}}}-->
 
 !wizardViewTemplate
@@ -181,21 +217,18 @@ tags: systemTheme  excludeLists excludeSearch
 	<div class="portletToolbar">
 		<div class="portletCornerLeft"></div>
 		<div class="portletCornerRight"></div>
-	<div class="portletTitle iconShift">
-
-			<div class='title ' macro='view title'>
-
-<div class='title-right'>
-<div class='toolbar right' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
-
-</div>
-</div>
-		</div>
-	</div>
-	<div class="portletContent portletContentIconShift">
-	<div  style='z-index:999;' class='toolbar' ></div>
-		<div class='wizardViewer'  style='background:padding:1em' macro='view text wikified'></div>
-	</div>
+	    <div class="portletTitle iconShift">
+	        <div class='title ' macro='view title'>
+                <div class='title-right'>
+                    <div class='toolbar right' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="portletContent portletContentIconShift">
+        <div  style='z-index:999;' class='toolbar' ></div>
+        <div class='wizardViewer'  style='background:padding:1em' macro='view text wikified'></div>
+    </div>
 </div>
 <!--}}}-->
 
@@ -207,133 +240,21 @@ tags: systemTheme  excludeLists excludeSearch
 		<div class="portletCornerRight"></div>
 		<div class="portletTitle iconShift">
 			<div class='title' macro='view title'>Editing Tiddler : 
-<div class='title-right editIconShift'>
-<div class='toolbar editToolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
-</div>
-</div>
+                <div class='title-right editIconShift'>
+                    <div class='toolbar editToolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
+                </div>
+            </div>
 		</div>
 	</div>
 	<div class="portletContent portletContentIconShift">
 		<div class='editor' macro='edit text'></div>
 	</div>
 </div>
-
-
-
 <!--}}}-->
 
-
-!EditTemplate
-<!--{{{-->
-<div class="portletContainer">
-	<div class="portletToolbar">
-		<div class="portletCornerLeft"></div>
-		<div class="portletCornerRight"></div>
-		<div class="portletTitle iconShift">
-			<div class='title' macro='view title'>Editing Section :
-
-<div class='title-right editIconShift'>
-<div class='toolbar editToolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
-
-</div>
-</div>
-		</div>
-	</div>
-	<div class="portletContent portletContentIconShift">
-<!--			<div class='taskControls' macro='tiddler TaskTiddlerControls'></div>-->
-		<div class='editor' macro='editHtml text'></div>
-
-<div macro='commentSlider'>
-	<div class='right links' macro='docSectionButtons'>
-	</div>
-</div>
-	</div>
-</div>
-
-
-
-<!--}}}-->
-
-!newEditTemplate
-<!--{{{-->
-
-<div class="portletContainer">
-	<div class="portletToolbar">
-		<div class="portletCornerLeft"></div>
-		<div class="portletCornerRight"></div>
-		<div class="portletTitle iconShift">
-					 <div  style='z-index:3;' class='title' macro='edit title'>New Section Title:
-				<div class='title-right'>
-					<div class='toolbar right' macro='toolbar [[ToolbarCommands::newEditToolbar]]'></div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="portletContent portletContentIconShift">
-			<div class='taskControls' macro='tiddler TaskTiddlerControls'></div>	
-		<div class='editor newEditor' macro='editHtml text'>
-	</div>
-</div>
-
-<!--}}}-->
-
-!ViewTemplate
-<!--{{{-->
-
-<div class="portletContainer">
-	<div class="portletToolbar">
-		<div class="portletCornerLeft"></div>
-		<div class="portletCornerRight"></div>
-		<div class="portletTitle iconShift">
-		<div  class='title' macro='droppableSection'></div>
-			<!--<div  class='title' macro='droppableSection'>-->
-			
-<div class='title-right'>
-<div class='toolbar right' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
-
-</div>
-</div>
-		</div>
-	</div>
-	<div class="portletContent portletContentIconShift">
-			<div style='z-index:22' class='taskControls' macro='tiddler TaskTiddlerControls'></div>
-		<div class='viewer' macro='view text wikified'></div>	
-		
-		<div class='subtitle'><span macro='view modifier link'></span>, <span macro='view modified date'></span> (<span macro='message views.wikified.createdPrompt'></span> <span macro='view created date'></span>)</div>
-		
-		
-			 
-<div macro='commentSlider noCount'>
-	<div class='right links' macro='docSectionButtons'>
-	</div>
-</div>
-	</div>
-</div>
-
-<!--}}}-->
-
-!documentViewTemplate
-<!--{{{-->
-	<div class="portletContainer">
-		<div class="portletToolbar">
-			<div class="portletCornerLeft"></div>
-			<div class="portletCornerRight"></div>
-			<div class="portletTitle">
-				<div class='title' macro='view title'></div>
-			</div>
-		</div>
-		<div class="portletContent simpleTiddler">
-				<div class='' macro='toolbar [[ToolbarCommands::adminToolbar]]'></a></div>
-				</br>
-				</br>
-				</br>
-			<div class='viewer2' macro='view text wikified'></div>
-		</div>
-	</div>
-<!--}}}-->
 
 !StyleSheet
-	[[MyDocsCSSConainer]]
+[[MyDocsCSSConainer]]
 [[MyDocsCSSOverride]]
 [[MyDocsStyleSheet]]
 
