@@ -103,7 +103,7 @@ config.macros.TableOfContent.renderSpec = function(specView, spec) {
 };
 
 config.macros.TableOfContent.buildSpec = function() {
-  return config.macros.TableOfContent._buildSpec(jQuery(".specView > ul > li"));
+  return config.macros.TableOfContent._buildSpec(jQuery(".specView:first > ul > li"));
 };
 
 config.macros.TableOfContent._buildSpec = function (liList) {
@@ -160,7 +160,7 @@ config.macros.TableOfContent._renderSpec = function(specView, spec, label) {
 		var a = createTiddlyElement(sectionDiv, "a", null, 'button deleteButton', config.macros.TableOfContent.deleteText);    
 		jQuery(a).css('opacity', '0');
 		jQuery(a).click(function() {
-			jQuery(this).parent().parent().fadeOut('slow', function() {
+			jQuery(this).parent().parent().fadeOut('fast', function() {
 						jQuery(this).remove();
 					    config.macros.TableOfContent.specChanged();
 			});
