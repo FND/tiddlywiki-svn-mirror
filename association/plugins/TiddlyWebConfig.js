@@ -2,7 +2,7 @@
 |''Name''|TiddlyWebConfig|
 |''Description''|configuration settings for TiddlyWebWiki|
 |''Author''|FND|
-|''Version''|0.7.4|
+|''Version''|0.7.5|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/plugins/TiddlyWebConfig.js|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
@@ -60,11 +60,12 @@ config.commands.deleteTiddler.isEnabled = function(tiddler) {
 	return hasPermission("delete", tiddler);
 };
 
-// hijack Tiddler.prototype.isReadOnly to use permissions
+// hijack isReadOnly to take into account permissions and content type
 var _isReadOnly = Tiddler.prototype.isReadOnly;
 Tiddler.prototype.isReadOnly = function() {
 	var readOnly = _isReadOnly.apply(this, arguments); // global read-only mode
-	return readOnly || !hasPermission("write", this);
+	var type = this.fields["server.content-type"] || ""; // defaults to non-binary
+	return readOnly || type != "" || !hasPermission("write", this);
 };
 
 var hasPermission = function(type, tiddler) {
