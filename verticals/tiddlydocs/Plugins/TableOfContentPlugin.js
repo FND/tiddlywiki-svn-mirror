@@ -44,14 +44,14 @@ config.macros.TableOfContent.handler=function(place,macroName,params,wikifier,pa
 };
 
 config.macros.TableOfContent.specChanged = function() {
-	window.testSpec = config.macros.TableOfContent.buildSpec(); 
+	window.newSpec = config.macros.TableOfContent.buildSpec(); 
 	if(store.tiddlerExists(window.activeDocument)) { 
 		var specTiddler = store.getTiddler(window.activeDocument); 
 		var fields = merge(specTiddler.fields, config.defaultCustomFields); 
 	} else { 
 	    var fields = config.defaultCustomFields; 
 	} 
-	var spec = { format: { name: 'TiddlyDocsSpec', majorVersion:'0', minorVersion:'1' }, content: window.testSpec}; 
+	var spec = { format: { name: 'TiddlyDocsSpec', majorVersion:'0', minorVersion:'1' }, content: window.newSpec}; 
 	store.saveTiddler(window.activeDocument, window.activeDocument, jQuery.toJSON(spec), null, null, "document", fields); 
 	autoSaveChanges(true, window.activeDocument);
 	refreshAll();
