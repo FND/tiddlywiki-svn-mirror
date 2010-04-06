@@ -21,12 +21,16 @@ Provides a macro that can be called with <<newDocument>>. The macro craetes a fo
 ***/
 
 //{{{
-config.macros.newDocument = {};
+config.macros.newDocument = {
+    'createNewDocument': 'create new document',
+    'docExists': ' Document Already Exists',
+    'sectionExists': ' Already Exists as a document section.'
+};
 
 config.macros.newDocument.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
 	var w = new Wizard();
 	var me = config.macros.newDocument;
-	w.createWizard(place,"create new document");
+	w.createWizard(place,config.macros.newDocument.createNewDocument);
 	w.addStep(null, '<input name="documentName" />');
 	w.setButtons([
 		{caption: 'create', tooltip: 'create new document', onClick: function()  { config.macros.newDocument.createDocumentOnClick(this, w);}
@@ -36,7 +40,10 @@ config.macros.newDocument.handler = function(place,macroName,params,wikifier,par
 config.macros.newDocument.createDocumentOnClick = function(e, w) {
     var docName = w.formElem.documentName.value;
 	if(store.tiddlerExists(docName)) {
-		alert(docName+" Already Exists");
+	    if(store.getTiddler(docName).isTagged('document'))
+		    alert(docName+config.macros.newDocument.docExists);
+		else 
+	        alert(docName+config.macros.newDocument.sectionExists);  
 	}else{
 		var tiddler = store.saveTiddler(docName, docName, '{content:[]}', null, null, "document excludeSearch", merge({}, config.defaultCustomFields));
 		autoSaveChanges(null, [tiddler]);
@@ -45,6 +52,4 @@ config.macros.newDocument.createDocumentOnClick = function(e, w) {
 	refreshAll();
 	return false;
 }
-
-
 //}}}
