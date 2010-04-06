@@ -44,14 +44,14 @@ config.macros.TableOfContent.handler=function(place,macroName,params,wikifier,pa
 };
 
 config.macros.TableOfContent.specChanged = function() {
-	window.newSpec = config.macros.TableOfContent.buildSpec(); 
+	var newSpec = config.macros.TableOfContent.buildSpec(); 
 	if(store.tiddlerExists(window.activeDocument)) { 
 		var specTiddler = store.getTiddler(window.activeDocument); 
 		var fields = merge(specTiddler.fields, config.defaultCustomFields); 
 	} else { 
 	    var fields = config.defaultCustomFields; 
 	} 
-	var spec = { format: { name: 'TiddlyDocsSpec', majorVersion:'0', minorVersion:'1' }, content: window.newSpec}; 
+	var spec = { format: { name: 'TiddlyDocsSpec', majorVersion:'0', minorVersion:'1' }, content: newSpec}; 
 	store.saveTiddler(window.activeDocument, window.activeDocument, jQuery.toJSON(spec), null, null, "document", fields); 
 	autoSaveChanges(true, window.activeDocument);
 	refreshAll();
@@ -161,8 +161,7 @@ config.macros.TableOfContent._renderSpec = function(specView, spec, label) {
 		jQuery(a).css('opacity', '0');
 		jQuery(a).click(function() {
 			jQuery(this).parent().parent().fadeOut('fast', function() {
-						jQuery(this).remove();
-					    config.macros.TableOfContent.specChanged();
+				config.macros.TableOfContent.specChanged();
 			});
 			return false;
 		})
@@ -171,8 +170,9 @@ config.macros.TableOfContent._renderSpec = function(specView, spec, label) {
 };
 
 config.macros.TableOfContent.refresh=function(place,macroName,params,wikifier,paramString,tiddler){
-	if(store.tiddlerExists(window.activeDocument)) {
-		var spec = jQuery.parseJSON(store.getTiddlerText(window.activeDocument)).content;
+	docTiddler = (paramString) ? paramString : window.activeDocument;
+	if(store.tiddlerExists(docTiddler)) {
+		var spec = jQuery.parseJSON(store.getTiddlerText(docTiddler)).content;
 		var specView = createTiddlyElement(place, "div", "", "specView");	
 		config.macros.TableOfContent.renderSpec(specView, spec);
 	}else{
