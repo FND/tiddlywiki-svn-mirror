@@ -1,0 +1,21 @@
+modifier: Simon McManus
+
+
+<!--{{{-->
+	<div id='messageArea'></div>
+	
+<table>
+	<tr>
+		<td width='200px'>
+			<div macro="TableOfContent"></div>
+		</td>
+		<td width='200px'>
+		<div macro="TableOfContent"></div>
+		
+		</td>
+		<td width='200px'>
+		<div macro="TableOfContent fleur"></div>
+		</td>
+	</tr>
+</table>
+<!--}}}-->
