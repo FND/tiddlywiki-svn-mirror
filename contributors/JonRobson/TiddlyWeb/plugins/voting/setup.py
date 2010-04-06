@@ -1,14 +1,14 @@
 # YOU NEED TO EDIT THESE
 AUTHOR = 'Jon Robson'
 AUTHOR_EMAIL = 'jdlrobson@gmail.com'
-NAME = 'tiddlywebplugins.twanagerutils'
-DESCRIPTION = 'Provides lots of useful twanager utils for managing your TiddlyWeb'
-VERSION = '0.92'
-
+NAME = 'tiddlywebplugins.voting'
+DESCRIPTION = ''
+VERSION = '0.4'
 
 import os
 from setuptools import setup, find_packages
-# You should carefully review the below (install_requires especially).
+
+
 setup(
     namespace_packages = ['tiddlywebplugins'],
     name = NAME,
@@ -20,6 +20,6 @@ setup(
     url = 'http://pypi.python.org/pypi/%s' % NAME,
     packages = find_packages(exclude=['test']),
     platforms = 'Posix; MacOS X; Windows',
-    install_requires = ['setuptools', 'tiddlyweb'],
+    install_requires = ['setuptools', 'tiddlyweb','tiddlyweb.test'],
     zip_safe = False
     )

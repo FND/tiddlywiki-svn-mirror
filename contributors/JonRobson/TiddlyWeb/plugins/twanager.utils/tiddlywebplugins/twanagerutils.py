@@ -26,7 +26,23 @@ def removefield(args):
       del tid.fields[field_name]
       print "deleted field %s from %s"%(field_name,tid.title)
       store.put(tid)
-      
+
+@make_command()
+def renamefield(args):
+  bag_name = args[0]
+  old_field_name = args[1]
+  new_field_name = args[2]
+  store = get_store(config)
+
+  bag = store.get(Bag(bag_name))
+  for tiddler in bag.list_tiddlers():
+    tid = store.get(tiddler)
+    if old_field_name in tid.fields:
+      tid.fields[new_field_name] = tid.fields[old_field_name]
+      del tid.fields[old_field_name]
+      print "swapped field in %s"%(tid.title)
+      store.put(tid)
+  
 @make_command()
 def maptags(args):
   """Replace certain tags with another tag in a given bag. Example usage: maptags <bag> "rugby=sport;soccer=sport;" will replace any tiddler tagged with rugby or soccer with the tag sport"""

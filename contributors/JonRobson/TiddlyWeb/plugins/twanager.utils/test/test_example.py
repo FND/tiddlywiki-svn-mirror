@@ -83,6 +83,21 @@ def test_setfield():
   assert store.get(Tiddler("Ben","tmp")).fields["read"] == 'yes'
   assert store.get(Tiddler("Whiskers","tmp")).fields["read"] == 'yes'
   
+
+def test_renamefield():
+  twanagerutils.init(config)
+  setup_testdata()
+
+  twanagerutils.renamefield(["tmp","badfield","terriblefield"])
+
+  x = store.get(Tiddler("Ben","tmp"))
+  try:
+    gone = x.fields["badfield"]
+    assert False is True
+  except KeyError:
+    there = x.fields['terriblefield']
+    assert there == 'z'
+    pass
   
 def test_removefield():
   twanagerutils.init(config)

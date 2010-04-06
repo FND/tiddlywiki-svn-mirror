@@ -1,0 +1,31 @@
+A TiddlyWeb plugin that provides the ability for users to score tiddlers.
+Can use for rating a tiddler (1-5 or +1/-1)
+
+##########
+##usage###
+##########
+/tiddlyvoting?title=<title>&bag=<bag>&value=<value>
+on the tiddler with title <title> in bag <bag> the field tiddlyvotes.increment will be incremented by <value> and the field tiddlyvotes.mode will be updated with a number representing the most commonly used value and tiddlyvotes.average will be the average of all values applied to that tiddler
+
+to work, the user must have read access to the bag <bag>
+
+###########
+##data accuracy####
+###########
+Obviously if someone has write access to a bag they can manually alter the rating on the given tiddler. To try and prevent this all tiddlyvotes are stored and recalculated when a vote is placed.
+
+###########
+##config####
+###########
+You can define more complex behaviours by using tiddler slices in the text of a tiddler called config::<bagname> in the tiddlyvoting bag.
+So far the behaviours you can define are...
+increment.range::0,10
+increment.limit:2
+
+increment.range sets the values which can be used for voting. In the above example any votes of value greater than 10 or less than 0 do not count.
+increment.limit limits the votes a single user can cast on any tiddler. So if a user tries to vote a 3rd time in the above example the vote will be rejected
+
+###########
+##license####
+###########
+This package is licensed under the same terms as TiddlyWeb itself.
