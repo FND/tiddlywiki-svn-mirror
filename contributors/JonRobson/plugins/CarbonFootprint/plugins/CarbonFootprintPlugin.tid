@@ -59,6 +59,9 @@ config.macros.CarbonFootprintForm ={
     "tube (eg. London Underground)":.21,
     "train (other)":.50
   }
+  ,"search-cache": {
+    
+  }
   ,codemsg: "Copy and paste the code below and then you will be able to retrieve your trip by clicking on the 'load from code' link in the bottom right of the calculator."
   ,_transportHTML: ""
   ,_generateTransportHTML: function(){
@@ -234,6 +237,7 @@ config.macros.CarbonFootprintForm ={
   }
   ,calculate:function(place,options){
     /* for debugging */    
+    console.log("calculate time!");
     var macro = config.macros.CarbonFootprintForm;
     var startLocation = macro.get_google_search_term(jQuery("input[name=meeting_location]",place).val());
     var isReturn = jQuery("input[name=isReturn]:checked",place);
@@ -249,20 +253,29 @@ config.macros.CarbonFootprintForm ={
     jQuery(".generator",place).val("please wait..")
     jQuery(".resultsBox",resultElement).html("please wait...");
     var theurl = options.url+startLocation;
+    if(!macro["search-cache"][startLocation]){
+      ajaxReq({url:theurl, error: function(e){console.log("error time");alert("an error occurred.. "+e);}, success:function(r){
+        console.log("success time");
+        var geo = macro.getLngLatFromGoogleResponse(r);
+       
+        if(!geo){
+          alert("Couldn't find "+ startLocation + " check this is a valid postcode.");
+          jQuery(".resultsBox",place).html("error occurred: invalid address " + startLocation);
+          jQuery(".generator",place).val("CALCULATE")
+        }
+        var lon = geo.lng
+        var lat = geo.lat;
+        macro.calculateDistances(place,lon,lat,startLocation,options);
 
-    ajaxReq({url:theurl, error: function(e){alert("an error occurred.. "+e);}, success:function(r){
-      var data = eval("("+r+")");
-      var topResult = data["responseData"].results[0];
-      if(!topResult){
-        alert("Couldn't find "+ startLocation + " check this is a valid postcode.");
-        jQuery(".resultsBox",place).html("error occurred: invalid address " + startLocation);
-        jQuery(".generator",place).val("CALCULATE")
-      }
-      var lon = topResult.lng
-      var lat = topResult.lat;
+      }});
+      
+    }
+    else{
+      var lon = macro["search-cache"][startLocation].lng;
+      var lat = macro["search-cache"][startLocation].lat;
       macro.calculateDistances(place,lon,lat,startLocation,options);
-  
-    }});
+    }
+
     
   }
   ,printSummary: function(place,result){
@@ -419,8 +432,6 @@ config.macros.CarbonFootprintForm ={
       if(!transport[transport.length-1]) return;
       //console.log("params",transport,remaining_legs);
       ajaxReq({params:{transport:transport,name:name,legs:remaining_legs,destLat:destLat,destLng:destLng},url:cff.ajaxUrl+postcode, success:function(r){
-
-        
         var transports = this.params['transport'];
         var remaining_legs =this.params.legs;
         var postcode = remaining_legs[remaining_legs.length-1];
@@ -431,30 +442,32 @@ config.macros.CarbonFootprintForm ={
         var remaining_transport = transports.slice(0,transports.length-1);
         
         var nameParticipant = this.params['name'];      
-        var data = eval("("+r+")");
-        var topResult = data["responseData"].results[0];
-        if(!topResult){
-          alert("Couldn't find "+ postcode + " check this is a valid postcode.");
-        }
-        var lng = topResult.lng
-        var lat = topResult.lat;
-        var kmTravelled = config.macros.CarbonFootprintForm.calculateKm(this.params.destLat,this.params.destLng,lat,lng);
+        var geo = macro.getLngLatFromGoogleResponse(r);
+        var kmTravelled = config.macros.CarbonFootprintForm.calculateKm(this.params.destLat,this.params.destLng,geo.lat,geo.lng);
         if(options.returnjourney){
           kmTravelled *=2;
         }
         if(!totalKms[transport])totalKms[transport]= 0;
         totalKms[transport] += kmTravelled;
-       
-        
         totalKmsPerson[nameParticipant] += (carbonCalculator[transport]* kmTravelled);
-
-
-        config.macros.CarbonFootprintForm.generateReport(place,name,remaining_transport,remaining_legs,lat,lng,result,options); //calculate remaining legs.
-      //jQuery(".codeString",place).val();
-      //jQuery(".codeStringPlace",place).css({display:"block"});
-      //console.log(result);
+        config.macros.CarbonFootprintForm.generateReport(place,name,remaining_transport,remaining_legs,geo.lat,geo.lng,result,options); //calculate remaining legs.
       },fail:function(){alert("something went wrong.. make sure you are connected to the internet..");}});
     
+  }
+  ,getLngLatFromGoogleResponse: function(response){
+      var macro = config.macros.CarbonFootprintForm;
+      if(!response){
+        throw "Tried to query geodata for given location but got nothing back for the handler!";
+      }
+      var data = eval("("+response+")");
+      var topResult = data["responseData"].results[0];
+      if(!topResult){
+        alert("Couldn't find "+ postcode + " check this is a valid postcode.");
+      }
+      var lng = topResult.lng
+      var lat = topResult.lat;
+      macro["search-cache"][startLocation] = {"lng":lon,"lat":lat};
+      return {"lng":lng,"lat":lat};
   }
   ,loadData: function(place,options){
     var macro =config.macros.CarbonFootprintForm;

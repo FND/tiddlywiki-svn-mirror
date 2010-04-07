@@ -112,15 +112,7 @@ attempting by hacking getRecursiveTiddlerText
 */
 
 
-String.prototype.toJSON = function(){
-    var namedprms = this.parseParams(null, null, true);
-    var options ={};
-    for(var i=0; i < namedprms.length;i++){
-        var nameval = namedprms[i];
-        options[nameval.name] = nameval.value;
-    }
-    return options;
-};
+String.prototype.toJSON = function(){var namedprms = this.parseParams(null, null, true);var options ={};for(var i=0; i < namedprms.length;i++){var nameval = namedprms[i];options[nameval.name] = nameval.value;}return options;};
 
 config.macros.tiddlersLink = {
   handler: function(place,macroName,params,wikifier,paramString,tiddler){
@@ -161,18 +153,20 @@ config.macros.message.handler = function(place,macroName,params,wikifier,paramSt
 		if(m == null)
 			m = lookupMessage(window,0);
 		
+		if(m == null) m = "";
 		var oldParams = params;
 		var formatMsg = function(m){m.toString().format(params.splice(1));};
 		
 		
-
+    
 		if(oldParams[1]){
+
 		  var type = oldParams[1];
       var newParams = oldParams.splice(1);
       var value = m;
+      
 		  var handler = config.macros.view.views[type];
-		  if(!value) return;
-		  var newParamString = paramString.substr(paramString.indexOf("view ")+5);
+		  var newParamString = paramString;
 		  
 		  if(handler)
 				handler(value,place,newParams,wikifier,newParamString,tiddler);
@@ -282,7 +276,7 @@ TiddlyWiki.prototype.filterTiddlers = function(filter)
   var re =/[^ ][^\]^\[]+|\[.*\]/g
   var match = re.exec(filter);
   while(match){
-    console.log(match);
+    //console.log(match);
     var filters = match[0].split(" ")
     var andFilter = /\[a\[b\]\]/
     for(var i=0; i < filters.length;i++){

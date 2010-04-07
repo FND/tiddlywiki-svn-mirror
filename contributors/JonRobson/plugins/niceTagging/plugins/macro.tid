@@ -16,7 +16,7 @@ title: NiceTaggingPlugin
 if(store){
   config.shadowTiddlers.NiceTaggingStyle = "/*{{{*/\n" +
   ".tip {font-style:italic;font-weight:bold;}\n"+
-  ".dp-popup {position:absolute;background-color:white;} a.dp-choose-date {	float: left;	width: 16px;	height: 16px;	padding: 0;	margin: 5px 3px 0;	display: block;	text-indent: -2000px;	overflow: hidden;	background: url(calendar.png) no-repeat; }a.dp-choose-date.dp-disabled {	background-position: 0 -20px;	cursor: default;}input.dp-applied {	width: 140px;	float: left;}\n"+
+  ".dp-popup {position:absolute;background-color:white;} a.dp-choose-date {  float: left;  width: 16px;  height: 16px;  padding: 0;  margin: 5px 3px 0;  display: block;  text-indent: -2000px;  overflow: hidden;  background: url(calendar.png) no-repeat; }a.dp-choose-date.dp-disabled {  background-position: 0 -20px;  cursor: default;}input.dp-applied {  width: 140px;  float: left;}\n"+
   ".niceTagger input {width:200px; float:left;}\n"+
   ".deleter {color:red; font-weight:bold; padding:2px; cursor:pointer;}\n"+
   "/*}}}*/";
@@ -25,83 +25,83 @@ store.addNotification("NiceTaggingStyle", refreshStyles);
 
 
 config.macros.niceTagger = {
-	lingo:{
-		add: "add"
-	}
-	,twtags: {}
-	,initialised:{}
-	,init: function(field){
-	    
-	    if(!field)field = 'tags';
+  lingo:{
+    add: "add"
+  }
+  ,twtags: {}
+  ,initialised:{}
+  ,init: function(field){
+      
+      if(!field)field = 'tags';
 
-	    if(this.initialised[field]){
-	        if(field =='tags'){
-	            
-    	        var numTags= store.getTags();
-    	        if(numTags.length == this.twtags[field].length) return;
-    	    }
-    	    else{
-    	        return;
-	        }
-	    }
-	    var tiddlers= store.getTiddlers();
-	    config.macros.niceTagger.twtags[field] = [];
-	    
+      if(this.initialised[field]){
+          if(field =='tags'){
+              
+              var numTags= store.getTags();
+              if(numTags.length == this.twtags[field].length) return;
+          }
+          else{
+              return;
+          }
+      }
+      var tiddlers= store.getTiddlers();
+      config.macros.niceTagger.twtags[field] = [];
+      
         for(var i=0; i < tiddlers.length; i++){
             var dest = config.macros.niceTagger.twtags[field];
             var tid = tiddlers[i];
-        	var values;
-        	if(field=='tags')values = tid.tags;
-        	else {
-        	    values=tid.fields[field]
-        	    if(!values)values="";
-        	    values = values.readBracketedList();
-        	}
-        	config.macros.niceTagger.twtags[field]= dest.concat(values);
+          var values;
+          if(field=='tags')values = tid.tags;
+          else {
+              values=tid.fields[field]
+              if(!values)values="";
+              values = values.readBracketedList();
+          }
+          config.macros.niceTagger.twtags[field]= dest.concat(values);
         }
         this.initialised[field] =true;
-	}
+  }
   ,save: function(title,field,list,place){
         //console.log("save",title,field,list);
-		var tiddler =  store.getTiddler(title);
-		if(!tiddler) { //doesnt work when tiddler is brand spanking new
-		  var dummytiddler ={title:title,tags:[],fields:{}};
-		    var tagTempPlace = jQuery("input[edit="+field+"]",place);
+    var tiddler =  store.getTiddler(title);
+    if(!tiddler) { //doesnt work when tiddler is brand spanking new
+      var dummytiddler ={title:title,tags:[],fields:{}};
+        var tagTempPlace = jQuery("input[edit="+field+"]",place);
 
-		    if(!tagTempPlace[0]){
-		      jQuery(place).append('<input style="display:none;" type="text" edit="'+field+'"/>')
-		    }
-		    tagTempPlace = jQuery("input[edit="+field+"]",place);
-		    
-		    var tags = [];
-		    if(field=='tags'){
-		        tags = list;
-		        dummytiddler.tags = list;
-		    }
-		    else{
-		        dummytiddler.fields[field] = list;
-		    }
-		    tagTempPlace.val(String.encodeTiddlyLinkList(list))
-		  return dummytiddler;
-			//store.saveTiddler(title,title,null,true,null,tags,fields,null);
-			//tiddler =  store.getTiddler(title);
-		}
-		
-		var strVal;
-		if(typeof(list) =='string'){
-		    strVal = list;
-		}
-		else{
-		    strVal= String.encodeTiddlyLinkList(list);
-		} 
-		//tiddler.fields[field] = strVal
-		//store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,null,null,tiddler.tags,tiddler.fields,null);
-		store.setValue(tiddler.title,field,strVal);
-		     store.saveTiddler(tiddler.title, tiddler.title, tiddler.text, tiddler.modifier, tiddler.modified, tiddler.tags, tiddler.fields, false, tiddler.created)
+        if(!tagTempPlace[0]){
+          jQuery(place).append('<input style="display:none;" type="text" edit="'+field+'"/>')
+        }
+        tagTempPlace = jQuery("input[edit="+field+"]",place);
+        
+        var tags = [];
+        if(field=='tags'){
+            tags = list;
+            dummytiddler.tags = list;
+        }
+        else{
+            dummytiddler.fields[field] = list;
+        }
+        tagTempPlace.val(String.encodeTiddlyLinkList(list))
+      return dummytiddler;
+      //store.saveTiddler(title,title,null,true,null,tags,fields,null);
+      //tiddler =  store.getTiddler(title);
+    }
+    
+    var strVal;
+    if(typeof(list) =='string'){
+        strVal = list;
+    }
+    else{
+        strVal= String.encodeTiddlyLinkList(list);
+    } 
+    //tiddler.fields[field] = strVal
+    //store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,null,null,tiddler.tags,tiddler.fields,null);
+    store.setValue(tiddler.title,field,strVal);
+         store.saveTiddler(tiddler.title, tiddler.title, tiddler.text, tiddler.modifier, tiddler.modified, tiddler.tags, tiddler.fields, false, tiddler.created)
           autoSaveChanges()
           
-		//story.setDirty(title,true);
-		return tiddler;
+    //story.setDirty(title,true);
+    return tiddler;
         //console.log("finished save tags",tiddler.tags,"field",tiddler.fields[field]);
     }
     ,refreshFieldDisplay: function(place,tiddler,field){
@@ -211,31 +211,31 @@ config.macros.niceTagger = {
                 suggestions[i] =suggestions[i].toLowerCase();
               }
             }
-		var tagsoff = getParam(params,"nostoretags");
-		if(!tagsoff) suggestions = suggestions.concat(config.macros.niceTagger.twtags[options.field]);
-		
-		
-		var uniqueSuggestions = [];
-		var ignoreList = paramString.parseParams("exclude",null,true,false,true);
+    var tagsoff = getParam(params,"nostoretags");
+    if(!tagsoff) suggestions = suggestions.concat(config.macros.niceTagger.twtags[options.field]);
+    
+    
+    var uniqueSuggestions = [];
+    var ignoreList = paramString.parseParams("exclude",null,true,false,true);
 
-		if(ignoreList && ignoreList[0] && ignoreList[0]["exclude"]) ignoreList =  ignoreList[0]["exclude"];
-		else ignoreList = ["excludeList"];
-		for(var i=0; i < suggestions.length; i++){
-			var s =suggestions[i];
-			if(s && typeof(s) =='string'){
-			//rtrim then ltrim
-			  s = s.replace(new RegExp("[\\s]+$", "g"), "").replace(new RegExp("^[\\s]+", "g"), "");
-			//console.log(uniqueSuggestions.toString(),s,uniqueSuggestions.indexOf(s));
-				if(uniqueSuggestions.indexOf(s) ==-1 && ignoreList.indexOf(s) ==-1){
-					uniqueSuggestions.push(s);
-				}
-			}
-		}
-		//console.log(uniqueSuggestions);
-           config.macros.AdvancedEditTemplate.createSearchBox(tagplace,"tags",uniqueSuggestions,"",function(v){saveNewTag(v);jQuery("input",tagplace).val("");})
+    if(ignoreList && ignoreList[0] && ignoreList[0]["exclude"]) ignoreList =  ignoreList[0]["exclude"];
+    else ignoreList = ["excludeList"];
+    for(var i=0; i < suggestions.length; i++){
+      var s =suggestions[i];
+      if(s && typeof(s) =='string'){
+      //rtrim then ltrim
+        s = s.replace(new RegExp("[\\s]+$", "g"), "").replace(new RegExp("^[\\s]+", "g"), "");
+      //console.log(uniqueSuggestions.toString(),s,uniqueSuggestions.indexOf(s));
+        if(uniqueSuggestions.indexOf(s) ==-1 && ignoreList.indexOf(s) ==-1){
+          uniqueSuggestions.push(s);
+        }
+      }
+    }
+      var addtaghandler = function(v){saveNewTag(v);jQuery("input",tagplace).val("");}
+      config.macros.AdvancedEditTemplate.createSearchBox(tagplace,"tags",uniqueSuggestions,"",addtaghandler)
            adder = jQuery("input",tagplace)[0];
-			
-		
+      
+    
         }
         else{
             adder = document.createElement("input");
@@ -243,17 +243,17 @@ config.macros.niceTagger = {
             tagplace.appendChild(adder);
             
         }
-		jQuery(adder).keypress(function (e) {
-			if(e.which == 13){
-				var results = jQuery(".ac_over",".ac_results"); //is anything highlighted in autocomplete plugin
-				if(results.length ==0)
-		
-					saveNewTag(adder.value);
-			}
-		});
+    jQuery(adder).keypress(function (e) {
+      if(e.which == 13){
+        var results = jQuery(".ac_over",".ac_results"); //is anything highlighted in autocomplete plugin
+        if(results.length ==0)
+    
+          saveNewTag(adder.value);
+      }
+    });
     var addbutton = document.createElement("button");
     addbutton.innerHTML = config.macros.niceTagger.lingo.add;
-		addbutton.className = "adder";
+    addbutton.className = "adder";
     tagplace.appendChild(addbutton);
         
 

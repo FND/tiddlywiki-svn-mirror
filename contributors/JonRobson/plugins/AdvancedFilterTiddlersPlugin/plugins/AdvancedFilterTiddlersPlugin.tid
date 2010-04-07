@@ -101,7 +101,7 @@ TiddlyWiki.prototype.sortTiddlers = function(tiddlers,field,fieldType)
 	if(TiddlyWiki.standardFieldAccess[field])
 		tiddlers.sort(function(a,b) {return a[field] < b[field] ? -asc : (a[field] == b[field] ? 0 : asc);});
 	else{
-	    
+	   
 		tiddlers.sort(function(a,b) {return convert(a.fields[field]) < convert(b.fields[field]) ? -asc : (a.fields[field] == b.fields[field] ? 0 : +asc);});
 	}return tiddlers;
 };
@@ -168,7 +168,6 @@ TiddlyWiki.prototype.filterTiddlers = function(filter)
   }
   var addTiddler= function(){
 	  arg1 =arg1.trim();
-	  //console.log("Add tiddler","'"+arg1+"'");
 	  var tid = store.getTiddler(arg1);
 	  if(tid)filterResult.pushUnique(tid);
 	  restart();
@@ -215,8 +214,9 @@ TiddlyWiki.prototype.filterTiddlers = function(filter)
   }
   
   //define the transition function
-  var tf = function(state,token){
 
+  
+  var tf = function(state,token){
     switch(state){
       case 'A':
         write_to_arg1(token);
