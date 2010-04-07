@@ -1,0 +1,13 @@
+# TiddlyWiki components
+recipe: $TW_TRUNKDIR/core/tiddlywiki.html.recipe
+
+# jQuery
+recipe: $TW_TRUNKDIR/core/jquery/split.recipe
+
+# test framework
+recipe: $TW_TRUNKDIR/core/test/qunit/split.recipe
+recipe: $TW_TRUNKDIR/core/test/jqMock/split.recipe
+recipe: $TW_TRUNKDIR/core/test/html/split.recipe
+
+#commonutils
+recipe: common/split.recipe

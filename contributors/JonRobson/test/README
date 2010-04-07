@@ -1,0 +1,5 @@
+This beast runs all test scripts for all plugins that have tests
+simply get cook up and running (http://jonrobson.me.uk/posts/How%20to%20cook%20in%20TiddlyWiki)
+then run cook test
+
+You will need to run it in different browsers to test for each browser.

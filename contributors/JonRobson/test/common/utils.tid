@@ -1,0 +1,20 @@
+tags: systemConfig
+
+config.extensions.testUtils = {
+  addTiddlers: function(tiddlers){
+    for(var i=0;i <tiddlers.length;i++){
+      var tiddler = tiddlers[i];
+      if(!tiddler.title)tiddler.title = "random "+Math.random();
+      var tid= new Tiddler(tiddler.title);
+      for(var j in tiddler.fields){
+        tid.fields[j] = tiddler.fields[j];
+      }
+      
+      if(tiddler.tags)tid.tags = tiddler.tags;
+      if(tiddler.modifier) tid.modifier = tiddler.modifier;
+      if(tiddler.text) tid.text = tiddler.text;
+      store.addTiddler(tid);
+      
+    }
+  } 
+}
