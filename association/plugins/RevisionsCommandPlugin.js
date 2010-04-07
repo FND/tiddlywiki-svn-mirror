@@ -15,8 +15,10 @@ Extend [[ToolbarCommands]] with {{{revisions}}}.
 !Revision History
 !!v0.1 (2009-07-23)
 * initial release (renamed from experimental ServerCommandsPlugin)
-!!v0.1 (2010-03-04)
-* suppressing wikification in diff view
+!!v0.2 (2010-03-04)
+* suppressed wikification in diff view
+!!v0.3 (2010-04-07)
+* restored wikification in diff view
 !To Do
 * strip server.* fields from revision tiddlers
 * resolve naming conflicts
@@ -150,7 +152,8 @@ cmd = config.commands.revisions = {
 	displayTiddlerDiffs: function(context, userParams) {
 		var tiddler = context.tiddler;
 		tiddler.title += cmd.diffSuffix.format([context.rev1, context.rev2]);
-		tiddler.text = '{{diff{\n{{{\n' + context.diff + '\n}}}\n}}}';
+		tiddler.text = "{{diff{\n" + context.diff + "\n}}}";
+		tiddler.tags = ["diff"];
 		tiddler.fields.doNotSave = "true"; // XXX: correct?
 		if(!store.getTiddler(tiddler.title)) {
 			store.addTiddler(tiddler);
