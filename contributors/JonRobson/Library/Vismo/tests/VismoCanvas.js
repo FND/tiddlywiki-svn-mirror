@@ -1,43 +1,41 @@
-VismoTests.add("VismoCanvas", {
-        _inPoly: function(){
+module("VISMO VismoCanvas");
+test("_inPoly",function(){
              var poly = new VismoShape({coordinates:[0,0,100,0,100,100,0,100],shape:"polygon",id:"big"});
-             var cc = VismoTests.Mocks.canvas();
+             var cc = config.extensions.VismoMocks.canvas();
              var val = cc._inPoly(20,20,poly);
-             return VismoTests.assertEqual(val,true);
-             return true;
-        }
-
-        ,_inPolyZoomedIn: function(){
+             same(val,true,"able to detect in polygon");
+});
+test("_inPolyZoomedIn", function(){
           var poly = new VismoShape({coordinates:[0,0,100,0,100,100,0,100],shape:"polygon",id:"big"});
             
-              var cc = VismoTests.Mocks.canvas({shapes:[poly],vismoController:{}});
+              var cc = config.extensions.VismoMocks.canvas({shapes:[poly],vismoController:{}});
               cc.vismoController.zoom(16,16);
              
              var val = cc._inPoly(60,69,poly);
 
-             return VismoTests.assertEqual(val,true);
-        }
-        ,_inCircle: function(){
-            var cc = VismoTests.Mocks.canvas();
+             same(val,true,"in poly");
+        });
+test("_inCircle", function(){
+            var cc = config.extensions.VismoMocks.canvas();
             var val = cc._inCircle(60,69,new VismoShape({coordinates:[50,50,20],shape:"circle"}));
             //radius =10;
-            return VismoTests.assertEqual(val,false);
+            same(val,false,"not in circle");
             
-        }
-        ,_inCircleZoomedIn: function(){
+        });
+test("_inCircleZoomedIn", function(){
                 var circle = new VismoShape({coordinates:[50,50,20],shape:"circle",id:"circle","z-index":"3"});
                 
-                  var cc = VismoTests.Mocks.canvas({shapes:[circle],vismoController:{}});
+                  var cc = config.extensions.VismoMocks.canvas({shapes:[circle],vismoController:{}});
                   cc.vismoController.zoom(16,16);
                   var t= cc.getTransformation();
                  var val = cc._inCircle(52,52,circle);
 
-                 return VismoTests.assertEqual(val,true);
-        }
-        ,_inCircle_Point: function(){
+                 same(val,true,"in circle yes");
+        });
+test("_inCircle_Point", function(){
             
                var point= new VismoShape({coordinates:[5,5],shape:"point",id:"jon","z-index":"3"});
-                var cc = VismoTests.Mocks.canvas({pointsize:3,shapes:[point],vismoController:{}});
+                var cc = config.extensions.VismoMocks.canvas({pointsize:3,shapes:[point],vismoController:{}});
                 var t =cc.getShapeWithID("jon");
               
                var val = cc._inCircle(7,7,t); //circumference ends at 6.5,6.5
@@ -45,100 +43,103 @@ VismoTests.add("VismoCanvas", {
                  var val2 = cc._inCircle(6,6,t);
                  var bb = t.getBoundingBox();
                   var d= t.getDimensions();
-                 
-                 return VismoTests.assertAllEqual([[t.options.pointsize,3],[bb.width,3],[bb.height,3],[bb.x1,3.5],[d.width,3],[d.height,3],[val2,true],[val,false]]);
-        }
-        
-        ,_inCircle_Point2: function(){
+            
+                 same([bb.width,bb.height],[3,3],"dimensions correct in bounding box");
+                 same(bb.x1,3.5,"smallest x value as expected");
+                 same([d.width,d.height],[3,3],"dimensions correct")
+                 same([val,val2],[false,true],"results of getBoundingBox as expected");
+        });
+test("_inCircle_Point2", function(){
                var point= new VismoShape({coordinates:[100,100],shape:"point",id:"testpoint","z-index":"3"});
-                var cc = VismoTests.Mocks.canvas({pointsize:2,shapes:[point],vismoController:{}});
+                var cc = config.extensions.VismoMocks.canvas({pointsize:2,shapes:[point],vismoController:{}});
                 var spoint =cc.getShapeWithID("testpoint")
                 var val = cc._inCircle(103,103,spoint);
                 var bb = spoint.getBoundingBox();
-                 return VismoTests.assertAllEqual([[bb.width,2],[val,false]]);
-        }
+                same(bb.width,2,"bounding box width correct");
+                same(val,false," and not in bounding box");
+        });
         
-        ,_inCircle2: function(){
-               var cc = VismoTests.Mocks.canvas();
+test("_inCircle2", function(){
+               var cc = config.extensions.VismoMocks.canvas();
                 var val = cc._inCircle(100,100,new VismoShape({coordinates:[50,50,20],shape:"circle"}));
-                return VismoTests.assertEqual(val,false);
-        }
-        ,getShapeAtPosition:  function(){
+                same(val,false,"not in circle");
+        });
+        test("getShapeAtPosition",  function(){
              var smallshape = new VismoShape({coordinates:[50,50,20],shape:"circle",id:"small","z-index":"3"});
              var bigshape = new VismoShape({coordinates:[50,50,100],shape:"circle",id:"big","z-index":"1"});
             
-              var cc = VismoTests.Mocks.canvas({shapes:[smallshape,bigshape]});
+              var cc = config.extensions.VismoMocks.canvas({shapes:[smallshape,bigshape]});
              var val = cc.getShapeAtPosition(60,59);
 
-             return VismoTests.assertEqual(val.getProperty("id"),"small");
+             same(val.getProperty("id"),"small","correct shape at position found");
                 
-        }
-        ,getShapeAtPosition_unclickableproperty:  function(){
+        });
+        test("getShapeAtPosition_unclickableproperty",  function(){
              var smallshape = new VismoShape({coordinates:[50,50,20],shape:"circle",id:"small",unclickable:true,"z-index":"3"});
              var bigshape = new VismoShape({coordinates:[50,50,100],shape:"circle",id:"big","z-index":"1"});
             
-              var cc = VismoTests.Mocks.canvas({shapes:[smallshape,bigshape]});
+              var cc = config.extensions.VismoMocks.canvas({shapes:[smallshape,bigshape]});
              var val = cc.getShapeAtPosition(60,69);
 
-             return VismoTests.assertEqual(val.getProperty("id"),"big");
+             same(val.getProperty("id"),"big","shapes with unclickable property are not returns in getShapeAtPosition");
                 
-        }
-        ,getShapeAtPositionTriangle: function(){
+        });
+        test("getShapeAtPositionTriangle", function(){
             var tri = new VismoShape({id:"tri",coordinates:[0,0,200,0,200,200], shape:"polygon"});
-            var cc = VismoTests.Mocks.canvas({shapes:[tri]});
+            var cc = config.extensions.VismoMocks.canvas({shapes:[tri]});
              var val = cc.getShapeAtPosition(20,190);
              var val2 = cc.getShapeAtPosition(199,190);
-             return VismoTests.assertAllEqual([[val,false],[val2.getProperty("id"),"tri"]]);
-        }
-        ,getShapeAtPositionZoomedIn:  function(){
+             same(val,false,"didn't find a shape");
+             same(val2.getProperty("id"),"tri","found the right triangle shape");
+        });
+        test("getShapeAtPositionZoomedIn",  function(){
              var smallshape = new VismoShape({coordinates:[50,50,20],shape:"circle",id:"small","z-index":"3"});
              var bigshape = new VismoShape({coordinates:[50,50,100],shape:"circle",id:"big","z-index":"1"});
             
-              var cc = VismoTests.Mocks.canvas({shapes:[smallshape,bigshape],vismoController:{}});
+              var cc = config.extensions.VismoMocks.canvas({shapes:[smallshape,bigshape],vismoController:{}});
               cc.vismoController.zoom(16,16)
         
              var val = cc.getShapeAtPosition(60,59);
              var bb = smallshape.getBoundingBox();
-             return VismoTests.assertAllEqual([[val.getProperty("id"),"small"]]);
+             same(val.getProperty("id"),"small","zoomed in, clicked and found the right shape");
                 
-        }
+        });
         
-        
-        ,getShapeAtPosition2:  function(){
+        test("getShapeAtPosition2", function(){
             //big above small
              var smallshape = new VismoShape({coordinates:[50,50,20],shape:"circle",id:"small","z-index":"1"});
              var bigshape = new VismoShape({coordinates:[50,50,100],shape:"circle",id:"big","z-index":"3"});
             
-              var cc = VismoTests.Mocks.canvas({shapes:[smallshape,bigshape]});
+              var cc = config.extensions.VismoMocks.canvas({shapes:[smallshape,bigshape]});
              var val = cc.getShapeAtPosition(30,39);
 
-             return VismoTests.assertEqual(val.getProperty("id"),"big");          
-        }
+             same(val.getProperty("id"),"big","found the right shape");          
+        });
         
-        ,getShapeAtPosition3:  function(){
+        test("getShapeAtPosition3",  function(){
             //big above small
              var smallshape = new VismoShape({coordinates:[50,50,20],shape:"circle",id:"small","z-index":"1"});
              var bigshape = new VismoShape({coordinates:[50,50,100],shape:"circle",id:"big"});
             
-              var cc = VismoTests.Mocks.canvas({shapes:[smallshape,bigshape]});
+              var cc = config.extensions.VismoMocks.canvas({shapes:[smallshape,bigshape]});
              var val = cc.getShapeAtPosition(60,59);
 
-             return VismoTests.assertEqual(val.getProperty("id"),"small");          
-        }
-        ,getShapeAtPositionCircleVsPoly:  function(){
+             same(val.getProperty("id"),"small","found the right shape");          
+        });
+        test("getShapeAtPositionCircleVsPoly",  function(){
             //big above small
              var smallshape = new VismoShape({coordinates:[50,50,20],shape:"circle",id:"small","z-index":"1"});
              var bigshape = new VismoShape({coordinates:[0,0,100,0,100,100,0,100],shape:"polygon",id:"big"});
             
-              var cc = VismoTests.Mocks.canvas({shapes:[smallshape,bigshape]});
+              var cc = config.extensions.VismoMocks.canvas({shapes:[smallshape,bigshape]});
              var val = cc.getShapeAtPosition(50,50);
 
-             return VismoTests.assertEqual(val.getProperty("id"),"small");          
-        },
-        zIndexChanging: function(){
+             same(val.getProperty("id"),"small","found the right shape");          
+        });
+        test("zIndexChanging", function(){
            var smallshape = new VismoShape({coordinates:[50,50,20],shape:"circle",id:"small","z-index":"0"});
            var bigshape = new VismoShape({coordinates:[0,0,100,0,100,100,0,100],shape:"polygon",id:"big","z-index":"2"});
-            var cc = VismoTests.Mocks.canvas({shapes:[smallshape,bigshape]});
+            var cc = config.extensions.VismoMocks.canvas({shapes:[smallshape,bigshape]});
             
             //run
             cc.render();
@@ -153,39 +154,25 @@ VismoTests.add("VismoCanvas", {
 
            mem = cc.getMemory();
           var firstdrawntwo = mem[0].getProperty("id");
-           return VismoTests.assertAllEqual([[firstdrawn,"small"],[firstdrawntwo,"big"]]);
+           same([firstdrawn,firstdrawntwo],["small","big"],"shapes drawn in correct order");
                 
-        }
-        ,getShapeWithID: function(){
+        });
+test("getShapeWithID", function(){
             var s1 = new VismoShape({coordinates:[50,50,20],shape:"circle",id:"a","z-index":"0"});
             var s2 = new VismoShape({coordinates:[50,50,20],shape:"circle",id:"b","z-index":"0"});
-            var cc = VismoTests.Mocks.canvas({shapes:[s1,s2]});
+            var cc = config.extensions.VismoMocks.canvas({shapes:[s1,s2]});
             
             var theshape = cc.getShapeWithID("b");
-            return VismoTests.assertEqual(theshape,s2);
-        }
-        ,clear: function(){
+            same(theshape,s2,"got right shape");
+        });
+test("clear", function(){
             var s1 = new VismoShape({coordinates:[50,50,20],shape:"circle",id:"a","z-index":"0"});
             var s2 = new VismoShape({coordinates:[50,50,20],shape:"circle",id:"b","z-index":"0"});
-            var cc = VismoTests.Mocks.canvas({shapes:[s1,s2]});
+            var cc = config.extensions.VismoMocks.canvas({shapes:[s1,s2]});
             
             var theshape = cc.getShapeWithID("b");
             
             cc.clear(true);
             var theshapeafter = cc.getShapeWithID("b");
-            return VismoTests.assertAllEqual([[theshape,s2],[theshapeafter,false]]);
-        }
-        
-        /*,isOverlap: function(){
-            var shape1=  new VismoShape({id:"tri1",coordinates:[0,0,200,0,200,200], shape:"polygon"});
-            var shape2=  new VismoShape({id:"tri2",coordinates:[50,0,300,0,300,300], shape:"polygon"});
-            var shape3=  new VismoShape({id:"tri3",coordinates:[0,300,300,300,600,600], shape:"polygon"});
-            
-            var cc = VismoTests.Mocks.canvas({shapes:[shape1,shape2,shape3]});
-            var res1 = cc.isOverlap(shape1,shape2);
-            var res2 =  cc.isOverlap(shape1,shape3);
-        }*/
-        
-
-    }
-);
+            same([theshape,theshapeafter],[s2,false],"the shape disappeared and therefore can no longer be found");
+        });

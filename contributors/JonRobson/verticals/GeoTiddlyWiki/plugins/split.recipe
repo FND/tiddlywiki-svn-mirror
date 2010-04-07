@@ -1,10 +1,8 @@
 tiddler: flickrPlugin.js DopplrPlugin.js
-//tiddler: countries.js
 tiddler: geoTiddlerPlugin.js ../Proj4js/proj4js-combined.js
-recipe: ../../../plugins/VismoLibrary/split.recipe
+recipe: $TW_TRUNKDIR/contributors/JonRobson/Library/Vismo/source/twsplit.recipe
 tiddler: geoEditorPlugin.js
 recipe: ../../../../PaulDowney/plugins/GeoRSSPlugin/GeoRSSPlugin.recipe
-#tiddler: DHTMLColorPickr.js
 tiddler: ../tiddlers/GeoCore.tiddler
 tiddler: ../tiddlers/EditTemplate.tiddler
 tiddler: ../tiddlers/StyleSheet.tiddler

@@ -124,9 +124,7 @@ var VismoMap = function(wrapper,options){
 	else if(options.kml){
 	    this.drawFromGeojson(VismoConversion.kmlToGeoJson(options.kml),options.fullscreen);
 	}
-	else{
-	  alert("Please supply kml, geojson or georss parameter in your options so I know what geodata to draw!");
-	}
+	
   
 	return eMap;
 };  

@@ -1,5 +1,5 @@
 jQuery(document).ready(function() {	
-  module("Load test data");
+  module("ADVANCED FILTER TIDDLERS: Load test data");
 	test("startup", function(){
 	  var tiddlers = [
     {title:"test_tiddler_a",tags:["cafe","wow"],fields:{"test":"y","bag":"foo","geo.location":"london","rating":"4.3"}},    {title:"test_tiddler_b",tags:["restaurant","good","awesome"],fields:{"test":"y","bag":"foodata","geo.location":"rome","rating":"4.2"}},
@@ -10,7 +10,7 @@ jQuery(document).ready(function() {
 
     config.extensions.testUtils.addTiddlers(tiddlers);
 	})
-	module("Plumbing");
+	module("ADVANCED FILTER TIDDLERS: Plumbing");
 	test("story.getValueTiddlers", function() {	
 	  var expected,actual,tiddlers;
 	  tiddlers = store.getValueTiddlers("bag","foo");
@@ -43,7 +43,7 @@ jQuery(document).ready(function() {
   
 	});
 	
-	module("Macro Syntax");
+	module("ADVANCED FILTER TIDDLERS: Macro Syntax");
 	test("Correct syntax", function() {
 		var actual, expected,tiddlers;
     tiddlers = store.filterTiddlers("[geo.location[london]]");

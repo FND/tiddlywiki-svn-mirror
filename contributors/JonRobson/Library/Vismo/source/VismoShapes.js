@@ -830,10 +830,18 @@ VismoShape.prototype={
       
       VismoTimer.start("VismoShapes.optimise");
       var ocache = this._optimise_cache;
+      var cid,cid2;
+      if(transformation["cache"]){
+        cid = transformation["cache"]["id1"];
+        cid2 =transformation["cache"]["id2"];
+      }      
+      else{
+        var scale = transformation.scale;
+        var translation = transformation.translate;
+        cid = [translation.x,",",translation.y].join("");
+        cid2 = [scale.x,",",scale.y].join("");
+      }
 
-      
-      var cid = transformation["cache"]["id1"];
-      var cid2 =transformation["cache"]["id2"];
       
       if(this._scale.x > 1){
           var newx,newy;

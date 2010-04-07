@@ -1,0 +1,6 @@
+jquery: common.js
+jquery: VismoVector.js
+jquery: VismoTransformations.js
+jquery: VismoShapes.js
+jquery: VismoCanvas.js
+recipe: ../source/twsplit.recipe

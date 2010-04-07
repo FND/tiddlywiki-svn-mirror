@@ -1,0 +1,17 @@
+tags: 
+
+<div class='toolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
+<div class='title' macro='view title'></div>
+<div class='editor' macro='edit title'></div>
+<div macro='annotations'></div>
+<div class='editor' macro='edit text'></div>
+<div class='editor' macro='edit tags'></div><div class='editorFooter'><span macro='message views.editor.tagPrompt'></span><span macro='tagChooser excludeLists'></span></div>
+!GeoTiddlyWiki Settings!
+Link:
+<div class='editor' macro='edit geolink'></div>
+Find a location:
+<div macro='aet type:location metaDataName:address'></div>
+<div macro='edit geofeature' class='editor'></div><div class='editorFooter'>override geojson feature for this tiddler</div>
+<div macro='edit fill' class='editor'></div><div class='editorFooter'>fill colour for this tiddler</div>
+<!--End GeoTiddlyWiki Settings-->
+<!--}}}-->

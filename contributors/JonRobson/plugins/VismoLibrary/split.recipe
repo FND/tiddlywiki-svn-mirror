@@ -1,4 +1,0 @@
-#Use me if you want to use Vismo functions inside tiddlywiki
-tiddler: ../../Library/Vismo/source/preamble.js VismoOptimisations.js VismoShapes.js VismoMaps.js VismoSlippyMap.js VismoController.js VismoMapUtils.js  VismoFileUtils.js VismoConversion.js VismoClickingUtils.js VismoTransformations.js VismoClicking.js VismoShapesRendering.js  VismoGraphs.js  VismoVector.js
-
-#farbtastic.js

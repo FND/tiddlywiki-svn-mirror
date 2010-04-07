@@ -7,9 +7,8 @@ var VismoVector = function(vismoShape,canvas,dimensions){
   this.cache = {};
   this.maxResolution_id_x = 1;
   this._oldproperties = {};
+  if(!dimensions)dimensions = {width:jQuery(canvas).width(),height:jQuery(canvas).height()};
   this.initShape(vismoShape,canvas,dimensions);
-  
-    
   vismoShape.vml = this;
   VismoTimer.end("VismoVector.init");    
 };

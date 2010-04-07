@@ -1,7 +1,6 @@
 recipe: $TW_TRUNKDIR/contributors/JonRobson/Library/Vismo/source/GraphAlgorithms/split.recipe
-tiddler: $TW_TRUNKDIR/contributors/JonRobson/plugins/VGraph/plugins/VGraph.tid
+recipe: $TW_TRUNKDIR/contributors/JonRobson/plugins/VGraph/plugins/split.recipe
 tiddler: plugin.js utils.js tweaks.js
-recipe: $TW_TRUNKDIR/contributors/JonRobson/plugins/VismoLibrary/split.recipe
 recipe: $TW_TRUNKDIR/contributors/JonRobson/plugins/AdvancedEditTemplate/plugins/split.recipe
 tiddler: $TW_TRUNKDIR/contributors/EricShulman/plugins/TaggedTemplateTweak.js
 tiddler: $TW_TRUNKDIR/contributors/UdoBorkowski/plugins/YourSearchPlugin.js

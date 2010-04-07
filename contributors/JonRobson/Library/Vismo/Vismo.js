@@ -14,7 +14,7 @@ and Nicolas Belmonte's JIT library (http://thejit.org/)
 "|''Usage:''|
 Not much good on it's own - it provides some nice functions to create graphicsy plugins.
 Currently provides horsepower to the following plugins amongst others:
-GeoTiddlyWiki (http://www.jonrobson.me.uk/workspaces/tiddlers/GeoTiddlyWiki/), ImageTaggingPlugin, TiddlyTagMindMap (http://tiddlytagmindmap.tiddlyspot.com)
+GeoTiddlyWiki, ImageTaggingPlugin, TiddlyTagMindMap (http://tiddlytagmindmap.tiddlyspot.com)
 !Wouldn't have been possible without..
 http://spatialreference.org/ref/sr-org/google-projection/ for help with google projection hack
 ***/

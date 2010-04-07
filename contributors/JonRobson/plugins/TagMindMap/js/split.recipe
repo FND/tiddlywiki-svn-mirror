@@ -1,2 +1,2 @@
 tiddler: Plugin.js tagMindMapMacros.js dynamicInteract.js RGraph.js RGraphExtensions.js tagMindMapIEHack.js
-recipe: ../../VismoLibrary/split.recipe
+recipe: $TW_TRUNKDIR/contributors/JonRobson/Library/Vismo/source/twsplit.recipe

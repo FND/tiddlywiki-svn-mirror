@@ -1,32 +1,31 @@
-VismoTests.add("VismoShapes", {
-
-
-        getBoundingBoxCircle: function(){
+module("VISMO Shapes");
+test("getBoundingBoxCircle", function(){
                var shape = new VismoShape({coordinates:[50,30,20,30],shape:"circle"});
                var bb = shape.getBoundingBox();
-               
-               return VismoTests.assertAllEqual([[bb.center.x,50],[bb.center.y,30],[bb.width,40],[bb.height,60]]);
-                
-        }
-        ,setCoordinatesPoint: function(){
+               same([bb.center.x,bb.center.y,bb.width,bb.height],[50,30,40,60],"testing the bounding box of a circle");
+});
+test("setCoordinatesPoint", function(){
              var s = new VismoShape({coordinates:[0,5,7],shape:"point"});
              s.setCoordinates([2,2]);
              var bb = s.getBoundingBox();
              var c = s.getCoordinates();
             
-             return VismoTests.assertAllEqual([[c,[2,2,7,7]],[bb.center.x,2],[bb.center.y,2],[bb.width,14],[bb.height,14]]);
-        },
-        getBoundingBoxPoint: function(){
+             same(c,[2,2,7,7],"coordinates were set correctly"),
+             same([bb.center.x,bb.center.y],[2,2],"centre point is correct")
+             same([bb.width,bb.height],[14,14],"dimensions are correct");
+});
+test("getBoundingBoxPoint", function(){
             var s = new VismoShape({coordinates:[0,5],shape:"point"});
             var bb =s.getBoundingBox();
-             return VismoTests.assertAllEqual([[bb.center.x,0],[bb.center.y,5],[bb.width,5],[bb.height,5]]);
-        }
+            same([bb.center.x,bb.center.y],[0,5],"center point correct");
+            same([bb.width,bb.height],[5,5],"dimensions correct");
+});
         
-        ,getCoordinatesCircle: function(){
+test("getCoordinatesCircle", function(){
             var shape = new VismoShape({coordinates:[50,30,20],shape:"circle"});
-            return VismoTests.assertEqual(shape.getCoordinates(),[50,30,20,20]);
-        }
-        ,moveToCircle: function(){
+            same(shape.getCoordinates(),[50,30,20,20],"coordinates of newly created circle as expected");
+});
+test("moveToCircle",function(){
             var shape = new VismoShape({coordinates:[50,30,20],shape:"circle"});
             
             //run
@@ -41,20 +40,27 @@ VismoTests.add("VismoShapes", {
             shape.moveTo(30,30);
             var c2 = shape.getCoordinates();
             var bb2 = shape.getBoundingBox();
-            return VismoTests.assertAllEqual([c,[200,200,20,20],[bb.center.x,200], [bb.center.y,200],[c2,[30,30,20,20]],[bb2.center.x,30],[bb2.center.y,30]]);
-        }
-        
-        ,scalePolygon: function(){
-                 var shape = new VismoShape({coordinates:[[173.04, 34.44, 173.27, 35.02, 174.32, 35.23, 174.85, 36.85, 175.58, 37.24, 175.35, 36.48, 175.84, 36.75, 175.99, 37.64, 177.16, 38.01, 178.57, 37.71, 177.91, 39.26, 177.05, 39.2, 176.83, 40.18, 175.32, 41.61, 174.59, 41.28, 175.16, 40.1, 173.75, 39.29, 174.59, 38.82, 174.97, 37.75, 174.55, 37.07, 174.89, 37.06, 174.19, 36.5, 174.51, 36.23, 173.91, 35.87, 174.08, 36.41, 173.4, 35.57, 173.66, 35.31, 173.09, 35.21, 172.72, 34.5, 173.04, 34.44]],shape:"polygon"});
-//50*50 center 75,75 width 50 height 50
-          //run
+            same(c,[200,200,20,20],"coordinates are correct");
+            same([bb.center.x,bb.center.y], [200,200],"center correct");
+            same(c2,[30,30,20,20],"coordinates after moving circle correct");
+            same([bb2.center.x,bb2.center.y],[30,30],"center after move correct");
+});
+test("scalePolygon",function(){
+                 var shape = new VismoShape({coordinates:[200,-20,230,-18,300,-15,400,200,300,220,200,-20],shape:"polygon"});
                 shape.resize(1.5,1.5);
-//100*100 center 75,75 width 100 height 100
-                //test
+                
                 var c = shape.getCoordinates();
-                return VismoTests.assertEqual(c,[173.04, 34.44, 173.27, 35.02, 174.32, 35.23, 174.85, 36.85, 175.58, 37.24, 175.35, 36.48, 175.84, 36.75, 175.99, 37.64, 177.16, 38.01, 178.57, 37.71, 177.91, 39.26, 177.05, 39.2, 176.83, 40.18, 175.32, 41.61, 174.59, 41.28, 175.16, 40.1, 173.75, 39.29, 174.59, 38.82, 174.97, 37.75, 174.55, 37.07, 174.89, 37.06, 174.19, 36.5, 174.51, 36.23, 173.91, 35.87, 174.08, 36.41, 173.4, 35.57, 173.66, 35.31, 173.09, 35.21, 172.72, 34.5, 173.04, 34.44]);    
-        },
-        moveToPolygon: function(){
+                /*
+                the width of the original shape is 200 and height 240 and center is at 300,100. Resizing the shape by 1.5,1.5 will create a shape with
+                dimensions 300 by 360 with the same center 
+                
+                the old coordinate 200,-20 lay -100,-120 from the center. Now this distance has multiplied by 1.5 so it lies -150,-180 from the center 
+                */
+                
+                same(c.splice(0,2),[150,-80],"coordinates of resized polygon are correct");    
+        });
+        
+test("moveToPolygon", function(){
             var shape = new VismoShape({coordinates:[0,0,200,0,200,200,0,200],shape:"polygon"});
             
             //run
@@ -62,9 +68,6 @@ VismoTests.add("VismoShapes", {
             
             //test
             var c = shape.getCoordinates();
-            return VismoTests.assertEqual(c,[-20,-50,180,-50,180,150,-20,150]);
+            same(c,[-20,-50,180,-50,180,150,-20,150],"moved polygon coordinates are correct");
             
-        }
-
-    }
-);
+        });

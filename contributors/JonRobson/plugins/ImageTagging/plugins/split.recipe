@@ -1,3 +1,2 @@
 tiddler: macro.js
-#tiddler: ../../../Library/Vismo/source/experimental/VismoCanvasEditor.tid
-recipe: ../../VismoLibrary/split.recipe
+recipe: $TW_TRUNKDIR/contributors/JonRobson/Library/Vismo/source/twsplit.recipe
