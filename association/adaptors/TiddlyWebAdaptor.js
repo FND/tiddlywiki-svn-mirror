@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|FND|
 |''Contributors''|Chris Dent, Martin Budden|
-|''Version''|1.2.0|
+|''Version''|1.2.1|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/|
@@ -534,6 +534,7 @@ adaptor.getTiddlerDiffCallback = function(status, context, responseText, uri, xh
 	context.status = status;
 	context.statusText = xhr.statusText;
 	context.httpStatus = xhr.status;
+	context.uri = uri;
 	if(status) {
 		context.diff = responseText;
 	}

@@ -8,7 +8,7 @@
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/plugins/RevisionsCommandPlugin.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/plugins/|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
-|''CoreVersion''|2.4.2|
+|''CoreVersion''|2.6.0|
 |''Keywords''|serverSide|
 !Usage
 Extend [[ToolbarCommands]] with {{{revisions}}}.
@@ -19,6 +19,7 @@ Extend [[ToolbarCommands]] with {{{revisions}}}.
 * suppressed wikification in diff view
 !!v0.3 (2010-04-07)
 * restored wikification in diff view
+* added link to side-by-side diff view
 !To Do
 * strip server.* fields from revision tiddlers
 * resolve naming conflicts
@@ -28,7 +29,7 @@ Extend [[ToolbarCommands]] with {{{revisions}}}.
 !Code
 ***/
 //{{{
-(function() {
+(function($) {
 
 jQuery.twStylesheet(".diff { white-space: pre, font-family: monospace }",
 	{ id: "diff" });
@@ -46,6 +47,7 @@ cmd = config.commands.revisions = {
 	selectTooltip: "select revision for comparison",
 	selectedLabel: "selected",
 	compareLabel: "compare",
+	linkLabel: "side-by-side view",
 	revSuffix: " [rev. #%0]",
 	diffSuffix: " [diff: #%0 #%1]",
 	dateFormat: "YYYY-0MM-0DD 0hh:0mm",
@@ -159,7 +161,10 @@ cmd = config.commands.revisions = {
 			store.addTiddler(tiddler);
 		}
 		var src = story.getTiddler(userParams.origin);
-		story.displayTiddler(src, tiddler);
+		var tiddlerEl = story.displayTiddler(src, tiddler);
+		var uri = context.uri.replace("format=unified", "format=horizontal");
+		var link = $("<a />").attr("href", uri).attr("target", "_blank").text(cmd.linkLabel);
+		$(".viewer", tiddlerEl).prepend(link);
 	},
 
 	displayTiddlerRevision: function(context, userParams) {
@@ -178,5 +183,5 @@ cmd = config.commands.revisions = {
 	}
 };
 
-})();
+})(jQuery);
 //}}}
