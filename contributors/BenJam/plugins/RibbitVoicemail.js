@@ -1,5 +1,5 @@
 /***
-|''Name:''|RibbitVoicemail3LegPlugin|
+|''Name:''|RibbitVoicemail|
 |''Description:''|Collect your messages from Ribbit and store as tiddlers|
 |''Author:''|BenJam|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/BenJam/plugins/RibbitVoicemail3LegPlugin.js |
@@ -19,6 +19,10 @@ secretKey: your Ribbit application secretKey (3Legged auth only)
 username: your Ribbit application username (2Legged auth only)
 password: your Ribbit application password (2Legged auth only)
 markRead: whether or not you want to mark messages downloaded as read (default no)
+
+TODO:
+Use HTML5 <audio> tag to indicate the playable voicemail recording
+Use localstorage to save the voicemail for offline
 }}}
 ***/
 //{{{
@@ -27,19 +31,24 @@ markRead: whether or not you want to mark messages downloaded as read (default n
 	
     var log = console.log;
 
-    config.macros.voiceComments = {
+    config.macros.RibbitVoicemail = {
 
         handler: function(place, macroName, params, wikifier, paramString, tiddler){
 			var macroParams = paramString.parseParams();
 			log(macroParams);
+			
             if(Ribbit.userId!=null){
 				log("Logged in on previous session");
             }        
-			if(getParams(macroParams,"secretKey")!==null){
+			if(getParam(macroParams,"secretKey")!==null){
 				//user wants to do a 3LeggedAuthentication
+				log("login on 3Legged auth");
 				login3Leg(place, macroParams);
 			}
-			getMessages();
+			else{
+				log("login on 2Legged auth");
+				login2Leg(place, macroParams);
+			}
         }
 
     };
@@ -47,8 +56,8 @@ markRead: whether or not you want to mark messages downloaded as read (default n
 	function login3Leg(place,macroParams){
 		if(!Ribbit.isLoggedIn || !Ribbit.checkAccessTokenExpiry()){
 			
-			var cKey = getParams(macroParams,"consumerKey");
-			var sKey = getParams(macroParams,"secretKey");
+			var cKey = getParam(macroParams,"consumerKey");
+			var sKey = getParam(macroParams,"secretKey");
 			
 			Ribbit.init3Legged(cKey, sKey);
 			
@@ -64,6 +73,7 @@ markRead: whether or not you want to mark messages downloaded as read (default n
 							if(!result.hasError){
 								log("Logged in, now do something useful with it!");
 								win.close();
+								getMessages(macroParams);
 								return;
 							}
 							else{
@@ -92,7 +102,7 @@ markRead: whether or not you want to mark messages downloaded as read (default n
 			log("User already logged in");
 			return;
 		}
-		var cKey = getParams(macroParams,"consumerKey");
+		var cKey = getParam(macroParams,"consumerKey");
 		var username = getParam(macroParams,"username");
 		var password = getParam(macroParams,"password");
 
@@ -102,6 +112,7 @@ markRead: whether or not you want to mark messages downloaded as read (default n
 				log(result);
 			}else{
 				log("Logged in, now do something useful with it!");
+				getMessages(macroParams);
 				return;
 			}
 		},username, password);
