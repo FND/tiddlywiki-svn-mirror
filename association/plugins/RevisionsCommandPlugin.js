@@ -163,7 +163,7 @@ cmd = config.commands.revisions = {
 		var src = story.getTiddler(userParams.origin);
 		var tiddlerEl = story.displayTiddler(src, tiddler);
 		var uri = context.uri.replace("format=unified", "format=horizontal");
-		var link = $("<a />").attr("href", uri).attr("target", "_blank").text(cmd.linkLabel);
+		var link = $('<a target="_blank" />').attr("href", uri).text(cmd.linkLabel);
 		$(".viewer", tiddlerEl).prepend(link);
 	},
 
