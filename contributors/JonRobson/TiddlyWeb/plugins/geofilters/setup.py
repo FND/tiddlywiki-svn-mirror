@@ -3,7 +3,7 @@ AUTHOR = 'Jon Robson'
 AUTHOR_EMAIL = 'jdlrobson@gmail.com'
 NAME = 'tiddlywebplugins.geofilters'
 DESCRIPTION = 'Provides new filter near=lat,long,radius to allow queries against geo tiddlers (tiddlers with geo.long and geo.lat fields)'
-VERSION = '0.92'
+VERSION = '0.93'
 
 
 import os
@@ -23,6 +23,6 @@ setup(
     url = 'http://pypi.python.org/pypi/%s' % NAME,
     packages = find_packages(exclude=['test']),
     platforms = 'Posix; MacOS X; Windows',
-    install_requires = ['setuptools', 'tiddlyweb','tiddlywebplugins.ltgt'],
+    install_requires = ['setuptools', 'tiddlyweb'],
     zip_safe = False
     )

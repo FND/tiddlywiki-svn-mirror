@@ -48,9 +48,10 @@ def stat_increment(parameters):
     newfrequency= (frequency + 1)
     newmode = value
     try:
-      modescore = int(votingLog[value]) +1
+      modescore = int(votingLog[u"%s"%value]) +1
     except KeyError:
       modescore = 1
+
     for candidate in votingLog:
       if candidate not in ["total","frequency"]:
         if int(votingLog[candidate]) > modescore:
@@ -121,7 +122,8 @@ def get_parameters(environ):
     value = "1"
     
   username= environ['tiddlyweb.usersign']["name"]
-  result["value"] = int(value)
+  result["value"] = int("%.0f"%float(value))
+  
   result["username"] = username
   result["title"]=title
   result["bag"] = bag
@@ -155,7 +157,10 @@ def get_parameters(environ):
 def perform_action(environ):
   success = True
   reason = -1
-  params = get_parameters(environ)
+  try:
+    params = get_parameters(environ)
+  except ValueError:
+    return (False,5)
   allowed,reason = allowed_operation(params)
   if allowed:
     success,reason = stat_increment(params)
@@ -183,7 +188,6 @@ def save_vote(params):
     slices[value] = u"1"
     
   try:
-    print slices[u"total"]
     slices[u"total"] = u"%s"%(int(slices[u"total"]) +  int(value))
   except KeyError:
     slices[u"total"] = u"%s"%value
@@ -209,7 +213,7 @@ reasons for failure:
 "2": "bag doesn't exist",
 "3": "voting not allowed in bag",
 "4": "user has exceeded their amount of votes",
-"5": "don't know what action this is",
+"5": "invalid argument passed",
 "6": "tiddler voting on doesn't exist"
 "7": "vote is too big or too small"
 '''

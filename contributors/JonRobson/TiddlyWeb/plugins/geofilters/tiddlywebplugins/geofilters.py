@@ -10,15 +10,17 @@ near=51.498558,-0.134304,2.1miles (searches 2.1 mile radius)
 based on C+ function located here http://www.experts-exchange.com/Database/GIS_and_GPS/Q_23027761.html
 
 '''
+from tiddlyweb.filters import FILTER_PARSERS,sort_by_attribute, sort
+from tiddlyweb import filters
+import logging,re,math
 
 #adheres to w3c standard http://www.w3.org/2003/01/geo/
 LATITUDE_FIELD = "geo.lat"
 LONGITUDE_FIELD = "geo.long" 
-from tiddlyweb.filters import FILTER_PARSERS
 
 SINGLE_DEG_AT_ZERO_ZERO_IN_MILES = 69.046767
 SINGLE_DEG_AT_ZERO_ZERO_IN_KMS = 111.226306#based on circumference being mean of 40041.47
-import math
+
 
 def geoproximity(lat,lng, radius, testlat,testlng,units="kms"):
   oneRad = 3.1415926 / 180.0
@@ -42,10 +44,6 @@ def geoproximity(lat,lng, radius, testlat,testlng,units="kms"):
   d *= mult
   return (d<=radius,d)
 
-from tiddlyweb import filters
-import logging
-import re
-
 def geo_near_tiddlers(lat,lng,radius,tiddlers,units="kms"):
   #create bounding box around 
   if units == 'miles':
@@ -58,21 +56,25 @@ def geo_near_tiddlers(lat,lng,radius,tiddlers,units="kms"):
   lat2 = lat + degrees
   lng1 = lng - degrees
   lng2 = lng + degrees
-  filter_string = "select=field:%s&select=field:%s&gt=%s:%s&lt=%s:%s&gt=%s:%s&lt=%s:%s"%(LONGITUDE_FIELD,LATITUDE_FIELD,LATITUDE_FIELD,lat1,LATITUDE_FIELD,lat2,LONGITUDE_FIELD,lng1,LONGITUDE_FIELD,lng2)
+  filter_string = "select=field:%s&select=field:%s&select=%s:>%s&select=%s:<%s&select=%s:>%s&select=%s:<%s"%(LONGITUDE_FIELD,LATITUDE_FIELD,LATITUDE_FIELD,lat1,LATITUDE_FIELD,lat2,LONGITUDE_FIELD,lng1,LONGITUDE_FIELD,lng2)
   logging.debug("filter string lt gt %s"%filter_string)
-  filtered_sample = filters.recursive_filter(filters.parse_for_filters(filter_string)[0],tiddlers)
-  
+  filtered_sample = list(filters.recursive_filter(filters.parse_for_filters(filter_string)[0],tiddlers))
   near_tiddlers = []
   for tiddler in filtered_sample:
-    try:
-      testlat = float(tiddler.fields[LATITUDE_FIELD])
-      testlng = float(tiddler.fields[LONGITUDE_FIELD])
-      isNear = geoproximity(lat,lng,radius,testlat,testlng,units=units)
-      if isNear:
-        yield tiddler
-    except ValueError:
-      #ignore tiddlers which have an empty string for this value
-      pass
+    testlat = tiddler.fields[LATITUDE_FIELD]
+    testlng = tiddler.fields[LONGITUDE_FIELD]
+    if testlat and testlng:
+      
+      try:
+        testlat = float(testlat)
+        testlng = float(testlng)
+        isNear = geoproximity(lat,lng,radius,testlat,testlng,units=units)
+        if isNear[0]:
+          tiddler.fields["_geo.proximity"] = "%s"%isNear[1]
+          yield tiddler
+      except ValueError:
+        #ignore tiddlers which have an empty string for this value
+        pass
   return
   
 def near_parse(command):
@@ -94,6 +96,13 @@ def near_parse(command):
       return geo_near_tiddlers(float(params[0]),float(params[1]),radius,tiddlers,units)
   return selector
 
+def string_to_float(x):
+    try:
+      return float(x)
+    except ValueError:
+      return False
+sort.ATTRIBUTE_SORT_KEY["geo.lat"] = string_to_float   
+sort.ATTRIBUTE_SORT_KEY["geo.long"] = string_to_float   
 FILTER_PARSERS['near'] = near_parse
 def init(config):
     pass

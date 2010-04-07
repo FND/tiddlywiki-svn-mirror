@@ -133,7 +133,7 @@ def uppertags(args):
     bag = store.get(Bag(bag_name))
     for tiddler in bag.list_tiddlers():
         tiddler = store.get(tiddler)
-        tiddler.tags = [tag.upper() for tag in tiddler.tags]
+        tiddler.tags = [tag.upper0() for tag in tiddler.tags]
         store.put(tiddler)
 
 def init(config_in):
