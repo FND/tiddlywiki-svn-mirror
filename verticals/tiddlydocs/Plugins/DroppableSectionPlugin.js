@@ -24,8 +24,6 @@ config.macros.droppableSection.handler = function(place,macroName,params,wikifie
 	config.macros.droppableSection.refresh(place);
 };
 
-
-
 config.macros.droppableSection.refresh = function(place) {
 	var tiddlerElem = story.findContainingTiddler(place);
  	var containingTiddlerTitle = tiddlerElem.getAttribute("tiddler"); 
