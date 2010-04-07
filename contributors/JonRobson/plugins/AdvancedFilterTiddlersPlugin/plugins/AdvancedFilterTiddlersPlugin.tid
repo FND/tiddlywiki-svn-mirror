@@ -131,12 +131,19 @@ TiddlyWiki.prototype.getValueTiddlers = function(fieldName,value,tiddlers){
     }
     
     if(values){
-      if(typeof(values)== 'string' && ((values == value && !negationMode) || (negationMode && values !=value))){
-        filterResult.pushUnique(tiddler);
+      if(typeof(values)== 'string'){
+        if(values == value && !negationMode)filterResult.pushUnique(tiddler);
+        else if(negationMode && values !=value)filterResult.pushUnique(tiddler);
       }
-      else if((!negationMode && values.indexOf(value) >-1) || (negationMode && values.indexOf(value) == -1)) {
-        filterResult.pushUnique(tiddler);
+      else{
+        if(!negationMode && values.indexOf(value) >-1) {
+          filterResult.pushUnique(tiddler);
+        }
+        else if(negationMode && values.indexOf(value) == -1){
+          filterResult.pushUnique(tiddler);
+        }
       }
+      
     }
   }
   return filterResult;
@@ -184,6 +191,7 @@ TiddlyWiki.prototype.filterTiddlers = function(filter)
     //console.log("apply or filter",arg1,arg2);
     arg1 = arg1.trim();
     arg2 = arg2.trim();
+    
     if(arg1.indexOf("limit") == 0) filterResult= filterResult.splice(0,parseInt(arg2))
     else if(arg1.indexOf("sort") == 0) filterResult= sort(filterResult,arg1,arg2);
     else {

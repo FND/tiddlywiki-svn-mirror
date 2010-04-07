@@ -1,0 +1,4 @@
+recipe: ../../test/base.recipe
+# tests
+recipe: tests/split.recipe
+recipe: plugins/split.recipe
