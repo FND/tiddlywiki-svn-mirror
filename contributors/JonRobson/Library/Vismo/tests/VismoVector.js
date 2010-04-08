@@ -1,4 +1,13 @@
 module("VISMO: VismoVector");
+test("_createvmlpathstring",function(){
+  var s=  new VismoShape({coordinates:[3,3,3,130,120,110,320,30]});
+  var c = config.extensions.VismoMocks.div();
+  var vector = new VismoVector(s,c);
+  var path = vector._createvmlpathstring({});
+  same(vector._iemultiplier,100,"ie multiplier assumed to be 100 to allow us to deal with floats");
+  same(path,"M300,300 L300,13000 L12000,11000 L32000,3000 XE")
+});
+
 test("shapehasfillpropertychanged", function() {
          var originalFill = "rgb(255,0,0)";
              var s=  new VismoShape({coordinates:[0,0,0,100,100,100,100,0],fill:originalFill});

@@ -20,7 +20,9 @@ tags: systemConfig
 |''Dependencies:''||
 */
 
+String.prototype.toJSON = function(){var namedprms = this.parseParams(null, null, true);var options ={};for(var i=0; i < namedprms.length;i++){var nameval = namedprms[i];if(nameval.name)options[nameval.name] = nameval.value;}return options;};
 
+//extending the core to provide ifEmpty and ifEmptyString parameters
 config.macros.view.handler = function(place,macroName,params,wikifier,paramString,tiddler)
 {
 	if((tiddler instanceof Tiddler) && params[0]) {
@@ -71,7 +73,8 @@ config.macros.view.views.linkexternal= function(value,place,params,wikifier,para
         value = value.replace("/","%2F");
 		jQuery(place).append("<a href=\""+prefix+escape(value)+suffix+"\">"+label+"</a>")
 };
-config.macros.view.views.text = function(value,place,params,wikifier,paramString,tiddler) {	
+
+/*config.macros.view.views.text = function(value,place,params,wikifier,paramString,tiddler) {	
 	if(!value){
 	  
     	var args = paramString.parseParams("name",null,true,false,true);    
@@ -79,7 +82,7 @@ config.macros.view.views.text = function(value,place,params,wikifier,paramString
     	if(emptyStr) value = emptyStr[0]; 
   	}
    highlightify(value,place,highlightHack,tiddler);
-}
+}*/
 
 config.macros.view.views.el= function(value,place,params,wikifier,paramString,tiddler) {
         var opts = paramString.toJSON();    

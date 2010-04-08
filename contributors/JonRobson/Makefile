@@ -7,3 +7,5 @@ clean:
 	find . -name "*.jar" | xargs rm || true
 	find . -name "*.pyc" | xargs rm || true
 	find . -name "*.[0-9]*.[0-9]*.html" | xargs rm || true
+	rm verticals/TravelItinerary/*.png || true
+  

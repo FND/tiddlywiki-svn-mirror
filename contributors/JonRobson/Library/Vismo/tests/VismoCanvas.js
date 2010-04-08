@@ -1,4 +1,12 @@
 module("VISMO VismoCanvas");
+test("getMemory",function(){
+  var shapes =[new VismoShape({coordinates:[50,50,20],shape:"circle",id:"circle","z-index":"3"}),new VismoShape({coordinates:[23,12,20],shape:"circle",id:"circle","z-index":"3"})];
+  var cc = config.extensions.VismoMocks.canvas({shapes:shapes});
+  var cshapes = cc.getMemory();
+  same(cshapes.length,2,"testing shape property in options passed to vismoCanvas");
+});
+
+
 test("_inPoly",function(){
              var poly = new VismoShape({coordinates:[0,0,100,0,100,100,0,100],shape:"polygon",id:"big"});
              var cc = config.extensions.VismoMocks.canvas();

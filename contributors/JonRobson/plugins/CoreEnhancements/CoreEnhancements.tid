@@ -112,7 +112,7 @@ attempting by hacking getRecursiveTiddlerText
 */
 
 
-String.prototype.toJSON = function(){var namedprms = this.parseParams(null, null, true);var options ={};for(var i=0; i < namedprms.length;i++){var nameval = namedprms[i];options[nameval.name] = nameval.value;}return options;};
+String.prototype.toJSON = function(){var namedprms = this.parseParams(null, null, true);var options ={};for(var i=0; i < namedprms.length;i++){var nameval = namedprms[i];if(nameval.name)options[nameval.name] = nameval.value;}return options;};
 
 config.macros.tiddlersLink = {
   handler: function(place,macroName,params,wikifier,paramString,tiddler){

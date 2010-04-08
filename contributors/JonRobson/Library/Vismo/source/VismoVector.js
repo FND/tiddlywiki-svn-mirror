@@ -1,5 +1,4 @@
 var VismoVector = function(vismoShape,canvas,dimensions){
-  
   VismoTimer.start("VismoVector.init");
   this._iemultiplier = 100; //since vml doesn't accept floats you have to define the precision of your points 100 means you can get float coordinates 0.01 and 0.04 but not 0.015 and 0.042 etc..
   this.vismoShape=  vismoShape;

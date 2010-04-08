@@ -3,4 +3,5 @@ jquery: VismoVector.js
 jquery: VismoTransformations.js
 jquery: VismoShapes.js
 jquery: VismoCanvas.js
+jquery: VismoMaps.js
 recipe: ../source/twsplit.recipe

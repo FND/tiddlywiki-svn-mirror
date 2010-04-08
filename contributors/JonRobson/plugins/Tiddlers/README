@@ -1,0 +1,24 @@
+##########
+About
+##########
+Tiddlers is a macro that allows you to create lists of tiddlers using TiddlyWiki's filter syntax. It works a bit like a loop.
+
+<<tiddlers ExampleTemplate filter:[tag[horror]]>>
+will pass all tiddlers with the tag horror through the tiddler ExampleTemplate. 
+If only one tiddler is tagged horror eg. "Pyscho" and the ExampleTemplate has text "<<view title>> is the name of the film"...
+... you will see "Pyscho is the name of the film" as the result of the macro
+
+It also supports optional arguments:
+
+*Dealing with empty filter matches
+ifNone:<tiddler title> //define an alternative tiddler to display in this event
+ifEmptyString:<string> // allows you to print a string in this event
+
+You may be interested in my other plugin AdvancedFilterTiddlersPlugin which extends the filter syntax.
+
+##########
+To install
+##########
+run cook index to get a demo up and running
+run cook test to run the tests and check it is working correctly
+all code is in plugins/TiddlersMacroPlugin.tid - copy and paste

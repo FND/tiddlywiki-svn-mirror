@@ -779,8 +779,7 @@ VismoController.prototype = {
     }
 	},
 	_panzoomClickHandler: function(e,hit,controller) {
-	
-	    	if(!hit) return;
+	  if(!hit) return;
 	   
 		var pan = {};
 		var t =controller.getTransformation();
@@ -843,7 +842,6 @@ VismoController.prototype = {
 				break;
 		}
 		controller.transform();
-                //console.log("done",controller);
 		return false;
 	}
 };
