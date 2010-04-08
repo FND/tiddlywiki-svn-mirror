@@ -541,7 +541,7 @@ if(!version.extensions.AdvancedEditTemplatePlugin)
 			
 			if(!initialValue) initialValue = "";
 			var options = {matchContains: true,selectFirst:false};
-		    jQuery("<input type='text' name=\""+fieldName+"\" value=\""+initialValue +"\"/>").autocomplete(whatyousee,options).result(handler).appendTo(place);
+		  jQuery("<input type='text' name=\""+fieldName+"\" value=\""+initialValue +"\"/>").autocomplete(whatyousee,options).result(handler).appendTo(place);
 		
 		}
 

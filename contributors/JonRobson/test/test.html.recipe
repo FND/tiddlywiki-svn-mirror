@@ -1,10 +1,9 @@
 recipe: base.recipe
-#library tests
-recipe: $TW_TRUNKDIR/contributors/JonRobson/Library/Vismo/tests/split.recipe
 
 # plugin tests
-
+recipe: $TW_TRUNKDIR/contributors/JonRobson/Library/Vismo/tests/split.recipe
 recipe: $TW_TRUNKDIR/contributors/JonRobson/plugins/AdvancedFilterTiddlersPlugin/tests/split.recipe
 recipe: $TW_TRUNKDIR/contributors/JonRobson/plugins/beefcake/tests/split.recipe
-recipe: $TW_TRUNKDIR/contributors/JonRobson/plugins/Tiddlers/tests/split.recipe
 recipe: $TW_TRUNKDIR/contributors/JonRobson/plugins/EnhancedViewsPlugin/tests/split.recipe
+recipe: $TW_TRUNKDIR/contributors/JonRobson/plugins/Tiddlers/tests/split.recipe
+recipe: $TW_TRUNKDIR/contributors/JonRobson/plugins/niceTagging/tests/split.recipe
