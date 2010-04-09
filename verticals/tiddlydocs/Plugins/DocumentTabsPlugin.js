@@ -67,7 +67,8 @@ config.macros.docTabs.switchDoc = function (title) {
 	refreshAll();
 	var spec = jQuery.parseJSON(store.getTiddlerText(title));	
 	if(spec.content[0] != undefined){
-		story.displayTiddler(null, spec.content[0].title);
+		if(store.tiddlerExists(spec.content[0].title))    
+			story.displayTiddler(null, spec.content[0].title);
 	}
 }
 

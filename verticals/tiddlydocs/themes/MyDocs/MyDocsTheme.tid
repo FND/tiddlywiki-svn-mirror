@@ -174,7 +174,7 @@ tags: systemTheme  excludeLists excludeSearch
 	</div>
 	<div class="portletContent portletContentIconShift">
 		<div class='editor' macro='editHtml text'></div>
-        <div macro='commentSlider'>
+        <div macro='commentSlider noCount'>
 	        <div class='right links' macro='docSectionButtons'>
 	        </div>
         </div>
