@@ -71,7 +71,7 @@ config.macros.TableOfContent.renderSpec = function(specView, spec) {
 				spec[0].children = [];
 				config.macros.TableOfContent._renderSpec(specView, spec, []);		
 	}
-	jQuery(".toc").NestedSortable({
+	jQuery("#ul0").NestedSortable({
 			accept: 'toc-item',
 			noHoverClass: 'notHoverable',
 			noNestingClass: "no-nesting", 
