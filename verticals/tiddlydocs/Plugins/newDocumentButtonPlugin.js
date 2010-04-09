@@ -15,7 +15,6 @@ Provides a macro that can be called with <<newDocumentButton>>. The macro craete
 !Usage
 {{{
 <<newDocumentButton>>
-
 }}}
 
 !Code
@@ -63,6 +62,7 @@ store.addNotification("newDocumentButtonPluginStyles", refreshStyles);
 <!--}}}-->
 
 !(end of simpleWizardView)
+
 
 ***/
 

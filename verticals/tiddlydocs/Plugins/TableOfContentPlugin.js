@@ -26,7 +26,7 @@ macro provides a view on the table of content for the currently active document
 	
 config.macros.TableOfContent={
 	'emptyDocumentSpecPrompt':'Click the "New Section" link above to add a section to the document. Document section titles can be dragged into the table of contents.',
-	'editTemplate':'TableOfContentPlugin##EditSectionTemplate', 
+	'editTemplate':DEFAULT_EDIT_TEMPLATE, 
 	'viewTemplate':DEFAULT_VIEW_TEMPLATE,
 	'dragToolTip': 'Drag and drop to re-arrange sections in the table of content.',
 	'deleteText': 'remove',
@@ -120,7 +120,9 @@ config.macros.TableOfContent._buildSpec = function (liList) {
  	});
   return spec;
 };
- 
+
+
+
 config.macros.TableOfContent._renderSpec = function(specView, spec, label) {
 	var ul = createTiddlyElement(specView, "ul", "ul"+(window.ulCount++), "toc");
 	if(spec[0] && spec[0].title == 'Empty Document'){
