@@ -103,7 +103,7 @@ config.macros.TableOfContent.renderSpec = function(specView, spec) {
 };
 
 config.macros.TableOfContent.buildSpec = function() {
-  return config.macros.TableOfContent._buildSpec(jQuery(".specView:first > ul > li"));
+  return config.macros.TableOfContent._buildSpec(jQuery(".specView > ul > li"));
 };
 
 config.macros.TableOfContent._buildSpec = function (liList) {
