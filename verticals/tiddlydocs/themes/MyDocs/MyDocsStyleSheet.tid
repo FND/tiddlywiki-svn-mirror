@@ -70,13 +70,24 @@ html body .title {
 	top:0.68em;
 }
 
+html body .droppable-title {
+	left:-1.5em;
+	top:0.5em;
+}
+
+
 .title-right {
 	float:right;
 	font-size:1.3em;
-	left:2em;
+	left:2.5em;
 	position:relative;
 	text-align:right;
 	z-index:99;
+}
+
+.droppable-title-right {
+	left:1em;
+	top:-0.2em;
 }
 
 h1 {

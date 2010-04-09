@@ -189,8 +189,8 @@ tags: systemTheme  excludeLists excludeSearch
 		<div class="portletCornerLeft"></div>
 		<div class="portletCornerRight"></div>
 		<div class="portletTitle iconShift">
-		    <div  class='title' macro='droppableSection'></div>
-            <div class='title-right'>
+		    <div  class='title droppable-title' macro='droppableSection'></div>
+            <div class='title-right droppable-title-right'>
                 <div class='toolbar right defaultToolbarRight' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
             </div>
         </div>

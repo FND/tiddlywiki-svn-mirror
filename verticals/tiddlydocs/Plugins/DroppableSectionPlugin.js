@@ -68,13 +68,14 @@ store.addNotification("DroppableSectionPluginStyles", refreshStyles);
 }
 
 .toc-droppable-heading {
-	border:2px dashed [[ColorPalette::Background]];
+	border:2px solid transparent;
 	cursor:move;
 }
 
 .toc-droppable-heading:hover {
-	border:2px dashed [[ColorPalette::Foreground]];
-	background:#eee;
+	color:[[ColorPalette::PrimaryLight]]; 
+	background:[[ColorPalette::SecondaryLight]]; 
+	border-color:[[ColorPalette::SecondaryMid]];
 	cursor:move;
 }
 
