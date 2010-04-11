@@ -103,6 +103,7 @@ var lastSlide = '';
                 var customFields = {
                     'theme': theme
                 };
+                merge(customFields, config.defaultCustomFields);
                 var tiddler = store.createTiddler(title);
                 merge(tiddler.fields, customFields);
                 merge(tiddler.tags, tags);
