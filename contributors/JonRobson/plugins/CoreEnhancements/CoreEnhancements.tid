@@ -234,59 +234,7 @@ config.macros.url = {
 
 
 
-// Sort a list of tiddlers now with ability to specify field type
-TiddlyWiki.prototype.sortTiddlers = function(tiddlers,field,fieldType)
-{
-	var asc = +1;
-	if(!fieldType)fieldType ="";
-	var convert;
-	//console.log(fieldType);
-	switch(fieldType.toLowerCase()){
-	    case "int":
-	        convert = function(v){if(!v) return 0; else return parseInt(v);}
-	        break;
-	    case "float":
-	        convert = function(v){if(!v) return 0; else return parseInt(v)};
-	        break;
-	    default:
-	        convert = function(v){return v;};
-	}
-	switch(field.substr(0,1)) {
-	case "-":
-		asc = -1;
-		// Note: this fall-through is intentional
-		/*jsl:fallthru*/
-	case "+":
-		field = field.substr(1);
-		break;
-	}
-	if(TiddlyWiki.standardFieldAccess[field])
-		tiddlers.sort(function(a,b) {return a[field] < b[field] ? -asc : (a[field] == b[field] ? 0 : asc);});
-	else{
-	    
-		tiddlers.sort(function(a,b) {return convert(a.fields[field]) < convert(b.fields[field]) ? -asc : (a.fields[field] == b.fields[field] ? 0 : +asc);});
-	}return tiddlers;
-};
 
-
-
-/*
-TiddlyWiki.prototype.filterTiddlers = function(filter)
-{
-  var re =/[^ ][^\]^\[]+|\[.*\]/g
-  var match = re.exec(filter);
-  while(match){
-    //console.log(match);
-    var filters = match[0].split(" ")
-    var andFilter = /\[a\[b\]\]/
-    for(var i=0; i < filters.length;i++){
-      console.log(" ",filters[i])
-    }
-    
-    match = re.exec(filter);
-  }
-  return [];
-}*/
 function loadConfig(){
     var configShadow= store.calcAllSlices("Config");
     
@@ -301,13 +249,20 @@ function loadConfig(){
               //console.log(id1,id2);
               var location = config; 
               for(var i=0; i < ids.length-1; i++){
-                location = location[ids[i]];
+                var ref = ids[i];
+                if(location && location[ref])location = location[ref];
+                else{
+                  location  = false;
+                }
               }
               if(location){
                 var value  =configShadow[c].replace(/\\n/gi,"\n");
                 if(value == 'false' || value== 'true' ||value.indexOf("{{")==0){
                   value = value.replace("{{","").replace("}}","")
-                  value = eval(value);
+                  try{
+                    value = eval(value);
+                  }
+                  catch(e){};
                 }
                 location[ids[ids.length-1]] = value;
             

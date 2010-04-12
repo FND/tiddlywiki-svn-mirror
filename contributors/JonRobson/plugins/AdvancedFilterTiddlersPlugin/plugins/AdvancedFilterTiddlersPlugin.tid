@@ -6,9 +6,9 @@ modifier: jon
 |''Name''|FilterTiddlersPlugin|
 |''Description''|Overrides the core filterTiddlers to provide a more complete syntax compatible with default tiddlers|
 |''Author''|Jon Robson|
-|''Version''|0.8|
-|''Date''|Nov 2008|
-|''Status''|@@experimental@@;|
+|''Version''|0.85|
+|''Date''|April 2010|
+|''Status''||
 |''License''|BSD|
 |''CoreVersion''|<...>|
 |''Documentation''|<...>|
@@ -84,7 +84,7 @@ TiddlyWiki.prototype.sortTiddlers = function(tiddlers,field,fieldType)
 	        convert = function(v){if(!v) return 0; else return parseInt(v);}
 	        break;
 	    case "float":
-	        convert = function(v){if(!v) return 0; else return parseInt(v)};
+	        convert = function(v){if(!v) return 0; else return parseFloat(v)};
 	        break;
 	    default:
 	        convert = function(v){return v;};
@@ -101,8 +101,8 @@ TiddlyWiki.prototype.sortTiddlers = function(tiddlers,field,fieldType)
 	if(TiddlyWiki.standardFieldAccess[field])
 		tiddlers.sort(function(a,b) {return a[field] < b[field] ? -asc : (a[field] == b[field] ? 0 : asc);});
 	else{
-	   
-		tiddlers.sort(function(a,b) {return convert(a.fields[field]) < convert(b.fields[field]) ? -asc : (a.fields[field] == b.fields[field] ? 0 : +asc);});
+
+		tiddlers.sort(function(a,b) {return convert(a.fields[field]) < convert(b.fields[field]) ? -asc : (convert(a.fields[field]) == convert(b.fields[field]) ? 0 : +asc);});
 	}return tiddlers;
 };
 
