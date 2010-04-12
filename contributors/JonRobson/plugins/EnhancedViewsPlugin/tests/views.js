@@ -1,6 +1,6 @@
 module("ENHANCEDVIEWSPLUGIN");
 test("setup tiddlers for tests", function(){
-  config.extensions.testUtils.addTiddlers([{title:"enhancedviews.foo"},{title:'view.EmptyTiddler',text:'<<view title text>> does not exist'},{title:"enhancedviews.baz",fields:{"score":"23"}}]);
+  config.extensions.testUtils.addTiddlers([{title:"enhancedviews.foo"},{title:'view.EmptyTiddler',text:'<<view title text>> does not exist'},{title:"enhancedviews.baz",fields:{"score":"23","score.frequency":"10"}}]);
 });
 test("toJSON", function(){
   var json ="x:foo y:z z:'a b c'".toJSON();
@@ -34,5 +34,23 @@ test("test link external view", function(){
   tiddler = store.getTiddler("enhancedviews.foo")
   config.macros.view.handler(place,null,['title', 'linkexternal'],null,"title linkexternal prefix:/x/ suffix:/bar.html",tiddler)
   same(jQuery("a",place).attr("href"),'/x/enhancedviews.foo/bar.html',"there should be a link element with the correctly formed url");
+  same(jQuery("a",place).text(),"enhancedviews.foo","label defaults to the value");
   jQuery(place).html("");  
+  
+  config.macros.view.handler(place,null,['title', 'linkexternal'],null,"title linkexternal label:'test label' prefix:/x/ suffix:/bar.html",tiddler)
+  same(jQuery("a",place).attr("href"),'/x/enhancedviews.foo/bar.html',"there should be a link element with the correctly formed url");
+  same(jQuery("a",place).text(),"test label","checking label parameter");
+  jQuery(place).html("");
+ 
+});
+
+
+test("transclusion",function(){
+  var newstr= config.macros.view.transclusion("?score=$score$&frequency=$score.frequency$&x=5",store.getTiddler("enhancedviews.baz"));
+  same(newstr,"?score=23&frequency=10&x=5","transclusion function correctly worked");
+  
+  newstr= config.macros.view.transclusion("?score=$score$&frequency=$score.frequency",store.getTiddler("enhancedviews.baz"));
+  same(newstr,"?score=23&frequency=$score.frequency","transclusion function ignores the last variable without a $ sign");
+  
+  
 });

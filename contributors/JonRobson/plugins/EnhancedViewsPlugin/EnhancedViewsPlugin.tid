@@ -11,8 +11,8 @@ tags: systemConfig
 <<view title linkexternal prefix:/foo suffix:/bar>>
 * temporarily adds <<view el>> to support more complicated stuff until transclusion can be done.
 |
-|''Version:''|0.5|
-|''Date:''|8 September 2009|
+|''Version:''|0.6|
+|''Date:''|April 2010|
 |''Source:''||
 |''Author:''|Jon Robson|
 |''License:''|[[BSD open source license]]|
@@ -53,9 +53,9 @@ config.macros.view.handler = function(place,macroName,params,wikifier,paramStrin
 };
 
 config.macros.view.transclusion = function(str,tiddler){
-  var re = /(\$.*$)|(\$[^ ]*) /gi;
+  var re = /(\$[^\$ ]+\$)/gi;
   var substitute = function(match){
-    var fieldname = match.substr(1);
+    var fieldname = match.substr(1,match.length-2);
     if(tiddler[fieldname]) return tiddler[fieldname];
     else if(tiddler.fields[fieldname]) return tiddler.fields[fieldname];
     else return "";
