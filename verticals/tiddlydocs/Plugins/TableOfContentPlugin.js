@@ -55,6 +55,7 @@ config.macros.TableOfContent.specChanged = function() {
 	store.saveTiddler(window.activeDocument, window.activeDocument, jQuery.toJSON(spec), null, null, "document", fields); 
 	autoSaveChanges(true, window.activeDocument);
 	refreshAll();
+	
 };
 
 config.macros.TableOfContent.renderSpec = function(specView, spec) {
@@ -66,10 +67,10 @@ config.macros.TableOfContent.renderSpec = function(specView, spec) {
 	if(spec[0]) {
 		config.macros.TableOfContent._renderSpec(specView, spec, []);
 	} else {
-				spec[0] = {};
-				spec[0].title = 'Empty Document';
-				spec[0].children = [];
-				config.macros.TableOfContent._renderSpec(specView, spec, []);		
+		spec[0] = {};
+		spec[0].title = 'Empty Document';
+		spec[0].children = [];
+		config.macros.TableOfContent._renderSpec(specView, spec, []);		
 	}
 	jQuery("#ul0").NestedSortable({
 			accept: 'toc-item',
@@ -88,6 +89,7 @@ config.macros.TableOfContent.renderSpec = function(specView, spec) {
 				story.refreshTiddler(this.id,1,true);
 			}
     }); 
+
     jQuery(".sectionHeading").hover( 
             function() { 
                     jQuery(this).parent().addClass("draggableHover");
@@ -99,6 +101,8 @@ config.macros.TableOfContent.renderSpec = function(specView, spec) {
 
             } 
     );
+
+
 
 };
 
@@ -131,7 +135,7 @@ config.macros.TableOfContent._renderSpec = function(specView, spec, label) {
 			return false;
 	}
 	var childCount=1;
-	label=label.concat([0])
+	label=label.concat([0]);
 	jQuery.each(spec, function() {
 		label[label.length-1]++;
 		var li = createTiddlyElement(ul, "li", this.title, "clear-element toc-item left");
@@ -149,7 +153,7 @@ config.macros.TableOfContent._renderSpec = function(specView, spec, label) {
 				story.displayTiddler(this.id, this.id.replace("_div", ""), config.macros.TableOfContent.editTemplate ,null, null, null, null,this);
 			else
 				story.displayTiddler(this.id, this.id.replace("_div", ""), config.macros.TableOfContent.viewTemplate,null, null, null, null,this);
-		}
+		};
 		jQuery(sectionDiv).hover( 
                 function() { 
 	   				jQuery(this).children().css('opacity', '1');
@@ -173,7 +177,7 @@ config.macros.TableOfContent._renderSpec = function(specView, spec, label) {
 };
 
 config.macros.TableOfContent.refresh=function(place,macroName,params,wikifier,paramString,tiddler){
-	docTiddler = (paramString) ? paramString : window.activeDocument;
+	docTiddler = window.activeDocument;
 	if(store.tiddlerExists(docTiddler)) {
 		var spec = jQuery.parseJSON(store.getTiddlerText(docTiddler)).content;
 		var specView = createTiddlyElement(place, "div", "", "specView");	
@@ -181,7 +185,7 @@ config.macros.TableOfContent.refresh=function(place,macroName,params,wikifier,pa
 	}else{
 		createTiddlyElement(place, "span", null, "noDocSelected error", config.macros.TableOfContent.noDocSelectedText)
 	}
-}	
+};
 
 
 /***

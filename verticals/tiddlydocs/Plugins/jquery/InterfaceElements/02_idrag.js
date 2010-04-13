@@ -78,7 +78,7 @@ jQuery.iDrag =	{
 	{
 		if (jQuery.iDrag.dragged != null) {
 			jQuery.iDrag.dragstop(e);
-			//return false;
+		//	return false;
 		}
 		var elm = this.dragElem;
 		jQuery(document)

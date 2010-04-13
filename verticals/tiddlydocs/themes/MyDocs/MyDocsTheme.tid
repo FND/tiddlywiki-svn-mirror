@@ -60,15 +60,19 @@ tags: systemTheme  excludeLists excludeSearch
 			</div>
 		</div>
 		<div id="container">
-			<div macro='newDocumentButton template:MyDocsTheme##wizardViewTemplate text:""'></div>
+			<div  macro='newDocumentButton template:MyDocsTheme##wizardViewTemplate text:""'></div>
 			<div class='leftColumn'>
 			
 				<div class='activeDocSummary'>
 				<h2> <div macro='activeDocument'></div> </h2>
-			    		<div macro='newTiddler label:"New Section" template:"NewSectionTemplate"' class='title-right'></div>
+			    		<div macro='newTiddler label:"New Section" template:"NewSectionTemplate"' class='title-right'  ></div>
 						<div macro='docPreview' class='title-right'></div><br/><br/>
 						<div macro='removeActiveDocumentLink'></div>
 			    </div>
+				<div class="portletContent">
+					<div id='mainMenu' refresh='content' force='true' tiddler='MainMenu'></div>
+				</div>
+				
 				<div class="portletContainer leftColumnItem">
 					<div class="portletToolbar portletToolbarLeft">
 						<div class="portletCornerLeft"></div>
@@ -80,9 +84,7 @@ tags: systemTheme  excludeLists excludeSearch
 							</div>
 						</div>
 					</div>
-					<div class="portletContent">
-						<div id='mainMenu' refresh='content' force='true' tiddler='MainMenu'></div>
-					</div>
+				
 				</div>
 			</div>
 		</div>
@@ -115,25 +117,26 @@ tags: systemTheme  excludeLists excludeSearch
 		left : 0em;
 	}
 
-	html body .title {
-		top:-1.4em;
+	html body .tiddler .title {
+		top:0.4em;
 	}
 
 	#buttonHolder {
 		top:-5.4em;
 		padding-right:1em;
 	}
-
-	.deleteZoneClass {
-		width:80%;
-		left:-2em;
-	}
+	
 	.sectionHeading {
 		width:85%;
 	}
 	.iconShift {
 	top:1em;
 	}
+	
+	html body div.newSectionButton a.btn span span {
+		background:red;
+	}
+	
 	</style>
 	<![endif]-->
 	
@@ -197,7 +200,7 @@ tags: systemTheme  excludeLists excludeSearch
 	</div>
 </div>
 <div class="portletContent portletContentIconShift">
-	<div style='z-index:22' class='taskControls' macro='tiddler TaskTiddlerControls'></div>
+	<div class='taskControls' macro='tiddler TaskTiddlerControls'></div>
 	<div class='viewer' macro='view text wikified'></div>	
 	<div class='subtitle'>
         <span macro='view modifier link'></span>,
@@ -226,7 +229,7 @@ tags: systemTheme  excludeLists excludeSearch
         </div>
     </div>
     <div class="portletContent portletContentIconShift">
-        <div  style='z-index:999;' class='toolbar' ></div>
+        <div  class='toolbar' ></div>
         <div class='wizardViewer'  style='background:padding:1em' macro='view text wikified'></div>
     </div>
 </div>
