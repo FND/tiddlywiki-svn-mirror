@@ -2,6 +2,8 @@
 <pre>|  !Mode|!Issue  |
 | Author|Whole page being refreshed on slide change? |
 | Author|new slide cancel leaves Zombie tiddler |
+| Author |Duplicate slide button |
+| Author |New slide to add at current position |
 | Author|reintroduce search, with extension for searching fields |
 | Author|Options panel for which mode to open in, author name, etc |
 | Present|fullscreen mode |
@@ -22,5 +24,6 @@
 | Author|[[WYSIWYG editor|http://ckeditor.com/]] |
 | Author|template authoring |
 | Author|spell checking textarea/input box (Firefox: layout.spellcheckDefault)|
+| Author |Offline mode (caches images locally) |
 </pre>
 </div>
