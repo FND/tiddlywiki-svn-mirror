@@ -2,7 +2,7 @@
 |''Name''|TagsplorerMacro|
 |''Description''|tag-based faceted tiddler navigation|
 |''Author''|FND|
-|''Version''|1.3.2|
+|''Version''|1.3.3|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/contributors/FND/plugins/TagsplorerMacro.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/contributors/FND/|
@@ -163,7 +163,7 @@ config.macros.tagsplorer = $.extend(macro, {
 		}
 		macro.refreshTags(data.tags, data.container);
 		macro.refreshTiddlers(data.tiddlers, data.container);
-		return false;
+		return !ev.ctrlKey;
 	},
 	delTag: function(ev) {
 		var btn = $(this);
