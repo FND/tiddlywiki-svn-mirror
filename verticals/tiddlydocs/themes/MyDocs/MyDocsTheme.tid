@@ -62,30 +62,13 @@ tags: systemTheme  excludeLists excludeSearch
 		<div id="container">
 			<div  macro='newDocumentButton template:MyDocsTheme##wizardViewTemplate text:""'></div>
 			<div class='leftColumn'>
-			
 				<div class='activeDocSummary'>
-				<h2> <div macro='activeDocument'></div> </h2>
-			    		<div macro='newTiddler label:"New Section" template:"NewSectionTemplate"' class='title-right'  ></div>
-						<div macro='docPreview' class='title-right'></div><br/><br/>
-						<div macro='removeActiveDocumentLink'></div>
-			    </div>
-				<div class="portletContent">
+					<h2><div macro='activeDocument'>Title: </div> </h2>
+			    	<div macro='newTiddler label:"New Section" template:"NewSectionTemplate"' class='left-title-right'  ></div>
+					<div macro='docPreview' class='left-title-right'></div><br/><br/>
+					<div macro='removeActiveDocumentLink' class='left-title-right'></div>
 					<div id='mainMenu' refresh='content' force='true' tiddler='MainMenu'></div>
-				</div>
-				
-				<div class="portletContainer leftColumnItem">
-					<div class="portletToolbar portletToolbarLeft">
-						<div class="portletCornerLeft"></div>
-						<div class="portletCornerRight"></div>
-						<div class="portletTitle iconShift">
-							<div class='title toc-title'>Table of Content</div>
-							<div id='buttonHolder'>
-							
-							</div>
-						</div>
-					</div>
-				
-				</div>
+			    </div>
 			</div>
 		</div>
 		<div id='tiddlerDisplay'></div>

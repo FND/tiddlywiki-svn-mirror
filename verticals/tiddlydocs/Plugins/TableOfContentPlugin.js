@@ -313,9 +313,6 @@ ul {
 	margin:0em;
 }
 
-.specView {
-	position:relative;
-}
 
 html body a.deleteButton {
 	cursor:pointer;
