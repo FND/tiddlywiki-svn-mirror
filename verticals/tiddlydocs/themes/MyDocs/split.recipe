@@ -18,6 +18,7 @@ tiddler: ../../Plugins/DocumentPreviewPlugin.js
 tiddler: ../../Plugins/activeDocumentPlugin.js
 tiddler: ../../Plugins/removeActiveDocumentLinkPlugin.js
 tiddler: ../../content/ToolbarCommands.tid
+tiddler: MarkupPreHead.tid
 tiddler: ../../../../contributors/MichaelMahemoff/plugins/CommentsPlugin/CommentsPlugin.js
 tiddler: ../../../../contributors/MichaelMahemoff/lib/modal/js/jquery.modal.js
 tiddler: ../../../../contributors/SimonMcManus/plugins/googleButtons.js
