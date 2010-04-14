@@ -20,7 +20,31 @@ test("getBoundingBoxPoint", function(){
             same([bb.center.x,bb.center.y],[0,5],"center point correct");
             same([bb.width,bb.height],[5,5],"dimensions correct");
 });
+test("setDimensions", function(){
+            var s = new VismoShape({coordinates:[0,5,100],shape:"point"});
+            var bb =s.getBoundingBox();
+            same([bb.width,bb.height],[200,200],"initial dimensions correct");
+            
+            s.setDimensions(15,15);
+            bb =s.getBoundingBox();
+            same([bb.width,bb.height],[15,15]);
+});
+
         
+test("setProperty", function(){
+            var s = new VismoShape({coordinates:[0,5,100],shape:"point"});
+            s.setProperty("fill","red");
+            same(s.getProperty("fill"),"red","testing that set and get working properly");
+            s.setProperty("fill","rgb(255,0,255)");
+            same(s.getProperty("fill"),"rgb(255,0,255)","testing that set and get working properly");
+            s.setProperty("fill","#ff00ff");
+            same(s.getProperty("fill"),"#ff00ff","testing that set and get working properly");
+            s.setProperty("fill",["rgb(255,0,255)","z"]);            
+            same(s.getProperty("fill"),"#ffffff","passing an invalid value to fill results in white");
+            
+            
+});
+
 test("getCoordinatesCircle", function(){
             var shape = new VismoShape({coordinates:[50,30,20],shape:"circle"});
             same(shape.getCoordinates(),[50,30,20,20],"coordinates of newly created circle as expected");

@@ -450,9 +450,9 @@ VismoMap.Feature = function(feature,props){
 
 VismoMap.Feature.prototype = {
 	init: function(args){
-	    var feature = arguments[0];
-	    if(arguments[1])extra_properties = arguments[1];
-	    else extra_properties = {};
+    var feature = arguments[0];
+	  if(arguments[1])extra_properties = arguments[1];
+	  else extra_properties = {};
 		this.properties = feature.properties;
 		this.geometry = feature.geometry;
 		this.outers = [];

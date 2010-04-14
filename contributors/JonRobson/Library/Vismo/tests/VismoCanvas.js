@@ -6,6 +6,110 @@ test("getMemory",function(){
   same(cshapes.length,2,"testing shape property in options passed to vismoCanvas");
 });
 
+test("width and height",function(){
+	var cc = config.extensions.VismoMocks.canvas({pointsize:10},{width:130,height:180});
+	same(cc.width(),130);
+	same(cc.height(),180);
+})
+
+test("point size as you zoom in",function(){
+  var cc = config.extensions.VismoMocks.canvas();
+  var shape = new VismoShape({coordinates:[50,50,20],id:"x",shape:"circle"});
+  var tran = {translate:{x:0,y:0},scale:{x:1,y:1}};
+  cc.setTransformation(tran);
+  
+  //same(cc.getShapeWithID("x").width(),20)
+  
+})
+test("getPointsGridRef",function(){
+             var cc = config.extensions.VismoMocks.canvas({pointsize:10},{width:100,height:100});
+             cc.setTransformation({translate:{x:0,y:0},scale:{x:1,y:1}});
+             same(cc.width(),100,"checking width");
+             console.log("ok..");
+             same([cc.topLeftGrid.x,cc.topLeftGrid.y] ,[-50,-50],"Checking topLeftGrid attribute set")
+             var shape,actual;
+             //-50|{1}-40|{2}-30|{3}-20|{4}-10|{5}00|{6}10|{7}20|{8}30|{9}40|{10}50|
+             shape = new VismoShape({coordinates:[-50,-49],shape:"point"});
+              
+             actual = cc.getGridReference(shape);
+             same(actual,[false,1],"lookup grid reference very top left");             
+             shape = new VismoShape({coordinates:[50,50],shape:"point"});
+             actual = cc.getGridReference(shape);
+             same(actual,[10,10],"lookup grid reference very bottom right");
+             
+            shape = new VismoShape({coordinates:[0,50],shape:"point"});
+            actual = cc.getGridReference(shape);
+            same(actual,[5,10],"middle far right");
+            
+            shape = new VismoShape({coordinates:[-22,-26],shape:"point"});
+            actual = cc.getGridReference(shape);
+            same(actual,[3,3],"lookup grid reference above left of axis");
+             
+            shape = new VismoShape({coordinates:[10,10],shape:"point"});
+            actual = cc.getGridReference(shape);
+            same(actual,[6,6],"lookup grid reference above right axis");
+             
+            shape = new VismoShape({coordinates:[200,10],shape:"point"});
+            actual = cc.getGridReference(shape);
+            same(actual,[false,6],"lookup grid reference out of range");
+            
+            cc.setTransformation({translate:{x:300,y:100},scale:{x:1,y:1}});
+            /*
+             the top left corner normally -50,-50 becomes -50-300,-50-100 = -350,-150 (undoing transformation to see what it is equivalent to)
+            */
+            
+            shape = new VismoShape({coordinates:[-349,-149],shape:"point"});
+            actual = cc.getGridReference(shape);
+            same(actual,[1,1],"testing translated grid");
+            
+        
+            shape = new VismoShape({coordinates:[350,-150],shape:"point"});
+            actual = cc.getGridReference(shape);
+            same(actual,[false,false],"testing it is indeed outside the translated grid");
+            
+            cc.setTransformation({translate:{x:0,y:0},scale:{x:2,y:2}});
+             /*
+             The center is still 0,0 however having zoomed in the width/height is now 50
+             so the top left corner is -25,-25 and top right corner 25,-25
+             grid shrinks as well to cover 5px each time
+            */
+            shape = new VismoShape({coordinates:[-10,-21],shape:"point"});
+            actual = cc.getGridReference(shape);
+            
+            same(actual,[3,1],"testing scaled grid");
+            
+            
+             cc.setTransformation({translate:{x:10,y:5},scale:{x:2,y:2}});
+            /*
+              -35,-30 is new top left (-25 - 10)
+              -35|(1)-30|(2)-25|(3)-20|(4)-15|(5)-10|(6)-5|(7)0|(8)5|(9)10|(10)15|
+            */
+            
+              shape = new VismoShape({coordinates:[-34,-23],shape:"point"});
+              actual = cc.getGridReference(shape);
+              same(actual,[1,2],"testing scaled and translated grid");
+              
+              
+              shape = new VismoShape({coordinates:[4,8],shape:"point"});
+              actual = cc.getGridReference(shape);
+              same(actual,[8,8],"testing scaled and translated grid");
+
+              shape = new VismoShape({coordinates:[9,17],shape:"point"});
+              actual = cc.getGridReference(shape);
+              same(actual,[9,10],"testing scaled and translated grid");                
+});
+test("MarkOnGrid",function(){
+    var cc = config.extensions.VismoMocks.canvas({pointsize:10},{width:100,height:100});
+    cc.markGrid([1,5]);
+    cc.markGrid([9,4]);
+    
+    same(cc.isMarkedGrid([9,4]),true," now marked");
+    same(cc.isMarkedGrid([2,6]),false," not marked");
+    
+    cc.cleanGrid();
+    same(cc.isMarkedGrid([9,4]),false," no longer marked");
+    
+});
 
 test("_inPoly",function(){
              var poly = new VismoShape({coordinates:[0,0,100,0,100,100,0,100],shape:"polygon",id:"big"});

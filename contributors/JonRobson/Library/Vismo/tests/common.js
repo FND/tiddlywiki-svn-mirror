@@ -1,14 +1,17 @@
 config.extensions.VismoMocks= {
-    div: function(){
-        jQuery("#mockArea").append("<div style='width:200;height:200'></div>");
+    div: function(options){
+        if(!options)options = {};
+        if(!options.width)options.width = 200;
+        if(!options.height)options.height = 200;
+        jQuery("#mockArea").append("<div style='width:"+options.width+"px;height:"+options.height+"px;'></div>");
         var kids = jQuery("#mockArea").children();
         return kids[kids.length-1];
     },
     transformation: function(){
         return {scale:{x:1,y:1},translate:{x:0,y:0},origin:{x:100,y:100}};
     }
-    ,canvas: function(options){
-        var el = this.div();
+    ,canvas: function(options,divoptions){
+        var el = this.div(divoptions);
         var cc = new VismoCanvas(el,options);
         return cc;
     },

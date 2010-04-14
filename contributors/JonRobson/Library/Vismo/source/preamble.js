@@ -18,3 +18,4 @@ GeoTiddlyWiki (http://www.jonrobson.me.uk/workspaces/tiddlers/GeoTiddlyWiki/), I
 !Wouldn't have been possible without..
 http://spatialreference.org/ref/sr-org/google-projection/ for help with google projection hack
 ***/
+String.prototype.toJSON = function(){var namedprms = this.parseParams(null, null, true);var options ={};for(var i=0; i < namedprms.length;i++){var nameval = namedprms[i];if(nameval.name)options[nameval.name] = nameval.value;}return options;};

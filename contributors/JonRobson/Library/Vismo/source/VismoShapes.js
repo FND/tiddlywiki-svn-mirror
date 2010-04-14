@@ -394,7 +394,7 @@ VismoShape.prototype={
   }
   ,getShape: function(){
     return this.getProperty("shape");
-    }
+  }
   ,setProperties: function(properties){
       var newprops = VismoUtils.clone(properties);
     var i;
@@ -414,16 +414,13 @@ VismoShape.prototype={
   }
   ,render: function(canvas,transformation,projection,optimisations, unused,dimensions){
     VismoTimer.start("VismoShape.render");
-    var lw = this.properties.lineWidth;
     if(projection) {this._applyProjection(projection,transformation);}
-    var mode = this.getRenderMode(canvas);
     if(VismoUtils.canvasSupport){
       this.render_canvas(canvas,transformation,projection,optimisations);   
     }
     else{
       this.render_ie(canvas,transformation,projection,optimisations, unused,dimensions);  
     }
-    this.properties.lineWidth = lw;
     VismoTimer.end("VismoShape.render");
   }
   ,render_ie: function(canvas,transformation,projection,optimisations, unused,dimensions){
@@ -451,6 +448,7 @@ VismoShape.prototype={
     var vismoShape = this;
     var ctx = canvas.getContext('2d');
     if(!ctx) return;
+    vismoShape.ctx = ctx;
     ctx.save();
     if(transformation){
       var o = transformation.origin;
@@ -480,7 +478,7 @@ VismoShape.prototype={
          return transform;
   }
   
-    ,setTransformation: function(transformation){
+  ,setTransformation: function(transformation){
       this.setProperty("transformation",transformation);
       this._calculateBounds();
   }
@@ -584,17 +582,21 @@ VismoShape.prototype={
   }
   
   ,setProperty: function(name,value){
+    if(name =='fill'){
+      if(!value || typeof(value)!= 'string')value = "#ffffff";
+    }
+    
     this.properties[name] = value;
-     //console.log("Reset",name,this);
-     if(this.vml) {
-        this.vml.nochange = false;
-         
+    //console.log("Reset",name,this);
+    if(this.vml) {
+      this.vml.nochange = false;
+    }
+    if(name == 'z-index'){ //organise a re-sort for the z-index property to kick in
+      if(Vismo.store.Canvas[this._canvasref]){
+        Vismo.store.Canvas[this._canvasref].needsSort = true;
       }
-      if(name == 'z-index'){ //organise a re-sort for the z-index property to kick in
-        if(Vismo.store.Canvas[this._canvasref]){
-          Vismo.store.Canvas[this._canvasref].needsSort = true;
-        }
-      }
+    }
+    
   }
   ,getProperty: function(name){
     return this.properties[name];
@@ -673,12 +675,11 @@ VismoShape.prototype={
     }
     VismoTimer.end("VismoShapes._calculateBounds"); 
   }
-
-    ,getCanvas: function(){
-        return this.vismoCanvas;
-    }
+  ,getCanvas: function(){
+      return this.vismoCanvas;
+  }
   ,setRadius: function(rx,ry){
-      if(!ry) ry = rx;
+    if(!ry) ry = rx;
     this.setDimensions(rx*2,ry*2);
   }
   ,getRadius: function(){
@@ -690,6 +691,7 @@ VismoShape.prototype={
     
   }
   ,setDimensions: function(width,height){
+    VismoTimer.start("VismoShapes.setDimensions");
     this.width = width;
     this.height = height;
     if(this.properties.shape=='circle'){
@@ -699,15 +701,10 @@ VismoShape.prototype={
                 c[2] = width/2;
             }
         }
-        //console.log(this);
-    }
-    else{
-        
     }
     if(this.vml) this.vml.path = false;
-    
     this._calculateBounds();
-      
+    VismoTimer.end("VismoShapes.setDimensions");
   }
   ,getDimensions: function(){
     return {width: this.width, height: this.height};
@@ -770,8 +767,8 @@ VismoShape.prototype={
   }  
 
   ,_applyProjection: function(projection,transformation){
-        //console.log("apply projection to",this.properties.shape);
-      VismoTimer.start("VismoShapes._applyProjection");
+    //console.log("apply projection to",this.properties.shape);
+    VismoTimer.start("VismoShapes._applyProjection");
     var c = this.getCoordinates('normal');
   
     if(!projection || !projection.xy) return c;

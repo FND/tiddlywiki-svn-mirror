@@ -65,7 +65,9 @@ var VismoTransformations= {
 		}
 		return result;
 	}
-	,undoTransformation: function(x,y,transformation){
+	,undoTransformation: function(x,y,transformation){ 
+	/*transforms a pixel position relative to the center of the visualisation into the corresponding x,y in the visualisation axis equivalent*/ 
+		VismoTimer.start("VismoTransformations.undoTransformation");
 		var pos = {};
 		var t =transformation;
 		var tr =t.translate;
@@ -76,6 +78,7 @@ var VismoTransformations= {
 		if(x ===false || y ===false)return false;
 		pos.x = x - o.x;
 		pos.y = y -o.y;
+
 		//pos.x -= x;
 		//pos.y += y;
 		
@@ -86,7 +89,8 @@ var VismoTransformations= {
 			pos.y /= s.y;
 			
 		pos.x -= tr.x;
-		pos.y -= tr.y;			
+		pos.y -= tr.y;	
+		VismoTimer.end("VismoTransformations.undoTransformation");		
 		return pos;	
 	}
 	,getXY: function(e,t){
