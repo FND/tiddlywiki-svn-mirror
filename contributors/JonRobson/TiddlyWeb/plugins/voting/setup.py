@@ -3,7 +3,7 @@ AUTHOR = 'Jon Robson'
 AUTHOR_EMAIL = 'jdlrobson@gmail.com'
 NAME = 'tiddlywebplugins.voting'
 DESCRIPTION = ''
-VERSION = '0.4'
+VERSION = '0.42'
 
 import os
 from setuptools import setup, find_packages
@@ -20,6 +20,6 @@ setup(
     url = 'http://pypi.python.org/pypi/%s' % NAME,
     packages = find_packages(exclude=['test']),
     platforms = 'Posix; MacOS X; Windows',
-    install_requires = ['setuptools', 'tiddlyweb','tiddlyweb.test'],
+    install_requires = ['setuptools', 'tiddlyweb'],
     zip_safe = False
     )

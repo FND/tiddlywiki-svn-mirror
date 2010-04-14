@@ -176,6 +176,7 @@ def save_vote(params):
   tiddler.modifier = params["username"]
   tiddler.fields["topic"] = params["title"]
   tiddler.fields["value"] = value
+  tiddler.tags = [u"tiddlyvotingrecord"]
   store.put(tiddler)
   
   #save the data
@@ -204,6 +205,7 @@ def save_vote(params):
   
   voteLog = Tiddler(voteTitle,"tiddlyvoting")
   voteLog.text = voteText
+  voteLog.tags = [u"tiddlyvotingdata"]
   store.put(voteLog)
   
 '''

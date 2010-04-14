@@ -55,6 +55,7 @@ def test_rate_with_floats():
   assert result.fields['tiddlyvoting.mode'] == u"3"
 
   datalog = store.get(Tiddler("data::Kill Bill in films","tiddlyvoting"))
+  assert u"tiddlyvotingdata" in datalog.tags
   textLines = datalog.text.split("\n")
   for i in textLines:
     assert i in [u"1::1",u"5::2",u"3::3",u"frequency::6",u"total::20"]
@@ -79,7 +80,8 @@ def test_rate():
   assert jackiebrown.fields['tiddlyvoting.mode'] == u"3"
   
   user_rate_log = store.get(Tiddler("jon increment Jackie Brown in films","tiddlyvoting"))
-  
+  assert u"tiddlyvotingrecord" in user_rate_log.tags
+  assert u"tiddlyvotingdata" not in user_rate_log.tags
   datalog = store.get(Tiddler("data::Jackie Brown in films","tiddlyvoting"))
   textLines = datalog.text.split("\n")
   for i in textLines:
