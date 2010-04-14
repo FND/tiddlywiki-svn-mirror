@@ -3,7 +3,7 @@ AUTHOR = 'Jon Robson'
 AUTHOR_EMAIL = 'jdlrobson@gmail.com'
 NAME = 'tiddlywebplugins.geofilters'
 DESCRIPTION = 'Provides new filter near=lat,long,radius to allow queries against geo tiddlers (tiddlers with geo.long and geo.lat fields)'
-VERSION = '0.93'
+VERSION = '0.931'
 
 
 import os

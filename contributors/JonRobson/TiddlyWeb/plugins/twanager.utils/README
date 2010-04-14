@@ -6,5 +6,6 @@ Adds various twanager utils which allow you to:
 * remove a given field across all tiddlers in a bag
 * map tags to another tag eg. Cat -> cat <- kitty
 * rename a field in a given bag
-
+* remove fields with a given value
+* map fields from one value to another
 This package is licensed under the same terms as TiddlyWeb itself.

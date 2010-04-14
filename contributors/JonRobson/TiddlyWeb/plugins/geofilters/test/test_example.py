@@ -27,7 +27,7 @@ def test_geo_near_tiddlers():
     tiddler.fields = {u'geo.lat': u'55.0', u'geo.long': u'1.9'}
     found = list(geofilters.geo_near_tiddlers(55.0, 1.9, 1.0, [tiddler]))
     assert len(found) == 1
-    assert found[0].fields['_geo.proximity'] == "0.0"
+    assert found[0].fields['_geo.proximity'] == "0.00"
 
     # giant's causway
     found = list(geofilters.geo_near_tiddlers(55.23636, -6.50888, 1.0, tiddlers))

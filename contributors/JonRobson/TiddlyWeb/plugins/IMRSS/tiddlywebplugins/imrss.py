@@ -188,7 +188,7 @@ def imrsswithtags(args):
 
   savetiddlerstobag(newtiddlers,bagname,overwrite=True)
 
-global config
-config = {}
+
 def init(config_in):
-    config = config_in
+  global config
+  config = config_in

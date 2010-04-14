@@ -3,7 +3,7 @@ AUTHOR = 'Jon Robson'
 AUTHOR_EMAIL = 'jdlrobson@gmail.com'
 NAME = 'tiddlywebplugins.twanagerutils'
 DESCRIPTION = 'Provides lots of useful twanager utils for managing your TiddlyWeb'
-VERSION = '0.92'
+VERSION = '0.93a'
 
 
 import os

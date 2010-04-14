@@ -3,6 +3,7 @@ from tiddlyweb.model.tiddler import Tiddler
 import os
 
 def test_imrss():
+    imrss.init({})
     tiddlers = imrss.tiddlers_from_rss("%s/test/example.xml"%os.getcwd())
     assert len(tiddlers) is 2
     

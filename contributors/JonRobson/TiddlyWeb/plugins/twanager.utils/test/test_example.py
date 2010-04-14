@@ -20,7 +20,7 @@ def setup_testdata():
     {"title":u"Jerm","tags":["monkey"],"fields":{"badfield":"z"}},
     {"title":u"Paul","tags":["dinosaurs rule","tiger"],"fields":{"badfield":"z"}},
     {"title":u"Ben","tags":["cAt","i love my cat"],"fields":{"badfield":"z"}},
-    {"title":u"Andrew","tags":["Pet","Animal","kitty","ToysRUs"],"fields":{"badfield":"z"}}
+    {"title":u"Andrew","tags":["Pet","Animal","kitty","ToysRUs"],"fields":{"badfield":"z","foo":"yes"}}
   
   ]
   tiddlers = []
@@ -40,7 +40,17 @@ def setup_testdata():
   store.put(bag)
   for tiddler in tiddlers:
     store.put(tiddler)
-    
+
+def test_mapfield():
+  twanagerutils.init(config)
+  setup_testdata()    
+  twanagerutils.mapfield(["tmp","badfield","ks","new ks"])
+  tid1 = store.get(Tiddler(u"Andrew","tmp"))
+  assert tid1.fields['badfield'] == 'z'
+  
+  tid1 = store.get(Tiddler(u"Chris","tmp"))
+  assert tid1.fields['badfield'] == 'new ks'
+  
 def test_lowercase():
   twanagerutils.init(config)
   setup_testdata()   
@@ -111,6 +121,26 @@ def test_removefield():
   except KeyError:
     pass
     
+    
+def test_removefieldwithvalue():
+  twanagerutils.init(config)
+  setup_testdata()
+
+  twanagerutils.removefieldwithvalue(["tmp","badfield","zs"]) #only martin should match this
+
+  x = store.get(Tiddler("Ben","tmp")).fields["badfield"]
+  assert x =='z'
+  
+  tiddlers = store.get(Bag("tmp")).list_tiddlers()
+  for tiddler in tiddlers:
+    tiddler =store.get(tiddler)
+    if tiddler.title == 'Martin':
+      assert "badfield" not in tiddler.fields
+    elif tiddler.title == 'Ben':
+      assert tiddler.fields["badfield"] == u"z"
+    else:
+      assert "badfield" in tiddler.fields
+      
 def test_maptags():
   twanagerutils.init(config)
   setup_testdata()

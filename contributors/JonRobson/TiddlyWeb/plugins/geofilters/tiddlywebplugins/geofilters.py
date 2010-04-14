@@ -70,7 +70,7 @@ def geo_near_tiddlers(lat,lng,radius,tiddlers,units="kms"):
         testlng = float(testlng)
         isNear = geoproximity(lat,lng,radius,testlat,testlng,units=units)
         if isNear[0]:
-          tiddler.fields["_geo.proximity"] = "%s"%isNear[1]
+          tiddler.fields["_geo.proximity"] = "%.2f"%isNear[1]
           yield tiddler
       except ValueError:
         #ignore tiddlers which have an empty string for this value
