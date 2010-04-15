@@ -1,0 +1,10 @@
+recipe: ../../../../core/tiddlywiki.html.recipe
+tiddler: ../../plugins/TagsplorerMacro.js
+tiddler: shadows/SiteTitle.tiddler
+tiddler: shadows/SiteSubtitle.tiddler
+tiddler: shadows/DefaultTiddlers.tid
+tiddler: shadows/MainMenu.tid
+tiddler: content/demo.tid
+tiddler: content/Foo.tid
+tiddler: content/Bar.tid
+tiddler: content/Baz.tid

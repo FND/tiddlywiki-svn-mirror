@@ -1,0 +1,8 @@
+modifier: FND
+tags: meta
+
+''NB:'' A more extensive illustration is provided by the [[jQuery API document|http://fnd.lewcid.org/misc/jQueryAPI.html]].
+
+<<tagsplorer foo>>
+<<tagsplorer foo bar>>
+<<tagsplorer foo bar baz>>
