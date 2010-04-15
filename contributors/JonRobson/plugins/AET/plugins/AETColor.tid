@@ -1,0 +1,16 @@
+title: AETPlugin-Color
+tags: systemConfig
+
+
+config.macros.aet.controlTypes.color = function(place,tiddler,metaDataName,options){
+	var aet = config.macros.aet;
+	var curValue = aet.getMetaData(tiddlerTitle,metaDataName);
+	var changefunction = function(newcolor){
+		aet.setMetaData(tiddlerTitle,metaDataName,newcolor,autosavechanges)
+	};
+	
+	var container = document.createElement("span");
+	place.appendChild(container);
+	var slider = new VismoColorSlider(container,200,15,changefunction);
+	slider.setColor(curValue);
+}

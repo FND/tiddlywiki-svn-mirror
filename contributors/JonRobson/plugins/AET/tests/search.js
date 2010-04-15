@@ -11,7 +11,7 @@ test("setup",function(){
 
 test("searchbox", function(){
   var place = document.createElement("place");
-  var paramString ="metaDataName:reports valuesSource:aet.suggestions";
-  config.macros.aet(place,null,[],null,paramString,tiddler)
+  var paramString ="type:search metaDataName:reports valuesSource:aet.suggestions";
+  config.macros.aet.handler(place,null,[],null,paramString,tiddler)
   
 });

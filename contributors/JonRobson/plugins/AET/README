@@ -1,0 +1,1 @@
+AdvancedEditTemplate plugin became a bit heavyweight in terms of size and usefulness. Now it is being stripped down into various smaller chunks.

@@ -1,3 +1,0 @@
-
-
-})(jQuery); //end alias

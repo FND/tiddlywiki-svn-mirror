@@ -1,0 +1,4 @@
+recipe: ../plugins/split.recipe
+jquery: core.js
+jquery: search.js
+jquery: Media.js
