@@ -39,7 +39,7 @@ config.macros.binaryUpload ={
             .append(jQuery('<iframe name="' + iframeName + '" id="' + iframeName + '"/>').css('display','none'))
             .submit(function() {
                 var fileName = jQuery('input:file', this).val();
-                this.action += '?redirect=/bags/common/tiddlers/'+fileName;
+                this.action += '?redirect=/bags/common/tiddlers/'+fileName + '.txt'; //check it exists
                 config.macros.binaryUpload.iFrameLoader(iframeName, fileName, place);
                 return true;
             }).appendTo(place);
@@ -49,7 +49,6 @@ config.macros.binaryUpload ={
         var iframe = document.getElementById(iframeName); //jQuery doesn't seem to want to do this!?
         
         var finishedLoading = function() {
-            //jQuery(iframe).remove();
             displayMessage('File "' + fileName + '" successfully uploaded');
             jQuery.getJSON(config.macros.binaryUpload.fullURL + '/' + fileName + '.json', function(file) {
                 config.macros.binaryUpload.displayFile(place, fileName, file);
@@ -78,7 +77,6 @@ config.macros.binaryUpload ={
         var mimeType = file.type;
         
         if (/^image\//.test(mimeType)) {
-            
             tiddler.text = '[img[' + config.macros.binaryUpload.fullURL + '/' + fileName + ']]';
         } else {
             tiddler.text = '[[' + fileName + '|' + config.macros.binaryUpload.fullURL + '/' + fileName + ']]';
