@@ -42,23 +42,28 @@ Both the image and the fullframe version may be styled using CSS.
 			return;
 		}
 
-        $(place).append($("<img>")
+		$(place).append($("<img>")
 			.attr("src", src)
 			.css('cursor', 'pointer')
 			.click(function () { 
 			$('body').append("<div id='fullframe'><img src='" + this.src + "'></div>");
-			$('#contentWrapper').hide();
 
 			$('#fullframe img')
 				.css('display', 'block')
 				.css('margin', 'auto');
 
+			$('body').trigger('tiddlyWiki.macro.imageZoom.OnOpen');
+		
 			$('#fullframe')
 				.click(function () {
 					$(this).remove();
-					$('#contentWrapper').show();
-				})
+					$('body').trigger('tiddlyWiki.macro.imageZoom.OnClose');
+                });
+        }));
 
+		$('body').bind('tiddlyWiki.macro.imageZoom.OnOpen', function() {
+			$('#contentWrapper').hide();
+			$('#fullframe')
 				.css('position', 'absolute')
 				.css('z-index', '999')
 				.css('top', '0')
@@ -66,7 +71,19 @@ Both the image and the fullframe version may be styled using CSS.
 				.css('width', '100%')
 				.css('height', Math.max($('#fullframe img').height(), $(window).height()))
 				.css('background-color', config.macros.imagezoom.color);
-		}));
+		});
+
+		$('body').bind('tiddlyWiki.macro.imageZoom.OnClose', function() {
+			$('#contentWrapper').show();
+		});
+
+		// TO OVERRIDE in custom tiddler:
+		/**
+		$('body').unbind('tiddlyWiki.macro.imageZoom.OnOpen').bind('tiddlyWiki.macro.imageZoom.OnOpen', function() {
+			// custom actions to go here
+		});
+		**/
 	};
 })(jQuery);
 //}}}
+
