@@ -29,44 +29,44 @@ Both the image and the fullframe version may be styled using CSS.
 /*jslint onevar: false nomen: false plusplus: false */
 /*global config jQuery store window */
 (function ($) {
-    version.extensions.ImageZoomMacroPlugin = {installed: true};
+	version.extensions.ImageZoomMacroPlugin = {installed: true};
 
 	config.macros.imagezoom = {};
 	config.macros.imagezoom.color = '#000';
 	config.macros.imagezoom.handler = function (place, macroName, params, wikifier, paramString, tiddler) {
-        
-        var src = params[0].match(/^@/) ? store.getValue(tiddler, params[0].substring(1))
+
+		var src = params[0].match(/^@/) ? store.getValue(tiddler, params[0].substring(1))
 			: params[0];
 
-        if (!src) {
-            return;
-        }
+		if (!src) {
+			return;
+		}
 
         $(place).append($("<img>")
-            .attr("src", src)
-            .css('cursor', 'pointer')
-            .click(function () { 
-            $('body').append("<div id='fullframe'><img src='" + this.src + "'></div>");
-            $('#contentWrapper').hide();
+			.attr("src", src)
+			.css('cursor', 'pointer')
+			.click(function () { 
+			$('body').append("<div id='fullframe'><img src='" + this.src + "'></div>");
+			$('#contentWrapper').hide();
 
-            $('#fullframe img')
-                .css('display', 'block')
-                .css('margin', 'auto');
+			$('#fullframe img')
+				.css('display', 'block')
+				.css('margin', 'auto');
 
-            $('#fullframe')
-                .click(function () {
-                    $(this).remove();
-                    $('#contentWrapper').show();
-                })
+			$('#fullframe')
+				.click(function () {
+					$(this).remove();
+					$('#contentWrapper').show();
+				})
 
-                .css('position', 'absolute')
-                .css('z-index', '999')
-                .css('top', '0')
-                .css('left', '0')
-                .css('width', '100%')
-                .css('height', Math.max($('#fullframe img').height(), $(window).height()))
-                .css('background-color', config.macros.imagezoom.color);
-        }));
+				.css('position', 'absolute')
+				.css('z-index', '999')
+				.css('top', '0')
+				.css('left', '0')
+				.css('width', '100%')
+				.css('height', Math.max($('#fullframe img').height(), $(window).height()))
+				.css('background-color', config.macros.imagezoom.color);
+		}));
 	};
 })(jQuery);
 //}}}
