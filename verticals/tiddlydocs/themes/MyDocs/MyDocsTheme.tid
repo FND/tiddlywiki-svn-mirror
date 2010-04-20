@@ -71,8 +71,8 @@ tags: systemTheme  excludeLists excludeSearch
 			    </div>
 			</div>
 		</div>
-		<div id='tiddlerDisplay'></div>
 	</div>
+	<div id='tiddlerDisplay'></div>
 	<div class="footer">
 		<div >
 			<a href="/pages/static/mp/disclaimer.html" class="footlink" title="Disclaimer">BT Wholesale is not responsible for the content of external internet sites</a>
@@ -82,7 +82,7 @@ tags: systemTheme  excludeLists excludeSearch
 
 	<!--[if IE]>
 	<style type="text/css">
-
+	
 	html body #tiddlerDisplay {
 		top:-3em;
 	}
@@ -92,7 +92,7 @@ tags: systemTheme  excludeLists excludeSearch
 	}
 
 	.title-right {
-		top:0.7em;
+		top:0.9em;
 		right:0em;
 	}	
 
@@ -101,7 +101,7 @@ tags: systemTheme  excludeLists excludeSearch
 	}
 
 	html body .tiddler .title {
-		top:0.4em;
+		top:-1.5em;
 	}
 
 	#buttonHolder {
