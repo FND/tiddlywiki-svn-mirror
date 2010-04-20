@@ -64,9 +64,9 @@ tags: systemTheme  excludeLists excludeSearch
 			<div class='leftColumn'>
 				<div class='activeDocSummary'>
 					<h2><div macro='activeDocument'>Title: </div> </h2>
-			    	<div macro='newTiddler label:"New Section" template:"NewSectionTemplate"' class='left-title-right'  ></div>
-					<div macro='docPreview' class='left-title-right'></div><br/><br/>
-					<div macro='removeActiveDocumentLink' class='left-title-right'></div>
+			    	<div macro='newTiddler label:"New Section" template:"NewSectionTemplate"' class='right-title button'  ></div>
+					<div macro='docPreview' class='right-title'></div><br/><br/>
+					<div macro='removeActiveDocumentLink' class='right-title'></div>
 					<div id='mainMenu' refresh='content' force='true' tiddler='MainMenu'></div>
 			    </div>
 			</div>
@@ -103,6 +103,16 @@ tags: systemTheme  excludeLists excludeSearch
 	html body .tiddler .title {
 		top:-1.5em;
 	}
+	
+	html body .tiddler .toc-droppable-heading  {
+		position:relative;
+		top:1em;
+	}
+	html body div.tiddler div.droppable-title-right{
+		position:relative;
+		top:-1.2em;
+		right:0.1em;
+	}
 
 	#buttonHolder {
 		top:-5.4em;
@@ -115,11 +125,13 @@ tags: systemTheme  excludeLists excludeSearch
 	.iconShift {
 	top:1em;
 	}
-	
-	html body div.newSectionButton a.btn span span {
-		background:red;
+
+	.button  {
+		background:#FFFFFF none repeat scroll 0 0;
+		border:1px solid #BBBBBB;
+		color:#003366;
+		padding:0.2em;
 	}
-	
 	</style>
 	<![endif]-->
 	
@@ -140,6 +152,8 @@ tags: systemTheme  excludeLists excludeSearch
 	html body #tiddlerDisplay {
 		width:60%;
 	}
+
+	
 	</style>
 	<![endif]-->
 <!--}}}-->
@@ -243,4 +257,5 @@ tags: systemTheme  excludeLists excludeSearch
 [[MyDocsCSSConainer]]
 [[MyDocsCSSOverride]]
 [[MyDocsStyleSheet]]
+
 
