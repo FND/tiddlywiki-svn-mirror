@@ -13,6 +13,9 @@ test("setup",function(){
     else if(url.indexOf("recipes/beefcake/tiddlers/beefcake-macro-1.json") == 0){
       return options.success({title:"beefcake-macro-1",tags:['book'],text:"charles dickens"});
     }
+    else if(url.indexOf("recipes/beefcake/tiddlers/beefcake-come-get_me.json") == 0){
+      return options.success({title:"beefcake-macro-1",tags:['book'],text:"this test is awesome"});
+    }
     options.error();
   }
 });
@@ -22,7 +25,18 @@ test("lazyloadtiddler",function(){
   same(tid.no_beefcake_needed,false,"the flag must be set to show that the tiddler has not been fully loaded");
   same(tid.tags,["foo","jon"]);
   same(tid.fields["x"],"2");
-})
+});
+
+
+test("lazyloadtiddler store.getTiddler",function(){
+  //would be nice to have a solution for something like this..
+  jQuery("body").append("<div id='beefcake-test-code' tiddler='beefcake-come-get-me' refresh='content'></div>");
+  var tid = store.getTiddler("beefcake-come-get-me");
+  
+  same(jQuery("#beefcake-test-code").text(),"this test is awesome","check getTiddlers are propagated from the server to tiddler elements");
+ 
+});
+
 
 test("fullyloadtiddler",function(){
   config.extensions.beefcake.fullyloadtiddler({title:"beefcake.z",tags:["foo"],fields:{"x":"2"},text:"signed delivered sealed"});

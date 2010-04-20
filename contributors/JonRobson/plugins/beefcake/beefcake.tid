@@ -26,8 +26,6 @@ Alot :)
 ***/
 
 
-
-
 config.extensions.beefcake = {
   urls: {
       "main":"",
@@ -239,7 +237,20 @@ config.macros.beefcake = {
   }
 }
 config.extensions.beefcake.dohijacking = function(){
-  
+  /*store.normalGetTiddler = store.getTiddler;
+  store.getTiddler = function(title){
+    var tidjs= this.normalGetTiddler(title);
+    if(tidjs && !tidjs.no_beefcake_needed){
+      tidjs.no_beefcake_needed = true;
+      config.extensions.beefcake.fullyload(title,function(){
+        story.refreshTiddler(title,null,true);
+      })
+      
+    }
+    return tidjs;
+    
+  }
+  return;*/
   story.the_normal_displayTiddler = story.displayTiddler;
   
   config.macros.tiddler.handler_unbeefcaked = config.macros.tiddler.handler;

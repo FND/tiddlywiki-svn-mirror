@@ -4,8 +4,8 @@ title: NiceTaggingPlugin
 /***
 |''Name:''| NiceTaggingPlugin|
 |''Description:''| creates a nicer interface for adding and removing TiddlyWiki. Ideal for tiddly novices. |
-|''Version:''|0.5|
-|''Date:''|8 September 2009|
+|''Version:''|0.51|
+|''Date:''|April 2010|
 |''Source:''|http://www.jonrobson.me.uk/development/niceTagging|
 |''Author:''|Jon Robson|
 |''License:''|[[BSD open source license]]|
@@ -155,7 +155,8 @@ config.macros.niceTagger = {
       if(!val)val= "";
       saveThis = val.readBracketedList();
     }
-    if(value.replace(" ","").length == 0) return;
+    //console.log(value,"is value");
+    if(value && value.replace(" ","").length == 0) return;
     var savedVals;
     if(splitChar && value.indexOf(splitChar) !=-1){
       savedVals= value.split(splitChar);
@@ -176,10 +177,12 @@ config.macros.niceTagger = {
   ,getSuggestionsFromTiddler: function(srcTiddler,textcase){
     var suggestions = [];
     if(srcTiddler){
-      var text = store.getTiddler(srcTiddler).text;
+      var src = store.getTiddler(srcTiddler);
+      var text = src.text;
       var tempdiv = document.createElement("div");
-      wikify(text,tempdiv);
-      suggestions = jQuery(tempdiv).html().split("<br>");
+      wikify(text,tempdiv,null,src);
+      var html = jQuery(tempdiv).html();
+      suggestions = html.split(/<br\/?>/gi);
     }
     var finalSuggestions = [];
     for(var i=0; i < suggestions.length; i++){

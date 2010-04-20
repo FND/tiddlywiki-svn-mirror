@@ -101,6 +101,7 @@ config.macros.aet.controlTypes.file = function(place,tiddler,field,options){
   		var title = tiddler.title;
 			var handler = function(value){
 			  if(options.nohotlinking && value.indexOf("http://") !=-1){
+			    
 			    aet.setMetaData(title,field,"");
 			    return;
 			  }
@@ -108,7 +109,7 @@ config.macros.aet.controlTypes.file = function(place,tiddler,field,options){
 			};
 			var initialValue = "";
 			initialValue = aet.getMetaData(title,field);
-			if(options.nohotlinking && initialValue.indexOf("http://") !=-1) initialValue = "";
+			if(options.nohotlinking && initialValue && initialValue.indexOf("http://") !=-1) initialValue = "";
 			var image = ext.setup(place, options,initialValue,handler,options.preview,tiddler);
 };
 config.macros.aet.controlTypes.image = function(place,tiddler,field,options){

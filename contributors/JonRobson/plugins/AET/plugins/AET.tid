@@ -5,6 +5,8 @@ title: AETPlugin
 |''Name:''|AET (Advanced Edit Template)|
 |''Description:''|Provides stuff the standard edit macro doesn't. First things first.. dropdowns!|
 |''Author:''|JonRobson |
+|''Version:''|0.8|
+|''Date:''|April 2010|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''Dependencies:''|[[AdvancedEditTemplate (core code)|http://svn.tiddlywiki.org/Trunk/contributors/JonRobson/plugins/AET/plugins/AET.js]]|
@@ -281,9 +283,9 @@ config.macros.AdvancedEditTemplate = {
           }
           aet.setMetaData(title,fieldname,fieldvalue,autosavechanges);
         
-      },
-    },
-    "if":{
+      }
+    }
+    ,"if":{
       _doStatement: function(stmt,tiddler,or){
   		        var delimiter = "&";
   		        if(or){
@@ -346,7 +348,7 @@ config.macros.AdvancedEditTemplate = {
 	    if(rows) params.push(rows);
 	    paramString ="";
 	    var e = config.macros.edit.handler(place,null,params,null,paramString,tiddler);
-	    if(maxlength) e.setAttribute("maxlength",maxlength);
+	    jQuery(e).attr("maxlength",maxlength);
     }
     ,dropdown: function(place,tiddler,fieldName,options){
       var aet = config.macros.aet;

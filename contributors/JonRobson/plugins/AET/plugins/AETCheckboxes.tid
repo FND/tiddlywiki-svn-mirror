@@ -5,6 +5,8 @@ title: AETPlugin-Checkboxes
 |''Name:''|AET_Checkboxes|
 |''Description:''||
 |''Author:''|JonRobson |
+|''Version:''|0.8|
+|''Date:''|April 2010|
 |''Requires:''|AETPlugin|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
@@ -59,7 +61,7 @@ config.macros.aet.extensions.checkbox = {
   
 };
 config.macros.aet.controlTypes.checkbox = function(place,tiddler,fieldName,options){
-  config.macros.aet.extensions.checkbox.createCheckBox(place,tiddler.title,fieldName,false);
+  config.macros.aet.extensions.checkbox.createCheckBox(place,tiddler.title,fieldName,options.autosavechanges);
 };
 /*
 }}}

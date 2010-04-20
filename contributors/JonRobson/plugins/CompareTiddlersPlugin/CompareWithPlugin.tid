@@ -1,0 +1,96 @@
+tags: systemConfig
+
+/***
+|''Name:''| CompareWithPlugin|
+|''Description:''| Allows you to compare different versions of the same tiddler (tiddlers with the same name in different bags/revisions or a specific resource)|
+|''Version:''|0.31|
+|''Date:''|April 2010|
+|''Source:''|http://svn.tiddlywiki.org/contributors/JonRobson/plugins|
+|''Author:''|Jon Robson|
+|''License:''|[[BSD open source license]]|
+|''Dependencies:''||
+|''Usage:''|
+the comparewith macro allows 
+<<comparewith revision {revision}>> the default behaviour. Compares with the last revision if no revision number given.
+<<comparewith other {bagname}>> compares the tiddler with a tiddler with the same name in another bag
+<<comparewith url http://..>> compares the tiddler with a given url - the url must point to a json reference of a single tiddler
+
+Stick it at the bottom of a view template or edit template and you will be able to show changes in field values.
+A class comparewithmacro-highlighted is added to all fields that have changed.
+|
+*/
+config.macros.comparewith ={
+  cached_update_edit_template: {}
+  ,ajaxReq: ajaxReq //allow overriding for testing purposes
+  ,compareTiddlers: function(tiddler,json_revision){
+     var fieldname;
+      var changes = [];
+      var attributes = ["text","tags"];
+      for(var i=0; i < attributes.length;i++){
+        fieldname = attributes[i];
+        var last = json_revision[fieldname];
+        var thisval = tiddler[fieldname];
+        if(typeof(lastval)=='undefined')lastval= false;
+        if(typeof(thisval)=='undefined')thisval= false;
+        if(lastval != thisval){
+         changes.push(fieldname)
+        }
+      }
+      for(fieldname in tiddler.fields){
+        var lastval = json_revision.fields[fieldname];
+        var thisval = tiddler.fields[fieldname];
+        if(typeof(lastval)=='undefined')lastval= false;
+        if(typeof(thisval)=='undefined')thisval= false;
+        if(lastval != thisval){
+         changes.push(fieldname)
+        }
+      }
+      return changes;
+  }
+  ,update_edit_template: function(place,tiddler,compare_url){
+     var title=tiddler.title;
+     config.macros.comparewith.ajaxReq({url:compare_url,success:function(json_revision){
+        if(typeof(json_revision) =='string')json_revision = eval("("+json_revision+")");
+        var changes = config.macros.comparewith.compareTiddlers(tiddler,json_revision);
+
+        var color =function(){
+           var selector =[];
+             for(var i=0; i < changes.length; i++){
+               var fieldname = changes[i];              
+              selector = selector.concat(["[name=",fieldname,"],[edit=",fieldname,"]"].join(""));
+            }
+            var selectorString = selector.join(",");
+            var matches = jQuery(selectorString,place.parentNode);
+            matches.addClass("comparewithmacro-highlighted");
+            return changes;
+        };
+        color();
+      }});
+  }
+  ,handler: function(place,macroName,params,wikifier,paramString,tiddler){
+    //last revision is the last one copied
+    var type = params[0];
+    var compareWith = "";
+    var base = config.defaultCustomFields['server.host']
+    if(!type)type ="revision";
+    if(type == 'other'){
+      compareWith = base + "bags/"+params[1]+"/tiddlers/"+tiddler.title+".json";
+    }
+    else if(type == 'revision'){
+      var revision = params[1];
+      if(!revision){
+        var revision = parseInt(tiddler.fields['server.page.revision']) -1;
+        if(revision < 1) return;
+      }
+      
+      compareWith = base + "bags/"+tiddler.fields['server.bag']+"/tiddlers/"+tiddler.title+"/revisions/"+revision+".json";
+    }
+    else if(type == 'url'){
+      compareWith = params[1];
+    }
+    if(config.browser.isIE) return;
+    //window.setTimeout(function(){
+      config.macros.comparewith.update_edit_template(place,tiddler,compareWith);
+    //},1500);
+  }
+}

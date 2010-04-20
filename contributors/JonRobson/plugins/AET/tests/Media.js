@@ -46,12 +46,12 @@ test("macro: view video", function(){
   place = document.createElement("div");
   tid = store.getTiddler("aet.imagetiddler");
   config.macros.view.handler(place,null,["video","video"],null,"video video width:200 src:jonsunsupportedwebsite.com/video",tid);
-  same("No video.",jQuery(place).text(),"only selected external video websites work.");
-  if(!config.browser.isIE){
+  same("",jQuery(place).text(),"only selected external video websites work.");
+  //if(!config.browser.isIE){
     config.macros.aet.setMetaData("aet.imagetiddler",'video','http://www.youtube.com/watch?v=Bxvm0LKbcAI');
     config.macros.view.handler(place,null,["video","video"],null,"video video width:200",tid);
     same(jQuery("object",place).length,1,"object created");
-  }
+  //}
   config.macros.aet.setMetaData("aet.imagetiddler",'video','');
   
   config.macros.view.handler(place,null,["video","video"],null,"video video width:200",tid);
