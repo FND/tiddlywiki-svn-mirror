@@ -229,7 +229,7 @@ tags: systemTheme  excludeLists excludeSearch
 		<div class="portletCornerLeft"></div>
 		<div class="portletCornerRight"></div>
 	    <div class="portletTitle iconShift">
-	        <div class='title ' macro='view title'>
+	        <div class='title' macro='view title'>
                 <div class='title-right'>
                     <div class='toolbar right' macro='toolbar [[ToolbarCommands::ViewToolbar]]'></div>
                 </div>
@@ -250,7 +250,7 @@ tags: systemTheme  excludeLists excludeSearch
 		<div class="portletCornerLeft"></div>
 		<div class="portletCornerRight"></div>
 		<div class="portletTitle iconShift">
-			<div class='title' macro='view title'>Editing Tiddler : 
+			<div class='title edit-title' macro='view title'>Editing Tiddler : 
                 <div class='title-right editIconShift'>
                     <div class='toolbar editToolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
                 </div>
