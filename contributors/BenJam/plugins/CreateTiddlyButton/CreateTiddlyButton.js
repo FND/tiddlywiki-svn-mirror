@@ -1,6 +1,6 @@
 /***
 |''Name:''|CreateTiddlyButton|
-|''Description:''|Create a TiddlyButton to point to a new tiddler|
+|''Description:''|Create a TiddlyButton to point to a new Tiddler, completely over-rides the natural flow of the wikifier and shouldnt really exist.|
 |''Author:''|BenJam|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/BenJam/plugins/CreateTiddlyButton.js |
 |''Version:''|0.1|

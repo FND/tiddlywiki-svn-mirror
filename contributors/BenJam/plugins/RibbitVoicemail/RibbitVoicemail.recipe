@@ -1,0 +1,6 @@
+recipe: ../RibbitLogin/RibbitLogin.recipe
+recipe: ../../../PaulDowney/plugins/YYYYMMDDHHMMSSMMMPlugin/YYYYMMDDHHMMSSMMMPlugin.recipe
+recipe: ../../../PaulDowney/plugins/TickerPlugin/TickerPlugin.recipe
+tiddler: RibbitVoicemail.js
+tiddler: TickerGetVoicemail.tid
+tiddler: DefaultTiddlers.tid
