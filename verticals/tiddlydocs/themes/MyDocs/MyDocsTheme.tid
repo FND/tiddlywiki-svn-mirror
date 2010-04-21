@@ -142,7 +142,6 @@ tags: systemTheme  excludeLists excludeSearch
 	}
 	
 	html body .tiddler .editToolbar {
-		background:blue;
 		position:relative;
 		top:-1.8em;
 	}
