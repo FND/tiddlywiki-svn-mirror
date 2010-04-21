@@ -2,7 +2,7 @@
 |''Name''|NewDocument|
 |''Description''|Provides a form to create a new document from within a TiddlyWiki|
 |''Authors''|Simon McManus|
-|''Version''|0.1|
+|''Version''|0.2|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/verticals/tiddlydocs/Plugins/newDocument.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/verticals/tiddlydocs/Plugins/newDocument.js |
@@ -17,8 +17,16 @@ Provides a macro that can be called with <<newDocument>>. The macro craetes a fo
 <<newDocument>>
 }}}
 
+
+!History 
+
+0.1 - initial release.
+0.2 - pressing return key submits the form correctly. 
+
 !Code
 ***/
+
+
 
 //{{{
 config.macros.newDocument = {
@@ -32,6 +40,10 @@ config.macros.newDocument.handler = function(place,macroName,params,wikifier,par
 	var me = config.macros.newDocument;
 	w.createWizard(place,config.macros.newDocument.createNewDocument);
 	w.addStep(null, '<input name="documentName" />');
+	w.formElem.onsubmit = function() {
+		config.macros.newDocument.createDocumentOnClick(this, w);
+		return false;
+	};
 	w.setButtons([
 		{caption: 'create', tooltip: 'create new document', onClick: function()  { config.macros.newDocument.createDocumentOnClick(this, w);}
 	}]);
