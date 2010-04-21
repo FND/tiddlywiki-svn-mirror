@@ -171,7 +171,7 @@ h1 {
 		margin:0 2em 0 0;
 		overflow:hidden;
 		padding:0;
-		top:-1.5em;
+		top:1em;
 		position:relative;
 		width:66%;
 	}
