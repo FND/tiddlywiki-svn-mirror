@@ -2,7 +2,7 @@
 |''Name''|ServerSideSavingPlugin|
 |''Description''|server-side saving|
 |''Author''|FND|
-|''Version''|0.5.5|
+|''Version''|0.6.0|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/plugins/ServerSideSavingPlugin.js|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
@@ -22,6 +22,8 @@ The specific nature of this plugin depends on the respective server.
 * removed ServerConfig dependency by detecting server type from the respective tiddlers
 !!v0.5 (2009-08-25)
 * raised CoreVersion to 2.5.3 to take advantage of core fixes
+!!v0.6 (2010-04-21)
+* added notification about cross-domain restrictions to ImportTiddlers
 !To Do
 * conflict detection/resolution
 * rename to ServerLinkPlugin?
@@ -44,7 +46,8 @@ plugin.locale = {
 	deleteError: "Error removing %0: %1",
 	deleteLocalError: "Error removing %0 locally",
 	removedNotice: "This tiddler has been deleted.",
-	connectionError: "connection could not be established"
+	connectionError: "connection could not be established",
+	hostError: "Unable to import from this location due to cross-domain restrictions."
 };
 
 plugin.sync = function() {
@@ -170,6 +173,24 @@ TiddlyWiki.prototype.removeTiddler = function(title) { // XXX: should override d
 		this.notify(title, true);
 		this.setDirty(true);
 	}
+};
+
+// hijack ImportTiddlers wizard to handle cross-domain restrictions
+var _onOpen = config.macros.importTiddlers.onOpen;
+config.macros.importTiddlers.onOpen = function(ev) {
+	var btn = $(resolveTarget(ev));
+	var url = btn.closest(".wizard").find("input[name=txtPath]").val();
+	if(window.location.protocol != "file:" && url.indexOf("://") != -1) {
+		var host = url.split("/")[2];
+		var macro = config.macros.importTiddlers;
+		if(host != window.location.host) {
+			btn.text(macro.cancelLabel).attr("title", macro.cancelPrompt);
+			btn[0].onclick = macro.onCancel;
+			$('<span class="status" />').text(plugin.locale.hostError).insertAfter(btn);
+			return false;
+		}
+	}
+	return _onOpen.apply(this, arguments);
 };
 
 })(jQuery);
