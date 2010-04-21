@@ -7,9 +7,11 @@
 !Usage
 To use:
 
-&lt;&lt;binaryUpload bag_name&gt;&gt;
+&lt;&lt;binaryUpload bag:bag_name edit:tags edit:title&gt;&gt;
 
-bag_name is optional - The file will be saved to the current workspace if bag_name is left out
+bag:bag_name is optional - The file will be saved to the current workspace if bag_name is left out
+edit:tags - specifies that you want to tag the file being uploaded
+edit:title - specifies that you want to set the title to something other than the filename
 
 !Requires 
 TiddlyWeb
@@ -26,7 +28,12 @@ if(!version.extensions.BinaryUploadPlugin)
 config.macros.binaryUpload ={
     fullURL: '',
     handler: function(place, macroName, params, wikifier, paramString, tiddler) {
-        var uploadTo = params.length ? 'bags/' + params[0] : config.defaultCustomFields['server.workspace'];
+        params = paramString.parseParams();
+        var uploadTo = params[0]['bag']? 'bags/' + params[0]['bag'] : config.defaultCustomFields['server.workspace'];
+        var includeFields = {
+            tags: params[0]['edit'].contains('tags') ? true : false,
+            title: params[0]['edit'].contains('title') ? true : false
+        };
         var baseURL = config.defaultCustomFields['server.host'];
         baseURL += (baseURL[baseURL.length - 1] !== '/') ? '/' : '';
         this.fullURL = baseURL + uploadTo + '/tiddlers';
@@ -34,12 +41,18 @@ config.macros.binaryUpload ={
         //create the upload form, complete with invisible iframe
         var iframeName = 'binaryUploadiframe' + Math.random().toString();
         jQuery('<form action="' + this.fullURL + '" method="POST" enctype="multipart/form-data" target="' + iframeName + '" />')
-            .append(jQuery('<input type="file" name="file" />'))
-            .append(jQuery('<input type="submit" value="Upload" />'))
+            .append(includeFields['title'] ? '<div class="binaryUploadTitle"><input type="text" name="title" value="Enter Title" /></div>' : '')
+            .append('<div class="binaryUploadFile"><input type="file" name="file" /></div>')
+            .append(includeFields['tags'] ? '<div class="binaryUploadTags">tags: <input type="text" name="tags" /></div>' : '')
+            .append('<div class="binaryUploadSubmit"><input type="submit" value="Upload" /></div>')
             .append(jQuery('<iframe name="' + iframeName + '" id="' + iframeName + '"/>').css('display','none'))
             .submit(function() {
-                var fileName = jQuery('input:file', this).val();
-                this.action += '?redirect=/bags/common/tiddlers/'+fileName + '.txt'; //check it exists
+                var fileName = includeFields['title'] ? jQuery('[name=title]input:text', this).val() : jQuery('input:file', this).val();
+                if ((!fileName)||(fileName === 'Enter Title')) {
+                    fileName = jQuery('input:file', this).val();
+                    jQuery('[name=title]input:text', this).val(fileName);
+                }
+                this.action += '?redirect=/bags/common/tiddlers.txt?select=title:'+fileName; //we need to go somewhere afterwards to ensure the onload event triggers
                 config.macros.binaryUpload.iFrameLoader(iframeName, fileName, place);
                 return true;
             }).appendTo(place);
@@ -81,6 +94,8 @@ config.macros.binaryUpload ={
         } else {
             tiddler.text = '[[' + fileName + '|' + config.macros.binaryUpload.fullURL + '/' + fileName + ']]';
         }
+        
+        tiddler.tags = file.tags;
         
         if (store.getTiddler(fileName)) {
             tiddler.modifier = config.options.txtUserName;
