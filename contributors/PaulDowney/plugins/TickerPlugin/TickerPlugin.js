@@ -3,7 +3,7 @@
 |''Description:''|Periodically Refresh Tiddlers tagged with 'ticker', evaluating those tagged with 'javaScript'|
 |''Author:''|PaulDowney (psd (at) osmosoft (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/plugins/TickerPlugin/ |
-|''Version:''|0.1|
+|''Version:''|0.2|
 |''License:''|[[BSD open source license]]|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''~CoreVersion:''|2.4|
@@ -39,7 +39,7 @@ config.options.chkTickerRefresh = true;
 config.optionsDesc.chkTickerRefresh = "Ticker refreshes visible tiddlers";
 config.options.chkTickerWikify = true;
 config.optionsDesc.chkTickerWikify = "Ticker refreshes hidden tiddlers";
-            
+
 config.macros.Ticker = {
 
 	disabled: false,			// setting will stop the ticking, forever!

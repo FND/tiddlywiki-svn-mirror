@@ -1,8 +1,8 @@
 <div title="DisplayMessage" tags="ticker javaScript" ticker_interval="1">
 <pre>
-{{{
+/*{{{*/
 	//clearMessage();
 	displayMessage("time:" + new Date());
-}}}
+/*}}}*/
 </pre>
 </div>
