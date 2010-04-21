@@ -85,7 +85,7 @@ html body .droppable-title {
 	z-index:99;
 }
 
-.left-title-right {
+.right-title {
 	float:right;
 	font-size:1.3em;
 	position:relative;
@@ -575,4 +575,5 @@ html body div.header div.tabWrapper {
     top:-1.2em;
     
 }
+
 <!--}}}-->
