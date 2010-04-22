@@ -29,7 +29,7 @@ Provides a macro that can be called with <<newDocument>>. The macro craetes a fo
 //{{{
 	
 config.macros.newDocument = {
-    'createNewDocument': 'Create a new Document...',
+    'createNewDocument': 'Create a New Document...',
     'docExists': ' Document Already Exists.',
     'sectionExists': ' Already Exists as a document section.',
 	'buttonText': 'Create',

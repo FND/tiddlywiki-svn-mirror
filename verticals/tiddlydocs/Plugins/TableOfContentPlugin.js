@@ -54,8 +54,7 @@ config.macros.TableOfContent.specChanged = function() {
 	var spec = { format: { name: 'TiddlyDocsSpec', majorVersion:'0', minorVersion:'1' }, content: newSpec}; 
 	store.saveTiddler(window.activeDocument, window.activeDocument, jQuery.toJSON(spec), null, null, "document", fields); 
 	autoSaveChanges(true, window.activeDocument);
-	refreshAll();
-	
+	refreshAll();	
 };
 
 config.macros.TableOfContent.renderSpec = function(specView, spec) {
@@ -81,15 +80,8 @@ config.macros.TableOfContent.renderSpec = function(specView, spec) {
               config.macros.TableOfContent.specChanged();
             }, 
             autoScroll: true, 
-            handle: '.toc-sort-handle',
-			onStart: function() {
-				story.refreshTiddler(this.id,1,true);
-			},
-			onStop: function() {
-				story.refreshTiddler(this.id,1,true);
-			}
+            handle: '.toc-sort-handle'
     }); 
-
     jQuery(".sectionHeading").hover( 
             function() { 
                     jQuery(this).parent().addClass("draggableHover");
@@ -98,12 +90,8 @@ config.macros.TableOfContent.renderSpec = function(specView, spec) {
             function() { 
                     jQuery(this).parent().removeClass("draggableHover");
                     jQuery(this).removeClass("draggableChildHover");
-
             } 
     );
-
-
-
 };
 
 config.macros.TableOfContent.buildSpec = function() {
@@ -124,8 +112,6 @@ config.macros.TableOfContent._buildSpec = function (liList) {
  	});
   return spec;
 };
-
-
 
 config.macros.TableOfContent._renderSpec = function(specView, spec, label) {
 	var ul = createTiddlyElement(specView, "ul", "ul"+(window.ulCount++), "toc");
@@ -153,12 +139,13 @@ config.macros.TableOfContent._renderSpec = function(specView, spec, label) {
 				story.displayTiddler(this.id, this.id.replace("_div", ""), config.macros.TableOfContent.editTemplate ,null, null, null, null,this);
 			else
 				story.displayTiddler(this.id, this.id.replace("_div", ""), config.macros.TableOfContent.viewTemplate,null, null, null, null,this);
-		};
+		};		
 		jQuery(sectionDiv).hover( 
                 function() { 
-	   				jQuery(this).children().css('opacity', '1');
+					jQuery(this).children().css('opacity', '1');
                 },  
                 function() {                  
+			
                  	jQuery(this).children().css('opacity', '0');
                 } 
         );

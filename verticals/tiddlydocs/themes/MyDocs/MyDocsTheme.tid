@@ -67,7 +67,7 @@ tags: systemTheme  excludeLists excludeSearch
 			    	<div macro='newTiddler label:"New Section" template:"NewSectionTemplate"' class='right-title button'  ></div>
 					<div macro='docPreview' class='right-title'></div><br/><br/>
 					<div macro='removeActiveDocumentLink' class='right-title'></div>
-					<div id='mainMenu' refresh='content' force='true' tiddler='MainMenu'></div>
+					<div id='mainMenu' refresh='content' tiddler='MainMenu'></div>
 			    </div>
 			</div>
 		</div>
