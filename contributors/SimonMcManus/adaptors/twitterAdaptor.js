@@ -33,7 +33,7 @@ function convertTimestamp(str) { // TODO: rename
 
 
 twitterAdaptor.doHttpGET = function(uri,callback,params,headers,data,contentType,username,password){
-    return doHttp('GET',window.url+"/handle/proxy.php?feed="+uri,data,contentType,username,password,callback,params,headers);
+    return doHttp('GET',uri,data,contentType,username,password,callback,params,headers);
 };
 
 twitterAdaptor.prototype.getWorkspaceList = function(context,userParams,callback){
@@ -66,8 +66,9 @@ twitterAdaptor.getWorkspaceListCallback = function(status,context,responseText,u
 		fields["prettyDate"] = humane_date(created);
 		tiddler.set("tweet_"+tweets[i]['id'],tweets[i]['text'],"modifier",created,"",created,fields);
 		store.addTiddler(tiddler);
-		if(context.save==true)
-			store.saveTiddler("tweet_"+tweets[i]['id'], "tweet_"+tweets[i]['id'], tweets[i]['text'], "ccTiddly", created, "lifestream", merge(fields, config.defaultCustomFields));					
+		if(context.save==true){
+			store.saveTiddler("tweet_"+tweets[i]['id'], "tweet_"+tweets[i]['id'], tweets[i]['text'], "ccTiddly", created, "lifestream", fields);					
+		}
 	}			
 	context.tiddlers = list;
 	context.status = true;		

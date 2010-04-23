@@ -24,7 +24,6 @@ function convertShortMonth(text){
 }
 
 flickrAdaptor.doHttpGET = function(uri,callback,params,headers,data,contentType,username,password){
-	uri = window.url+"/plugins/lifestream/files/flickrProxy.php?feed="+uri;
     return doHttp('GET',uri,data,contentType,username,password,callback,params,headers);
 };
 
@@ -32,6 +31,7 @@ flickrAdaptor.prototype.getWorkspaceList = function(context,userParams,callback)
 	context = this.setContext(context,userParams,callback);
 	var uriTemplate = '%0';
 	var uri = uriTemplate.format([context.host]);
+	console.log(uri);
 	var req = flickrAdaptor.doHttpGET(uri,flickrAdaptor.getWorkspaceListCallback,context, null, "format=json");
 	return typeof req == 'string' ? req : true;
 };

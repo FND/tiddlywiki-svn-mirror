@@ -8,30 +8,46 @@ config.macros.lifeStream.handler = function(place,macroName,params)
 	context.callback = function() {
 		config.macros.lifeStream.display(place, params);
 	};
-	context.host = "http://twitter.com/statuses/user_timeline/simonmcmanus";
+	
+	/*
 
+	
+var wordpress = new wordpressAdaptor();
+wordpress.openHost();
+context.host = document.domain+"/wordpress/";
+wordpress.getWorkspaceList(context);
+	
+	*/
+
+
+
+	var github = new githubAdaptor();
+	github.openHost();
+	context.host = document.domain+"/github/simonmcmanus.json";
+	github.getWorkspaceList(context);
+	
+	
+	
+
+	var delicious = new deliciousAdaptor();
+	delicious.openHost();
+	context.host = document.domain+"/delicious/v2/json/simonmcmanus";
+	delicious.getWorkspaceList(context);
+		
+	context.host = document.domain+"/twitter/statuses/user_timeline/simonmcmanus";
 	var twitter = new twitterAdaptor();
 	twitter.openHost();
 	twitter.getWorkspaceList(context);
 	
 	var flickr = new flickrAdaptor();
 	flickr.openHost();
-	context.host = "http://api.flickr.com/services/feeds/photos_public.gne?ids=22127230@N08";
+	context.host = document.domain+"/flickr/services/feeds/photos_public.gne?ids=22127230@N08";
 	flickr.getWorkspaceList(context);
 	
-	var delicious = new deliciousAdaptor();
-	delicious.openHost();
-	context.host = "http://feeds.delicious.com/v2/json/simonmcmanus";
-	delicious.getWorkspaceList(context);
-	
-	var wordpress = new wordpressAdaptor();
-	wordpress.openHost();
-	context.host = "http://simonmcmanus.wordpress.com";
-	wordpress.getWorkspaceList(context);
 	
 	var trac = new tracAdaptor();
 	trac.openHost();
-	context.host = "http://trac.tiddlywiki.org/timeline?format=rss";
+	context.host = document.domain+"/trac/timeline?format=rss";
 	trac.getWorkspaceList(context);
 	createTiddlyElement(place, "h4", null, null, "loading...");
 };
@@ -86,7 +102,7 @@ config.macros.lifeStream.display = function (place, params)
 			break;
 			case "trac":
 				var img = createTiddlyElement(null, "img", null, "imgClass");
-				img.src = "plugins/lifestream/files/images/trac.png";
+				img.src = "/static/trac.png";
 				img.width = "20";
 				img.height = "20";
 				var slider = config.macros.slider.createSlider(place, "", "");
@@ -116,7 +132,7 @@ config.macros.lifeStream.display = function (place, params)
 			case "twitter":
 				var img = createTiddlyElement(null, "img", null, "imgClass");
 				//img.src = tiddlers[t].fields['user_img'];
-				img.src= "plugins/lifestream/files/images/twitter.png";
+				img.src= "/static/twitter.png";
 				img.width = "20";
 				img.height = "20";
 				var slider = config.macros.slider.createSlider(place, "", "");
@@ -130,9 +146,25 @@ config.macros.lifeStream.display = function (place, params)
 				createTiddlyElement(sliderButton, "div", null, "noFloat");
 				wikify(tiddlers[t].fields['url']+"\n\r"+tiddlers[t].fields.prettyDate,slider);
 			break;
+			case "github":
+				var img = createTiddlyElement(null, "img", null, "imgClass");
+				img.src= "http://prob_prod.s3.amazonaws.com/github-icon-2.png?1270218957";
+				img.width = "20";
+				img.height = "20";
+				var slider = config.macros.slider.createSlider(place, "", "");
+				addClass(slider,"slider");
+				var sliderButton = findRelated(slider,"button","className","previousSibling");
+				sliderButton.appendChild(img);
+				
+				var div = createTiddlyElement(sliderButton, "div", null, "textSpace");
+				div.innerHTML =  tiddlers[t].title;
+				addClass(sliderButton,"stream twitterStream");
+				createTiddlyElement(sliderButton, "div", null, "noFloat");
+				wikify(tiddlers[t].text+"\n\r"+tiddlers[t].fields.prettyDate,slider);
+			break;
 			case "delicious":
 				var img = createTiddlyElement(null, "img", null, "imgClass");
-				img.src = "plugins/lifestream/files/images/delicious.png";
+				img.src = "/static/delicious.png";
 				img.width = "20";
 				img.height = "20";
 				var slider = config.macros.slider.createSlider(place, "", "");
@@ -146,7 +178,7 @@ config.macros.lifeStream.display = function (place, params)
 			default:
 				if(tiddlers[t].isTagged("note")){
 					var img = createTiddlyElement(null, "img", null, "imgClass");
-					img.src = "plugins/lifestream/files/images/note.png";
+					img.src = "/static/note.png";
 					img.width = "20";
 					img.height = "20";
 					var slider = config.macros.slider.createSlider(place, "", "");

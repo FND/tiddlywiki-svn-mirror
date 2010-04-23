@@ -30,13 +30,14 @@ wordpressAdaptor.convertTimestamp = function(str) { // TODO: rename
 
 
 wordpressAdaptor.doHttpGET = function(uri,callback,params,headers,data,contentType,username,password){
-    return doHttp('GET',window.url+"/plugins/lifestream/files/wordpressProxy.php?feed="+uri,data,contentType,username,password,callback,params,headers);
+    return doHttp('GET',uri,data,contentType,username,password,callback,params,headers);
 };
 
 wordpressAdaptor.prototype.getWorkspaceList = function(context,userParams,callback){
 	context = this.setContext(context,userParams,callback);
-	var uriTemplate = '%0/?feed=rss2';
+	var uriTemplate = '%0/feed';
 	var uri = uriTemplate.format([context.host]);
+	console.log(uri);
 	var req = wordpressAdaptor.doHttpGET(uri,wordpressAdaptor.getWorkspaceListCallback,context, {'accept':wordpressAdaptor.mimeType});
 	return typeof req == 'string' ? req : true;
 };

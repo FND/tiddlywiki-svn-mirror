@@ -20,7 +20,6 @@ function convertISOTimestamp1(str) { // TODO: rename
 }
 
 deliciousAdaptor.doHttpGET = function(uri,callback,params,headers,data,contentType,username,password){
-	uri = window.url+"/handle/proxy.php?feed="+uri;
     return doHttp('GET',uri,data,contentType,username,password,callback,params,headers);
 };
 

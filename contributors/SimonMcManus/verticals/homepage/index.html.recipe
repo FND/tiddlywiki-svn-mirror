@@ -9,7 +9,9 @@ tiddler: DefaultTiddlers.tid
 
 tiddler: ../../adaptors/deliciousAdaptor.js
 
+tiddler: ../../adaptors/tracAdaptor.js
 
 tiddler: ../../adaptors/twitterAdaptor.js
 tiddler: ../../adaptors/flickrAdaptor.js
 tiddler: ../../adaptors/wordpressAdaptor.js
+tiddler: ../../adaptors/githubAdaptor.js
