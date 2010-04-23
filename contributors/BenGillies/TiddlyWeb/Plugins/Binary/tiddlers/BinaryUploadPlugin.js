@@ -31,8 +31,8 @@ config.macros.binaryUpload ={
         params = paramString.parseParams();
         var uploadTo = params[0]['bag']? 'bags/' + params[0]['bag'] : config.defaultCustomFields['server.workspace'];
         var includeFields = {
-            tags: params[0]['edit'].contains('tags') ? true : false,
-            title: params[0]['edit'].contains('title') ? true : false
+            tags: params[0]['edit'] && params[0]['edit'].contains('tags') ? true : false,
+            title: params[0]['edit'] && params[0]['edit'].contains('title') ? true : false
         };
         var baseURL = config.defaultCustomFields['server.host'];
         baseURL += (baseURL[baseURL.length - 1] !== '/') ? '/' : '';
