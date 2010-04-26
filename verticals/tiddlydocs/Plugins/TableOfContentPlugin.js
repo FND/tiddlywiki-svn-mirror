@@ -15,7 +15,7 @@ macro provides a view on the table of content for the currently active document
 !Usage
 {{{
 
-<<TableOfContentPlugin>>
+<<TableOfContent>>
 
 }}}
 
@@ -33,14 +33,21 @@ config.macros.TableOfContent={
 	'noDocSelectedText': 'No document selected'
 };
 
-config.macros.TableOfContent.strip=function(s) {
-	return s.replace(/ /g,'');
-};
-
 config.macros.TableOfContent.handler=function(place,macroName,params,wikifier,paramString,tiddler){
 	config.shadowTiddlers["tdocsMenuStyles"] = store.getTiddlerText("TableOfContentPlugin##StyleSheet");
 	store.addNotification("tdocsMenuStyles", refreshStyles);
 	config.macros.TableOfContent.refresh(place,macroName,params,wikifier,paramString,tiddler);
+};
+
+config.macros.TableOfContent.refresh=function(place,macroName,params,wikifier,paramString,tiddler){
+	docTiddler = window.activeDocument;
+	if(store.tiddlerExists(docTiddler)) {
+		var spec = jQuery.parseJSON(store.getTiddlerText(docTiddler)).content;
+		var specView = createTiddlyElement(place, "div", "", "specView");	
+		config.macros.TableOfContent.renderSpec(specView, spec);
+	}else{
+		createTiddlyElement(place, "span", null, "noDocSelected error", config.macros.TableOfContent.noDocSelectedText)
+	}
 };
 
 config.macros.TableOfContent.specChanged = function() {
@@ -52,6 +59,7 @@ config.macros.TableOfContent.specChanged = function() {
 	    var fields = config.defaultCustomFields; 
 	} 
 	var spec = { format: { name: 'TiddlyDocsSpec', majorVersion:'0', minorVersion:'1' }, content: newSpec}; 
+//	var spec = { content: newSpec}; 
 	store.saveTiddler(window.activeDocument, window.activeDocument, jQuery.toJSON(spec), null, null, "document", fields); 
 	autoSaveChanges(true, window.activeDocument);
 	refreshAll();	
@@ -63,54 +71,30 @@ config.macros.TableOfContent.renderSpec = function(specView, spec) {
 	window.divCount=0;
 	window.sectionCount = 1;
 	jQuery(specView).empty();
-	if(spec[0]) {
-		config.macros.TableOfContent._renderSpec(specView, spec, []);
-	} else {
-		spec[0] = {};
-		spec[0].title = 'Empty Document';
-		spec[0].children = [];
-		config.macros.TableOfContent._renderSpec(specView, spec, []);		
-	}
+	if(!spec[0]) 
+		spec[0] = {'title':'Empty Document', 'children': []};
+	config.macros.TableOfContent._renderSpec(specView, spec, []);		
 	jQuery("#ul0").NestedSortable({
-			accept: 'toc-item',
-			noHoverClass: 'notHoverable',
-			noNestingClass: "no-nesting", 
-            helperclass: 'helper', 
-            onChange: function(serialized) { 
-              config.macros.TableOfContent.specChanged();
-            }, 
-            autoScroll: true, 
-            handle: '.toc-sort-handle'
+		accept: 'toc-item',
+		noHoverClass: 'notHoverable',
+		noNestingClass: "no-nesting", 
+		helperclass: 'helper', 
+		onChange: function(serialized) { 
+			config.macros.TableOfContent.specChanged();
+		}, 
+		autoScroll: true, 
+		handle: '.toc-sort-handle'
     }); 
     jQuery(".sectionHeading").hover( 
-            function() { 
-                    jQuery(this).parent().addClass("draggableHover");
-                    jQuery(this).addClass("draggableChildHover");
-            },  
-            function() { 
-                    jQuery(this).parent().removeClass("draggableHover");
-                    jQuery(this).removeClass("draggableChildHover");
-            } 
+	    function() { 
+	    	jQuery(this).parent().addClass("draggableHover");
+	    	jQuery(this).addClass("draggableChildHover");
+	    },  
+	    function() { 
+	    	jQuery(this).parent().removeClass("draggableHover");
+	     	jQuery(this).removeClass("draggableChildHover");
+	    } 
     );
-};
-
-config.macros.TableOfContent.buildSpec = function() {
-  return config.macros.TableOfContent._buildSpec(jQuery(".specView:first > ul > li"));
-};
-
-config.macros.TableOfContent._buildSpec = function (liList) {
-	var spec = [];
-	liList.each(function() {
-		if(this.id != 'empty'){
-			var li=this;
-			var node = {
-				title: li.id
-			};
-			node.children = config.macros.TableOfContent._buildSpec(jQuery(li).children("ul").children("li"));
-			spec.push(node);
-		}
- 	});
-  return spec;
 };
 
 config.macros.TableOfContent._renderSpec = function(specView, spec, label) {
@@ -145,8 +129,7 @@ config.macros.TableOfContent._renderSpec = function(specView, spec, label) {
 					jQuery(this).children().css('opacity', '1');
                 },  
                 function() {                  
-			
-                 	jQuery(this).children().css('opacity', '0');
+			     	jQuery(this).children().css('opacity', '0');
                 } 
         );
 		createTiddlyText(sectionDiv, label.join(".")+"  :  "+this.title);
@@ -163,17 +146,29 @@ config.macros.TableOfContent._renderSpec = function(specView, spec, label) {
 	});
 };
 
-config.macros.TableOfContent.refresh=function(place,macroName,params,wikifier,paramString,tiddler){
-	docTiddler = window.activeDocument;
-	if(store.tiddlerExists(docTiddler)) {
-		var spec = jQuery.parseJSON(store.getTiddlerText(docTiddler)).content;
-		var specView = createTiddlyElement(place, "div", "", "specView");	
-		config.macros.TableOfContent.renderSpec(specView, spec);
-	}else{
-		createTiddlyElement(place, "span", null, "noDocSelected error", config.macros.TableOfContent.noDocSelectedText)
-	}
+
+config.macros.TableOfContent.buildSpec = function() {
+  return config.macros.TableOfContent._buildSpec(jQuery(".specView:first > ul > li"));
 };
 
+config.macros.TableOfContent._buildSpec = function (liList) {
+	var spec = [];
+	liList.each(function() {
+		if(this.id != 'empty'){
+			var li=this;
+			var node = {
+				title: li.id
+			};
+			node.children = config.macros.TableOfContent._buildSpec(jQuery(li).children("ul").children("li"));
+			spec.push(node);
+		}
+ 	});
+  return spec;
+};
+
+config.macros.TableOfContent.strip=function(s) {
+	return s.replace(/ /g,'');
+};
 
 /***
 !StyleSheet

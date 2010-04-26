@@ -10,8 +10,8 @@ CKEDITOR.config.customConfig = 'null';
     	 config.uiColor = '#AADC6E';
          config.toolbar = 
          [
-             [ 'Source', '-', 'Bold', 'Italic', 'fileicon' ]
+             [ 'Source', '-', 'Bold', 'Italic', 'tw_uploader' ]
          ];
-         config.extraPlugins='fileicon';
+         config.extraPlugins='tw_uploader';
     };
 

@@ -35,7 +35,7 @@ config.macros.newDocumentButton.handler = function(place,macroName,params,wikifi
 	var text = getParam(params,"text",null);
 	var newDoc = function() {
 		template = (template)?template:me.defaultTemplate;
-		story.displayTiddler(null,me.newDocumentTiddler, template);
+		story.displayTiddler(this,me.newDocumentTiddler, template);
 		return false;
 	};
 	text = (text!=null)?text:me.defaultText;
