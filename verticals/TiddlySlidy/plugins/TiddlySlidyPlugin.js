@@ -38,7 +38,6 @@ var lastSlide = '';
 	};
 	
 	
-
     var displayTiddler = Story.prototype.displayTiddler;
     Story.prototype.displayTiddler = function(srcElement,tiddler,template,animate,unused,customFields,toggle,animationSrc) {
         var r = displayTiddler.apply(this, arguments);
@@ -61,19 +60,18 @@ var lastSlide = '';
             return r;
         }
 
-        $('body').append("<div id='fullframe'></div>");
-        $('#slide').clone().appendTo('#fullframe');
-
+		/*
+		 * fullframe customization
+		 */
+		$('body').append("<div id='fullframe'></div>");
+		$('#slide').clone().appendTo('#fullframe');
 		$('body').trigger('tiddlyWiki.macro.fullframe.OnOpen');
-
-        $('#fullframe')
-        	.click(function (e) {
+		$('#fullframe')
+			.click(function (e) {
 				$('body').trigger('tiddlyWiki.macro.fullframe.OnClose');
-	            
-	
 				var link = $(e.target).attr("tiddlyLink");
-	            story.displayTiddler(null, link || lastSlide);
-	        });
+				story.displayTiddler(null, link || lastSlide);
+			});
 
         return r;
     };
