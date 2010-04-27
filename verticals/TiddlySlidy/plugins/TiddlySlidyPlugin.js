@@ -49,41 +49,9 @@ var lastSlide = '';
         // update MainMenu
         config.macros.MainMenuOrder.refresh();
 
-		// fullframe customization
-		if (tiddler.tags.indexOf('slide') != -1) {
-			$('#fullframe').remove();
-			$('#contentWrapper').show();
-			lastSlide = tiddler.title;
-		} else if (!$('#presentation').length) {
-			$('body').append("<div id='fullframe'></div>");
-			$('#slide').clone().appendTo('#fullframe');
-			$('body').trigger('tiddlyWiki.macro.fullframe.OnOpen');
-			$('#fullframe')
-				.click(function (e) {
-					$('body').trigger('tiddlyWiki.macro.fullframe.OnClose');
-					var link = $(e.target).attr("tiddlyLink");
-					story.displayTiddler(null, link || lastSlide);
-				});
-		}
-
         return r;
     };
 
-
-	// Setup "default" event listeners (to override simply .unbind())
-	$('body').bind('tiddlyWiki.macro.fullframe.OnOpen', function() {
-		$('#contentWrapper').hide();
-		$('#fullframe')
-			.css('display', 'block')
-			.css('margin', 'auto')
-			.css('position', 'absolute')
-			.css('z-index', '999')
-			.css('top', '0')
-			.css('left', '0')
-			.css('width', '100%')
-			.css('height', Math.max($('#fullframe').height(), $(window).height()))
-			.css('background-color', config.macros.imagezoom.color);
-	});
 
 	$('body').bind('tiddlyWiki.macro.fullframe.OnClose', function(){
 		$('#contentWrapper').show();
