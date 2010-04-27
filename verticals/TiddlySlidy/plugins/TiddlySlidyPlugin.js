@@ -71,28 +71,24 @@ var lastSlide = '';
 
 
 	// Setup "default" event listeners (to override simply .unbind())
-	$('body').bind('tiddlyWiki.macro.fullframe.OnOpen', function(){
+	$('body').bind('tiddlyWiki.macro.fullframe.OnOpen', function() {
 		$('#contentWrapper').hide();
-        $('#fullframe')
-            .css('display', 'block')
-            .css('margin', 'auto')
-            .css('position', 'absolute')
-            .css('z-index', '999')
-            .css('top', '0')
-            .css('left', '0')
-            .css('width', '100%')
-            .css('height', Math.max($('#fullframe').height(), $(window).height()))
-            .css('background-color', config.macros.imagezoom.color);
-		
+		$('#fullframe')
+			.css('display', 'block')
+			.css('margin', 'auto')
+			.css('position', 'absolute')
+			.css('z-index', '999')
+			.css('top', '0')
+			.css('left', '0')
+			.css('width', '100%')
+			.css('height', Math.max($('#fullframe').height(), $(window).height()))
+			.css('background-color', config.macros.imagezoom.color);
 	});
-	
+
 	$('body').bind('tiddlyWiki.macro.fullframe.OnClose', function(){
 		$('#contentWrapper').show();
 	    $('#fullframe').remove();
 	});
-	
-
-
 
     /*
      *  newSlide button
