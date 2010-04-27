@@ -43,7 +43,7 @@
 
 /* 100% height needs JavaScript .. */
 .tallImageSlide .image img {
-    height: 480px;          
+    height: 460px;
     border: none;
     margin: 0;
     padding: 0;

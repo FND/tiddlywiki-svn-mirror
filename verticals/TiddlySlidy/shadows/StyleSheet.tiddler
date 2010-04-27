@@ -63,7 +63,7 @@ a#backstageShow {
     background-color: [[ColorPalette::Background]];
     border: none;
     width: 640px;
-    min-height: 490px;
+    min-height: 460px;
 }
 
 #footer {
@@ -78,7 +78,7 @@ a#backstageShow {
     background-color: [[ColorPalette::Background]];
     margin: 1em auto;
     width: 640px;
-    height: 480px;
+    height: 460px;
     _height: auto;
     overflow: hidden;
 }
