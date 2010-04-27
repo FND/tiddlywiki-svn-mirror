@@ -49,29 +49,22 @@ var lastSlide = '';
         // update MainMenu
         config.macros.MainMenuOrder.refresh();
 
-        if (tiddler.tags.indexOf('slide') != -1) {
-            $('#fullframe').remove();
-            $('#contentWrapper').show();
-            lastSlide = tiddler.title;
-            return r;
-        }
-
-        if (!$('#presentation').length) {
-            return r;
-        }
-
-		/*
-		 * fullframe customization
-		 */
-		$('body').append("<div id='fullframe'></div>");
-		$('#slide').clone().appendTo('#fullframe');
-		$('body').trigger('tiddlyWiki.macro.fullframe.OnOpen');
-		$('#fullframe')
-			.click(function (e) {
-				$('body').trigger('tiddlyWiki.macro.fullframe.OnClose');
-				var link = $(e.target).attr("tiddlyLink");
-				story.displayTiddler(null, link || lastSlide);
-			});
+		// fullframe customization
+		if (tiddler.tags.indexOf('slide') != -1) {
+			$('#fullframe').remove();
+			$('#contentWrapper').show();
+			lastSlide = tiddler.title;
+		} else if (!$('#presentation').length) {
+			$('body').append("<div id='fullframe'></div>");
+			$('#slide').clone().appendTo('#fullframe');
+			$('body').trigger('tiddlyWiki.macro.fullframe.OnOpen');
+			$('#fullframe')
+				.click(function (e) {
+					$('body').trigger('tiddlyWiki.macro.fullframe.OnClose');
+					var link = $(e.target).attr("tiddlyLink");
+					story.displayTiddler(null, link || lastSlide);
+				});
+		}
 
         return r;
     };
