@@ -7,11 +7,12 @@
 !Usage
 To use:
 
-&lt;&lt;binaryUpload bag:bag_name edit:tags edit:title&gt;&gt;
+&lt;&lt;binaryUpload bag:bag_name edit:tags edit:title tags:default_tags&gt;&gt;
 
 bag:bag_name is optional - The file will be saved to the current workspace if bag_name is left out
 edit:tags - specifies that you want to tag the file being uploaded
 edit:title - specifies that you want to set the title to something other than the filename
+tags:default_tags - specifies a default set of tags to apply to the file. Note - require edit:tags to be set
 
 !Requires 
 TiddlyWeb
@@ -32,7 +33,8 @@ config.macros.binaryUpload ={
         var uploadTo = params[0]['bag']? 'bags/' + params[0]['bag'] : config.defaultCustomFields['server.workspace'];
         var includeFields = {
             tags: params[0]['edit'] && params[0]['edit'].contains('tags') ? true : false,
-            title: params[0]['edit'] && params[0]['edit'].contains('title') ? true : false
+            title: params[0]['edit'] && params[0]['edit'].contains('title') ? true : false,
+            defaultTags: params[0]['tags'] ? params[0]['tags'] : ''
         };
         var baseURL = config.defaultCustomFields['server.host'];
         baseURL += (baseURL[baseURL.length - 1] !== '/') ? '/' : '';
@@ -43,7 +45,7 @@ config.macros.binaryUpload ={
         jQuery('<form action="' + this.fullURL + '" method="POST" enctype="multipart/form-data" target="' + iframeName + '" />')
             .append(includeFields['title'] ? '<div class="binaryUploadTitle"><input type="text" name="title" value="Enter Title" /></div>' : '')
             .append('<div class="binaryUploadFile"><input type="file" name="file" /></div>')
-            .append(includeFields['tags'] ? '<div class="binaryUploadTags">tags: <input type="text" name="tags" /></div>' : '')
+            .append(includeFields['tags'] ? '<div class="binaryUploadTags">tags: <input type="text" name="tags" value="' + includeFields['defaultTags'] + '" /></div>' : '')
             .append('<div class="binaryUploadSubmit"><input type="submit" value="Upload" /></div>')
             .append(jQuery('<iframe name="' + iframeName + '" id="' + iframeName + '"/>').css('display','none'))
             .submit(function() {
