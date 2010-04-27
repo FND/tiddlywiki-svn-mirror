@@ -4,7 +4,7 @@
 |''Author:''|PaulDowney (psd (at) osmosoft (dot) com) |
 |''Source:''|http://whatfettle.com/2008/07/MainMenuOrderPlugin/ |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/plugins/MainMenuOrderPlugin/ |
-|''Version:''|0.3|
+|''Version:''|0.2|
 |''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''~CoreVersion:''|2.4|
@@ -36,6 +36,8 @@ var lastSlide = '';
 	config.macros.toggleLinearNavigation = function(){
 		$('div.slide-bottom a').slideToggle(100);
 	};
+	
+	
 
     var displayTiddler = Story.prototype.displayTiddler;
     Story.prototype.displayTiddler = function(srcElement,tiddler,template,animate,unused,customFields,toggle,animationSrc) {
@@ -59,11 +61,27 @@ var lastSlide = '';
             return r;
         }
 
-        $('#contentWrapper').hide();
-
         $('body').append("<div id='fullframe'></div>");
         $('#slide').clone().appendTo('#fullframe');
 
+		$('body').trigger('tiddlyWiki.macro.fullframe.OnOpen');
+
+        $('#fullframe')
+        	.click(function (e) {
+				$('body').trigger('tiddlyWiki.macro.fullframe.OnClose');
+	            
+	
+				var link = $(e.target).attr("tiddlyLink");
+	            story.displayTiddler(null, link || lastSlide);
+	        });
+
+        return r;
+    };
+
+
+	// Setup "default" event listeners (to override simply .unbind())
+	$('body').bind('tiddlyWiki.macro.fullframe.OnOpen', function(){
+		$('#contentWrapper').hide();
         $('#fullframe')
             .css('display', 'block')
             .css('margin', 'auto')
@@ -73,17 +91,16 @@ var lastSlide = '';
             .css('left', '0')
             .css('width', '100%')
             .css('height', Math.max($('#fullframe').height(), $(window).height()))
-            .css('background-color', config.macros.imagezoom.color)
+            .css('background-color', config.macros.imagezoom.color);
+		
+	});
+	
+	$('body').bind('tiddlyWiki.macro.fullframe.OnClose', function(){
+		$('#contentWrapper').show();
+	    $('#fullframe').remove();
+	});
+	
 
-            .click(function (e) {
-                $('#contentWrapper').show();
-                var link = $(e.target).attr("tiddlyLink");
-                $('#fullframe').remove();
-                story.displayTiddler(null, link || lastSlide);
-            });
-
-        return r;
-    };
 
 
     /*
@@ -103,7 +120,6 @@ var lastSlide = '';
                 var customFields = {
                     'theme': theme
                 };
-                merge(customFields, config.defaultCustomFields);
                 var tiddler = store.createTiddler(title);
                 merge(tiddler.fields, customFields);
                 merge(tiddler.tags, tags);
