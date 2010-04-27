@@ -8,8 +8,22 @@
 /*********************************************************************************************************/
 
 CKEDITOR.dialog.add('tw_uploader',function(a){
- j={type:'html'};
- j.html = wikifyStatic(store.getTiddlerText('MainMenu'));
-return {title:"title",minWidth:280,minHeight:150,contents:[{id:'tab1',label:'',title:'',expand:true,padding:0,elements:[j]}],buttons:[CKEDITOR.dialog.cancelButton]};
-
+	j={type:'html'};
+	j.html = "<div id='divdiv'>hi</div>";
+	return {
+		title:"Image Upload",
+		minWidth:180,
+		minHeight:150,
+		onShow: function() {
+			wikify('<<binaryUpload>>', jQuery('#divdiv'));
+		}, 
+		contents:[
+			{id:'tab1',
+			label:'as',
+			expand:true,
+			padding:0,
+			elements:[j]
+			}],
+		buttons:[CKEDITOR.dialog.cancelButton]
+	};
 });
