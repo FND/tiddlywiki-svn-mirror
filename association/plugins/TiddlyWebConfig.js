@@ -2,7 +2,7 @@
 |''Name''|TiddlyWebConfig|
 |''Description''|configuration settings for TiddlyWebWiki|
 |''Author''|FND|
-|''Version''|0.7.5|
+|''Version''|0.8.0|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/plugins/TiddlyWebConfig.js|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
@@ -23,6 +23,8 @@
 * disabled edit toolbar command for unauthorized users
 !!v0.7 (2009-09-11)
 * added revisions toolbar command
+!!v0.8 (2010-04-28)
+* added extension namespace caching state and providing anonUser function
 !Code
 ***/
 //{{{
@@ -36,14 +38,35 @@ if(window.location.protocol != "file:") {
 	config.options.chkAutoSave = true;
 }
 
+var plugin = config.extensions.TiddlyWeb = {
+	serverVersion: null,
+	host: tiddler.fields["server.host"].replace(/\/$/, ""),
+	challengers: null,
+	username: null,
+
+	anonUser: function() {
+		if(this.username === null) {
+			jQuery.ajax({ // XXX: breaking out of adaptor paradigm
+				async: false, // XXX: dangerously hacky
+				url: this.host + "/status",
+				type: "GET",
+				dataType: "json",
+				success: function(data, status, xhr) {
+					statusCallback({ serverStatus: data }, null);
+				}
+			});
+		}
+		return this.username == "GUEST";
+	}
+};
+
 // initialize configuration
 var adaptor = tiddler.getAdaptor();
-var host = tiddler.fields["server.host"];
 var recipe = tiddler.fields["server.recipe"];
 var workspace = recipe ? "recipes/" + recipe : "bags/common";
 config.defaultCustomFields = {
 	"server.type": tiddler.getServerType(),
-	"server.host": host,
+	"server.host": plugin.host,
 	"server.workspace": workspace
 };
 
@@ -79,19 +102,20 @@ var hasPermission = function(type, tiddler) {
 
 // retrieve server info
 var statusCallback = function(context, userParams) {
-	if(context.serverStatus) {
-		// set username
-		if(context.serverStatus.username) {
+	var status = context.serverStatus;
+	if(status) {
+		plugin.serverVersion = status.version;
+		if(status.username) {
+			plugin.username = status.username;
 			config.macros.option.propagateOption("txtUserName",
-				"value", context.serverStatus.username, "input");
+				"value", plugin.username, "input");
 		}
-		// retrieve challengers
-		if(context.serverStatus.challengers) {
-			config.adaptors.tiddlyweb.challengers = context.serverStatus.challengers;
+		if(status.challengers) {
+			plugin.challengers = status.challengers;
 		}
 	}
 };
-adaptor.getStatus({ host: host }, null, statusCallback);
+adaptor.getStatus({ host: plugin.host }, null, statusCallback);
 
 })();
 //}}}
