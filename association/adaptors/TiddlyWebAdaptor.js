@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|FND|
 |''Contributors''|Chris Dent, Martin Budden|
-|''Version''|1.2.1|
+|''Version''|1.2.2|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/|
@@ -20,8 +20,7 @@ This plugin includes [[jQuery JSON|http://code.google.com/p/jquery-json/]].
 //{{{
 (function($) {
 
-var adaptor;
-adaptor = config.adaptors.tiddlyweb = function() {}; //# set up alias
+var adaptor = config.adaptors.tiddlyweb = function() {};
 
 adaptor.prototype = new AdaptorBase();
 adaptor.serverType = "tiddlyweb";
