@@ -24,7 +24,7 @@
 !!v0.7 (2009-09-11)
 * added revisions toolbar command
 !!v0.8 (2010-04-28)
-* added extension namespace caching state and providing anonUser function
+* added extension namespace caching state and providing getUserInfo function
 !Code
 ***/
 //{{{
@@ -38,32 +38,35 @@ if(window.location.protocol != "file:") {
 	config.options.chkAutoSave = true;
 }
 
+var adaptor = tiddler.getAdaptor();
+var recipe = tiddler.fields["server.recipe"];
+var workspace = recipe ? "recipes/" + recipe : "bags/common";
+
 var plugin = config.extensions.TiddlyWeb = {
 	serverVersion: null,
 	host: tiddler.fields["server.host"].replace(/\/$/, ""),
 	challengers: null,
 	username: null,
 
-	anonUser: function() {
-		if(this.username === null) {
-			jQuery.ajax({ // XXX: breaking out of adaptor paradigm
-				async: false, // XXX: dangerously hacky
-				url: this.host + "/status",
-				type: "GET",
-				dataType: "json",
-				success: function(data, status, xhr) {
-					statusCallback({ serverStatus: data }, null);
-				}
+	getUserInfo: function(callback) {
+		var _callback = function() {
+			callback({
+				name: plugin.username,
+				anon: plugin.username == "GUEST"
 			});
+		};
+		if(this.username) {
+			_callback();
+		} else {
+			var _statusCallback = function(context, userParams) {
+				statusCallback(context, userParams);
+				_callback();
+			};
+			adaptor.getStatus({ host: this.host }, null, _statusCallback);
 		}
-		return this.username == "GUEST";
 	}
 };
 
-// initialize configuration
-var adaptor = tiddler.getAdaptor();
-var recipe = tiddler.fields["server.recipe"];
-var workspace = recipe ? "recipes/" + recipe : "bags/common";
 config.defaultCustomFields = {
 	"server.type": tiddler.getServerType(),
 	"server.host": plugin.host,
