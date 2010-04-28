@@ -1,6 +1,8 @@
 module("ENHANCEDVIEWSPLUGIN");
+
+//test for linkexternal field beginning http://
 test("setup tiddlers for tests", function(){
-  config.extensions.testUtils.addTiddlers([{title:"enhancedviews.foo"},{title:'view.EmptyTiddler',text:'<<view title text>> does not exist'},{title:"enhancedviews.baz",fields:{"score":"23","score.frequency":"10"}}]);
+  config.extensions.testUtils.addTiddlers([{title:"enhancedviews.foo"},{title:"enhancedviews.http",fields:{url:"http://jonrobson.me.uk",space:"jon"}},{title:'view.EmptyTiddler',text:'<<view title text>> does not exist'},{title:"enhancedviews.baz",fields:{"score":"23","score.frequency":"10"}}]);
 });
 test("toJSON", function(){
   var json ="x:foo y:z z:'a b c'".toJSON();
@@ -42,6 +44,16 @@ test("test link external view", function(){
   same(jQuery("a",place).text(),"test label","checking label parameter");
   jQuery(place).html("");
  
+  config.macros.view.handler(place,null,['url', 'linkexternal'],null,"url linkexternal label:jon suffix:/bar.html",store.getTiddler("enhancedviews.http"))
+  var link =jQuery("a",place);
+  same(link.text(),"jon","text respects the label given")
+  same(link.attr("href"),"http://jonrobson.me.uk/bar.html","href respects the http prefix and the suffix");
+  jQuery(place).html("");
+  
+  config.macros.view.handler(place,null,['space', 'linkexternal'],null,"space linkexternal prefix:'http://' suffix:.tiddlyspace.com",store.getTiddler("enhancedviews.http"))
+  var link =jQuery("a",place);
+  same(link.attr("href"),"http://jon.tiddlyspace.com","href respects the http prefix and the suffix");
+  jQuery(place).html("");
 });
 
 
