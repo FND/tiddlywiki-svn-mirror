@@ -5,14 +5,17 @@ Can use for rating a tiddler (1-5 or +1/-1)
 ##usage###
 ##########
 /tiddlyvoting?title=<title>&bag=<bag>&value=<value>
-on the tiddler with title <title> in bag <bag> the field tiddlyvotes.increment will be incremented by <value> and the field tiddlyvotes.mode will be updated with a number representing the most commonly used value and tiddlyvotes.average will be the average of all values applied to that tiddler
+on the tiddler with title <title> in bag <bag> the field tiddlyvotes.total will be incremented by <value> and the field tiddlyvotes.mode will be updated with a number representing the most commonly used value and tiddlyvotes.average will be the average of all values applied to that tiddler
 
 to work, the user must have read access to the bag <bag>
 
 ###########
 ##data accuracy####
 ###########
-Obviously if someone has write access to a bag they can manually alter the rating on the given tiddler. To try and prevent this all tiddlyvotes are stored and recalculated when a vote is placed.
+Obviously if someone has write access to a bag they can manually alter the rating on the given tiddler. 
+To prevent this a tiddler validator is installed. It will detect any changes to tiddlyvoting and make sure the result has not been tampered with.
+Just make sure the bag you are allowing voting on is setup to use validators (make sure ACCEPT in the policy is ['NONE'])
+As a result you cannot use the tiddlyvoting.total,tiddlyvoting.mode or tiddlyvoting.average fields on any tiddler for another purpose.
 
 ###########
 ##config####

@@ -14,7 +14,9 @@ from test_config import setup,votebag
 def setup_module(module):
   module.store = Store(config['server_store'][0], config['server_store'][1],environ={'tiddlyweb.config': config})
   module.environ = {'tiddlyweb.store':module.store,'tiddlyweb.config': config}
-
+def test_string_to_float():
+  actual = voting.string_to_float(None)
+  assert actual == 0
 def test_read_slices():
   setup(store)
   actual = voting.read_slices("config::snow white","tiddlyvoting")
@@ -35,7 +37,7 @@ def test_vote_log():
   vote2,code2=voting.perform_action(config)
   #a user then edits the tiddler through another means than tiddlyvoting
   tiddler = store.get(Tiddler("little miss naughty","mr_and_mrs"))
-  tiddler.fields['tiddlyvoting.increment'] = u"2000000" #very naughty change
+  tiddler.fields['tiddlyvoting.total'] = u"2000000" #very naughty change
   store.put(tiddler) #saves hoping no one will notice
 
   config['tiddlyweb.query']['value'] = ["-2"]
@@ -48,16 +50,17 @@ def test_vote_log():
 
   try:
     voteLog = store.get(Tiddler("data::little miss naughty in mr_and_mrs","tiddlyvoting"))
-    expected = ["-2::1","10::1","14::1","total::22","frequency::3"]
-    for i in voteLog.text.split("\n"):
-      assert i in expected
+    expected = ["-2::1","10::1","14::1","tiddlyvoting.total::22","tiddlyvoting.frequency::3","tiddlyvoting.average::7.33"]
+    actual = voteLog.text.split("\n")
+    for i in expected:
+      assert i in actual
   except NoTiddlerError:
     assert False is True
 
   try:
     tiddler = store.get(Tiddler("little miss naughty","mr_and_mrs"))
     revision = tiddler.revision
-    value = tiddler.fields["tiddlyvoting.increment"]
+    value = tiddler.fields["tiddlyvoting.total"]
   except KeyError:
     value = False  
     revision = False
@@ -73,7 +76,7 @@ def test_alloweduser_increments():
   
   try:
     tiddler = store.get(Tiddler("mr strong","mr_and_mrs"))
-    value = tiddler.fields["%s.increment"%votebag]
+    value = tiddler.fields["%s.total"%votebag]
   except KeyError:
     value = False  
   assert value == "1"
@@ -93,7 +96,7 @@ def test_unauthenticated_user_increments():
 
   try:
     tiddler = store.get(Tiddler("mr strong","mr_and_mrs"))
-    value = tiddler.fields["%s.increment"%votebag]
+    value = tiddler.fields["%s.total"%votebag]
   except KeyError:
     value = False  
   assert value == "923"
@@ -108,7 +111,7 @@ def test_unprivileged_user_increments():
 
   try:
     tiddler = store.get(Tiddler("mr strong","mr_and_mrs"))
-    value = tiddler.fields["%s.increment"%votebag]
+    value = tiddler.fields["%s.total"%votebag]
   except KeyError:
     value = False  
   assert value == "923"
@@ -129,7 +132,7 @@ def test_multiple_votes():
     
   try:
     tiddler = store.get(Tiddler("mr small","mr_and_mrs"))
-    value = tiddler.fields["%s.increment"%votebag]
+    value = tiddler.fields["%s.total"%votebag]
   except KeyError:
     value = False  
   '''
@@ -159,7 +162,7 @@ def test_multiple_votes():
 
   try:
     tiddler = store.get(Tiddler("grumpy","snow white"))
-    value = tiddler.fields["%s.increment"%votebag]
+    value = tiddler.fields["%s.total"%votebag]
   except KeyError:
     value = False  
   '''
@@ -188,7 +191,7 @@ def test_minmax_votes():
 
   try:
     tiddler = store.get(Tiddler("grumpy","snow white"))
-    value = tiddler.fields["%s.increment"%votebag]
+    value = tiddler.fields["%s.total"%votebag]
   except KeyError:
     value = False  
   '''

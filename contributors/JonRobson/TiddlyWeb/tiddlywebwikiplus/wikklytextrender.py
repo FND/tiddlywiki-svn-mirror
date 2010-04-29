@@ -1,6 +1,7 @@
 """
 Render TiddlyWiki syntax wikitext to HTML
 using the WikklyText enginge.
+http://wikklytext.com/wiki/files/download/WikklyText-1.9.3.tar.gz
 """
 
 import wikklytext
@@ -36,6 +37,7 @@ def wikitext_to_wikklyhtml(base_url, path_url, wikitext, environ,suffix_url="",t
     base_url: starting url for links in the wikitext (e.g. '/')
     path_url: path from base to wikitext (e.g. 'recipes/foorecipe/tiddlers')
     """
+
     logging.debug("in wikitext_to_wikklyhtml")
     def our_resolver(url_fragment, base_url, site_url):
         """
@@ -48,12 +50,14 @@ def wikitext_to_wikklyhtml(base_url, path_url, wikitext, environ,suffix_url="",t
     posthook = PostHook()
 
     safe_mode_setting = environ.get('tiddlyweb.config', {}).get('wikklytext.safe_mode', True)
+    import os
 
     link_context = {
             '$BASE_URL': '%s%s' % (base_url, path_url),
             '$REFLOW': 0
     }
     logging.debug("cwd is %s"%os.getcwd())
+ 
     context = wikklytext.WikContext(plugin_dirs='plugins',url_resolver=our_resolver)
     environ["tw_url_base"] = base_url
     environ["tw_url_path"] =path_url
@@ -62,7 +66,6 @@ def wikitext_to_wikklyhtml(base_url, path_url, wikitext, environ,suffix_url="",t
     context.bag = bag
     context.tiddler = tiddler
     context.wikiwords = wikiwords
-    
     html, context = wikklytext.WikklyText_to_InnerHTML(
             text=wikitext,
             context = context,
@@ -88,9 +91,11 @@ class PostHook(object):
         """
         from wikklytext.wikwords import wikiwordify
         # add links to any wikiword
-        if context.wikiwords:
+        try:
+          x = context.wikiwords
           wikiwordify(rootnode, context, self.wikiwords)
-
+        except AttributeError:
+          pass
 
 class InfiniteDict(dict):
     """

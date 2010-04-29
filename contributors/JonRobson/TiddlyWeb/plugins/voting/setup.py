@@ -3,7 +3,7 @@ AUTHOR = 'Jon Robson'
 AUTHOR_EMAIL = 'jdlrobson@gmail.com'
 NAME = 'tiddlywebplugins.voting'
 DESCRIPTION = ''
-VERSION = '0.42'
+VERSION = '0.441'
 
 import os
 from setuptools import setup, find_packages

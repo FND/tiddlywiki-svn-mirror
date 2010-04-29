@@ -6,6 +6,23 @@ from tiddlyweb.model.tiddler import Tiddler
 from tiddlyweb.filters import FILTER_PARSERS,sort_by_attribute, sort
 from tiddlyweb.store import Store, NoBagError,NoTiddlerError
 from tiddlywebplugins.utils import get_store
+from tiddlyweb.web.validator import TIDDLER_VALIDATORS  
+
+def tiddlyvoting_validator(tiddler,environ):
+  slices = read_slices(get_vote_data_title(tiddler.title,tiddler.bag),"tiddlyvoting")
+  for reserved in ['tiddlyvoting.total','tiddlyvoting.average','tiddlyvoting.mode']:
+    if reserved in tiddler.fields:
+      this = tiddler.fields[reserved]
+    else:
+      this = None
+    
+    try:
+      expected = slices[reserved]
+    except KeyError:
+      expected = None
+    
+    if expected != this:  
+      tiddler.fields[reserved] = expected
 
 
 def read_slices(title,bag):
@@ -23,46 +40,18 @@ def read_slices(title,bag):
     pass
   return slices
 def stat_increment(parameters):
-    
     value = parameters["value"]
     bag = parameters["bag"]
     title =parameters["title"]
     tiddler =Tiddler(title, bag)
-    votingLog = read_slices(u"data::%s in %s"%(title,bag),"tiddlyvoting")
-   
-    try:
-      grandtotal = int(votingLog["total"])
-    except KeyError:
-      grandtotal = 0
-    try:
-      frequency = int(votingLog["frequency"])
-    except KeyError:
-      frequency = 0
     try:
       tiddler = store.get(tiddler)
       logging.debug("tiddlywebplugins.voting got tiddler with title %s"%tiddler.title)
     except NoTiddlerError:
       logging.debug("tiddlywebplugins.voting tiddler %s doesn't exist!"%title)
       return (False,6)
-    newgrandtotal = grandtotal + value
-    newfrequency= (frequency + 1)
-    newmode = value
-    try:
-      modescore = int(votingLog[u"%s"%value]) +1
-    except KeyError:
-      modescore = 1
 
-    for candidate in votingLog:
-      if candidate not in ["total","frequency"]:
-        if int(votingLog[candidate]) > modescore:
-          newmode = candidate
-      
-    tiddler.fields["tiddlyvoting.increment"] = "%s"%newgrandtotal
-    tiddler.fields["tiddlyvoting.average"] = "%.2f"%(float(newgrandtotal)/float(newfrequency))
-    tiddler.fields["tiddlyvoting.mode"] = "%s"%newmode
-    
-    logging.debug("tiddlywebplugins.voting putting tiddler %s"%tiddler.title)
-    store.put(tiddler)
+    #params['tiddlyvoting.increment'] = tiddler.fields["tiddlyvoting.increment"]
     return (True,"ok")
     
 def allowed_operation(params):
@@ -105,7 +94,28 @@ def allowed_operation(params):
         reason = 7
     #what is the decision?
     return (allowed,reason)
-           
+
+def get_tv_config(environ,bag):
+  tvconfig = {}
+  try:
+    tvconfigname = "config::%s"%bag
+    tiddler = store.get(Tiddler(tvconfigname,"tiddlyvoting"))
+    splices = tiddler.text.split("\n")
+    
+    for splice in splices:
+      try:
+        name,val = splice.split("::")
+        name = name.strip()
+        val =val.strip()
+        if name == 'increment.range':
+          lower,higher = val.split(",")
+          val = [int(lower),int(higher)]
+        tvconfig[name]=val
+      except ValueError:
+        pass
+  except NoTiddlerError:
+    pass 
+  return tvconfig          
 def get_parameters(environ):
   result = {}
   try:
@@ -131,25 +141,7 @@ def get_parameters(environ):
   result["vote_id"]= "%s increment %s in %s"%(username,title,bag)
   
   #load the config
-  tvconfig = {}
-  try:
-    tvconfigname = "config::%s"%bag
-    tiddler = store.get(Tiddler(tvconfigname,"tiddlyvoting"))
-    splices = tiddler.text.split("\n")
-    
-    for splice in splices:
-      try:
-        name,val = splice.split("::")
-        name = name.strip()
-        val =val.strip()
-        if name == 'increment.range':
-          lower,higher = val.split(",")
-          val = [int(lower),int(higher)]
-        tvconfig[name]=val
-      except ValueError:
-        pass
-  except NoTiddlerError:
-    pass
+  tvconfig = get_tv_config(environ,bag)
   result['config'] = tvconfig
   return result
 
@@ -169,44 +161,77 @@ def perform_action(environ):
   if success:
     save_vote(params)
   return (success,reason)
-  
+
+def get_vote_data_title(tiddler,bag):
+  return "data::%s in %s"%(tiddler,bag)
 def save_vote(params):
   tiddler = Tiddler(params["vote_id"],"tiddlyvoting")
   value = u"%s"%params["value"]
+  title = params["title"]
+  bag = params["bag"]
   tiddler.modifier = params["username"]
-  tiddler.fields["topic"] = params["title"]
+  tiddler.fields["topic"] = title
   tiddler.fields["value"] = value
+  tiddler.fields["topic.bag"]=bag
   tiddler.tags = [u"tiddlyvotingrecord"]
   store.put(tiddler)
   
   #save the data
-  voteTitle = "data::%s in %s"%(params["title"],params["bag"])
-  slices = read_slices(voteTitle,"tiddlyvoting")
+  voteTitle = get_vote_data_title(params["title"],params["bag"])
+  votingLog= read_slices(voteTitle,"tiddlyvoting")
   
   try:
-    slices[value] = u"%s"%(int(slices[value]) +1)
+    votingLog[value] = u"%s"%(int(votingLog[value]) +1)
   except KeyError:
-    slices[value] = u"1"
-    
+    votingLog[value] = u"1"
+  
+  value =  int(value)
   try:
-    slices[u"total"] = u"%s"%(int(slices[u"total"]) +  int(value))
+    new_grand_total = int(votingLog[u"tiddlyvoting.total"]) + value
+    votingLog[u"tiddlyvoting.total"] = u"%s"%(new_grand_total)
   except KeyError:
-    slices[u"total"] = u"%s"%value
+    new_grand_total = value
+    votingLog[u"tiddlyvoting.total"] = u"%s"%value
   try:
-    slices[u"frequency"] = u"%s"%(int(slices[u"frequency"]) +1)
+    new_frequency = int(votingLog[u"tiddlyvoting.frequency"]) +1
+    votingLog[u"tiddlyvoting.frequency"] = u"%s"%(new_frequency)
   except KeyError:
-    slices[u"frequency"] = u"1"
+    new_frequency = 1
+    votingLog[u"tiddlyvoting.frequency"] = u"1"
 
-
+  new_mode = value
+  try:
+    modescore = int(votingLog[u"%s"%value]) +1
+  except KeyError:
+    modescore = 1
+  for candidate in votingLog:
+    if candidate not in ["tiddlyvoting.frequency",'tiddlyvoting.total','tiddlyvoting.mode','tiddlyvoting.average']:
+      if int(votingLog[candidate]) > modescore:
+        new_mode = candidate
+  
+  new_average = "%.2f"%(float(new_grand_total)/float(new_frequency))
+  new_grand_total = "%s"%new_grand_total
+  new_mode = "%s"%new_mode
+  votingLog['tiddlyvoting.mode'] = new_mode
+  votingLog['tiddlyvoting.average'] = new_average
+  votingLog['tiddlyvoting.total'] = new_grand_total
   voteText =u""
-  for value in slices:
+  for saved_value in votingLog:
     voteText += """%s::%s
-"""%(value,slices[value])
+"""%(saved_value,votingLog[saved_value])
   
   voteLog = Tiddler(voteTitle,"tiddlyvoting")
   voteLog.text = voteText
   voteLog.tags = [u"tiddlyvotingdata"]
   store.put(voteLog)
+  
+  #save on the tiddler too
+  tiddler = store.get(Tiddler(title,bag))  
+  tiddler.fields["tiddlyvoting.total"] = new_grand_total
+  tiddler.fields["tiddlyvoting.average"] = new_average
+  tiddler.fields["tiddlyvoting.mode"] = new_mode
+  logging.debug("tiddlywebplugins.voting putting tiddler %s"%tiddler.title)
+  store.put(tiddler)
   
 '''
 reasons for failure:
@@ -232,11 +257,15 @@ def operate_on_stats(environ,start_response):
 
 
 def string_to_float(x):
+    if not x:
+      return 0
     return float(x)
 def string_to_int(x):
+    if not x:
+      return 0
     return int(x)
 
-sort.ATTRIBUTE_SORT_KEY["tiddlyvoting.increment"] = string_to_float          
+sort.ATTRIBUTE_SORT_KEY["tiddlyvoting.total"] = string_to_float          
 sort.ATTRIBUTE_SORT_KEY["tiddlyvoting.mode"] = string_to_float   
 sort.ATTRIBUTE_SORT_KEY["tiddlyvoting.average"] = string_to_float   
 
@@ -248,11 +277,14 @@ def setup_store(config):
       store.get(bag)
     except NoBagError:
       store.put(bag)
-      
+
+def setup_validator():
+  TIDDLER_VALIDATORS.extend([tiddlyvoting_validator])     
 def init(config_in):
     global config
     #adds a selector stats which takes an action value and tiddler to operate on
     config = config_in
     setup_store(config)
+    setup_validator()
     config["selector"].add("/tiddlyvoting",POST=operate_on_stats)
     config["selector"].add("/tiddlyvoting/{action:segment}",POST=operate_on_stats)

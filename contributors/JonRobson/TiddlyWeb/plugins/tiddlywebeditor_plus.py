@@ -1,8 +1,10 @@
 """
-extends cdents TiddlyWeb tiddlywebeditor plugin.
+You can achieve the same outcome by using tiddlywebplugins.urls and a recipe. Therefore this plugin will not be further maintained.
+
 
 A plugin providing a web app for generating a
 TiddlyWiki-based editor for a single tiddler.
+extends cdents TiddlyWeb tiddlywebeditor plugin.
 
 add recipe to your tiddlywebconfig file
 'tiddlyeditor_recipe':[

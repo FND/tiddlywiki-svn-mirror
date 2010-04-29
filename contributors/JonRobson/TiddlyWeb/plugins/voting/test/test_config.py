@@ -16,6 +16,7 @@ def setup(store):
   mrmenbag = Bag("mr_and_mrs")
   mrmenbag.policy = Policy("jon",["jon","andrew","martin"],['admin'],['admin'],['admin'])
   films = Bag("films")
+  films.policy = Policy(accept=["NONE"])
   try:
     store.delete(mrmenbag)
   except NoBagError:
@@ -35,9 +36,9 @@ def setup(store):
   mrmendata = [
     {"title":u"mr clumbsy","tags":["kitty","pet","cat"],"fields":{}},
     {"title":u"mr thin","tags":["dog","pet"],"fields":{}},
-    {"title":u"mr tickle","tags":["cat","animal","bogof"],"fields":{"%s.increment"%votebag:"2"}},
+    {"title":u"mr tickle","tags":["cat","animal","bogof"],"fields":{"%s.total"%votebag:"2"}},
     {"title":u"mr messy","tags":["lion"],"fields":{}},
-    {"title":u"mr strong","tags":["monkey","lolcat"],"fields":{"%s.increment"%votebag:"923"}},
+    {"title":u"mr strong","tags":["monkey","lolcat"],"fields":{"%s.total"%votebag:"923"}},
     {"title":u"mr tall","tags":["dinosaur","kitty","tiger"],"fields":{}},
     {"title":u"little miss naughty","tags":["cAt","pet"],"fields":{}},
     {"title":u"mr small","tags":["pet","animal","kitty"],"fields":{}}
@@ -46,7 +47,7 @@ def setup(store):
     {"title":u"snow white","tags":[],"fields":{}},
     {"title":u"grumpy","tags":[],"fields":{}}  
   ]
-  filmdata = [{"title":"Kill Bill"},{"title":"Kill Bill 2"},{"title":"Pulp Fiction"},{"title":"Jackie Brown"}]
+  filmdata = [{"title":"Kill Bill","modifier":"Ben"},{"title":"Kill Bill 2","modifier":"Ben"},{"title":"Pulp Fiction","modifier":"Ben"},{"title":"Jackie Brown","modifier":"Ben"}]
   configSnowWhite = Tiddler("config::snow white",votebag)
   configSnowWhite.text = """
 increment.range::-5,30
@@ -65,6 +66,8 @@ increment.limit::2
     store.put(tiddler)
   for tid in filmdata:
     tiddler = Tiddler(tid["title"],"films")
+    if "modifier" in tid:
+      tiddler.modifier = tid["modifier"]
     tiddlers.append(tiddler)
     store.put(tiddler)
   for tid in snowwhitedata:

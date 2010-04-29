@@ -50,15 +50,15 @@ def test_rate_with_floats():
   voting.perform_action(config)
   voting.perform_action(config)  
   result = store.get(Tiddler("Kill Bill","films"))
-  assert result.fields['tiddlyvoting.increment'] == u"20"
+  assert result.fields['tiddlyvoting.total'] == u"20"
   assert result.fields['tiddlyvoting.average'] == u"3.33"
   assert result.fields['tiddlyvoting.mode'] == u"3"
 
   datalog = store.get(Tiddler("data::Kill Bill in films","tiddlyvoting"))
   assert u"tiddlyvotingdata" in datalog.tags
   textLines = datalog.text.split("\n")
-  for i in textLines:
-    assert i in [u"1::1",u"5::2",u"3::3",u"frequency::6",u"total::20"]
+  for i in [u"1::1",u"5::2",u"3::3",u"tiddlyvoting.frequency::6",u"tiddlyvoting.total::20"]:
+    assert i in textLines
   
 def test_rate():
   setup(store)
@@ -75,9 +75,22 @@ def test_rate():
   voting.perform_action(config)
   voting.perform_action(config)  
   jackiebrown = store.get(Tiddler("Jackie Brown","films"))
-  assert jackiebrown.fields['tiddlyvoting.increment'] == u"19"
+  assert jackiebrown.fields['tiddlyvoting.total'] == u"19"
   assert jackiebrown.fields['tiddlyvoting.average'] == u"3.17"
   assert jackiebrown.fields['tiddlyvoting.mode'] == u"3"
+  assert jackiebrown.modifier == u"Ben"
+  
+  #make an edit
+  newtext = u"new information about jackie brown"
+  #user tries to edit values themselves which is not allowed
+  jackiebrown.fields['tiddlyvoting.total'] = u"3040"
+  jackiebrown.fields['tiddlyvoting.average'] = u"20" 
+  jackiebrown.text =newtext
+  voting.tiddlyvoting_validator(jackiebrown,config)
+  assert jackiebrown.text == newtext
+  assert jackiebrown.fields['tiddlyvoting.total'] == u"19"
+  assert jackiebrown.fields['tiddlyvoting.average'] == u"3.17"
+  
   
   user_rate_log = store.get(Tiddler("jon increment Jackie Brown in films","tiddlyvoting"))
   assert u"tiddlyvotingrecord" in user_rate_log.tags
@@ -85,7 +98,7 @@ def test_rate():
   datalog = store.get(Tiddler("data::Jackie Brown in films","tiddlyvoting"))
   textLines = datalog.text.split("\n")
   for i in textLines:
-    assert i in [u"1::1",u"5::1",u"3::3",u"4::1",u"frequency::6",u"total::19"]
+    assert i in [u"1::1",u"5::1",u"3::3",u"4::1",u"tiddlyvoting.frequency::6",u"tiddlyvoting.total::19",u"tiddlyvoting.mode::3",u"tiddlyvoting.average::3.17"]
   
   
   
