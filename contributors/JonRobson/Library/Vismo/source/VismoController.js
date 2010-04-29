@@ -56,6 +56,7 @@ var VismoController = function(elem,options){ //elem must have style.width and s
   //this.controlDiv.vismoController = this;
   var vismoController = this;
   var preventDef = function(e){
+    if(e.button == 2) return true;
                 if (e && e.stopPropagation) //if stopPropagation method supported
                  e.stopPropagation()
                 else
@@ -477,7 +478,7 @@ VismoController.prototype = {
 		};
      
 		jQuery(this.wrapper).mousedown(function(e){
-		    e.preventDefault();
+		    if(e.button != 2)e.preventDefault();
 		    
 		    var jqw = jQuery(that.wrapper);
 			if(panning_status){

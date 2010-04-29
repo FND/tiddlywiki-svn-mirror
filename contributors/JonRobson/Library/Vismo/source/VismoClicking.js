@@ -110,7 +110,9 @@ var VismoCanvas = function(element,options){
   this.memory = [];
   
   element.vismoClicking = true;//this;//true;//this
-    jQuery(this.canvas).mousedown(function(e){e.preventDefault();});
+    jQuery(this.canvas).mousedown(function(e){
+    if(e.button !=2)e.preventDefault();
+    });
 
   
    
@@ -671,7 +673,7 @@ VismoCanvas.prototype = {
       
     if(transformation) this.transformation = transformation;
     var t = transformation.translate, s = transformation.scale;  
-      transformation.cache = {id1:[s.x,",",s.y].join(""),id2:[t.x,",",t.y].join("")};
+    transformation.cache = {id1:[s.x,",",s.y].join(""),id2:[t.x,",",t.y].join("")};
     this.topLeftGrid= VismoTransformations.undoTransformation(0,0,transformation);
    
   }
