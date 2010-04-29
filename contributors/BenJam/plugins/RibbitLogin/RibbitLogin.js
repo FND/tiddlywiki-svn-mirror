@@ -28,26 +28,25 @@ if(!version.extensions.RibbitLogin){
 	    log = console.log;
 
 		//some defaults from benjmain.nickolls@gmail.com/Ribbit_Intro
-	    var consumerKey = "MzdmMjdjZGItZjAyMC00YzIzLTgxMDItYzkyOWQ2ZDdhYjY3";
-	    var secretKey ="YWIyNjFlN2YtNWU5Ni00YWFjLThkZTMtOTkxOTdmYWJjZTkx";
+	    consumerKey = "MzdmMjdjZGItZjAyMC00YzIzLTgxMDItYzkyOWQ2ZDdhYjY3";
+	    secretKey ="YWIyNjFlN2YtNWU5Ni00YWFjLThkZTMtOTkxOTdmYWJjZTkx";
 		var userDetails = [];
 		
 	    config.macros.RibbitLogin = {
 
 		        handler: function(place, macroName, params, wikifier, paramString, tiddler){
 					var macroParams = paramString.parseParams("authmode", null, true);
-					log(macroParams);
 					var authmode = getParam(macroParams,"authmode",null);				
 
 					//not enough info
 					if(authmode===null){
-						log("No authomde specified");
+						// log("No authomde specified");
 						return
 					}
 
 					//already siged in
 					if(Ribbit.userId!==null){
-						log("Logged in on previous session");
+						// log("Logged in on previous session");
 						return
 					}
 
@@ -68,13 +67,13 @@ if(!version.extensions.RibbitLogin){
 		//three leg (public) domain at r4m.ribbit.com (requires a redirect)
 		function login3Leg(place, macroParams){
 		
-			log("Initiating 3 Legged auth");
+			// log("Initiating 3 Legged auth");
 			if(getParam(macroParams,"consumerKey",null)!==null && getParam(macroParams,"secretKey",null)!==null){
 				consumerKey=getParam(macroParams,"consumerKey");
 				secretKey=getParam(macroParams,"secretKey");
 			}
-			log("Consumer key: "+consumerKey);
-			log("Secret key: "+secretKey);
+			// log("Consumer key: "+consumerKey);
+			// log("Secret key: "+secretKey);
 		
 			if(!Ribbit.isLoggedIn || !Ribbit.checkAccessTokenExpiry()){
 				Ribbit.init3Legged(consumerKey, secretKey);
@@ -82,13 +81,13 @@ if(!version.extensions.RibbitLogin){
 		
 				//innner function to handle login on seperate window
 				var gotUrlCallback = function(url){
-					log(url);				
+					// log(url);				
 					//poll the newly created window for login
 					var pollApproved = function(){
 						setTimeout(function(){
 							var callBack = function(result){
 								if(!result.hasError){
-									log("Logged in, now do something useful with it!");
+									// log("Logged in, now do something useful with it!");
 									win.close();
 									return
 								}
@@ -114,13 +113,13 @@ if(!version.extensions.RibbitLogin){
 
 		//2legged (private domain) authentication 
 		function login2Leg(place, macroParams){
-			log("Inititative two legged auth");
 			Ribbit.init(consumerKey);
-		
-			if(getParam(macroParams,"consmerKey",null)!==null){
-				consumerKey = getParam(macroParams,"consmerKey");
-				log("New consumer key: "+consumerKey);
-			}		
+			// log("init with consumer Key "+consumerKey);
+	
+			// if(getParam(macroParams,"consmerKey",null)!==null){
+			// 	consumerKey = getParam(macroParams,"consmerKey");
+			// 	log("New consumer key: "+consumerKey);
+			// }		
 
 			userDetails.push(['username','Username']);
 			userDetails.push(['password','Password']);
@@ -137,16 +136,15 @@ if(!version.extensions.RibbitLogin){
 				input.setAttribute('name',userDetails[d][0]);
 			}
 			var btn = createTiddlyButton(f,'Sign in',null,function(){
-				//TODO there mst be a cleaner way of doing this.
 				var i = f.getElementsByTagName('input');
-				log(i[0].value);
-				log(i[1].value);
+				// log(i[0].value);
+				// log(i[1].value);
 				Ribbit.login(function(result){
+					// log(result)
 	            	if(result.hasError){
-	                	log(result);
+	                	// log("Bah, couldn't login");
 	            	}else{
-	                	log("Logged in, now do something useful with it!");
-	                	return;
+	                	// log("Logged in, now do something useful with it!");
 	            	}
 	        	},i[0].value, i[1].value);
 			});
