@@ -42,7 +42,7 @@ var adaptor = tiddler.getAdaptor();
 var recipe = tiddler.fields["server.recipe"];
 var workspace = recipe ? "recipes/" + recipe : "bags/common";
 
-var plugin = config.extensions.TiddlyWeb = {
+var plugin = config.extensions.tiddlyweb = {
 	serverVersion: null,
 	host: tiddler.fields["server.host"].replace(/\/$/, ""),
 	challengers: null,
