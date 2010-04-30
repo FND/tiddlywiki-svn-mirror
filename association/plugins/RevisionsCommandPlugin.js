@@ -34,8 +34,7 @@ Extend [[ToolbarCommands]] with {{{revisions}}}.
 jQuery.twStylesheet(".diff { white-space: pre, font-family: monospace }",
 	{ id: "diff" });
 
-var cmd; //# alias
-cmd = config.commands.revisions = {
+var cmd = config.commands.revisions = {
 	type: "popup",
 	hideShadow: true,
 	text: "revisions",

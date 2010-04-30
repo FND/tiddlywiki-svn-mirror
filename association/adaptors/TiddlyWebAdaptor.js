@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|FND|
 |''Contributors''|Chris Dent, Martin Budden|
-|''Version''|1.2.2|
+|''Version''|1.2.3|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/|
@@ -300,7 +300,8 @@ adaptor.prototype.putTiddler = function(tiddler, context, userParams, callback) 
 	}
 	var uriTemplate = "%0/%1/%2/tiddlers/%3";
 	try {
-		var workspace = adaptor.resolveWorkspace(tiddler.fields["server.workspace"]);
+		context.workspace = context.workspace || tiddler.fields["server.workspace"];
+		var workspace = adaptor.resolveWorkspace(context.workspace);
 	} catch(ex) {
 		return adaptor.locationIDErrorMessage;
 	}
