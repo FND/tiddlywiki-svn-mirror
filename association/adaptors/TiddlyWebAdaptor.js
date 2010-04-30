@@ -251,8 +251,13 @@ adaptor.getTiddlerCallback = function(status, context, responseText, uri, xhr) {
 		}
 		context.tiddler.assign(context.tiddler.title, t.text, t.modifier,
 			Date.convertFromYYYYMMDDHHMM(t.modified), t.tags || [],
-			Date.convertFromYYYYMMDDHHMM(t.created), context.tiddler.fields); // XXX: merge extended fields!?
-		context.tiddler.fields["server.workspace"] = t.bag ? "bags/" + t.bag : "recipes/" + t.recipe; // XXX: bag is always supplied!?
+			Date.convertFromYYYYMMDDHHMM(t.created), context.tiddler.fields,
+			t.creator); // XXX: merge extended fields!?
+		context.tiddler.fields["server.bag"] = t.bag;
+		if(t.recipe) {
+			context.tiddler.fields["server.recipe"] = t.recipe;
+		}
+		context.tiddler.fields["server.workspace"] = "bags/" + t.bag;
 		context.tiddler.fields["server.page.revision"] = t.revision;
 		context.tiddler.fields["server.permissions"] = t.permissions.join(", ");
 	}
