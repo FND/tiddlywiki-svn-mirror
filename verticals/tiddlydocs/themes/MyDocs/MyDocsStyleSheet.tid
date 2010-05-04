@@ -576,4 +576,15 @@ html body div.header div.tabWrapper {
     
 }
 
+/* tw_uploader - plugin for uploading images as tiddler using ckeditor toolbar /dialogs */
+
+
+.binaryUploadTags {
+	display:none;
+}
+
+.binaryUploadSubmit	{
+	background:red;
+}
+
 <!--}}}-->
