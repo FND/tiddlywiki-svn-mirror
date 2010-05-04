@@ -72,11 +72,12 @@ showBackstage = true;
 
 config.macros.keybindings.keyCodes = {
 	32 : function() { story.nextTiddler(); },
+	37 : function() { config.macros.keybindings.back(); }, //left
+	39 : function() { config.macros.keybindings.forward(); }, //right
 	46 : function() { story.nextTiddler(); },
 	44 : function() { story.prevTiddler(); },
 	104 : function() { config.macros.toggleLinearNavigation(); },
 	110 : function() { config.macros.toggleLinearNavigation(); }
-	
 };
 
 //}}}
