@@ -25,9 +25,12 @@ tiddler: ../../../../contributors/SimonMcManus/plugins/editDefinitions.js
 tiddler: ../../../../contributors/SimonMcManus/plugins/secretBackstage.js
 tiddler: ../../../../contributors/SimonMcManus/plugins/failedSaveNotification.js
 tiddler: ../../../../contributors/SimonMcManus/plugins/commentSlider.js
+tiddler: ../../../../contributors/SimonMcManus/plugins/imageSelector.js
+
 recipe: ../../../../contributors/BenGillies/TiddlyWeb/Plugins/Binary/tiddlers/split.recipe
 tiddler: ../../../../contributors/PaulDowney/plugins/WikifiedMessagesPlugin/WikifiedMessagesPlugin.js
 tiddler: ../../../../contributors/PaulDowney/plugins/FadingMessagesPlugin/FadingMessagesPlugin.js
 tiddler: ../../../../contributors/EricShulman/plugins/TaggedTemplateTweak.js
 tiddler: CKEditorSettings.js
 tiddler: MarkupPreHead.tid
+tiddler: images.tid

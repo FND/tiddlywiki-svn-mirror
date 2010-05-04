@@ -33,6 +33,8 @@ tags: systemTheme  excludeLists excludeSearch
 							</div>
 						<div id="flr_h2lefta">
 							<div id="show_logout">
+								<a href='#' onClick="story.displayTiddler(null, 'Images'); return true;">Images</a>
+								<span class="hgrey1">|</span>
 								<a href='#' onClick="story.displayTiddler(null, 'Settings'); return true;">Settings</a>
 								<span class="hgrey1">|</span>
 								<a tabindex="14" class="plink"  href="/portalzone/editProfile/editProfile.do" class="plink" title="Profile">Profile</a>
