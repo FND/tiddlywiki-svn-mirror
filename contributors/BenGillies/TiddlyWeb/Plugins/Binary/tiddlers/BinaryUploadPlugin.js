@@ -114,8 +114,10 @@ config.macros.binaryUpload ={
             if (file.recipe) tiddler.fields['server.recipe'] = file.recipe;
             tiddler.fields['server.title'] = file.title;
             tiddler.fields['server.permissions'] = 'read, delete';
-            store.addTiddler(tiddler);
-            store.saveTiddler(tiddler.title);
+            var dirty = store.isDirty();
+            store.saveTiddler(tiddler.title, tiddler.title, tiddler.text, tiddler.modifier, null, tiddler.tags, tiddler.fields, true, null, tiddler.creator);
+            story.setDirty(tiddler.title, false);
+            if (!dirty) store.setDirty(false);
         }
         saveChanges();
         story.displayTiddler(place, fileName);
