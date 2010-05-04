@@ -9,12 +9,13 @@
 
 CKEDITOR.dialog.add('tw_uploader',function(a){
 	j={type:'html'};
-	j.html = "<div id='divdiv'>hi</div>";
+	j.html = "<div id='divdiv'></div>";
 	return {
 		title:"Image Upload",
 		minWidth:180,
 		minHeight:150,
 		onShow: function() {
+			jQuery('#divdiv').children().remove();
 			wikify('<<binaryUpload>>', jQuery('#divdiv'));
 		}, 
 		contents:[
@@ -24,6 +25,6 @@ CKEDITOR.dialog.add('tw_uploader',function(a){
 			padding:0,
 			elements:[j]
 			}],
-		buttons:[CKEDITOR.dialog.cancelButton]
+		buttons:[]
 	};
 });
