@@ -583,8 +583,11 @@ html body div.header div.tabWrapper {
 	display:none;
 }
 
-.binaryUploadSubmit	{
+div.binaryUploadSubmit input	{
 	background:red;
+	padding:1em;
+	margin:1em;
+	font-size:1.2em;
 }
 
 <!--}}}-->
