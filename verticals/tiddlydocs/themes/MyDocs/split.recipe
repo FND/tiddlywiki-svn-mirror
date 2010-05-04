@@ -13,7 +13,7 @@ recipe: ../../../ckeditor/split.html.recipe
 tiddler: ../../content/Settings.tid
 tiddler: ../../content/UserDefinitions.tid
 tiddler: ../../content/StatusDefinitions.tid
-tiddler: ../../Plugins/tdocsCKEditorSettings.js
+tiddler: tdocsCKEditorSettings.js
 tiddler: ../../Plugins/DocumentPreviewPlugin.js
 tiddler: ../../Plugins/activeDocumentPlugin.js
 tiddler: ../../Plugins/removeActiveDocumentLinkPlugin.js
