@@ -584,10 +584,12 @@ html body div.header div.tabWrapper {
 }
 
 div.binaryUploadSubmit input	{
-	background:red;
-	padding:1em;
-	margin:1em;
+	background:pink;
 	font-size:1.2em;
+	margin:1em;
+	padding:1em 0.4em;
+	text-align:center;
+	width:72%;
 }
 
 <!--}}}-->
