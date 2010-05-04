@@ -16,7 +16,7 @@ CKEDITOR.dialog.add('tw_uploader',function(a){
 		minHeight:150,
 		onShow: function() {
 			jQuery('#divdiv').children().remove();
-			wikify('<<binaryUpload>>', jQuery('#divdiv'));
+			wikify('<<binaryUpload edit:"tags" tags:"image">>', jQuery('#divdiv'));
 		}, 
 		contents:[
 			{id:'tab1',
