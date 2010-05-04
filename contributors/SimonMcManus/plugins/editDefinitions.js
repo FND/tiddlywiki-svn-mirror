@@ -1,3 +1,24 @@
+/***
+|''Name''|editDefinitionsPlugin|
+|''Description''|Allows users to change defintion specification tiddlers used by team tasks|
+|''Authors''|Simon McManus|
+|''Version''|0.1|
+|''Status''|stable|
+|''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
+|''Requires''||
+
+!Usage
+{{{
+
+<<editDefinitions>>
+
+}}}
+
+!Code
+***/
+
+//{{{
+	
 config.macros.editDefinitions={};
 
 config.macros.editDefinitions.handler=function(place,macroName,params,wikifier,paramString,tiddler){
@@ -82,3 +103,6 @@ store.addNotification("StyleSheetEditDefinitions", refreshStyles);
 }
 
 ****/
+
+
+//}}}

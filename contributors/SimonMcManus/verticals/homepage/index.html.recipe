@@ -1,7 +1,9 @@
 tiddler: ../../themes/lifestreamTheme.tid
 tiddler: settings.js
 tiddler: ColorPalette.tid
+tiddler: GettingStarted.tid
 tiddler: ../../plugins/humanDates.js
+tiddler: ../../plugins/notesPlugin.js
 tiddler: ../../plugins/lifestreamPlugin.js
 tiddler: My Recent Activity.tid
 tiddler: DefaultTiddlers.tid
