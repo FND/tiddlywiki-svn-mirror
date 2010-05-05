@@ -44,7 +44,10 @@ def tiddlers_from_rss(rss_url):
       try:
         unique_title = entry.id
       except AttributeError:
-        unique_title= entry.link
+        try:
+          unique_title= entry.link
+        except AttributeError:
+          unique_title= "%s_%s"%(entry.title,rss_url)
       unique_title = unique_title.replace("/","_").replace(".","_").replace(":","_")
       imtiddler = Tiddler(unique_title)
       imtiddler.fields["heading"] = entry.title #save the original title for display purposes
@@ -85,15 +88,20 @@ def tiddlers_from_rss(rss_url):
         imtiddler.modified = "%02d%02d%02d%02d%02d%02d"%(yr,mo,dy,hr,mi,sec)
       except KeyError:
         pass #use default
-      
+        
       if "pos" in entry:
         longlat = entry["pos"].split(" ")
         imtiddler.fields["geo.lat"] = longlat[0]
         imtiddler.fields["geo.long"] = longlat[1]
-        
-        
-        
-      imtiddler.text = DEFAULT_TIDDLER_TEXT%(entry.link,entry.title,description)
+      elif "point" in entry:
+        longlat = entry["point"].split(" ")
+        imtiddler.fields["geo.lat"] = longlat[0]
+        imtiddler.fields["geo.long"] = longlat[1]
+      try:
+        link = entry.link
+      except AttributeError:
+        link = ""
+      imtiddler.text = DEFAULT_TIDDLER_TEXT%(link,entry.title,description)
       imtiddler.fields.update({"rssurl":rss_url})
       try:
         name = config['imrss']['module']

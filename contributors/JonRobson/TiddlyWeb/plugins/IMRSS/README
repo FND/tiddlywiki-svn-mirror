@@ -9,7 +9,7 @@ title:
 text:
   The text by default is saved as a link <html><p><b><a href='{{rss link}}'>{{rss title}}</a><br>{{rss description}} </p></html>
 geo.long and geo.lat:
-  if geo data is present, the longitude and latitude will be matched to these feeds
+  if geo data is present, the longitude and latitude will be matched to these feeds (works with <georss:point> and <georss:where>)
 modifier:
   the author of the rss item
 modified:
