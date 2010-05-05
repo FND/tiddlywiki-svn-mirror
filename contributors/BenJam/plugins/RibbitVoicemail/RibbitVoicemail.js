@@ -9,6 +9,17 @@
 	var loading = true;
 	var a = null;
 	
+	config.macros.PlayAudio = {};
+	
+	config.macros.PlayAudio.handler = function(place, macroName, params, wikifier, paramString, tiddler){
+		
+		var macroParams = paramString.parseParams();
+		var uri = getParam(macroParams,"uri");
+		createTiddlyButton(place, "Play Audio", null, function(){
+			playAudio(uri);
+		});
+	}
+	
 	config.macros.RibbitVoicemail = {};
 
 	config.macros.RibbitVoicemail.handler = function(place, macroName, params, wikifier, paramString, tiddler){
@@ -79,12 +90,19 @@
     }
 
 	function getAudio(message){
+		log(message);
+		// $.get(escape.(message.Uri),function(data){
+		// 	log(data);
+		// 	message.audioData = data;
+		// 	uncached--;
+		// 	log("left to download - " + uncached + "/" + messagesCount);
+		// });
         $.get("http://home.san1t1.com/hothouse/messageProxy.php?uri="+escape(message.mediaUri) + "&accessToken="+Ribbit.accessToken+"&accessSecret="+Ribbit.accessSecret, function (data){
-            message.audioData = data;
-            render(message);
-            uncached --;
-            log("left to download - " + uncached + "/" + messagesCount);
-        });
+					message.audioData = data;
+                    render(message);
+                    uncached --;
+                    alert("left to download - " + uncached + "/" + messagesCount);
+                });
     }
 
 	function render(message){
@@ -100,6 +118,7 @@
 	
 	//TODO something clever here
     function playAudio(uri){
+		alert(uri);
         if (a !== null){
             a.pause();
         }
