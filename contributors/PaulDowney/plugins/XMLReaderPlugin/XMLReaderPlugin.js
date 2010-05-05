@@ -32,13 +32,17 @@ This plugin generates tiddlers from a [[jqGrid|http://www.trirand.com/blog/]] st
 			};
 			createTiddlyButton(place, label, prompt, function () {
 				var ret = doHttp('GET', url, null, null, null, null, function (status, context, responseText, url, xhr) {
+					store.suspendNotifications();
 					$(xhr.responseXML).find(context.row).each(function () {
 						var title = $(this).find(context.id).text();
-						var tiddler = store.createTiddler(title);
+						var fields = {};
 						$(this).children().each(function () {
-							tiddler.fields[this.nodeName] = $(this).text();
+							fields[this.nodeName] = $(this).text();
 						});
+						store.saveTiddler(title, title, "body", "XMLReaderPlugin", new Date(), ['item'], fields);
 					});
+					store.resumeNotifications();
+					store.notifyAll();
 				}, context, {}, true);
 			});
 		}
