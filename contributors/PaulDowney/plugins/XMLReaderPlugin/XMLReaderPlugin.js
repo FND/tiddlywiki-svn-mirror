@@ -11,23 +11,37 @@
 !!Documentation
 This plugin generates tiddlers from a [[jqGrid|http://www.trirand.com/blog/]] style service.
 
-	<<XMLReader "" />>
+	<<XMLReader "http://whatfettle.com/2008/07/XMLReaderPlugin/data/one.xml" "LOAD" "Load Test XML File" "id" "record" >>
 
 !!Code
 ***/
 //{{{
 /*jslint onevar: false nomen: false plusplus: false */
-/*global jQuery config alert createTiddlyButton */
+/*global jQuery config alert createTiddlyButton doHttp */
 (function ($) {
     version.extensions.XMLReaderPlugin = {installed: true};
 
 	config.macros.XMLReader = {
 		handler: function (place, macroName, params) {
-			var url = params[1];
-			var label = params[2] || "load";
-			var prompt = params[3] || "load XML file";
+			var url = params[0];
+			var label = params[1] || "load";
+			var prompt = params[2] || "load XML file";
+			var context = {
+				id: params[3],
+				row: params[4],
+			};
 			createTiddlyButton(place, label, prompt, function () {
-				alert("hello!");
+				var ret = doHttp('GET', url, null, null, null, null, function (status, context, responseText, url, xhr) {
+					var rows = xhr.responseXML.getElementsByTagName(context.row);
+					var getVal = function (node, tag, def) {
+						return node.getElementsByTagName(tag)[0].textContent || def;
+					};
+					for (var i = 0; i < rows.length; i++) {
+						var row = rows[i];
+						var title = getVal(row, context.id, "node");
+						var tiddler = store.createTiddler(title);
+					}
+				}, context, {}, true);
 			});
 		}
 	};
