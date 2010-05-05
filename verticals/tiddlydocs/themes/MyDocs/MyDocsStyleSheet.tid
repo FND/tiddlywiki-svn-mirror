@@ -1,5 +1,8 @@
 modifier: Simon McManus 
-tags:  excludeLists excludeSearch
+created: 
+modified: 20100505125301
+type: None
+tags: excludeLists excludeSearch
 
 
 /* MyPage Specifics */
@@ -576,6 +579,25 @@ html body div.header div.tabWrapper {
     
 }
 
+<<<<<<< .mine
+/* tw_uploader - plugin for uploading images as tiddler using ckeditor toolbar /dialogs */
+
+
+.binaryUploadTags, .binaryUploadSubmit {
+	display:none;
+}
+
+
+div.binaryUploadSubmit input	{
+	background:pink;
+	font-size:1.2em;
+	margin:1em;
+	padding:1em 0.4em;
+	text-align:center;
+	width:72%;
+}
+
+=======
 /* tw_uploader - plugin for uploading images as tiddler using ckeditor toolbar /dialogs */
 
 
@@ -592,4 +614,5 @@ div.binaryUploadSubmit input	{
 	width:72%;
 }
 
+>>>>>>> .r12097
 <!--}}}-->
