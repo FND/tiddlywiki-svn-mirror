@@ -108,6 +108,7 @@ config.macros.binaryUpload ={
             tiddler.modifier = config.options.txtUserName;
             tiddler.fields = merge({}, config.defaultCustomFields);
             tiddler.fields.doNotSave = true;
+            tiddler.fields['server.content-type'] = mimeType;
             tiddler.fields['server.page.revision'] = 1;
             tiddler.fields['server.bag'] = file.bag;
             tiddler.fields['server.workspace'] = 'bags/' + file.bag;
