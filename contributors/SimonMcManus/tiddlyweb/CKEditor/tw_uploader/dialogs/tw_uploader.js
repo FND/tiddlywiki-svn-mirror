@@ -8,25 +8,42 @@
 /*********************************************************************************************************/
 
 CKEDITOR.dialog.add('tw_uploader',function(a){
-	j={type:'html'};
-	j.html = "<div id='container-div'></div>";
+	page1={type:'html'};
+	page1.html = "<div id='container-div'></div>";
+	page2={type:'html'};
+	page2.html = "<div id='browser-div'>browse me </div>";
+	page3={type:'html'};
+	page3.html = "<div id='browser-div'>browse me </div>";
 	return {
 		title:"Image Upload",
 		minWidth:180,
 		minHeight:150,
 		onShow: function() {
+		    console.log('on show ', arguments);
 		    jQuery("#container-div").children().remove();
 			wikify('<<binaryUpload edit:"tags" tags:"image">>', jQuery('#container-div'));
-			jQuery('#divdiv').children().remove();
-			wikify('<<binaryUpload edit:"tags" tags:"image">>', jQuery('#divdiv'));
-		}, 
+		},
+	    changeFocus  : function() {
+	        alert('bb');
+	    },
 		contents:[
-			{id:'tab1',
-			label:'as',
-			expand:true,
-			padding:0,
-			elements:[j]
-			}],
+			{   
+			    id:'insertTab',
+				label:'Insert',
+    			expand:true,
+                accessKey: 'i',
+    			elements:[page1]
+			},{
+                id:'browseTab',
+                label:'Browse', 
+                accessKey: 'b',
+                elements:[page2]
+            },{
+                id:'uploadTab',
+                label:'Upload', 
+                accessKey: 'u',
+                elements:[page3]
+            }],
 		buttons:[    {
                 type:'button',
                 id:'binaryUpload', /* note: this is not the CSS ID attribute! */
