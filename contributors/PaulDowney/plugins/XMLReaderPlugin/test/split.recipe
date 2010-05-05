@@ -1,0 +1,4 @@
+recipe: $TW_ROOT/core/test/qunit/split.recipe
+recipe: $TW_ROOT/core/test/html/split.recipe
+
+jquery: XMLReaderPluginTests.js
