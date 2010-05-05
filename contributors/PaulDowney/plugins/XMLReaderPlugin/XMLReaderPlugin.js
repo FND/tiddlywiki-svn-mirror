@@ -17,7 +17,7 @@ This plugin generates tiddlers from a [[jqGrid|http://www.trirand.com/blog/]] st
 ***/
 //{{{
 /*jslint onevar: false nomen: false plusplus: false */
-/*global jQuery config alert createTiddlyButton doHttp */
+/*global jQuery config alert createTiddlyButton doHttp store */
 (function ($) {
     version.extensions.XMLReaderPlugin = {installed: true};
 
@@ -28,19 +28,17 @@ This plugin generates tiddlers from a [[jqGrid|http://www.trirand.com/blog/]] st
 			var prompt = params[2] || "load XML file";
 			var context = {
 				id: params[3],
-				row: params[4],
+				row: params[4]
 			};
 			createTiddlyButton(place, label, prompt, function () {
 				var ret = doHttp('GET', url, null, null, null, null, function (status, context, responseText, url, xhr) {
-					var rows = xhr.responseXML.getElementsByTagName(context.row);
-					var getVal = function (node, tag, def) {
-						return node.getElementsByTagName(tag)[0].textContent || def;
-					};
-					for (var i = 0; i < rows.length; i++) {
-						var row = rows[i];
-						var title = getVal(row, context.id, "node");
+					$(xhr.responseXML).find(context.row).each(function () {
+						var title = $(this).find(context.id).text();
 						var tiddler = store.createTiddler(title);
-					}
+						$(this).children().each(function () {
+							tiddler.fields[this.nodeName] = $(this).text();
+						});
+					});
 				}, context, {}, true);
 			});
 		}
