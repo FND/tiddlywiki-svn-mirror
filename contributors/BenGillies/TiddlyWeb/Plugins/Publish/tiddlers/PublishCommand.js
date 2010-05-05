@@ -33,70 +33,82 @@ config.commands.publishtiddler = {
         if (!confirm(this.confirmMsg)) {
             return false;
         }
-        var publishToBag = (t.fields['publishtobag']) ? t.fields['publishtobag'] : store.getTiddlerSlice('PublishConfig', 'publishtobag');
-        var publishLevel = (t.fields['publishlevel']) ? t.fields['publishlevel'] : store.getTiddlerSlice('PublishConfig', 'publishlevel');
+        function getPublishInfo(fieldName) {
+            return (t.fields[fieldName]) ? t.fields[fieldName] : store.getTiddlerSlice('PublishConfig', fieldName);
+        };
+        var publishToBag = getPublishInfo('publishtobag');
+        var publishLevel = getPublishInfo('publishlevel');
 
         if(publishLevel) {
-            var newTiddler = new tiddlyweb.Tiddler(t.title, new tiddlyweb.Bag(publishToBag, config.defaultCustomFields['server.host']));
-            newTiddler.tags = t.tags;
-            newTiddler.modified = t.modified.convertToYYYYMMDDHHMM() + '00';
-            newTiddler.created = t.created.convertToYYYYMMDDHHMM() + '00';
-            newTiddler.modifier = t.modifier;
-            newTiddler.fields = merge({}, t.fields);
-            newTiddler.text = t.text;
-
-            newTiddler.put(function() {
-                if (publishLevel === 'copy') {
-                    displayMessage(newTiddler.title + ' successfully copied to ' + newTiddler.bag.name + '.');
-                    return;
-                } else if (publishLevel === 'move') {
-                    //delete the original tiddler
-                    if (t.fields['server.bag']) {
-                        newTiddler.bag = new tiddlyweb.Bag(t.fields['server.bag'], config.defaultCustomFields['server.host']);
-                    } else {
-                        var container = t.fields['server.workspace'].split('/');
-                        if (container === 'recipes') {
-                            newTiddler.bag = null;
-                            newTiddler.recipe = new tiddlyweb.Recipe(container[1], config.defaultCustomFields['server.host']);
-                        } else {
-                            newTiddler.bag = new tiddlyweb.Bag(container[1], config.defaultCustomFields['server.host']);
-                        }
-                    }
-                    newTiddler['delete'](function() {
-                        var containerName = newTiddler['bag'] ? newTiddler.bag.name : newTiddler.recipe.name;
-                        displayMessage(newTiddler.title + ' successfully moved to ' + publishToBag +  '.');
-                        
-                        newTiddler.bag = new tiddlyweb.Bag(publishToBag, config.defaultCustomFields['server.host']);
-                        newTiddler.get(function(data) {
-                            var newRevision = data.revision;
-                            var newWorkspace = 'bags/' + publishToBag;
-                            var newT = store.getTiddler(newTiddler.title);
-                            var newFields = merge({}, newT.fields);
-
-                            newFields['server.page.revision'] = newRevision;
-                            newFields['server.workspace'] = newWorkspace;
-                            newFields['server.bag'] = publishToBag;
-                            delete newFields['server.recipe'];
-                            newT.fields = merge({}, newFields);
-                            var dirty = store.isDirty();
-
-                            store.saveTiddler(newT.title, newT.title, newT.text, newT.modifier, newT.modified, newT.tags, newT.fields, true, newT.created, newT.creator);
-                            story.setDirty(newT.title);
-                            if (!dirty) store.setDirty(false);
-                        });
-                    }, function() {
-                        displayMessage('Error removing ' + newTiddler.title + ' from ' + containerName + '.');
-                        displayMessage(newTiddler.title + ' was successfully copied to ' + publishToBag + '.');
-                    });
-                } else {
-                    alert('Incorrect publish level set. ');
-                }
-            }, function() {
-                displayMessage('Error publishing ' + newTiddler.title + '.');
-            });
+            try {
+                this.publish(t, publishLevel, publishToBag, function(successMessage) {
+                    displayMessage(successMessage);
+                });
+            } catch(errorMessage) {
+                displayMessage(errorMessage);
+            }
         } else {
             alert("no publish level set!");
         }
+    },
+    publish: function(tid, publishLevel, publishToBag, callback) {
+        var newTiddler = new tiddlyweb.Tiddler(tid.title, new tiddlyweb.Bag(publishToBag, config.defaultCustomFields['server.host']));
+        newTiddler.tags = tid.tags;
+        newTiddler.modified = tid.modified.convertToYYYYMMDDHHMM() + '00';
+        newTiddler.created = tid.created.convertToYYYYMMDDHHMM() + '00';
+        newTiddler.modifier = tid.modifier;
+        newTiddler.fields = merge({}, tid.fields);
+        newTiddler.text = tid.text;
+
+        newTiddler.put(function() {
+            if (publishLevel === 'copy') {
+                callback(newTiddler.title + ' successfully copied to ' + newTiddler.bag.name + '.');
+                return;
+            } else if (publishLevel === 'move') {
+                //delete the original tiddler
+                if (tid.fields['server.bag']) {
+                    newTiddler.bag = new tiddlyweb.Bag(tid.fields['server.bag'], config.defaultCustomFields['server.host']);
+                } else {
+                    var container = tid.fields['server.workspace'].split('/');
+                    if (container === 'recipes') {
+                        newTiddler.bag = null;
+                        newTiddler.recipe = new tiddlyweb.Recipe(container[1], config.defaultCustomFields['server.host']);
+                    } else {
+                        newTiddler.bag = new tiddlyweb.Bag(container[1], config.defaultCustomFields['server.host']);
+                    }
+                }
+
+                newTiddler['delete'](function() {
+                    var containerName = newTiddler['bag'] ? newTiddler.bag.name : newTiddler.recipe.name;
+                    callback(newTiddler.title + ' successfully moved to ' + publishToBag +  '.');
+                    
+                    newTiddler.bag = new tiddlyweb.Bag(publishToBag, config.defaultCustomFields['server.host']);
+                    newTiddler.get(function(data) {
+                        var newRevision = data.revision;
+                        var newWorkspace = 'bags/' + publishToBag;
+                        var newT = store.getTiddler(newTiddler.title);
+                        var newFields = merge({}, newT.fields);
+
+                        newFields['server.page.revision'] = newRevision;
+                        newFields['server.workspace'] = newWorkspace;
+                        newFields['server.bag'] = publishToBag;
+                        delete newFields['server.recipe'];
+                        newT.fields = merge({}, newFields);
+                        var dirty = store.isDirty();
+
+                        store.saveTiddler(newT.title, newT.title, newT.text, newT.modifier, newT.modified, newT.tags, newT.fields, true, newT.created, newT.creator);
+                        story.setDirty(newT.title);
+                        if (!dirty) store.setDirty(false);
+                    });
+                }, function() {
+                    throw 'Error removing ' + newTiddler.title + ' from ' + containerName + '. It was successfully copied to ' + publishToBag + '.';
+                });
+            } else {
+                throw 'Incorrect publish level set.';
+            }
+        }, function() {
+            throw 'Error publishing ' + newTiddler.title + '.';
+        });
     }
 };
 //}}}
