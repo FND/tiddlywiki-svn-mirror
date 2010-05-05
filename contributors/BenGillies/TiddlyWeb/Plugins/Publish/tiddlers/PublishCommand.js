@@ -43,15 +43,17 @@ config.commands.publishtiddler = {
             try {
                 this.publish(t, publishLevel, publishToBag, function(successMessage) {
                     displayMessage(successMessage);
+                }, function(errorMessage) {
+                    displayMessage(errorMessage);
                 });
-            } catch(errorMessage) {
-                displayMessage(errorMessage);
+            } catch(e) {
+                displayMessage(e);
             }
         } else {
             alert("no publish level set!");
         }
     },
-    publish: function(tid, publishLevel, publishToBag, callback) {
+    publish: function(tid, publishLevel, publishToBag, callback, errBack) {
         var newTiddler = new tiddlyweb.Tiddler(tid.title, new tiddlyweb.Bag(publishToBag, config.defaultCustomFields['server.host']));
         newTiddler.tags = tid.tags;
         newTiddler.modified = tid.modified.convertToYYYYMMDDHHMM() + '00';
@@ -101,13 +103,13 @@ config.commands.publishtiddler = {
                         if (!dirty) store.setDirty(false);
                     });
                 }, function() {
-                    throw 'Error removing ' + newTiddler.title + ' from ' + containerName + '. It was successfully copied to ' + publishToBag + '.';
+                    errBack('Error removing ' + newTiddler.title + ' from ' + containerName + '. It was successfully copied to ' + publishToBag + '.');
                 });
             } else {
-                throw 'Incorrect publish level set.';
+                errBack('Incorrect publish level set.');
             }
         }, function() {
-            throw 'Error publishing ' + newTiddler.title + '.';
+            errBack('Error publishing ' + newTiddler.title + '.');
         });
     }
 };
