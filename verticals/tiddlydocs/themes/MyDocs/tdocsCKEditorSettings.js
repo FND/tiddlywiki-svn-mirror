@@ -1,3 +1,9 @@
+modifier: SMM
+created: 
+modified: 20100506100610
+type: None
+tags: systemConfig excludeLists excludeSearch
+
 /***
 |''Name''|tdocsCKEditorSettings|
 |''Description''|the default config for CKEditor when used in TiddlyDocs. |
@@ -39,7 +45,13 @@ if(typeof CKEDITOR != "undefined"){
 	CKEDITOR.config.toolbar = 'Basic';
 	CKEDITOR.config.disableNativeSpellChecker = false;
 	CKEDITOR.config.extraPlugins = 'tw_uploader';
-	
+	config.macros.imageSelector.onImgClick = function() {
+		if(jQuery(this).hasClass('selectedImage')){
+				jQuery(this).removeClass('selectedImage');
+		}else{
+			jQuery(this).addClass('selectedImage');			
+		}
+	}
 }
 
 //}}}

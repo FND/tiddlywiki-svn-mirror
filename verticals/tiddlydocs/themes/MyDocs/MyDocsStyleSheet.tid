@@ -579,7 +579,6 @@ html body div.header div.tabWrapper {
     
 }
 
-<<<<<<< .mine
 /* tw_uploader - plugin for uploading images as tiddler using ckeditor toolbar /dialogs */
 
 
@@ -597,22 +596,7 @@ div.binaryUploadSubmit input	{
 	width:72%;
 }
 
-=======
-/* tw_uploader - plugin for uploading images as tiddler using ckeditor toolbar /dialogs */
-
-
-.binaryUploadTags {
-	display:none;
+img.selectedImage{
+	border:2px solid red;
 }
-
-div.binaryUploadSubmit input	{
-	background:pink;
-	font-size:1.2em;
-	margin:1em;
-	padding:1em 0.4em;
-	text-align:center;
-	width:72%;
-}
-
->>>>>>> .r12097
 <!--}}}-->
