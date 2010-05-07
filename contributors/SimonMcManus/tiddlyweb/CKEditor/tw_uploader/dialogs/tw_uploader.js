@@ -24,11 +24,15 @@ function(a) {
     return {
         title: "Image Upload",
         onLoad: function() {
+	
             wikify('<<imageSelector>>', jQuery('#browser-div')[0]);
             wikify('<<timeline>>', jQuery('#insert-div')[0]);
-            wikify('<<binaryUpload>>', jQuery('#upload-div')[0]);
-
-        },
+            wikify('<<binaryUpload edit:"tags" tags:"image">><html><a class="cke_dialog_ui_button"><span class="cke_dialog_ui_button">upload</span></a><div id="uploadedArea"></div></html>', jQuery('#upload-div')[0]);
+        },onShow: function() {
+			var editor = this.getParentEditor();
+//			wikify('<<binaryUpload>>', editor.document);
+            
+		},
         onOk: function() {
 				var html = [];
 				jQuery('.selectedImage').each(function() {
@@ -42,7 +46,12 @@ function(a) {
             id: 'browseTab',
             label: 'Browse',
             expand: true,
-            elements: [page1]
+            elements: [{
+				type : 'iframe',
+				src : 'http://www.google.com',
+				width : '100%',
+				height : '100%'
+			}]
         },
         {
             id: 'uploadTab',
@@ -55,12 +64,24 @@ function(a) {
             id: 'binaryUpload',
             label: 'Upload',
             onClick: function(click) {
-                jQuery('#container-div').children('form').submit();
+                jQuery('#upload-div').children('form').submit();
             }
         },
         CKEDITOR.dialog.okButton, CKEDITOR.dialog.cancelButton
         ]
     };
 });
+
+var oldDisplayFile = config.macros.binaryUpload.displayFile;
+config.macros.binaryUpload.displayFile = function(place, fileName, file) {
+	var img = createTiddlyElement(jQuery('#uploadedArea').get(0), "img");
+	img.src = "http://0.0.0.0:8080/doccollab/static/mydocs_images/MyDocs.png";
+	img.onclick = config.macros.imageSelector.onImgClick;
+	jQuery(img).addClass('selectedImage');
+	jQuery("#browser-div").children().remove();
+	wikify('<<imageSelector>>', jQuery('#browser-div')[0]);
+
+console.log('dd');
+}
 
 
