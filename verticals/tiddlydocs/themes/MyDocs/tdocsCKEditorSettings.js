@@ -51,7 +51,7 @@ if(typeof CKEDITOR != "undefined"){
 		}else{
 			jQuery(this).addClass('selectedImage');			
 		}
-	}
-}
+	};
+}; 
 
 //}}}
