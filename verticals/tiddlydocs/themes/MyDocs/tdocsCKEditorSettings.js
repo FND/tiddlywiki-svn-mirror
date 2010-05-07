@@ -39,13 +39,15 @@ if(typeof CKEDITOR != "undefined"){
 	CKEDITOR.config.toolbar = 'Basic';
 	CKEDITOR.config.disableNativeSpellChecker = false;
 	CKEDITOR.config.extraPlugins = 'tw_uploader';
-	config.macros.imageSelector.onImgClick = function() {
-		if(jQuery(this).hasClass('selectedImage')){
-				jQuery(this).removeClass('selectedImage');
-		}else{
-			jQuery(this).addClass('selectedImage');			
-		}
-	};
 }; 
+
+
+config.macros.imageSelector.onImgClick = function() {
+	if(jQuery(this).hasClass('selectedImage')){
+			jQuery(this).removeClass('selectedImage');
+	}else{
+		jQuery(this).addClass('selectedImage');			
+	}
+};
 
 //}}}

@@ -576,24 +576,31 @@ html body div.header div.tabWrapper {
     position:relative;
     right:-1.2em;
     top:-1.2em;
-    
 }
+
+img.resize {
+	max-width: 150px;
+	height : auto;
+	margin:1em;
+}
+
+img.resize {
+	width: auto;
+	max-height : 150px;
+}
+#browser-div {
+	height:300px;
+	width:500px;
+	y-overflow:auto;
+	
+}
+
 
 /* tw_uploader - plugin for uploading images as tiddler using ckeditor toolbar /dialogs */
 
 
-.binaryUploadTags, .binaryUploadSubmit {
+.binaryUploadTags, .binaryUploadSubmit{
 	display:none;
-}
-
-
-div.binaryUploadSubmit input	{
-	background:pink;
-	font-size:1.2em;
-	margin:1em;
-	padding:1em 0.4em;
-	text-align:center;
-	width:72%;
 }
 
 img.selectedImage{
