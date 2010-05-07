@@ -1,9 +1,3 @@
-modifier: SMM
-created: 
-modified: 20100506100610
-type: None
-tags: systemConfig excludeLists excludeSearch
-
 /***
 |''Name''|tdocsCKEditorSettings|
 |''Description''|the default config for CKEditor when used in TiddlyDocs. |
