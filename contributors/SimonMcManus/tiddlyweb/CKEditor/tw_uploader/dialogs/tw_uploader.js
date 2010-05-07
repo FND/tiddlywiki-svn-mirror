@@ -46,12 +46,7 @@ function(a) {
             id: 'browseTab',
             label: 'Browse',
             expand: true,
-            elements: [{
-				type : 'iframe',
-				src : 'http://www.google.com',
-				width : '100%',
-				height : '100%'
-			}]
+            elements: [page1]
         },
         {
             id: 'uploadTab',
