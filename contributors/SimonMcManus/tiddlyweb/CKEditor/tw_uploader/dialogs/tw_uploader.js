@@ -16,18 +16,25 @@ function(a) {
     page1 = {
         type: 'html'
     };
-    page1.html = "<div id='browser-div' class='tw_uplaoder_container'>browse me </div>";
+    page1.html = "<div id='browser-div' class='tw_uplaoder_container'></div>";
     page2 = {
         type: 'html'
     };
-    page2.html = "<div id='upload-div' class='tw_uplaoder_container'>upload </div>";
+    page2.html = "<div id='upload-div' class='tw_uplaoder_container'></div>";
     return {
         title: "Image Upload",
         onLoad: function() {
 	
             wikify('<<imageSelector>>', jQuery('#browser-div')[0]);
             wikify('<<timeline>>', jQuery('#insert-div')[0]);
-            wikify('<<binaryUpload edit:"tags" tags:"image">><html><a class="cke_dialog_ui_button"><span class="cke_dialog_ui_button">upload</span></a><div id="uploadedArea"></div></html>', jQuery('#upload-div')[0]);
+            wikify('<<binaryUpload edit:"tags" tags:"image">>', jQuery('#upload-div')[0]);
+			jQuery('#upload-div').append('<a class="cke_dialog_ui_button" id="uploadClick" title="Upload" href="javascript:void(0)" ><span class="cke_dialog_ui_button">Upload</span></a><br/><div id="uploadedArea"></div>');
+			jQuery('#uploadClick').click(function() {
+				jQuery('#upload-div').children('form').submit();
+			});
+
+//			jQuery(".binaryUploadSubmit").addClass("cke_dialog_ui_button");
+//			jQuery(".binaryUploadSubmit input").addClass("cke_dialog_ui_button");
         },onShow: function() {
 			var editor = this.getParentEditor();
 //			wikify('<<binaryUpload>>', editor.document);
@@ -54,14 +61,7 @@ function(a) {
             elements: [page2]
         }
         ],
-        buttons: [{
-            type: 'button',
-            id: 'binaryUpload',
-            label: 'Upload',
-            onClick: function(click) {
-                jQuery('#upload-div').children('form').submit();
-            }
-        },
+        buttons: [
         CKEDITOR.dialog.okButton, CKEDITOR.dialog.cancelButton
         ]
     };
