@@ -13,6 +13,6 @@ modifier: SMM
 		</div>
 	</div>
 	<div class="portletContent portletContentIconShift">
-		<div class='editor' macro='edit text'></div>
+		<div class='editor' macro='editHtml text'></div>
 	</div>
 </div>
