@@ -83,7 +83,7 @@ config.macros.binaryUpload ={
             }
         }
     },
-    displayFile: function(place, fileName, file) {
+    createMockTiddler: function(place, fileName, file) {
         var tiddler = store.getTiddler(fileName);
         if (!tiddler) {
             tiddler = new Tiddler(fileName);
@@ -121,6 +121,9 @@ config.macros.binaryUpload ={
             if (!dirty) store.setDirty(false);
         }
         saveChanges();
+    },
+    displayFile: function(place, fileName, file) {
+        this.createMockTiddler(place, fileName, file);
         story.displayTiddler(place, fileName);
     }
 }
