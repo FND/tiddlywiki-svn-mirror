@@ -18,9 +18,10 @@
 		
 		init: function() {	
 			config.macros.keybindings.enable();
-			jQuery(document).bind('keypress', function(ev){				
-				if(config.macros.keybindings.enabled && config.macros.keybindings.keyCodes[ev.which] && config.macros.keybindings.keyCodes[ev.which] !== undefined) {
-					config.macros.keybindings.keyCodes[ev.which].call();
+			jQuery(document).bind('keydown', function(ev){	
+				var keyCode = ev.keyCode || ev.which;
+				if(config.macros.keybindings.enabled && config.macros.keybindings.keyCodes[keyCode] && config.macros.keybindings.keyCodes[keyCode] !== undefined) {
+					config.macros.keybindings.keyCodes[keyCode].call();
 				}
 			});
 		},
