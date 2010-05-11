@@ -10,7 +10,7 @@ from tiddlyweb.manage import make_command
 from tiddlyweb.store import Store
 from tiddlyweb.model.tiddler import Tiddler
 from tiddlyweb.store import Store, NoBagError,NoTiddlerError
-
+from tiddlyweb import config
 
 def _start_media_thumbnail(self, attrsD):
   context = self._getContext()
@@ -38,7 +38,6 @@ def tiddlers_from_rss(rss_url):
   content = content.replace("media:content","media_thumbnail") #this is a workaround to allow media thumbnails to work.
   feed = feedparser.parse(content)
   print "url returned status code %s"%resp["status"]
-  
   tiddlers = []
   for entry in feed.entries:
       try:
@@ -105,13 +104,13 @@ def tiddlers_from_rss(rss_url):
       imtiddler.fields.update({"rssurl":rss_url})
       try:
         name = config['imrss']['module']
-        f = __import__(name)
+        f = __import__(name,fromlist=True)
         imtiddler = f.handler(rss_url,imtiddler,entry,feed=feed)
       except KeyError:
         pass
       if imtiddler:
         tiddlers.append(imtiddler)
-  
+  print "tiddlers ready for store (%s)"%(len(tiddlers))
   return tiddlers
 
   
