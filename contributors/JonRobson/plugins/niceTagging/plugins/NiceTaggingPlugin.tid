@@ -4,7 +4,7 @@ title: NiceTaggingPlugin
 /***
 |''Name:''| NiceTaggingPlugin|
 |''Description:''| creates a nicer interface for adding and removing TiddlyWiki. Ideal for tiddly novices. |
-|''Version:''|0.51|
+|''Version:''|0.511|
 |''Date:''|April 2010|
 |''Source:''|http://www.jonrobson.me.uk/development/niceTagging|
 |''Author:''|Jon Robson|
@@ -69,7 +69,7 @@ config.macros.niceTagger = {
     config.macros.niceTagger.twtags[field] = uniqueSuggestions;
     this.initialised[field] =true;
   }
-  ,save: function(title,field,listvalues,place){
+  ,save: function(title,field,listvalues,place,autosavechanges){
     //console.log("save",title,field,list);
     var tiddler =  store.getTiddler(title);
     if(!tiddler) { //doesnt work when tiddler is brand spanking new
@@ -105,7 +105,7 @@ config.macros.niceTagger = {
     //store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,null,null,tiddler.tags,tiddler.fields,null);
     store.setValue(tiddler.title,field,strVal);
     store.saveTiddler(tiddler.title, tiddler.title, tiddler.text, tiddler.modifier, tiddler.modified, tiddler.tags, tiddler.fields, false, tiddler.created)
-    //autoSaveChanges()      
+    if(autosavechanges)autoSaveChanges()      
     //story.setDirty(title,true);
     return tiddler;
         //console.log("finished save tags",tiddler.tags,"field",tiddler.fields[field]);
@@ -138,7 +138,7 @@ config.macros.niceTagger = {
           }
       }
       //console.log("Save",tiddler.title,field,newtags);
-      tiddler = config.macros.niceTagger.save(tiddler.title,field,newtags,place);
+      tiddler = config.macros.niceTagger.save(tiddler.title,field,newtags,place,tiddler.autosavechanges);
       //console.log("Refresh",tiddler,field);
       config.macros.niceTagger.refreshFieldDisplay(place,tiddler,field);
       //console.log("done refresh")
@@ -146,6 +146,7 @@ config.macros.niceTagger = {
   }
   ,saveNewTag: function(tiddler,field,value,place,splitChar){
     var saveThis = [];
+    
     var adder = jQuery("input",place)[0];
     if(field=='tags'){
         saveThis = tiddler.tags;
@@ -157,6 +158,7 @@ config.macros.niceTagger = {
     }
     //console.log(value,"is value");
     if(value && value.replace(" ","").length == 0) return;
+    if(typeof(value) == 'string')value = value.trim();
     var savedVals;
     if(splitChar && value.indexOf(splitChar) !=-1){
       savedVals= value.split(splitChar);
@@ -168,7 +170,7 @@ config.macros.niceTagger = {
       var svalue = savedVals[i];
       if(saveThis.indexOf(svalue) == -1) saveThis.push(svalue);
     }            
-    tiddler= config.macros.niceTagger.save(tiddler.title,field,saveThis,place);
+    tiddler= config.macros.niceTagger.save(tiddler.title,field,saveThis,place,tiddler.autosavechanges);
     
     var tagplace = jQuery(".niceTagger",place)[0];
     if(tagplace)config.macros.niceTagger.refreshFieldDisplay(tagplace,tiddler,field);
@@ -207,6 +209,7 @@ config.macros.niceTagger = {
   ,handler: function(place,macroName,paramlist,wikifier,paramString,tiddler){
     var macro =config.macros.niceTagger;
     var options = paramString.toJSON();
+    if(options.autoSaveChanges)tiddler.autosavechanges = true;
     if(!options.field)options.field = "tags";        
     this.init(options.field);
     var displayer = document.createElement("div");
@@ -238,7 +241,10 @@ config.macros.niceTagger = {
       else ignoreList = ["excludeList"];
       suggestions = macro.removeFromList(suggestions,ignoreList);
     
-      var addtaghandler = function(v){saveNewTag(tiddler,options.field,v,place,splitChar);jQuery("input",tagplace).val("");}
+      var addtaghandler = function(v){
+        saveNewTag(tiddler,options.field,v,place,splitChar);
+        jQuery("input",tagplace).val("");
+      }
       jQuery("<input type='text' name=\""+options.field+"\" value=\"\"/>").autocomplete(suggestions,{matchContains: true,selectFirst:false}).result(addtaghandler).appendTo(tagplace);
       adder = jQuery("input",tagplace)[0];
       
