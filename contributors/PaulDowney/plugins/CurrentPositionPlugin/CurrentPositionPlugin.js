@@ -44,6 +44,10 @@ Developed for TiddlySlidy, this Macro to displays the position of the current sl
         ).appendTo(place);
         $(place).find('a.tiddlyLink')
             .click(onClickTiddlerLink)
+			.click(function() {
+				// Added 'onComplete' event trigger (Ben Barnett)
+				$('body').trigger('tiddlyWiki.macro.onCurrentPositionComplete');
+			})
             .each(function () {
                 if (config.macros.progressBar) {
                     var e = $('<span id="contentsBalloon"></span>')[0];
@@ -52,6 +56,9 @@ Developed for TiddlySlidy, this Macro to displays the position of the current sl
                     $(e).find('a').attr('title', '');
                 }
             });
+
+		$('body').trigger('tiddlyWiki.macro.onCurrentPositionComplete');
+		
     };
 
 })(jQuery);
