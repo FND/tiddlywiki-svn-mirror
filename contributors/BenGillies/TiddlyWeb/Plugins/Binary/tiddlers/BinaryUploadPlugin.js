@@ -47,14 +47,16 @@ config.macros.binaryUpload ={
             .append('<div class="binaryUploadFile"><input type="file" name="file" /></div>')
             .append(includeFields['tags'] ? '<div class="binaryUploadTags">tags: <input type="text" name="tags" value="' + includeFields['defaultTags'] + '" /></div>' : '')
             .append('<div class="binaryUploadSubmit"><input type="submit" value="Upload" /></div>')
-            .append(jQuery('<iframe name="' + iframeName + '" id="' + iframeName + '"/>').css('display','none'))
             .submit(function() {
                 var fileName = includeFields['title'] ? jQuery('[name=title]input:text', this).val() : jQuery('input:file', this).val();
                 if ((!fileName)||(fileName === 'Enter Title')) {
                     fileName = jQuery('input:file', this).val();
                     jQuery('[name=title]input:text', this).val(fileName);
                 }
+                if (!fileName)
+                    return false; //the user hasn't selected a file yet
                 this.action += '?redirect=/bags/common/tiddlers.txt?select=title:'+fileName; //we need to go somewhere afterwards to ensure the onload event triggers
+                jQuery(place).append(jQuery('<iframe name="' + iframeName + '" id="' + iframeName + '"/>').css('display','none'));
                 config.macros.binaryUpload.iFrameLoader(iframeName, fileName, place);
                 return true;
             }).appendTo(place);
@@ -67,6 +69,7 @@ config.macros.binaryUpload ={
             displayMessage('File "' + fileName + '" successfully uploaded');
             jQuery.getJSON(config.macros.binaryUpload.fullURL + '/' + fileName + '.json', function(file) {
                 config.macros.binaryUpload.displayFile(place, fileName, file);
+                jQuery(iframe).remove();
             });
         }
         var iFrameLoadHandler = function() {
