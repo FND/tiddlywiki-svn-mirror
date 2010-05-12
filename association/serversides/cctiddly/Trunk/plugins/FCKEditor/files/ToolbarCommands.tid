@@ -1,5 +1,0 @@
-Modifier: Simon McManus
-
-|~ViewToolbar|closeTiddler closeOthers +editHtml > fields syncing permalink revisions references jump|
-|~EditToolbar|+saveTiddler -cancelTiddler deleteTiddlerHosted|
-
