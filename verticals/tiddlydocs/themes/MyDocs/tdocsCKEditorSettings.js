@@ -32,9 +32,9 @@ if(typeof CKEDITOR != "undefined"){
 	    ['NumberedList','BulletedList','-','Outdent','Indent','Blockquote'],
 	    ['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'],
 		'/',    
-		['Image', 'Table','HorizontalRule','SpecialChar'],
+		['tw_uploader', 'Image', 'Table','HorizontalRule','SpecialChar'],
 	    ['Styles','Format','Font','FontSize'],
-	    ['TextColor','BGColor', 'tw_uploader'],
+	    ['TextColor','BGColor'],
 	];
 	CKEDITOR.config.toolbar = 'Basic';
 	CKEDITOR.config.disableNativeSpellChecker = false;

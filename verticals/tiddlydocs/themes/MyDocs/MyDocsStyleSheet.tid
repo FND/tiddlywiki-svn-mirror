@@ -1,6 +1,5 @@
 modifier: Simon McManus 
 created: 
-modified: 20100505125301
 type: None
 tags: excludeLists excludeSearch
 
@@ -578,32 +577,14 @@ html body div.header div.tabWrapper {
     top:-1.2em;
 }
 
-img.resize {
-	max-width: 150px;
-	height : auto;
-	margin:1em;
-}
-
-img.resize {
-	width: auto;
-	max-height : 150px;
-}
-#browser-div {
-	height:300px;
-	width:500px;
-	y-overflow:auto;
-	
-}
-
-
 /* tw_uploader - plugin for uploading images as tiddler using ckeditor toolbar /dialogs */
-
 
 .binaryUploadTags, .binaryUploadSubmit{
 	display:none;
 }
-
-img.selectedImage{
-	border:2px solid red;
+#browser-div {
+	height:300px;
+	width:500px;
+	y-overflow:auto;	
 }
 <!--}}}-->
