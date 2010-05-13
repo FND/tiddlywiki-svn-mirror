@@ -1,16 +1,12 @@
 ﻿/*********************************************************************************************************/
 /**
- * fileicon plugin for CKEditor 3.x (Author: Lajox ; Email: lajox@19www.com)
+ *  tw_uploader plugin for CKEditor 3.x (Author: Lajox ; Email: mcmanus.simon@gmail.com)
  * version:	 1.0
- * Released: On 2009-12-11
- * Download: http://code.google.com/p/lajox
+ * Released: On 2010-04-10
  */
 /*********************************************************************************************************/
 
-CKEDITOR.dialog.uiElementDefinition = function()
- {
-    alert('opng');
-}
+
 CKEDITOR.dialog.add('tw_uploader',
 function(a) {
     page1 = {
@@ -23,30 +19,16 @@ function(a) {
     page2.html = "<div id='upload-div' class='tw_uplaoder_container'></div>";
     return {
         title: "Image Upload",
-        onLoad: function() {
-	
+		onShow: function() {
+			jQuery('#browser-div').children().remove();
             wikify('<<imageSelector>>', jQuery('#browser-div')[0]);
-            wikify('<<timeline>>', jQuery('#insert-div')[0]);
+			jQuery('#upload-div').children().remove();
             wikify('<<binaryUpload edit:"tags" tags:"image">>', jQuery('#upload-div')[0]);
-			jQuery('#upload-div').append('<a class="cke_dialog_ui_button" id="uploadClick" title="Upload" href="javascript:void(0)" ><span class="cke_dialog_ui_button">Upload</span></a><br/><div id="uploadedArea"></div>');
-			jQuery('#uploadClick').click(function() {
-				jQuery('#upload-div').children('form').submit();
-			});
 
-//			jQuery(".binaryUploadSubmit").addClass("cke_dialog_ui_button");
-//			jQuery(".binaryUploadSubmit input").addClass("cke_dialog_ui_button");
-        },onShow: function() {
-			var editor = this.getParentEditor();
-//			wikify('<<binaryUpload>>', editor.document);
-            
 		},
-        onOk: function() {
-				var html = [];
-				jQuery('.selectedImage').each(function() {
-					html.push("<img src='"+this.src+"' />");
-				});
-				jQuery('.selectedImage').removeClass('selectedImage');
-				 this.getParentEditor().insertHtml(html.join(' '));
+        onLoad: function() {
+            wikify('<<imageSelector>>', jQuery('#browser-div')[0]);
+            wikify('<<binaryUpload edit:"tags" tags:"image">>', jQuery('#upload-div')[0]);
         },
         contents: [
         {
@@ -62,21 +44,34 @@ function(a) {
         }
         ],
         buttons: [
-        CKEDITOR.dialog.okButton, CKEDITOR.dialog.cancelButton
-        ]
+		{
+			type:'button',
+			id:'insertButton',
+			label:'Insert',
+			title:'Insert the current image.',
+			onClick: function() {
+				var dialog = this.getDialog(); 
+				if(jQuery('.binaryUploadFile > input').get(0).value != ""){
+					console.log('do upload');
+					jQuery('#upload-div').children('form').submit();	
+					jQuery(".binaryUploadFile").html('uploading...');					
+				}else {
+					var html = config.macros.imageSelector.builtSelectedImgHtml();
+					if(html!="")
+						dialog.getParentEditor().insertHtml(html);
+					jQuery('.selectedImage').removeClass('selectedImage');
+					dialog.hide();
+				}
+			}
+		}, CKEDITOR.dialog.cancelButton
+	    ]
     };
 });
 
-var oldDisplayFile = config.macros.binaryUpload.displayFile;
 config.macros.binaryUpload.displayFile = function(place, fileName, file) {
-	var img = createTiddlyElement(jQuery('#uploadedArea').get(0), "img");
-	img.src = "http://0.0.0.0:8080/doccollab/static/mydocs_images/MyDocs.png";
-	img.onclick = config.macros.imageSelector.onImgClick;
-	jQuery(img).addClass('selectedImage');
-	jQuery("#browser-div").children().remove();
-	wikify('<<imageSelector>>', jQuery('#browser-div')[0]);
-
-console.log('dd');
+	console.log('dislay file');
+	config.macros.binaryUpload.createMockTiddler(place, fileName, file);
+	dialog = CKEDITOR.dialog.getCurrent();
+	dialog.getParentEditor().insertHtml("<img  src='"+"/bags/"+file.bag+"/tiddlers/"+file.title);
+	dialog.hide();
 }
-
-
