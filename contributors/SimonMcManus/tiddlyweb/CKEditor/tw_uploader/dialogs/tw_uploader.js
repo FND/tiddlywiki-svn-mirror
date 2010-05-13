@@ -69,9 +69,9 @@ function(a) {
 });
 
 config.macros.binaryUpload.displayFile = function(place, fileName, file) {
-	console.log('dislay file');
+	console.log('dislay file', place, fileName, file);
 	config.macros.binaryUpload.createMockTiddler(place, fileName, file);
 	dialog = CKEDITOR.dialog.getCurrent();
-	dialog.getParentEditor().insertHtml("<img  src='"+"/bags/"+file.bag+"/tiddlers/"+file.title);
+	dialog.getParentEditor().insertHtml("<img  src='"+config.defaultCustomFields['server.host']+"/bags/"+file.bag+"/tiddlers/"+file.title);
 	dialog.hide();
 }
