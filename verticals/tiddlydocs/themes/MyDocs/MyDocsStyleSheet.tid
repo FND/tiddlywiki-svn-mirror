@@ -1,5 +1,6 @@
 modifier: Simon McManus 
 created: 
+modified: 20100505125301
 type: None
 tags: excludeLists excludeSearch
 
@@ -583,8 +584,8 @@ html body div.header div.tabWrapper {
 	display:none;
 }
 #browser-div {
-	height:300px;
-	width:500px;
+	height:200px;
+	width:450px;
 	y-overflow:auto;	
 }
 <!--}}}-->

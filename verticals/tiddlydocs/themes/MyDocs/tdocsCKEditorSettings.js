@@ -1,3 +1,4 @@
+
 /***
 |''Name''|tdocsCKEditorSettings|
 |''Description''|the default config for CKEditor when used in TiddlyDocs. |
@@ -26,28 +27,24 @@ Just add this tiddler to a tiddlywiki file and make sure it's tagged systemConfi
 if(typeof CKEDITOR != "undefined"){
 	CKEDITOR.config.toolbar_Basic =
 	[
-	    ['Cut','Copy','Paste', 'SpellChecker'],
+	    ['Copy','Paste', 'SpellChecker'],
 	    ['Undo','Redo','-','Find','Replace'],
 	    ['Bold','Italic','Underline','Strike'],
 	    ['NumberedList','BulletedList','-','Outdent','Indent','Blockquote'],
 	    ['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'],
 		'/',    
-		['tw_uploader', 'Image', 'Table','HorizontalRule','SpecialChar'],
+		['Table','HorizontalRule','SpecialChar'],
 	    ['Styles','Format','Font','FontSize'],
-	    ['TextColor','BGColor'],
+	    ['TextColor','BGColor', 'tw_uploader']
 	];
 	CKEDITOR.config.toolbar = 'Basic';
 	CKEDITOR.config.disableNativeSpellChecker = false;
-	CKEDITOR.config.extraPlugins = 'tw_uploader';
+	CKEDITOR.config.extraPlugins = 'tw_uploader,pastefromword';
 }; 
 
 
-config.macros.imageSelector.onImgClick = function() {
-	if(jQuery(this).hasClass('selectedImage')){
-			jQuery(this).removeClass('selectedImage');
-	}else{
-		jQuery(this).addClass('selectedImage');			
-	}
-};
+
+
+
 
 //}}}
