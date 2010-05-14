@@ -17,7 +17,7 @@ CKEDITOR.plugins.add('tw_uploader',
 		c.modes={wysiwyg:1,source:0};
 		c.canUndo=false;
 		a.ui.addButton("tw_uploader",{
-			label:a.lang.tw_uploader.title,
+			label:'Insert/Upload image.',
 			command:b,
 			icon:this.path+"pictureicon.jpg"
 		});
