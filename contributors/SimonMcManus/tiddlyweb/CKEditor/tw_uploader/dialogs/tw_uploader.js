@@ -22,7 +22,9 @@ function(a) {
 		html: "URL<br/><input id='urlInsert' class='cke_dialog_ui_input_text' type='text' />"
 	}
     return {
-        title: "Image Upload",
+        title: "Insert New Image",
+		minWidth : 200,   
+       minHeight : 100,
 		onShow: function() {
 			jQuery('#browser-div').children().remove();
             wikify('<<imageSelector>>', jQuery('#browser-div')[0]);
@@ -48,7 +50,7 @@ function(a) {
         },
 	    {
             id: 'insertTab',
-            label: 'Insert',
+            label: 'URL',
             elements: [page3]
         }
         ],
