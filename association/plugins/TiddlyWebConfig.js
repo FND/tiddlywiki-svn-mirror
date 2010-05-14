@@ -2,7 +2,7 @@
 |''Name''|TiddlyWebConfig|
 |''Description''|configuration settings for TiddlyWebWiki|
 |''Author''|FND|
-|''Version''|0.8.1|
+|''Version''|0.8.2|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/plugins/TiddlyWebConfig.js|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
@@ -49,22 +49,13 @@ var plugin = config.extensions.tiddlyweb = {
 	username: null,
 
 	getUserInfo: function(callback) {
-		var _callback = function() {
+		getStatus(function() {
 			callback({
 				name: plugin.username,
 				anon: plugin.username == "GUEST"
 			});
-		};
-		if(this.username) {
-			_callback();
-		} else {
-			var _statusCallback = function(context, userParams) {
-				statusCallback(context, userParams);
-				_callback();
-			};
-			adaptor.getStatus({ host: this.host }, null, _statusCallback);
-		}
-	}
+		});
+	},
 };
 
 config.defaultCustomFields = {
@@ -103,22 +94,42 @@ var hasPermission = function(type, tiddler) {
 	}
 };
 
-// retrieve server info
-var statusCallback = function(context, userParams) {
-	var status = context.serverStatus;
-	if(status) {
-		plugin.serverVersion = status.version;
-		if(status.username) {
-			plugin.username = status.username;
-			config.macros.option.propagateOption("txtUserName",
-				"value", plugin.username, "input");
-		}
-		if(status.challengers) {
-			plugin.challengers = status.challengers;
+var getStatus = function(callback) {
+	if(this.serverVersion) {
+		callback();
+	} else {
+		var self = getStatus;
+		if(self.pending) {
+			if(callback) {
+				self.queue.push(callback);
+			}
+		} else {
+			self.pending = true;
+			self.queue = callback ? [callback] : [];
+			var _callback = function(context, userParams) {
+				var status = context.serverStatus;
+				if(status) {
+					plugin.serverVersion = status.version;
+					if(status.username) {
+						plugin.username = status.username;
+						config.macros.option.propagateOption("txtUserName",
+							"value", plugin.username, "input");
+					}
+					if(status.challengers) {
+						plugin.challengers = status.challengers;
+					}
+				}
+				for(var i = 0; i < self.queue.length; i++) {
+					self.queue[i]();
+				}
+				delete self.queue;
+				delete self.pending;
+			};
+			adaptor.getStatus({ host: this.host }, null, _callback);
 		}
 	}
-};
-adaptor.getStatus({ host: plugin.host }, null, statusCallback);
+}
+getStatus();
 
 })();
 //}}}
