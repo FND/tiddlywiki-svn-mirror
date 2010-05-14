@@ -85,7 +85,7 @@ html body .droppable-title {
 	left:2.5em;
 	position:relative;
 	text-align:right;
-	z-index:99;
+	z-index:19;
 }
 
 .right-title {
@@ -93,7 +93,7 @@ html body .droppable-title {
 	font-size:1.3em;
 	position:relative;
 	text-align:right;
-	z-index:99;
+	z-index:19;
 }
 
 
@@ -521,7 +521,7 @@ html body a.newDocumentButton, html body a.newDocumentButton:hover {
 	float:right;
 	border:0px !important;
 	top:-4em;
-	z-index:999;
+	z-index:19;
 }
 
 /* END REVISIONS */

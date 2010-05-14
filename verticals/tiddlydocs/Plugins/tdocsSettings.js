@@ -25,7 +25,7 @@ merge(config.tasks,{tiddlers:{text: 'tiddlers',tooltip: 'view the tiddlers in th
 
 
 config.backstageTasks.push("new tiddler");
-merge(config.tasks,{'new tiddler':{text: 'new tiddler',tooltip: 'create a new tiddler',content: '<<newTiddler template:"MyDocsTheme##tiddlerEditTemplate">>'}});
+merge(config.tasks,{'new tiddler':{text: 'new tiddler',tooltip: 'create a new tiddler',content: '<<newTiddler template:"MyDocsTheme##wizardEditTemplate">>'}});
 
 config.commands.saveTiddler.text = "save";
 
