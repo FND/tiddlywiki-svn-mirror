@@ -584,8 +584,8 @@ html body div.header div.tabWrapper {
 	display:none;
 }
 #browser-div {
-	height:200px;
+	height:250px;
 	width:450px;
-	y-overflow:auto;	
+	overflow:auto;	
 }
 <!--}}}-->
