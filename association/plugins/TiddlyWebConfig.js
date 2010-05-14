@@ -55,7 +55,7 @@ var plugin = config.extensions.tiddlyweb = {
 				anon: plugin.username == "GUEST"
 			});
 		});
-	},
+	}
 };
 
 config.defaultCustomFields = {
@@ -128,7 +128,7 @@ var getStatus = function(callback) {
 			adaptor.getStatus({ host: this.host }, null, _callback);
 		}
 	}
-}
+};
 getStatus();
 
 })();
