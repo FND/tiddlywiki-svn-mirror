@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|FND|
 |''Contributors''|Chris Dent, Martin Budden|
-|''Version''|1.2.4|
+|''Version''|1.2.5|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/|
@@ -108,7 +108,7 @@ adaptor.getTiddlerListCallback = function(status, context, responseText, uri, xh
 	if(status) {
 		context.tiddlers = [];
 		try {
-			var tiddlers = $.evalJSON(responseText); //# N.B.: not actual tiddler instances
+			var tiddlers = $.evalJSON(responseText); //# NB: not actual tiddler instances
 		} catch(ex) {
 			context.status = false; // XXX: correct?
 			context.statusText = exceptionText(ex, adaptor.parsingErrorMessage);
@@ -169,7 +169,7 @@ adaptor.getTiddlerRevisionListCallback = function(status, context, responseText,
 	if(status) {
 		context.revisions = [];
 		try {
-			var tiddlers = $.evalJSON(responseText); //# N.B.: not actual tiddler instances
+			var tiddlers = $.evalJSON(responseText); //# NB: not actual tiddler instances
 		} catch(ex) {
 			context.status = false; // XXX: correct?
 			context.statusText = exceptionText(ex, adaptor.parsingErrorMessage);
@@ -240,9 +240,9 @@ adaptor.getTiddlerCallback = function(status, context, responseText, uri, xhr) {
 	context.httpStatus = xhr.status;
 	if(status) {
 		try {
-			var t = $.evalJSON(responseText); //# N.B.: not an actual tiddler instance
+			var t = $.evalJSON(responseText); //# NB: not an actual tiddler instance
 		} catch(ex) {
-			context.status = false; // XXX: correct?
+			context.status = false;
 			context.statusText = exceptionText(ex, adaptor.parsingErrorMessage);
 			if(context.callback) {
 				context.callback(context, context.userParams);
@@ -398,12 +398,12 @@ adaptor.putTiddlerStoreCallback = function(status, context, responseText, uri, x
 //# from and to are objects with members title and workspace (bag; optional),
 //# representing source and target tiddler, respectively
 adaptor.prototype.moveTiddler = function(from, to, context, userParams, callback) { // XXX: rename parameters (old/new)?
-	var _this = this;
+	var self = this;
 	var newTiddler = store.getTiddler(from.title) || store.getTiddler(to.title); //# local rename might already have occurred
 	var oldTiddler = $.extend(true, {}, newTiddler); //# required for eventual deletion
 	oldTiddler.title = from.title; //# required for original tiddler's ETag
 	var _getTiddlerChronicle = function(title, context, userParams, callback) {
-		return _this.getTiddlerChronicle(title, context, userParams, callback);
+		return self.getTiddlerChronicle(title, context, userParams, callback);
 	};
 	var _putTiddlerChronicle = function(context, userParams) {
 		if(!context.status) {
@@ -412,7 +412,7 @@ adaptor.prototype.moveTiddler = function(from, to, context, userParams, callback
 		var revisions = $.evalJSON(context.responseText); // XXX: error handling?
 		// change current title while retaining previous location
 		for(var i = 0; i < revisions.length; i++) {
-			if(!revisions[i].fields.origin) { // N.B.: origin = "<workspace>/<title>"
+			if(!revisions[i].fields.origin) { // NB: origin = "<workspace>/<title>"
 				revisions[i].fields.origin = ["bags", revisions[i].bag, revisions[i].title].join("/");
 			}
 			revisions[i].title = to.title;
@@ -432,7 +432,7 @@ adaptor.prototype.moveTiddler = function(from, to, context, userParams, callback
 		revisions.unshift(rev);
 		if(to.workspace) {
 			context.workspace = to.workspace;
-		} else if(context.workspace.substring(0, 4) != "bags") { // N.B.: target workspace must be a bag
+		} else if(context.workspace.substring(0, 4) != "bags") { // NB: target workspace must be a bag
 			context.workspace = "bags/" + rev.bag;
 		}
 		var subCallback = function(context, userparams) {
@@ -441,14 +441,14 @@ adaptor.prototype.moveTiddler = function(from, to, context, userParams, callback
 			newTiddler.fields["server.title"] = to.title;
 			_deleteTiddler(context, userparams);
 		};
-		return _this.putTiddlerChronicle(revisions, context, context.userParams, subCallback);
+		return self.putTiddlerChronicle(revisions, context, context.userParams, subCallback);
 	};
 	var _deleteTiddler = function(context, userParams) {
 		if(!context.status) {
 			return callback(context, userParams);
 		}
 		context.callback = null;
-		return _this.deleteTiddler(oldTiddler, context, context.userParams, callback);
+		return self.deleteTiddler(oldTiddler, context, context.userParams, callback);
 	};
 	callback = callback || function() {};
 	context = this.setContext(context, userParams);
