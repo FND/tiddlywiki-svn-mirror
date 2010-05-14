@@ -10,13 +10,17 @@
 CKEDITOR.dialog.add('tw_uploader',
 function(a) {
     page1 = {
-        type: 'html'
+        type: 'html',
+		html: "<div id='browser-div' class='tw_uplaoder_container'></div>"
     };
-    page1.html = "<div id='browser-div' class='tw_uplaoder_container'></div>";
     page2 = {
-        type: 'html'
+        type: 'html',
+		html: "<div id='upload-div' class='tw_uplaoder_container'></div>"
     };
-    page2.html = "<div id='upload-div' class='tw_uplaoder_container'></div>";
+	page3 = {
+		type: 'html',
+		html: "URL<br/><input id='urlInsert' class='cke_dialog_ui_input_text' type='text' />"
+	}
     return {
         title: "Image Upload",
 		onShow: function() {
@@ -41,6 +45,11 @@ function(a) {
             id: 'uploadTab',
             label: 'Upload',
             elements: [page2]
+        },
+	    {
+            id: 'insertTab',
+            label: 'Insert',
+            elements: [page3]
         }
         ],
         buttons: [
@@ -51,6 +60,8 @@ function(a) {
 			title:'Insert the current image.',
 			onClick: function() {
 				var dialog = this.getDialog(); 
+				if(jQuery("#urlInsert")[0].value!='')
+					dialog.getParentEditor().insertHtml("<img  src='"+jQuery("#urlInsert")[0].value+"'/>");
 				if(jQuery('.binaryUploadFile > input').get(0).value != ""){
 					console.log('do upload');
 					jQuery('#upload-div').children('form').submit();	

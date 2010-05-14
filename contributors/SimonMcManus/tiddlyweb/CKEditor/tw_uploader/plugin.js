@@ -19,7 +19,7 @@ CKEDITOR.plugins.add('tw_uploader',
 		a.ui.addButton("tw_uploader",{
 			label:a.lang.tw_uploader.title,
 			command:b,
-			icon:this.path+"fileicon.gif"
+			icon:this.path+"pictureicon.jpg"
 		});
 	CKEDITOR.dialog.add(b,this.path+"dialogs/tw_uploader.js")}
 });
