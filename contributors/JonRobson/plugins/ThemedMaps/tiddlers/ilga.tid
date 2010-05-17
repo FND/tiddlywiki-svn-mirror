@@ -1,0 +1,6 @@
+tags: 
+title: ILGA Example
+
+The same technology for this map is currently used on the [[ILGA|http://ilga.org]] website. If you are connected to the internet you will be able to see the map below.
+
+<<ThemedMap data:World url:'http://ilga.org/ilga/data/themes'>>

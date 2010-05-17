@@ -257,9 +257,10 @@ def operate_on_stats(environ,start_response):
 
 
 def string_to_float(x):
-    if not x:
+    try:
+      return float(x)
+    except ValueError:
       return 0
-    return float(x)
 def string_to_int(x):
     if not x:
       return 0

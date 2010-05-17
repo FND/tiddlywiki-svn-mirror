@@ -1,15 +1,15 @@
-title: BeefcakeYourTiddlersPlugin
+modifier: None
 created: 20120612195422
 modified: 20120612195422
 type: None
-tags: systemConfig startup
+tags: systemConfig startup systemTiddler
 
 /***
 |''Name:''|BeefcakeYourTiddlersPlugin |
 |''Description:''|Brings on demand loading to Tiddlyweb|
 |''Author:''|JonRobson |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/JonRobson/verticals/GeoTiddlyWiki|
-|''Version:''|0.1 |
+|''Version:''|0.2 |
 |''Date:''|14/06/09 |
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
@@ -26,174 +26,194 @@ Alot :)
 ***/
 
 
+
+
 config.extensions.beefcake = {
-  urls: {
-      "main":"",
-      "comments":false
-  }
-  ,queue:[]
-  ,requests_in_progress: 0
-  ,escape: function(title){
-    return escape(title).replace(/\//g,"%2F");
-  }
-  ,requestCompleted: function(){
-    //console.log("done request");
-    this.requests_in_progress -=1;
-    if(this.requests_in_progress <= 0){
-        this.requests_in_progress =0;
-        jQuery(".beefcake_loading").css({"display":"none"});
+    urls: {
+        "main":"",
+        "comments":false
     }
-  }
-  ,requestStarted: function(){
-    //console.log("making request");
-    this.requests_in_progress +=1;
-    jQuery(".beefcake_loading").css({"display":""});
-  }
-  ,fullyloadtiddler: function(tidjs){
-    //console.log("in fully load tiddler",tidjs);
-    var existing = store.getTiddler(tidjs.title);
-    if(!existing){
-        existing = config.extensions.beefcake.lazyloadtiddler(tidjs);
-    }
-    if(tidjs.tags.contains("systemConfig")){
-      //following code is from eric's LoadTiddlersPlugin
-      try { window.eval(tidjs.text); tidjs.status+=' (plugin initialized)'; }catch(ex) { displayMessage(config.messages.pluginError.format([exceptionText(ex)])); }
-    }
-    existing.fields = merge(existing.fields,config.defaultCustomFields);
-    
-    //next two lines are temporary hack
-    var bag = existing.fields["server.bag"]
-    if(bag)existing.fields["server.workspace"] = "bags/"+bag;
-    existing.fields.doNotSave = false;
-    existing.text = tidjs.text;
-    existing.no_beefcake_needed = true;
-  }
-  ,fullyload: function(tiddlertitle, callback){
-    var comments = config.extensions.beefcake.urls.comments;
-    var bc = this;
-    var loadtiddler = function(url,newcallback){
-      var afterLoaded = function(r){
-          //console.log("in afterloaded");
-          bc.requestCompleted();
-          newcallback(r);
-      }
-      bc.requestStarted();
-      ajaxReq({url:url,error:afterLoaded,success:function(r){
-        //console.log("successfulajax")
-        var data;
-        if(typeof(data) == 'string'){
-            try{var data = eval("("+r+")");}
-            catch(e){afterLoaded();return;}
+    ,queue:[]
+    ,requests_in_progress: 0
+	,escape: function(title){
+		return escape(title).replace(/\//g,"%2F");
+	}
+	,requestCompleted: function(){
+	    //console.log("done request");
+	    this.requests_in_progress -=1;
+	    if(this.requests_in_progress <= 0){
+	        this.requests_in_progress =0;
+	        jQuery(".beefcake_loading").css({"display":"none"});
+	    }
+
+	}
+	,requestStarted: function(){
+	    //console.log("making request");
+	    this.requests_in_progress +=1;
+        jQuery(".beefcake_loading").css({"display":""});
+	}
+	,fullyloadtiddler: function(tidjs){
+        var existing = store.getTiddler(tidjs.title);
+        if(!existing){
+            existing = config.extensions.beefcake.lazyloadtiddler(tidjs);
         }
-        else data = r;
-        ////console.log("x. success eval");
-        if(data.title){ //assume single tiddler
-          ////console.log("x. single tiddler in load tiddler");
-          config.extensions.beefcake.fullyloadtiddler(data);
+        if(tidjs.tags.contains("systemConfig")){
+            //following code is from eric's LoadTiddlersPlugin
+            	try { window.eval(tidjs.text); tidjs.status+=' (plugin initialized)'; }
+				catch(ex) { displayMessage(config.messages.pluginError.format([exceptionText(ex)])); }
         }
-        else if(data.length){
-          ////console.log("x. list tiddlers");
-          for(var i=0; i < data.length; i++){
-            var newtiddler = config.extensions.beefcake.fullyloadtiddler(data[i]);
-          }
-        }
-        ////console.log("x. newcallbacktime");
-        afterLoaded();
-        store.dirty = false;
-      }});
-    };
-    var escapedtitle = config.extensions.beefcake.escape(tiddlertitle);
-    var loadtiddlerinfull = function(){
-      var whentiddlerloaded = function(r){
-        bc.requestCompleted();
-        callback(r);
-      };
-      loadtiddler(config.extensions.beefcake.urls.main+"tiddlers/"+escapedtitle+".json",whentiddlerloaded);
-    }
-    var whencommentsloaded= function(){
-      loadtiddlerinfull();
-    };         
-    //prepare
-    var tiddler = store.getTiddler(tiddlertitle);
-    var loaded_dependencies = 0;
-    if(tiddler){
-      var needs = tiddler.fields['needs'];
-      var dependencies = [];
-      if(needs && typeof(needs) == 'string'){
-          dependencies = needs.readBracketedList();
-      }
-      loaded_dependencies = dependencies.length;
-    }
-    var when_dependencies_loaded = function(){
-      if(loaded_dependencies > 0) return;
-      if(comments){             
-        loadtiddler(config.extensions.beefcake.urls.comments+"tiddlers.json?fat=t&select=root:"+escapedtitle,whencommentsloaded);  
-      }
-      else{
-        loadtiddlerinfull();
-      }
-    };
-    when_dependencies_loaded();
-    for(var i=0; i < dependencies.length; i++){
-      var etitle = config.extensions.beefcake.escape(dependencies[i]);
-      //console.log("need ",etitle);
-      loadtiddler(config.extensions.beefcake.urls.main+"tiddlers/"+etitle+".json",function(){loaded_dependencies -=1;when_dependencies_loaded();});
-    }               
-  },
-  lazyload: function(url){
-    ////console.log("lazload"+url);  
-    var bc = this;
-    //console.log("in lazy load");
-    bc.requestStarted();
-      ajaxReq({url:url,
-        success:
+        existing.fields = merge(existing.fields,config.defaultCustomFields);
+        
+        //next two lines are temporary hack
+        var bag = existing.fields["server.bag"]
+        if(bag)existing.fields["server.workspace"] = "bags/"+bag;
+        delete existing.fields.doNotSave;
+        existing.text = tidjs.text;
+        existing.no_beefcake_needed = true;
+	}
+	,fullyload: function(tiddlertitle, callback){
+	    var comments = config.extensions.beefcake.urls.comments;
+	    var bc = this;
+	    var loadtiddler = function(url,newcallback){
+            //console.log("in fully load");
+            var afterLoaded = function(r){
+                //console.log("in afterloaded");
+                bc.requestCompleted();
+                newcallback(r);
+            }
+            bc.requestStarted();
+	        jQuery.ajax({url:url,error:afterLoaded,success:function(r){
+	            //console.log("successfulajax")
+	        	try{
+                var data = eval("("+r+")");
+                }
+                catch(e){
+                	afterLoaded();
+                	return;
+                }
+                ////console.log("x. success eval");
+                if(data.title){ //assume single tiddler
+                	////console.log("x. single tiddler in load tiddler");
+                    config.extensions.beefcake.fullyloadtiddler(data);
+                }
+                else if(data.length){
+                	////console.log("x. list tiddlers");
+                    for(var i=0; i < data.length; i++){
+                        var newtiddler = config.extensions.beefcake.fullyloadtiddler(data[i]);
+                    }
+                }
+             ////console.log("x. newcallbacktime");
+    			afterLoaded();
+				store.dirty = false;
+				
+            }});
+	    };
+	    var escapedtitle = config.extensions.beefcake.escape(tiddlertitle);
+
+     
+            var loadtiddlerinfull = function(){
+                var whentiddlerloaded = function(r){
+
+                    bc.requestCompleted();
+                    callback(r);
+
+                };
+                loadtiddler(config.extensions.beefcake.urls.main+"tiddlers/"+escapedtitle+".json?nocache="+Math.random(),whentiddlerloaded);
+            }
+			var whencommentsloaded= function(){
+                        ////console.log("main"+tiddlertitle);
+                
+                loadtiddlerinfull();
+	       	  	
+	       	  };
+	       	  
+	       	  
+	     //prepare
+        var tiddler = store.getTiddler(tiddlertitle);
+		var loaded_dependencies = 0;
+		if(tiddler){
+			var needs = tiddler.fields['needs'];
+			var dependencies = [];
+			if(needs && typeof(needs) == 'string'){
+		    	dependencies = needs.readBracketedList();
+			}
+			loaded_dependencies = dependencies.length;
+		}
+		
+		var when_dependencies_loaded = function(){
+		   if(loaded_dependencies > 0) return;
+	       if(comments){	       	  
+    	       loadtiddler(config.extensions.beefcake.urls.comments+"tiddlers.json?fat=t&select=root:"+escapedtitle,whencommentsloaded);  
+    	   }
+    	   else{
+    	       loadtiddlerinfull();
+    	   }
+    	};
+		when_dependencies_loaded();
+		for(var i=0; i < dependencies.length; i++){
+		    
+		  var etitle = config.extensions.beefcake.escape(dependencies[i]);
+		  //console.log("need ",etitle);
+		  loadtiddler(config.extensions.beefcake.urls.main+"tiddlers/"+etitle+".json",function(){loaded_dependencies -=1;when_dependencies_loaded();});
+		}
+	    
+
+    	   
+	          
+	},
+	lazyload: function(url){
+            ////console.log("lazload"+url);	
+        var bc = this;
+        //console.log("in lazy load");
+        bc.requestStarted();
+	    jQuery.get(url,
             function(r){
-              
+            	
                 bc.requestCompleted();
                 var tiddlers = eval(r);
                 for(var i=0; i < tiddlers.length; i++){
-                  var tid =tiddlers[i];
-                  config.extensions.beefcake.lazyloadtiddler(tid);
+                	var tid =tiddlers[i];
+                	config.extensions.beefcake.lazyloadtiddler(tid);
                 }
 
-                
+          	    
                 //refreshDisplay();
                 //restart();
                 
                 //load all queued tiddlers that user attempted to open before it was ready
                 var queue =config.extensions.beefcake.queue;
                 //console.log("have q",queue);
-                for(var i=0; i < queue.length;i++){
-                  //console.log("queue load "+queue[i]);
-                  var title = queue[i];
-                  //story.closeTiddler(title);
-                  //console.log(title,store.getTiddler(title).fields["male_to_male_relationships"])
-                  story.displayTiddler("top",title);
-                }
-                config.extensions.beefcake.queue = [];
-                story.displayDefaultTiddlers();
-                
+          	    for(var i=0; i < queue.length;i++){
+          	      //console.log("queue load "+queue[i]);
+          	      var title = queue[i];
+          	      story.closeTiddler(title);
+          	      //console.log(title,store.getTiddler(title).fields["male_to_male_relationships"])
+          	      story.displayTiddler("top",title);
+          	    }
+          	    config.extensions.beefcake.queue = [];
+          	    refreshDisplay();
                 //jQuery(".beefcakeLoading").css({display:"none"})
-          store.dirty = false;    
-  }});
+            });
 
     },
     lazyloadtiddler: function(tid){
       if(store.getTiddler(tid.title)) return; //already exists
       store.addTiddler(new Tiddler(tid.title));
-      story.setDirty(tid.title,false);
+      
       //console.log("saved",tid.title);  
       var tiddler_without_beefcake = store.getTiddler(tid.title);
       var j;
       tiddler_without_beefcake.tags = tid.tags;
       for(j in tid.fields){
-        tiddler_without_beefcake.fields[j] = tid.fields[j];
+      	tiddler_without_beefcake.fields[j] = tid.fields[j];
       }
 
       //tiddler_without_beefcake.fields = merge(tiddler_without_beefcake.fields,config.defaultCustomFields);
       tiddler_without_beefcake.fields["server.page.revision"] = tid.revision;
       tiddler_without_beefcake.fields["server.bag"] = tid.bag;
-      tiddler_without_beefcake.fields.doNotSave = true;
+      delete tiddler_without_beefcake.fields.doNotSave;
+      tiddler_without_beefcake.fields['server.host'] = config.defaultCustomFields['server.host'];
+      tiddler_without_beefcake.fields['server.type'] = config.defaultCustomFields["server.type"]
       tiddler_without_beefcake.fields["server.title"] = tid.title;
       tiddler_without_beefcake.fields["server.workspace"] = "bags/"+tid.bag;
       tiddler_without_beefcake.created = Date.convertFromYYYYMMDDHHMM(tid.created);
@@ -201,28 +221,21 @@ config.extensions.beefcake = {
       tiddler_without_beefcake.modifier = tid.modifier; 
 //console.log(tiddler_without_beefcake.fields['male_to_male_relationships'],tiddler_without_beefcake,tiddler_without_beefcake.title)
       tiddler_without_beefcake.no_beefcake_needed = false;
-store.dirty= false;
-
       return tiddler_without_beefcake;
     }
 };
 
 story.isEmpty = function()
 {
-  if(typeof(story._isEmpty) =='boolean') return story._isEmpty;
-  var place = this.getContainer();
-  return place && place.firstChild == null;
+	if(typeof(story._isEmpty) =='boolean') return story._isEmpty;
+	var place = this.getContainer();
+	return place && place.firstChild == null;
 };
 
 
 config.macros.beefcake = {
-  done: {
-    
-  }
-  ,handler: function(place,macroName,params,wikifier,paramString,tiddler){
+  handler: function(place,macroName,params,wikifier,paramString,tiddler){
     var url = params[0];
-    if(config.macros.beefcake.done[url]) return;
-    config.macros.beefcake.done[url]= true;
     //console.log("in beefcake macro");
     config.extensions.beefcake.urls.main = url;
 
@@ -230,27 +243,18 @@ config.macros.beefcake = {
     //anything already here doesn't need beefcake
     var existing = store.getTiddlers();
     for(var i=0; i < existing.length;i++){
-      existing[i].no_beefcake_needed = true;
+    	existing[i].no_beefcake_needed = true;
     }
+
     config.extensions.beefcake.lazyload(config.extensions.beefcake.urls.main+"tiddlers.json?random="+Math.random());
+    config.macros.beefcake.handler = function(place){
+      //you can only call this macro once.
+    };
     
   }
 }
 config.extensions.beefcake.dohijacking = function(){
-  /*store.normalGetTiddler = store.getTiddler;
-  store.getTiddler = function(title){
-    var tidjs= this.normalGetTiddler(title);
-    if(tidjs && !tidjs.no_beefcake_needed){
-      tidjs.no_beefcake_needed = true;
-      config.extensions.beefcake.fullyload(title,function(){
-        story.refreshTiddler(title,null,true);
-      })
-      
-    }
-    return tidjs;
-    
-  }
-  return;*/
+  
   story.the_normal_displayTiddler = story.displayTiddler;
   
   config.macros.tiddler.handler_unbeefcaked = config.macros.tiddler.handler;
@@ -266,15 +270,15 @@ config.extensions.beefcake.dohijacking = function(){
           config.macros.tiddler.handler_unbeefcaked(place,macroName,params,wikifier,paramString,tiddler); 
       };
       if(!tidjs || !tidjs.no_beefcake_needed){
-        //run beefcake function
-        var callback = function(){
-            config.macros.tiddler.handler_unbeefcaked(place,macroName,params,wikifier,paramString,tiddler); 
+      	//run beefcake function
+      	var callback = function(){
+      	    config.macros.tiddler.handler_unbeefcaked(place,macroName,params,wikifier,paramString,tiddler); 
             };
       
             config.extensions.beefcake.fullyload(tiddlerName,callback);
       }
       else{
-        normal();
+      	normal();
       }
 
   }
@@ -291,40 +295,40 @@ config.extensions.beefcake.dohijacking = function(){
       var queuepos = qsize;
       
       if(typeof(tiddler)=='string') {
-          tidjs = store.getTiddler(tiddler);
-          //console.log("got",tidjs,"from store with t",tiddler);
+      		tidjs = store.getTiddler(tiddler);
+      		//console.log("got",tidjs,"from store with t",tiddler);
       }
       else {
-        tidjs = store.getTiddler(tiddler.title);
-        //console.log("got",tidjs,"from store with d",tiddler);
-       }
+      	tidjs = store.getTiddler(tiddler.title);
+      	//console.log("got",tidjs,"from store with d",tiddler);
+     	}
 
       //console.log("have",tidjs);
       var normal = function(){
         
        //this makes sure they open in order they should
-        if(serveno == queuepos){
-          //console.log("lets to do normal display tiddler",queuepos);
+      	if(serveno == queuepos){
+      		//console.log("lets to do normal display tiddler",queuepos);
 
-          story.the_normal_displayTiddler(srcElement,tiddler,template,animate,unused,customFields,toggle,animationSrc);
-          serveno +=1;
-        }
-        else{
-          //console.log("wait..");
-          ////console.log("not yet for ",tiddler.title," queueposition is ",queuepos,"but serveno is ",serveno);
-          window.setTimeout(normal,900);
-        }
+      		story.the_normal_displayTiddler(srcElement,tiddler,template,animate,unused,customFields,toggle,animationSrc);
+      		serveno +=1;
+      	}
+      	else{
+      	  //console.log("wait..");
+      		////console.log("not yet for ",tiddler.title," queueposition is ",queuepos,"but serveno is ",serveno);
+      		window.setTimeout(normal,900);
+      	}
       };            
-       if(!tidjs){
-         tidjs = tiddler;
-         //console.log("dont exist yet",config.extensions.beefcake);
-         config.extensions.beefcake.queue.pushUnique(tiddler);
-         story._isEmpty = false;
+     	if(!tidjs){
+     	  tidjs = tiddler;
+     	  //console.log("dont exist yet",config.extensions.beefcake);
+     	  config.extensions.beefcake.queue.pushUnique(tiddler);
+     	  story._isEmpty = false;
 
-         return;
-       }
-       if(!tidjs) return;
-       qsize +=1;
+     	  return;
+     	}
+     	if(!tidjs) return;
+     	qsize +=1;
       //console.log("time to open");
 
 
@@ -343,26 +347,27 @@ config.extensions.beefcake.dohijacking = function(){
 }
 config.extensions.beefcake.dohijacking();
 jQuery("body").ready(
-  function(){
-    var beefcakeconfig = store.getTaggedTiddlers("beefcakeConfig");
-    var bagurl;
-    for(var i=0; i < beefcakeconfig.length; i++){
-      var rules =  beefcakeconfig[i].text.split("\n");
-      config.extensions.beefcake.urls.main = rules[0];
-      for(var j=1; j < rules.length; j++){
-          var url = rules[j];
-          var index = url.indexOf("comments:");
-          if(index === 0){
-              config.extensions.beefcake.urls.comments = url.split(":")[1];
-          }
-      }
-    }
-  
-    if(!config.extensions.beefcake.urls.main) {
-        //alert("Please create a tiddler tagged beefcakeConfig which contains a line of a recipe or bag url for which you want to lazy load from.");
-        //throw "Beefcake no config error";
-        return;
-    }
-    config.macros.beefcake.handler(null,null,[config.extensions.beefcake.urls.main]);
-  }
-);
+    function(){
+
+
+        var beefcakeconfig = store.getTaggedTiddlers("beefcakeConfig");
+        var bagurl;
+        for(var i=0; i < beefcakeconfig.length; i++){
+        	var rules =  beefcakeconfig[i].text.split("\n");
+        	config.extensions.beefcake.urls.main = rules[0];
+        	for(var j=1; j < rules.length; j++){
+    	        var url = rules[j];
+    	        var index = url.indexOf("comments:");
+    	        if(index === 0){
+    	            config.extensions.beefcake.urls.comments = url.split(":")[1];
+    	        }
+        	}
+        }
+		    
+        if(!config.extensions.beefcake.urls.main) {
+            //alert("Please create a tiddler tagged beefcakeConfig which contains a line of a recipe or bag url for which you want to lazy load from.");
+            //throw "Beefcake no config error";
+            return;
+        }
+        config.macros.beefcake.handler(place,null,[config.extensions.beefcake.urls.main]);
+});

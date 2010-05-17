@@ -7,3 +7,4 @@ recipe: $TW_TRUNKDIR/contributors/JonRobson/plugins/beefcake/tests/split.recipe
 recipe: $TW_TRUNKDIR/contributors/JonRobson/plugins/EnhancedViewsPlugin/tests/split.recipe
 recipe: $TW_TRUNKDIR/contributors/JonRobson/plugins/Tiddlers/tests/split.recipe
 recipe: $TW_TRUNKDIR/contributors/JonRobson/plugins/niceTagging/tests/split.recipe
+recipe: $TW_TRUNKDIR/contributors/JonRobson/plugins/AET/tests/split.recipe

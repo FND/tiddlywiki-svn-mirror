@@ -3,7 +3,7 @@ tags: systemConfig
 /***
 |''Name:''| CompareWithPlugin|
 |''Description:''| Allows you to compare different versions of the same tiddler (tiddlers with the same name in different bags/revisions or a specific resource)|
-|''Version:''|0.31|
+|''Version:''|0.32|
 |''Date:''|April 2010|
 |''Source:''|http://svn.tiddlywiki.org/contributors/JonRobson/plugins|
 |''Author:''|Jon Robson|
@@ -17,6 +17,8 @@ the comparewith macro allows
 
 Stick it at the bottom of a view template or edit template and you will be able to show changes in field values.
 A class comparewithmacro-highlighted is added to all fields that have changed.
+
+<<remoteviewbutton field:{field} title:{title} bag:{bag}>> creates a button that when clicked on shows you the value in the store. Good for comparing two tiddlers field values..
 |
 */
 config.macros.comparewith ={
@@ -94,3 +96,57 @@ config.macros.comparewith ={
     //},1500);
   }
 }
+config.macros.remoteviewbutton={
+  tidcache:{
+  }
+  ,lingo:{
+    text:"view original",
+    tooltip:"view the original version of this text",
+    prefix: "The original text can be seen below:\n"
+  }
+  ,handler:function(place,macroName,params,wikifier,paramString,tiddler) {
+      var p = paramString.parseParams("anon",null,true);
+      var title = getParam(p,"title");
+      var bag = getParam(p,"bag");
+      var field = getParam(p,"field");
+      var url = config.defaultCustomFields['server.host']+"bags/"+bag+"/tiddlers/"+title+".json";
+      var macro = config.macros.remoteviewbutton;
+      var action = function(){
+        var tempPlace = document.createElement("div");
+        var cbag = macro.tidcache[bag];
+        if(!cbag)window.setTimeout(400,action);
+        var tid = cbag[title];
+        if(!tid)window.setTimeout(400,action);
+        if(tid){
+          var tidvalue = "";
+          if(field in tid.fields){
+            tidvalue =tid.fields[field];
+          }
+          else{
+            if(field in tid){
+              tidvalue =tid[field];
+            }
+          }
+          wikify(tidvalue,tempPlace);
+          alert(macro.lingo.prefix +jQuery(tempPlace).text());
+        }
+      }
+      createTiddlyButton(place,this.lingo.text,this.lingo.tooltip,action,"remoteViewButton");
+      
+      if(this.tidcache[bag] && this.tidcache[bag][title]) return;
+      if(!this.tidcache[bag]) this.tidcache[bag]={};
+      if(!this.tidcache[bag][title])this.tidcache[bag][title] = true;
+      ajaxReq({url:url,
+        success:function(tid){
+          if(typeof(tid)=='string')tid = eval("("+tid+")");
+          macro.tidcache[bag][title] = tid;
+
+        },
+        error: function(){
+          macro.tidcache[bag][title] = false;
+        }
+      });
+  }
+}; 
+
+

@@ -30,7 +30,9 @@ test("getMetaData / setMetaData", function(){
   same(expected,false,"testing setting a field to false");
   
   config.macros.aet.setMetaData("aet.dontexist","likes","everything");
+  //config.defaultCustomFields = {'server.type':"tiddlyweb", 'server.host':"http://ilga.org/ilga/", 'server.workspace':"recipes/ILGA"};
   expected =config.macros.aet.getMetaData("aet.dontexist","likes");
+  //console.log(config.defaultCustomFields);
   same(expected,"everything","checking the save to a non-existing tiddler worked ok");
   
   config.macros.aet.setMetaData("aet.jon","likes","");

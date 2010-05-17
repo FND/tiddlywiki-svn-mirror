@@ -1,0 +1,93 @@
+tags: systemConfig
+
+/***
+|Name|ThemedMapsPlugin|
+|Source|http://svn.tiddlywiki.org/Trunk/contributors/JonRobson/plugins/ThemedMaps|
+|Version|1.0
+|Author|Jon Robson|
+|License|BSD|
+|Description|Allows you to quickly create chloropleth maps|
+!!!!!Documentation
+>see [[countries with the death penalty]] for an example 
+>see [[CHINAPopulation]] for an example data tiddler
+>see [[GettingStarted]] for the outcome
+!!!!!Code
+***/
+//{{{
+    config.shadowTiddlers.ThemedMapPluginStyle = "/*{{{*/\n" +
+    ".vmap {width:400px;height:400px;position:relative;}\n"+
+    ".vmapkey {position:relative;bottom:0px;background-color:white;bottom:0;margin-bottom:10px;margin-left:10px;z-index:9;min-height:20px; padding:5px;bottom:0px;}\n"+
+    ".keyvaluepair {float:left;position:relative;}\n"+
+    ".keyColor {display:block;position:relative;float:left;width:11px; height:11px;border:solid 1px #dadada;}\n"+
+    ".keyLabel {font-size:0.7em; margin-right:5px;position:relative; margin-left:5px;float:left;}\n"+
+    "/*}}}*/"
+  store.addNotification("ThemedMapPluginStyle", refreshStyles);
+config.shadowTiddlers.ToolbarCommands='|~ViewToolbar|closeTiddler closeOthers editTiddler > fields syncing permalink references jump|\n|~EditToolbar|+saveTiddler -cancelTiddler deleteTiddler|';
+
+config.macros.ThemedMap = {
+  get_field_name_from_title: function(title){
+    return title.replace(/ /gi,"_").toLowerCase();
+  }
+  ,handler: function(place,macroName,params,wikifier,paramString,tiddler){
+    jQuery(place).append('<div class="vmapholder"></div>');
+    place = jQuery(".vmapholder",place)[0];
+    var macro = config.macros.ThemedMap;
+    var p = paramString.parseParams("name",null,true,false,true);
+    var data = store.getTiddler(p[0]["data"][0]);
+    var suffix = "";
+    if(p[0]["suffix"])suffix = p[0]["suffix"][0];
+    var mapdata = eval("("+data.text+")");
+    
+    if(p[0]['url']){
+      ajaxReq({type:"GET",url:p[0]['url'][0], success: function(r){
+        var themedata;
+        if(typeof(r) == typeof('')) themedata = eval("("+r+")");
+        else themedata = r;
+        
+        jQuery(place).chloromap({geojson:mapdata,themedata:themedata});
+      }})
+    }
+    else{
+      var themeTiddlers = store.getTaggedTiddlers("maptheme");
+      var themedata = {themes:{},data:{}};
+      for(var i=0; i < themeTiddlers.length; i++){
+        var tid = themeTiddlers[i];
+        var id = macro.get_field_name_from_title(tid.title);
+        var this_theme = {name:tid.title,values:{}};
+        var splitText = tid.text.split("\n");
+        for(var j=0; j < splitText.length;j++){
+          var line = splitText[j].split("##");
+          if(line.length == 2){
+            this_theme.values[line[0]] = line[1];
+          } 
+        }
+        themedata.themes[id] = this_theme;
+      }
+      var f = mapdata.features;
+      var newf = [];
+      var themes =themedata.themes;
+      for(var i=0; i< f.length;i++){
+        var feature= f[i];
+        var shapeName = feature.properties.name;
+        var newShapeName = shapeName + suffix;
+        feature.properties.name = newShapeName;
+        newf.push(feature);
+        var countryData = {};
+        var tid = store.getTiddler(newShapeName);
+        if(tid){
+          for(var id in themes){
+            var val =tid.fields[id]; 
+            if(val)countryData[id] = val;
+          }
+          themedata.data[newShapeName] = countryData;
+        }
+      }
+      mapdata.features = newf;
+      jQuery(place).chloromap({geojson:mapdata,themedata:themedata,dblclick: function(e,s){
+        story.displayTiddler(e,s.properties.name);
+      }});
+    }
+    
+  }
+}
+//}}}

@@ -575,7 +575,7 @@ VismoMap.Feature.prototype = {
 };
 
 jQuery.fn.chloromap = function(options){
-  
+  if(!options) options = {};
   var result = [];
   var themedata = options.themedata;
   var themes = themedata.themes;
@@ -646,6 +646,7 @@ jQuery.fn.chloromap = function(options){
   themedata.themes = newformat;
   themes = newformat;
   function createKey(place,themeid){
+          
       jQuery(place).html("");
       jQuery(place).css({display:""});
       var createKeyValue = function(keycolor,keylabel,className){
@@ -654,14 +655,18 @@ jQuery.fn.chloromap = function(options){
         var html = ["<div class='keyvaluepair'><div class='keyColor",className,"' style='background-color:",keycolor,"'>&nbsp</div><div class='keyLabel"+className+"'>",keylabel,"</div></div>"].join("");
         jQuery(key).append(html);                 
       };
+      
       createKeyValue(options.nodatacolor,"No data","hideable") ;
+
       if(themeid){
         jQuery(key).css({display:""});
         var index;   
         var theme = themes[themeid];
-        for(index in theme.values){
-          var text = "" +index;  
-          createKeyValue(theme.values[index],text);
+        if(theme){
+          for(index in theme.values){
+            var text = "" +index;  
+            createKeyValue(theme.values[index],text);
+          }
         }
       }
   }
@@ -696,6 +701,7 @@ jQuery.fn.chloromap = function(options){
       var themeid = e.target.value;
       var getcolor = function(shapename){
         var theme = themedata.themes[themeid];
+        if(!theme) return options.nodatacolor;
         if(theme.values){
           var values = theme.values;
           if(data[shapename])return values[data[shapename][themeid]];

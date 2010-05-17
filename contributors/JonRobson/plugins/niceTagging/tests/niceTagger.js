@@ -1,5 +1,5 @@
 module("NICETAGGER");
-
+//saving "   " works when it shouldn't..
 test("setup",function(){
   config.extensions.testUtils.addTiddlers([
     {title:"nicetagger.1",tags:['foo','bar','baz'],fields:{"nicetagger.field":"z","nicetagger.field2":"e [[c d]]"}},
@@ -19,6 +19,9 @@ test("refreshFieldDisplay",function(){
   same(tags.length,3);
   same(deleters.length,3);
 })
+
+
+
 test("save",function(){
   var tid;
   var place = document.createElement("div");
@@ -46,6 +49,9 @@ test("saveNewTag",function(){
 
   config.macros.niceTagger.saveNewTag(store.getTiddler("nicetagger.3"),"tags","cat,mouse",place,",");
   same(tid.tags.length,6,"the separator should split the cat and mouse tags");
+  
+  config.macros.niceTagger.saveNewTag(store.getTiddler("nicetagger.3"),"tags","   ",place,",");
+  same(tid.tags.length,6,"adding whitespace doesn't add a tag");
   
   
 });

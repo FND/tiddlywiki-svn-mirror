@@ -1,0 +1,16 @@
+tags: 
+
+!intro
+This allows you to use TiddlyWiki to create chloropleth maps. Below is an example how with a little bit of work you can visualise data across countries. This assumes a little bit of TiddlyWiki knowledge.
+
+!code
+{{{
+  <<ThemedMap data:World>>
+}}}
+In this example we tell the ThemedMap macro that the shape data is stored in the tiddler called [[World]]. 
+Each country has a unique name. Double clicking on the country in the map will open that unique name. We can add fields to that tiddler to add data to it. For this example we have a field ''countries_with_the_death_penalty''. If you inspect [[CHINA]] you will see this field has been set.
+
+We then create a tiddler called [[countries_with_the_death_penalty]] to describe the different values this map theme can take.
+
+!in action
+<<ThemedMap data:World>>
