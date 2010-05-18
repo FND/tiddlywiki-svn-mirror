@@ -1,0 +1,5 @@
+<div title="ViewTemplate">
+<pre><!--{{{-->
+<div class='viewer' macro='view text wikified'></div>
+<!--}}}--></pre>
+</div>
