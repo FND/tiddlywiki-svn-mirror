@@ -2,7 +2,7 @@
 |''Name''|ServerSideSavingPlugin|
 |''Description''|server-side saving|
 |''Author''|FND|
-|''Version''|0.6.0|
+|''Version''|0.6.1|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/plugins/ServerSideSavingPlugin.js|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
@@ -35,8 +35,7 @@ readOnly = false; //# enable editing over HTTP
 
 (function($) {
 
-var plugin;
-plugin = config.extensions.ServerSideSavingPlugin = {};
+var plugin = config.extensions.ServerSideSavingPlugin = {};
 
 plugin.locale = {
 	saved: "%0 saved successfully",
