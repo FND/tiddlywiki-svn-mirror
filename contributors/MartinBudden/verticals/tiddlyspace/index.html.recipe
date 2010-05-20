@@ -1,7 +1,4 @@
 recipe: ../../../../core/tiddlywiki.html.recipe
 recipe: shadows/split.recipe
-tiddler: settings.js
-tiddler: About.tiddler
-tiddler: Footer.tiddler
-tiddler: Bubbles.tiddler
-tiddler: BubblesCss.tiddler
+recipe: styles/split.recipe
+recipe: content/split.recipe
