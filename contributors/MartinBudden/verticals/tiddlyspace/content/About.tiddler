@@ -1,0 +1,19 @@
+<div title="About" modifier="Osmosoft" created="20100518">
+<pre>
+<html>
+<div id="about" class="public">
+	<div class="private">
+		<span class="siteTitle">TiddlySpace</span> <!-- XXX: should be H1 -->
+		<p class="siteSubtitle"> <!-- XXX: should be H2 -->
+			<a href="http://www.osmosoft.com/~jermolene/tiddlyspace/tiddlyspace.pdf">discoursive, social</a>
+			<a href="http://tiddlywiki.com">TiddlyWiki</a>
+		</p>
+		<p class="login">
+			<a href="/dashboard#register">Sign up</a> or
+			<a href="/dashboard#login">Log in</a>
+		</p>
+	</div>
+</div>
+</html>
+</pre>
+</div>
