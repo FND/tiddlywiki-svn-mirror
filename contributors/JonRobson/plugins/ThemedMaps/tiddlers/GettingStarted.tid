@@ -14,3 +14,5 @@ We then create a tiddler called [[countries_with_the_death_penalty]] to describe
 
 !in action
 <<ThemedMap data:World>>
+!UK map
+<<ThemedMap data:UK>>

@@ -601,47 +601,15 @@ jQuery.fn.chloromap = function(options){
     */
     var theme = themes[i];
     var themeid =theme.id;
-    if(themeid){
-      newformat[themeid] = {name:i,values:theme.values}
+    if(typeof(themeid) != 'undefined'){
+      newformat[""+themeid] = {name:i,values:theme.values}
     }
     else{
-      newformat[i] = themes[i];
+      newformat[i] = theme;
     }
-    
-    /* deal with range data */
-    var data = themedata.data;
-    if(newformat[i].rangetype){
-      if(!range[i]) range[i] = {};
-      for(var j in data){
-        var value = parseInt(data[j][i]);
-        if(!isNaN(value)){
-        
-          if(value){
-            if(!range[i].from || value < range[i].from) range[i].from = value;
-            if(!range[i].to || value > range[i].to) range[i].to = value;
-          }
-        }
-      }
-      //now have a range to work from.
-      lookupcolor[i] = {};
-      var range_for_i = range[i].to- range[i].from;
-      for(var j in data){
-      var str =data[j][i];
-        var value = parseInt(str);
-        if(!isNaN(value)){
-          var colorValue =255 * (value - range[i].from)/range_for_i;
-          lookupcolor[i][j] =  parseInt(colorValue);
-        }
-        
-      }
-      
-      
-      
-      //signal that when painting should use value as colour.
-      
-    }
-  }
 
+  }
+  if(options.fullscreen !== false)options.fullscreen= true;
   if(!options.nodatacolor)options.nodatacolor = "#ffffff";
   themedata.themes = newformat;
   themes = newformat;
