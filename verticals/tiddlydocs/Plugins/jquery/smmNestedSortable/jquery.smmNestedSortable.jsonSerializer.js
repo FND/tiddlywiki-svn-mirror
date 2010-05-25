@@ -17,14 +17,13 @@ $('.sortable').smmNestedSortable({
 jQuery.fn.smmNestedSortable.jsonSerializer = {
 	'buildSpec': function() {
 		var newSpec = this._buildSpec(jQuery("ul.sortable:first").children('li'));
-		var spec = { format: { name: 'TiddlyDocsSpec', majorVersion:'0', minorVersion:'1' }, content: newSpec}; 
+		var spec = { format: { name: 'smmNestedSortablesJSONSpec', majorVersion:'0', minorVersion:'1' }, content: newSpec}; 
 		return jQuery.toJSON(spec);
 	},
 	'_buildSpec': function(liList) {
 		var spec = [];
 		liList.each(function() {
 			var li=this;
-			console.log(li)
 			var node = {
 				title: li.id
 			};
@@ -32,5 +31,8 @@ jQuery.fn.smmNestedSortable.jsonSerializer = {
 			spec.push(node);
 	 	});
 	  return spec;
+	},
+	getSpec: function(tiddler) {
+		return jQuery.parseJSON(store.getTiddlerText(docTiddler)).content;
 	}
 };

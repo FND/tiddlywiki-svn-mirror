@@ -1,4 +1,5 @@
 config.macros.smmNestedSortable = {
+	serializer:'textSerializer',
 	handler: function(place,macroName,params,wikifier,paramString,tiddler) {
 		this.refresh(place,macroName,params,wikifier,paramString,tiddler);
 	},
@@ -6,8 +7,7 @@ config.macros.smmNestedSortable = {
 		docTiddler = window.activeDocument;
 		if(store.tiddlerExists(docTiddler)) {
 			
-			
-			var spec = jQuery.parseJSON(store.getTiddlerText(docTiddler)).content; // should be handled by the serializer 
+			var spec = jQuery.fn.smmNestedSortable[this.serializer].getSpec(docTiddler);
 			var specView = createTiddlyElement(place, "div", "", "specView");	
 			this.renderSpec(specView, spec);
 		}else{
@@ -20,7 +20,6 @@ config.macros.smmNestedSortable = {
 		window.divCount=0;
 		window.sectionCount = 1;
 		jQuery(specView).empty();
-		console.log('spec', spec);	
 		this._renderSpec(specView, spec, []);	
 		jQuery(jQuery(specView)).smmNestedSortable({
 			'serializer':function() {
@@ -42,7 +41,6 @@ config.macros.smmNestedSortable = {
 		createTiddlyElement(place, "span", null, "noDocSelected error", config.macros.TableOfContent.noDocSelectedText)
 	},
 	renderItem: function(item, ul, label) {
-		console.log('it', item);
 		return  li = createTiddlyElement(ul, "li", item.title, null, item.title);
 		
 		
@@ -90,7 +88,7 @@ config.macros.smmNestedSortable = {
 		} else { 
 		    var fields = config.defaultCustomFields; 
 		} 
-		store.saveTiddler(window.activeDocument, window.activeDocument, jQuery.fn.smmNestedSortable.jsonSerializer.buildSpec(), null, null, "document", fields); 
+		store.saveTiddler(window.activeDocument, window.activeDocument, jQuery.fn.smmNestedSortable[this.serializer].buildSpec(), null, null, "document", fields); 
 		autoSaveChanges(true, window.activeDocument);
 		refreshAll();
 	}
