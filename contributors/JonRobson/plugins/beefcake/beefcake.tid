@@ -1,8 +1,4 @@
-modifier: None
-created: 20120612195422
-modified: 20120612195422
-type: None
-tags: systemConfig startup systemTiddler
+tags: systemConfig
 
 /***
 |''Name:''|BeefcakeYourTiddlersPlugin |
@@ -82,15 +78,11 @@ config.extensions.beefcake = {
                 newcallback(r);
             }
             bc.requestStarted();
-	        jQuery.ajax({url:url,error:afterLoaded,success:function(r){
+	        ajaxReq({url:url,error:afterLoaded,success:function(r){
 	            //console.log("successfulajax")
-	        	try{
-                var data = eval("("+r+")");
-                }
-                catch(e){
-                	afterLoaded();
-                	return;
-                }
+	        	if(typeof(r) == typeof("")) data = eval("("+r+")");
+                else data =r ;
+               
                 ////console.log("x. success eval");
                 if(data.title){ //assume single tiddler
                 	////console.log("x. single tiddler in load tiddler");
@@ -118,7 +110,8 @@ config.extensions.beefcake = {
                     callback(r);
 
                 };
-                loadtiddler(config.extensions.beefcake.urls.main+"tiddlers/"+escapedtitle+".json?nocache="+Math.random(),whentiddlerloaded);
+                var base = store.getTiddler(tiddlertitle).beefcake_base_url||config.extensions.beefcake.urls.main;
+                loadtiddler(base+"tiddlers/"+escapedtitle+".json?nocache="+Math.random(),whentiddlerloaded);
             }
 			var whencommentsloaded= function(){
                         ////console.log("main"+tiddlertitle);
@@ -150,30 +143,37 @@ config.extensions.beefcake = {
     	   }
     	};
 		when_dependencies_loaded();
+		console.log(tiddler,"do it");
+		var base = tiddler.beefcake_base_url|| config.extensions.beefcake.urls.main;
+		console.log("Base is",base);
 		for(var i=0; i < dependencies.length; i++){
 		    
 		  var etitle = config.extensions.beefcake.escape(dependencies[i]);
 		  //console.log("need ",etitle);
-		  loadtiddler(config.extensions.beefcake.urls.main+"tiddlers/"+etitle+".json",function(){loaded_dependencies -=1;when_dependencies_loaded();});
+		  loadtiddler(base+"tiddlers/"+etitle+".json",function(){loaded_dependencies -=1;when_dependencies_loaded();});
 		}
 	    
 
     	   
 	          
 	},
-	lazyload: function(url){
-            ////console.log("lazload"+url);	
+	lazyload: function(url,base_url){
+
         var bc = this;
         //console.log("in lazy load");
         bc.requestStarted();
-	    jQuery.get(url,
+	    ajaxReq({url:url,success:
             function(r){
             	
                 bc.requestCompleted();
-                var tiddlers = eval(r);
+                var tiddlers;
+                if(typeof(r) == typeof("")) tiddlers = eval("("+r+")");
+                else tiddlers =r ;
                 for(var i=0; i < tiddlers.length; i++){
                 	var tid =tiddlers[i];
-                	config.extensions.beefcake.lazyloadtiddler(tid);
+                	console.log(base_url,"!!");
+                	config.extensions.beefcake.lazyloadtiddler(tid,base_url);
+                
                 }
 
           	    
@@ -193,31 +193,36 @@ config.extensions.beefcake = {
           	    config.extensions.beefcake.queue = [];
           	    refreshDisplay();
                 //jQuery(".beefcakeLoading").css({display:"none"})
-            });
+            }});
 
     },
-    lazyloadtiddler: function(tid){
+    lazyloadtiddler: function(tid,base_url){
       if(store.getTiddler(tid.title)) return; //already exists
       store.addTiddler(new Tiddler(tid.title));
       
       //console.log("saved",tid.title);  
       var tiddler_without_beefcake = store.getTiddler(tid.title);
       var j;
-      tiddler_without_beefcake.tags = tid.tags;
+      if(tid.tags)tiddler_without_beefcake.tags = tid.tags;
       for(j in tid.fields){
       	tiddler_without_beefcake.fields[j] = tid.fields[j];
       }
 
       //tiddler_without_beefcake.fields = merge(tiddler_without_beefcake.fields,config.defaultCustomFields);
-      tiddler_without_beefcake.fields["server.page.revision"] = tid.revision;
-      tiddler_without_beefcake.fields["server.bag"] = tid.bag;
+      if(tid.revision)tiddler_without_beefcake.fields["server.page.revision"] = tid.revision;
+      if(tid.bag){
+          tiddler_without_beefcake.fields["server.bag"] = tid.bag;
+          tiddler_without_beefcake.fields["server.workspace"] = "bags/"+tid.bag;
+      }
+
+      tiddler_without_beefcake.beefcake_base_url = base_url;
       delete tiddler_without_beefcake.fields.doNotSave;
       tiddler_without_beefcake.fields['server.host'] = config.defaultCustomFields['server.host'];
       tiddler_without_beefcake.fields['server.type'] = config.defaultCustomFields["server.type"]
       tiddler_without_beefcake.fields["server.title"] = tid.title;
-      tiddler_without_beefcake.fields["server.workspace"] = "bags/"+tid.bag;
-      tiddler_without_beefcake.created = Date.convertFromYYYYMMDDHHMM(tid.created);
-      tiddler_without_beefcake.modified = Date.convertFromYYYYMMDDHHMM(tid.modified);
+      
+      if(tid.created)tiddler_without_beefcake.created = Date.convertFromYYYYMMDDHHMM(tid.created);
+      if(tid.modified)tiddler_without_beefcake.modified = Date.convertFromYYYYMMDDHHMM(tid.modified);
       tiddler_without_beefcake.modifier = tid.modifier; 
 //console.log(tiddler_without_beefcake.fields['male_to_male_relationships'],tiddler_without_beefcake,tiddler_without_beefcake.title)
       tiddler_without_beefcake.no_beefcake_needed = false;
@@ -234,22 +239,22 @@ story.isEmpty = function()
 
 
 config.macros.beefcake = {
-  handler: function(place,macroName,params,wikifier,paramString,tiddler){
+  beefcaked_urls:{}
+  ,handler: function(place,macroName,params,wikifier,paramString,tiddler){
     var url = params[0];
     //console.log("in beefcake macro");
     config.extensions.beefcake.urls.main = url;
-
+    if(config.macros.beefcake.beefcaked_urls[url]) return;
+    config.macros.beefcake.beefcaked_urls[url] = true;
     
     //anything already here doesn't need beefcake
     var existing = store.getTiddlers();
     for(var i=0; i < existing.length;i++){
-    	existing[i].no_beefcake_needed = true;
+    	if(!existing[i].no_beefcake_needed && existing[i].no_beefcake_needed != false)existing[i].no_beefcake_needed = true;
     }
+    
+    config.extensions.beefcake.lazyload(config.extensions.beefcake.urls.main+"tiddlers.json?random="+Math.random(),url);
 
-    config.extensions.beefcake.lazyload(config.extensions.beefcake.urls.main+"tiddlers.json?random="+Math.random());
-    config.macros.beefcake.handler = function(place){
-      //you can only call this macro once.
-    };
     
   }
 }
@@ -288,7 +293,7 @@ config.extensions.beefcake.dohijacking = function(){
    
   story.displayTiddler = function(srcElement,tiddler,template,animate,unused,customFields,toggle,animationSrc){
       
-      //console.log("in display tiddler",tiddler);
+      
        var tidjs;
       //console.log("in display");
       var bagurl = config.extensions.beefcake.urls.main;
@@ -332,9 +337,9 @@ config.extensions.beefcake.dohijacking = function(){
       //console.log("time to open");
 
 
-
+      
       if(tidjs && tidjs.title && !tidjs.no_beefcake_needed){
-          //console.log("fully load");
+          console.log("fully load");
           config.extensions.beefcake.fullyload(tidjs.title, normal);
       }
       else{
