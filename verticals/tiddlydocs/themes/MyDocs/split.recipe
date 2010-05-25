@@ -34,3 +34,10 @@ tiddler: ../../../../contributors/EricShulman/plugins/TaggedTemplateTweak.js
 tiddler: CKEditorSettings.js
 tiddler: MarkupPreHead.tid
 tiddler: images.tid
+
+tiddler: ../../Plugins/jquery/jquery.ui-1.8/jquery-ui-1.8.1.custom.js
+tiddler: ../../Plugins/jquery/jquery.ui-1.8/jquery.ui.sortable.js
+tiddler: ../../Plugins/jquery/smmNestedSortable/jquery.smmNestedSortable.js
+tiddler: ../../Plugins/jquery/smmNestedSortable/jquery.smmNestedSortable.jsonSerializer.js
+tiddler: ../../Plugins/smmNestedSortablePlugin.js
+tiddler: ../../Plugins/smmTableOfContentPlugin.js

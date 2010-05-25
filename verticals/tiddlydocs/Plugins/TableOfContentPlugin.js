@@ -42,7 +42,9 @@ config.macros.TableOfContent.handler=function(place,macroName,params,wikifier,pa
 config.macros.TableOfContent.refresh=function(place,macroName,params,wikifier,paramString,tiddler){
 	docTiddler = window.activeDocument;
 	if(store.tiddlerExists(docTiddler)) {
+		console.log(docTiddler, store.getTiddlerText(docTiddler));
 		var spec = jQuery.parseJSON(store.getTiddlerText(docTiddler)).content;
+		console.log('spec');
 		var specView = createTiddlyElement(place, "div", "", "specView");	
 		config.macros.TableOfContent.renderSpec(specView, spec);
 	}else{
@@ -59,7 +61,6 @@ config.macros.TableOfContent.specChanged = function() {
 	    var fields = config.defaultCustomFields; 
 	} 
 	var spec = { format: { name: 'TiddlyDocsSpec', majorVersion:'0', minorVersion:'1' }, content: newSpec}; 
-//	var spec = { content: newSpec}; 
 	store.saveTiddler(window.activeDocument, window.activeDocument, jQuery.toJSON(spec), null, null, "document", fields); 
 	autoSaveChanges(true, window.activeDocument);
 	refreshAll();	
