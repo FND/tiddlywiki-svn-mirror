@@ -1,10 +1,10 @@
 config.macros.smmTableOfContent = merge(config.macros.smmNestedSortable, {
 	handler: function(place,macroName,params,wikifier,paramString,tiddler) {
-		 setStylesheet(store.getTiddlerText("TableOfContentPlugin##StyleSheet"), "smmNestedSortableStyle");
+		 setStylesheet(store.getTiddlerText("smmTableOfContentPlugin##StyleSheet"), "smmTableOfContentPlugin");
 		this.refresh(place,macroName,params,wikifier,paramString,tiddler);
 	},
 	renderItem: function(item, ul, label) {
-		var li = createTiddlyElement(ul, "li", item.title, null);
+		var li = createTiddlyElement(ul, "li", item.title, "toc-item");
 		if(store.getTiddler(item.title)!=null){
 			if(store.getTiddler(item.title).fields.tt_status == "Complete")
 				var sectionClass = "completed"; 
@@ -17,9 +17,9 @@ config.macros.smmTableOfContent = merge(config.macros.smmNestedSortable, {
 		sectionDiv.title = config.macros.TableOfContent.dragToolTip;
 		sectionDiv.onclick = function() {
 			if(config.options.chkOpenEditView == true)
-				story.displayTiddler(item.id, item.id.replace("_div", ""), config.macros.TableOfContent.editTemplate ,null, null, null, null,item);
+				story.displayTiddler(this.id, this.id.replace("_div", ""), config.macros.TableOfContent.editTemplate ,null, null, null, null,this);
 			else
-				story.displayTiddler(item.id, item.id.replace("_div", ""), config.macros.TableOfContent.viewTemplate,null, null, null, null,item);
+				story.displayTiddler(this.id, this.id.replace("_div", ""), config.macros.TableOfContent.viewTemplate,null, null, null, null,this);
 		};		
 		jQuery(sectionDiv).hover( 
 			function() { 
@@ -47,6 +47,11 @@ config.macros.smmTableOfContent = merge(config.macros.smmNestedSortable, {
 
 /***
 !StyleSheet
+
+
+.specView li {
+	list-style:none;
+}
 
 #mainMenu {
     width:25%;
@@ -193,17 +198,55 @@ html body a.deleteButton {
 	font-style:italic;
 }
 
+
+
+
+
+
+
+
+
+
+.sortable li {
+	cursor:move;
+	background:#eee;
+	border:2px solid #eee;
+	list-style:none;
+}
+
+
+
+.ui-sortable li:hover {
+	background:#ddd;
+	border:2px solid #eee;
+	list-style:none;
+}
+
+
+html body li.placeholder {
+	border:1px solid red important;
+background:red !important;
+	opacity:0.2;
+	min-height:1.4em;
+	height:auto;
+}
+
+.placeholder  li {
+	border:1px solid #333;
+	
+}
+ li {
+	list-style:none;
+}
+
+
 !(end of StyleSheet)
 
 
-!EditSectionTemplate
 
-<div class='toolbar' macro='toolbar [[ToolbarCommands::EditToolbar]]'></div>
-<div  class='title' macro='droppableSection'></div>
-<div class='taskControls' macro='tiddler TaskTiddlerControls'></div>
-<div class='editor' macro='edit text'></div>
 
-!(end of EditSectionTemplate)
+
+
 
 
 ***/

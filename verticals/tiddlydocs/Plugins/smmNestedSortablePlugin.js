@@ -1,3 +1,12 @@
+/*
+This is  TiddlyWiki Plugin 
+
+Pulls in a list from a store tiddler using the specified adaptor (incorrectly named serializer atm) and generate a nestedSortable list from it. 
+
+Also handles saving back to the same file. 
+
+*/
+
 config.macros.smmNestedSortable = {
 	serializer:'jsonSerializer',
 	handler: function(place,macroName,params,wikifier,paramString,tiddler) {
@@ -15,9 +24,6 @@ config.macros.smmNestedSortable = {
 	},
 	renderSpec: function(specView, spec) {
 		window.ulCount=0;
-		window.liCount=0;
-		window.divCount=0;
-		window.sectionCount = 1;
 		jQuery(specView).empty();
 		this._renderSpec(specView, spec, []);	
 		jQuery(jQuery(specView)).smmNestedSortable({
