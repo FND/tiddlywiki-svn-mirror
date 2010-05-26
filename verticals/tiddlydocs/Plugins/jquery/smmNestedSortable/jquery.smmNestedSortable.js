@@ -31,10 +31,8 @@ $.fn.smmNestedSortable = function(options) {
             },
             stop: function(event, ui) {
                 $.fn.smmNestedSortable.change(event, ui);
-console.log('settings', settings);
                 if (settings.serializer != undefined){
- console.log('yaaa');
-               	settings.serializer();
+               		settings.serializer();
 				}
             },
         });
