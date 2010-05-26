@@ -42,7 +42,7 @@ $('.sortable').smmNestedSortable({
 			for (c=0;c<number;c++){
 				i.push(this.indent);
 			}
-			return i.join('');
+			return i.join('')+" ";
 		},
 		countIndent: function(line) {
 			if(line == undefined) 
@@ -59,16 +59,20 @@ $('.sortable').smmNestedSortable({
 				var lastIndent = this.countIndent(specItems[c-1]);
 				var thisIndent = this.countIndent(specItems[c])			
 				if(newSpec.length < 1) { //first item 
+					console.log('firsttime');
 					newSpec = [{ title : specItems[c], children: []}];
 					var last = newSpec[0];
 				}else if(thisIndent == lastIndent) { // same level
-					newSpec.push({ title : specItems[c], children: []})
+					console.log("same lebel");
+					newSpec.push({ title : specItems[c], children: []});
+					console.log(newSpec);
 					var last = newSpec[newSpec.length-1];
-				}else if (this.countIndent(specItems[c]) > this.countIndent(specItems[c-1])) {// sub item
-					console.log('last', last.children);
-					console.log('s', last.children.push( { title : specItems[c], children: []} ));
+					console.log(last);
+				}else if (thisIndent > lastIndent) {// sub item
+					console.log(';ast', last);
+					last.children.push( { title : specItems[c], children: []} );
 					var last = last.children[last.children.length-1];
-					console.log('last', last);
+					console.log(';ast', last);
 				}else if (this.countIndent(specItems[c]) < this.countIndent(specItems[c-1])) { // up a level. 
 					console.log('up a level');
 				}
