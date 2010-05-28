@@ -5,37 +5,38 @@ var oldAjaxReq = ajaxReq;
   ajaxReq = function(options){
     var url = options.url;
     console.log("made call to "+url);
-    if(url == 'recipes/success/tiddlers.json'){
+    if(url.indexOf('/recipes/success/tiddlers.json') == 0){
         return options.success([{title:"beefcake.1",tags:['foo','bar','baz'],fields:{}},{title:"beefcake.2","tags":['baz','dum']}]);
     }
-    else if(url.indexOf("recipes/beefcake/tiddlers.json") == 0){
+    else if(url.indexOf("/recipes/beefcake/tiddlers.json") == 0){
         console.log("returning this");
       return options.success([{title:'beefcake-macro-1',tags:['book']}])
     }
-    else if(url.indexOf("recipes/beefcake/tiddlers/beefcake-macro-1.json") == 0){
+    else if(url.indexOf("/recipes/beefcake/tiddlers/beefcake-macro-1.json") == 0){
       return options.success({title:"beefcake-macro-1",tags:['book'],text:"charles dickens"});
     }
-    else if(url.indexOf("recipes/beefcake/tiddlers/beefcake-come-get_me.json") == 0){
+    else if(url.indexOf("/recipes/beefcake/tiddlers/beefcake-come-get_me.json") == 0){
       return options.success({title:"beefcake-macro-1",tags:['book'],text:"this test is awesome"});
     }
-    else if(url.indexOf("bags/beefcake.1/tiddlers.json") == 0){
+    else if(url.indexOf("/bags/beefcake.1/tiddlers.json") == 0){
         config.extensions.beefcake.ajaxMultipleBeefcakeCount += 1;
         return options.success([{title:'beefcake-macro-bag-1',tags:['book']}]);
     }
-    else if(url.indexOf("bags/beefcake.2/tiddlers.json") == 0){
+    else if(url.indexOf("/bags/beefcake.2/tiddlers.json") == 0){
         config.extensions.beefcake.ajaxMultipleBeefcakeCount += 1;
         return options.success([{title:'beefcake-macro-bag-2',tags:['book']}]);
     }
-    else if(url.indexOf("bags/beefcake.1/tiddlers/beefcake-macro-bag-1") == 0){
+    else if(url.indexOf("/bags/beefcake.1/tiddlers/beefcake-macro-bag-1") == 0){
         config.extensions.beefcake.ajaxMultipleBeefcakeCount += 1;
         return options.success({title:'beefcake-macro-bag-1',tags:['book'],text:'text from bag 1'});
     }  
-    else if(url.indexOf("bags/beefcake.2/tiddlers/beefcake-macro-bag-2") == 0){
+    else if(url.indexOf("/bags/beefcake.2/tiddlers/beefcake-macro-bag-2") == 0){
         config.extensions.beefcake.ajaxMultipleBeefcakeCount += 1;
         return options.success({title:'beefcake-macro-bag-2',tags:['book'],text:'text from bag 2'});
     }
-    
-    options.error();
+    console.log(options.url+" errored");
+    if(options.error)options.error();
+    else console.log("nothing done");
   };
 test("lazyloadtiddler",function(){
 
@@ -68,7 +69,7 @@ test("fullyloadtiddler",function(){
 
 test("lazyload",function(){
         console.log("gok");
-  config.extensions.beefcake.lazyload("recipes/success/tiddlers.json");
+  config.extensions.beefcake.lazyload("/recipes/success/");
       console.log("gokx");
   var tid =store.getTiddler("beefcake.1");
   same(tid.no_beefcake_needed,false,"the flag must be set to show that the tiddler has not been fully loaded");

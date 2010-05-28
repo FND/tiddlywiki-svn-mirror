@@ -1,3 +1,7 @@
+modifier: None
+created: 
+modified: 20100525145659
+type: None
 tags: systemConfig
 
 /***
@@ -17,13 +21,12 @@ tags: systemConfig
 Import this tiddler
 <<beefcake url>>
 where url is the content you want to bring in at a later date
+
+Latest updates:
+more clever url stuff - should begin and end with / - does this for you if not there
 |''To Do:''|
 Alot :)
 ***/
-
-
-
-
 config.extensions.beefcake = {
     urls: {
         "main":"",
@@ -35,7 +38,7 @@ config.extensions.beefcake = {
 		return escape(title).replace(/\//g,"%2F");
 	}
 	,requestCompleted: function(){
-	    //console.log("done request");
+	    ///console.log("done request");
 	    this.requests_in_progress -=1;
 	    if(this.requests_in_progress <= 0){
 	        this.requests_in_progress =0;
@@ -48,10 +51,10 @@ config.extensions.beefcake = {
 	    this.requests_in_progress +=1;
         jQuery(".beefcake_loading").css({"display":""});
 	}
-	,fullyloadtiddler: function(tidjs){
+	,fullyloadtiddler: function(tidjs,base_url){
         var existing = store.getTiddler(tidjs.title);
         if(!existing){
-            existing = config.extensions.beefcake.lazyloadtiddler(tidjs);
+            existing = config.extensions.beefcake.lazyloadtiddler(tidjs,base_url);
         }
         if(tidjs.tags.contains("systemConfig")){
             //following code is from eric's LoadTiddlersPlugin
@@ -68,9 +71,12 @@ config.extensions.beefcake = {
         existing.no_beefcake_needed = true;
 	}
 	,fullyload: function(tiddlertitle, callback){
-	    var comments = config.extensions.beefcake.urls.comments;
+	    var tiddler = store.getTiddler(tiddlertitle);
+	    var comments_url = tiddler["beefcake.commentsurl"];
+	    var base_url = tiddler["beefcake.baseurl"];
 	    var bc = this;
-	    var loadtiddler = function(url,newcallback){
+	    var loadtiddler = function(base_url,url_suffix,newcallback){
+	        var url = base_url + url_suffix;
             //console.log("in fully load");
             var afterLoaded = function(r){
                 //console.log("in afterloaded");
@@ -86,12 +92,12 @@ config.extensions.beefcake = {
                 ////console.log("x. success eval");
                 if(data.title){ //assume single tiddler
                 	////console.log("x. single tiddler in load tiddler");
-                    config.extensions.beefcake.fullyloadtiddler(data);
+                    config.extensions.beefcake.fullyloadtiddler(data,base_url);
                 }
                 else if(data.length){
                 	////console.log("x. list tiddlers");
                     for(var i=0; i < data.length; i++){
-                        var newtiddler = config.extensions.beefcake.fullyloadtiddler(data[i]);
+                        var newtiddler = config.extensions.beefcake.fullyloadtiddler(data[i],base_url);
                     }
                 }
              ////console.log("x. newcallbacktime");
@@ -101,28 +107,17 @@ config.extensions.beefcake = {
             }});
 	    };
 	    var escapedtitle = config.extensions.beefcake.escape(tiddlertitle);
-
-     
-            var loadtiddlerinfull = function(){
-                var whentiddlerloaded = function(r){
-
-                    bc.requestCompleted();
-                    callback(r);
-
-                };
-                var base = store.getTiddler(tiddlertitle).beefcake_base_url||config.extensions.beefcake.urls.main;
-                loadtiddler(base+"tiddlers/"+escapedtitle+".json?nocache="+Math.random(),whentiddlerloaded);
-            }
-			var whencommentsloaded= function(){
-                        ////console.log("main"+tiddlertitle);
-                
-                loadtiddlerinfull();
-	       	  	
-	       	  };
-	       	  
-	       	  
-	     //prepare
-        var tiddler = store.getTiddler(tiddlertitle);
+        var loadtiddlerinfull = function(){
+            var whentiddlerloaded = function(r){
+                bc.requestCompleted();
+                callback(r);
+            };
+            loadtiddler(base_url,"tiddlers/"+escapedtitle+".json?nocache="+Math.random(),whentiddlerloaded); 
+        }
+		var whencommentsloaded= function(){loadtiddlerinfull();};
+        //prepare
+        
+        //load dependencies
 		var loaded_dependencies = 0;
 		if(tiddler){
 			var needs = tiddler.fields['needs'];
@@ -135,72 +130,58 @@ config.extensions.beefcake = {
 		
 		var when_dependencies_loaded = function(){
 		   if(loaded_dependencies > 0) return;
-	       if(comments){	       	  
-    	       loadtiddler(config.extensions.beefcake.urls.comments+"tiddlers.json?fat=t&select=root:"+escapedtitle,whencommentsloaded);  
+	       if(comments_url){	       	  
+    	      loadtiddler(comments_url,"tiddlers.json?fat=t&select=root:"+escapedtitle,whencommentsloaded);  
     	   }
     	   else{
     	       loadtiddlerinfull();
     	   }
     	};
 		when_dependencies_loaded();
-		console.log(tiddler,"do it");
-		var base = tiddler.beefcake_base_url|| config.extensions.beefcake.urls.main;
-		console.log("Base is",base);
 		for(var i=0; i < dependencies.length; i++){
-		    
 		  var etitle = config.extensions.beefcake.escape(dependencies[i]);
 		  //console.log("need ",etitle);
-		  loadtiddler(base+"tiddlers/"+etitle+".json",function(){loaded_dependencies -=1;when_dependencies_loaded();});
+		  var dependency = store.getTiddler(dependencies[i]);
+		  var durl;
+		  if(dependency && dependency["beefcake.baseurl"]) durl =dependency["beefcake.baseurl"];
+		  else durl = config.extensions.beefcake.urls.main;
+		  
+		  loadtiddler(durl,"tiddlers/"+etitle+".json",function(){loaded_dependencies -=1;when_dependencies_loaded();});
 		}
-	    
-
-    	   
-	          
 	},
-	lazyload: function(url,base_url){
-
+	lazyload: function(baseurl,comments_url){
+        var url = baseurl +"tiddlers.json?random="+Math.random();
         var bc = this;
         //console.log("in lazy load");
         bc.requestStarted();
 	    ajaxReq({url:url,success:
-            function(r){
-            	
+            function(r){	
                 bc.requestCompleted();
                 var tiddlers;
                 if(typeof(r) == typeof("")) tiddlers = eval("("+r+")");
                 else tiddlers =r ;
+                
                 for(var i=0; i < tiddlers.length; i++){
                 	var tid =tiddlers[i];
-                	console.log(base_url,"!!");
-                	config.extensions.beefcake.lazyloadtiddler(tid,base_url);
-                
+                	config.extensions.beefcake.lazyloadtiddler(tid,baseurl,comments_url);
                 }
-
-          	    
-                //refreshDisplay();
-                //restart();
-                
-                //load all queued tiddlers that user attempted to open before it was ready
                 var queue =config.extensions.beefcake.queue;
-                //console.log("have q",queue);
           	    for(var i=0; i < queue.length;i++){
           	      //console.log("queue load "+queue[i]);
           	      var title = queue[i];
           	      story.closeTiddler(title);
           	      //console.log(title,store.getTiddler(title).fields["male_to_male_relationships"])
-          	      story.displayTiddler("top",title);
+          	      story.displayTiddler(null,title);
           	    }
           	    config.extensions.beefcake.queue = [];
           	    refreshDisplay();
                 //jQuery(".beefcakeLoading").css({display:"none"})
-            }});
+            },failure:function(){story.displayTiddler(null,title);}});
 
     },
-    lazyloadtiddler: function(tid,base_url){
+    lazyloadtiddler: function(tid,base_url,comments_url){
       if(store.getTiddler(tid.title)) return; //already exists
       store.addTiddler(new Tiddler(tid.title));
-      
-      //console.log("saved",tid.title);  
       var tiddler_without_beefcake = store.getTiddler(tid.title);
       var j;
       if(tid.tags)tiddler_without_beefcake.tags = tid.tags;
@@ -214,8 +195,6 @@ config.extensions.beefcake = {
           tiddler_without_beefcake.fields["server.bag"] = tid.bag;
           tiddler_without_beefcake.fields["server.workspace"] = "bags/"+tid.bag;
       }
-
-      tiddler_without_beefcake.beefcake_base_url = base_url;
       delete tiddler_without_beefcake.fields.doNotSave;
       tiddler_without_beefcake.fields['server.host'] = config.defaultCustomFields['server.host'];
       tiddler_without_beefcake.fields['server.type'] = config.defaultCustomFields["server.type"]
@@ -224,8 +203,10 @@ config.extensions.beefcake = {
       if(tid.created)tiddler_without_beefcake.created = Date.convertFromYYYYMMDDHHMM(tid.created);
       if(tid.modified)tiddler_without_beefcake.modified = Date.convertFromYYYYMMDDHHMM(tid.modified);
       tiddler_without_beefcake.modifier = tid.modifier; 
-//console.log(tiddler_without_beefcake.fields['male_to_male_relationships'],tiddler_without_beefcake,tiddler_without_beefcake.title)
       tiddler_without_beefcake.no_beefcake_needed = false;
+      tiddler_without_beefcake["beefcake.baseurl"] = base_url;
+      tiddler_without_beefcake["beefcake.commentsurl"] =comments_url;
+      
       return tiddler_without_beefcake;
     }
 };
@@ -239,29 +220,33 @@ story.isEmpty = function()
 
 
 config.macros.beefcake = {
-  beefcaked_urls:{}
+  beefcaked: {}
+  ,macroHasBeenRun: false
   ,handler: function(place,macroName,params,wikifier,paramString,tiddler){
     var url = params[0];
+    var comments_url = params[1];
+    if(url.charAt(0) != '/') url = '/' + url;
+    if(url.charAt(url.length-1) != '/') url += '/';
+    if(comments_url && comments_url.charAt(0) != '/') comments_url = '/' + comments_url;
+    if(comments_url && comments_url.charAt(url.length-1) != '/') comments_url += '/';
+    
+    if(this.beefcaked[url]) return;
+    else this.beefcaked[url] = true;
     //console.log("in beefcake macro");
     config.extensions.beefcake.urls.main = url;
-    if(config.macros.beefcake.beefcaked_urls[url]) return;
-    config.macros.beefcake.beefcaked_urls[url] = true;
-    
     //anything already here doesn't need beefcake
-    var existing = store.getTiddlers();
-    for(var i=0; i < existing.length;i++){
-    	if(!existing[i].no_beefcake_needed && existing[i].no_beefcake_needed != false)existing[i].no_beefcake_needed = true;
+    if(!this.macroHasBeenRun){
+        var existing = store.getTiddlers();
+        for(var i=0; i < existing.length;i++){
+        	existing[i].no_beefcake_needed = true;
+        }
+        this.macroHasBeenRun = true;
     }
-    
-    config.extensions.beefcake.lazyload(config.extensions.beefcake.urls.main+"tiddlers.json?random="+Math.random(),url);
-
-    
+    config.extensions.beefcake.lazyload(url,comments_url);
   }
 }
 config.extensions.beefcake.dohijacking = function(){
-  
-  story.the_normal_displayTiddler = story.displayTiddler;
-  
+   
   config.macros.tiddler.handler_unbeefcaked = config.macros.tiddler.handler;
   config.macros.tiddler.handler = function(place,macroName,params,wikifier,paramString,tiddler)
   {
@@ -290,38 +275,46 @@ config.extensions.beefcake.dohijacking = function(){
 
   var qsize = 0;
   var serveno = 0;
-   
+  story.the_normal_displayTiddler = story.displayTiddler;
   story.displayTiddler = function(srcElement,tiddler,template,animate,unused,customFields,toggle,animationSrc){
       
-      
-       var tidjs;
-      //console.log("in display");
+      //console.log("in display tiddler",tiddler);
+      var tidjs;
       var bagurl = config.extensions.beefcake.urls.main;
       var queuepos = qsize;
-      
+      var tiddlerTitle;
       if(typeof(tiddler)=='string') {
+      		tiddlerTitle= tiddler;
       		tidjs = store.getTiddler(tiddler);
       		//console.log("got",tidjs,"from store with t",tiddler);
       }
       else {
       	tidjs = store.getTiddler(tiddler.title);
+      	if(tidjs)tiddlerTitle = tidjs.title;
       	//console.log("got",tidjs,"from store with d",tiddler);
-     	}
+     }
 
       //console.log("have",tidjs);
+      var story = this;
+      var maxWaits = 6;
+      var waitingTime = 0;
       var normal = function(){
         
        //this makes sure they open in order they should
       	if(serveno == queuepos){
       		//console.log("lets to do normal display tiddler",queuepos);
-
-      		story.the_normal_displayTiddler(srcElement,tiddler,template,animate,unused,customFields,toggle,animationSrc);
+            //console.log(srcElement);
+      		story.the_normal_displayTiddler(null,tiddler,template,animate,unused,customFields,toggle,animationSrc);
+      		//console.log("done");
       		serveno +=1;
       	}
       	else{
       	  //console.log("wait..");
+      	  waitingTime += 1;
       		////console.log("not yet for ",tiddler.title," queueposition is ",queuepos,"but serveno is ",serveno);
-      		window.setTimeout(normal,900);
+      	    if(waitingTime > maxWaits) normal();
+      	    else window.setTimeout(normal,900);
+      	    serveno = 0; queuepos = 0;
       	}
       };            
      	if(!tidjs){
@@ -329,7 +322,7 @@ config.extensions.beefcake.dohijacking = function(){
      	  //console.log("dont exist yet",config.extensions.beefcake);
      	  config.extensions.beefcake.queue.pushUnique(tiddler);
      	  story._isEmpty = false;
-
+          story.the_normal_displayTiddler(null,tiddlerTitle);
      	  return;
      	}
      	if(!tidjs) return;
@@ -337,42 +330,16 @@ config.extensions.beefcake.dohijacking = function(){
       //console.log("time to open");
 
 
-      
+
       if(tidjs && tidjs.title && !tidjs.no_beefcake_needed){
-          console.log("fully load");
+         //console.log("fully load");
           config.extensions.beefcake.fullyload(tidjs.title, normal);
       }
       else{
-        //console.log("just do the normal");
-        
-              normal();
+       //console.log("just do the normal");
+        normal();
       }
 
   };
 }
 config.extensions.beefcake.dohijacking();
-jQuery("body").ready(
-    function(){
-
-
-        var beefcakeconfig = store.getTaggedTiddlers("beefcakeConfig");
-        var bagurl;
-        for(var i=0; i < beefcakeconfig.length; i++){
-        	var rules =  beefcakeconfig[i].text.split("\n");
-        	config.extensions.beefcake.urls.main = rules[0];
-        	for(var j=1; j < rules.length; j++){
-    	        var url = rules[j];
-    	        var index = url.indexOf("comments:");
-    	        if(index === 0){
-    	            config.extensions.beefcake.urls.comments = url.split(":")[1];
-    	        }
-        	}
-        }
-		    
-        if(!config.extensions.beefcake.urls.main) {
-            //alert("Please create a tiddler tagged beefcakeConfig which contains a line of a recipe or bag url for which you want to lazy load from.");
-            //throw "Beefcake no config error";
-            return;
-        }
-        config.macros.beefcake.handler(place,null,[config.extensions.beefcake.urls.main]);
-});
