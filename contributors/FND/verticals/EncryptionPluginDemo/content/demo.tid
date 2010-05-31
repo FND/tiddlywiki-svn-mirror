@@ -1,0 +1,4 @@
+modifier: FND
+tags: meta
+
+tiddler [[sample]] is encrypted with password "foo"

@@ -1,0 +1,9 @@
+recipe: ../../../../core/tiddlywiki.html.recipe
+tiddler: ../../plugins/EncryptionPlugin.js
+tiddler: lib/gibberish-aes.min.js
+tiddler: shadows/SiteTitle.tiddler
+tiddler: shadows/SiteSubtitle.tiddler
+tiddler: shadows/DefaultTiddlers.tid
+tiddler: shadows/MainMenu.tid
+tiddler: content/demo.tid
+tiddler: content/sample.tiddler
