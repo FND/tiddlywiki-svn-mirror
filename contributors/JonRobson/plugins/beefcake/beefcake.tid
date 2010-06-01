@@ -24,6 +24,7 @@ where url is the content you want to bring in at a later date
 
 Latest updates:
 more clever url stuff - should begin and end with / - does this for you if not there
+story.refreshAllTiddlers() called when tiddlers are added to document.
 |''To Do:''|
 Alot :)
 ***/
@@ -175,6 +176,7 @@ config.extensions.beefcake = {
           	    }
           	    config.extensions.beefcake.queue = [];
           	    refreshDisplay();
+                    story.refreshAllTiddlers()
                 //jQuery(".beefcakeLoading").css({display:"none"})
             },failure:function(){story.displayTiddler(null,title);}});
 
