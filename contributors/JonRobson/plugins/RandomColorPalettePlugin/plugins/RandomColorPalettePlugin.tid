@@ -86,7 +86,7 @@ tags: systemConfig
       
       refreshAll();
       var tempPlace= document.createElement("div");
-      wikify("We have assigned you a random color theme. Don't like it? Click <<RandomColorPalette>> for another one.",tempPlace);
+      wikify("We have assigned you a random theme by adjusting the [[ColorPalette]] tiddler.\nDon't like it? Click <<RandomColorPalette>> for another one.",tempPlace);
       var e = getMessageDiv();
       e.appendChild(tempPlace);
     }
