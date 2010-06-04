@@ -380,6 +380,7 @@ Story.prototype.addCustomFields = function(place,customFields)
 	  html += '<input type="text" value="'+fields[t]+'" edit="'+t+'"/>';
 	}
 	jQuery(place).prepend(html);
+	console.log(jQuery(place).html());
 };
 
 
