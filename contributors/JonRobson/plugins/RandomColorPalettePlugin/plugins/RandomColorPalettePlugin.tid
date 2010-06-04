@@ -5,17 +5,19 @@ tags: systemConfig
 |''Description''|Adds a random color palette to TiddlyWiki|
 |''Author''|Jon Robson|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
-|''Version''|0.9|
+|''Version''|0.91|
 !Code
 ***/
 //{{{
 (function(){
+
   function HSL_TO_RGB(h,s,l){ //h between 0 and 360, s & l between 0 and 1
     var c;
-    if(l <= 0.5) c = (2*l) * s;
+    //71 0.5538463472614642 0.08
+    if(l <= 0.5) c = 2 * l * s;
     else c = (2-(2*l)) * s;
     var h1 = h/60;
-    var x = c *(1 - (h1 % 2) -1); 
+    var x = c *(1 - Math.abs((h1 % 2) -1)); 
     var r,g,b;
     if(typeof(h) == 'undefined'){r=0; g=0; b=0;}
     else if(0 <= h1 && h1 < 1){r = c;g=x;b=0;} //
@@ -31,8 +33,10 @@ tags: systemConfig
     r = parseInt(r * 255);
     g = parseInt(g * 255);
     b = parseInt(b * 255);
+    if(r < 0 || g < 0 || b < 0)console.log(r,g,b,"|||",h,s,l);
     return "rgb("+r+","+g+","+b+")";
   }
+
   config.macros.RandomColorPalette = {
     generate_palette:function(){
       var palette = {Background: "#fff",Foreground: "#000",PrimaryPale: "#8cf",PrimaryLight: "#FF7673",PrimaryMid: "#A60400",PrimaryDark: "#A60400",SecondaryPale: "#ffc",SecondaryLight: "#fe8",SecondaryMid: "#db4",SecondaryDark: "#841",TertiaryPale: "#eee",TertiaryLight: "#ccc",TertiaryMid: "#999",TertiaryDark: "#666",Error: "#f88"};
