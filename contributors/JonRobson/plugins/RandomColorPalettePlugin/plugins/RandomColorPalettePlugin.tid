@@ -82,7 +82,12 @@ tags: systemConfig
       else{
         store.addTiddler(tid);
       }
+      
       refreshAll();
+      var tempPlace= document.createElement("div");
+      wikify("We have assigned you a random color theme. Don't like it? Click <<RandomColorPalette>> for another one.",tempPlace);
+      var e = getMessageDiv();
+      e.appendChild(tempPlace);
     }
     ,text: "New ColorPalette"
     ,tooltip: "Generate a random colour scheme for your TiddlyWiki"
