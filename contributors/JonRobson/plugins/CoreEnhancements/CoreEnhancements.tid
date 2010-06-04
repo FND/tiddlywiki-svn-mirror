@@ -5,7 +5,7 @@ tags: systemConfig
 |''Description:''|
 Powers up the TiddlyWiki core to make it more TiddlyWeb friendly. See below for list of new programming bits and bobs
 |
-|''Version:''|0.6|
+|''Version:''|0.62|
 |''Date:''|APRIL 2010|
 |''Source:''||
 |''Author:''|Jon Robson|
@@ -102,7 +102,7 @@ prevents creation of new tiddlers with the default title and with an existing ti
 17) displayMessage
 don't make it a target ='_blank'! use config.options.chkOpenInNewWindow
 
-18) addCustomFields (ticketed)
+18) addCustomFields (ticketed) - has now been fixed in core and is not part of plugin
 allow user to override core settings
 
 19) tiddler transclusion in a template
@@ -367,24 +367,6 @@ Story.prototype.getTemplateForTiddler = function(title,template,tiddler)
 	var text= store.getRecursiveTiddlerText(template,null,10);
 	return text.replace(/\[\[:([^\]]*)\]\]/gi,matcher);;
 };
-
-
-
-
-
-Story.prototype.addCustomFields = function(place,customFields)
-{
-	var fields = customFields.decodeHashMap();
-	var html = '<div class="customFields" style="display:none;">';
-	for(var t in fields) {
-	  html += '<input type="text" value="'+fields[t]+'" edit="'+t+'"/>';
-	}
-	jQuery(place).prepend(html);
-	console.log(jQuery(place).html());
-};
-
-
-
 
 TiddlyWiki.prototype.getTags = function(excludeTag)
 {
