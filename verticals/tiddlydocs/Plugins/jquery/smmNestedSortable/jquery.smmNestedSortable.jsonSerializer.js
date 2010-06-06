@@ -16,7 +16,7 @@ $('.sortable').smmNestedSortable({
 
 jQuery.fn.smmNestedSortable.jsonSerializer = {
 	'buildSpec': function() {
-		var newSpec = this._buildSpec(jQuery("ul.sortable:first").children('li'));
+		var newSpec = this._buildSpec(jQuery("ul.nestedSortable:first").children('li'));
 		var spec = { format: { name: 'smmNestedSortablesJSONSpec', majorVersion:'0', minorVersion:'1' }, content: newSpec}; 
 		return jQuery.toJSON(spec);
 	},

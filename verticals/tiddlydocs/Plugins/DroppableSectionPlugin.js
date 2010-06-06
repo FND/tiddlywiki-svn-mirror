@@ -21,40 +21,31 @@ add <<droppableSection>> to the tiddler view template.
 	
 config.macros.droppableSection = {};
 config.macros.droppableSection.handler = function(place,macroName,params,wikifier,paramString,tiddler) {
+	config.macros.droppableSection.refresh(place);
+};
+
+config.macros.droppableSection.refresh = function(place) {
 	var tiddlerElem = story.findContainingTiddler(place);
- 	var containingTiddlerTitle = tiddlerElem.getAttribute("tiddler"); 
+	var containingTiddlerTitle = tiddlerElem.getAttribute("tiddler"); 
 	var strippedTidTitle = config.macros.droppableSection.strip(containingTiddlerTitle);
-	var div = createTiddlyElement(place, "div");
-	var ul = createTiddlyElement(div, "ul", strippedTidTitle+"DroppableSectionList", 'sortable-title');
-   	var li = createTiddlyElement(ul, "li", containingTiddlerTitle);
-   	createTiddlyElement(ul, "li", 'asdasdasd', '', 'asdasdasd');
+	var ul = createTiddlyElement(place, "ul", strippedTidTitle+"DroppableSectionList", 'sortable-title');
+	var li = createTiddlyElement(ul, "li", containingTiddlerTitle);
 	var sectionDiv = createTiddlyElement(li, "div", containingTiddlerTitle+'_div');
 	createTiddlyText(sectionDiv, containingTiddlerTitle);
 	jQuery(ul).sortable({
-       items: "li",
-	   connectWith: ['.nestedSortable'],
-	});
-//	config.macros.droppableSection.refresh(place);
-};
-
-	
-/*
-config.macros.droppableSection.refresh = function(place) {
-	jQuery("#"+strippedTidTitle+"DroppableSectionList").NestedSortable({
-		accept: 'toc-item',
-		noHover: 'notHoverable',
-		helperclass: 'helper', 
-		autoScroll: true,
-		onStart: function() {
-			story.refreshTiddler(this.id,1,true);
+		items: "li",
+		connectWith: ['.nestedSortable'],
+		remove: function() {
+			story.refreshTiddler(containingTiddlerTitle,1,true);
 		},
-		onStop: function() {
-			story.refreshTiddler(this.id,1,true);
-		},
-		handle: '.toc-sort-handle'
+		stop: function() {
+			console.log('pies');
+			config.macros.smmNestedSortable.specChanged();
+			
+		}
 	});
 }
-	*/	
+	
 
 config.macros.droppableSection.strip=function(s) {
 	return s.replace(/ /g,'');
