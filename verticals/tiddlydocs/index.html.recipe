@@ -14,7 +14,7 @@ tiddler: Plugins/HIJACK_saveOptionCookie.js
 
 tiddler: Plugins/jquery/InterfaceElements.js
 tiddler: Plugins/jquery/iNestedSortable.js
-tiddler: Plugins/jquery/JSON.js
+tiddler: Plugins/jquery/jquery.JSON.js
 
 
 tiddler: content/aboutTiddlyDocs.tid

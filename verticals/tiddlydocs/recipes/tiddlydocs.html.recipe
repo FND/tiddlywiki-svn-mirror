@@ -9,7 +9,12 @@ tiddler: ../Plugins/DocumentSwitchPlugin.js
 tiddler: ../Plugins/newDocumentButtonPlugin.js
 tiddler: ../Plugins/SettingsButtonPlugin.js
 
+
+tiddler: ../Plugins/smmNestedSortablePlugin.js
+tiddler: ../Plugins/smmTableOfContentPlugin.js
 tiddler: ../Plugins/TableOfContentPlugin.js
+
+
 tiddler: ../Plugins/DroppableSectionPlugin.js
 tiddler: ../Plugins/ToggleSectionHighlightsPlugin.js
 

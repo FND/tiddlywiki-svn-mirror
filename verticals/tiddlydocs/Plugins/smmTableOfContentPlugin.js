@@ -1,6 +1,6 @@
 config.macros.smmTableOfContent = merge(config.macros.smmNestedSortable, {
 	handler: function(place,macroName,params,wikifier,paramString,tiddler) {
-		 setStylesheet(store.getTiddlerText("smmTableOfContentPlugin##StyleSheet"), "smmTableOfContentPlugin");
+		setStylesheet(store.getTiddlerText("smmTableOfContentPlugin##StyleSheet"), "smmTableOfContentPlugin");
 		this.refresh(place,macroName,params,wikifier,paramString,tiddler);
 	},
 	renderItem: function(item, ul, label) {

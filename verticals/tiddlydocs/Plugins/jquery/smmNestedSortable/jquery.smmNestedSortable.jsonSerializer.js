@@ -33,6 +33,10 @@ jQuery.fn.smmNestedSortable.jsonSerializer = {
 	  return spec;
 	},
 	getSpec: function(tiddler) {
+	try{
 		return jQuery.parseJSON(store.getTiddlerText(docTiddler)).content;
+	} catch(e) {
+		return false;
 	}
+		}
 };

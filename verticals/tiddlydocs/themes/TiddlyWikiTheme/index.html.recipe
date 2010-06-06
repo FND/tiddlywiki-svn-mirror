@@ -16,4 +16,7 @@ tiddler: ../../content/CreateNewDocument.tid
 tiddler: ../../content/Settings.tid
 tiddler: ../../content/UserDefinitions.tid
 
+recipe: ../../content/documents/TheInternet/split.recipe
+tiddler: ../../content/documents/Doc2/Doc2.tid
+
 

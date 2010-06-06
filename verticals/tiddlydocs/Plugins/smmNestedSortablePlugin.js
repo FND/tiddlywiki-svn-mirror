@@ -27,6 +27,9 @@ config.macros.smmNestedSortable = {
 		jQuery(specView).empty();
 		this._renderSpec(specView, spec, []);	
 		jQuery(jQuery(specView)).smmNestedSortable({
+			items: "li",
+         	placeholder: 'placeholder',
+         	helper: "helper",
 			'serializer':function() {
 				config.macros.smmNestedSortable.specChanged();
 			}

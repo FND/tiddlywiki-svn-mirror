@@ -39,6 +39,7 @@ config.commands.saveNewSection.find = function(needle, haystack) {
 }
 
 window.addToToc = function(sectionTitle, docTitle) {
+	console.log('here');
 	var documentSpec = jQuery.parseJSON(store.getTiddlerText(docTitle)).content;
 	if(!config.commands.saveNewSection.find(sectionTitle, documentSpec)){
 		var node = {
@@ -70,6 +71,7 @@ config.commands.saveNewSection.handler = function(event,src,title)
 
 var _saveTiddler = Story.prototype.saveTiddler;
 Story.prototype.saveNewSection = function(title, minorUpdate) {
+	console.log('here1');
 	var autosave = config.options.chkAutoSave;
 	config.options.chkAutoSave = false;
 	var _title = _saveTiddler.apply(this, arguments);
