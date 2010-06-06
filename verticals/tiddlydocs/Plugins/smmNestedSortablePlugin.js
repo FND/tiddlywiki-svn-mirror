@@ -26,13 +26,9 @@ config.macros.smmNestedSortable = {
 		window.ulCount=0;
 		jQuery(specView).empty();
 		this._renderSpec(specView, spec, []);	
-		jQuery(jQuery(specView)).smmNestedSortable({
+		jQuery(jQuery(specView)).sortable({
 			items: "li",
-         	placeholder: 'placeholder',
-         	helper: "helper",
-			'serializer':function() {
-				config.macros.smmNestedSortable.specChanged();
-			}
+         	helper: "helper"
 		}); 
 	}, 
 	_renderSpec: function(specView, spec, label) {
