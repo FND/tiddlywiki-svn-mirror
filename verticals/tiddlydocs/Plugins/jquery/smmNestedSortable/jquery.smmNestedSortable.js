@@ -22,10 +22,10 @@ $.fn.smmNestedSortable = function(options) {
              	$(ui.placeholder).append("<ul class='nestedSortable'>" + $(ui.item).html() + "</ul>");
          },
          stop: function(event, ui) {
-             $.fn.smmNestedSortable.change(event, ui);
-             if (settings.serializer != undefined){
-            		settings.serializer();
-				}
+            $.fn.smmNestedSortable.change(event, ui);
+            if (settings.serializer != undefined){
+            	settings.serializer();
+			}
          },
     }, options);
     this.each(function() {
