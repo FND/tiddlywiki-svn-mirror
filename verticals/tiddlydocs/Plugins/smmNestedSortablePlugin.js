@@ -47,6 +47,7 @@ config.macros.smmNestedSortable = {
 		return  li = createTiddlyElement(ul, "li", item.title, null, item.title);
 	},
 	specChanged: function() {
+		console.log('specChanged');
 		if(store.tiddlerExists(window.activeDocument)) { 
 			var specTiddler = store.getTiddler(window.activeDocument); 
 			var fields = merge(specTiddler.fields, config.defaultCustomFields); 
