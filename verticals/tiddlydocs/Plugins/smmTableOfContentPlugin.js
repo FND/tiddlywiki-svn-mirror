@@ -1,4 +1,9 @@
 config.macros.smmTableOfContent = merge(config.macros.smmNestedSortable, {
+	'editTemplate':DEFAULT_EDIT_TEMPLATE, 
+	'viewTemplate':DEFAULT_VIEW_TEMPLATE,
+	'dragToolTip': 'Drag and drop to re-arrange sections in the table of content.',
+	'deleteText': 'remove',
+	'noDocSelectedText': 'No document selected',
 	handler: function(place,macroName,params,wikifier,paramString,tiddler) {
 		setStylesheet(store.getTiddlerText("smmTableOfContentPlugin##StyleSheet"), "smmTableOfContentPlugin");
 		this.refresh(place,macroName,params,wikifier,paramString,tiddler);
@@ -13,13 +18,13 @@ config.macros.smmTableOfContent = merge(config.macros.smmNestedSortable, {
 		}
 		var exists = (store.tiddlerExists(item.title)) ? "" : "sectionNotExist";
 
-	    var sectionDiv = createTiddlyElement(li, "div", item.title+"_div", "sectionHeading toc-sort-handle "+sectionClass+" "+config.macros.TableOfContent.strip(item.title)+"_div "+exists);	
-		sectionDiv.title = config.macros.TableOfContent.dragToolTip;
+	    var sectionDiv = createTiddlyElement(li, "div", item.title+"_div", "sectionHeading toc-sort-handle "+sectionClass+" "+config.macros.smmTableOfContent.strip(item.title)+"_div "+exists);	
+		sectionDiv.title = config.macros.smmTableOfContent.dragToolTip;
 		sectionDiv.onclick = function() {
 			if(config.options.chkOpenEditView == true)
-				story.displayTiddler(this.id, this.id.replace("_div", ""), config.macros.TableOfContent.editTemplate ,null, null, null, null,this);
+				story.displayTiddler(this.id, this.id.replace("_div", ""), config.macros.smmTableOfContent.editTemplate ,null, null, null, null,this);
 			else
-				story.displayTiddler(this.id, this.id.replace("_div", ""), config.macros.TableOfContent.viewTemplate,null, null, null, null,this);
+				story.displayTiddler(this.id, this.id.replace("_div", ""), config.macros.smmTableOfContent.viewTemplate,null, null, null, null,this);
 		};		
 		jQuery(sectionDiv).hover( 
 			function() { 
@@ -30,19 +35,18 @@ config.macros.smmTableOfContent = merge(config.macros.smmNestedSortable, {
 			} 
         );
 		createTiddlyText(sectionDiv, label.join(".")+"  :  "+item.title);
-		var a = createTiddlyElement(sectionDiv, "a", null, 'button deleteButton', config.macros.TableOfContent.deleteText);    
+		var a = createTiddlyElement(sectionDiv, "a", null, 'button deleteButton', config.macros.smmTableOfContent.deleteText);    
 		jQuery(a).css('opacity', '0');
 		jQuery(a).click(function() {
 			jQuery(item).parent().parent().fadeOut('fast', function() {
 				jQuery(item).remove();
-				config.macros.TableOfContent.specChanged();
+				config.macros.smmTableOfContent.specChanged();
 			});
 			return false;
 		})
 		return li;
 	},	
 });
-
 
 
 /***
