@@ -6,6 +6,7 @@ Pulls in a list from a store tiddler using the specified adaptor (incorrectly na
 Also handles saving back to the same file. 
 
 */
+
 config.macros.smmNestedSortable = {
 	serializer:'jsonSerializer',
 	handler: function(place,macroName,params,wikifier,paramString,tiddler) {
@@ -26,7 +27,7 @@ config.macros.smmNestedSortable = {
 		jQuery(specView).empty();
 		this._renderSpec(specView, spec, []);	
 		jQuery(jQuery(specView).children('ul')).smmNestedSortable({
-
+			items:"li",
 		}); 
 	}, 
 	_renderSpec: function(specView, spec, label) {
