@@ -44,6 +44,13 @@ var lastSlide = '';
         var r = displayTiddler.apply(this, arguments);
         tiddler = (tiddler instanceof Tiddler) ? tiddler : store.fetchTiddler(tiddler);
 
+		// catch null tiddler exception in presentation mode
+		if (!tiddler) {
+			if ($('#presentation').length) {
+				return false;
+			}
+		} 
+
         // refresh control panel
         refreshElements($('#footer')[0]);
 
