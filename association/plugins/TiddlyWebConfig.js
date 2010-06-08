@@ -72,11 +72,11 @@ config.shadowTiddlers.ToolbarCommands = config.shadowTiddlers.ToolbarCommands.
 	replace("syncing ", "revisions syncing ");
 
 config.commands.saveTiddler.isEnabled = function(tiddler) {
-	return hasPermission("write", tiddler);
+	return hasPermission("write", tiddler) && !tiddler.isReadOnly();
 };
 
 config.commands.deleteTiddler.isEnabled = function(tiddler) {
-	return hasPermission("delete", tiddler);
+	return hasPermission("delete", tiddler) && !tiddler.isReadOnly();
 };
 
 // hijack option macro to disable username editing
