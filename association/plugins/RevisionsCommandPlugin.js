@@ -50,6 +50,7 @@ var cmd = config.commands.revisions = {
 	revSuffix: " [rev. #%0]",
 	diffSuffix: " [diff: #%0 #%1]",
 	dateFormat: "YYYY-0MM-0DD 0hh:0mm",
+	listError: "revisions could not be retrieved",
 
 	getText: function(tiddler) {
 		var count = tiddler.fields["server.page.revision"] || 0;
@@ -81,28 +82,32 @@ var cmd = config.commands.revisions = {
 	},
 
 	displayRevisions: function(context, userParams) {
-		var callback = function(ev) {
-			var e = ev || window.event;
-			var revision = resolveTarget(e).getAttribute("revision");
-			context.adaptor.getTiddlerRevision(tiddler.title, revision, context,
-				userParams, cmd.displayTiddlerRevision);
-		};
 		removeNode(userParams.loading);
-		var table = createTiddlyElement(userParams.popup, "table");
-		for(var i = 0; i < context.revisions.length; i++) {
-			var tiddler = context.revisions[i];
-			var row = createTiddlyElement(table, "tr");
-			var timestamp = tiddler.modified.formatString(cmd.dateFormat);
-			var revision = tiddler.fields["server.page.revision"];
-			var cell = createTiddlyElement(row, "td");
-			createTiddlyButton(cell, timestamp, cmd.revTooltip, callback, null,
-				null, null, { revision: revision });
-			cell = createTiddlyElement(row, "td", null, null, tiddler.modifier);
-			cell = createTiddlyElement(row, "td");
-			createTiddlyButton(cell, cmd.selectLabel, cmd.selectTooltip,
-				cmd.revisionSelected, null, null, null,
-				{ index:i, revision: revision, col: 2 });
-			cmd.context = context; // XXX: unsafe (singleton)!?
+		if(context.status) {
+			var callback = function(ev) {
+				var e = ev || window.event;
+				var revision = resolveTarget(e).getAttribute("revision");
+				context.adaptor.getTiddlerRevision(tiddler.title, revision, context,
+					userParams, cmd.displayTiddlerRevision);
+			};
+			var table = createTiddlyElement(userParams.popup, "table");
+			for(var i = 0; i < context.revisions.length; i++) {
+				var tiddler = context.revisions[i];
+				var row = createTiddlyElement(table, "tr");
+				var timestamp = tiddler.modified.formatString(cmd.dateFormat);
+				var revision = tiddler.fields["server.page.revision"];
+				var cell = createTiddlyElement(row, "td");
+				createTiddlyButton(cell, timestamp, cmd.revTooltip, callback, null,
+					null, null, { revision: revision });
+				cell = createTiddlyElement(row, "td", null, null, tiddler.modifier);
+				cell = createTiddlyElement(row, "td");
+				createTiddlyButton(cell, cmd.selectLabel, cmd.selectTooltip,
+					cmd.revisionSelected, null, null, null,
+					{ index:i, revision: revision, col: 2 });
+				cmd.context = context; // XXX: unsafe (singleton)!?
+			}
+		} else {
+			$("<li />").text(cmd.listError).appendTo(userParams.popup);
 		}
 	},
 
