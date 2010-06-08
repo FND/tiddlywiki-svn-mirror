@@ -1,4 +1,11 @@
 tags: 
 
-Click the button to get a random color palette.
 <<RandomColorPalette>>
+Click the button to get a random color palette.
+<<RandomColorPaletteButton>>
+
+!The macros
+{{{<<RandomColorPalette>>}}} is a run once macro which picks a random colour scheme for your TiddlyWiki, saving a new ColorPalette tiddler on completion.
+This is useful if you want the color palette to change when a certain tiddler is opened. If your particular whacky you could make it change every time you display a new tiddler by adding the macro to the ViewTemplate.
+
+{{{<<RandomColorPaletteButton>>}}} gives you a button that you can be used to pick a random colour scheme.
