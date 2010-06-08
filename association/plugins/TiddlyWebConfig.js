@@ -2,7 +2,7 @@
 |''Name''|TiddlyWebConfig|
 |''Description''|configuration settings for TiddlyWebWiki|
 |''Author''|FND|
-|''Version''|0.8.2|
+|''Version''|0.9.0|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/plugins/TiddlyWebConfig.js|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
@@ -25,6 +25,8 @@
 * added revisions toolbar command
 !!v0.8 (2010-04-28)
 * added extension namespace caching state and providing getUserInfo function
+!!v0.9 (2010-06-08)
+* disabled username edit field
 !Code
 ***/
 //{{{
@@ -75,6 +77,21 @@ config.commands.saveTiddler.isEnabled = function(tiddler) {
 
 config.commands.deleteTiddler.isEnabled = function(tiddler) {
 	return hasPermission("delete", tiddler);
+};
+
+// hijack option macro to disable username editing
+var _optionMacro = config.macros.option.handler;
+config.macros.option.handler = function(place, macroName, params, wikifier, paramString) {
+	if(params[0] == "txtUserName") {
+		params[0] = "options." + params[0];
+		var self = this;
+		var args = arguments;
+		plugin.getUserInfo(function(user) {
+			config.macros.message.handler.apply(self, args);
+		});
+	} else {
+		_optionMacro.apply(this, arguments);
+	}
 };
 
 // hijack isReadOnly to take into account permissions and content type
