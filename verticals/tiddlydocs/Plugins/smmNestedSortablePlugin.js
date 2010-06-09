@@ -60,5 +60,8 @@ config.macros.smmNestedSortable = {
 		store.saveTiddler(window.activeDocument, window.activeDocument, jQuery.fn.smmNestedSortable[this.serializer].buildSpec(), null, null, "document", fields); 
 		autoSaveChanges(true, window.activeDocument);
 		refreshAll();
+	},
+	strip: function(s) {
+		return s.replace(/ /g,'');
 	}
 };
