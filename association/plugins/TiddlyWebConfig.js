@@ -2,7 +2,7 @@
 |''Name''|TiddlyWebConfig|
 |''Description''|configuration settings for TiddlyWebWiki|
 |''Author''|FND|
-|''Version''|0.9.0|
+|''Version''|0.9.1|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/plugins/TiddlyWebConfig.js|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
@@ -30,11 +30,11 @@
 !Code
 ***/
 //{{{
+(function($) {
+
 if(!config.adaptors.tiddlyweb) {
 	throw "Missing dependency: TiddlyWebAdaptor";
 }
-
-(function() {
 
 if(window.location.protocol != "file:") {
 	config.options.chkAutoSave = true;
@@ -86,6 +86,7 @@ config.macros.option.handler = function(place, macroName, params, wikifier, para
 		params[0] = "options." + params[0];
 		var self = this;
 		var args = arguments;
+		args[0] = $("<span />").appendTo(place)[0];
 		plugin.getUserInfo(function(user) {
 			config.macros.message.handler.apply(self, args);
 		});
@@ -148,5 +149,5 @@ var getStatus = function(callback) {
 };
 getStatus();
 
-})();
+})(jQuery);
 //}}}
