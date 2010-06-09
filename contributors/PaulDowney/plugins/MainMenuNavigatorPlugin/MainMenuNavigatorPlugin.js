@@ -4,7 +4,7 @@
 |''Author:''|PaulDowney (psd (at) osmosoft (dot) com) |
 |''Source:''|http://whatfettle.com/2008/07/MainMenuNavigatorPlugin/ |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/plugins/MainMenuNavigatorPlugin/ |
-|''Version:''|0.1|
+|''Version:''|0.2|
 |''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''~CoreVersion:''|2.4|
@@ -84,8 +84,12 @@ the MainMenu as a list of tiddlers with the "current" tiddler as the first tiddl
             this.list = this.parse(store.getTiddler("MainMenu").text);
         },
 
+		current : function () {
+			return story.firstTitle();
+		},
+
         relative : function (delta) {
-            var title = story.firstTitle();
+            var title = this.current();
             var index = this.list.indexOf(title) + delta;
             index = index.clamp(0, this.list.length - 1);
             return this.list[index];
