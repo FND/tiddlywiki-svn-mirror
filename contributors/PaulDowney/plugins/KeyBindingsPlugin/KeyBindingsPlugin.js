@@ -20,7 +20,7 @@
 	jQuery(document).bind('keydown', function (e) {
 		if (e.target.nodeName.toLowerCase() == "html") {
 			var keyCode = e.keyCode || e.which;
-			console.log(keyCode);
+			//console.log(keyCode);
 			if (config.macros.keybindings.keyCode[keyCode]) {
 				config.macros.keybindings.keyCode[keyCode].call(e);
 			}
