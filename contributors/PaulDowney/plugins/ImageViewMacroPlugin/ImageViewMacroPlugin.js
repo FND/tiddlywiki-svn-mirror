@@ -1,6 +1,6 @@
 /***
 |''Name:''|ImageViewMacroPlugin|
-|''Description:''| @@@Description@@@ |
+|''Description:''|Provide a view macro to display image tiddlers using the ImageMacroPlugin |
 |''Author:''|PaulDowney (psd (at) osmosoft (dot) com) |
 |''Source:''|http://whatfettle.com/2008/07/ImageViewMacroPlugin/ |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/plugins/ImageViewMacroPlugin/ |
@@ -8,8 +8,6 @@
 |''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''~CoreVersion:''|2.4|
-!!Documentation
-@@@blah blah@@@
 !!Code
 ***/
 //{{{
