@@ -27,7 +27,7 @@ config.macros.taggedTabs={
 		var tagged = store.getTaggedTiddlers(params[1].value,"title").reverse();
 		var cookie = "taggedTabs";
 		var wrapper = createTiddlyElement(null,"div",null,"tabsetWrapper taggedTabset" + cookie);
-		var tabset = createTiddlyElement(wrapper,"div",null,"tabset");
+		var tabset = createTiddlyElement(wrapper,"div",null,"tabset taggedTabs");
 		var validTab = false;
 		tabset.setAttribute("cookie",cookie);
 		for(var t=0; t<tagged.length; t++) {
