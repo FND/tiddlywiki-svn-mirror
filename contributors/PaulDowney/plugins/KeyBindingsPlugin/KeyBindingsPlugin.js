@@ -18,7 +18,6 @@
     version.extensions.KeyBindingsPlugin = {installed: true};
 
 	jQuery(document).bind('keydown', function (e) {
-		console.log(e.target, e.target.nodeName.toLowerCase());
 		switch (e.target.nodeName.toLowerCase()) {
 		case "html":
 		case "body":
