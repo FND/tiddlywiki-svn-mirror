@@ -85,7 +85,7 @@ the MainMenu as a list of tiddlers with the "current" tiddler as the first tiddl
         },
 
 		current : function () {
-			return story.firstTitle();
+			return story.currentTiddler || story.firstTitle();
 		},
 
         relative : function (delta) {
