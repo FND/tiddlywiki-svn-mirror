@@ -74,10 +74,16 @@ tags: systemConfig
       else{
         merge(fields,{doNotSave:true});
       }
-      var tid = new Tiddler('ColorPalette');
+
+      
+      var tid = store.getTiddler('ColorPalette');
+      if(!tid){
+        tid = new Tiddler('ColorPalette');
+        tid.fields = fields;
+        tid.modifier ='RandomColorPalette Macro';
+      }
+      
       tid.text = text;
-      tid.fields = fields;
-      tid.modifier ='RandomColorPalette Macro';
       if(!readOnly){
           store.saveTiddler(tid.title,tid.title, tid.text, tid.modifier,tid.modified,tid.tags,tid.fields,false,tid.created,'');
           autoSaveChanges(null, [tid]);
@@ -99,7 +105,7 @@ tags: systemConfig
 
     ,handler: function(place){
       this.generate_palette();      
-    }
+    }	
  
   };
   config.macros.RandomColorPaletteButton ={
