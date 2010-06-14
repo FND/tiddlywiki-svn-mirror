@@ -65,15 +65,28 @@ config.macros.image = {
         //IE not implemented      
       }
     }
-    ,handler: function(place, macroName, params){
+    ,handler: function(place, macroName, params,wikifier, paramString){
         var img;
         var tiddler = store.getTiddler(params[0]);
         var width = params[1];
         var height = params[2];
-        
+        if(width && width.indexOf(":") > -1)width= false;
+        if(height && height.indexOf(":") > -1)height = false;
+        var args = paramString.parseParams("name",null,true,false,true);
+
+        var alt;
+        if(args[0]["alt"]){
+          alt= args[0]["alt"][0];
+        }
+
         if(!tiddler)return;
         //do some type checking
         var options = {tiddler:tiddler,fix:true,width:width,height:height};
-        this.importSVG(place,options);
+        if(config.macros.image.svgAvailable){
+          this.importSVG(place,options);
+        }
+        else{
+          jQuery(place).text(alt);
+        }
     }
 }
