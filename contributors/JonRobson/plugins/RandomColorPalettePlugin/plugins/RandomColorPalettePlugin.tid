@@ -38,6 +38,7 @@ tags: systemConfig
   }
 
   config.macros.RandomColorPalette = {
+    messagesOn: false,
     generate_palette:function(){
       if(this.inprogress) return;
       this.inprogress = true;
@@ -94,9 +95,9 @@ tags: systemConfig
       
       refreshAll();
       
-      var tempPlace= document.createElement("div");
-      var e = getMessageDiv();
-      if(!jQuery(".changedPalette",e)[0]){ //only display message once..
+      if(config.macros.RandomColorPalette.messagesOn && !jQuery(".changedPalette",e)[0]){ //only display message once..
+        var tempPlace= document.createElement("div");
+        var e = getMessageDiv();
         wikify("{{changedPalette{We have assigned you a random theme by adjusting the [[ColorPalette]] tiddler.\nDon't like it? Click <<RandomColorPalette>> for another one.}}}",tempPlace);
         e.appendChild(tempPlace);
       }
