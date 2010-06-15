@@ -5,7 +5,7 @@ tags: systemConfig
 |''Description''|Adds a random color palette to TiddlyWiki|
 |''Author''|Jon Robson|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
-|''Version''|0.923|
+|''Version''|0.924|
 !Code
 ***/
 //{{{
@@ -33,7 +33,6 @@ tags: systemConfig
     r = parseInt(r * 255);
     g = parseInt(g * 255);
     b = parseInt(b * 255);
-    if(r < 0 || g < 0 || b < 0)console.log(r,g,b,"|||",h,s,l);
     return "rgb("+r+","+g+","+b+")";
   }
 
@@ -70,31 +69,15 @@ tags: systemConfig
         text += id +":"+palette[id]+"\n";
       }
       var newDate = new Date();
-      var fields = {};
-      if(!readOnly){
-        merge(fields,config.defaultCustomFields);
-      }
-      else{
-        merge(fields,{doNotSave:true});
-      }
-
-      
       var tid = store.getTiddler('ColorPalette');
       if(!tid){
         tid = new Tiddler('ColorPalette');
-        tid.fields = fields;
+        tid.fields = merge({},config.defaultCustomFields);
         tid.modifier ='RandomColorPalette Macro';
-      }
-      
+      }      
       tid.text = text;
-      if(!readOnly){
-          store.saveTiddler(tid.title,tid.title, tid.text, tid.modifier,tid.modified,tid.tags,tid.fields,false,tid.created,'');
-          autoSaveChanges(null, [tid]);
-      }
-      else{
-        store.addTiddler(tid);
-      }
-      
+      store.saveTiddler(tid.title,tid.title, tid.text, tid.modifier,tid.modified,tid.tags,tid.fields,false,tid.created,'');
+      autoSaveChanges(null, [tid]);
       refreshAll();
       
       if(macro.messagesOn && !jQuery(".changedPalette",e)[0]){ //only display message once..
