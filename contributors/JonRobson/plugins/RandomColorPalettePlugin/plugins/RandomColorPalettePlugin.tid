@@ -5,7 +5,7 @@ tags: systemConfig
 |''Description''|Adds a random color palette to TiddlyWiki|
 |''Author''|Jon Robson|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
-|''Version''|0.921|
+|''Version''|0.923|
 !Code
 ***/
 //{{{
@@ -39,7 +39,9 @@ tags: systemConfig
 
   config.macros.RandomColorPalette = {
     messagesOn: false,
+    changedPaletteText: "We have assigned you a random theme by adjusting the [[ColorPalette]] tiddler.\nDon't like it? Click <<RandomColorPalette>> for another one.",
     generate_palette:function(){
+      var macro = config.macros.RandomColorPalette;
       if(this.inprogress) return;
       this.inprogress = true;
       var palette = {Background: "#fff",Foreground: "#000",PrimaryPale: "#8cf",PrimaryLight: "#FF7673",PrimaryMid: "#A60400",PrimaryDark: "#A60400",SecondaryPale: "#ffc",SecondaryLight: "#fe8",SecondaryMid: "#db4",SecondaryDark: "#841",TertiaryPale: "#eee",TertiaryLight: "#ccc",TertiaryMid: "#999",TertiaryDark: "#666",Error: "#f88"};
@@ -95,10 +97,10 @@ tags: systemConfig
       
       refreshAll();
       
-      if(config.macros.RandomColorPalette.messagesOn && !jQuery(".changedPalette",e)[0]){ //only display message once..
+      if(macro.messagesOn && !jQuery(".changedPalette",e)[0]){ //only display message once..
         var tempPlace= document.createElement("div");
         var e = getMessageDiv();
-        wikify("{{changedPalette{We have assigned you a random theme by adjusting the [[ColorPalette]] tiddler.\nDon't like it? Click <<RandomColorPalette>> for another one.}}}",tempPlace);
+        wikify("{{changedPalette{"+macro.changedPaletteText+"}}}",tempPlace);
         e.appendChild(tempPlace);
       }
       this.inprogress = false;
