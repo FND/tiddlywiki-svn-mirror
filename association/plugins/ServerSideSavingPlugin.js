@@ -2,7 +2,7 @@
 |''Name''|ServerSideSavingPlugin|
 |''Description''|server-side saving|
 |''Author''|FND|
-|''Version''|0.6.1|
+|''Version''|0.6.2|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/plugins/ServerSideSavingPlugin.js|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
@@ -31,9 +31,9 @@ The specific nature of this plugin depends on the respective server.
 !Code
 ***/
 //{{{
-readOnly = false; //# enable editing over HTTP
-
 (function($) {
+
+readOnly = false; //# enable editing over HTTP
 
 var plugin = config.extensions.ServerSideSavingPlugin = {};
 
@@ -49,8 +49,9 @@ plugin.locale = {
 	hostError: "Unable to import from this location due to cross-domain restrictions."
 };
 
-plugin.sync = function() {
-	store.forEachTiddler(function(title, tiddler) {
+plugin.sync = function(tiddlers) {
+	tiddlers = tiddlers || store.getTiddlers();
+	$.each(tiddlers, function(i, tiddler) {
 		var changecount = parseInt(tiddler.fields.changecount, 10);
 		if(tiddler.fields.deleted === "true" && changecount === 1) {
 			plugin.removeTiddler(tiddler);
@@ -157,7 +158,7 @@ saveChanges = function(onlyIfDirty, tiddlers) {
 	if(window.location.protocol == "file:") {
 		_saveChanges.apply(this, arguments);
 	} else {
-		plugin.sync();
+		plugin.sync(tiddlers);
 	}
 };
 
