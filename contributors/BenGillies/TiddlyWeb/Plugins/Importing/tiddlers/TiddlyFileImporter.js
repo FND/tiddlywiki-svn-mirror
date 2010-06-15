@@ -13,48 +13,48 @@ tiddlywebplugins.reflector
 ***/
 //{{{
 (function($){
-	if(!version.extensions.TiddlyFileImporter)
-	{ //# ensure that the plugin is only installed once
-		version.extensions.TiddlyFileImporter = { installed: true }
-	};
+if(!version.extensions.TiddlyFileImporter)
+{ //# ensure that the plugin is only installed once
+	version.extensions.TiddlyFileImporter = { installed: true }
+};
 
-	config.macros.fileImport = {
-		reflectorURI: '/reflector',
-		handler: function(place, macroName, params, wikifier, paramString) {
-			// create a form to upload stuff
-			var iframeName = this.createForm(place);
+config.macros.fileImport = {
+	reflectorURI: '/reflector',
+	handler: function(place, macroName, params, wikifier, paramString) {
+		// create a form to upload stuff
+		var iframeName = this.createForm(place);
 
-			// set an onload ready to hijack the form
-			var iframe = $('iframe[name=' + iframeName + ']')[0];
-			this.setOnLoad(place, iframe);
-		},
-		createForm: function(place) {
-			// create an iframe
-			var iframeName = 'reflectorImporter' + Math.random().toString();
-			$('<form action="' + this.reflectorURI + '" method="POST"'
-				+ ' enctype="multipart/form-data" target="' + iframeName + '">')
-				.append('<input type="file" name="file" />')
-				.append('<input type="submit" value="submit" />')
-				.append('<iframe name="' + iframeName + '" '
-				+ 'style="display: none" />')
-			.appendTo(place);
+		// set an onload ready to hijack the form
+		var iframe = $('iframe[name=' + iframeName + ']')[0];
+		this.setOnLoad(place, iframe);
+	},
+	createForm: function(place) {
+		// create an iframe
+		var iframeName = 'reflectorImporter' + Math.random().toString();
+		$('<form action="' + this.reflectorURI + '" method="POST"'
+			+ ' enctype="multipart/form-data" target="' + iframeName + '">')
+			.append('<input type="file" name="file" />')
+			.append('<input type="submit" value="submit" />')
+			.append('<iframe name="' + iframeName + '" '
+			+ 'style="display: none" />')
+		.appendTo(place);
 
-			return iframeName;
-		},
-		setOnLoad: function(place, iframe) {
-			var loadHandler = function() {
-				importTiddlers(place, iframe);
-			};
+		return iframeName;
+	},
+	setOnLoad: function(place, iframe) {
+		var loadHandler = function() {
+			importTiddlers(place, iframe);
+		};
 
-			iframe.onload = loadHandler;
-			completeReadyStateChanges = 0;
-			iframe.onreadystatechange = function() {
-				if (++(completeReadyStaeChanges) == 3) {
-					loadHandler();
-				}
+		iframe.onload = loadHandler;
+		completeReadyStateChanges = 0;
+		iframe.onreadystatechange = function() {
+			if (++(completeReadyStaeChanges) == 3) {
+				loadHandler();
 			}
 		}
-	};
+	}
+};
 
 function importTiddlers(place, iframe) {
 	var tmpStore = new TiddlyWiki();
