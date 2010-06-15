@@ -50,7 +50,7 @@ plugin.locale = {
 };
 
 plugin.sync = function(tiddlers) {
-	tiddlers = tiddlers || store.getTiddlers();
+	tiddlers = tiddlers[0] ? tiddlers : store.getTiddlers();
 	$.each(tiddlers, function(i, tiddler) {
 		var changecount = parseInt(tiddler.fields.changecount, 10);
 		if(tiddler.fields.deleted === "true" && changecount === 1) {
