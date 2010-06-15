@@ -1,6 +1,6 @@
 (function($) {
-
-	var log = console.log;
+	
+	log = console.log;
 	
 	var online = navigator.onLine;
 	var messages;
@@ -13,22 +13,21 @@
 	
 	config.macros.PlayAudio.handler = function(place, macroName, params, wikifier, paramString, tiddler){
 		
-		var macroParams = paramString.parseParams();
+		var macroParams = paramString.parseParams("uri",null,true);
 		var uri = getParam(macroParams,"uri");
 		createTiddlyButton(place, "Play Audio", null, function(){
 			playAudio(uri);
 		});
-	}
-	
-	config.macros.RibbitVoicemail = {};
-
-	config.macros.RibbitVoicemail.handler = function(place, macroName, params, wikifier, paramString, tiddler){
-
-		var macroParams = paramString.parseParams(null, null, true);
-		config.macros.RibbitVoicemail.getMessages();
 	};
 	
-	config.macros.RibbitVoicemail.getMessages = function(){
+	config.macros.Voicemail = {};
+
+	config.macros.Voicemail.handler = function(place, macroName, params, wikifier, paramString, tiddler){
+		var macroParams = paramString.parseParams(null, null, true);
+		config.macros.Voicemail.getMessages();
+	};
+	
+	config.macros.Voicemail.getMessages = function(){
 		if(!localStorage.messages){
 			localStorage.messages = "{}";
 		}
@@ -38,10 +37,17 @@
 		}
 	};
 	
+	config.macros.Voicemail.goOffline = function(){
+		online = false;
+	};
+	
+	config.macros.Voicemail.goOnline = function(){
+		online = true;
+	};
+	
 	function cache(result){
         if (result.hasError && online){
-			log(result);
-			//story.displayTiddler("Ribbit");
+			alert("Bah, couldn't collect messages, you online?");
         }
         else{
             for (var i  in result){
@@ -54,7 +60,7 @@
                             from:message.from,
                             mediaUri:message.mediaUri,
                             time:message.time
-                        };
+                        }; 
                 }
                 else if (loading){
                     messages[message.id].body = message.body;
@@ -82,44 +88,42 @@
         }
         else{
             localStorage.messages = JSON.stringify(messages);
-            if (loading){
-                setInterval(config.macros.RibbitVoicemail.getMessages(),30000);
-            }
             loading = false;
         }
     }
 
 	function getAudio(message){
-		log(message);
-		// $.get(escape.(message.Uri),function(data){
-		// 	log(data);
-		// 	message.audioData = data;
-		// 	uncached--;
-		// 	log("left to download - " + uncached + "/" + messagesCount);
-		// });
-        $.get("http://home.san1t1.com/hothouse/messageProxy.php?uri="+escape(message.mediaUri) + "&accessToken="+Ribbit.accessToken+"&accessSecret="+Ribbit.accessSecret, function (data){
-					message.audioData = data;
-                    render(message);
-                    uncached --;
-                    alert("left to download - " + uncached + "/" + messagesCount);
-                });
-    }
+		$.get(Ribbit.getStreamableUrl(message.mediaUri), function (data){
+			alert(data);
+			message.audioData = data;
+			render(message);
+            uncached --;
+            log("left to download - " + uncached + "/" + messagesCount);
+		});
+	
+	    }
 
 	function render(message){
 		var id = message.id;
 		var sender = message.sender;
 		var from = message.from;
-		var body = message.body;
-		var mediaUri = message.mediaUri;
+		var body = message.body+"\n\n<<PlayAudio "+message.mediaUri+">>";
+		var mediaUri = message.mediaUri; 
+		// var fields = {
+		// 	mediaUri: message.mediaUri,
+		// 	audioData: null
+		// };
+		var fields = {};
+		message.audioData ? fields.audioData = message.audioData : fields.audioData = null;
 		var tags = ["Voicemail"];
 		var timestamp = Date.convertFromYYYYMMDDHHMMSSMMM(message.time);
-		store.saveTiddler(message.id,message.id,body,message.sender,timestamp,tags,{"mediaUri":message.mediaUri},null,timestamp,message.sender);
+		store.saveTiddler(id,id,body,sender,timestamp,tags,fields,null,timestamp,sender);
     }
 	
 	//TODO something clever here
     function playAudio(uri){
-		alert(uri);
-        if (a !== null){
+		alert(Ribbit.getStreamableUrl(uri));
+        if (a != null){
             a.pause();
         }
         for (var i in messages){

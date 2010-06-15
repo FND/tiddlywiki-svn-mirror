@@ -27,7 +27,7 @@ if(!version.extensions.RibbitLogin){
     
 	    log = console.log;
 
-		//some defaults from benjmain.nickolls@gmail.com/Ribbit_Intro
+		//some defaults from benjmain.nickolls@gmail.com/Ribbit_Intro (2Legged)
 	    consumerKey = "MzdmMjdjZGItZjAyMC00YzIzLTgxMDItYzkyOWQ2ZDdhYjY3";
 	    secretKey ="YWIyNjFlN2YtNWU5Ni00YWFjLThkZTMtOTkxOTdmYWJjZTkx";
 		var userDetails = [];
@@ -66,6 +66,10 @@ if(!version.extensions.RibbitLogin){
 
 		//three leg (public) domain at r4m.ribbit.com (requires a redirect)
 		function login3Leg(place, macroParams){
+			
+			//Override with TiddlyVoicemail app
+			consumerKey = "MDllOTljNzgtYmYwZC00YzJlLTlkZDctYmMyZmZiY2UzYjFl";
+			secretKey = "ODI5OWM2MjYtNjE2MS00YWNkLWIwNTgtMDYzYjcwMjgwYmQ1"
 		
 			// log("Initiating 3 Legged auth");
 			if(getParam(macroParams,"consumerKey",null)!==null && getParam(macroParams,"secretKey",null)!==null){
@@ -92,7 +96,9 @@ if(!version.extensions.RibbitLogin){
 									return
 								}
 								else{
-									pollApproved();
+									if(!Ribbit.userId){
+										pollApproved();
+									}
 								}
 							};//callBack
 							Ribbit.checkAuthenticatedUser(callBack);
