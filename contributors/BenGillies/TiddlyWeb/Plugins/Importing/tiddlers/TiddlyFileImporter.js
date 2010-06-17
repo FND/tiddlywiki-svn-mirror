@@ -142,8 +142,10 @@ config.macros.importTiddlers.onGetTiddler = function(context, wizard) {
 		delete fields['server.page.revision'];
 		delete fields['server.recipe'];
 		fields.changecount = 1;
-		store.saveTiddler(tiddler.title, tiddler.title, tiddler.text, tiddler.modifier, tiddler.modified, tiddler.tags, tiddler.fields, true, tiddler.created);
-		autoSaveChanges();
+		store.saveTiddler(tiddler.title, tiddler.title, tiddler.text,
+			tiddler.modifier, tiddler.modified, tiddler.tags, tiddler.fields,
+			false, tiddler.created);
+		autoSaveChanges(true);
 	}
 };
 
