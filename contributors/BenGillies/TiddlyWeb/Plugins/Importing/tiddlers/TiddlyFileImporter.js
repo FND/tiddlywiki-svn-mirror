@@ -20,32 +20,72 @@ if(!version.extensions.TiddlyFileImporter)
 
 config.macros.fileImport = {
 	reflectorURI: '/reflector',
+	incorrectTypeError: 'Incorrect File Type. You must upload a TiddlyWiki',
+	uploadLabel: 'Upload',
+	uploadLabelPrompt: 'Import tiddlers from this TiddlyWiki',
+	step1Text: 'Pick a TiddlyWiki file to Upload',
+	listViewTemplate: {
+		columns: [
+			{name: 'Selected', field: 'Selected', rowName: 'title', type: 'Selector'},
+			{name: 'Tiddler', field: 'tiddler', title: 'Tiddler', type: 'Tiddler'},
+			{name: 'Text', field: 'text', title: 'Text', type: 'String'},
+			{name: 'Publish', field: 'publish', title: 'Publish', type: 'Selector'}
+		]
+	},
+	noTiddlersText: 'No Tiddlers found in file',
+	importLabel: 'Import tiddlers',
+	importLabelPrompt: 'Import these tiddlers',
+
 	handler: function(place, macroName, params, wikifier, paramString) {
-		// create a form to upload stuff
-		var iframeName = this.createForm(place);
-
-		// set an onload ready to hijack the form
-		var iframe = $('iframe[name=' + iframeName + ']')[0];
-		this.setOnLoad(place, iframe);
+		var wizard = new Wizard();
+		wizard.createWizard(place, 'Import a TiddlyWiki');
+		this.restart(wizard);
 	},
-	createForm: function(place) {
-		// create an iframe
+
+	restart: function(wizard) {
+		var me = config.macros.fileImport;
+		wizard.addStep('Upload a TiddlyWiki file', '<input type="hidden" '
+			+ 'name="markList" />');
+		var markList = wizard.getElement('markList');
+		var uploadWrapper = document.createElement('div');
+		markList.parentNode.insertBefore(uploadWrapper, markList);
+		uploadWrapper.setAttribute('refresh', 'macro');
+		uploadWrapper.getAttribute('macroName', 'fileImport');
+		$(uploadWrapper).append('<p>' + me.step1Text + '</p>');
 		var iframeName = 'reflectorImporter' + Math.random().toString();
-		$('<form action="' + this.reflectorURI + '" method="POST"'
-			+ ' enctype="multipart/form-data" target="' + iframeName + '">')
-			.append('<input type="file" name="file" />')
-			.append('<input type="submit" value="submit" />')
-			.append('<iframe name="' + iframeName + '" '
-			+ 'style="display: none" />')
-		.appendTo(place);
-
-		return iframeName;
+		me.createForm(uploadWrapper, wizard, iframeName);
+		wizard.setValue('serverType', 'tiddlyweb');
+		wizard.setValue('adaptor', new config.adaptors.file());
+		wizard.setValue('host', config.defaultCustomFields['server.host']);
+		wizard.setValue('context', {});
+		wizard.setButtons([{
+			caption: me.uploadLabel,
+			tooltip: me.uploadLabelPrompt,
+			onClick: function() {
+				var iframe = $('<iframe name="' + iframeName + '" '
+					+ 'style="display: none" />').appendTo(uploadWrapper);
+				// set an onload ready to hijack the form
+				me.setOnLoad(uploadWrapper, wizard, iframe[0]);
+				wizard.formElem.submit();
+			}
+		}]);
 	},
-	setOnLoad: function(place, iframe) {
-		var loadHandler = function() {
-			importTiddlers(place, iframe);
-		};
 
+	createForm: function(place, wizard, iframeName) {
+		var form = wizard.formElem;
+		var me = config.macros.fileImport;
+		form.action = me.reflectorURI;
+		form.enctype = 'multipart/form-data';
+		form.method = 'POST';
+		form.target = iframeName;
+		$(place).append('<input type="file" name="file" />');
+	},
+
+	setOnLoad: function(place, wizard, iframe) {
+		var me = config.macros.fileImport
+		var loadHandler = function() {
+			me.importTiddlers.apply(this, [place, wizard, iframe]);
+		};
 		iframe.onload = loadHandler;
 		completeReadyStateChanges = 0;
 		iframe.onreadystatechange = function() {
@@ -53,23 +93,58 @@ config.macros.fileImport = {
 				loadHandler();
 			}
 		}
+	},
+
+	importTiddlers: function(place, wizard, iframe) {
+		var tmpStore = new TiddlyWiki();
+		try {
+			var POSTedWiki= iframe.contentWindow
+				.document.documentElement.innerHTML;
+		} catch(e) {
+			displayMessage(config.macros.fileImport.incorrectTypeError);
+			return;
+		}
+		// now we are done, so remove the iframe
+		$(iframe).remove();
+
+		tmpStore.importTiddlyWiki(POSTedWiki);
+		var newTiddlers = tmpStore.getTiddlers();
+		$.each(newTiddlers, function(index, tiddler) {
+			// make the tiddler compatible with this recipe
+		});
+		var workspace = config.defaultCustomFields['server.workspace']
+			.split(/^[^\/]*\//)[1];
+		var context = {
+			status: true,
+			statusText: 'OK',
+			httpStatus: 200,
+			adaptor: wizard.getValue('adaptor'),
+			tiddlers: newTiddlers
+		};
+		wizard.setValue('context', context);
+		wizard.setValue('workspace', workspace);
+		wizard.setValue('inFileImport', true);
+		config.macros.importTiddlers.onGetTiddlerList(context, wizard);
 	}
 };
 
-function importTiddlers(place, iframe) {
-	var tmpStore = new TiddlyWiki();
-	try {
-		var POSTedWiki= iframe.contentWindow.document.documentElement.innerHTML;
-	} catch(e) {
-		displayMessage('Incorrect File Type. You must upload a TiddlyWiki');
-		return;
+_onGetTiddler = config.macros.importTiddlers.onGetTiddler;
+config.macros.importTiddlers.onGetTiddler = function(context, wizard) {
+	context.adaptor = new config.adaptors.tiddlyweb();
+	_onGetTiddler.apply(this, arguments);
+	// now save the tiddlers
+	if (wizard.getValue('inFileImport')) {
+		var tiddler = context.tiddler;
+		var fields = tiddler.fields;
+		merge(fields, config.defaultCustomFields);
+		delete fields['server.permissions'];
+		delete fields['server.bag'];
+		delete fields['server.page.revision'];
+		delete fields['server.recipe'];
+		fields.changecount = 1;
+		store.saveTiddler(tiddler.title, tiddler.title, tiddler.text, tiddler.modifier, tiddler.modified, tiddler.tags, tiddler.fields, true, tiddler.created);
+		autoSaveChanges();
 	}
-
-	tmpStore.importTiddlyWiki(POSTedWiki);
-	var newTiddlers = tmpStore.getTiddlers();
-	$.each(newTiddlers, function(index, tiddler) {
-		$(place).append(tiddler.title + '<br>');
-	});
 };
 
 })(jQuery);
