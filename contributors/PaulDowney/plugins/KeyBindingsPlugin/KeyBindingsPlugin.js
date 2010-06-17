@@ -18,6 +18,7 @@
     version.extensions.KeyBindingsPlugin = {installed: true};
 
 	jQuery(document).bind('keydown', function (e) {
+		//console.log(e.target.nodeName.toLowerCase());
 		switch (e.target.nodeName.toLowerCase()) {
 		case "html":
 		case "body":
@@ -35,8 +36,14 @@
 			32: function (e) { story.nextTiddler(); },	//space
 			39: function (e) { story.nextTiddler(); },	//cursor-right
 			37: function (e) { story.prevTiddler(); },	//cursor-left
-			49: function (e) { story.firstTiddler(); },	//1
-			61: function (e) { story.lastTiddler(); }	//=
+			65: function (e) { story.firstTiddler(); },	//A
+			90: function (e) { story.lastTiddler(); },	//Z
+			187: function (e) { cecily.zoomIn(); },	//=+
+			61: function (e) { cecily.zoomIn(); },	//=+
+			189: function (e) { cecily.zoomOut(); },	//-
+			109: function (e) { cecily.zoomOut(); },	//-
+			48: function (e) { cecily.scrollToAllTiddlers(); },	//0
+			67: function (e) { clearMessage(); }	//c
 		}
 	};
 
