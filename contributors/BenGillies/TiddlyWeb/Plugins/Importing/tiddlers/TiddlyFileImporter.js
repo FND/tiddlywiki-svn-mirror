@@ -24,6 +24,7 @@ config.macros.fileImport = {
 	uploadLabel: 'Upload',
 	uploadLabelPrompt: 'Import tiddlers from this TiddlyWiki',
 	step1Text: 'Pick a TiddlyWiki file to Upload',
+	step1Title: 'Step 1: Upload a TiddlyWiki file',
 
 	handler: function(place, macroName, params, wikifier, paramString) {
 		var wizard = new Wizard();
@@ -33,7 +34,7 @@ config.macros.fileImport = {
 
 	restart: function(wizard) {
 		var me = config.macros.fileImport;
-		wizard.addStep('Upload a TiddlyWiki file', '<input type="hidden" '
+		wizard.addStep(me.step1Title, '<input type="hidden" '
 			+ 'name="markList" />');
 		var markList = wizard.getElement('markList');
 		var uploadWrapper = document.createElement('div');
