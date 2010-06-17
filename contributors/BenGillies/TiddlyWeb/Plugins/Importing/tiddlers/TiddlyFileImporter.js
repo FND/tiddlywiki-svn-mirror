@@ -24,17 +24,6 @@ config.macros.fileImport = {
 	uploadLabel: 'Upload',
 	uploadLabelPrompt: 'Import tiddlers from this TiddlyWiki',
 	step1Text: 'Pick a TiddlyWiki file to Upload',
-	listViewTemplate: {
-		columns: [
-			{name: 'Selected', field: 'Selected', rowName: 'title', type: 'Selector'},
-			{name: 'Tiddler', field: 'tiddler', title: 'Tiddler', type: 'Tiddler'},
-			{name: 'Text', field: 'text', title: 'Text', type: 'String'},
-			{name: 'Publish', field: 'publish', title: 'Publish', type: 'Selector'}
-		]
-	},
-	noTiddlersText: 'No Tiddlers found in file',
-	importLabel: 'Import tiddlers',
-	importLabelPrompt: 'Import these tiddlers',
 
 	handler: function(place, macroName, params, wikifier, paramString) {
 		var wizard = new Wizard();
