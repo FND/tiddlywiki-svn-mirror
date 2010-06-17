@@ -102,6 +102,7 @@ config.macros.fileImport = {
 				.document.documentElement.innerHTML;
 		} catch(e) {
 			displayMessage(config.macros.fileImport.incorrectTypeError);
+			config.macros.fileImport.restart(wizard);
 			return;
 		}
 		// now we are done, so remove the iframe
@@ -109,9 +110,6 @@ config.macros.fileImport = {
 
 		tmpStore.importTiddlyWiki(POSTedWiki);
 		var newTiddlers = tmpStore.getTiddlers();
-		$.each(newTiddlers, function(index, tiddler) {
-			// make the tiddler compatible with this recipe
-		});
 		var workspace = config.defaultCustomFields['server.workspace']
 			.split(/^[^\/]*\//)[1];
 		var context = {
@@ -147,6 +145,18 @@ config.macros.importTiddlers.onGetTiddler = function(context, wizard) {
 			false, tiddler.created);
 		autoSaveChanges(true);
 	}
+};
+
+_onCancel = config.macros.importTiddlers.onCancel;
+config.macros.importTiddlers.onCancel = function(e)
+{
+	var wizard = new Wizard(this);
+	if (!wizard.getValue('inFileImport')) {
+		return _onCancel.apply(this, arguments);
+	}
+	var place = wizard.clear();
+	config.macros.fileImport.restart(wizard);
+	return false;
 };
 
 })(jQuery);
