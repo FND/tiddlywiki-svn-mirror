@@ -25,6 +25,10 @@ config.macros.fileImport = {
 	uploadLabelPrompt: 'Import tiddlers from this TiddlyWiki',
 	step1Text: 'Pick a TiddlyWiki file to Upload',
 	step1Title: 'Step 1: Upload a TiddlyWiki file',
+	step3Html: '<input type="hidden" name="markList" />'
+		+ '<input type="hidden" checked="true" name="chkSync" />'
+		+ '<input type="hidden" name="chkSave" />'
+		+ '<input type="hidden" name="txtSaveTiddler" />',
 
 	handler: function(place, macroName, params, wikifier, paramString) {
 		var wizard = new Wizard();
@@ -149,5 +153,17 @@ config.macros.importTiddlers.onCancel = function(e)
 	return false;
 };
 
+_step3Html = config.macros.importTiddlers.step3Html;
+_onGetTiddlerList = config.macros.importTiddlers.onGetTiddlerList;
+config.macros.importTiddlers.onGetTiddlerList = function(context, wizard) {
+	var fileImport = config.macros.fileImport;
+	var importTiddlers = config.macros.importTiddlers;
+	if (wizard.getValue('inFileImport')) {
+		importTiddlers.step3Html = fileImport.step3Html;
+	} else {
+		importTiddlers.step3Html = _step3Html;
+	}
+	_onGetTiddlerList.apply(this, arguments);
+}
 })(jQuery);
 //}}}
