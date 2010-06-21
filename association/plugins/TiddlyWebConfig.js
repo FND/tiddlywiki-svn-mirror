@@ -2,31 +2,12 @@
 |''Name''|TiddlyWebConfig|
 |''Description''|configuration settings for TiddlyWebWiki|
 |''Author''|FND|
-|''Version''|0.9.1|
+|''Version''|1.0.0|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/plugins/TiddlyWebConfig.js|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
 |''Requires''|TiddlyWebAdaptor|
 |''Keywords''|serverSide TiddlyWeb|
-!Revision History
-!!v0.1 (2008-11-30)
-* initial release
-!!v0.2 (2009-01-15)
-* removed obsolete dependencies
-!!v0.3 (2009-03-16)
-* sync username with server
-!!v0.4 (2009-05-23)
-* cache list of available login challengers
-!!v0.5 (2009-07-10)
-* disabled save and delete toolbar commands for unauthorized users
-!!v0.6 (2009-08-15)
-* disabled edit toolbar command for unauthorized users
-!!v0.7 (2009-09-11)
-* added revisions toolbar command
-!!v0.8 (2010-04-28)
-* added extension namespace caching state and providing getUserInfo function
-!!v0.9 (2010-06-08)
-* disabled username edit field
 !Code
 ***/
 //{{{
