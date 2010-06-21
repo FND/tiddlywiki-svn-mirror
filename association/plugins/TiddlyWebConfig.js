@@ -45,13 +45,13 @@ var recipe = tiddler.fields["server.recipe"];
 var workspace = recipe ? "recipes/" + recipe : "bags/common";
 
 var plugin = config.extensions.tiddlyweb = {
-	serverVersion: null,
 	host: tiddler.fields["server.host"].replace(/\/$/, ""),
-	challengers: null,
 	username: null,
+	status: {},
 
+	getStatus: null, // assigned later
 	getUserInfo: function(callback) {
-		getStatus(function() {
+		getStatus(function(status) {
 			callback({
 				name: plugin.username,
 				anon: plugin.username == "GUEST"
@@ -113,8 +113,8 @@ var hasPermission = function(type, tiddler) {
 };
 
 var getStatus = function(callback) {
-	if(this.serverVersion) {
-		callback();
+	if(plugin.status.version) {
+		callback(plugin.status);
 	} else {
 		var self = getStatus;
 		if(self.pending) {
@@ -125,20 +125,18 @@ var getStatus = function(callback) {
 			self.pending = true;
 			self.queue = callback ? [callback] : [];
 			var _callback = function(context, userParams) {
-				var status = context.serverStatus;
-				if(status) {
-					plugin.serverVersion = status.version;
-					if(status.username) {
-						plugin.username = status.username;
+				var status = context.serverStatus || {};
+				for(var key in status) {
+					if(key == "username") {
+						plugin.username = status[key];
 						config.macros.option.propagateOption("txtUserName",
 							"value", plugin.username, "input");
-					}
-					if(status.challengers) {
-						plugin.challengers = status.challengers;
+					} else {
+						plugin.status[key] = status[key];
 					}
 				}
 				for(var i = 0; i < self.queue.length; i++) {
-					self.queue[i]();
+					self.queue[i](plugin.status);
 				}
 				delete self.queue;
 				delete self.pending;
@@ -147,7 +145,7 @@ var getStatus = function(callback) {
 		}
 	}
 };
-getStatus();
+(plugin.getStatus = getStatus)(); // XXX: hacky (arcane combo of assignment plus execution)
 
 })(jQuery);
 //}}}
