@@ -1,4 +1,3 @@
-recipe: ../../core/tiddlywiki.html.recipe
 tiddler: plugins/MarkupPreHead.tid
 tiddler: plugins/CKEditorPlugin.js
 tiddler: plugins/CKEditorSettings.js
