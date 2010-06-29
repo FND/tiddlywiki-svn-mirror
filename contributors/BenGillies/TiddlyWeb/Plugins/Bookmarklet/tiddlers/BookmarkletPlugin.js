@@ -32,6 +32,7 @@ if(!version.extensions.BookmarkletPlugin)
 
 config.macros.bookmarklet = {
     root: {},
+	bookmarkletTemplate: '!URL\n{URL}\n\n!Description\n{Description}',
     handler: function(place, macroName, params, wikifier, paramString, tiddler){
         if (!config.defaultCustomFields)
             throw 'defaultCustomFields Not Found. This plugin requires TiddlyWeb to work.';
@@ -40,9 +41,9 @@ config.macros.bookmarklet = {
         var path = escape(config.defaultCustomFields['server.workspace']);
         var siteTitle = document.title;
         var escapedSiteTitle = ',%22' + escape(siteTitle) + '%22';
-        
+
         var tiddler = params.length > 0 ? ',%22' + escape(params[0]) + '%22' : ',null';
-        
+
         var bookmarklet = 'javascript:(function(){'
             + 'var%20u=%22' + urlBase + '%22;var%20p=%22' + path + '%22;'
             + 'var%20s=document.createElement(%22script%22);'
@@ -54,7 +55,7 @@ config.macros.bookmarklet = {
             + 'window.openTiddlyWiki(u,p' + tiddler + escapedSiteTitle + ');'
             + 'clearTimeout(lT);'
             + '}},100);})();';
-        
+
         var link = jQuery('<a/>')
             .attr('href', bookmarklet)
             .text(siteTitle)
@@ -62,14 +63,13 @@ config.macros.bookmarklet = {
     },
     receiveMessageHandler: function(message) {
         var rootData = config.macros.bookmarklet.root;
-        if (!rootData['url']) {
-            rootData.url = message.origin;
-        }
 
         if (/^title:/.test(message.data)) {
             rootData.title = message.data.substr(6);
         } else if (/^desc:/.test(message.data)) {
             rootData.desc = message.data.substr(5);
+        } else if (/^url:/.test(message.data)) {
+            rootData.url = message.data.substr(4);
         }
 
         if ((rootData['desc']) && (rootData['title']) && (rootData['url'])) {
@@ -103,12 +103,16 @@ config.macros.bookmarklet = {
         //we haven't found it. So create a new one.
         tiddler = new Tiddler(data['title']);
         tiddler.tags = ['bookmark'];
-        tiddler.text = '!URL\n' + data['url'] + '\n\n!Description\n' + data['desc'];
+        tiddler.text = config.macros.bookmarklet.bookmarkletTemplate
+            .replace('{URL}', data['url'])
+            .replace('{Description}', data['desc']);
         tiddler.fields = merge({}, config.defaultCustomFields);
         store.addTiddler(tiddler);
         story.displayTiddler(document.body, tiddler.title, 2);
     }
 };
+
+;
 
 /********************************************/
 /****Bookmarklet Theme and switching code****/
@@ -127,9 +131,9 @@ config.macros.bookmarklet = {
                 queryObj[keyValPair[0]] = decodeURIComponent(keyValPair[1]);
             }
             if (queryObj['bookmarkletParentURL']) {
-                var message = {
-                    origin: queryObj['bookmarkletParentURL']
-                }
+                var message = {};
+                message.data = 'url:' + queryObj['bookmarkletParentURL'];
+                receiveMessage(message);
                 if (queryObj['bookmarkletParentTitle']) {
                     message.data = 'title:' + queryObj['bookmarkletParentTitle'];
                     receiveMessage(message);

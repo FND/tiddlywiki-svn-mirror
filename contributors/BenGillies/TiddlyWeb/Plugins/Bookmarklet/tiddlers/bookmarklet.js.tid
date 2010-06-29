@@ -58,7 +58,7 @@ tags:
         } else {
             //no postMessage #probably ie6
             var iframeLink = urlBase + path + '/tiddlers.wiki?';
-            var parentUrl = (window.location.href[window.location.href.length - 1] === '/') ? window.location.href.substr(0, window.location.href.length - 1) : window.location.href;
+            var parentUrl = window.location.href;
             var queryString = 'bookmarkletParentURL=' + encodeURIComponent(parentUrl);
             queryString += '&bookmarkletParentTitle=' + encodeURIComponent(document.title);
             queryString += '&bookmarkletParentDesc=' + encodeURIComponent(getSiteText());
@@ -70,8 +70,11 @@ tags:
     };
     
     function sendSiteInfo(iframe, targetLink) {
-        var siteURL = 'title:' + document.title;
+        var siteURL = 'url:' + window.location.href;
         sendMessage(siteURL, targetLink, iframe.contentWindow);
+
+        var siteTitle = 'title:' + document.title;
+        sendMessage(siteTitle, targetLink, iframe.contentWindow);
 
         siteDesc = 'desc:' + getSiteText();
         sendMessage(siteDesc, targetLink, iframe.contentWindow);
