@@ -95,7 +95,7 @@ config.macros.bookmarklet = {
             return;
         }
 
-        var tiddlers = store.search(data['url']);
+        var tiddlers = store.search(data['url'], null, 'excludeSearch');
         if (tiddlers.length > 0) {
             story.search(data['url']);
             return;
