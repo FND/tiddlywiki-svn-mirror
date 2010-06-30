@@ -2,7 +2,7 @@
 |''Name''|ServerSideSavingPlugin|
 |''Description''|server-side saving|
 |''Author''|FND|
-|''Version''|0.6.2|
+|''Version''|0.6.3|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/plugins/ServerSideSavingPlugin.js|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
@@ -56,7 +56,7 @@ plugin.sync = function(tiddlers) {
 		if(tiddler.fields.deleted === "true" && changecount === 1) {
 			plugin.removeTiddler(tiddler);
 		} else if(tiddler.isTouched() && !tiddler.doNotSave() &&
-			tiddler.getServerType() && tiddler.fields["server.host"]) {
+				tiddler.getServerType() && tiddler.fields["server.host"]) {
 			delete tiddler.fields.deleted;
 			plugin.saveTiddler(tiddler);
 		}
@@ -74,6 +74,13 @@ plugin.saveTiddler = function(tiddler) {
 		changecount: tiddler.fields.changecount,
 		workspace: tiddler.fields["server.workspace"]
 	};
+	var serverTitle = tiddler.fields["server.title"]; // indicates renames
+	if(!serverTitle) {
+		tiddler.fields["server.title"] = tiddler.title;
+	} else if(tiddler.title != serverTitle) {
+		return adaptor.moveTiddler({ title: serverTitle },
+			{ title: tiddler.title }, context, null, this.saveTiddlerCallback);
+	}
 	var req = adaptor.putTiddler(tiddler, context, {}, this.saveTiddlerCallback);
 	return req ? tiddler : false;
 };
