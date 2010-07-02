@@ -193,7 +193,7 @@ adaptor.getTiddlerRevisionListCallback = function(status, context, responseText,
 		context.revisions.sort(function(a, b) {
 			return a.fields[sortField] < b.fields[sortField] ? 1 :
 				(a.fields[sortField] == b.fields[sortField] ? 0 : -1);
-		 });
+		});
 	}
 	if(context.callback) {
 		context.callback(context, context.userParams);

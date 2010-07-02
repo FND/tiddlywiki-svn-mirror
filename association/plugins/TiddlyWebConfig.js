@@ -32,7 +32,7 @@ var plugin = config.extensions.tiddlyweb = {
 
 	getStatus: null, // assigned later
 	getUserInfo: function(callback) {
-		getStatus(function(status) {
+		this.getStatus(function(status) {
 			callback({
 				name: plugin.username,
 				anon: plugin.username == "GUEST"
@@ -122,7 +122,7 @@ var getStatus = function(callback) {
 				delete self.queue;
 				delete self.pending;
 			};
-			adaptor.getStatus({ host: this.host }, null, _callback);
+			adaptor.getStatus({ host: plugin.host }, null, _callback);
 		}
 	}
 };
