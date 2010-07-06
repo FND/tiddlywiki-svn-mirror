@@ -1,19 +1,18 @@
 /***
 |''Name''|RandomColorPalettePlugin|
-|''Description''|<...>|
+|''Description''|Adds a random color palette to TiddlyWiki|
 |''Author''|Jon Robson|
 |''Version''|<1.0.0>|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/contributors/JonRobson/plugins/RandomColorPalettePlugin/RandomColorPalettePlugin.js|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
-|''CoreVersion''|2.5.0|
-!Description
-Adds a random color palette to TiddlyWiki
-!Notes
-<...>
 !Usage
 {{{
-<<...>>
+<<RandomColorPalette>>
+Sets and saves a random color palette on execution
+
+<<RandomColorPaletteButton>>
+Creates a button, which when clicked will change the color palette
 }}}
 !Code
 ***/
