@@ -29,7 +29,7 @@ if(!version.extensions.BinaryUploadPlugin)
 config.macros.binaryUpload ={
     fullURL: '',
     handler: function(place, macroName, params, wikifier, paramString, tiddler) {
-        params = paramString.parseParams();
+        params = paramString.parseParams(null, null, true);
         var uploadTo = params[0]['bag']? 'bags/' + params[0]['bag'] : config.defaultCustomFields['server.workspace'];
         var includeFields = {
             tags: params[0]['edit'] && params[0]['edit'].contains('tags') ? true : false,
