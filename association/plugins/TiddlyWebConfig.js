@@ -2,7 +2,7 @@
 |''Name''|TiddlyWebConfig|
 |''Description''|configuration settings for TiddlyWebWiki|
 |''Author''|FND|
-|''Version''|1.0.1|
+|''Version''|1.1.0|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/plugins/TiddlyWebConfig.js|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
@@ -80,8 +80,9 @@ config.macros.option.handler = function(place, macroName, params, wikifier, para
 var _isReadOnly = Tiddler.prototype.isReadOnly;
 Tiddler.prototype.isReadOnly = function() {
 	var readOnly = _isReadOnly.apply(this, arguments); // global read-only mode
-	var type = this.fields["server.content-type"] || ""; // defaults to non-binary
-	return readOnly || type != "" || !hasPermission("write", this);
+	var type = this.fields["server.content-type"];
+	var binary = type ? type.indexOf("text/") != 0 : false;
+	return readOnly || binary || !hasPermission("write", this);
 };
 
 var hasPermission = function(type, tiddler) {
