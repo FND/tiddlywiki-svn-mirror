@@ -122,10 +122,8 @@ config.macros.fileImport = {
 
 _onGetTiddler = config.macros.importTiddlers.onGetTiddler;
 config.macros.importTiddlers.onGetTiddler = function(context, wizard) {
-	context.adaptor = new config.adaptors.tiddlyweb();
-	_onGetTiddler.apply(this, arguments);
-	// now save the tiddlers
 	if (wizard.getValue('inFileImport')) {
+		var me = config.macros.importTiddlers;
 		var tiddler = context.tiddler;
 		var fields = tiddler.fields;
 		merge(fields, config.defaultCustomFields);
@@ -137,7 +135,20 @@ config.macros.importTiddlers.onGetTiddler = function(context, wizard) {
 		store.saveTiddler(tiddler.title, tiddler.title, tiddler.text,
 			tiddler.modifier, tiddler.modified, tiddler.tags, tiddler.fields,
 			false, tiddler.created);
-		autoSaveChanges(true);
+		var remainingImports = wizard.getValue("remainingImports")-1;
+		wizard.setValue("remainingImports",remainingImports);
+		if(remainingImports == 0) {
+			if(context.isSynchronous) {
+				store.notifyAll();
+				refreshDisplay();
+			}
+			wizard.setButtons([
+					{caption: me.doneLabel, tooltip: me.donePrompt, onClick: me.onClose}
+				],me.statusDoneImport);
+			autoSaveChanges();
+		}
+	} else {
+		_onGetTiddler.apply(this, arguments);
 	}
 };
 
