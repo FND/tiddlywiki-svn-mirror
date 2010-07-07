@@ -113,6 +113,7 @@ config.macros.fileImport = {
 			adaptor: wizard.getValue('adaptor'),
 			tiddlers: newTiddlers
 		};
+		context.adaptor.store = tmpStore;
 		wizard.setValue('context', context);
 		wizard.setValue('workspace', workspace);
 		wizard.setValue('inFileImport', true);
@@ -124,6 +125,8 @@ _onGetTiddler = config.macros.importTiddlers.onGetTiddler;
 config.macros.importTiddlers.onGetTiddler = function(context, wizard) {
 	if (wizard.getValue('inFileImport')) {
 		var me = config.macros.importTiddlers;
+		if(!context.status)
+			displayMessage("Error in importTiddlers.onGetTiddler: " + context.statusText);
 		var tiddler = context.tiddler;
 		var fields = tiddler.fields;
 		merge(fields, config.defaultCustomFields);
