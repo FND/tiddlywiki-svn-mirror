@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|FND|
 |''Contributors''|Chris Dent, Martin Budden|
-|''Version''|1.2.6|
+|''Version''|1.3.0|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/|
@@ -260,6 +260,9 @@ adaptor.getTiddlerCallback = function(status, context, responseText, uri, xhr) {
 		context.tiddler.fields["server.workspace"] = "bags/" + t.bag;
 		context.tiddler.fields["server.page.revision"] = t.revision;
 		context.tiddler.fields["server.permissions"] = t.permissions.join(", ");
+		if(t.type && t.type != "None") {
+			context.tiddler.fields["server.content-type"] = t.type;
+		}
 	}
 	if(context.callback) {
 		context.callback(context, context.userParams);
@@ -311,6 +314,7 @@ adaptor.prototype.putTiddler = function(tiddler, context, userParams, callback) 
 	var headers = etag ? { "If-Match": '"' + etag + '"' } : null;
 	var payload = {
 		title: tiddler.title,
+		type: tiddler.fields["server.content-type"] || null,
 		text: tiddler.text,
 		modifier: tiddler.modifier,
 		tags: tiddler.tags,
