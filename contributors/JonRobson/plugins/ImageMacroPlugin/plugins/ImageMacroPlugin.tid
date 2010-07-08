@@ -2,7 +2,7 @@ tags: systemConfig
 
 /***
 |''Name''|ImageMacroPlugin|
-|''Version''|0.4|
+|''Version''|0.5.0|
 |''Description''|Allows the rendering of svg images in a TiddlyWiki|
 |''Author''|Osmosoft|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
@@ -10,83 +10,127 @@ tags: systemConfig
 |''Usage''|<<image SVG>> will render the text of the tiddler with title SVG as an SVG image (but not in ie where it will fail silently)|
 !Code
 ***/
-config.macros.image = {
-    svgAvailable: document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1"),
-    _fixPrefix: 1
-    ,generateIdPrefix: function(){
-        return "$tw_svgfix_" + (this._fixPrefix++).toString() + "_";
-    }
-    ,fixSVG: function(childNodes,idPrefix) {
-        if(!idPrefix)idPrefix = this.generateIdPrefix();
-        var urlPattern = /^\s*url\(\#([^\)]*)\)\s*$/ig;
-        var fixes = [
-        {attr: "id", namespace: "", pattern: /^(.*)$/ig},
-        {attr: "fill", namespace: "", pattern: urlPattern},
-        {attr: "stroke", namespace: "", pattern: urlPattern},
-        {attr: "href", namespace: "http://www.w3.org/1999/xlink", pattern: /^#(.*)$/ig}
-        ];
-        for(var t=0; t<childNodes.length; t++) {
-          var node = childNodes[t];
-          for(var a=0; a<fixes.length; a++) {
-            var fix = fixes[a];
-            if(node.hasAttributeNS && node.hasAttributeNS(fix.namespace,fix.attr)) {
-              var v = node.getAttributeNS(fix.namespace,fix.attr);
-              fix.pattern.lastIndex = 0;
-              var match = fix.pattern.exec(v);
-              if(match) {
-                var replacement = (idPrefix + match[1]).replace("$","$$$$"); // Make sure replacement string doesn't contain any single dollar signs
-                v = v.replace(match[1],replacement);
-                node.setAttributeNS(fix.namespace,fix.attr,v);
-              }
-            }
-          }
-          var children = node.childNodes;
-          if(children.length > 0)
-             this.fixSVG(children,idPrefix);
-        }
-    }
-    ,importSVG: function(place,options){
-      if(!options)options = {};
-      var tiddlerText =options.tiddler.text;
-      var svgDoc;
-      if (window.DOMParser){
-        svgDoc = new DOMParser().parseFromString(tiddlerText, "application/xml").documentElement;
-        if(options.fix){
-            this.fixSVG(svgDoc.childNodes);
-        }
-        var el;
-        el = jQuery(document.importNode(svgDoc, true))[0];
-        if(options.width)el.setAttribute("width",options.width);
-        if(options.height)el.setAttribute("height",options.height);
-        jQuery(place).append(el);
-      }
-      else{ 
-        //throw "Please upgrade your browser to see SVG images.";
-        //IE not implemented      
-      }
-    }
-    ,handler: function(place, macroName, params,wikifier, paramString){
-        var img;
-        var tiddler = store.getTiddler(params[0]);
-        var width = params[1];
-        var height = params[2];
-        if(width && width.indexOf(":") > -1)width= false;
-        if(height && height.indexOf(":") > -1)height = false;
-        var args = paramString.parseParams("name",null,true,false,true);
+(function($) {
 
-        var alt;
-        if(args[0]["alt"]){
-          alt= args[0]["alt"][0];
-        }
+var macro = config.macros.image = {
+		svgns: "http://www.w3.org/2000/svg",
+		xlinkns: "http://www.w3.org/1999/xlink", 
+		svgAvailable: document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1"),
+		_fixPrefix: 1,
+		generateIdPrefix: function(){
+				return "tw_svgfix_" + (this._fixPrefix++).toString() + "_";
+		},
+		fixSVG: function(childNodes,idPrefix) {
+				if(!idPrefix) {
+					idPrefix = this.generateIdPrefix();
+				}
+				var urlPattern = /^\s*url\(\#([^\)]*)\)\s*$/ig;
+				var fixes = [
+				{ attr: "id", namespace: "", pattern: /^(.*)$/ig },
+				{ attr: "filter", namespace: "", pattern: urlPattern },
+				{ attr: "fill", namespace: "", pattern: urlPattern },
+				{ attr: "stroke", namespace: "", pattern: urlPattern },
+				{ attr: "href", namespace: macro.xlinkns, pattern: /^#(.*)$/ig }
+				];
+				for(var t = 0; t < childNodes.length; t++) {
+					var node = childNodes[t];
+					for(var a = 0; a < fixes.length; a++) {
+						var fix = fixes[a];
+						if(node.hasAttributeNS && node.hasAttributeNS(fix.namespace,fix.attr)) {
+							var v = node.getAttributeNS(fix.namespace,fix.attr);
+							fix.pattern.lastIndex = 0;
+							var match = fix.pattern.exec(v);
+							if(match) {
+								var replacement = (idPrefix + match[1]).replace("$","$$$$"); // Make sure replacement string doesn't contain any single dollar signs
+								v = v.replace(match[1],replacement);
+								node.setAttributeNS(fix.namespace,fix.attr,v);
+							}
+						}
+					}
+					var children = node.childNodes;
+					if(children.length > 0) {
+						 this.fixSVG(children,idPrefix);
+					}
+				}
+		},
+		importSVG: function(place,options){
+			if(!options) {
+				options = {};
+			}
+			var tiddlerText =options.tiddler.text;
+			var svgDoc;
+			if (window.DOMParser && window.location.search.indexOf("svg.render.forceflash=true") == -1) {
+				svgDoc = new DOMParser().parseFromString(tiddlerText, "application/xml").documentElement;
+				if(options.fix) {
+						this.fixSVG(svgDoc.childNodes);
+				}
+				var el;
+				el = $(document.importNode(svgDoc, true))[0];
+				var svgHolder = document.createElementNS(macro.svgns,"svg");
+				var width = options.width || el.getAttribute("width");
+				var height = options.height ||  el.getAttribute("height");
+				
+				if(width) {
+					svgHolder.setAttribute("width", width);
+				}
+				if(height) {
+					svgHolder.setAttribute("height", height);
+				}
+				el.setAttribute("width", "100%");
+				el.setAttribute("height", "100%");
+				
+				svgHolder.setAttribute("class","svgIcon");
+				if(width && height) {
+					// set view box of containing svg element based on the svg viewbox and width and height.
+					var viewBox = el.getAttribute("viewBox");
+					var topLeft = "0 0";
+					if(viewBox) {
+						topLeft = viewBox.replace(/([0-9]*) +([0-9]*) +([0-9]*) +([0-9]*) */gi,"$1 $2");
+					}
+					svgHolder.setAttributeNS(macro.svgns,"viewBox","0 0 %0 %1".format([width, height]))
+				}
+				svgHolder.appendChild(el);
+				$(place).append(svgHolder);
+			}
+			else{ 
+				// IE not implemented			
+			}
+		},
+		handler: function(place, macroName, params,wikifier, paramString){
+				var img;
+				var tiddler = store.getTiddler(params[0]);
+				// collect named arguments
+				var args = paramString.parseParams("name", null, true, false, true)[0];
+				var width = params[1];
+				var height = params[2];
+				if(width && width.indexOf(":") > -1) {
+					width = false;
+					if(args["width"]) {
+						width = args["width"][0];
+					}
+				}
+				if(height && height.indexOf(":") > -1) {
+					height = false;
+					if(args["height"]) {
+						width = args["height"][0];
+					}
+				}
 
-        if(!tiddler)return;
-        //do some type checking
-        var options = {tiddler:tiddler,fix:true,width:width,height:height};
-        if(config.macros.image.svgAvailable){
-          this.importSVG(place,options);
-        }
-        else{
-          jQuery(place).text(alt);
-        }
-    }
+				var alt = "svg image"; // this will show in the event we cannot render the image
+				if(args["alt"]) {
+					alt= args["alt"][0];
+				}
+
+				if(!tiddler) {
+					return;
+				}
+				var options = { tiddler: tiddler, fix: true, width: width, height: height };
+				if(config.macros.image.svgAvailable || svgweb) {
+					this.importSVG(place,options); // display the svg
+				} else {
+					$(place).text(alt); // instead of showing the image show the alternate text.
+				}
+		}
 }
+
+})(jQuery);
