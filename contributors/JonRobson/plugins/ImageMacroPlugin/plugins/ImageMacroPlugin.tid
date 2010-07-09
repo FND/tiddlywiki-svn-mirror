@@ -2,7 +2,7 @@ tags: systemConfig
 
 /***
 |''Name''|ImageMacroPlugin|
-|''Version''|0.5.1|
+|''Version''|0.5.2|
 |''Description''|Allows the rendering of svg images in a TiddlyWiki|
 |''Author''|Osmosoft|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
@@ -41,7 +41,7 @@ var macro = config.macros.image = {
 							fix.pattern.lastIndex = 0;
 							var match = fix.pattern.exec(v);
 							if(match) {
-								var replacement = (idPrefix + match[1]).replace("$","$$$$"); // Make sure replacement string doesn't contain any single dollar signs
+								var replacement = (idPrefix + match[1]).replace("$", "$$$$"); // Make sure replacement string doesn't contain any single dollar signs
 								v = v.replace(match[1], replacement);
 								node.setAttributeNS(fix.namespace, fix.attr,v);
 							}
@@ -65,7 +65,7 @@ var macro = config.macros.image = {
 			if (window.DOMParser) {
 				svgDoc = new DOMParser().parseFromString(tiddlerText, "application/xml").documentElement;
 				if(options.fix) {
-						this.fixSVG(svgDoc.childNodes);
+						this.fixSVG([svgDoc]);
 				}
 				var el;
 				el = $(document.importNode(svgDoc, true))[0];
@@ -81,7 +81,7 @@ var macro = config.macros.image = {
 						if(viewBox) {
 							topLeft = viewBox.replace(/([0-9]*) +([0-9]*) +([0-9]*) +([0-9]*) */gi,"$1 $2");
 						}
-						svgHolder.setAttributeNS(macro.svgns,"viewBox","0 0 %0 %1".format([width, height]));
+						svgHolder.setAttributeNS(macro.svgns, "viewBox", "0 0 %0 %1".format([width, height]));
 					} else {
 						if(!width) {
 							width = el.getAttribute("width");
@@ -95,7 +95,7 @@ var macro = config.macros.image = {
 
 					el.setAttribute("width", "100%");
 					el.setAttribute("height", "100%");
-					svgHolder.setAttribute("class","svgIcon");
+					svgHolder.setAttribute("class", "svgIcon");
 					svgHolder.appendChild(el);
 					place.appendChild(svgHolder);
 				}
@@ -109,7 +109,6 @@ var macro = config.macros.image = {
 			}
 		},
 		handler: function(place, macroName, params,wikifier, paramString){
-				var img;
 				var tiddler = store.getTiddler(params[0]);
 				// collect named arguments
 				var args = paramString.parseParams("name", null, true, false, true)[0];
@@ -117,20 +116,20 @@ var macro = config.macros.image = {
 				var height = params[2];
 				if(width && width.indexOf(":") > -1) {
 					width = false;
-					if(args["width"]) {
-						width = args["width"][0];
+					if(args.width) {
+						width = args.width[0];
 					}
 				}
 				if(height && height.indexOf(":") > -1) {
 					height = false;
-					if(args["height"]) {
-						width = args["height"][0];
+					if(args.height) {
+						width = args.height[0];
 					}
 				}
 
 				var alt = "svg image"; // this will show in the event we cannot render the image
-				if(args["alt"]) {
-					alt= args["alt"][0];
+				if(args.alt) {
+					alt= args.alt[0];
 				}
 
 				if(!tiddler) {
@@ -140,9 +139,9 @@ var macro = config.macros.image = {
 				if(config.macros.image.svgAvailable) {
 					this.importSVG(place,options); // display the svg
 				} else {
-					$(place).text(alt); // instead of showing the image show the alternate text.
+					$("<div class='svgIconText' />").text(alt).appendTo(place); // instead of showing the image show the alternate text.
 				}
 		}
-}
+};
 
 })(jQuery);
