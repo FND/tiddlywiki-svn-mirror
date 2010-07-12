@@ -1,4 +1,4 @@
-tags: systemConfig
+tags: systemConfig excludeLists
 
 /***
 |''Name''|ImageMacroPlugin|
