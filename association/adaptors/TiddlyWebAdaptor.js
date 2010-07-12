@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|FND|
 |''Contributors''|Chris Dent, Martin Budden|
-|''Version''|1.3.0|
+|''Version''|1.3.1|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/|
@@ -89,7 +89,7 @@ adaptor.getWorkspaceListCallback = function(status, context, responseText, uri, 
 adaptor.prototype.getTiddlerList = function(context, userParams, callback) {
 	context = this.setContext(context, userParams, callback);
 	var uriTemplate = "%0/%1/%2/tiddlers%3";
-	var params = context.filters ? "?filter=" + context.filters : "";
+	var params = context.filters ? "?" + context.filters : "";
 	if(context.format) {
 		params = context.format + params;
 	}
@@ -139,7 +139,7 @@ adaptor.getTiddlerListCallback = function(status, context, responseText, uri, xh
 adaptor.prototype.getSearchResults = function(context, userParams, callback) {
 	context = this.setContext(context, userParams, callback);
 	var uriTemplate = "%0/search?q=%1%2";
-	var filterString = context.filters ? ";filter=" + context.filters : "";
+	var filterString = context.filters ? ";" + context.filters : "";
 	var uri = uriTemplate.format([context.host, context.query, filterString]); // XXX: parameters need escaping?
 	var req = httpReq("GET", uri, adaptor.getSearchResultsCallback,
 		context, { accept: adaptor.mimeType }, null, null, null, null, true);
