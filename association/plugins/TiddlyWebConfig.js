@@ -2,7 +2,7 @@
 |''Name''|TiddlyWebConfig|
 |''Description''|configuration settings for TiddlyWebWiki|
 |''Author''|FND|
-|''Version''|1.1.0|
+|''Version''|1.2.0|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/plugins/TiddlyWebConfig.js|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
@@ -38,6 +38,14 @@ var plugin = config.extensions.tiddlyweb = {
 				anon: plugin.username == "GUEST"
 			});
 		});
+	},
+	hasPermission: function(type, tiddler) {
+		var perms = tiddler.fields["server.permissions"];
+		if(perms) {
+			return perms.split(", ").contains(type);
+		} else {
+			return true;
+		}
 	}
 };
 
@@ -53,11 +61,11 @@ config.shadowTiddlers.ToolbarCommands = config.shadowTiddlers.ToolbarCommands.
 	replace("syncing ", "revisions syncing ");
 
 config.commands.saveTiddler.isEnabled = function(tiddler) {
-	return hasPermission("write", tiddler) && !tiddler.isReadOnly();
+	return plugin.hasPermission("write", tiddler) && !tiddler.isReadOnly();
 };
 
 config.commands.deleteTiddler.isEnabled = function(tiddler) {
-	return hasPermission("delete", tiddler) && !tiddler.isReadOnly();
+	return plugin.hasPermission("delete", tiddler) && !tiddler.isReadOnly();
 };
 
 // hijack option macro to disable username editing
@@ -82,16 +90,7 @@ Tiddler.prototype.isReadOnly = function() {
 	var readOnly = _isReadOnly.apply(this, arguments); // global read-only mode
 	var type = this.fields["server.content-type"];
 	var binary = type ? type.indexOf("text/") != 0 : false;
-	return readOnly || binary || !hasPermission("write", this);
-};
-
-var hasPermission = function(type, tiddler) {
-	var perms = tiddler.fields["server.permissions"];
-	if(perms) {
-		return perms.split(", ").contains(type);
-	} else {
-		return true;
-	}
+	return readOnly || binary || !plugin.hasPermission("write", this);
 };
 
 var getStatus = function(callback) {
