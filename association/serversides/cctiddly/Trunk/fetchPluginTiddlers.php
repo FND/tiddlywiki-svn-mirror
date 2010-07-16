@@ -1,4 +1,17 @@
 <?php
+
+/*
+
+When run this file fetches all the files required by the plugins in the plugins directory.
+
+This file should be run prior to a release. 
+
+The entire TiddlyWiki SVN repository should be checked out NOT just the ccTiddly directory to ensure relative links work.
+
+WARNING: This code is UNTESTED.
+
+*/
+
 $cct_base = '';
 $tiddlyCfg['plugins_disabled'] =  array();
 
