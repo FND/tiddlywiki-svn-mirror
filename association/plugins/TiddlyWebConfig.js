@@ -80,7 +80,7 @@ config.commands.saveTiddler.isEnabled = function(tiddler) {
 };
 
 config.commands.deleteTiddler.isEnabled = function(tiddler) {
-	return plugin.hasPermission("delete", tiddler) && !tiddler.isReadOnly();
+	return !readOnly && plugin.hasPermission("delete", tiddler);
 };
 
 // hijack option macro to disable username editing
