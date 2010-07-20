@@ -1,2 +1,3 @@
+tiddler: ../../association/plugins/BinaryTiddlersPlugin.js
 tiddler: ../../association/plugins/RevisionsCommandPlugin.js
 tiddler: ../../contributors/FND/formatters/DiffFormatter.js
