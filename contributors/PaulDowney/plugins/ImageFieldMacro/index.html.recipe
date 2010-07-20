@@ -1,5 +1,0 @@
-recipe: $TW_ROOT/core/tiddlywiki.html.recipe
-recipe: ImageFieldMacro.recipe
-recipe: tiddlers/split.recipe
-recipe: shadows/split.recipe
-recipe: test/split.recipe
