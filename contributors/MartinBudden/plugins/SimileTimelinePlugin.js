@@ -4,8 +4,8 @@
 |''Author:''|Martin Budden ( mjbudden [at] gmail [dot] com)|
 |''Source:''|http://www.martinswiki.com/#SimileTimelineBundlePlugin |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/MartinBudden/plugins/SimileTimelinePlugin.js |
-|''Version:''|0.1.7|
-|''Date:''|Mar 4, 2007|
+|''Version:''|0.1.8|
+|''Date:''|Jul 20, 2010|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
 |''~CoreVersion:''|2.2|
@@ -277,14 +277,15 @@ Tiddler.prototype.getSimileTimelineEvent = function(type,eventFields)
 	var ev = {};
 	if(type && type=='tiddlerFields') {
 		//# get the event from the tiddler's fields
-		ev.start = this.modified;
+		ev.start = this.created;
+		ev.end = this.modified;
+		ev.isDuration = true;
 		ev.title = t;
 		ev.description = this.text ? this.text : '';
 		ev.link = this.fields.link;
 		if(!ev.link)
-			ev.link = 'javascript:story.displayTiddler(null,"' + t + '")';
-		//#ev.link = 'index.html#' + encodeURIComponent(String.encodeTiddlyLink(this.title));
-//#displayMessage("link:"+ev.link);
+			//ev.link = 'javascript:story.displayTiddler(null,"' + t + '")';
+			ev.link = store.getTiddlerText('SiteUrl',null) + '#' + encodeURIComponent(String.encodeTiddlyLink(t));
 	} else {
 		//# get the event from the slices specified by the eventFields
 		ev.start = store.getTiddlerSlice(t,f.start);
@@ -400,14 +401,14 @@ config.macros.SimileTimeline.handler = function(place,macroName,params,wikifier,
 		if(ev.source) {
 			switch(data.type) {
 			case 'XML':
-		  		//#Timeline.loadXML("example1.xml", function(xml,url) { ev.source.loadXML(xml,url); });
-  				Timeline.loadXMLRemote(data.params,function(xml,url) { if(ev.source) ev.source.loadXML(xml,url); });
+				//#Timeline.loadXML("example1.xml", function(xml,url) { ev.source.loadXML(xml,url); });
+				Timeline.loadXMLRemote(data.params,function(xml,url) { if(ev.source) ev.source.loadXML(xml,url); });
 				break;
 			case 'tiddlerJSON':
-		  		Timeline.loadTiddlerJSON(data.params,function(data,url) { if(ev.source) ev.source.loadJSON(data,url); });
+				Timeline.loadTiddlerJSON(data.params,function(data,url) { if(ev.source) ev.source.loadJSON(data,url); });
 				break;
 			case 'JSON':
-		  		Timeline.loadJSONRemote(data.params,function(data,url) { if(ev.source) ev.source.loadJSON(data,url); });
+				Timeline.loadJSONRemote(data.params,function(data,url) { if(ev.source) ev.source.loadJSON(data,url); });
 				break;
 			default:
 				if(data.type||data.params) {
