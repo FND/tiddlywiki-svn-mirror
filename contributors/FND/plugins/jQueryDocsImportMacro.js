@@ -93,7 +93,7 @@ var parseEntry = function(i, node) { // XXX: also does a save, which seems inapp
 		return "* {{multiLine{%0\n{{{\n%1\n}}}\n}}}".format([desc, code]);
 	});
 
-	var summary = node.find("> desc").text();
+	var summary = $("> desc", node).text();
 	var desc = serialize(node.find("> longdesc")[0]).
 		replace(/<(\/?)longdesc>/g, "<$1html>").
 		replace(/<longdesc\s?\/>/, "N/A"); // XXX: hacky?
