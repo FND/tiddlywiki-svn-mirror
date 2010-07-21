@@ -2,7 +2,7 @@
 |''Name''|BinaryTiddlersPlugin|
 |''Description''|renders base64-encoded binary tiddlers as images or links|
 |''Author''|FND|
-|''Version''|0.1.0|
+|''Version''|0.2.0|
 |''Status''|@@beta@@|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/plugins/BinaryTiddlersPlugin.js|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
@@ -27,14 +27,20 @@ if(!ns) { // XXX: not generic
 var _view = config.macros.view.views.wikified;
 config.macros.view.views.wikified = function(value, place, params, wikifier,
 		paramString, tiddler) {
-	if(params[0] == "text" && ns.isBinary(tiddler)) {
-		var type = tiddler.fields["server.content-type"];
-		var uri = "data:%0;base64,%1".format([type, tiddler.text]); // TODO: fallback for legacy browsers
-		if(type.indexOf("image/") == 0) {
-			$("<img />").attr("alt", tiddler.title).attr("src", uri).appendTo(place);
+	var ctype = tiddler.fields["server.content-type"];
+	if(params[0] == "text" && ctype && !tiddler.tags.contains("systemConfig")) {
+		var el;
+		if(ns.isBinary(tiddler)) {
+			var uri = "data:%0;base64,%1".format([ctype, tiddler.text]); // TODO: fallback for legacy browsers
+			if(ctype.indexOf("image/") == 0) {
+				el = $("<img />").attr("alt", tiddler.title).attr("src", uri);
+			} else {
+				el = $("<a />").attr("href", uri).text(tiddler.title);
+			}
 		} else {
-			$("<a />").attr("href", uri).text(tiddler.title).appendTo(place);
+			el = $("<pre />").text(tiddler.text);
 		}
+		el.appendTo(place);
 	} else {
 		_view.apply(this, arguments);
 	}
