@@ -50,13 +50,10 @@ var plugin = config.extensions.tiddlyweb = {
 	// NB: pseudo-binaries are considered non-binary here
 	isBinary: function(tiddler) {
 		var type = tiddler.fields["server.content-type"];
-		if(type) {
-			var pseudoBinary = type.indexOf("text/") == 0 ||
-				this.endsWith(type, "+xml");
-			return !pseudoBinary;
-		} else {
-			return false;
-		}
+		return type ? !this.isTextual(type) : false;
+	},
+	isTextual: function(ctype) {
+		return ctype.indexOf("text/") == 0 || this.endsWith(ctype, "+xml");
 	},
 	endsWith: function(str, suffix) {
 		return str.length >= suffix.length &&
