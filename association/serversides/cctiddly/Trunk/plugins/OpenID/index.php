@@ -1,4 +1,5 @@
 <?php
+
 $p = new Plugin('OpenID','0.1','simonmcmanus.com');
 $p->addEvent("postSetLoginPerm", getcwd().'/plugins/OpenID/files/openid/common.php');
 $data['tags'] = 'systemConfig';

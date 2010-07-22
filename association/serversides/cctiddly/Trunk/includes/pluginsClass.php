@@ -18,18 +18,19 @@ class Plugin {
 	public function addTiddler($data, $path=null) {
 		if(is_file($path)) {
 			$tiddler = $this->tiddlerFromFile($path);
-			
 		} else {
 			if(is_array($data)) 
 			{
 				$tiddler = array();
 				$tiddler = array_merge_recursive($data,$tiddler);
-				$this->tiddlers[$tiddler['title']] = $tiddler;	
 			}
 		}
+		$this->tiddlers[$tiddler['title']] = $tiddler;	
+		
 	}
 	
 	function tiddlerFromFile($file) {
+//		echo $file;
 		$tiddler['created'] = epochToTiddlyTime(mktime());
 		$tiddler['modified'] = epochToTiddlyTime(mktime());
 		$tiddler['modifier'] = "ccTiddly";
@@ -44,8 +45,9 @@ class Plugin {
 			$tiddler['tags'] = "systemConfig";
 		} elseif($ext=='tid') {
 			$tiddler = tiddler_parse_tid_file($file);
+//			print_r($tiddler);
 		}
-		$tiddler['tags'] .= $tiddlyCfg['plugins_tags'];		
+		$tiddler['tags'] .= $tiddlyCfg['plugins_tags'];	
 		return $tiddler;
 	}
 	
@@ -81,9 +83,13 @@ class Plugin {
 		return $file;
 	}
 
-	public function addRecipe($path) {
- 		$file = $this->getContentFromFile($this->preparePath($path));
-		$this->parseRecipe($file, dirname($path));	
+	public function addRecipe($path) {	
+		if(file_exists($this->preparePath($path))){
+			$file = $this->getContentFromFile($this->preparePath($path));
+			$this->parseRecipe($file, dirname($path));
+		} else {
+			$this->addTiddlersFolder(dirname($path)."/importedPlugins/");
+		}
 	}
 
 	public function parseRecipe($string, $recipePath) {
