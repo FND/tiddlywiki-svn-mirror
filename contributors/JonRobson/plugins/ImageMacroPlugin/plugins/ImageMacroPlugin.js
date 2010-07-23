@@ -1,14 +1,15 @@
 /***
 |''Name''|ImageMacroPlugin|
-|''Version''|0.5.4|
+|''Version''|0.5.5dev|
 |''Description''|Allows the rendering of svg images in a TiddlyWiki|
 |''Author''|Osmosoft|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
 |''Notes''|Currently only works in modern browsers (not IE)|
 |''Usage''|<<image SVG>> will render the text of the tiddler with title SVG as an SVG image (but not in ie where it will fail silently)|
 !Notes
+Tiddlers with the field 'server.content-type' set to image/svg+xml when passed through the wikifier will be shown as svg images.
 <<view fieldname image>>
-will render the value of the tiddler field 'fieldname' as an image. This field can contain a tiddler name or url.
+will render the value of the tiddler field 'fieldname' as an image. This field can contain a tid
 {{{
 <<image SiteIcon>>
 }}}
@@ -24,15 +25,26 @@ which case it will render that tiddler as an image.
 ***/
 (function($) {
 
-config.macros.view.views.image = function(value,place,params,wikifier,paramString,tiddler) {
-	invokeMacro(place, "image", "%0 %1".format([value, params.splice(2).join("")]), null, tiddler);
-};
-
 var macro = config.macros.image = {
 	svgns: "http://www.w3.org/2000/svg",
 	xlinkns: "http://www.w3.org/1999/xlink", 
 	svgAvailable: document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1"),
 	_fixPrefix: 1,
+	isBinaryImageType: function(contentType) {
+		if(contentType && contentType.indexOf("image") === 0 &&
+			contentType.indexOf("+xml") != contentType.length - 4) {
+			return true;
+		} else {
+			return false;
+		}
+	},
+	isSVGTiddler: function(tiddler) {
+		var type = tiddler.fields['server.content-type'];
+		return type == "image/svg+xml";
+	},
+	isBinaryImageTiddler: function(tiddler) {
+		return macro.isBinaryImageType(tiddler.fields['server.content-type']);
+	},
 	generateIdPrefix: function(){
 		return "tw_svgfix_" + (this._fixPrefix++).toString() + "_";
 	},
@@ -134,9 +146,85 @@ var macro = config.macros.image = {
 	handler: function(place, macroName, params,wikifier, paramString, tiddler){
 		var imageSource = params[0];
 		var imageTiddler = store.getTiddler(imageSource);
-
 		// collect named arguments
-		var args = macro.getArguments(paramString);
+		var args = macro.getArguments(paramString, params);
+
+		if(imageTiddler && macro.isBinaryImageTiddler(imageTiddler)) { // handle the case where we have an image url
+			return macro.renderBinaryImageUrl(place, imageTiddler.title, args);
+		} else if(imageTiddler){ // handle the case where we have a tiddler
+			return macro.renderSVGTiddler(place, imageTiddler, args);
+		} else { // we have a string representing a url
+			// check if we can access the json format of this url
+			var newplace = $('<div class="externalImage"/>').appendTo(place)[0];
+			try{
+				ajaxReq({url: "%0.json".format([imageSource]),
+					dataType: "json",
+					success: function(tiddler) {
+						// check type
+						if(macro.isBinaryImageType(tiddler.type)) {
+							return macro.renderBinaryImageUrl(newplace, imageSource, args);
+						} else {
+							return macro.renderSVGTiddler(newplace, tiddler, args);
+						}
+					},
+					error: function() { // .json wasn't supported.. treat as image.
+						return macro.renderBinaryImageUrl(newplace, imageSource, args);
+					}
+				});
+			} catch(e) { // the url is external thus our ajax request failed. we could try proxying.. 
+				return macro.renderBinaryImageUrl(newplace, imageSource, args); // attempt to render as image
+			}
+		}
+	},
+	renderAlternateText: function(place, options) {
+		if(options.alt) {
+			$("<div class='svgIconText' />").text(options.alt).appendTo(place);
+		}
+	},
+	renderSVGTiddler: function(place, tiddler, options) {
+		if(!options) {
+			options = {};
+		}
+		options.tiddler = tiddler;
+		options.fix = true;
+		
+		if(macro.svgAvailable) {
+			this.importSVG(place, options); // display the svg
+		} else {
+			// instead of showing the image show the alternate text.
+			this.renderAlternateText(place, options);
+		}
+	},
+	renderBinaryImageUrl: function(place, src, options) {
+		var image = new Image(); // due to weird scaling issues where you use just a width or just a height
+		image.onload = function() {
+			var w = image.width;
+			var h = image.height;
+			var userH = options.height;
+			var userW = options.width;
+			var ratio;
+			if(userH && !userW) {
+				ratio = userH / h;
+				userW = ratio * w;
+			} else if (userW && !userH) {
+				ratio = userW / w;
+				userH = ratio * h;
+			}
+			var img = $("<img />");
+			img.attr("src", src);
+			img.appendTo(place);
+
+			img.attr("height", userH);
+			img.attr("width", userW);
+		};
+		image.src = src;
+	},
+	getArguments: function(paramString, params) {
+		var args = paramString.parseParams("name", null, true, false, true)[0];
+		var options = {};
+		for(var id in args) {
+			options[id] = args[id][0];
+		}
 		var width = params[1] || false;
 		var height = params[2] || false;
 		if(width && width.indexOf(":") > -1) {
@@ -145,57 +233,35 @@ var macro = config.macros.image = {
 		if(height && height.indexOf(":") > -1) {
 			height = false;
 		}
-		width = macro.lookupArgument(args, "width", width);
-		height = macro.lookupArgument(args, "height", height);
-
-		// this will show in the event we cannot render the image
-		var alt = macro.lookupArgument(args, "alt", "svg image");
-
-		var imageUrl;
-		if(!imageTiddler) {
-			imageUrl = imageSource;
-		}
-
-		if(imageTiddler) {
-			var contentType = imageTiddler.fields['server.content-type'];
-			// if it begins with image and doesn't end with xml treat as url
-			if(contentType.indexOf("image") === 0 &&
-				contentType.indexOf("+xml") != contentType.length - 4) {
-				imageUrl = imageTiddler.title;
-				imageTiddler = false;
-			}
-		} 
-		if(imageUrl && !imageTiddler) { // handle the case where we have an image url
-			var img = $("<img />").attr("src", imageUrl)
-			width ? img.attr("width", width) : false;
-			height ? img.attr("height", height) : false;
-			
-			img.appendTo(place);
-			return;
-		} else if(imageTiddler){ // handle the case where we have a tiddler
-			var options = { tiddler: imageTiddler, fix: true, width: width, height: height };
-			if(args.idPrefix) { // allow user to specify id prefix
-				options.idPrefix = args.idPrefix[0];
-			}
-			if(config.macros.image.svgAvailable) {
-				this.importSVG(place,options); // display the svg
-			} else {
-				// instead of showing the image show the alternate text.
-				$("<div class='svgIconText' />").text(alt).appendTo(place); 
-			}
-		}
-	},
-	getArguments: function(paramString) {
-		return paramString.parseParams("name", null, true, false, true)[0];
+		options.width = macro.lookupArgument(options, "width", width);
+		options.height = macro.lookupArgument(options, "height", height);
+		return options;
 	},
 	lookupArgument: function(args, id, ifEmpty) {
 		if(args[id]) {
-			return args[id][0];
+			return args[id];
 		} else {
 			return ifEmpty;
 		}
 	}
-
 };
+
+// update views
+var _oldwikifiedview = config.macros.view.views.wikified;
+// update wikifier to check tiddler type before rendering
+config.macros.view.views.wikified = function(value, place, params, wikifier, paramString, tiddler) {
+	if(macro.isSVGTiddler(tiddler) && params[0] == "text") {
+		var newplace = $('<div class="wikifiedSVG" />').appendTo(place)[0];
+		macro.renderSVGTiddler(newplace, tiddler);
+	} else {
+		_oldwikifiedview(value, place, params, wikifier, paramString, tiddler);
+	}
+};
+config.macros.view.views.image = function(value, place, params, wikifier, paramString, tiddler) {
+	invokeMacro(place, "image", "%0 %1".format([value, params.splice(2).join(" ")]), null, tiddler);
+};
+
+config.shadowTiddlers.StyleSheetImageMacro = ".wikifiedSVG svg { width: 80%; }";
+store.addNotification("StyleSheetImageMacro", refreshStyles);
 
 })(jQuery);
