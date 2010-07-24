@@ -3,62 +3,27 @@
     jQuery(document).ready(function () {
         module("TiddlySpaceLinkPlugin");
 
-		test('Wikifier: wikifyStatic()', function() {
-			wikifier_input_strings = {
-				bold:"''bold''",
-				italic:"//italic//",
-				underline:"__underline__",
-				superscript:"^^superscript^^",
-				subscript:"~~subscript~~",
-				strikeout:"--strikeout--",
-				code:"{{{code}}}",
-			};
+		function createWikifyTestElement(text) {
+			var place = document.createElement("div");
+			//place.style.display = "none";
+			$(place).appendTo('body');
+			wikify(text, place);
+			return place;
+		}
 
-			wikifier_output_strings = {
-				bold:"<strong>bold</strong>",
-				italic:"<em>italic</em>",
-				underline:"<u>underline</u>",
-				superscript:"<sup>superscript</sup>",
-				subscript:"<sub>subscript</sub>",
-				strikeout:"<strike>strikeout</strike>",
-				code:"<code>code</code>",
-			};
-
-			formatter = new Formatter(config.formatters);
-			var actual = "";
-			var expected = "";
-			for (var i in wikifier_input_strings) {
-				actual = wikifyStatic(wikifier_input_strings[i]).toLowerCase();
-				expected = wikifier_output_strings[i];
-				equals(actual,expected,'testing input strings for Formatter.characterFormat'+wikifier_input_strings[i]);
-			}
-
-			formatter = new Formatter(config.formatters);
-			expected = '<table class="twtable"><tbody><tr class="evenrow"><td>a</td><td>b</td></tr><tr class="oddrow"><td>c</td><td>d</td></tr></tbody></table>';
-			actual = wikifyStatic("|a|b|\n|c|d|").toLowerCase();
-			equals(actual,expected,'testing table formatting');
-		});
-
-			/*
-			WikiWord
-			~EscapedWikiWord
-			[[Wiki Word With Spaces]] 
-			[[display text|WikiWord]]
-			[[display text|URL]]
-			[img[title text|URL]]
-
-				missingTiddlyLink:"[[ThisTiddlerDoesNotExist]]"
-				missingTiddlyLink:"<a href=\"javascript:;\" title=\"The tiddler 'ThisTiddlerDoesNotExist' doesn't yet exist\" class=\"tiddlyLink tiddlyLinkNonExisting\" refresh=\"link\" tiddlylink=\"ThisTiddlerDoesNotExist\">ThisTiddlerDoesNotExist</a>"
-
-			*/
+		function testExternalLink(place, text, url, a_text){
+			equals($(place).text(), text);
+			var a = $(place).find('a');
+			equals(a.attr("href"), url);
+			equals(a.text(), a_text);
+			equals(a.attr("refresh"), undefined);
+			equals(a.attr("tiddlyLink"), undefined);
+			equals(a.attr("class"), "externalLink");
+			equals(a.attr("title"), "External link to " + url);
+		}
 
 		test('Wikifier: missing tiddlerLink', function() {
-		
-			var place = document.createElement("div");
-			place.style.display = "none";
-			$(place).appendTo('body');
-
-			wikify("[[This Tiddler Does Not Exist]]", place);
+			var place = createWikifyTestElement("[[This Tiddler Does Not Exist]]");
 			var a = $(place).find('a');
 			equals($(a).attr("href"), "javascript:;");
 			equals($(a).attr("title"), "The tiddler 'This Tiddler Does Not Exist' doesn't yet exist");
@@ -69,12 +34,7 @@
 		});
 
 		test('Wikifier: missing WikiWord', function() {
-		
-			var place = document.createElement("div");
-			place.style.display = "none";
-			$(place).appendTo('body');
-
-			wikify("MissingWikiWord", place);
+			var place = createWikifyTestElement("MissingWikiWord");
 			var a = $(place).find('a');
 			equals(a.attr("href"), "javascript:;");
 			equals(a.attr("refresh"), "link");
@@ -85,39 +45,48 @@
 		});
 
 		test('Wikifier: automatic link', function() {
-		
-			var place = document.createElement("div");
-			place.style.display = "none";
-			$(place).appendTo('body');
-
 			var url = "http://example.com/foo/bar/baz.html";
-
-			wikify(url, place);
-			var a = $(place).find('a');
-			equals(a.attr("href"), url);
-			equals(a.attr("refresh"), undefined);
-			equals(a.attr("tiddlyLink"), undefined);
-			equals(a.attr("class"), "externalLink");
-			equals(a.attr("title"), "External link to " + url);
-			equals(a.text(), url);
+			var place = createWikifyTestElement(url);
+			testExternalLink(place, url, url, url);
 		});
 
+		test('Wikifier: ~@spacename', function() {
+			var place = createWikifyTestElement("~@space-name");
+			equals($(place).text(), "@space-name");
+			equals($(place).find('a').length, 0);
+		});
+
+		test('Wikifier: ~@SpaceName', function() {
+			var place = createWikifyTestElement("~@SpaceName");
+			equals($(place).text(), "@SpaceName");
+			equals($(place).find('a').length, 0);
+		});
 
 		test('Wikifier: @spacename', function() {
-		
-			var place = document.createElement("div");
-			place.style.display = "none";
-			$(place).appendTo('body');
-
-			wikify("@space", place);
-			var a = $(place).find('a');
-			equals(a.attr("href"), "javascript:;");
-			equals(a.attr("refresh"), "link");
-			equals(a.attr("class"), "tiddlyLink tiddlyLinkNonExisting");
-			equals(a.attr("title"), "The tiddler 'MissingWikiWord' doesn't yet exist");
-			equals(a.attr("tiddlyLink"), "MissingWikiWord");
-			equals(a.text(), "MissingWikiWord");
+			var place = createWikifyTestElement("@space-name");
+			testExternalLink(place, "@space-name", "http://space-name.tiddlyspace.com", "space-name");
 		});
+
+		test('Wikifier: @SpaceName', function() {
+			var place = createWikifyTestElement("@SpaceName");
+			testExternalLink(place, "@SpaceName", "http://spacename.tiddlyspace.com", "SpaceName");
+		});
+
+		test('Wikifier: @Space-Name99', function() {
+			var place = createWikifyTestElement("@Space-Name99");
+			testExternalLink(place, "@Space-Name99", "http://space-name99.tiddlyspace.com", "Space-Name99");
+		});
+
+		test('Wikifier: @[Tiddler]spacename', function() {
+			var place = createWikifyTestElement("@[Tiddler]spacename");
+			testExternalLink(place, "@[Tiddler]spacename", "http://spacename.tiddlyspace.com#Tiddler", "[Tiddler]spacename");
+		});
+
+		test('Wikifier: @[Tiddler Name]Space-Name99', function() {
+			var place = createWikifyTestElement("@[Tiddler Name]Space-Name99");
+			testExternalLink(place, "@[Tiddler Name]Space-Name99", "http://space-name99.tiddlyspace.com#%5B%5BTiddler%20Name%5D%5D", "[Tiddler Name]Space-Name99");
+		});
+
 
     });
 })(jQuery);
