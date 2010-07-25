@@ -1,6 +1,6 @@
 /***
 |''Name''|ImageMacroPlugin|
-|''Version''|0.5.5|
+|''Version''|0.5.6|
 |''Description''|Allows the rendering of svg images in a TiddlyWiki|
 |''Author''|Osmosoft|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
@@ -39,7 +39,8 @@ var macro = config.macros.image = {
 		}
 	},
 	isSVGTiddler: function(tiddler) {
-		var type = tiddler.fields['server.content-type'];
+		var type;
+		tiddler ? type = tiddler.fields['server.content-type'] : type = false;
 		return type == "image/svg+xml";
 	},
 	isBinaryImageTiddler: function(tiddler) {
