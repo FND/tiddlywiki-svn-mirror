@@ -1,6 +1,9 @@
 <?php
 
+
 /*
+// SHOULD BE RUN FROM THE CCTIDDLY ROOT DIRECTORY!!
+
 
 When run this file fetches all the files required by the plugins in the plugins directory.
 
