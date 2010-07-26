@@ -60,4 +60,9 @@ Configuring Uploading
 
 
 
+NOTICE ABOUT PLUGINS IN 1.9 
+
+
+If a plugin calls addRecipe() on a recipe which cannot be found it looks in the plugin directory called importedPlugins and loads the files from there. 
+
 

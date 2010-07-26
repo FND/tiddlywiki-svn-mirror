@@ -27,7 +27,7 @@ $result = '<?xml version="1.0"?><rss version="2.0"><channel>
 <generator>ccTiddly '.$tiddlyCfg['version'].'</generator>';
 
 //get required data from database
-$data = db_tiddlers_mainSelect4RSS($tag);
+ $data = db_tiddlers_mainSelect4RSS($tag);
 $count=0;
 while( $d=db_fetch_assoc($data) ) 
 {
