@@ -19,7 +19,7 @@ This plugin provides wikitext formatters for referencing another [[space|Space]]
 /*jslint onevar: false nomen: false plusplus: false */
 /*global jQuery config createTiddlyText createExternalLink */
 
-function createSpaceLink(place, spaceName, tiddlerTitle, text) {
+function createSpaceLink(place, spaceName, tiddlerTitle) {
 	var link;
 	try {
 		// seems safe to expect this to have been initialised within TiddlySpace
@@ -28,13 +28,13 @@ function createSpaceLink(place, spaceName, tiddlerTitle, text) {
 		link = "http://tiddlyspace.com";
 	}
 	// assumes a http URI without user:pass@ prefix
-	link = link.replace("http://", "http://" + spaceName.toLowerCase() + ".") +
-		(tiddlerTitle ?  "#" + encodeURIComponent(String.encodeTiddlyLink(tiddlerTitle)) : "");
-	createTiddlyText(place, "@");
-	if (!text) {
-		text = (tiddlerTitle ? "[" + tiddlerTitle + "]" : "") + spaceName;
+	link = link.replace("http://", "http://" + spaceName.toLowerCase() + ".");
+
+	if (tiddlerTitle) {
+		createExternalLink(place, link +"#" + encodeURIComponent(String.encodeTiddlyLink(tiddlerTitle)), tiddlerTitle);
 	}
-	var e = createExternalLink(place, link, text);
+	createTiddlyText(place, "@");
+	createExternalLink(place, link, spaceName);
 }
 
 (function ($) {
@@ -43,7 +43,7 @@ function createSpaceLink(place, spaceName, tiddlerTitle, text) {
 	config.textPrimitives.spaceName = "[a-zA-Z][a-zA-Z0-9-]*";
 	config.textPrimitives.spaceNameStrict = "[a-z][a-z0-9-]*";
 
-	config.formatters.push({
+	config.formatters.splice(0, 0, {
 		name: "spacenameLink",
 		match: config.textPrimitives.unWikiLink + "?@" + config.textPrimitives.spaceName,
 		lookaheadRegExp: new RegExp(config.textPrimitives.unWikiLink + "?@(" + config.textPrimitives.spaceName + ")", "mg"),
@@ -55,14 +55,14 @@ function createSpaceLink(place, spaceName, tiddlerTitle, text) {
 			this.lookaheadRegExp.lastIndex = w.matchStart;
 			var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 			if (lookaheadMatch && lookaheadMatch.index === w.matchStart) {
-				createSpaceLink(w.output, lookaheadMatch[1], null);
+				createSpaceLink(w.output, lookaheadMatch[1]);
 			}
 		}
 	},
 	{
 		name: "tiddlerSpacenameLink",
-		match: "@\\[",
-		lookaheadRegExp: new RegExp("@\\[(.*?)\\](" + config.textPrimitives.spaceName + ")", "mg"),
+		match: "\\[\\[.*?\\]\\]@",
+		lookaheadRegExp: new RegExp("\\[\\[(.*?)\\]\\]@(" + config.textPrimitives.spaceName + ")", "mg"),
 		handler: function (w) {
 			this.lookaheadRegExp.lastIndex = w.matchStart;
 			var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
