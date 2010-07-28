@@ -1,6 +1,6 @@
 /***
 |''Name''|ImageMacroPlugin|
-|''Version''|0.5.6|
+|''Version''|0.5.7|
 |''Description''|Allows the rendering of svg images in a TiddlyWiki|
 |''Author''|Osmosoft|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
@@ -124,12 +124,12 @@ var macro = config.macros.image = {
 
 				el.setAttribute("width", "100%");
 				el.setAttribute("height", "100%");
-				svgHolder.setAttribute("class", "svgIcon");
+				svgHolder.setAttribute("class", "svgImage svgIcon");
 				svgHolder.appendChild(el);
 				place.appendChild(svgHolder);
 			}
 			else {
-				el.setAttribute("class","svgIcon");
+				el.setAttribute("class","svgImage svgIcon");
 				place.appendChild(el);
 			}
 			// if a tiddler attribute is set this is read as a link
@@ -179,7 +179,7 @@ var macro = config.macros.image = {
 	},
 	renderAlternateText: function(place, options) {
 		if(options.alt) {
-			$("<div class='svgIconText' />").text(options.alt).appendTo(place);
+			$("<div class='svgImageTest svgIconText' />").text(options.alt).appendTo(place);
 		}
 	},
 	renderSVGTiddler: function(place, tiddler, options) {
@@ -197,6 +197,7 @@ var macro = config.macros.image = {
 		}
 	},
 	renderBinaryImageUrl: function(place, src, options) {
+		var container = $('<div class="image" />').appendTo(place)[0]
 		var image = new Image(); // due to weird scaling issues where you use just a width or just a height
 		image.onload = function() {
 			var w = image.width;
@@ -213,7 +214,7 @@ var macro = config.macros.image = {
 			}
 			var img = $("<img />");
 			img.attr("src", src);
-			img.appendTo(place);
+			img.appendTo(container);
 
 			img.attr("height", userH);
 			img.attr("width", userW);
