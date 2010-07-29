@@ -47,8 +47,8 @@ function createSpaceLink(place, spaceName, tiddlerTitle) {
 
 	config.formatters.splice(0, 0, {
 		name: "spacenameLink",
-		match: config.textPrimitives.unWikiLink + "?@" + config.textPrimitives.spaceName,
-		lookaheadRegExp: new RegExp(config.textPrimitives.unWikiLink + "?@(" + config.textPrimitives.spaceName + ")", "mg"),
+		match: config.textPrimitives.unWikiLink + "?" + config.textPrimitives.anyLetter + "*@" + config.textPrimitives.spaceName,
+		lookaheadRegExp: new RegExp(config.textPrimitives.unWikiLink + "?(" + config.textPrimitives.anyLetter + "*)@(" + config.textPrimitives.spaceName + ")", "mg"),
 		handler: function (w) {
 			if (w.matchText.substr(0, 1) === config.textPrimitives.unWikiLink) {
 				w.outputText(w.output, w.matchStart + 1, w.nextMatch);
@@ -57,12 +57,13 @@ function createSpaceLink(place, spaceName, tiddlerTitle) {
 			this.lookaheadRegExp.lastIndex = w.matchStart;
 			var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 			if (lookaheadMatch && lookaheadMatch.index === w.matchStart) {
-				createSpaceLink(w.output, lookaheadMatch[1]);
+				createSpaceLink(w.output, lookaheadMatch[2], lookaheadMatch[1]);
+				w.nextMatch = this.lookaheadRegExp.lastIndex;
 			}
 		}
 	},
 	{
-		name: "tiddlerSpacenameLink",
+		name: "tiddlyLinkSpacenameLink",
 		match: "\\[\\[.*?\\]\\]@",
 		lookaheadRegExp: new RegExp("\\[\\[(.*?)\\]\\]@(" + config.textPrimitives.spaceName + ")", "mg"),
 		handler: function (w) {

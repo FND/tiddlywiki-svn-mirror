@@ -99,6 +99,12 @@
 			testExternalLink($(place).find('a:first'), "http://spacename.tiddlyspace.com#Tiddler", "Tiddler");
 		});
 
+		test('Wikifier: ~Tiddler@spacename', function() {
+			var place = createWikifyTestElement("~Tiddler@spacename");
+			equals($(place).text(), "Tiddler@spacename");
+			equals($(place).find('a').length, 0);
+		});
+
 		test('Wikifier: [[Tiddler]]@spacename', function() {
 			var place = createWikifyTestElement("[[Tiddler]]@spacename");
 			equals($(place).text(), "Tiddler");
