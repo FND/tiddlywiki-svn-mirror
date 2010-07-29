@@ -111,6 +111,5 @@
 			testExternalLink($(place).find('a:first'), "http://space-name99.tiddlyspace.com#%5B%5BTiddler%20Name%5D%5D", "Tiddler Name");
 		});
 
-
     });
 })(jQuery);
