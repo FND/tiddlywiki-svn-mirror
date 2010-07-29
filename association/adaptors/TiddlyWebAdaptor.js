@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|FND|
 |''Contributors''|Chris Dent, Martin Budden|
-|''Version''|1.3.1|
+|''Version''|1.3.2|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/|
@@ -410,6 +410,7 @@ adaptor.prototype.moveTiddler = function(from, to, context, userParams, callback
 		var revisions = $.evalJSON(context.responseText); // XXX: error handling?
 		// change current title while retaining previous location
 		for(var i = 0; i < revisions.length; i++) {
+			delete revisions[i].revision;
 			if(!revisions[i].fields.origin) { // NB: origin = "<workspace>/<title>"
 				revisions[i].fields.origin = ["bags", revisions[i].bag, revisions[i].title].join("/");
 			}
@@ -423,7 +424,6 @@ adaptor.prototype.moveTiddler = function(from, to, context, userParams, callback
 				rev[i] = item;
 			}
 		});
-		rev.revision++;
 		rev.created = rev.created.convertToYYYYMMDDHHMM();
 		rev.modified = new Date().convertToYYYYMMDDHHMM();
 		delete rev.fields.changecount;
@@ -434,10 +434,7 @@ adaptor.prototype.moveTiddler = function(from, to, context, userParams, callback
 			context.workspace = "bags/" + rev.bag;
 		}
 		var subCallback = function(context, userparams) {
-			var rev = "server.page.revision";
-			newTiddler.fields[rev] = parseInt(newTiddler.fields[rev], 10) + 1; // XXX: extended fields' values should be strings!?
-			newTiddler.fields["server.title"] = to.title;
-			_deleteTiddler(context, userparams);
+			context.adaptor.getTiddler(newTiddler.title, context, userParams, _deleteTiddler);
 		};
 		return self.putTiddlerChronicle(revisions, context, context.userParams, subCallback);
 	};
