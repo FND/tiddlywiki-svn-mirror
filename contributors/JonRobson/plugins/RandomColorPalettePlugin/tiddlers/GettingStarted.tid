@@ -1,8 +1,22 @@
 tags: 
 
-Click the button to get a random color palette.
+Click the button to get a random color palette defined in hex.
 <<RandomColorPaletteButton>>
 
+Don't like hex? Want rgb instead. Use the rgb parameter ({{{<<RandomColorPaletteButton rgb:yes>>}}})
+<<RandomColorPaletteButton rgb:yes>>
+
+Want to seed it with a certain hue (0-360 degrees)? Then use the hue parameter... {{{<<RandomColorPaletteButton hue:0>>}}} ... note hue=0 corresponds to red color schemes.
+<<RandomColorPaletteButton hue:0>>
+
+Want a bright scheme? Use the lightness parameter {{{<<RandomColorPaletteButton lightness:0.9>>}}}
+<<RandomColorPaletteButton lightness:0.9>> Bit of a goth? Seed it low.. {{{<<RandomColorPaletteButton lightness:0.2>>}}} <<RandomColorPaletteButton lightness:0.2>>
+
+Want a heavily saturated scheme? Use the saturation parameter. {{{<<RandomColorPaletteButton saturation:0.8>>}}}
+<<RandomColorPaletteButton saturation:0.8>>
+
+Jons favourite settings..
+<<RandomColorPaletteButton saturation:0.6 darkest:0.1 lightness:0.9 huevariance:1>>
 !The macros
 {{{<<RandomColorPalette>>}}} is a run once macro which picks a random colour scheme for your TiddlyWiki, saving a new ColorPalette tiddler on completion.
 This is useful if you want the color palette to change when a certain tiddler is opened. If your particular whacky you could make it change every time you display a new tiddler by adding the macro to the ViewTemplate.
