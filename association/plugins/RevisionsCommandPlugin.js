@@ -3,7 +3,7 @@
 |''Description''|provides access to tiddler revisions|
 |''Author''|FND|
 |''Contributors''|Martin Budden|
-|''Version''|0.3.1|
+|''Version''|0.3.2|
 |''Status''|@@beta@@|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/plugins/RevisionsCommandPlugin.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/plugins/|
@@ -49,14 +49,9 @@ var cmd = config.commands.revisions = {
 	linkLabel: "side-by-side view",
 	revSuffix: " [rev. #%0]",
 	diffSuffix: " [diff: #%0 #%1]",
-	labelTemplate: "%0(%1)",
 	dateFormat: "YYYY-0MM-0DD 0hh:0mm",
 	listError: "revisions could not be retrieved",
 
-	getText: function(tiddler) {
-		var count = tiddler.fields["server.page.revision"] || 0;
-		return this.labelTemplate.format([this.text, count]);
-	},
 	handlePopup: function(popup, title) {
 		stripSuffix = function(type, title) {
 			var str = cmd[type + "Suffix"];
