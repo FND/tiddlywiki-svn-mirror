@@ -22,7 +22,7 @@ This plugin provides wikitext formatters for referencing another [[space|Space]]
 /*global jQuery config createTiddlyText createExternalLink */
 
 function createSpaceLink(place, spaceName, tiddlerTitle) {
-	var link;
+	var link, a;
 	try {
 		// seems safe to expect this to have been initialised within TiddlySpace
 		link = config.extensions.tiddlyweb.status.server_host.url;
@@ -33,10 +33,11 @@ function createSpaceLink(place, spaceName, tiddlerTitle) {
 	link = link.replace("http://", "http://" + spaceName.toLowerCase() + ".");
 
 	if (tiddlerTitle) {
-		createExternalLink(place, link +"#" + encodeURIComponent(String.encodeTiddlyLink(tiddlerTitle)), tiddlerTitle);
+		a = createExternalLink(place, link +"#" + encodeURIComponent(String.encodeTiddlyLink(tiddlerTitle)), tiddlerTitle);
 	} else {
-		createExternalLink(place, link, spaceName);
+		a = createExternalLink(place, link, spaceName);
 	}
+	jQuery(a).addClass('tiddlySpaceLink');
 }
 
 (function ($) {
