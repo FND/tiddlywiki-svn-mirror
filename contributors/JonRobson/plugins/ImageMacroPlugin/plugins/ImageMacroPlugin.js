@@ -1,6 +1,6 @@
 /***
 |''Name''|ImageMacroPlugin|
-|''Version''|0.5.7|
+|''Version''|0.6dev|
 |''Description''|Allows the rendering of svg images in a TiddlyWiki|
 |''Author''|Osmosoft|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
@@ -124,7 +124,7 @@ var macro = config.macros.image = {
 
 				el.setAttribute("width", "100%");
 				el.setAttribute("height", "100%");
-				svgHolder.setAttribute("class", "svgImage svgIcon");
+				svgHolder.setAttribute("class", "svgImage svgIcon %0".format([options.imageClass || ""]));
 				svgHolder.appendChild(el);
 				place.appendChild(svgHolder);
 			}
@@ -144,16 +144,12 @@ var macro = config.macros.image = {
 			this.importSVGfallback(place,options);		
 		}
 	},
-	handler: function(place, macroName, params,wikifier, paramString, tiddler){
-		var imageSource = params[0];
+	renderImage: function(place, imageSource, options) {
 		var imageTiddler = store.getTiddler(imageSource);
-		// collect named arguments
-		var args = macro.getArguments(paramString, params);
-
 		if(imageTiddler && macro.isBinaryImageTiddler(imageTiddler)) { // handle the case where we have an image url
-			return macro.renderBinaryImageUrl(place, imageTiddler.title, args);
+			return macro.renderBinaryImageUrl(place, imageTiddler.title, options);
 		} else if(imageTiddler){ // handle the case where we have a tiddler
-			return macro.renderSVGTiddler(place, imageTiddler, args);
+			return macro.renderSVGTiddler(place, imageTiddler, options);
 		} else { // we have a string representing a url
 			// check if we can access the json format of this url
 			var newplace = $('<div class="externalImage"/>').appendTo(place)[0];
@@ -163,19 +159,25 @@ var macro = config.macros.image = {
 					success: function(tiddler) {
 						// check type
 						if(macro.isBinaryImageType(tiddler.type)) {
-							return macro.renderBinaryImageUrl(newplace, imageSource, args);
+							return macro.renderBinaryImageUrl(newplace, imageSource, options);
 						} else {
-							return macro.renderSVGTiddler(newplace, tiddler, args);
+							return macro.renderSVGTiddler(newplace, tiddler, options);
 						}
 					},
 					error: function() { // .json wasn't supported.. treat as image.
-						return macro.renderBinaryImageUrl(newplace, imageSource, args);
+						return macro.renderBinaryImageUrl(newplace, imageSource, options);
 					}
 				});
 			} catch(e) { // the url is external thus our ajax request failed. we could try proxying.. 
-				return macro.renderBinaryImageUrl(newplace, imageSource, args); // attempt to render as image
+				return macro.renderBinaryImageUrl(newplace, imageSource, options); // attempt to render as image
 			}
 		}
+	},
+	handler: function(place, macroName, params, wikifier, paramString, tiddler){
+		var imageSource = params[0];
+		// collect named arguments
+		var args = macro.getArguments(paramString, params);
+		this.renderImage(place, imageSource, args);		
 	},
 	renderAlternateText: function(place, options) {
 		if(options.alt) {
@@ -218,6 +220,7 @@ var macro = config.macros.image = {
 
 			img.attr("height", userH);
 			img.attr("width", userW);
+			img.addClass(options.imageClass);
 		};
 		image.src = src;
 	},
