@@ -48,4 +48,3 @@ config.macros.view.views.wikified = function(value, place, params, wikifier,
 
 })(jQuery);
 //}}}
-

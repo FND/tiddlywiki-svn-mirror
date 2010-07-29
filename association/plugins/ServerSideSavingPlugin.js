@@ -2,7 +2,7 @@
 |''Name''|ServerSideSavingPlugin|
 |''Description''|server-side saving|
 |''Author''|FND|
-|''Version''|0.6.3|
+|''Version''|0.6.4|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/plugins/ServerSideSavingPlugin.js|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
@@ -141,8 +141,8 @@ plugin.reportSuccess = function(msg, tiddler) {
 };
 
 plugin.reportFailure = function(msg, tiddler, context) {
-	context = context || {};
-	var desc = context.httpStatus ? context.statusText : plugin.locale.connectionError;
+	var desc = (context && context.httpStatus) ? context.statusText :
+		plugin.locale.connectionError;
 	displayMessage(plugin.locale[msg].format([tiddler.title, desc]));
 };
 
