@@ -33,7 +33,7 @@ function createSpaceLink(place, spaceName, tiddlerTitle) {
 	link = link.replace("http://", "http://" + spaceName.toLowerCase() + ".");
 
 	if (tiddlerTitle) {
-		a = createExternalLink(place, link +"#" + encodeURIComponent(String.encodeTiddlyLink(tiddlerTitle)), tiddlerTitle);
+		a = createExternalLink(place, link + "#" + encodeURIComponent(String.encodeTiddlyLink(tiddlerTitle)), tiddlerTitle);
 	} else {
 		a = createExternalLink(place, link, spaceName);
 	}
