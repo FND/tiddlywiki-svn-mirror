@@ -4,15 +4,17 @@
 |''Author:''|PaulDowney (psd (at) osmosoft (dot) com) |
 |''Source:''|http://whatfettle.com/2008/07/TiddlySpaceLinkPlugin/ |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/plugins/TiddlySpaceLinkPlugin/ |
-|''Version:''|0.1|
+|''Version:''|0.3|
 |''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''~CoreVersion:''|2.4|
 !!Documentation
-This plugin provides wikitext formatters for referencing another [[space|Space]] on the same TiddlySpace server:
-{{{@space}}} -- @psd -- external link to another space
-{{{~@space}}} -- ~@psd -- escaped space link
-{{{@[Tiddler Name]space}}} -- @[How do I link to another space?]faq -- external link to a tiddler on another space
+This plugin provides wikitext formatters for referencing another [[space|Space]] on the same TiddlySpace server, as in the following examples:
+{{{@space}}} -- @psd 
+{{{~@space}}} -- ~@psd 
+{{{Tiddler@space}}} -- Tiddler@glossary
+{{{[[Tiddler Name]]@space}}} -- [[How do I link to another space?]]@faq 
+{{{[[Link text|Tiddler Name]]@space}}} -- [[about spaces|Space]]@glossary
 !!Code
 ***/
 //{{{
@@ -32,9 +34,9 @@ function createSpaceLink(place, spaceName, tiddlerTitle) {
 
 	if (tiddlerTitle) {
 		createExternalLink(place, link +"#" + encodeURIComponent(String.encodeTiddlyLink(tiddlerTitle)), tiddlerTitle);
+	} else {
+		createExternalLink(place, link, spaceName);
 	}
-	createTiddlyText(place, "@");
-	createExternalLink(place, link, spaceName);
 }
 
 (function ($) {

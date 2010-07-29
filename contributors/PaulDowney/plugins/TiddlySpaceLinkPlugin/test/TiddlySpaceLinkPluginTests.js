@@ -42,6 +42,22 @@
 			equals(a.text(), "MissingWikiWord");
 		});
 
+		/*
+		 *  will live with this, for now ..
+		 *
+		test('Wikifier: test short Email address', function() {
+			var place = createWikifyTestElement("foo@example.com");
+			equals($(place).find('a').length, 0);
+			equals($(place).text(), "foo@example.com");
+		});
+
+		test('Wikifier: test dotted Email address', function() {
+			place = createWikifyTestElement("foo.bar@example.com");
+			equals($(place).find('a').length, 0);
+			equals($(place).text(), "foo.bar@example.com");
+		});
+		*/
+
 		test('Wikifier: automatic link', function() {
 			var url = "http://example.com/foo/bar/baz.html";
 			var place = createWikifyTestElement(url);
@@ -62,13 +78,13 @@
 
 		test('Wikifier: @spacename', function() {
 			var place = createWikifyTestElement("@space-name");
-			equals($(place).text(), "@space-name");
+			equals($(place).text(), "space-name");
 			testExternalLink($(place).find('a'), "http://space-name.tiddlyspace.com", "space-name");
 		});
 
 		test('Wikifier: @SpaceName', function() {
 			var place = createWikifyTestElement("@SpaceName");
-			equals($(place).text(), "@SpaceName");
+			equals($(place).text(), "SpaceName");
 			testExternalLink($(place).find('a'), "http://spacename.tiddlyspace.com", "SpaceName");
 		});
 
@@ -79,23 +95,20 @@
 
 		test('Wikifier: [[Tiddler]]@spacename', function() {
 			var place = createWikifyTestElement("[[Tiddler]]@spacename");
-			equals($(place).text(), "Tiddler@spacename");
+			equals($(place).text(), "Tiddler");
 			testExternalLink($(place).find('a:first'), "http://spacename.tiddlyspace.com#Tiddler", "Tiddler");
-			testExternalLink($(place).find('a:nth-child(2)'), "http://spacename.tiddlyspace.com", "spacename");
 		});
 
 		test('Wikifier: [[TiddlerTitle]]@SpaceName', function() {
 			var place = createWikifyTestElement("[[TiddlerTitle]]@SpaceName");
-			equals($(place).text(), "TiddlerTitle@SpaceName");
+			equals($(place).text(), "TiddlerTitle");
 			testExternalLink($(place).find('a:first'), "http://spacename.tiddlyspace.com#TiddlerTitle", "TiddlerTitle");
-			testExternalLink($(place).find('a:nth-child(2)'), "http://spacename.tiddlyspace.com", "SpaceName");
 		});
 
 		test('Wikifier: [[Tiddler Name]]@Space-Name99', function() {
 			var place = createWikifyTestElement("[[Tiddler Name]]@Space-Name99");
-			equals($(place).text(), "Tiddler Name@Space-Name99");
+			equals($(place).text(), "Tiddler Name");
 			testExternalLink($(place).find('a:first'), "http://space-name99.tiddlyspace.com#%5B%5BTiddler%20Name%5D%5D", "Tiddler Name");
-			testExternalLink($(place).find('a:nth-child(2)'), "http://space-name99.tiddlyspace.com", "Space-Name99");
 		});
 
 
