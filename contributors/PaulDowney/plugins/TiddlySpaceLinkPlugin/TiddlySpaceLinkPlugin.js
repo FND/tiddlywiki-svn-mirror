@@ -21,7 +21,7 @@ This plugin provides wikitext formatters for referencing another [[space|Space]]
 /*jslint onevar: false nomen: false plusplus: false */
 /*global jQuery config createTiddlyText createExternalLink */
 
-function createSpaceLink(place, spaceName, tiddlerTitle) {
+function createSpaceLink(place, spaceName, title, alt) {
 	var link, a;
 	try {
 		// seems safe to expect this to have been initialised within TiddlySpace
@@ -32,8 +32,8 @@ function createSpaceLink(place, spaceName, tiddlerTitle) {
 	// assumes a http URI without user:pass@ prefix
 	link = link.replace("http://", "http://" + spaceName.toLowerCase() + ".");
 
-	if (tiddlerTitle) {
-		a = createExternalLink(place, link + "#" + encodeURIComponent(String.encodeTiddlyLink(tiddlerTitle)), tiddlerTitle);
+	if (title) {
+		a = createExternalLink(place, link + "#" + encodeURIComponent(String.encodeTiddlyLink(title)), alt || title);
 	} else {
 		a = createExternalLink(place, link, spaceName);
 	}
@@ -66,12 +66,14 @@ function createSpaceLink(place, spaceName, tiddlerTitle) {
 	{
 		name: "tiddlyLinkSpacenameLink",
 		match: "\\[\\[.*?\\]\\]@",
-		lookaheadRegExp: new RegExp("\\[\\[(.*?)\\]\\]@(" + config.textPrimitives.spaceName + ")", "mg"),
+		lookaheadRegExp: new RegExp("\\[\\[(.*?)(?:\\|(.*?))?\\]\\]@(" + config.textPrimitives.spaceName + ")", "mg"),
 		handler: function (w) {
 			this.lookaheadRegExp.lastIndex = w.matchStart;
 			var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 			if (lookaheadMatch && lookaheadMatch.index === w.matchStart) {
-				createSpaceLink(w.output, lookaheadMatch[2], lookaheadMatch[1]);
+				var title = lookaheadMatch[2] || lookaheadMatch[1];
+				var alt = lookaheadMatch[1] || lookaheadMatch[2];
+				createSpaceLink(w.output, lookaheadMatch[3], title, alt);
 				w.nextMatch = this.lookaheadRegExp.lastIndex;
 			}
 		}
