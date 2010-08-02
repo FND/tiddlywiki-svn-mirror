@@ -52,6 +52,7 @@ importer = config.macros.deliciousImport = {
 			var title = bookmark.d;
 			var modifier = bookmark.a;
 			var tags = bookmark.t;
+			tags.pushUnique("bookmark");
 			var text = importer.bookmarkletTemplate.format([
 				bookmark.u, bookmark.n]);
 			var fields = {};
