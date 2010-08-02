@@ -1,6 +1,6 @@
 /***
 |''Name''|ImageMacroPlugin|
-|''Version''|0.6|
+|''Version''|0.6.1dev|
 |''Description''|Allows the rendering of svg images in a TiddlyWiki|
 |''Author''|Osmosoft|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
@@ -40,7 +40,7 @@ var macro = config.macros.image = {
 	},
 	isSVGTiddler: function(tiddler) {
 		var type;
-		tiddler ? type = tiddler.fields['server.content-type'] : type = false;
+		type = tiddler ? tiddler.fields['server.content-type'] : false;
 		return type == "image/svg+xml";
 	},
 	isBinaryImageTiddler: function(tiddler) {
@@ -50,7 +50,7 @@ var macro = config.macros.image = {
 		return "tw_svgfix_" + (this._fixPrefix++).toString() + "_";
 	},
 	fixSVG: function(childNodes,idPrefix) {
-			if(!idPrefix) {
+		if(!idPrefix) {
 			idPrefix = this.generateIdPrefix();
 		}
 		var urlPattern = /^\s*url\(\#([^\)]*)\)\s*$/ig;
@@ -79,7 +79,7 @@ var macro = config.macros.image = {
 			}
 			var children = node.childNodes;
 			if(children.length > 0) {
-				 this.fixSVG(children, idPrefix);
+				this.fixSVG(children, idPrefix);
 			}
 		}
 	},
@@ -94,10 +94,26 @@ var macro = config.macros.image = {
 		var svgDoc;
 		if (window.DOMParser) {
 			svgDoc = new DOMParser().parseFromString(tiddlerText, "application/xml").documentElement;
-			if(options.fix) {
-					this.fixSVG([svgDoc], options.idPrefix);
-			}
+			var idPrefix = options.idPrefix || this.generateIdPrefix();
+			this.fixSVG([svgDoc], idPrefix);
 			var el = document.importNode(svgDoc, true);
+
+			var existingDefs = el.getElementsByTagNameNS(macro.svgns, "defs");
+			var elDef;
+			if(existingDefs.length === 0) {
+				elDef = document.createElementNS(macro.svgns, "defs");
+			} else {
+				elDef = existingDefs[0];
+			}
+			if(options.def) {
+				for(var i = 0; i < options.def.length; i++) {
+					var text = store.getTiddlerText(options.def[i]);
+					var def = new DOMParser().parseFromString(text, "application/xml").documentElement;
+					this.fixSVG([def], idPrefix);
+					elDef.appendChild(document.importNode(def, true));
+				}
+			}
+			el.insertBefore(elDef, el.firstChild);
 			var svgHolder = document.createElementNS(macro.svgns,"svg");
 			var width = options.width;
 			var height = options.height;
@@ -154,11 +170,14 @@ var macro = config.macros.image = {
 			// check if we can access the json format of this url
 			var newplace = $('<div class="externalImage"/>').appendTo(place)[0];
 			try{
-				ajaxReq({url: "%0.json".format([imageSource]),
-					dataType: "json",
-					success: function(tiddler) {
+				ajaxReq({
+					url: imageSource,
+					success: function(tiddler, status, xhr) {
 						// check type
-						if(macro.isBinaryImageType(tiddler.type)) {
+						var header = xhr.getResponseHeader("content-type");
+						header = header ? header.split(";") : [];
+						var contentType = header[0];
+						if(macro.isBinaryImageType(contentType)) {
 							return macro.renderBinaryImageUrl(newplace, imageSource, options);
 						} else {
 							return macro.renderSVGTiddler(newplace, tiddler, options);
@@ -199,7 +218,7 @@ var macro = config.macros.image = {
 		}
 	},
 	renderBinaryImageUrl: function(place, src, options) {
-		var container = $('<div class="image" />').appendTo(place)[0]
+		var container = $('<div class="image" />').appendTo(place)[0];
 		var image = new Image(); // due to weird scaling issues where you use just a width or just a height
 		image.onload = function() {
 			var w = image.width;
@@ -227,8 +246,15 @@ var macro = config.macros.image = {
 	getArguments: function(paramString, params) {
 		var args = paramString.parseParams("name", null, true, false, true)[0];
 		var options = {};
-		for(var id in args) {
-			options[id] = args[id][0];
+		if(true) {
+			for(var id in args) {
+				var p = args[id];
+				if(id == "def") {
+					options[id] = p;
+				} else {
+					options[id] = p[0];
+				}
+			}
 		}
 		var width = params[1] || false;
 		var height = params[2] || false;
