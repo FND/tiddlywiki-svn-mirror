@@ -1,6 +1,6 @@
 /***
 |''Name''|ImageMacroPlugin|
-|''Version''|0.6.1dev|
+|''Version''|0.6.2|
 |''Description''|Allows the rendering of svg images in a TiddlyWiki|
 |''Author''|Osmosoft|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
@@ -246,8 +246,8 @@ var macro = config.macros.image = {
 	getArguments: function(paramString, params) {
 		var args = paramString.parseParams("name", null, true, false, true)[0];
 		var options = {};
-		if(true) {
-			for(var id in args) {
+		for(var id in args) {
+			if(true) {
 				var p = args[id];
 				if(id == "def") {
 					options[id] = p;
