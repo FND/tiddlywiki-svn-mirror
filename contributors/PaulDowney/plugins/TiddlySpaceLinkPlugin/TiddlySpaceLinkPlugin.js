@@ -4,7 +4,7 @@
 |''Author:''|PaulDowney (psd (at) osmosoft (dot) com) |
 |''Source:''|http://whatfettle.com/2008/07/TiddlySpaceLinkPlugin/ |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/plugins/TiddlySpaceLinkPlugin/ |
-|''Version:''|0.5|
+|''Version:''|0.6|
 |''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''~CoreVersion:''|2.4|
@@ -16,7 +16,7 @@ This plugin provides wikitext formatters for referencing another [[space|Space]]
 {{{[[Tiddler Name]]@space}}} -- [[How do I link to another space?]]@faq 
 {{{[[Link text|Tiddler Name]]@space}}} -- [[about spaces|Space]]@glossary
 
-TiddlySpace now includes the [[TiddlySpaceLinkPlugin]] which provides WikiText markup for linking to other spaces on the same server. For example @glossary is a link to the {{{glossary}}} [[space|Space]] and [[Small Trusted Group]]@glossary a link to an individual tiddler in the @glossary space. Prefixing the link with a tilde escapes the link, for example {{{~@space}}}.
+TiddlySpace now includes the TiddlySpaceLinkPlugin which provides WikiText markup for linking to other spaces on the same server. For example glossary is a link to the glossary space and Small Trusted Group a link to an individual tiddler in the glossary space. Prefixing the link with a tilde escapes the link, for example ~@space. Email addresses, for example joe.bloggs@example.com and mary@had.a.little.lamb.org should be unaffected.
 !!Code
 ***/
 //{{{
@@ -50,9 +50,13 @@ function createSpaceLink(place, spaceName, title, alt) {
 
 	config.formatters.splice(0, 0, {
 		name: "spacenameLink",
-		match: config.textPrimitives.unWikiLink + "?" + config.textPrimitives.anyLetter + "*@" + config.textPrimitives.spaceName,
+		match: config.textPrimitives.unWikiLink + "?" + config.textPrimitives.anyLetter + "*@" + config.textPrimitives.spaceName + ".?",
 		lookaheadRegExp: new RegExp(config.textPrimitives.unWikiLink + "?(" + config.textPrimitives.anyLetter + "*)@(" + config.textPrimitives.spaceName + ")", "mg"),
 		handler: function (w) {
+			if (w.matchText.substr(w.matchText.length-1, 1) === '.') {
+				w.outputText(w.output, w.matchStart, w.nextMatch);
+				return;
+			}
 			if (w.matchText.substr(0, 1) === config.textPrimitives.unWikiLink) {
 				w.outputText(w.output, w.matchStart + 1, w.nextMatch);
 				return;

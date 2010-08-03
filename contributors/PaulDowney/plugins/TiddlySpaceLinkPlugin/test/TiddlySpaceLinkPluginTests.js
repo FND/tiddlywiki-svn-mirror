@@ -171,6 +171,17 @@
 			equals($(place).text(), "Tiddler Name some text Small Trusted Group");
 		});
 
+		test('Wikifier: foo@bar.com', function() {
+			var place = createWikifyTestElement("foo@bar.com");
+			equals($(place).text(), "foo@bar.com");
+			equals($(place).find('a').length, 0);
+		});
+
+		test('Wikifier: foo@FooBar.com', function() {
+			var place = createWikifyTestElement("foo@FooBar.com");
+			equals($(place).text(), "foo@FooBar.com");
+			equals($(place).find('a').length, 0);
+		});
 
     });
 })(jQuery);
