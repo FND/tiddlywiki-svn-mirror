@@ -2,7 +2,7 @@
 |''Name''|TiddlyWebConfig|
 |''Description''|configuration settings for TiddlyWebWiki|
 |''Author''|FND|
-|''Version''|1.2.2|
+|''Version''|1.3.0|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/plugins/TiddlyWebConfig.js|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
@@ -46,18 +46,6 @@ var plugin = config.extensions.tiddlyweb = {
 		} else {
 			return true;
 		}
-	},
-	// NB: pseudo-binaries are considered non-binary here
-	isBinary: function(tiddler) {
-		var type = tiddler.fields["server.content-type"];
-		return type ? !this.isTextual(type) : false;
-	},
-	isTextual: function(ctype) {
-		return ctype.indexOf("text/") == 0 || this.endsWith(ctype, "+xml");
-	},
-	endsWith: function(str, suffix) {
-		return str.length >= suffix.length &&
-			str.substr(str.length - suffix.length) == suffix;
 	}
 };
 
