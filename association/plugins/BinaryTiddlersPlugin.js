@@ -12,11 +12,21 @@
 //{{{
 (function($) {
 
+var ctfield = "server.content-type";
+
 var plugin = config.extensions.BinaryTiddlersPlugin = {
+	isWikiText: function(tiddler) {
+		var ctype = tiddler.fields[ctfield];
+		if(ctype) {
+			return !this.isBinary(tiddler) || !this.isTextual(ctype);
+		} else {
+			return true;
+		}
+	},
 	// NB: pseudo-binaries are considered non-binary here
 	isBinary: function(tiddler) {
-		var type = tiddler.fields["server.content-type"];
-		return type ? !this.isTextual(type) : false;
+		var ctype = tiddler.fields[ctfield];
+		return ctype ? !this.isTextual(ctype) : false;
 	},
 	isTextual: function(ctype) {
 		return ctype.indexOf("text/") == 0 || this.endsWith(ctype, "+xml");
@@ -64,7 +74,7 @@ config.macros.edit.handler = function(place, macroName, params, wikifier,
 // hijack autoLinkWikiWords to ignore binary tiddlers
 var _autoLink = Tiddler.prototype.autoLinkWikiWords;
 Tiddler.prototype.autoLinkWikiWords = function() {
-	return plugin.isBinary(this) ? false : _autoLink.apply(this, arguments);
+	return plugin.isWikiText(this) ? _autoLink.apply(this, arguments) : false;
 };
 
 })(jQuery);
