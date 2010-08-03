@@ -18,7 +18,7 @@ var plugin = config.extensions.BinaryTiddlersPlugin = {
 	isWikiText: function(tiddler) {
 		var ctype = tiddler.fields[ctfield];
 		if(ctype) {
-			return !this.isBinary(tiddler) || !this.isTextual(ctype);
+			return !this.isBinary(tiddler) && !this.isTextual(ctype);
 		} else {
 			return true;
 		}
