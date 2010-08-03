@@ -87,7 +87,13 @@ Given a certain hue, specify the angle from the secondary colour to which the se
 	var macro = config.macros.RandomColorPalette = {
 		messagesOn: false, 
 		changedPaletteText: "We have assigned you a random theme by adjusting the [[ColorPalette]] tiddler.\nDon't like it? Click <<RandomColorPalette>> for another one.", 
-		generate_palette: function(options) {
+		handler: function(place, macroName, params, wikifier, paramString, tiddler) {
+			paramString = paramString || "";
+			var options = paramString.parseParams("name", null, true, false, true)[0];
+			var tiddler = macro.generatePalette(options);
+			macro.saveColorPalette(tiddler);
+		},
+		generatePalette: function(options) {
 			var outputRGB = options.rgb && options.rgb[0];
 			if(this.inprogress) { 
 				return;
@@ -181,13 +187,8 @@ Given a certain hue, specify the angle from the secondary colour to which the se
 				wikify("{{changedPalette{" + macro.changedPaletteText + "}}}", tempPlace);
 				msgPlace.appendChild(tempPlace);
 			}
-		},
-		handler: function(place, macroName, params, wikifier, paramString, tiddler) {
-			paramString = paramString || "";
-			var options = paramString.parseParams("name", null, true, false, true)[0];
-			var tiddler = macro.generate_palette(options);
-			macro.saveColorPalette(tiddler);
 		}
+
 	};
 
 	config.macros.RandomColorPaletteButton = {
