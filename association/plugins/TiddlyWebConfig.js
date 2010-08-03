@@ -68,17 +68,6 @@ config.commands.deleteTiddler.isEnabled = function(tiddler) {
 	return !readOnly && plugin.hasPermission("delete", tiddler);
 };
 
-// hijack edit macro to disable editing of binary tiddlers' body
-var _editHandler = config.macros.edit.handler;
-config.macros.edit.handler = function(place, macroName, params, wikifier,
-		paramString, tiddler) {
-	if(params[0] == "text" && plugin.isBinary(tiddler)) {
-		return false;
-	} else {
-		_editHandler.apply(this, arguments);
-	}
-};
-
 // hijack option macro to disable username editing
 var _optionMacro = config.macros.option.handler;
 config.macros.option.handler = function(place, macroName, params, wikifier,

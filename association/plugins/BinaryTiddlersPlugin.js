@@ -50,6 +50,17 @@ config.macros.view.views.wikified = function(value, place, params, wikifier,
 	}
 };
 
+// hijack edit macro to disable editing of binary tiddlers' body
+var _editHandler = config.macros.edit.handler;
+config.macros.edit.handler = function(place, macroName, params, wikifier,
+		paramString, tiddler) {
+	if(params[0] == "text" && plugin.isBinary(tiddler)) {
+		return false;
+	} else {
+		_editHandler.apply(this, arguments);
+	}
+};
+
 // hijack autoLinkWikiWords to ignore binary tiddlers
 var _autoLink = Tiddler.prototype.autoLinkWikiWords;
 Tiddler.prototype.autoLinkWikiWords = function() {
