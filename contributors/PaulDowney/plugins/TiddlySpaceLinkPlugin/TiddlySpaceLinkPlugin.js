@@ -4,7 +4,7 @@
 |''Author:''|PaulDowney (psd (at) osmosoft (dot) com) |
 |''Source:''|http://whatfettle.com/2008/07/TiddlySpaceLinkPlugin/ |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/plugins/TiddlySpaceLinkPlugin/ |
-|''Version:''|0.4|
+|''Version:''|0.5|
 |''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''~CoreVersion:''|2.4|
@@ -15,6 +15,8 @@ This plugin provides wikitext formatters for referencing another [[space|Space]]
 {{{Tiddler@space}}} -- Tiddler@glossary
 {{{[[Tiddler Name]]@space}}} -- [[How do I link to another space?]]@faq 
 {{{[[Link text|Tiddler Name]]@space}}} -- [[about spaces|Space]]@glossary
+
+TiddlySpace now includes the [[TiddlySpaceLinkPlugin]] which provides WikiText markup for linking to other spaces on the same server. For example @glossary is a link to the {{{glossary}}} [[space|Space]] and [[Small Trusted Group]]@glossary a link to an individual tiddler in the @glossary space. Prefixing the link with a tilde escapes the link, for example {{{~@space}}}.
 !!Code
 ***/
 //{{{
@@ -65,7 +67,7 @@ function createSpaceLink(place, spaceName, title, alt) {
 	},
 	{
 		name: "tiddlyLinkSpacenameLink",
-		match: "\\[\\[.*?\\]\\]@",
+		match: "\\[\\[[^\\[]*\\]\\]@",
 		lookaheadRegExp: new RegExp("\\[\\[(.*?)(?:\\|(.*?))?\\]\\]@(" + config.textPrimitives.spaceName + ")", "mg"),
 		handler: function (w) {
 			this.lookaheadRegExp.lastIndex = w.matchStart;

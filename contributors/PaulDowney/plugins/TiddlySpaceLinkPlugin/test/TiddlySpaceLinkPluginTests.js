@@ -129,11 +129,48 @@
 			testTiddlySpaceLink($(place).find('a'), "http://space-name99.tiddlyspace.com#%5B%5BTiddler%20Name%5D%5D", "Tiddler Name");
 		});
 
-		test('Wikifier: [[Tiddler Name]]@Space-Name99', function() {
+		test('Wikifier: [[Alias for tiddler|Tiddler Name]]@Space-Name99', function() {
 			var place = createWikifyTestElement("[[Alias for tiddler|Tiddler Name]]@Space-Name99");
 			equals($(place).text(), "Alias for tiddler");
 			testTiddlySpaceLink($(place).find('a'), "http://space-name99.tiddlyspace.com#%5B%5BTiddler%20Name%5D%5D", "Alias for tiddler");
 		});
+
+		test('Wikifier: [[Tiddler Name]] some text', function() {
+			var place = createWikifyTestElement("[[Tiddler Name]] some text");
+			equals($(place).text(), "Tiddler Name some text");
+			var a = $(place).find('a');
+			equals(a.attr("href"), "javascript:;");
+			equals(a.attr("refresh"), "link");
+			equals(a.attr("class"), "tiddlyLink tiddlyLinkNonExisting");
+			equals(a.attr("title"), "The tiddler 'Tiddler Name' doesn't yet exist");
+			equals(a.attr("tiddlyLink"), "Tiddler Name");
+			equals(a.text(), "Tiddler Name");
+		});
+
+		test('Wikifier: [[Tiddler Name]] some text @space', function() {
+			var place = createWikifyTestElement("[[Tiddler Name]] some text @space");
+			equals($(place).text(), "Tiddler Name some text space");
+			var a = $(place).find('a:first');
+			equals(a.attr("href"), "javascript:;");
+			equals(a.attr("refresh"), "link");
+			equals(a.attr("class"), "tiddlyLink tiddlyLinkNonExisting");
+			equals(a.attr("title"), "The tiddler 'Tiddler Name' doesn't yet exist");
+			equals(a.attr("tiddlyLink"), "Tiddler Name");
+			equals(a.text(), "Tiddler Name");
+
+			testTiddlySpaceLink($(place).find('a:eq(1)'), "http://space.tiddlyspace.com", "space");
+		});
+
+		test('Wikifier: [[TiddlySpace]] [[Tiddler Name]] some text', function() {
+			var place = createWikifyTestElement("[[TiddlySpace]] [[Tiddler Name]] some text @space");
+			equals($(place).text(), "TiddlySpace Tiddler Name some text space");
+		});
+
+		test('Wikifier: [[Tiddler Name]] some text [[Small Trusted Group]]@space', function() {
+			var place = createWikifyTestElement("[[Tiddler Name]] some text [[Small Trusted Group]]@space");
+			equals($(place).text(), "Tiddler Name some text Small Trusted Group");
+		});
+
 
     });
 })(jQuery);
