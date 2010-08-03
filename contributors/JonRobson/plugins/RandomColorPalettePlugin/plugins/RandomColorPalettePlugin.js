@@ -2,7 +2,7 @@
 |''Name''|RandomColorPalettePlugin|
 |''Description''|Adds a random color palette to TiddlyWiki|
 |''Author''|Jon Robson|
-|''Version''|<1.1.0>|
+|''Version''|1.2.0|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/contributors/JonRobson/plugins/RandomColorPalettePlugin/RandomColorPalettePlugin.js|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
@@ -90,10 +90,9 @@ Given a certain hue, specify the angle from the secondary colour to which the se
 		handler: function(place, macroName, params, wikifier, paramString, tiddler) {
 			paramString = paramString || "";
 			var options = paramString.parseParams("name", null, true, false, true)[0];
-			var tiddler = macro.generatePalette(options);
-			macro.saveColorPalette(tiddler);
+			var tiddler = macro.generatePalette(options, true);
 		},
-		generatePalette: function(options) {
+		generatePalette: function(options, save) {
 			var outputRGB = options.rgb && options.rgb[0];
 			if(this.inprogress) { 
 				return;
@@ -165,6 +164,9 @@ Given a certain hue, specify the angle from the secondary colour to which the se
 			}
 			tid.text = text.join("");
 			this.inprogress = false;
+			if(save) { 
+				macro.saveColorPalette(tid);
+			}
 			return tid;
 		},
 		saveColorPalette: function(tid) {
