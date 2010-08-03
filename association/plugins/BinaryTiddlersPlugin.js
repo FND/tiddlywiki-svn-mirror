@@ -50,5 +50,11 @@ config.macros.view.views.wikified = function(value, place, params, wikifier,
 	}
 };
 
+// hijack autoLinkWikiWords to ignore binary tiddlers
+var _autoLink = Tiddler.prototype.autoLinkWikiWords;
+Tiddler.prototype.autoLinkWikiWords = function() {
+	return plugin.isBinary(this) ? false : _autoLink.apply(this, arguments);
+};
+
 })(jQuery);
 //}}}
