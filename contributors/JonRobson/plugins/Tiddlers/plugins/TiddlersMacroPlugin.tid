@@ -2,19 +2,18 @@ tags: systemConfig
 
 
 /***
-|''Name''|Tiddlers|
+|''Name''|TiddlersPlugin|
 |''Description''|provide ability to loop through filtered list of tiddlers|
 |''Author''|Jon Robson|
-|''Version''|0.7|
-|''Date''||
-|''Status''||
-|''License''|BSD|
-|''CoreVersion''|<...>|
-|''Documentation''|<...>|
-|''Keywords''||
-!Description
-Bring loops
-*/
+|''Version''|0.7.1|
+|''Description''|Brings looping to tiddlers|
+!Usage
+<<tiddlers Template filter:[tag[systemConfig]]>>
+will pass all tiddlers that match the filter (ie. those tagged systemConfig) through the tiddler Template.
+The tiddler Template is run in the context of the tiddler being passed through it - for instance <<view title>> will display the title of the tiddler rather than Template.
+!Code
+***/
+/*{{{*/
 config.macros.tiddlers = {
     handler: function(place,macroName,params,wikifier,paramString,tiddler){
         var args = paramString.parseParams("name",null,true,false,true);
@@ -29,12 +28,12 @@ config.macros.tiddlers = {
             var tid = tiddlers[i];
             var newParamString = paramString+" data:\""+tid.title +"\"";
             //console.log("tiddlers",newParamString);
-            config.macros.tiddler.handler(place,macroName,params,wikifier,newParamString,tid);
+            this.tiddler(place,macroName,params,wikifier,newParamString,tid);
         }
         if(tiddlers.length ==0){
             if(ifEmpty){
                 var newParamString = "\""+ifEmpty +"\" " +paramString;                
-                config.macros.tiddler.handler(place,macroName,params,wikifier,newParamString,store.getTiddler(ifEmpty));
+                this.tiddler(place,macroName,params,wikifier,newParamString,store.getTiddler(ifEmpty));
             }
             else if(ifEmptyString){
               wikify(ifEmptyString[0],place);
@@ -44,8 +43,8 @@ config.macros.tiddlers = {
     }
 }
 
-/* requires update of tiddler macro */
-config.macros.tiddler.handler = function(place,macroName,params,wikifier,paramString,tiddler)
+/* a hacked version of the tiddler macro */
+config.macros.tiddlers.tiddler = function(place,macroName,params,wikifier,paramString,tiddler)
 {
   var namedprms = paramString.parseParams(null, null, true);
   var options ={};
@@ -86,3 +85,4 @@ config.macros.tiddler.handler = function(place,macroName,params,wikifier,paramSt
 		}
 	//}
 };
+/*}}}*/

@@ -1,7 +1,7 @@
 tags: systemConfig
 
 /***
-|''Name''|CarbonFootprint Plugin|
+|''Name''|CarbonFootprintPlugin|
 |''Description''|Allows you to check your carbon footprint against your travel.|
 |''Author''|Jon Robson|
 |''Version''|0.8|
@@ -39,14 +39,13 @@ config.macros.CarbonFootprintForm ={
     "pc": {prefix: "... you could have run a PC for ", kgMultiplier:1/(0.06*24), suffix: " days",decimals:0 },//http://technology.timesonline.co.uk/tol/news/tech_and_web/article5489134.ece
     "circumnavigate": {prefix:"... you could have circumnavigated the globe in a plane ",kgMultiplier:1/4496.43295, suffix:" times."}, //world is 40,075.16 kilometers in a plane 0.1122kg co2 per km
     
-    "BT_travel": {prefix: "... you have contributed to ",kgMultiplier:1/50000000,decimals:10,suffix:"% of all the co2 BT people will produce this year through business travel"},
-    "BT_CF": {prefix:"... you have contributed to ",kgMultiplier:1/900000000,decimals:10,suffix: "% of BT's worldwide carbon footprint for a year"},
-    "madehomehubs":{prefix:"...could have manufactured and distributed ", kgMultiplier:1/18, suffix:" BT homehubs"},
+      "madehomehubs":{prefix:"...could have manufactured and distributed ", kgMultiplier:1/18, suffix:" BT homehubs"},
     "bthomehub":{prefix:"... you could have run a BT homehub for ", kgMultiplier:1/44,suffix:" years"},
     "co2today":{prefix:"... you have contributed the same amount as ", kgMultiplier:1/25,suffix:" people will today (the total UK emissions today will correspond to about 25kg of Co2 per person)"},
     "co2_2050":{prefix:"... you have contributed the same amount as ", kgMultiplier:1/5,suffix:" people will in 2050 in a single day (based on UK climate change reduction targets)"}
   }
   
+
   ,poundsperkm:{
     "car (unknown fuel)":.09,
     "plane (domestic)": .12,
@@ -237,7 +236,6 @@ config.macros.CarbonFootprintForm ={
   }
   ,calculate:function(place,options){
     /* for debugging */    
-    console.log("calculate time!");
     var macro = config.macros.CarbonFootprintForm;
     var startLocation = macro.get_google_search_term(jQuery("input[name=meeting_location]",place).val());
     var isReturn = jQuery("input[name=isReturn]:checked",place);
@@ -255,9 +253,9 @@ config.macros.CarbonFootprintForm ={
     var theurl = options.url+startLocation;
     if(!macro["search-cache"][startLocation]){
       ajaxReq({url:theurl, error: function(e){console.log("error time");alert("an error occurred.. "+e);}, success:function(r){
-        console.log("success time");
-        var geo = macro.getLngLatFromGoogleResponse(r);
-       
+      console.log("success time");
+        var geo = macro.getLngLatFromGoogleResponse(startLocation, r);
+       console.log(geo,"...");
         if(!geo){
           alert("Couldn't find "+ startLocation + " check this is a valid postcode.");
           jQuery(".resultsBox",place).html("error occurred: invalid address " + startLocation);
@@ -442,7 +440,7 @@ config.macros.CarbonFootprintForm ={
         var remaining_transport = transports.slice(0,transports.length-1);
         
         var nameParticipant = this.params['name'];      
-        var geo = macro.getLngLatFromGoogleResponse(r);
+        var geo = macro.getLngLatFromGoogleResponse(postcode, r);
         var kmTravelled = config.macros.CarbonFootprintForm.calculateKm(this.params.destLat,this.params.destLng,geo.lat,geo.lng);
         if(options.returnjourney){
           kmTravelled *=2;
@@ -454,7 +452,7 @@ config.macros.CarbonFootprintForm ={
       },fail:function(){alert("something went wrong.. make sure you are connected to the internet..");}});
     
   }
-  ,getLngLatFromGoogleResponse: function(response){
+  ,getLngLatFromGoogleResponse: function(name, response){
       var macro = config.macros.CarbonFootprintForm;
       if(!response){
         throw "Tried to query geodata for given location but got nothing back for the handler!";
@@ -466,8 +464,9 @@ config.macros.CarbonFootprintForm ={
       }
       var lng = topResult.lng
       var lat = topResult.lat;
-      macro["search-cache"][startLocation] = {"lng":lon,"lat":lat};
-      return {"lng":lng,"lat":lat};
+
+      macro["search-cache"][name] = {"lng":lng,"lat":lat};
+      return macro["search-cache"][name];
   }
   ,loadData: function(place,options){
     var macro =config.macros.CarbonFootprintForm;

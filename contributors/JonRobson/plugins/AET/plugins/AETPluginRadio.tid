@@ -5,6 +5,7 @@ tags: systemConfig
 ***/
 /***
 |''Name:''|AETRadio|
+|''Version:''|0.8|
 |''Description:''||
 |''Author:''|JonRobson |
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
@@ -29,6 +30,7 @@ config.macros.aet.controlTypes.radio = function(place,tiddlerobj,metaDataName,op
       }       
       var selected;
       if(tiddlerobj)selected= tiddlerobj.fields[metaDataName];
+console.log(selected,tiddlerobj);
 	    var lines = source.split("\n");
 	    var radiogroupname = "radiogroup"+Math.random();
 	    var radioHtml = "";
@@ -37,12 +39,6 @@ config.macros.aet.controlTypes.radio = function(place,tiddlerobj,metaDataName,op
 	    for(var i=0; i < lines.length; i++){
 	        var val = lines[i];
 	        if(val != ""){
-  		        if(val == currentValue){
-  		            selected = "checked=true";
-  		        }
-  		        else{
-  		            selected = "";
-  		        }
   		        var label;
   		        var spl = val.split(":");
   		        if(spl[0] && spl[1]){
@@ -51,6 +47,12 @@ config.macros.aet.controlTypes.radio = function(place,tiddlerobj,metaDataName,op
   		        }
   		        else{
   		            label = val;
+  		        }
+  		        if(val == currentValue){
+  		            selected = "checked=true";
+  		        }
+  		        else{
+  		            selected = "";
   		        }
   		        radioHtml += "<input class='aet_radiobutton' "+selected+" type='radio' value=\""+val+"\" name='"+radiogroupname+"'/><label>"+label+"</label>";
 	        }
