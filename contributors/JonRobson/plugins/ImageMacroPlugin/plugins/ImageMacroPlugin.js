@@ -1,6 +1,6 @@
 /***
 |''Name''|ImageMacroPlugin|
-|''Version''|0.6.3|
+|''Version''|0.6.4|
 |''Description''|Allows the rendering of svg images in a TiddlyWiki|
 |''Author''|Osmosoft|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
@@ -163,7 +163,15 @@ var macro = config.macros.image = {
 	renderImage: function(place, imageSource, options) {
 		var imageTiddler = store.getTiddler(imageSource);
 		if(imageTiddler && macro.isBinaryImageTiddler(imageTiddler)) { // handle the case where we have an image url
-			return macro.renderBinaryImageUrl(place, imageTiddler.title, options);
+			var src;
+			var fields = imageTiddler.fields;
+			if(fields["server.type"] == 'tiddlyweb') { // construct an accurate url for the resource  
+				src = "%0%1/tiddlers/%2".format([fields['server.host'],
+					fields['server.workspace'],fields['server.title']]);
+			} else { // guess the url for the resource
+				src = imageTiddler.title;
+			}
+			return macro.renderBinaryImageUrl(place, src, options);
 		} else if(imageTiddler){ // handle the case where we have a tiddler
 			return macro.renderSVGTiddler(place, imageTiddler, options);
 		} else { // we have a string representing a url
