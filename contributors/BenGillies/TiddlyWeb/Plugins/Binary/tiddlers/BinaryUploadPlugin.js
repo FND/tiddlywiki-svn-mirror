@@ -1,6 +1,6 @@
 /***
 |Name|BinaryUploadPlugin||
-|Version|0.2|
+|Version|0.2.1|
 |Author|Ben Gillies and Jon Robson|
 |Type|plugin|
 |Description|Upload a binary file to TiddlyWeb|
@@ -24,8 +24,8 @@ tiddlywebplugins.form
 //{{{
 if(!version.extensions.BinaryUploadPlugin)
 { //# ensure that the plugin is only installed once
-		version.extensions.BinaryUploadPlugin = { installed: true }
-};
+		version.extensions.BinaryUploadPlugin = { installed: true };
+}
 
 (function($) {
 var macro = config.macros.binaryUpload ={
@@ -62,7 +62,7 @@ var macro = config.macros.binaryUpload ={
 					var defaultValue = params[0][fieldName] ? params[0][fieldName] : false;
 					if(includeFields[fieldName] || defaultValue) {
 						var localeDefault = locale["%0DefaultValue".format([fieldName])];
-						var className = defaultValue ? "" : "notEdited";
+						var className = defaultValue ? "userInput" : "userInput notEdited";
 						var inputEl;
 						var val = defaultValue || localeDefault;
 						if(defaultValue && !includeFields[fieldName]) {
@@ -87,8 +87,15 @@ var macro = config.macros.binaryUpload ={
 						.submit(function() {
 								$(".notEdited").val("");
 								var fileName = $("input[name=title]", place).val() || $('input:file', place).val();
-								if (!fileName)
+								if (!fileName) {
 										return false; //the user hasn't selected a file yet
+								}
+								var fStart = fileName.lastIndexOf("\\");
+								var fStart2 = fileName.lastIndexOf("/");
+								fStart = fStart < fStart2 ? fStart2 : fStart;
+								fileName = fileName.substr(fStart+1);
+								$('input:file,input[name=title]', place).val(fileName);
+								
 								this.action += '?redirect=/bags/common/tiddlers.txt?select=title:'+fileName; //we need to go somewhere afterwards to ensure the onload event triggers
 								$(place).append($('<iframe name="' + iframeName + '" id="' + iframeName + '"/>').css('display','none'));
 								config.macros.binaryUpload.iFrameLoader(iframeName, fileName, place, uploadTo, tiddler);
@@ -108,15 +115,16 @@ var macro = config.macros.binaryUpload ={
 				var target = $(ev.target);
 				var fileName = target.val();
 				var titleInput = $("input[name=title]", place);
-				if (titleInput.hasClass("notEdited") || !titleInput.val()) {
+				if(titleInput.hasClass("notEdited") || !titleInput.val()) {
 					titleInput.val(fileName);
 				}
-			});				
+				titleInput.removeClass("notEdited"); // allow editing on this element.
+			});
 		},
 		iFrameLoader: function(iframeName, fileName, place, workspace, tiddler) {
 				var iframe = document.getElementById(iframeName); //jQuery doesn't seem to want to do this!?
 				var locale = macro.locale;
-
+				$(".userInput").addClass("notEdited"); // reset editing
 				var finishedLoading = function() {
 						displayMessage(locale.loadSuccess.format([fileName]));
 						$.getJSON(config.macros.binaryUpload.fullURL + '/' + fileName + '.json', function(file) {
@@ -155,4 +163,3 @@ var macro = config.macros.binaryUpload ={
 }
 })(jQuery);
 //}}}
-
