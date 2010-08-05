@@ -1,8 +1,5 @@
 <div title="NewFeatures" modifier="MJB" created="200704141410" modified="201008040000">
-<pre>Release 2.6.1 provides a variety of bugfixes and enhancements:
-* plugin dependency handlings now takes into account tiddler title (ticket #1215)
-* fixed local file path problem (ticket #1169)
-* enhanced toolbar macro syntax to render tiddler/slice/section content inline (ticket #610)
+<pre>Release 2.6.1 is a maintenance release containing a variety of bugfixes and enhancements.
 
 For the full release notes see:
 http://trac.tiddlywiki.org/wiki/History
