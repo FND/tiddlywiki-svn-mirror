@@ -16,7 +16,7 @@ This plugin provides wikitext formatters for referencing another [[space|Space]]
 {{{[[Tiddler Name]]@space}}} -- [[How do I link to another space?]]@faq 
 {{{[[Link text|Tiddler Name]]@space}}} -- [[about spaces|Space]]@glossary
 
-TiddlySpace now includes the TiddlySpaceLinkPlugin which provides WikiText markup for linking to other spaces on the same server. For example glossary is a link to the glossary space and Small Trusted Group a link to an individual tiddler in the glossary space. Prefixing the link with a tilde escapes the link, for example ~@space. Email addresses, for example joe.bloggs@example.com and mary@had.a.little.lamb.org should be unaffected.
+TiddlySpace includes the [[TiddlySpaceLinkPlugin]] which provides WikiText markup for linking to other spaces on the same server. For example @glossary is a link to the {{{glossary}}} [[space|Space]] and [[Small Trusted Group]]@glossary a link to an individual tiddler in the @glossary space. Prefixing the link with a tilde escapes the link, for example {{{~@space}}}. Email addresses, for example joe.bloggs@example.com and mary@had.a.little.lamb.org should be unaffected.
 !!Code
 ***/
 //{{{
