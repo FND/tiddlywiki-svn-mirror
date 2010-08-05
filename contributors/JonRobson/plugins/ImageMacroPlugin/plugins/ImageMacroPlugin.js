@@ -1,13 +1,14 @@
 /***
 |''Name''|ImageMacroPlugin|
-|''Version''|0.6.5|
+|''Version''|0.6.6|
 |''Description''|Allows the rendering of svg images in a TiddlyWiki|
 |''Author''|Osmosoft|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
 |''Notes''|Currently only works in modern browsers (not IE)|
 |''Usage''|<<image SVG>> will render the text of the tiddler with title SVG as an SVG image (but not in ie where it will fail silently)|
 !Notes
-Tiddlers with the field 'server.content-type' set to image/svg+xml when passed through the wikifier will be shown as svg images.
+Binary tiddlers in TiddlyWeb when passed through the wikifier will be shown as images.
+eg. <<view text wikified>> on a binary tiddler will show the image.
 <<view fieldname image>>
 will render the value of the tiddler field 'fieldname' as an image. This field can contain a tid
 {{{
@@ -37,6 +38,9 @@ var macro = config.macros.image = {
 		} else {
 			return false;
 		}
+	},
+	isImageTiddler: function(tiddler) {
+		return macro.isSVGTiddler(tiddler) || macro.isBinaryImageTiddler(tiddler);
 	},
 	isSVGTiddler: function(tiddler) {
 		var type;
@@ -160,25 +164,37 @@ var macro = config.macros.image = {
 			this.importSVGfallback(place,options);		
 		}
 	},
-	renderImage: function(place, imageSource, options) {
-		var imageTiddler = store.getTiddler(imageSource);
-		if(imageTiddler && macro.isBinaryImageTiddler(imageTiddler)) { // handle the case where we have an image url
+	supportsDataUris: false,
+	renderBinaryImageTiddler: function(place, tiddler, options) {
+		var ctype = tiddler.fields["server.content-type"] || tiddler.type;
+		if(macro.supportsDataUris && ctype) {
+			var uri = "data:%0;base64,%1".format([ctype, tiddler.text]); // TODO: fallback for legacy browsers
+			return macro.renderBinaryImageUrl(place, uri, options);
+		} else if(options.src) {
+			return macro.renderBinaryImageUrl(place, options.src, options);
+		} else {
 			var src;
-			var fields = imageTiddler.fields;
+			var fields = tiddler.fields;
 			if(fields["server.type"] == 'tiddlyweb') { // construct an accurate url for the resource  
 				src = "%0%1/tiddlers/%2".format([fields['server.host'],
 					fields['server.workspace'],fields['server.title']]);
 			} else { // guess the url for the resource
-				src = imageTiddler.title;
+				src = tiddler.title;
 			}
 			return macro.renderBinaryImageUrl(place, src, options);
+		}
+	},
+	renderImage: function(place, imageSource, options) {
+		var imageTiddler = store.getTiddler(imageSource);
+		if(imageTiddler && macro.isBinaryImageTiddler(imageTiddler)) { // handle the case where we have an image url
+			return macro.renderBinaryImageTiddler(place, imageTiddler, options);
 		} else if(imageTiddler){ // handle the case where we have a tiddler
 			return macro.renderSVGTiddler(place, imageTiddler, options);
 		} else { // we have a string representing a url
 			// check if we can access the json format of this url
 			var newplace = $('<div class="externalImage"/>').appendTo(place)[0];
 			try{
-				ajaxReq({
+				ajaxReq({ // deal with tiddlyweb binary images
 					url: imageSource,
 					beforeSend: function(xhr) {
 						xhr.setRequestHeader("Accept", "application/json,*/*");
@@ -195,9 +211,9 @@ var macro = config.macros.image = {
 						} else { // try and use the response as tiddler text
 							tiddler = {text: tiddler};
 						}
-
 						if(macro.isBinaryImageType(contentType)) {
-							return macro.renderBinaryImageUrl(newplace, imageSource, options);
+							options.src = imageSource;
+							return macro.renderBinaryImageTiddler(newplace, tiddler, options);
 						} else {
 							return macro.renderSVGTiddler(newplace, tiddler, options);
 						}
@@ -297,13 +313,27 @@ var macro = config.macros.image = {
 	}
 };
 
+var datauriTest = function() {
+	var data = new Image();
+	data.onload = function() {
+		if(this.width != 1 || this.height != 1) {
+			macro.supportsDataUris = false;
+		} else {
+			macro.supportsDataUris = true;
+		}
+	};
+	data.onerror = data.onload;
+	data.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
+};
+datauriTest();
+
 // update views
 var _oldwikifiedview = config.macros.view.views.wikified;
 // update wikifier to check tiddler type before rendering
 config.macros.view.views.wikified = function(value, place, params, wikifier, paramString, tiddler) {
-	if(macro.isSVGTiddler(tiddler) && params[0] == "text") {
-		var newplace = $('<div class="wikifiedSVG" />').appendTo(place)[0];
-		macro.renderSVGTiddler(newplace, tiddler);
+	if(macro.isImageTiddler(tiddler) && params[0] == "text") {
+		var newplace = $('<div class="wikifiedImage" />').appendTo(place)[0];
+		macro.renderImage(newplace, tiddler.title, {});
 	} else {
 		_oldwikifiedview(value, place, params, wikifier, paramString, tiddler);
 	}
@@ -312,7 +342,7 @@ config.macros.view.views.image = function(value, place, params, wikifier, paramS
 	invokeMacro(place, "image", "%0 %1".format([value, params.splice(2).join(" ")]), null, tiddler);
 };
 
-config.shadowTiddlers.StyleSheetImageMacro = ".wikifiedSVG svg { width: 80%; }";
+config.shadowTiddlers.StyleSheetImageMacro = ".wikifiedImage svg, .wikifiedImage .image { width: 80%; }";
 store.addNotification("StyleSheetImageMacro", refreshStyles);
 
 })(jQuery);
