@@ -4,9 +4,10 @@
 #  uploadbeta [release] [cleanup]
 
 # default values
+USERNAME=${2:-$LOGNAME}
 DEFAULT_RELEASE="2.6.1.B1"
 RELEASE=${1:-$DEFAULT_RELEASE}
-HOST="tiddlywiki.com"
+HOST="$USERNAME@tiddlywiki.com"
 DIR="/var/www/www.tiddlywiki.com/htdocs"
 OWNER="www-data:www-data"
 PERM="664"
