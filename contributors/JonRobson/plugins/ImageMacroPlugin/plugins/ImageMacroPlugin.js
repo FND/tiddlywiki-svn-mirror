@@ -1,6 +1,6 @@
 /***
 |''Name''|ImageMacroPlugin|
-|''Version''|0.6.4|
+|''Version''|0.6.5|
 |''Description''|Allows the rendering of svg images in a TiddlyWiki|
 |''Author''|Osmosoft|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
@@ -201,9 +201,6 @@ var macro = config.macros.image = {
 						} else {
 							return macro.renderSVGTiddler(newplace, tiddler, options);
 						}
-					},
-					error: function() { // .json wasn't supported.. treat as image.
-						return macro.renderBinaryImageUrl(newplace, imageSource, options);
 					}
 				});
 			} catch(e) { // the url is external thus our ajax request failed. we could try proxying..
