@@ -2,7 +2,7 @@
 |''Name''|RandomColorPalettePlugin|
 |''Description''|Adds a random color palette to TiddlyWiki|
 |''Author''|Jon Robson|
-|''Version''|1.2.0|
+|''Version''|1.2.1|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/contributors/JonRobson/plugins/RandomColorPalettePlugin/RandomColorPalettePlugin.js|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
@@ -92,6 +92,28 @@ Given a certain hue, specify the angle from the secondary colour to which the se
 			var options = paramString.parseParams("name", null, true, false, true)[0];
 			var tiddler = macro.generatePalette(options, true);
 		},
+		generateRandomNumber: function(min, max, info) {
+			var num = (Math.random() * 1);
+			if(!info) {
+				info = {attempts:0};
+			}
+			info.attempts += 1;
+			var good = true;
+			if(min == max) return max;
+			if(min && num < min) {
+				good = false;
+			} else if(max && num > max) {
+				good = false;
+			}
+			if(!good) {
+				if(info.attempts < 5) {
+					return macro.generateRandomNumber(min, max, info);
+				} else {
+					return max || 1;
+				}
+			}
+			return num;
+		},
 		generatePalette: function(options, save) {
 			var outputRGB = options.rgb && options.rgb[0];
 			if(this.inprogress) { 
@@ -115,8 +137,8 @@ Given a certain hue, specify the angle from the secondary colour to which the se
 				TertiaryDark: "#666"
 			};
 			var hue = options.hue ? parseInt(options.hue[0]) : Math.floor(Math.random() * 359);
-			var saturation = options.saturation ? parseFloat(options.saturation[0]) : (Math.random() * 1);
-			var pale = options.lightness ? parseFloat(options.lightness[0]) : (Math.random() * 1); 
+			var saturation = options.saturation ? parseFloat(options.saturation[0]) : macro.generateRandomNumber(0.3, 0.7);
+			var pale = options.lightness ? parseFloat(options.lightness[0]) : macro.generateRandomNumber(0.7);
 			var dark = options.darkest ? parseFloat(options.darkest[0]) : 0;
 			var lightness_values = {Dark:dark, Mid:pale - ( ( pale - dark ) / 2 ), Light:pale - ( ( pale - dark ) / 4 ), Pale:pale};
 
@@ -164,6 +186,7 @@ Given a certain hue, specify the angle from the secondary colour to which the se
 			}
 			tid.text = text.join("");
 			this.inprogress = false;
+			config.macros.RandomColorPalette.LastColorPalette = {hue: hue, saturation: saturation, pale: pale, dark: dark};
 			if(save) { 
 				macro.saveColorPalette(tid);
 			}
