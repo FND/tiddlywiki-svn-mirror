@@ -130,34 +130,6 @@ var lastSlide = '';
     };
 
     /*
-     *  select Master
-     *  TBD := make into a generic plugin which also works in Edit Mode
-     */
-    config.macros.fieldSelector = {};
-    config.macros.fieldSelector.handler = function(place, macroName, params, wikifier, paramString, tiddler) {
-        var caption = params[0] || "Select a master slide";
-        var field = params[1] || "theme";
-        var tag = params[2] || "masterSlide";
-        var title = tiddler.title;
-
-        var tagged = store.getTaggedTiddlers(tag);
-        var options = [];
-        options.push({'caption': caption, 'name': null});
-        for (var i=0; i < tagged.length; i++) {
-            options.push({'caption': tagged[i].title, 'name': tagged[i].title});
-        }
-
-        return createTiddlyDropDown(place, function(ev) {
-                var fields = {};
-                fields[field] = this[this.selectedIndex].value;
-                store.addTiddlerFields(title, fields);
-                story.refreshTiddler(title);
-                return false;
-            }, options, 
-            tiddler.fields[field]);
-    };
-
-    /*
      *  better CheckboxToggle
      */
     config.macros.toggleTag = {};

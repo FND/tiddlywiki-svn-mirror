@@ -11,6 +11,9 @@ recipe: $TW_ROOT/contributors/PaulDowney/plugins/ThemeSwitchRefreshPlugin/ThemeS
 # - see the masters directory
 recipe: $TW_ROOT/contributors/PaulDowney/plugins/ThemedTiddlerPlugin/ThemedTiddlerPlugin.recipe
 
+# fieldSelector macro for ThemedTiddlerPlugin
+recipe: $TW_ROOT/contributors/PaulDowney/plugins/MasterSelectorPlugin/MasterSelectorPlugin.recipe
+
 # reorderable MainMenu using Drag and Drop
 recipe: $TW_ROOT/contributors/PaulDowney/plugins/MainMenuOrderPlugin/MainMenuOrderPlugin.recipe
 
@@ -36,7 +39,7 @@ recipe: $TW_ROOT/contributors/PaulDowney/plugins/KnobPlugin/KnobPlugin.recipe
 tiddler: $TW_ROOT/contributors/PhilHawksworth/plugins/KeyBindingsPlugin/KeyBindingsPlugin.js
 
 # image macro for templates
-recipe: $TW_ROOT/contributors/PaulDowney/plugins/ImageMacroPlugin/ImageMacroPlugin.recipe
+recipe: $TW_ROOT/contributors/PaulDowney/plugins/ImageFieldMacroPlugin/ImageFieldMacroPlugin.recipe
 recipe: $TW_ROOT/contributors/PaulDowney/plugins/ImageZoomMacroPlugin/ImageZoomMacroPlugin.recipe
 
 # Fading Messages
