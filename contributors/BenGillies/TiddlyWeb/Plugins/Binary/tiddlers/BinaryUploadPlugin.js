@@ -1,24 +1,21 @@
 /***
-|Name|BinaryUploadPlugin||
-|Version|0.2.1|
+|Name|BinaryUploadPlugin|
+|Version|0.2.2|
 |Author|Ben Gillies and Jon Robson|
 |Type|plugin|
 |Description|Upload a binary file to TiddlyWeb|
 !Usage
-To use:
-
-&lt;&lt;binaryUpload bag:bag_name edit:tags edit:title tags:default_tags title:"xyz"&gt;&gt;
-
-bag:bag_name is optional - The file will be saved to the current workspace if bag_name is left out
-edit:tags - specifies that you want to tag the file being uploaded
-edit:title - specifies that you want to set the title to something other than the filename
-tags:default_tags - specifies a default set of tags to apply to the file. Note - require edit:tags to be set
-title:"xyz" - predefines the title of the binary tiddler as xyz
-tags:"[[foo bar]] bar" - predefines tags of the binary tiddler as 'foo bar' and bar.
+{{{
+<<binaryUpload bag:<name> edit:tags edit:title tags:<default tags> title:<title> >>
+}}}
+* {{{bag:<name>}}}: optional; if left out, the file will be saved to the current workspace
+* {{{edit:tags}}}: specifies that you want to tag the file being uploaded
+* {{{edit:title}}}: specifies that you want to set the title to something other than the filename
+* {{{tags:<default tags>}}}: specifies a default set of tags to apply to the file (requires {{{edit:tags}}} to be set)
+* {{{title:<title>}}}: predefines the title of the binary tiddler
 !Requires
 TiddlyWeb
 tiddlywebplugins.form
-
 !Code
 ***/
 //{{{
