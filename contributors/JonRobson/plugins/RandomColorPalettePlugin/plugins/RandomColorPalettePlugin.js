@@ -2,7 +2,7 @@
 |''Name''|RandomColorPalettePlugin|
 |''Description''|Adds a random color palette to TiddlyWiki|
 |''Author''|Jon Robson|
-|''Version''|1.2.1|
+|''Version''|1.2.2|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/contributors/JonRobson/plugins/RandomColorPalettePlugin/RandomColorPalettePlugin.js|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
@@ -31,7 +31,7 @@ huevariance: [0,90]
 Given a certain hue, specify the angle from the secondary colour to which the secondary and tertiary colours should be determined.
 !Code
 ***/
-/*{{{*/
+//{{{
 (function($){
 	RGB.prototype.toRGBString = function() {
 		return "rgb(%0,%1,%2)".format([parseInt(this.r * 255, 10), 
@@ -194,7 +194,7 @@ Given a certain hue, specify the angle from the secondary colour to which the se
 		},
 		saveColorPalette: function(tid) {
 			// save the color palette in tid
-			store.saveTiddler(tid.title, tid.title, tid.text, tid.modifier, tid.modified, tid.tags, tid.fields, false, tid.created, '');
+			tid = store.saveTiddler(tid.title, tid.title, tid.text, tid.modifier, tid.modified, tid.tags, tid.fields, false, tid.created, '');
 			// an interval is used to cope with users clicking on the palette button quickly.
 			if(macro._nextSave) {
 				window.clearTimeout(macro._nextSave);
@@ -206,16 +206,16 @@ Given a certain hue, specify the angle from the secondary colour to which the se
 			macro.reportChange();
 		},
 		reportChange: function() {
-			var msgPlace = getMessageDiv();
-			if(macro.messagesOn && !$(".changedPalette", msgPlace)[0]) { // only display message once..
-				var tempPlace = document.createElement("div");
-				wikify("{{changedPalette{" + macro.changedPaletteText + "}}}", tempPlace);
-				msgPlace.appendChild(tempPlace);
+			if(macro.messagesOn) { // only display message once..
+				var msgPlace = getMessageDiv();
+				if(!$(".changedPalette", msgPlace)[0]) {
+					var tempPlace = document.createElement("div");
+					wikify("{{changedPalette{" + macro.changedPaletteText + "}}}", tempPlace);
+					msgPlace.appendChild(tempPlace);
+				}
 			}
 		}
-
 	};
-
 	config.macros.RandomColorPaletteButton = {
 			text: "New ColorPalette",
 			tooltip: "Generate a random colour scheme for your TiddlyWiki",
@@ -227,4 +227,4 @@ Given a certain hue, specify the angle from the secondary colour to which the se
 			}
 	};
 })(jQuery);
-/*}}}*/
+//}}}
