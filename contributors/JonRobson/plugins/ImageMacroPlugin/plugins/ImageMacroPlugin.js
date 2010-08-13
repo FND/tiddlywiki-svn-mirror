@@ -1,29 +1,26 @@
 /***
 |''Name''|ImageMacroPlugin|
-|''Version''|0.6.6|
+|''Version''|0.6.7|
 |''Description''|Allows the rendering of svg images in a TiddlyWiki|
 |''Author''|Osmosoft|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
 |''Notes''|Currently only works in modern browsers (not IE)|
-|''Usage''|<<image SVG>> will render the text of the tiddler with title SVG as an SVG image (but not in ie where it will fail silently)|
+|''Usage''|{{{<<image SVG>>}}} will render the text of the tiddler with title SVG as an SVG image (but not in ie where it will fail silently)|
 !Notes
 Binary tiddlers in TiddlyWeb when passed through the wikifier will be shown as images.
-eg. <<view text wikified>> on a binary tiddler will show the image.
-<<view fieldname image>>
+eg. {{{<<view text wikified>>}}} on a binary tiddler will show the image.
+{{{<<view fieldname image>>}}}
 will render the value of the tiddler field 'fieldname' as an image. This field can contain a tid
-{{{
-<<image SiteIcon>>
-}}}
+{{{<<image SiteIcon>>}}}
 will create an image tag where the tiddler has content type beginning image and not ending +xml
 will attempt to create svg object in other scenarios
-{{{
-<<image /photos/x.jpg>>
-}}}
+{{{<<image /photos/x.jpg>>}}}
 will create an image tag with src /photos/x.jpg as long as there is not a tiddler called /photos/x.jpg in 
 which case it will render that tiddler as an image.
 
 !Code
 ***/
+//{{{
 (function($) {
 
 var macro = config.macros.image = {
@@ -200,6 +197,9 @@ var macro = config.macros.image = {
 						xhr.setRequestHeader("Accept", "application/json,*/*");
 					},
 					success: function(tiddler, status, xhr) {
+						if(!tiddler) {
+							return;
+						}
 						var header = xhr.getResponseHeader("content-type");
 						var contentType;
 						if(header) {
@@ -346,3 +346,4 @@ config.shadowTiddlers.StyleSheetImageMacro = ".wikifiedImage svg, .wikifiedImage
 store.addNotification("StyleSheetImageMacro", refreshStyles);
 
 })(jQuery);
+//}}}
