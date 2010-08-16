@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|FND|
 |''Contributors''|Chris Dent, Martin Budden|
-|''Version''|1.3.2|
+|''Version''|1.3.3|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/|
@@ -254,6 +254,7 @@ adaptor.getTiddlerCallback = function(status, context, responseText, uri, xhr) {
 			Date.convertFromYYYYMMDDHHMM(t.created), context.tiddler.fields,
 			t.creator); // XXX: merge extended fields!?
 		context.tiddler.fields["server.bag"] = t.bag;
+		context.tiddler.fields["server.etag"] = xhr.getResponseHeader("Etag");
 		if(t.recipe) {
 			context.tiddler.fields["server.recipe"] = t.recipe;
 		}
@@ -311,7 +312,7 @@ adaptor.prototype.putTiddler = function(tiddler, context, userParams, callback) 
 		adaptor.normalizeTitle(workspace.name),
 		adaptor.normalizeTitle(tiddler.title)]);
 	var etag = adaptor.generateETag(workspace, tiddler);
-	var headers = etag ? { "If-Match": '"' + etag + '"' } : null;
+	var headers = etag ? { "If-Match": etag } : null;
 	var payload = {
 		title: tiddler.title,
 		type: tiddler.fields["server.content-type"] || null,
@@ -321,6 +322,7 @@ adaptor.prototype.putTiddler = function(tiddler, context, userParams, callback) 
 		fields: $.extend({}, tiddler.fields)
 	};
 	delete payload.fields.changecount;
+	delete payload.fields["server.etag"];
 	payload = $.toJSON(payload);
 	var req = httpReq("PUT", uri, adaptor.putTiddlerCallback,
 		context, headers, payload, adaptor.mimeType, null, null, true);
@@ -332,8 +334,16 @@ adaptor.putTiddlerCallback = function(status, context, responseText, uri, xhr) {
 	context.statusText = xhr.statusText;
 	context.httpStatus = xhr.status;
 	if(context.status) {
-		context.adaptor.getTiddler(context.tiddler.title, context,
-			context.userParams, context.callback);
+		var etag = xhr.getResponseHeader("Etag");
+		if(etag) {
+			context.tiddler.fields["server.etag"] = etag;
+			if(context.callback) {
+				context.callback(context, context.userParams);
+			}
+		} else { // IE
+			context.adaptor.getTiddler(context.tiddler.title, context,
+				context.userParams, context.callback);
+		}
 	} else if(context.callback) {
 		context.callback(context, context.userParams);
 	}
@@ -467,7 +477,7 @@ adaptor.prototype.deleteTiddler = function(tiddler, context, userParams, callbac
 		adaptor.normalizeTitle(workspace.name),
 		adaptor.normalizeTitle(tiddler.title)]);
 	var etag = adaptor.generateETag(workspace, tiddler);
-	var headers = etag ? { "If-Match": '"' + etag + '"' } : null;
+	var headers = etag ? { "If-Match": etag } : null;
 	var req = httpReq("DELETE", uri, adaptor.deleteTiddlerCallback, context, headers,
 		null, null, null, null, true);
 	return typeof req == "string" ? req : true;
@@ -565,8 +575,8 @@ adaptor.resolveWorkspace = function(workspace) {
 };
 
 adaptor.generateETag = function(workspace, tiddler) {
-	var etag = null;
-	if(workspace.type == "bag") {
+	var etag = tiddler.fields["server.etag"];
+	if(!etag && workspace.type == "bag") {
 		var revision = tiddler.fields["server.page.revision"];
 		if(typeof revision == "undefined") {
 			revision = "0";
@@ -575,6 +585,7 @@ adaptor.generateETag = function(workspace, tiddler) {
 		}
 		etag = [adaptor.normalizeTitle(workspace.name),
 			adaptor.normalizeTitle(tiddler.title), revision].join("/");
+		etag = '"' + etag + '"';
 	}
 	return etag;
 };
