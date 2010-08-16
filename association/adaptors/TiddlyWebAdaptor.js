@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|FND|
 |''Contributors''|Chris Dent, Martin Budden|
-|''Version''|1.3.3|
+|''Version''|1.3.4|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/|
@@ -97,7 +97,7 @@ adaptor.prototype.getTiddlerList = function(context, userParams, callback) {
 	var uri = uriTemplate.format([context.host, workspace.type + "s",
 		adaptor.normalizeTitle(workspace.name), params]);
 	var req = httpReq("GET", uri, adaptor.getTiddlerListCallback,
-		context, { accept: adaptor.mimeType }, null, null, null, null, true);
+		context, merge({ accept: adaptor.mimeType }, context.headers), null, null, null, null, true);
 	return typeof req == "string" ? req : true;
 };
 
@@ -158,7 +158,7 @@ adaptor.prototype.getTiddlerRevisionList = function(title, limit, context, userP
 	var uri = uriTemplate.format([context.host, workspace.type + "s",
 		adaptor.normalizeTitle(workspace.name), adaptor.normalizeTitle(title)]);
 	var req = httpReq("GET", uri, adaptor.getTiddlerRevisionListCallback,
-		context, { accept: adaptor.mimeType }, null, null, null, null, true);
+		context, merge({ accept: adaptor.mimeType }, context.headers), null, null, null, null, true);
 	return typeof req == "string" ? req : true;
 };
 
@@ -230,7 +230,7 @@ adaptor.prototype.getTiddler = function(title, context, userParams, callback) {
 		adaptor.normalizeTitle(workspace.name), adaptor.normalizeTitle(title),
 		context.revision]);
 	var req = httpReq("GET", uri, adaptor.getTiddlerCallback, context,
-		{ accept: adaptor.mimeType }, null, null, null, null, true);
+		merge({ accept: adaptor.mimeType }, context.headers), null, null, null, null, true);
 	return typeof req == "string" ? req : true;
 };
 
