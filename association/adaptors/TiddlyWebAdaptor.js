@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|FND|
 |''Contributors''|Chris Dent, Martin Budden|
-|''Version''|1.3.4|
+|''Version''|1.3.5|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/|
@@ -314,15 +314,17 @@ adaptor.prototype.putTiddler = function(tiddler, context, userParams, callback) 
 	var etag = adaptor.generateETag(workspace, tiddler);
 	var headers = etag ? { "If-Match": etag } : null;
 	var payload = {
-		title: tiddler.title,
 		type: tiddler.fields["server.content-type"] || null,
 		text: tiddler.text,
-		modifier: tiddler.modifier,
 		tags: tiddler.tags,
 		fields: $.extend({}, tiddler.fields)
 	};
 	delete payload.fields.changecount;
-	delete payload.fields["server.etag"];
+	$.each(payload.fields, function(key, value) {
+		if(key.indexOf("server.") == 0) {
+			delete payload.fields[key];
+		}
+	});
 	payload = $.toJSON(payload);
 	var req = httpReq("PUT", uri, adaptor.putTiddlerCallback,
 		context, headers, payload, adaptor.mimeType, null, null, true);
