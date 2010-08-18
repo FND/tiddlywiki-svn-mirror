@@ -1,8 +1,5 @@
-<div title="NewFeatures" modifier="FND" created="200704141410" modified="201003180000">
-<pre>Release 2.6.0 provides a variety of bugfixes and enhancements:
-* Added //WindowTitle// shadow tiddler
-* Added //creator// tiddler field
-* Upgraded to [[jQuery|http://jquery.com]] 1.4.2
+<div title="NewFeatures" modifier="MJB" created="200704141410" modified="201008180000">
+<pre>Release 2.6.1 is a maintenance release containing a variety of bugfixes and enhancements.
 
 For the full release notes see:
 http://trac.tiddlywiki.org/wiki/History
