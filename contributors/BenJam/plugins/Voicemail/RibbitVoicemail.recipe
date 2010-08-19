@@ -1,4 +1,4 @@
-recipe: ../RibbitLogin/RibbitLogin.recipe
+recipe: ../Login/RibbitLogin.recipe
 recipe: ../../../PaulDowney/plugins/YYYYMMDDHHMMSSMMMPlugin/YYYYMMDDHHMMSSMMMPlugin.recipe
 recipe: ../../../PaulDowney/plugins/TickerPlugin/TickerPlugin.recipe
 tiddler: ../../../EricShulman/plugins/TaggedTemplateTweak.js

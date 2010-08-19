@@ -3,7 +3,7 @@
 <head>
 <script id="versionArea" type="text/javascript">
 //<![CDATA[
-var version = {title: "TiddlyWiki", major: 2, minor: 6, revision: 0, beta: 2, date: new Date("Mar 11, 2010"), extensions: {}};
+var version = {title: "TiddlyWiki", major: 2, minor: 6, revision: 1, alpha: 1, date: new Date("Mar 18, 2010"), extensions: {}};
 //]]>
 </script>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
@@ -511,7 +511,7 @@ Also see [[AdvancedOptions]]</pre>
 </div>
 <!--POST-SHADOWAREA-->
 <div id="storeArea">
-<div title="ribbit.1.6.1" modifier="BenJam" created="201003151614" tags="systemConfig excludeSearch">
+<div title="ribbit.1.6.1" modifier="BenJam" created="201004211453" tags="systemConfig excludeSearch">
 <pre>/*
 Copyright (c) 2010, Ribbit / BT Group PLC
 All rights reserved.
@@ -539,6 +539,9 @@ HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABI
 TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, 
  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
+
+
+//{{{
 /**
  *
  * Ribbit is a first class object added to Javascript
@@ -6986,7 +6989,7 @@ Ribbit.WebRequest.prototype.getRequest = function(method, uri) {
 		r = new XMLHttpRequest();
 	}
 	if (navigator.appName.indexOf(&quot;Microsoft&quot;) &lt; 0) {
-		netscape.security.PrivilegeManager.enablePrivilege(&quot;UniversalBrowserRead&quot;);
+		//netscape.security.PrivilegeManager.enablePrivilege(&quot;UniversalBrowserRead&quot;);
 	}
 	r.open(method, uri, Ribbit.asynchronous);
 	return r;
@@ -8355,664 +8358,580 @@ else if (/WebKit/i.test(navigator.userAgent) &amp;&amp; onLoad) { // sniff
 	},
 	10);
 }
-</pre>
+//}}}</pre>
 </div>
-<div title="CommentsPlugin" modifier="Mahemoff" created="200601031639" modified="200809181408" tags="systemConfig excludeSearch excludeLists" creator="Michael Mahemoff, Osmosoft">
-<pre>/*
-  TiddlyWiki Comments Plugin - Online demo at http://tiddlyguv.org/CommentsPlugin.html
-
-  TODO:
-  - Support Cascade comment delete when the top-level tiddler is deleted
-  - Support more than one &lt; &lt;comments&gt; &gt; per tiddler. This will probably entail creating an invisible root tiddler to
-    hold all the comments for a macro together. The user will need to provide an ID for this tiddler.
-  - Don't use global &quot;macro&quot; var (use &quot;macro&quot; param a la jquery)
-
-*/
-
-/***
-|Name|CommentsPlugin|
-|Description|Macro for nested comments, where each comment is a separate tiddler.|
-|Source|http://tiddlyguv.org/CommentsPlugin.html#CommentsPlugin|
-|Documentation|http://tiddlyguv.org/CommentsPlugin.html#CommentsPluginInfo|
-|Version|0.1|
-|Author|Michael Mahemoff, Osmosoft|
-|''License:''|[[BSD open source license]]|
-|~CoreVersion|2.2|
-***/
-
-/*{{{*/
-if(!version.extensions.CommentsPlugin) {
-
-  version.extensions.CommentsPlugin = {installed:true};
-
-  (function(plugin) {
-
-  var cmacro = config.macros.comments = {
-
-
-
-init: function() {
-  var stylesheet = store.getTiddlerText(tiddler.title + &quot;##StyleSheet&quot;);
-  if (stylesheet) { // check necessary because it happens more than once for some reason
-    config.shadowTiddlers[&quot;StyleSheetCommentsPlugin&quot;] = stylesheet;
-    store.addNotification(&quot;StyleSheetCommentsPlugin&quot;, refreshStyles);
-  }
-  if (!version.extensions.CommentsPlugin.retainViewTemplate) cmacro.enhanceViewTemplate();
-},
-
-enhanceViewTemplate: function() {
-  var template = config.shadowTiddlers.ViewTemplate;
-  if ((/commentBreadcrumb/g).test(template)) return; // already enhanced
-  var TITLE_DIV = &quot;&lt;div class='title' macro='view title'&gt;&lt;/div&gt;&quot;;
-  var commentsDiv = &quot;&lt;div class='commentBreadcrumb' macro='commentBreadcrumb'&gt;&lt;/div&gt;&quot;;
-  config.shadowTiddlers.ViewTemplate = template.replace(TITLE_DIV,commentsDiv+&quot;\n&quot;+TITLE_DIV);
-},
-
-handler: function(place,macroName,params,wikifier,paramString,tiddler) {
-  var macroParams = paramString.parseParams();
-  var tiddlerParam = getParam(macroParams, &quot;tiddler&quot;);
-  tiddler = tiddlerParam ? store.getTiddler(tiddlerParam) : tiddler;
-  if (!tiddler || !store.getTiddler(tiddler.title)) return;
-  cmacro.buildCommentsArea(tiddler, place, macroParams);
-  // cmacro.refreshCommentsFromRoot(story.getTiddler(tiddler.title).commentsEl, tiddler, macroParams);
-  cmacro.refreshCommentsFromRoot(place.commentsEl, tiddler, macroParams);
-},
-
-
-addComment: function(rootTiddler, commentText) {
-var macroParams = paramString.parseParams(&quot;&quot;); // dummy
-var comment = cmacro.createComment(commentText, rootTiddler, macroParams);
-cmacro.refreshCommentsFromRoot(comments, rootTiddler, macroParams);
-},
-
-
-buildCommentsArea: function(rootTiddler, place, macroParams) {
-  var commentsArea = createTiddlyElement(place, &quot;div&quot;, null, &quot;comments&quot;);
-  var headingEl, heading = getParam(macroParams, &quot;heading&quot;);
-  if (heading) heading = heading.replace(&quot;%c&quot;,
-    config.macros.comments.findCommentsFromRoot(rootTiddler).length);
-  if (heading) headingEl = createTiddlyElement(commentsArea, &quot;h1&quot;, null, null, heading);
-
-  var comments = createTiddlyElement(commentsArea, &quot;div&quot;, null, &quot;&quot;);
-  place.commentsEl = comments;
-
-    var newCommentArea;
-  if (cmacro.editable(macroParams)) {
-    newCommentArea = createTiddlyElement(commentsArea, &quot;div&quot;, null, &quot;newCommentArea&quot;, &quot;New comment:&quot;);
-    cmacro.forceLoginIfRequired(params, newCommentArea, function() {
-      var newCommentEl = cmacro.makeTextArea(newCommentArea, macroParams);
-      // var addComment = createTiddlyElement(newCommentArea, &quot;button&quot;, null, &quot;addComment button&quot;, &quot;Add Comment&quot;);
-      var addComment = createTiddlyButton(newCommentArea, &quot;Add Comment&quot;, null, function() {
-        var comment = cmacro.createComment(newCommentEl.value, rootTiddler, macroParams); 
-        newCommentEl.value = &quot;&quot;;
-        cmacro.refreshCommentsFromRoot(comments, rootTiddler, macroParams);
-      }, &quot;addComment button&quot;);
-    });
-  }
-
-  var expandHeading = getParam(macroParams, &quot;expandHeading&quot;);
-  if (heading &amp;&amp; expandHeading &amp;&amp; expandHeading.toLowerCase()==&quot;true&quot;) {
-    var $expandPrompt, expandableElements;
-    var $expandables = jQuery([place.commentsEl,newCommentArea]).hide();
-    jQuery(headingEl)
-      .append($expandPrompt = &quot;&lt;span id='expandPrompt'&gt; &amp;raquo;&lt;/span&gt;&quot;)
-      .addClass(&quot;expander&quot;).click(function() {
-        $expandables.toggle();
-      });
-  }
-
-},
-
-
-makeTextArea: function(container, macroParams) {
-  var textArea = createTiddlyElement(container, &quot;textarea&quot;);
-  textArea.rows = getParam(macroParams, &quot;textRows&quot;) || 4;
-  textArea.cols = getParam(macroParams, &quot;textCols&quot;) || 20;
-  textArea.value = getParam(macroParams, &quot;text&quot;) || &quot;&quot;;
-  return textArea;
-},
-
-refreshCommentsFromRoot: function(rootCommentsEl, rootTiddler, macroParams) {
-  cmacro.treeifyComments(rootTiddler);
-  cmacro.refreshComments(rootCommentsEl, rootTiddler, macroParams);
-},
-
-refreshComments: function(daddyCommentsEl, tiddler, macroParams) {
-
-  var commentsEl;
-  if (tiddler.fields.daddy) {
-    var commentEl = cmacro.buildCommentEl(daddyCommentsEl, tiddler, macroParams);
-    daddyCommentsEl.appendChild(commentEl);
-    commentsEl = commentEl.commentsEl;
-  } else { // root element
-    removeChildren(daddyCommentsEl);
-    // refreshedEl = story.getTiddler(tiddler.title);
-    commentsEl = daddyCommentsEl;
-  }
-
-  for (var child = tiddler.firstChild; child; child = child.next) {
-     cmacro.refreshComments(commentsEl, child, macroParams);
-  }
-
-},
-
-// This has become more complex due to &quot;confused comments&quot; - multiple comments
-// pointing back to the same daddy (which implies they all think they're the first
-// child) or a single &quot;2nd-last&quot; sibling (which implies they all think they're the
-// last sibling). This happens in the typical &quot;atomic transaction 101&quot; scenario -
-// user A opens wiki, user B opens wiki, one of the users submits a comment, 
-// the other user submits a comment.
-//
-// Normally, each comment says &quot;make my daddy's first child be me&quot;, or &quot;make my prev
-// sibling's next sibling be me&quot;. That's how the tree gets built. But to deal
-// with confused comments, we now have to check if daddy/prev is already pointing
-// to something. If so, we will have to walk through the list to find the right place
-// for the new item.
-//
-// We begin by sorting by date; if we can assume we are walking through the comments by date, 
-// the confused comments will appear in the right order.
-treeifyComments: function(rootTiddler) {
-
-  // First, clear the tree data
-  // We sort the comments to ensure &quot;confused&quot; comments
-  var comments = cmacro.findCommentsFromRoot(rootTiddler).sort(function(a,b) {
-    return a.modified &gt; b.modified;
-  });
-  var nodes=comments.concat(rootTiddler);
-  for (var i=0; i&lt;nodes.length; i++) {
-    delete nodes[i][&quot;firstChild&quot;];
-    delete nodes[i][&quot;next&quot;];
-  }
-
-  // Now walk through each comment
-  cmacro.forEach(comments, function(comment) {
-    var prev = comment.fields.prev;
-    var daddy = comment.fields.daddy;
-    if (prev) {
-      var prevTiddler = store.getTiddler(prev);
-      if (prevTiddler.next) {
-        for (var lastChild=prevTiddler.next; lastChild.next; lastChild=lastChild.next)
-          ;
-        lastChild.next = comment;
-      // } else {
-      } else {
-        prevTiddler.next = comment;
-      }
-    } else {
-      var daddyTiddler = store.getTiddler(daddy);
-      if (daddyTiddler.firstChild) {
-        for (var lastChild=daddyTiddler.firstChild; lastChild.next; lastChild=lastChild.next)
-          ;
-        lastChild.next = comment;
-      } else {
-        daddyTiddler.firstChild = comment;
-      }
-    }
-  });
-  for (var i=0; i&lt;comments.length; i++) {
-    var c=comments.sort()[i];
-  }
-
-},
-
-logComments: function(comments) {
-  for (var i=0; i&lt;comments.length; i++) {
-    var comment = comments[i];
-  }
-},
-
-findCommentsFromRoot: function(rootTiddler) {
-  var comments = [];
-  store.forEachTiddler(function(title,tiddler) {
-    if (tiddler.fields.root==rootTiddler.title) comments.push(tiddler);
-  });
-  return comments;
-},
-
-findChildren: function(daddyTiddler) {
-  var comments = [];
-  store.forEachTiddler(function(title,tiddler) {
-    if (tiddler.fields.daddy==daddyTiddler.title) comments.push(tiddler);
-  });
-  return comments;
-},
-
-buildCommentEl: function(daddyCommentsEl, comment, macroParams) {
-
-  // COMMENT ELEMENT
-  var commentEl = document.createElement(&quot;div&quot;);
-  commentEl.className = &quot;comment&quot;;
-
-  // HEADING &lt;- METAINFO AND DELETE
-  var headingEl = createTiddlyElement(commentEl, &quot;div&quot;, null, &quot;heading&quot;);
-
-  var metaInfoEl = createTiddlyElement(headingEl, &quot;div&quot;, null, &quot;commentTitle&quot;,  comment.modifier + '@' + comment.modified.formatString(getParam(macroParams,&quot;dateFormat&quot;) || &quot;DDD, MMM DDth, YYYY hh12:0mm:0ss am&quot;));
-  metaInfoEl.onclick = function() { 
-    // story.closeAllTiddlers();
-    story.displayTiddler(&quot;top&quot;, comment.title, null, true);
-    // document.location.hash = &quot;#&quot; + comment.title;
-  };
-
-  var deleteEl = createTiddlyElement(headingEl, &quot;div&quot;, null, &quot;deleteComment&quot;, &quot;X&quot;);
-  deleteEl.onclick = function() {
-    if (true || confirm(&quot;Delete this comment and all of its replies?&quot;)) {
-      cmacro.deleteTiddlerAndDescendents(comment);
-      commentEl.parentNode.removeChild(commentEl);
-    }
-  };
-
-  // TEXT
-  commentEl.text = createTiddlyElement(commentEl, &quot;div&quot;, null, &quot;commentText&quot;);
-  wikify(comment.text, commentEl.text);
-
-  // REPLY LINK
-  if (cmacro.editable(macroParams)) {
-    var replyLinkZone = createTiddlyElement(commentEl, &quot;div&quot;, null, &quot;replyLinkZone&quot;);
-    var replyLink = createTiddlyElement(replyLinkZone, &quot;span&quot;, null, &quot;replyLink&quot;, &quot;reply to this comment&quot;);
-    replyLink.onclick = function() { cmacro.openReplyLink(comment, commentEl, replyLink, macroParams); };
-  }
-
-  // var clearance = createTiddlyElement(commentEl, &quot;clearance&quot;, null, &quot;clearance&quot;);
-  // clearance.innerHTML = &quot;&amp;nbsp;&quot;;
-
-  // COMMENTS AREA
-  commentEl.commentsEl = createTiddlyElement(commentEl, &quot;div&quot;, null, &quot;comments&quot;);
-
-  // RETURN
-  return commentEl;
-
-},
-
-openReplyLink: function(commentTiddler, commentEl, replyLink, macroParams) {
-  if (commentEl.replyEl) {
-    commentEl.replyEl.style.display = &quot;block&quot;;
-    return;
-  }
-
-  commentEl.replyEl = document.createElement(&quot;div&quot;);
-  commentEl.replyEl.className = &quot;reply&quot;;
-
-  replyLink.style.display = &quot;none&quot;;
-  var newReplyHeading = createTiddlyElement(commentEl.replyEl, &quot;div&quot;, null, &quot;newReply&quot;);
-  createTiddlyElement(newReplyHeading, &quot;div&quot;, null, &quot;newReplyLabel&quot;, &quot;New Reply:&quot;);
-  var closeNewReply = createTiddlyElement(newReplyHeading, &quot;div&quot;, null, &quot;closeNewReply&quot;, &quot;close&quot;);
-  closeNewReply.onclick = function() {
-    commentEl.replyEl.style.display = &quot;none&quot;;
-    replyLink.style.display = &quot;block&quot;;
-  };
-
-  cmacro.forceLoginIfRequired(params, commentEl.replyEl, function() {
-    var replyText =  cmacro.makeTextArea(commentEl.replyEl, macroParams);
-      var submitReply = createTiddlyButton(commentEl.replyEl, &quot;Reply&quot;, null, function() {
-        var newComment = cmacro.createComment(replyText.value, commentTiddler, macroParams);
-        replyText.value = &quot;&quot;;
-        closeNewReply.onclick();
-        cmacro.refreshComments(commentEl.commentsEl, newComment, macroParams);
-      });
-  });
-
-  commentEl.insertBefore(commentEl.replyEl, commentEl.commentsEl);
-},
-
-
-createComment: function(text, daddy, macroParams) {
-
-  var rootTitle = daddy.fields.root ? daddy.fields.root : daddy.title;
-    // second case is the situation where daddy *is* root
-  var newComment = cmacro.createCommentTiddler(macroParams, rootTitle);
-  var fieldsParam = getParam(macroParams, &quot;fields&quot;) || &quot;&quot;;
-  var fields = fieldsParam.decodeHashMap();
-  var inheritedFields = (getParam(macroParams, &quot;inheritedFields&quot;) || &quot;&quot;).split(&quot;,&quot;);
-  cmacro.forEach(inheritedFields, function(field) {
-    if (field!=&quot;&quot;) fields[field] = daddy.fields[field];
-  });
-  var tagsParam = getParam(macroParams, &quot;tags&quot;) || &quot;comment&quot;;
-  var now = new Date();
-  newComment.set(null, text, config.options.txtUserName, now, tagsParam.split(&quot;,&quot;), now, fields);
-
-  var youngestSibling = cmacro.findYoungestChild(daddy)
-  if (youngestSibling) newComment.fields.prev = youngestSibling.title;
-  newComment.fields.daddy = daddy.title;
-  newComment.fields.root = rootTitle;
-
-  cmacro.saveTiddler(newComment.title);
-  autoSaveChanges(false);
-  return newComment;
-},
-
-findYoungestChild: function(daddy) {
-
-  var siblingCount = 0;
-  var elderSiblings = cmacro.mapize(cmacro.selectTiddlers(function(tiddler) {
-    isChild = (tiddler.fields.daddy==daddy.title);
-    if (isChild) siblingCount++;
-    return isChild;
-  }));
-  if (!siblingCount) return null;
-
-  // Find the only sibling that doesn't have a prev pointing at it
-  var youngestSiblings = cmacro.clone(elderSiblings) // as a starting point
-  cmacro.forEachMap(elderSiblings, function(tiddler) {
-    delete youngestSiblings[tiddler.fields.prev];
-  });
-
-  for (title in youngestSiblings) { return youngestSiblings[title]; }
-
-},
-
-// The recursive delete is run by a separate function (nested inside
-// this one, for encapsulation purposes).
-deleteTiddlerAndDescendents: function(tiddler) {
-
-  function deleteRecursively(tiddler) {
-    for (var child = tiddler.firstChild; child; child = child.next) {
-      deleteRecursively(child);
-    }
-    store.removeTiddler(tiddler.title);
-  }
-
-  cmacro.treeifyComments(store.getTiddler(tiddler.fields.root));
-
-  // save some info prior to deleting
-  var prev = tiddler.fields.prev;
-  var next = tiddler.next;
-
-  deleteRecursively(tiddler);
-
-  // used saved info
-  if (next) {
-    next.fields.prev = prev;
-    cmacro.saveTiddler(next.title);
-  }
-
-  autoSaveChanges(false);
-
-},
-
-
-forEach: function(list, visitor) { for (var i=0; i&lt;list.length; i++) visitor(list[i]); },
-forEachMap: function(map, visitor) { for (var key in map) visitor(map[key]); },
-select: function(list, selector) { 
-  var selection = [];
-  cmacro.forEach(list, function(currentItem) {
-    if (selector(currentItem)) { selection.push(currentItem); }
-  });
-  return selection;
-},
-selectTiddlers: function(selector) { 
-  var tiddlers = [];
-  store.forEachTiddler(function(title, tiddler) {
-    var wanted = selector(tiddler);
-    if (wanted) tiddlers.push(tiddler);
-  });
-  return tiddlers;
-},
-map: function(list, mapper) { 
-  var mapped = [];
-  cmacro.forEach(list, function(currentItem) { mapped.push(mapper(currentItem)); });
-  return mapped;
-},
-remove: function(list, unwantedItem) {
-  return cmacro.select(list,
-        function(currentItem) { return currentItem!=unwantedItem; });
-},
-mapize: function(tiddlerList) {
-  var map = {};
-  cmacro.forEach(tiddlerList, function(tiddler) { map[tiddler.title] = tiddler; });
-  return map;
-},
-clone: function(map) { return merge({}, map); },
-
-
-editable: function(params) {
-  var editable = getParam(params, &quot;editable&quot;);
-  return (!editable || editable!=&quot;false&quot;);
-},
-
-needsLogin: function(params) {
-  var loginCheck = getParam(params, &quot;loginCheck&quot;);
-  return loginCheck &amp;&amp; !window[loginCheck]();
-},
-
-forceLoginIfRequired: function(params, loginPromptContainer, authenticatedBlock) {
-  if (cmacro.needsLogin(params)) wikify(&quot;&lt;&lt;&quot;+getParam(macroParams, &quot;loginPrompt&quot;)+&quot;&gt;&gt;&quot;, loginPromptContainer);
-  else authenticatedBlock();
-},
-
-
-mergeReadOnly: function(first, second) {
-  var merged = {};
-  for (var field in first) { merged[field] = first[field]; }
-  for (var field in second) { merged[field] = second[field]; }
-  return merged;
-},
-
-// callers may replace this with their own ID generation algorithm
-createCommentTiddler: function(macroParams, rootTitle) {
-  // var titleFormat = getParam(macroParams, &quot;titleFormat&quot;) || &quot;%root%Comment&quot;; 
-  var prefix = rootTitle+&quot;Comment&quot;; // was &quot;_comment&quot;
-  if (!store.createGuidTiddler) return store.createTiddler(prefix+((new Date()).getTime()));
-  return store.createGuidTiddler(prefix);
-},
-saveTiddler: function(tiddler) {
-  var tiddler = (typeof(tiddler)==&quot;string&quot;) ? store.getTiddler(tiddler) : tiddler; 
-  store.saveTiddler(tiddler.title, tiddler.title, tiddler.text, tiddler.modifier, tiddler.modified, tiddler.tags, cmacro.mergeReadOnly(config.defaultCustomFields, tiddler.fields), false, tiddler.created)
-},
-log: function() { if (console &amp;&amp; console.firebug) console.log.apply(console, arguments); },
-assert: function() { if (console &amp;&amp; console.firebug) console.assert.apply(console, arguments); },
-
-
-copyFields: function(fromTiddler, toTiddler, field1, field2, fieldN) {
-  for (var i=2; i&lt;arguments.length; i++) {
-    fieldKey = arguments[i];
-    if (fromTiddler.fields[fieldKey]) toTiddler.fields[fieldKey] = fromTiddler.fields[fieldKey];
-  }
-}
-}
-
-config.macros.commentsCount = {
-  handler: function(place,macroName,params,wikifier,paramString,tiddler) {
-    var count = 0;
-    if (tiddler &amp;&amp; store.getTiddler(tiddler.title)) {
-      var rootTiddler = paramString.length ? paramString : tiddler.title;
-      count = config.macros.comments.findCommentsFromRoot(store.getTiddler(rootTiddler)).length;
-    }
-    createTiddlyText(place, count);
-  }
-},
-
-config.macros.commentBreadcrumb = {
-  handler: function(place,macroName,params,wikifier,paramString,tiddler) {
-    if (!tiddler.fields.root) return;
-    var rootLink = createTiddlyElement(place, &quot;span&quot;, null, null);
-    createTiddlyLink(rootLink, tiddler.fields.root, true);
-
-    var rootIsParent = tiddler.fields.daddy==tiddler.fields.root;
-    var rootIsGrandparent = (store.getTiddler(tiddler.fields.daddy)).fields.daddy==tiddler.fields.root;
-
-    if (!rootIsParent) {
-      if (!rootIsGrandparent) createTiddlyElement(place, &quot;span&quot;, null, null, &quot; &gt; ... &quot;);
-      createTiddlyElement(place, &quot;span&quot;, null, null, &quot; &gt; &quot;);
-      var daddyLink = createTiddlyElement(place, &quot;span&quot;, null, null);
-      createTiddlyLink(daddyLink, tiddler.fields.daddy, true);
-    }
-
-    createTiddlyElement(place, &quot;span&quot;, null, null, &quot; &gt; &quot;);
-
-    // place.appendChild(createTiddlyLink(tiddler.fields.root));
-  }
-}
-
-config.macros.tiddlyWebComments = {};
-config.macros.tiddlyWebComments.handler =
-  function(place,macroName,params,wikifier,paramString,tiddler) {
-    paramString = &quot;fields:'server.workspace:bags/comments' inheritedFields:'server.host,server.type'&quot;;
-    config.macros.comments.handler(place,macroName,params,wikifier, paramString,tiddler);
-  };
-
-function log() { if (console &amp;&amp; console.firebug) console.log.apply(console, arguments); }
-
-})(version.extensions.CommentsPlugin);
-
-
-/***
-!StyleSheet
-
-.comments h1 { margin-bottom: 0; padding-bottom: 0; }
-.comments { padding: 0; }
-.comment .comments { margin-left: 1em; }
-
-.comment { padding: 0; margin: 1em 0 0; }
-.comment .comment { margin 0; }
-.comment .toolbar .button { border: 0; color: #9a4; }
-.comment .heading { background: [[ColorPalette::PrimaryPale]]; color: [[ColorPalette::PrimaryDark]]; border-bottom: 1px solid [[ColorPalette::PrimaryLight]]; border-right: 1px solid [[ColorPalette::PrimaryLight]]; padding: 0.5em; height: 1.3em; }
-.commentTitle { float: left; }
-.commentTitle:hover { text-decoration: underline; cursor: pointer; }
-.commentText { clear: both; padding: 1em 1em; }
-.deleteComment { float: right; cursor: pointer; text-decoration:underline; color:[[ColorPalette::SecondaryDark]]; padding-right: 0.3em; }
-.comment .reply { margin-left: 1em; }
-.comment .replyLink { color:[[ColorPalette::SecondaryDark]]; font-style: italic; 
-                     cursor: pointer; text-decoration: underline; margin: 0 1em; }
-.comment .created { }
-.comment .newReply { color:[[ColorPalette::SecondaryDark]]; margin-top: 1em; }
-.newReplyLabel { float: left; }
-.closeNewReply { cursor: pointer; float: right; text-decoration: underline; }
-.comments textarea { width: 100%; padding: 0.3em; margin-bottom: 0.6em; }
-.newCommentArea { margin-top: 0.5em; }
-
-.clearance { clear: both; }
-.expander { cursor: pointer; }
-
-!(end of StyleSheet)
-
-***/
-
-  config.macros.comments.init();
-
-} // end of 'install only once'
-/*}}}*/
-
-// function log() { if (console &amp;&amp; console.firebug) console.log.apply(console, arguments); }
-</pre>
-</div>
-<div title="RibbitVoiceCommentsPlugin" modifier="BenJam" created="201003161519" tags="systemConfig">
+<div title="RibbitLogin" modifier="BenJam" created="201008161448" tags="systemConfig excludeLists excludeSearch">
 <pre>/***
-|''Name:''|RibbitCommentsPlugin|
-|''Description:''|Collect comments by voice|
+|''Name:''|RibbitLogin|
+|''Description:''|Login to the Ribbit Service (r4m.ribbit.com 'public' domain)|
 |''Author:''|BenJam|
-|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/BenJam/plugins/RibbitVoiceCommentsPl.js |
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/BenJam/plugins/|
 |''Version:''|0.1|
-|''Date:''|Feb 15, 2010|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
 |''~CoreVersion:''|2.3|
-
 Usage:
+//{{{
+&lt;&lt;RibbitLogin authmode [user] [pass] [consumerKey] [secretKey] &gt;&gt;
 
-&lt;&lt;voiceComments [authMode], [user], [password] [consumerKey], [secretKey]&gt;&gt;
+authmode [2,3] initiates a two or three legged authentication
+user the username for 2 legged auth to sign in [2Legged auth only]
+pass the password for 2 legged auth to sign in [2Legged auth only]
+consumerKey the Ribbit app consumer key to use (overwrites my own default)
+secretKey the Ribbit app secret key to use (overwrites my own defaut) [3Legged Auth only]
 
-authMode: the authentication mode to use, '2' for private domain authentication, or '3' for public domain
-user: the username of the account to collect from in 2Legged authentication
-password: the password of the account to collect from in 3Legged authentication
-consumerKey: the consumer key of the Ribbit application hosting a comments service (2Leg and 3Leg authentication)
-secretKey: The secret key of the RIbbit application hosting a comments service for 3Legged authentication
-
+//}}}
 ***/
 //{{{
-
-(function($) {
-
-    var consumerKey = &quot;MzdmMjdjZGItZjAyMC00YzIzLTgxMDItYzkyOWQ2ZDdhYjY3&quot;;
-    var secretKey =&quot;YWIyNjFlN2YtNWU5Ni00YWFjLThkZTMtOTkxOTdmYWJjZTkx&quot;;
-
-    var log = console.log;
-
-    config.macros.voiceComments = {
-        
-        handler: function(place, macroName, params, wikifier, paramString, tiddler){
-			var macroParams = paramString.parseParams();
-			log(macroParams);
-            if(Ribbit.userId!=null){
-				log(&quot;Logged in on previous session&quot;);
-            }        
-			
-        }
-
-    };
-	//three leg (public) domain at r4m.ribbit.com (requires a redirect)
-	function login3Leg(place,macroParams){
-		if(!Ribbit.isLoggedIn || !Ribbit.checkAccessTokenExpiry()){
-			Ribbit.init3Legged(consumerKey, secretKey);
-			var win=null;
-			
-			//innner function to handle login on seperate window
-			var gotUrlCallback = function(url){
-				log(url);				
-				//poll the newly created window for login
-				var pollApproved = function(){
-					setTimeout(function(){
-						var callBack = function(result){
-							if(!result.hasError){
-								log(&quot;Logged in, now do something useful with it!&quot;)
-								win.close();
-								return
-							}
-							else{
-								pollApproved();
-							}
-						};//callBack
-						Ribbit.checkAuthenticatedUser(callBack);
-					},4000); //setTimeout
-				}; //pollApproved
-				createTiddlyButton(place,&quot;Login&quot;, null, function(){
-					win = window.open(url, &quot;r4mlogin&quot;,&quot;width=1024,height=800,toolbar:no&quot;);
-					pollApproved();
-					return false;
-				});
-				
-			}//gotUrlCallback
-			
-			//get a unique url for Ribbit login and send to callback
-			Ribbit.createUserAuthenticationUrl(gotUrlCallback);
-		}//if
-	}//login
+if(!version.extensions.RibbitLogin){
+	version.extensions.RibbitLogin = {installed:true};	
 	
-	//2legged (private domain) authentication 
-	function login2Leg(place, macroParams){
-		if(Ribbit.userId!==null){
-			log(&quot;User already logged in&quot;)
+	(function($) {
+    
+	    log = console.log;
+		consumerKey = null;
+		secretKey = null;
+		var userDetails = [];
+		
+	    config.macros.RibbitLogin = {
+
+		        handler: function(place, macroName, params, wikifier, paramString, tiddler){
+					var macroParams = paramString.parseParams(&quot;authmode&quot;, null, true);
+					var authmode = getParam(macroParams,&quot;authmode&quot;,null);				
+
+					//not enough info
+					if(authmode===null){
+						// log(&quot;No authomde specified&quot;);
+						return
+					}
+
+					//already siged in
+					if(Ribbit.userId!==null){
+						// log(&quot;Logged in on previous session&quot;);
+						return
+					}
+
+					switch(parseInt(authmode)){
+						case 2:
+							login2Leg(place,macroParams);
+							break;
+						case 3:
+							login3Leg(place,macroParams);
+							break;
+						default:
+					  		return
+					}
+				}//handler
+	
+		};//macro
+
+		//three leg (public) domain at r4m.ribbit.com (requires a redirect)
+		function login3Leg(place, macroParams){
+			if(Ribbit.userId!==null){
+				createTiddlyButton(place,&quot;Logout&quot;,null,function(){
+					Ribbit.logoff();
+					story.refreshAllTiddlers(); 
+				})
+				return;
+			}
+			if(getParam(macroParams,&quot;consumerKey&quot;,null)==null || getParam(macroParams,&quot;secretKey&quot;,null)==null){
+				// log('Bah! Couln\'t find one/both of the keys');
+				return;
+			}
+			if(getParam(macroParams,&quot;consumerKey&quot;,null)!==null || getParam(macroParams,&quot;secretKey&quot;,null)!==null){
+				consumerKey = getParam(macroParams,&quot;consumerKey&quot;,null);
+				secretKey = getParam(macroParams,&quot;secretKey&quot;,null);
+				// log('Keys stored');
+			}
+			if(!Ribbit.isLoggedIn || !Ribbit.checkAccessTokenExpiry()){
+				Ribbit.init3Legged(consumerKey, secretKey);
+				createTiddlyButton(place,&quot;Login to Ribbit Mobile&quot;, null, function(){
+					Ribbit.getAuthenticatedUserInPopup(function(){
+						// log(&quot;Logged in, now do something useful with it&quot;);
+						story.refreshAllTiddlers(); 
+					}, &quot;G&quot;, &quot;width=1024,height=600,toolbar:no&quot;)
+					});
+
+			}//if
+		}//login
+
+		//2legged (private domain) authentication 
+		function login2Leg(place, macroParams){
+			if(Ribbit.userId!==null){
+				createTiddlyButton(place,&quot;Logout&quot;,null,function(){
+					Ribbit.logoff();
+					story.refreshAllTiddlers();
+				})
+			}
+			if(getParam(macroParams,&quot;consumerKey&quot;,null)==null){
+				// log(&quot;Bah! Couldn\'t find keys&quot;);
+				return;
+			}
+			consumerKey = getParam(macroParams,&quot;consumerKey&quot;);
+			Ribbit.init(consumerKey);
+			userDetails.push(['username','Username']);
+			userDetails.push(['password','Password']);
+			var f = createTiddlyElement(place,&quot;form&quot;,null);
+			for(var d=0; d&lt;userDetails.length; d++){
+				createTiddlyElement(f,'span',null,null,userDetails[d][1]);
+				if(userDetails[d][0] == 'password') {
+					var input = createTiddlyElement(f,'input',null,null,null,{'type':'password'});
+				}
+				else {
+					var input = createTiddlyElement(f,'input',null);
+				}
+				input.setAttribute('name',userDetails[d][0]);
+			}
+			var btn = createTiddlyButton(f,'Sign in',null,function(){
+				var i = f.getElementsByTagName('input');
+				Ribbit.login(function(result){
+	            	if(result.hasError){
+						// log(&quot;Bah! Couldn\'t log in&quot;);
+	            	}else{
+	                	// log(&quot;Logged in, now do something useful with it!&quot;);
+						story.refreshAllTiddlers(); 
+	            	}
+	        	},i[0].value, i[1].value);
+			});
 			return
 		}
-		
-		var username = getParam(macroParams,&quot;user&quot;);
-		var password = getParam(macroParams,&quot;pass&quot;);
-		
-		if(getParam(macroParms,&quot;consumerKey&quot;)!==null){
-			log(&quot;Overwriting consumer key&quot;);
-			consumerKey = getParams(macroParams,&quot;consumerKey&quot;);
-			log(consumerKey);
-		}
-		Ribbit.init(consumerKey);
-		Ribbit.login(function(result){
-			if(result.hasError){
-				log(result);
-			}else{
-				log(&quot;Logged in, now do something useful with it!&quot;)
-				return
-			}
-		},username, password);
-		return
-	}
 
-})(jQuery);
+	})(jQuery);
+}//end of install only once
+//}}}
+</pre>
+</div>
+<div title="Ribbit" modifier="Ribbit">
+<pre>
+You must be logged into the Ribbit service to use this app: &lt;&lt;RibbitLogin 2 consumerKey:MzdmMjdjZGItZjAyMC00YzIzLTgxMDItYzkyOWQ2ZDdhYjY3&gt;&gt; or &lt;&lt;RibbitLogin 3 consumerKey:MDllOTljNzgtYmYwZC00YzJlLTlkZDctYmMyZmZiY2UzYjFl secretKey:ODI5OWM2MjYtNjE2MS00YWNkLWIwNTgtMDYzYjcwMjgwYmQ1&gt;&gt; 
+
+Don't have an account? Register at [[ribbit.com|https://www.ribbit.com/reserve.php?SSL=true]].</pre>
+</div>
+<div title="YYYYMMDDHHMMSSMMMPlugin" modifier="PaulDowney" created="200802261000" tags="systemConfig excludeLists excludeSearch">
+<pre>/***
+|''Name:''|YYYYMMDDHHMMSSMMMPlugin|
+|''Description:''|Supply possibly missing convertFromYYYYMMDDHHMMSSMMM Date function|
+|''Author:''|PaulDowney (psd (at) osmosoft (dot) com)|
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/plugins/YYYYMMDDHHMMSSMMMPlugin.js |
+|''Version:''|0.1|
+|''License:''|[[BSD open source license]]|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''~CoreVersion:''|2.2|
+
+***/
+
+//{{{
+	// Static method to create a date from a UTC YYYYMMDDHHMMSSMMM format string
+	Date.convertFromYYYYMMDDHHMMSSMMM = function(d)
+	{
+		d = d?d.replace(/[^0-9]/g, &quot;&quot;):&quot;&quot;; 
+		return new Date(Date.UTC(parseInt(d.substr(0,4),10),
+				parseInt(d.substr(4,2),10)-1,
+				parseInt(d.substr(6,2),10),
+				parseInt(d.substr(8,2)||&quot;00&quot;,10),
+				parseInt(d.substr(10,2)||&quot;00&quot;,10),
+				parseInt(d.substr(12,2)||&quot;00&quot;,10),
+				parseInt(d.substr(14,3)||&quot;000&quot;,10)));
+	};
+
+	// Fix existing core function
+	Date.convertFromYYYYMMDDHHMM = function(d)
+	{
+		d = d?d.replace(/[^0-9]/g, &quot;&quot;):&quot;&quot;; 
+		return Date.convertFromYYYYMMDDHHMMSSMMM(d.substr(0,12));
+	};
+
+	// Convert a date to UTC YYYYMMDD.HHMMSSMMM string format
+	Date.prototype.convertToYYYYMMDDHHMMSSMMM = function()
+	{
+		return this.getUTCFullYear() + String.zeroPad(this.getUTCMonth()+1,2) + String.zeroPad(this.getUTCDate(),2) + &quot;.&quot; + String.zeroPad(this.getUTCHours(),2) + String.zeroPad(this.getUTCMinutes(),2) + String.zeroPad(this.getUTCSeconds(),2) + String.zeroPad(this.getUTCMilliseconds(),3);
+	};
 
 //}}}
 </pre>
 </div>
-<div title="ThatThing" modifier="BenJam">
-<pre>
-&lt;&lt;voiceComments username: benjamin.nickolls@gmail.com password: password auth:2&gt;&gt;
+<div title="TickerPlugin" modifier="PaulDowney" created="200712030000" tags="systemConfig excludeLists excludeSearch">
+<pre>/***
+|''Name:''|TickerPlugin|
+|''Description:''|Periodically Refresh Tiddlers tagged with 'ticker', evaluating those tagged with 'javaScript'|
+|''Author:''|PaulDowney (psd (at) osmosoft (dot) com)|
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/plugins/TickerPlugin/ |
+|''Version:''|0.2|
+|''License:''|[[BSD open source license]]|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''~CoreVersion:''|2.4|
+!!Documentation
+The TickerPlugin periodically wikifies tiddlers which have been tagged with 'ticker', causing any macros to be re-run. 
+
+A tiddler tagged with 'ticker' and 'javascript' is presented to the Javascript eval function. A demonstration TiddlyWiki including the latest released version of the plugin is avalable from http://whatfettle.com/2008/07/TickerPlugin/
+
+!!!Dependencies
+This code epends upon a number of bug fixes to the Date routines supplied in the [[YYYYMMDDHHMMSSMMMPlugin]] 
+
+!!!Options
+|&lt;&lt;option txtTickerInterval&gt;&gt;|&lt;&lt;message config.optionsDesc.txtTickerInterval&gt;&gt;|
+|&lt;&lt;option txtTickerMinInterval&gt;&gt;|&lt;&lt;message config.optionsDesc.txtTickerMinInterval&gt;&gt;|
+|&lt;&lt;option chkTickerEval&gt;&gt;|&lt;&lt;message config.optionsDesc.chkTickerEval&gt;&gt;|
+|&lt;&lt;option chkTickerRefresh&gt;&gt;|&lt;&lt;message config.optionsDesc.chkTickerRefresh&gt;&gt;|
+|&lt;&lt;option chkTickerWikify&gt;&gt;|&lt;&lt;message config.optionsDesc.chkTickerWikify&gt;&gt;|
+
+!!!Source Code
+***/
+
+//{{{
+if(!version.extensions.TickerPlugin){
+version.extensions.TickerPlugin = {installed:true};
+
+config.options.txtTickerMinInterval = 1;
+config.optionsDesc.txtTickerMinInterval = &quot;Ticker minimum interval in seconds&quot;;
+config.options.txtTickerInterval = 60;
+config.optionsDesc.txtTickerInterval = &quot;Ticker maximum interval in seconds&quot;;
+config.options.chkTickerEval = true;
+config.optionsDesc.chkTickerEval = &quot;Ticker evaluates tiddlers tagged with javaScript&quot;;
+config.options.chkTickerRefresh = true;
+config.optionsDesc.chkTickerRefresh = &quot;Ticker refreshes visible tiddlers&quot;;
+config.options.chkTickerWikify = true;
+config.optionsDesc.chkTickerWikify = &quot;Ticker refreshes hidden tiddlers&quot;;
+
+config.macros.Ticker = {
+
+	disabled: false,			// setting will stop the ticking, forever!
+	hiddenPlace: null,			// element to wikify closed tiddlers
+	editTemplate: 'EditTemplate',		// template value to detect if a tiddler is being edited
+	tag : {
+		ticker: &quot;ticker&quot;,		// tag for finding tiddlers to refresh
+		eval: &quot;javaScript&quot;		// tag for refreshed tiddlers to evaluate
+	},
+
+	init: function(){
+		this.tick();
+	},
+
+	tick: function(){
+		var me = config.macros.Ticker;
+		if(me.disabled){
+			return;
+		}
+		var tiddlers = store.getTaggedTiddlers(me.tag.ticker);
+		var interval = config.macros.Ticker.getInterval();
+
+		for(var i=0;i&lt;tiddlers.length;i++){
+			var remaining = me.checkTiddler(tiddlers[i], new Date());
+			if(remaining &gt; 0 &amp;&amp; remaining &lt; interval){
+				interval = remaining;
+			}
+		}
+		if(interval &lt;= 0){
+			interval = parseInt(config.options.txtTickerMinInterval,10);
+		}
+		window.setTimeout(arguments.callee, interval);
+	},
+
+	getInterval: function(interval){
+		var me = config.macros.Ticker;
+		if(isNaN(interval)){
+			interval = parseInt(config.options.txtTickerInterval,10);
+			if(isNaN(interval)){
+				interval = 60;
+			}
+		}
+		return interval * 1000;
+	},
+
+	checkTiddler: function(tiddler, now){
+		var me = config.macros.Ticker;
+		var interval = me.getInterval(tiddler.fields.ticker_interval);
+		var lastcalled;
+
+		if(isNaN(tiddler.fields.ticker_count)){
+			tiddler.fields.ticker_count = 0;
+		}
+		if(!isNaN(tiddler.fields.ticker_lastcalled)){
+			lastcalled = Number(Date.convertFromYYYYMMDDHHMMSSMMM(tiddler.fields.ticker_lastcalled));
+		}
+		if(isNaN(lastcalled)){
+			lastcalled = 0;
+		}
+		if(Number(now) &gt;= (lastcalled+interval)){
+			me.invokeTiddler(tiddler);
+			tiddler.fields.ticker_lastcalled = now.convertToYYYYMMDDHHMMSSMMM();
+			tiddler.fields.ticker_count++;
+			return interval;
+		}
+		return (interval + lastcalled - Number(now));
+	},
+
+	invokeTiddler: function(tiddler){
+		var me = config.macros.Ticker;
+		var s = story.getTiddler(tiddler.title);
+		if(s &amp;&amp; me.editTemplate == s.getAttribute(&quot;template&quot;)){
+			return;
+		}
+		if(config.options.chkTickerEval){
+			if(tiddler.isTagged(me.tag.eval)){
+				eval(tiddler.text);
+				return;
+			}
+		}
+		if(config.options.chkTickerRefresh){
+			if(story.refreshTiddler(tiddler.title,null,true)){
+				return;
+			}
+			if(config.options.chkTickerWikify){
+				wikify(tiddler.text,null,null,null);
+			}
+		}
+	}
+};
+
+} //# end of 'install only once'
+//}}}
 </pre>
+</div>
+<div title="YYYYMMDDHHMMSSMMMPlugin" modifier="PaulDowney" created="200802261000" tags="systemConfig excludeLists excludeSearch">
+<pre>/***
+|''Name:''|YYYYMMDDHHMMSSMMMPlugin|
+|''Description:''|Supply possibly missing convertFromYYYYMMDDHHMMSSMMM Date function|
+|''Author:''|PaulDowney (psd (at) osmosoft (dot) com)|
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/plugins/YYYYMMDDHHMMSSMMMPlugin.js |
+|''Version:''|0.1|
+|''License:''|[[BSD open source license]]|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''~CoreVersion:''|2.2|
+
+***/
+
+//{{{
+	// Static method to create a date from a UTC YYYYMMDDHHMMSSMMM format string
+	Date.convertFromYYYYMMDDHHMMSSMMM = function(d)
+	{
+		d = d?d.replace(/[^0-9]/g, &quot;&quot;):&quot;&quot;; 
+		return new Date(Date.UTC(parseInt(d.substr(0,4),10),
+				parseInt(d.substr(4,2),10)-1,
+				parseInt(d.substr(6,2),10),
+				parseInt(d.substr(8,2)||&quot;00&quot;,10),
+				parseInt(d.substr(10,2)||&quot;00&quot;,10),
+				parseInt(d.substr(12,2)||&quot;00&quot;,10),
+				parseInt(d.substr(14,3)||&quot;000&quot;,10)));
+	};
+
+	// Fix existing core function
+	Date.convertFromYYYYMMDDHHMM = function(d)
+	{
+		d = d?d.replace(/[^0-9]/g, &quot;&quot;):&quot;&quot;; 
+		return Date.convertFromYYYYMMDDHHMMSSMMM(d.substr(0,12));
+	};
+
+	// Convert a date to UTC YYYYMMDD.HHMMSSMMM string format
+	Date.prototype.convertToYYYYMMDDHHMMSSMMM = function()
+	{
+		return this.getUTCFullYear() + String.zeroPad(this.getUTCMonth()+1,2) + String.zeroPad(this.getUTCDate(),2) + &quot;.&quot; + String.zeroPad(this.getUTCHours(),2) + String.zeroPad(this.getUTCMinutes(),2) + String.zeroPad(this.getUTCSeconds(),2) + String.zeroPad(this.getUTCMilliseconds(),3);
+	};
+
+//}}}
+</pre>
+</div>
+<div title="TaggedTemplateTweak" modifier="ELSDesignStudios" created="200706181748" modified="200901061019" tags="systemConfig BookmarkPackage MediaPackage TaskPackage IFramePackage DiscussionPackage">
+<pre>/***
+|Name|TaggedTemplateTweak|
+|Source|http://www.TiddlyTools.com/#TaggedTemplateTweak|
+|Documentation|http://www.TiddlyTools.com/#TaggedTemplateTweakInfo|
+|Version|1.5.1|
+|Author|Eric Shulman - ELS Design Studios|
+|License|http://www.TiddlyTools.com/#LegalStatements &lt;br&gt;and [[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]]|
+|~CoreVersion|2.1|
+|Type|plugin|
+|Requires||
+|Overrides|Story.prototype.chooseTemplateForTiddler()|
+|Description|use alternative ViewTemplate/EditTemplate for tiddler's tagged with specific tag values|
+This tweak extends story.chooseTemplateForTiddler() so that ''whenever a tiddler is marked with a specific tag value, it can be viewed and/or edited using alternatives to the standard tiddler templates.'' 
+!!!!!Documentation
+&gt;see [[TaggedTemplateTweakInfo]]
+!!!!!Revisions
+&lt;&lt;&lt;
+2009.01.06 [1.5.1] reversed logic so that title-as-prefix takes precedence over tag-matched prefix
+2008.12.18 [1.5.0] added handling for using tiddler //title// as prefix (e.g., {{{SomeTiddlerViewTemplate}}}) 
+| please see [[TaggedTemplateTweakInfo]] for previous revision details |
+2007.06.11 [1.0.0] initial release
+&lt;&lt;&lt;
+!!!!!Code
+***/
+//{{{
+version.extensions.TaggedTemplateTweak= {major: 1, minor: 5, revision: 1, date: new Date(2009,1,6)};
+
+Story.prototype.taggedTemplate_chooseTemplateForTiddler = Story.prototype.chooseTemplateForTiddler
+Story.prototype.chooseTemplateForTiddler = function(title,template)
+{
+	// get default template from core
+	var coreTemplate=this.taggedTemplate_chooseTemplateForTiddler.apply(this,arguments);
+
+	// if the tiddler doesn't exist yet, return core result
+	var tiddler=store.getTiddler(title); if (!tiddler) return coreTemplate;
+
+	// split core template into theme prefix and template name
+	var theme=&quot;&quot;;
+	var template=coreTemplate;
+	var parts=template.split(config.textPrimitives.sectionSeparator);
+	if (parts[1]) { theme=parts[0]; template=parts[1]; }
+	else theme=config.options.txtTheme||&quot;&quot;; // fallback if theme is not specified
+	theme+=config.textPrimitives.sectionSeparator;
+
+	// look for template whose prefix matches the *title* of this tiddler
+	if (!store.getTaggedTiddlers(title).length) { // if tiddler is not a tag
+		if (store.getTiddlerText(theme+title+template)) { return theme+title+template; } // theme##TitleTemplate
+		if (store.getTiddlerText(title+template)) 	{ return title+template; }	 // TitleTemplate
+	}
+
+	// look for template whose prefix matches a *tag* on this tiddler (if any)
+	for (i=0; i&lt;tiddler.tags.length; i++) {
+		var t=tiddler.tags[i]+template; // add tag prefix to template
+		var c=t.substr(0,1).toUpperCase()+t.substr(1); // capitalized for WikiWord title
+		if (store.getTiddlerText(theme+t))	{ return theme+t; } // theme##tagTemplate
+		if (store.getTiddlerText(theme+c))	{ return theme+c; } // theme##TagTemplate
+		if (store.getTiddlerText(t)) 		{ return t; }	    // tagTemplate
+		if (store.getTiddlerText(c))		{ return c; }	    // TagTemplate
+	}
+
+	// no matching tag OR title prefix... return core result
+	return coreTemplate;
+}
+//}}}</pre>
+</div>
+<div title="Voicemail" modifier="BenJam" created="201008101435" tags="systemConfig excludeSearch">
+<pre>/***
+|''Name:''|RibitVoicemail|
+|''Description:''|Collect Voicemail in a TiddlyWiki from Ribbit|
+|''Author:''|BenJam|
+|''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/BenJam/plugins/|
+|''Version:''|0.1|
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[Creative Commons Attribution-ShareAlike 2.5 License|http://creativecommons.org/licenses/by-sa/2.5/]] |
+|''~CoreVersion:''|2.3|
+Usage:
+//{{{
+The handler config.macros.Voicemail.handler will fill the current TiddlyWiki with voicemail from the currently logged in Ribbit user, else the RibbitLogin plugin will be envoked.
+//}}}
+***/
+//{{{
+(function($) {
+	
+		log = console.log;
+	
+		var online = navigator.onLine;
+		var messages;
+		var messagesCount = 0;
+		var uncached = 0;
+		var loading = true;
+		var a = null;
+	
+		config.macros.Voicemail = {};
+
+		config.macros.Voicemail.handler = function(place, macroName, params, wikifier, paramString, tiddler){
+			var macroParams = paramString.parseParams(null, null, true);
+			config.macros.Voicemail.getMessages();
+		};
+	
+		config.macros.Voicemail.getMessages = function(){
+			if(Ribbit.userId!==null){
+				Ribbit.Messages().getReceivedMessages(cache);
+			}
+		};
+	
+		config.macros.Voicemail.goOffline = function(){
+			online = false;
+		};
+	
+		config.macros.Voicemail.goOnline = function(){
+			online = true;
+		};
+	
+		function cache(result){
+	        if (result.hasError &amp;&amp; online){
+				alert(&quot;Bah, couldn't collect messages, you online?&quot;);
+	        }
+	        else{
+	            for (var i in result){
+	                var message = result[i];
+	                if (!messages[message.id]){
+	                    messages[message.id] = {
+								id:message.id,
+	                            body:message.body,
+	                            sender:message.sender,
+	                            from:message.from,
+	                            mediaUri:message.mediaUri,
+	                            time:message.time
+	                        }; 
+	                }
+	                else if (loading){
+	                    messages[message.id].body = message.body;
+	                    render(message);
+	                }
+	                else{
+	                    messages[message.id].body = message.body;
+	                }
+	            }
+	        }
+	        for (var j in messages){
+	            messagesCount ++;
+	            var message = messages[j];
+	            if (!message.audioData){
+	                uncached++;
+	                getAudio(message);
+	            }
+	        }
+	        cachingDone();
+	    }
+
+		function cachingDone(){
+	        if (uncached &gt; 0 ){
+	            setTimeout(cachingDone,500);
+	        }
+	        else{
+	            loading = false;
+	        }
+	    }
+
+		function getAudio(message){
+			$.get(Ribbit.getStreamableUrl(message.mediaUri), function (data){
+				message.audioData = data;
+				render(message);
+	            uncached --;
+	            log(&quot;Downloading audio - &quot; + uncached + &quot;/&quot; + messagesCount);
+			});
+		}
+
+		function render(message){
+			var id = message.id;
+			var sender = message.sender;
+			var from = message.from;
+			var body = message.body;
+			var mediaUri = message.mediaUri; 
+			var fields = {};
+			message.audioData ? fields.audioData = message.audioData : fields.audioData = null;
+			var tags = [&quot;Voicemail&quot;];
+			var timestamp = Date.convertFromYYYYMMDDHHMMSSMMM(message.time);
+			store.saveTiddler(id,id,body,sender,timestamp,tags,fields,null,timestamp,sender);
+	    }	
+
+})(jQuery);
+//}}}
+</pre>
+</div>
+<div title="TickerGetVoicemail" modifier="Ribbit" tags="ticker javaScript" ticker_interval="60">
+<pre>
+//{{{
+config.macros.Voicemail.getMessages();
+//}}}
+
+
+
+
+</pre>
+</div>
+<div title="DefaultTiddlers" modifier="Ribbit">
+<pre>
+Ribbit
+GettingStarted</pre>
 </div>
 </div>
 <!--POST-STOREAREA-->
@@ -9535,7 +9454,6 @@ merge(config.macros.importTiddlers,{
 	step1Html: "Specify the type of the server: <select name='selTypes'><option value=''>Choose...</option></select><br>Enter the URL or pathname here: <input type='text' size=50 name='txtPath'><br>...or browse for a file: <input type='file' size=50 name='txtBrowse'><br><hr>...or select a pre-defined feed: <select name='selFeeds'><option value=''>Choose...</option></select>",
 	openLabel: "open",
 	openPrompt: "Open the connection to this file or server",
-	openError: "There were problems fetching the tiddlywiki file",
 	statusOpenHost: "Opening the host",
 	statusGetWorkspaceList: "Getting the list of available workspaces",
 	step2Title: "Step 2: Choose the workspace",
@@ -11343,7 +11261,7 @@ config.macros.tagChooser.onClick = function(ev)
 	var popup = Popup.create(this);
 	var tags = store.getTags(this.getAttribute("tags"));
 	if(tags.length == 0)
-		jQuery("<li/>").text(lingo.popupNone).appendTo(jQuery(popup));
+		jQuery("<li/>").text(lingo.popupNone).appendTo(popup);
 	for(var t=0; t<tags.length; t++) {
 		var tag = createTiddlyButton(createTiddlyElement(popup,"li"),tags[t][0],lingo.tagTooltip.format([tags[t][0]]),config.macros.tagChooser.onTagClick);
 		tag.setAttribute("tag",tags[t][0]);
@@ -11521,11 +11439,12 @@ config.macros.search.onClick = function(e)
 
 config.macros.search.onKeyPress = function(ev)
 {
+	var me = config.macros.search;
 	var e = ev || window.event;
 	switch(e.keyCode) {
 		case 13: // Ctrl-Enter
 		case 10: // Ctrl-Enter on IE PC
-			config.macros.search.doSearch(this);
+			me.doSearch(this);
 			break;
 		case 27: // Escape
 			this.value = "";
@@ -11535,14 +11454,14 @@ config.macros.search.onKeyPress = function(ev)
 	if(config.options.chkIncrementalSearch) {
 		if(this.value.length > 2) {
 			if(this.value != this.getAttribute("lastSearchText")) {
-				if(config.macros.search.timeout)
-					clearTimeout(config.macros.search.timeout);
+				if(me.timeout)
+					clearTimeout(me.timeout);
 				var txt = this;
-				config.macros.search.timeout = setTimeout(function() {config.macros.search.doSearch(txt);},500);
+				me.timeout = setTimeout(function() {me.doSearch(txt);},500);
 			}
 		} else {
-			if(config.macros.search.timeout)
-				clearTimeout(config.macros.search.timeout);
+			if(me.timeout)
+				clearTimeout(me.timeout);
 		}
 	}
 };
@@ -11864,6 +11783,7 @@ config.commands.jump.handlePopup = function(popup,title)
 
 config.commands.syncing.handlePopup = function(popup,title)
 {
+	var me = config.commands.syncing;
 	var tiddler = store.fetchTiddler(title);
 	if(!tiddler)
 		return;
@@ -11874,18 +11794,18 @@ config.commands.syncing.handlePopup = function(popup,title)
 		serverWorkspace = "";
 	if(serverType) {
 		var e = createTiddlyElement(popup,"li",null,"popupMessage");
-		e.innerHTML = config.commands.syncing.currentlySyncing.format([serverType,serverHost,serverWorkspace]);
+		e.innerHTML = me.currentlySyncing.format([serverType,serverHost,serverWorkspace]);
 	} else {
-		createTiddlyElement(popup,"li",null,"popupMessage",config.commands.syncing.notCurrentlySyncing);
+		createTiddlyElement(popup,"li",null,"popupMessage",me.notCurrentlySyncing);
 	}
 	if(serverType) {
 		createTiddlyElement(createTiddlyElement(popup,"li",null,"listBreak"),"div");
-		var btn = createTiddlyButton(createTiddlyElement(popup,"li"),this.captionUnSync,null,config.commands.syncing.onChooseServer);
+		var btn = createTiddlyButton(createTiddlyElement(popup,"li"),this.captionUnSync,null,me.onChooseServer);
 		btn.setAttribute("tiddler",title);
 		btn.setAttribute("server.type","");
 	}
 	createTiddlyElement(createTiddlyElement(popup,"li",null,"listBreak"),"div");
-	createTiddlyElement(popup,"li",null,"popupMessage",config.commands.syncing.chooseServer);
+	createTiddlyElement(popup,"li",null,"popupMessage",me.chooseServer);
 	var feeds = store.getTaggedTiddlers("systemServer","title");
 	for(var t=0; t<feeds.length; t++) {
 		var f = feeds[t];
@@ -11900,11 +11820,11 @@ config.commands.syncing.handlePopup = function(popup,title)
 			feedServerWorkspace = "";
 		var caption = f.title;
 		if(serverType == feedServerType && serverHost == feedServerHost && serverWorkspace == feedServerWorkspace) {
-			caption = config.commands.syncing.currServerMarker + caption;
+			caption = me.currServerMarker + caption;
 		} else {
-			caption = config.commands.syncing.notCurrServerMarker + caption;
+			caption = me.notCurrServerMarker + caption;
 		}
-		btn = createTiddlyButton(createTiddlyElement(popup,"li"),caption,null,config.commands.syncing.onChooseServer);
+		btn = createTiddlyButton(createTiddlyElement(popup,"li"),caption,null,me.onChooseServer);
 		btn.setAttribute("tiddler",title);
 		btn.setAttribute("server.type",feedServerType);
 		btn.setAttribute("server.host",feedServerHost);
@@ -13543,8 +13463,8 @@ var backstage = {
 	init: function() {
 		var cmb = config.messages.backstage;
 		this.area = document.getElementById("backstageArea");
-		this.toolbar = document.getElementById("backstageToolbar");
-		this.button = document.getElementById("backstageButton");
+		this.toolbar = jQuery("#backstageToolbar").empty()[0];
+		this.button = jQuery("#backstageButton").empty()[0];
 		this.button.style.display = "block";
 		var t = cmb.open.text + " " + glyph("bentArrowLeft");
 		this.showButton = createTiddlyButton(this.button,t,cmb.open.tooltip,
@@ -13739,6 +13659,7 @@ config.macros.importTiddlers.onClose = function(e)
 
 config.macros.importTiddlers.restart = function(wizard)
 {
+	var me = config.macros.importTiddlers;
 	wizard.addStep(this.step1Title,this.step1Html);
 	var s = wizard.getElement("selTypes");
 	for(var t in config.adaptors) {
@@ -13754,11 +13675,11 @@ config.macros.importTiddlers.restart = function(wizard)
 		e.value = t;
 	}
 	wizard.setValue("feeds",feeds);
-	s.onchange = config.macros.importTiddlers.onFeedChange;
+	s.onchange = me.onFeedChange;
 	var fileInput = wizard.getElement("txtBrowse");
-	fileInput.onchange = config.macros.importTiddlers.onBrowseChange;
-	fileInput.onkeyup = config.macros.importTiddlers.onBrowseChange;
-	wizard.setButtons([{caption: this.openLabel, tooltip: this.openPrompt, onClick: config.macros.importTiddlers.onOpen}]);
+	fileInput.onchange = me.onBrowseChange;
+	fileInput.onkeyup = me.onBrowseChange;
+	wizard.setButtons([{caption: this.openLabel, tooltip: this.openPrompt, onClick: me.onOpen}]);
 	wizard.formElem.action = "javascript:;";
 	wizard.formElem.onsubmit = function() {
 		if(!this.txtPath || this.txtPath.value.length) //# check for manually entered path in first step
@@ -13839,6 +13760,7 @@ config.macros.importTiddlers.getURLFromLocalPath = function(v)
 
 config.macros.importTiddlers.onOpen = function(e)
 {
+	var me = config.macros.importTiddlers;
 	var wizard = new Wizard(this);
 	var fileInput = wizard.getElement("txtPath");
 	var url = fileInput.value;
@@ -13847,26 +13769,28 @@ config.macros.importTiddlers.onOpen = function(e)
 	wizard.setValue("adaptor",adaptor);
 	wizard.setValue("serverType",serverType);
 	wizard.setValue("host",url);
-	var ret = adaptor.openHost(url,null,wizard,config.macros.importTiddlers.onOpenHost);
+	var ret = adaptor.openHost(url,null,wizard,me.onOpenHost);
 	if(ret !== true)
 		displayMessage(ret);
-	wizard.setButtons([{caption: config.macros.importTiddlers.cancelLabel, tooltip: config.macros.importTiddlers.cancelPrompt, onClick: config.macros.importTiddlers.onCancel}],config.macros.importTiddlers.statusOpenHost);
+	wizard.setButtons([{caption: me.cancelLabel, tooltip: me.cancelPrompt, onClick: me.onCancel}],me.statusOpenHost);
 	return false;
 };
 
 config.macros.importTiddlers.onOpenHost = function(context,wizard)
 {
+	var me = config.macros.importTiddlers;
 	var adaptor = wizard.getValue("adaptor");
 	if(context.status !== true)
 		displayMessage("Error in importTiddlers.onOpenHost: " + context.statusText);
-	var ret = adaptor.getWorkspaceList(context,wizard,config.macros.importTiddlers.onGetWorkspaceList);
+	var ret = adaptor.getWorkspaceList(context,wizard,me.onGetWorkspaceList);
 	if(ret !== true)
 		displayMessage(ret);
-	wizard.setButtons([{caption: config.macros.importTiddlers.cancelLabel, tooltip: config.macros.importTiddlers.cancelPrompt, onClick: config.macros.importTiddlers.onCancel}],config.macros.importTiddlers.statusGetWorkspaceList);
+	wizard.setButtons([{caption: me.cancelLabel, tooltip: me.cancelPrompt, onClick: me.onCancel}],me.statusGetWorkspaceList);
 };
 
 config.macros.importTiddlers.onGetWorkspaceList = function(context,wizard)
 {
+	var me = config.macros.importTiddlers;
 	if(context.status !== true)
 		displayMessage("Error in importTiddlers.onGetWorkspaceList: " + context.statusText);
 	wizard.setValue("context",context);
@@ -13874,16 +13798,16 @@ config.macros.importTiddlers.onGetWorkspaceList = function(context,wizard)
 	if(!workspace && context.workspaces.length==1)
 		workspace = context.workspaces[0].title;
 	if(workspace) {
-		var ret = context.adaptor.openWorkspace(workspace,context,wizard,config.macros.importTiddlers.onOpenWorkspace);
+		var ret = context.adaptor.openWorkspace(workspace,context,wizard,me.onOpenWorkspace);
 		if(ret !== true)
 			displayMessage(ret);
 		wizard.setValue("workspace",workspace);
-		wizard.setButtons([{caption: config.macros.importTiddlers.cancelLabel, tooltip: config.macros.importTiddlers.cancelPrompt, onClick: config.macros.importTiddlers.onCancel}],config.macros.importTiddlers.statusOpenWorkspace);
+		wizard.setButtons([{caption: me.cancelLabel, tooltip: me.cancelPrompt, onClick: me.onCancel}],me.statusOpenWorkspace);
 		return;
 	}
-	wizard.addStep(config.macros.importTiddlers.step2Title,config.macros.importTiddlers.step2Html);
+	wizard.addStep(me.step2Title,me.step2Html);
 	var s = wizard.getElement("selWorkspace");
-	s.onchange = config.macros.importTiddlers.onWorkspaceChange;
+	s.onchange = me.onWorkspaceChange;
 	for(var t=0; t<context.workspaces.length; t++) {
 		var e = createTiddlyElement(s,"option",null,null,context.workspaces[t].title);
 		e.value = context.workspaces[t].title;
@@ -13902,7 +13826,7 @@ config.macros.importTiddlers.onGetWorkspaceList = function(context,wizard)
 		t = wizard.getElement("txtWorkspace");
 		t.value = workspace;
 	}
-	wizard.setButtons([{caption: config.macros.importTiddlers.openLabel, tooltip: config.macros.importTiddlers.openPrompt, onClick: config.macros.importTiddlers.onChooseWorkspace}]);
+	wizard.setButtons([{caption: me.openLabel, tooltip: me.openPrompt, onClick: me.onChooseWorkspace}]);
 };
 
 config.macros.importTiddlers.onWorkspaceChange = function(e)
@@ -13916,33 +13840,36 @@ config.macros.importTiddlers.onWorkspaceChange = function(e)
 
 config.macros.importTiddlers.onChooseWorkspace = function(e)
 {
+	var me = config.macros.importTiddlers;
 	var wizard = new Wizard(this);
 	var adaptor = wizard.getValue("adaptor");
 	var workspace = wizard.getElement("txtWorkspace").value;
 	wizard.setValue("workspace",workspace);
 	var context = wizard.getValue("context");
-	var ret = adaptor.openWorkspace(workspace,context,wizard,config.macros.importTiddlers.onOpenWorkspace);
+	var ret = adaptor.openWorkspace(workspace,context,wizard,me.onOpenWorkspace);
 	if(ret !== true)
 		displayMessage(ret);
-	wizard.setButtons([{caption: config.macros.importTiddlers.cancelLabel, tooltip: config.macros.importTiddlers.cancelPrompt, onClick: config.macros.importTiddlers.onCancel}],config.macros.importTiddlers.statusOpenWorkspace);
+	wizard.setButtons([{caption: me.cancelLabel, tooltip: me.cancelPrompt, onClick: me.onCancel}],me.statusOpenWorkspace);
 	return false;
 };
 
 config.macros.importTiddlers.onOpenWorkspace = function(context,wizard)
 {
+	var me = config.macros.importTiddlers;
 	if(context.status !== true)
 		displayMessage("Error in importTiddlers.onOpenWorkspace: " + context.statusText);
 	var adaptor = wizard.getValue("adaptor");
-	var ret = adaptor.getTiddlerList(context,wizard,config.macros.importTiddlers.onGetTiddlerList,wizard.getValue("feedTiddlerFilter"));
+	var ret = adaptor.getTiddlerList(context,wizard,me.onGetTiddlerList,wizard.getValue("feedTiddlerFilter"));
 	if(ret !== true)
 		displayMessage(ret);
-	wizard.setButtons([{caption: config.macros.importTiddlers.cancelLabel, tooltip: config.macros.importTiddlers.cancelPrompt, onClick: config.macros.importTiddlers.onCancel}],config.macros.importTiddlers.statusGetTiddlerList);
+	wizard.setButtons([{caption: me.cancelLabel, tooltip: me.cancelPrompt, onClick: me.onCancel}],me.statusGetTiddlerList);
 };
 
 config.macros.importTiddlers.onGetTiddlerList = function(context,wizard)
 {
+	var me = config.macros.importTiddlers;
 	if(context.status !== true) {
-		wizard.setButtons([{caption: config.macros.importTiddlers.cancelLabel, tooltip: config.macros.importTiddlers.cancelPrompt, onClick: config.macros.importTiddlers.onCancel}],config.macros.importTiddlers.errorGettingTiddlerList);
+		wizard.setButtons([{caption: me.cancelLabel, tooltip: me.cancelPrompt, onClick: me.onCancel}],me.errorGettingTiddlerList);
 		return;
 	}
 	// Extract data for the listview
@@ -13963,18 +13890,18 @@ config.macros.importTiddlers.onGetTiddlerList = function(context,wizard)
 	}
 	listedTiddlers.sort(function(a,b) {return a.title < b.title ? -1 : (a.title == b.title ? 0 : +1);});
 	// Display the listview
-	wizard.addStep(config.macros.importTiddlers.step3Title,config.macros.importTiddlers.step3Html);
+	wizard.addStep(me.step3Title,me.step3Html);
 	var markList = wizard.getElement("markList");
 	var listWrapper = document.createElement("div");
 	markList.parentNode.insertBefore(listWrapper,markList);
-	var listView = ListView.create(listWrapper,listedTiddlers,config.macros.importTiddlers.listViewTemplate);
+	var listView = ListView.create(listWrapper,listedTiddlers,me.listViewTemplate);
 	wizard.setValue("listView",listView);
 	wizard.setValue("context",context);
 	var txtSaveTiddler = wizard.getElement("txtSaveTiddler");
-	txtSaveTiddler.value = config.macros.importTiddlers.generateSystemServerName(wizard);
+	txtSaveTiddler.value = me.generateSystemServerName(wizard);
 	wizard.setButtons([
-			{caption: config.macros.importTiddlers.cancelLabel, tooltip: config.macros.importTiddlers.cancelPrompt, onClick: config.macros.importTiddlers.onCancel},
-			{caption: config.macros.importTiddlers.importLabel, tooltip: config.macros.importTiddlers.importPrompt, onClick: config.macros.importTiddlers.doImport}
+			{caption: me.cancelLabel, tooltip: me.cancelPrompt, onClick: me.onCancel},
+			{caption: me.importLabel, tooltip: me.importPrompt, onClick: me.doImport}
 		]);
 };
 
@@ -13989,9 +13916,10 @@ config.macros.importTiddlers.generateSystemServerName = function(wizard)
 
 config.macros.importTiddlers.saveServerTiddler = function(wizard)
 {
+	var me = config.macros.importTiddlers;
 	var txtSaveTiddler = wizard.getElement("txtSaveTiddler").value;
 	if(store.tiddlerExists(txtSaveTiddler)) {
-		if(!confirm(config.macros.importTiddlers.confirmOverwriteSaveTiddler.format([txtSaveTiddler])))
+		if(!confirm(me.confirmOverwriteSaveTiddler.format([txtSaveTiddler])))
 			return;
 		store.suspendNotifications();
 		store.removeTiddler(txtSaveTiddler);
@@ -14000,15 +13928,16 @@ config.macros.importTiddlers.saveServerTiddler = function(wizard)
 	var serverType = wizard.getValue("serverType");
 	var host = wizard.getValue("host");
 	var workspace = wizard.getValue("workspace");
-	var text = config.macros.importTiddlers.serverSaveTemplate.format([serverType,host,workspace]);
-	store.saveTiddler(txtSaveTiddler,txtSaveTiddler,text,config.macros.importTiddlers.serverSaveModifier,new Date(),["systemServer"]);
+	var text = me.serverSaveTemplate.format([serverType,host,workspace]);
+	store.saveTiddler(txtSaveTiddler,txtSaveTiddler,text,me.serverSaveModifier,new Date(),["systemServer"]);
 };
 
 config.macros.importTiddlers.doImport = function(e)
 {
+	var me = config.macros.importTiddlers;
 	var wizard = new Wizard(this);
 	if(wizard.getElement("chkSave").checked)
-		config.macros.importTiddlers.saveServerTiddler(wizard);
+		me.saveServerTiddler(wizard);
 	var chkSync = wizard.getElement("chkSync").checked;
 	wizard.setValue("sync",chkSync);
 	var listView = wizard.getValue("listView");
@@ -14021,10 +13950,10 @@ config.macros.importTiddlers.doImport = function(e)
 			overwrite.push(rowNames[t]);
 	}
 	if(overwrite.length > 0) {
-		if(!confirm(config.macros.importTiddlers.confirmOverwriteText.format([overwrite.join(", ")])))
+		if(!confirm(me.confirmOverwriteText.format([overwrite.join(", ")])))
 			return false;
 	}
-	wizard.addStep(config.macros.importTiddlers.step4Title.format([rowNames.length]),config.macros.importTiddlers.step4Html);
+	wizard.addStep(me.step4Title.format([rowNames.length]),me.step4Html);
 	for(t=0; t<rowNames.length; t++) {
 		var link = document.createElement("div");
 		createTiddlyLink(link,rowNames[t],true);
@@ -14033,8 +13962,8 @@ config.macros.importTiddlers.doImport = function(e)
 	}
 	wizard.setValue("remainingImports",rowNames.length);
 	wizard.setButtons([
-			{caption: config.macros.importTiddlers.cancelLabel, tooltip: config.macros.importTiddlers.cancelPrompt, onClick: config.macros.importTiddlers.onCancel}
-		],config.macros.importTiddlers.statusDoingImport);
+			{caption: me.cancelLabel, tooltip: me.cancelPrompt, onClick: me.onCancel}
+		],me.statusDoingImport);
 	var wizardContext = wizard.getValue("context");
 	var tiddlers = wizardContext ? wizardContext.tiddlers : [];
 	for(t=0; t<rowNames.length; t++) {
@@ -14042,13 +13971,14 @@ config.macros.importTiddlers.doImport = function(e)
 			allowSynchronous:true,
 			tiddler:tiddlers[tiddlers.findByField("title",rowNames[t])]
 		};
-		adaptor.getTiddler(rowNames[t],context,wizard,config.macros.importTiddlers.onGetTiddler);
+		adaptor.getTiddler(rowNames[t],context,wizard,me.onGetTiddler);
 	}
 	return false;
 };
 
 config.macros.importTiddlers.onGetTiddler = function(context,wizard)
 {
+	var me = config.macros.importTiddlers;
 	if(!context.status)
 		displayMessage("Error in importTiddlers.onGetTiddler: " + context.statusText);
 	var tiddler = context.tiddler;
@@ -14068,8 +13998,8 @@ config.macros.importTiddlers.onGetTiddler = function(context,wizard)
 			refreshDisplay();
 		}
 		wizard.setButtons([
-				{caption: config.macros.importTiddlers.doneLabel, tooltip: config.macros.importTiddlers.donePrompt, onClick: config.macros.importTiddlers.onClose}
-			],config.macros.importTiddlers.statusDoneImport);
+				{caption: me.doneLabel, tooltip: me.donePrompt, onClick: me.onClose}
+			],me.statusDoneImport);
 		autoSaveChanges();
 	}
 };
@@ -14309,6 +14239,7 @@ config.macros.sync.createSyncTask = function(syncItem)
 	};
 
 	var getTiddlerListCallback = function(context,sycnItems) {
+		var me = config.macros.sync;
 		if(!context.status) {
 			displayMessage(context.statusText);
 			return false;
@@ -14320,12 +14251,12 @@ config.macros.sync.createSyncTask = function(syncItem)
 			var f = tiddlers.findByField("title",si.title);
 			if(f !== null) {
 				if(tiddlers[f].fields['server.page.revision'] > si.tiddler.fields['server.page.revision']) {
-					si.syncStatus = config.macros.sync.syncStatusList[si.isTouched ? 'changedBoth' : 'changedServer'];
+					si.syncStatus = me.syncStatusList[si.isTouched ? 'changedBoth' : 'changedServer'];
 				}
 			} else {
-				si.syncStatus = config.macros.sync.syncStatusList.notFound;
+				si.syncStatus = me.syncStatusList.notFound;
 			}
-			config.macros.sync.updateSyncStatus(si);
+			me.updateSyncStatus(si);
 		}
 		return true;
 	};
@@ -14348,24 +14279,25 @@ config.macros.sync.updateSyncStatus = function(syncItem)
 
 config.macros.sync.doSync = function(e)
 {
+	var me = config.macros.sync;
 	var getTiddlerCallback = function(context,syncItem) {
 		if(syncItem) {
 			var tiddler = context.tiddler;
 			store.saveTiddler(tiddler.title,tiddler.title,tiddler.text,tiddler.modifier,tiddler.modified,tiddler.tags,tiddler.fields,true,tiddler.created);
-			syncItem.syncStatus = config.macros.sync.syncStatusList.gotFromServer;
-			config.macros.sync.updateSyncStatus(syncItem);
+			syncItem.syncStatus = me.syncStatusList.gotFromServer;
+			me.updateSyncStatus(syncItem);
 		}
 	};
 	var putTiddlerCallback = function(context,syncItem) {
 		if(syncItem) {
 			store.resetTiddler(context.title);
-			syncItem.syncStatus = config.macros.sync.syncStatusList.putToServer;
-			config.macros.sync.updateSyncStatus(syncItem);
+			syncItem.syncStatus = me.syncStatusList.putToServer;
+			me.updateSyncStatus(syncItem);
 		}
 	};
 
 	var rowNames = ListView.getSelectedRows(currSync.listView);
-	var sl = config.macros.sync.syncStatusList;
+	var sl = me.syncStatusList;
 	for(var i=0; i<currSync.syncList.length; i++) {
 		var si = currSync.syncList[i];
 		if(rowNames.indexOf(si.title) != -1) {
@@ -14417,6 +14349,7 @@ config.macros.plugins.handler = function(place,macroName,params,wikifier,paramSt
 
 config.macros.plugins.refresh = function(listWrapper,params)
 {
+	var me = config.macros.plugins;
 	var wizard = new Wizard(listWrapper);
 	var selectedRows = [];
 	ListView.forEachSelector(listWrapper,function(e,rowName) {
@@ -14451,8 +14384,8 @@ config.macros.plugins.refresh = function(listWrapper,params)
 		var listView = ListView.create(listWrapper,plugins,this.listViewTemplate,this.onSelectCommand);
 		wizard.setValue("listView",listView);
 		wizard.setButtons([
-				{caption: config.macros.plugins.removeLabel, tooltip: config.macros.plugins.removePrompt, onClick: config.macros.plugins.doRemoveTag},
-				{caption: config.macros.plugins.deleteLabel, tooltip: config.macros.plugins.deletePrompt, onClick: config.macros.plugins.doDelete}
+				{caption: me.removeLabel, tooltip: me.removePrompt, onClick: me.doRemoveTag},
+				{caption: me.deleteLabel, tooltip: me.deletePrompt, onClick: me.doDelete}
 			]);
 	}
 };
@@ -14745,8 +14678,9 @@ function loadOptionsCookie()
 			var name = cookies[c].substr(0,p).trim();
 			var value = cookies[c].substr(p+1).trim();
 			var optType = name.substr(0,3);
-			if(config.optionHandlers[optType] && config.optionHandlers[optType].set)
-				config.optionHandlers[optType].set(name,value);
+			var handlers = config.optionHandlers;
+			if(handlers[optType] && handlers[optType].set)
+				handlers[optType].set(name,value);
 		}
 	}
 }
@@ -14757,8 +14691,9 @@ function saveOptionCookie(name)
 		return;
 	var c = name + "=";
 	var optType = name.substr(0,3);
-	if(config.optionHandlers[optType] && config.optionHandlers[optType].get)
-		c += config.optionHandlers[optType].get(name);
+	var handlers = config.optionHandlers;
+	if(handlers[optType] && handlers[optType].get)
+		c += handlers[optType].get(name);
 	c += "; expires=Fri, 1 Jan 2038 12:00:00 UTC; path=/";
 	document.cookie = c;
 }
@@ -15006,24 +14941,25 @@ function saveChanges(onlyIfDirty,tiddlers)
 		return;
 	clearMessage();
 	var t0 = new Date();
+	var msg = config.messages;
 	var originalPath = document.location.toString();
 	if(originalPath.substr(0,5) != "file:") {
-		alert(config.messages.notFileUrlError);
-		if(store.tiddlerExists(config.messages.saveInstructions))
-			story.displayTiddler(null,config.messages.saveInstructions);
+		alert(msg.notFileUrlError);
+		if(store.tiddlerExists(msg.saveInstructions))
+			story.displayTiddler(null,msg.saveInstructions);
 		return;
 	}
 	var localPath = getLocalPath(originalPath);
 	var original = loadOriginal(localPath);
 	if(original == null) {
-		alert(config.messages.cantSaveError);
-		if(store.tiddlerExists(config.messages.saveInstructions))
-			story.displayTiddler(null,config.messages.saveInstructions);
+		alert(msg.cantSaveError);
+		if(store.tiddlerExists(msg.saveInstructions))
+			story.displayTiddler(null,msg.saveInstructions);
 		return;
 	}
 	var posDiv = locateStoreArea(original);
 	if(!posDiv) {
-		alert(config.messages.invalidFileError.format([localPath]));
+		alert(msg.invalidFileError.format([localPath]));
 		return;
 	}
 	saveMain(localPath,original,posDiv);
@@ -16500,12 +16436,13 @@ ListView.columnTypes.Size = {
 	createHeader: ListView.columnTypes.String.createHeader,
 	createItem: function(place,listObject,field,columnTemplate,col,row)
 		{
+			var msg = config.messages.sizeTemplates;
 			var v = listObject[field];
 			if(v != undefined) {
 				var t = 0;
-				while(t<config.messages.sizeTemplates.length-1 && v<config.messages.sizeTemplates[t].unit)
+				while(t<msg.length-1 && v<msg[t].unit)
 					t++;
-				createTiddlyText(place,config.messages.sizeTemplates[t].template.format([Math.round(v/config.messages.sizeTemplates[t].unit)]));
+				createTiddlyText(place,msg[t].template.format([Math.round(v/msg[t].unit)]));
 			}
 		}
 };

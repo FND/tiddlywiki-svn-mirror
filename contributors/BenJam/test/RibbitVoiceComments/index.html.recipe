@@ -1,6 +1,0 @@
-recipe: $TW_ROOT/core/tiddlywiki.html.recipe
-tiddler: ../../lib/ribbit.1.6.1.js
-tiddler: ../../../MichaelMahemoff/plugins/CommentsPlugin/CommentsPlugin.js
-tiddler: ../../plugins/RibbitVoiceCommentsPlugin.js
-tiddler: ThatThing.tid
-

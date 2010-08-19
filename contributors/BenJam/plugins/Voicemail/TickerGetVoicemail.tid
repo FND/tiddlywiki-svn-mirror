@@ -4,7 +4,7 @@ tags:ticker javaScript
 ticker_interval: 60
 
 //{{{
-config.macros.RibbitVoicemail.getMessages();
+config.macros.Voicemail.getMessages();
 //}}}
 
 

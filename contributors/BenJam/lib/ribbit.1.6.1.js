@@ -25,6 +25,9 @@ HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABI
 TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, 
  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
+
+
+//{{{
 /**
  *
  * Ribbit is a first class object added to Javascript
@@ -6472,7 +6475,7 @@ Ribbit.WebRequest.prototype.getRequest = function(method, uri) {
 		r = new XMLHttpRequest();
 	}
 	if (navigator.appName.indexOf("Microsoft") < 0) {
-		netscape.security.PrivilegeManager.enablePrivilege("UniversalBrowserRead");
+		//netscape.security.PrivilegeManager.enablePrivilege("UniversalBrowserRead");
 	}
 	r.open(method, uri, Ribbit.asynchronous);
 	return r;
@@ -7841,3 +7844,4 @@ else if (/WebKit/i.test(navigator.userAgent) && onLoad) { // sniff
 	},
 	10);
 }
+//}}}

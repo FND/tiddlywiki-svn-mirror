@@ -1,3 +1,5 @@
 modifier: Ribbit
 
-Please login to the Ribbit service: <<RibbitLogin 3>>
+You must be logged into the Ribbit service to use this app: <<RibbitLogin 2 consumerKey:MzdmMjdjZGItZjAyMC00YzIzLTgxMDItYzkyOWQ2ZDdhYjY3>> or <<RibbitLogin 3 consumerKey:MDllOTljNzgtYmYwZC00YzJlLTlkZDctYmMyZmZiY2UzYjFl secretKey:ODI5OWM2MjYtNjE2MS00YWNkLWIwNTgtMDYzYjcwMjgwYmQ1>> 
+
+Don't have an account? Register at [[ribbit.com|https://www.ribbit.com/reserve.php?SSL=true]].

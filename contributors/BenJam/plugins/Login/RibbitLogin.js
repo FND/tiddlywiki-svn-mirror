@@ -26,10 +26,8 @@ if(!version.extensions.RibbitLogin){
 	(function($) {
     
 	    log = console.log;
-
-		//some defaults from benjmain.nickolls@gmail.com/Ribbit_Intro (2Legged)
-	    consumerKey = "MzdmMjdjZGItZjAyMC00YzIzLTgxMDItYzkyOWQ2ZDdhYjY3";
-	    secretKey ="YWIyNjFlN2YtNWU5Ni00YWFjLThkZTMtOTkxOTdmYWJjZTkx";
+		consumerKey = null;
+		secretKey = null;
 		var userDetails = [];
 		
 	    config.macros.RibbitLogin = {
@@ -41,13 +39,13 @@ if(!version.extensions.RibbitLogin){
 					//not enough info
 					if(authmode===null){
 						// log("No authomde specified");
-						return
+						return;
 					}
 
 					//already siged in
 					if(Ribbit.userId!==null){
 						// log("Logged in on previous session");
-						return
+						return;
 					}
 
 					switch(parseInt(authmode)){
@@ -58,7 +56,7 @@ if(!version.extensions.RibbitLogin){
 							login3Leg(place,macroParams);
 							break;
 						default:
-					  		return
+					  		return;
 					}
 				}//handler
 	
@@ -66,97 +64,78 @@ if(!version.extensions.RibbitLogin){
 
 		//three leg (public) domain at r4m.ribbit.com (requires a redirect)
 		function login3Leg(place, macroParams){
-			
-			//Override with TiddlyVoicemail app
-			consumerKey = "MDllOTljNzgtYmYwZC00YzJlLTlkZDctYmMyZmZiY2UzYjFl";
-			secretKey = "ODI5OWM2MjYtNjE2MS00YWNkLWIwNTgtMDYzYjcwMjgwYmQ1"
-		
-			// log("Initiating 3 Legged auth");
-			if(getParam(macroParams,"consumerKey",null)!==null && getParam(macroParams,"secretKey",null)!==null){
-				consumerKey=getParam(macroParams,"consumerKey");
-				secretKey=getParam(macroParams,"secretKey");
+			if(Ribbit.userId!==null){
+				createTiddlyButton(place,"Logout",null,function(){
+					Ribbit.logoff();
+					story.refreshAllTiddlers(); 
+				})
+				return;
 			}
-			// log("Consumer key: "+consumerKey);
-			// log("Secret key: "+secretKey);
-		
+			if(getParam(macroParams,"consumerKey",null)==null || getParam(macroParams,"secretKey",null)==null){
+				// log('Bah! Couln\'t find one/both of the keys');
+				return;
+			}
+			if(getParam(macroParams,"consumerKey",null)!==null || getParam(macroParams,"secretKey",null)!==null){
+				consumerKey = getParam(macroParams,"consumerKey",null);
+				secretKey = getParam(macroParams,"secretKey",null);
+				// log('Keys stored');
+			}
 			if(!Ribbit.isLoggedIn || !Ribbit.checkAccessTokenExpiry()){
 				Ribbit.init3Legged(consumerKey, secretKey);
-				var win=null;
-		
-				//innner function to handle login on seperate window
-				var gotUrlCallback = function(url){
-					// log(url);				
-					//poll the newly created window for login
-					var pollApproved = function(){
-						setTimeout(function(){
-							var callBack = function(result){
-								if(!result.hasError){
-									// log("Logged in, now do something useful with it!");
-									win.close();
-									return
-								}
-								else{
-									if(!Ribbit.userId){
-										pollApproved();
-									}
-								}
-							};//callBack
-							Ribbit.checkAuthenticatedUser(callBack);
-						},4000); //setTimeout
-					}; //pollApproved
-					createTiddlyButton(place,"Login", null, function(){
-						win = window.open(url, "r4mlogin","width=1024,height=800,toolbar:no");
-						pollApproved();
-						return false
+				createTiddlyButton(place,"Login to Ribbit Mobile", null, function(){
+					Ribbit.getAuthenticatedUserInPopup(function(){
+						// log("Logged in, now do something useful with it");
+						story.refreshAllTiddlers(); 
+					}, "G", "width=1024,height=600,toolbar:no")
 					});
-			
-				}//gotUrlCallback
-		
-				//get a unique url for Ribbit login and send to callback
-				Ribbit.createUserAuthenticationUrl(gotUrlCallback);
+
 			}//if
 		}//login
 
 		//2legged (private domain) authentication 
 		function login2Leg(place, macroParams){
-			Ribbit.init(consumerKey);
-			// log("init with consumer Key "+consumerKey);
-	
-			// if(getParam(macroParams,"consmerKey",null)!==null){
-			// 	consumerKey = getParam(macroParams,"consmerKey");
-			// 	log("New consumer key: "+consumerKey);
-			// }		
-
-			userDetails.push(['username','Username']);
-			userDetails.push(['password','Password']);
-									
-			var f = createTiddlyElement(place,"form",null);
-			for(var d=0; d<userDetails.length; d++){
-				createTiddlyElement(f,'span',null,null,userDetails[d][1]);
-				if(userDetails[d][0] == 'password') {
-					var input = createTiddlyElement(f,'input',null,null,null,{'type':'password'});
-				}
-				else {
-					var input = createTiddlyElement(f,'input',null);
-				}
-				input.setAttribute('name',userDetails[d][0]);
+			if(Ribbit.userId!==null){
+				createTiddlyButton(place,"Logout",null,function(){
+					Ribbit.logoff();
+					story.refreshAllTiddlers();
+				})
 			}
-			var btn = createTiddlyButton(f,'Sign in',null,function(){
-				var i = f.getElementsByTagName('input');
-				// log(i[0].value);
-				// log(i[1].value);
-				Ribbit.login(function(result){
-					// log(result)
-	            	if(result.hasError){
-	                	// log("Bah, couldn't login");
-	            	}else{
-	                	// log("Logged in, now do something useful with it!");
-	            	}
-	        	},i[0].value, i[1].value);
-			});
-			return
+			if(getParam(macroParams,"consumerKey",null)==null){
+				// log("Bah! Couldn\'t find keys");
+				return;
+			}
+			consumerKey = getParam(macroParams,"consumerKey");
+			Ribbit.init(consumerKey);
+			
+			if(!$('input:password')){
+				userDetails.push(['username','Username']);
+				userDetails.push(['password','Password']);
+				var f = createTiddlyElement(place,"form",null);
+				for(var d=0; d<userDetails.length; d++){
+					createTiddlyElement(f,'span',null,null,userDetails[d][1]);
+					if(userDetails[d][0] == 'password') {
+						var input = createTiddlyElement(f,'input',null,null,null,{'type':'password'});
+					}
+					else {
+						var input = createTiddlyElement(f,'input',null);
+					}
+					input.setAttribute('name',userDetails[d][0]);
+				}
+				var btn = createTiddlyButton(f,'Sign in',null,function(){
+					var i = f.getElementsByTagName('input');
+					Ribbit.login(function(result){
+		            	if(result.hasError){
+							// log("Bah! Couldn\'t log in");
+		            	}else{
+		                	// log("Logged in, now do something useful with it!");
+							story.refreshAllTiddlers(); 
+		            	}
+		        	},i[0].value, i[1].value);
+				});
+			}
+			return;
 		}
 
 	})(jQuery);
-}//end of instal only once
+}//end of install only once
 //}}}
