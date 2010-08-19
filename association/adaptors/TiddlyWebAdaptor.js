@@ -337,7 +337,7 @@ adaptor.putTiddlerCallback = function(status, context, responseText, uri, xhr) {
 	context.httpStatus = xhr.status;
 	if(context.status) {
 		var bag = xhr.getResponseHeader("Location").
-			split("/bags/")[1].split("/")[0]; // XXX: assumes /bags/ not in server_prefix
+			split("/bags/").pop().split("/")[0];
 		context.tiddler.fields["server.bag"] = bag;
 		var etag = xhr.getResponseHeader("Etag");
 		if(etag) {
