@@ -6,7 +6,7 @@ tags: systemConfig
 
 /***
 |TableViewPlugin|
-|Version|0.3|
+|Version|0.4|
 |Author|Ben Gillies|
 |Type|plugin|
 |Description|view tiddlers in a table suitable for copying into excel|
@@ -116,6 +116,8 @@ In this case, title is always used as the default first column.
                         wikify(tiddler[heading], currentCell[0]);
                     } else if (heading in tiddler.fields) {
                         wikify(tiddler.fields[heading], currentCell[0]);
+                    } else if (store.getTiddlerSlice(tiddler.title, heading)) {
+                        wikify(store.getTiddlerSlice(tiddler.title, heading);
                     } else {
                         wikify(fetchValue(), currentCell[0]);
                     }
