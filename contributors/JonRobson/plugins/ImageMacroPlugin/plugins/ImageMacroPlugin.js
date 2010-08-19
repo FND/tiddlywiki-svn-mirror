@@ -1,6 +1,6 @@
 /***
 |''Name''|ImageMacroPlugin|
-|''Version''|0.6.7|
+|''Version''|0.6.8|
 |''Description''|Allows the rendering of svg images in a TiddlyWiki|
 |''Author''|Osmosoft|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
@@ -195,10 +195,11 @@ var macro = config.macros.image = {
 					url: imageSource,
 					beforeSend: function(xhr) {
 						xhr.setRequestHeader("Accept", "application/json,*/*");
+						xhr.setRequestHeader("X-ControlView", "false"); // for tiddlyspace usage
 					},
 					success: function(tiddler, status, xhr) {
 						if(!tiddler) {
-							return;
+							return macro.renderBinaryImageUrl(newplace, imageSource, options);
 						}
 						var header = xhr.getResponseHeader("content-type");
 						var contentType;
@@ -252,6 +253,19 @@ var macro = config.macros.image = {
 	renderBinaryImageUrl: function(place, src, options) {
 		var container = $('<div class="image" />').appendTo(place)[0];
 		var image = new Image(); // due to weird scaling issues where you use just a width or just a height
+		var createImageTag = function(userW, userH) {
+			var img = $("<img />");
+			img.attr("src", src);
+			img.appendTo(container);
+			if(userH) {
+				img.attr("height", userH);
+			}
+			if(userW) {
+				img.attr("width", userW);
+			}
+			img.addClass(options.imageClass);
+		};
+		
 		image.onload = function() {
 			var w = image.width;
 			var h = image.height;
@@ -265,17 +279,10 @@ var macro = config.macros.image = {
 				ratio = userW / w;
 				userH = ratio * h;
 			}
-			var img = $("<img />");
-			img.attr("src", src);
-			img.appendTo(container);
-
-			if(userH) {
-				img.attr("height", userH);
-			}
-			if(userW) {
-				img.attr("width", userW);
-			}
-			img.addClass(options.imageClass);
+			createImageTag(userW, userH);
+		};
+		image.onerror = function() {
+			createImageTag(options.width, options.height);
 		};
 		image.src = src;
 	},
