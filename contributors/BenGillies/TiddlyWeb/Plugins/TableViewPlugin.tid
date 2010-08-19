@@ -117,7 +117,7 @@ In this case, title is always used as the default first column.
                     } else if (heading in tiddler.fields) {
                         wikify(tiddler.fields[heading], currentCell[0]);
                     } else if (store.getTiddlerSlice(tiddler.title, heading)) {
-                        wikify(store.getTiddlerSlice(tiddler.title, heading);
+                        wikify(store.getTiddlerSlice(tiddler.title, heading), currentCell[0]);
                     } else {
                         wikify(fetchValue(), currentCell[0]);
                     }
