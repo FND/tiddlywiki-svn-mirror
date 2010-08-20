@@ -11,6 +11,7 @@ The script "bld" can be used to cook these recipes.
 Files are created in /cooked.
 
 In preparation for a release, the following steps need to be taken:
+* update changelog (http://trac.tiddlywiki.org/wiki/History)
 * set version number in Trunk/core/js/Version.js
 * create recipe in Trunk/core/recipes/
 * if applicable, update copyright notices (in core/html/copyright.txt and
@@ -33,7 +34,7 @@ server as follows:
 The script "upload" can be used to upload the index and empty documents onto
 the tiddlywiki.com server (you will be prompted for username and password twice).
 
-Immediately after a release, the version number should be incremented and marked
-as alpha.
-In addition, the changelog should be updated with the release date:
-    http://trac.tiddlywiki.org/wiki/History
+Immediately after a release:
+* increment version number, marked as alpha
+* ensure changelog contains release date (http://trac.tiddlywiki.org/wiki/History)
+* announce release both on the mailing lists and on Twitter (@TiddlyWiki)
