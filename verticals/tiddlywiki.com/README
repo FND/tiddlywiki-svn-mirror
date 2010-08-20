@@ -12,6 +12,7 @@ Files are created in /cooked.
 
 In preparation for a release, the following steps need to be taken:
 * update changelog (http://trac.tiddlywiki.org/wiki/History)
+* update locale strings in Trunk/association/locales/core/en/locale.en.js
 * set version number in Trunk/core/js/Version.js
 * create recipe in Trunk/core/recipes/
 * if applicable, update copyright notices (in core/html/copyright.txt and
