@@ -2,17 +2,20 @@
 |''Name''|TiddlyWebConfig|
 |''Description''|configuration settings for TiddlyWebWiki|
 |''Author''|FND|
-|''Version''|1.3.0|
+|''Version''|1.3.1|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/plugins/TiddlyWebConfig.js|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
-|''Requires''|TiddlyWebAdaptor|
+|''Requires''|TiddlyWebAdaptor ServerSideSavingPlugin|
 |''Keywords''|serverSide TiddlyWeb|
 !Code
 ***/
 //{{{
 (function($) {
 
+if(!config.extensions.ServerSideSavingPlugin) {
+	throw "Missing dependency: ServerSideSavingPlugin";
+}
 if(!config.adaptors.tiddlyweb) {
 	throw "Missing dependency: TiddlyWebAdaptor";
 }
