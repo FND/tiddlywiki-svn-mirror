@@ -7,7 +7,7 @@
 |''Date:''|Aug 20, 2010|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
-|''~CoreVersion:''|2.6.1|
+|''~CoreVersion:''|2.6.0|
 ***/
 
 //{{{
