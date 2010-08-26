@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|FND|
 |''Contributors''|Chris Dent, Martin Budden|
-|''Version''|1.3.6|
+|''Version''|1.3.7|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/|
@@ -28,6 +28,7 @@ adaptor.serverLabel = "TiddlyWeb";
 adaptor.mimeType = "application/json";
 
 adaptor.parsingErrorMessage = "Error parsing result from server";
+adaptor.noBagErrorMessage = "no bag specified for tiddler";
 adaptor.locationIDErrorMessage = "no bag or recipe specified for tiddler"; // TODO: rename
 
 // retrieve current status (requires TiddlyWeb status plugin)
@@ -471,17 +472,15 @@ adaptor.prototype.moveTiddler = function(from, to, context, userParams, callback
 adaptor.prototype.deleteTiddler = function(tiddler, context, userParams, callback) {
 	context = this.setContext(context, userParams, callback);
 	context.title = tiddler.title; // XXX: not required!?
-	var uriTemplate = "%0/%1/%2/tiddlers/%3";
+	var uriTemplate = "%0/bags/%1/tiddlers/%2";
 	var host = context.host || this.fullHostName(tiddler.fields["server.host"]);
-	try {
-		var workspace = adaptor.resolveWorkspace(tiddler.fields["server.workspace"]);
-	} catch(ex) {
-		return adaptor.locationIDErrorMessage;
+	var bag = tiddler.fields["server.bag"];
+	if(!bag) {
+		return adaptor.noBagErrorMessage;
 	}
-	var uri = uriTemplate.format([host, workspace.type + "s",
-		adaptor.normalizeTitle(workspace.name),
+	var uri = uriTemplate.format([host, adaptor.normalizeTitle(bag),
 		adaptor.normalizeTitle(tiddler.title)]);
-	var etag = adaptor.generateETag(workspace, tiddler);
+	var etag = adaptor.generateETag({ type: "bag", name: bag }, tiddler);
 	var headers = etag ? { "If-Match": etag } : null;
 	var req = httpReq("DELETE", uri, adaptor.deleteTiddlerCallback, context, headers,
 		null, null, null, null, true);
