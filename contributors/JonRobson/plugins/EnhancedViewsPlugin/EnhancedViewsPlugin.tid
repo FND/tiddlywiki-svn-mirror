@@ -11,7 +11,7 @@ tags: systemConfig
 <<view title linkexternal prefix:/foo suffix:/bar>>
 * temporarily adds <<view el>> to support more complicated stuff until transclusion can be done.
 |
-|''Version:''|0.61|
+|''Version:''|0.6.2|
 |''Date:''|April 2010|
 |''Source:''||
 |''Author:''|Jon Robson|
@@ -72,7 +72,7 @@ config.macros.view.views.linkexternal= function(value,place,params,wikifier,para
         label = config.macros.view.transclusion(label,tiddler);
         if(value.substr(0,5) != "http:"){
         	value = value.replace("/","%2F");
-        	value = escape(value);
+        	value = encodeURI(value);
         }
         var html = "<a href=\""+prefix+value+suffix+"\">"+label+"</a>";
 		jQuery(place).append(html)
