@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|FND|
 |''Contributors''|Chris Dent, Martin Budden|
-|''Version''|1.3.7|
+|''Version''|1.3.8|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/|
@@ -579,9 +579,9 @@ adaptor.resolveWorkspace = function(workspace) {
 };
 
 adaptor.generateETag = function(workspace, tiddler) {
-	var etag = tiddler.fields["server.etag"];
+	var revision = tiddler.fields["server.page.revision"];
+	var etag = revision == "false" ? null : tiddler.fields["server.etag"];
 	if(!etag && workspace.type == "bag") {
-		var revision = tiddler.fields["server.page.revision"];
 		if(typeof revision == "undefined") {
 			revision = "0";
 		} else if(revision == "false") {
