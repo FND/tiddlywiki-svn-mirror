@@ -2,7 +2,7 @@
 |''Name''|RandomColorPalettePlugin|
 |''Description''|Adds a random color palette to TiddlyWiki|
 |''Author''|Jon Robson|
-|''Version''|1.2.2|
+|''Version''|1.2.3|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/contributors/JonRobson/plugins/RandomColorPalettePlugin/RandomColorPalettePlugin.js|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
@@ -29,6 +29,8 @@ Seeds the randomiser with a value for the darkest color tone (0 being darkest, 1
 
 huevariance: [0,90]
 Given a certain hue, specify the angle from the secondary colour to which the secondary and tertiary colours should be determined.
+
+Note parameters can be discovered by viewing the ColorPaletteParameter slice within the generated ColorPalette.
 !Code
 ***/
 //{{{
@@ -95,7 +97,7 @@ Given a certain hue, specify the angle from the secondary colour to which the se
 		generateRandomNumber: function(min, max, info) {
 			var num = (Math.random() * 1);
 			if(!info) {
-				info = {attempts:0};
+				info = { attempts:0 };
 			}
 			info.attempts += 1;
 			var good = true;
@@ -109,10 +111,42 @@ Given a certain hue, specify the angle from the secondary colour to which the se
 				if(info.attempts < 5) {
 					return macro.generateRandomNumber(min, max, info);
 				} else {
-					return max || 1;
+					if(max) {
+						return max;
+					} else if(min) {
+						return min;
+					} else {
+						return 1;
+					}
 				}
 			}
 			return num;
+		},
+		getExistingPalette: function(asJSON) {
+			var title = "ColorPalette";
+			var tiddlerText;
+			if(store.tiddlerExists(title)) {
+				tiddlerText = store.getTiddlerText(title);
+			} else if(store.isShadowTiddler(title)){
+				tiddlerText = config.shadowTiddlers[title];
+			}
+			if(asJSON) {
+				var json = {};
+				if(tiddlerText) {
+					var lines = tiddlerText.split("\n");
+					for(var i = 0; i < lines.length; i++) {
+						var definition = lines[i].split(":");
+						if(definition.length == 2) {
+							var name = definition[0].trim();
+							var value = definition[1].trim();
+							json[name] = value;
+						}
+					}
+				}
+				return json;
+			} else {
+				return tiddlerText;
+			}
 		},
 		generatePalette: function(options, save) {
 			var outputRGB = options.rgb && options.rgb[0];
@@ -120,27 +154,13 @@ Given a certain hue, specify the angle from the secondary colour to which the se
 				return;
 			}
 			this.inprogress = true;
-			var palette = {
-				Background: "#fff",
-				Foreground: "#000",
-				PrimaryPale: "#8cf",
-				PrimaryLight: "#FF7673",
-				PrimaryMid: "#A60400",
-				PrimaryDark: "#A60400",
-				SecondaryPale: "#ffc",
-				SecondaryLight: "#fe8",
-				SecondaryMid: "#db4",
-				SecondaryDark: "#841",
-				TertiaryPale: "#eee",
-				TertiaryLight: "#ccc",
-				TertiaryMid: "#999",
-				TertiaryDark: "#666"
-			};
+			var palette = macro.getExistingPalette(true);
 			var hue = options.hue ? parseInt(options.hue[0]) : Math.floor(Math.random() * 359);
 			var saturation = options.saturation ? parseFloat(options.saturation[0]) : macro.generateRandomNumber(0.3, 0.7);
-			var pale = options.lightness ? parseFloat(options.lightness[0]) : macro.generateRandomNumber(0.7);
-			var dark = options.darkest ? parseFloat(options.darkest[0]) : 0;
-			var lightness_values = {Dark:dark, Mid:pale - ( ( pale - dark ) / 2 ), Light:pale - ( ( pale - dark ) / 4 ), Pale:pale};
+			var dark = options.darkest ? parseFloat(options.darkest[0]) : macro.generateRandomNumber(0, 0.1);
+			var pale = options.lightness ? parseFloat(options.lightness[0]) : macro.generateRandomNumber(0.6 + dark, 1);
+			var lightness_values = {Dark:dark, Mid:pale - ( ( pale - dark ) / 2 ), 
+				Light:pale - ( ( pale - dark ) / 4 ), Pale:pale};
 
 			var opposite_hue = (hue + 180) % 360;
 			var seed = options.huevariance ? options.huevariance[0] : Math.floor((85 * Math.random()) + 5); // we want it to be at least 5 degrees
@@ -154,14 +174,15 @@ Given a certain hue, specify the angle from the secondary colour to which the se
 			}
 			for(var j in lightness_values) {
 				if(true) {
-					palette["Primary" + j] = HSL_TO_RGB(hue, saturation, lightness_values[j]);	
+					palette["Primary" + j] = HSL_TO_RGB(hue, saturation, lightness_values[j]);
 					palette["Secondary" + j] = HSL_TO_RGB(huetwo, saturation, lightness_values[j]);
 					palette["Tertiary" + j] = HSL_TO_RGB(huethree, saturation, lightness_values[j]);
 				}
 			}
 			palette.Background = HSL_TO_RGB(hue, saturation, 0.92);
 			palette.Foreground = HSL_TO_RGB(hue, saturation, 0.08);
-			
+			palette.ColorPaletteParameters = ["HSL([", hue, "|", seed, "], [", saturation, "],",
+				"[", dark, "|", pale, "])"].join("");
 			// construct new ColorPalette
 			var text = ["/*{{{*/\n"];
 			var colorcode;
@@ -186,7 +207,6 @@ Given a certain hue, specify the angle from the secondary colour to which the se
 			}
 			tid.text = text.join("");
 			this.inprogress = false;
-			config.macros.RandomColorPalette.LastColorPalette = {hue: hue, saturation: saturation, pale: pale, dark: dark};
 			if(save) { 
 				macro.saveColorPalette(tid);
 			}
