@@ -6,7 +6,7 @@ modifier: jon
 |''Name''|FilterTiddlersPlugin|
 |''Description''|Overrides the core filterTiddlers to provide a more complete syntax compatible with default tiddlers|
 |''Author''|Jon Robson|
-|''Version''|0.85|
+|''Version''|0.8.6|
 |''Date''|April 2010|
 |''Status''||
 |''License''|BSD|
@@ -87,7 +87,13 @@ TiddlyWiki.prototype.sortTiddlers = function(tiddlers,field,fieldType)
 	        convert = function(v){if(!v) return 0; else return parseFloat(v)};
 	        break;
 	    default:
-	        convert = function(v){return v;};
+	        convert = function(v){
+						if(typeof(v) == typeof("")) {
+							return v.toLowerCase();
+						} else {
+							return v;
+						}
+					};
 	}
 	switch(field.substr(0,1)) {
 	case "-":
@@ -99,7 +105,7 @@ TiddlyWiki.prototype.sortTiddlers = function(tiddlers,field,fieldType)
 		break;
 	}
 	if(TiddlyWiki.standardFieldAccess[field])
-		tiddlers.sort(function(a,b) {return a[field] < b[field] ? -asc : (a[field] == b[field] ? 0 : asc);});
+		tiddlers.sort(function(a,b) {return convert(a[field]) < convert(b[field]) ? -asc : (convert(a[field]) == convert(b[field]) ? 0 : asc);});
 	else{
 
 		tiddlers.sort(function(a,b) {return convert(a.fields[field]) < convert(b.fields[field]) ? -asc : (convert(a.fields[field]) == convert(b.fields[field]) ? 0 : +asc);});
