@@ -1,6 +1,6 @@
 /***
 |''Name''|ImageMacroPlugin|
-|''Version''|0.6.9|
+|''Version''|0.7.0|
 |''Description''|Allows the rendering of svg images in a TiddlyWiki|
 |''Author''|Osmosoft|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
@@ -28,6 +28,7 @@ var macro = config.macros.image = {
 	xlinkns: "http://www.w3.org/1999/xlink", 
 	svgAvailable: document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1"),
 	_fixPrefix: 1,
+	_external_cache: {},
 	isBinaryImageType: function(contentType) {
 		if(contentType && contentType.indexOf("image") === 0 &&
 			contentType.indexOf("+xml") != contentType.length - 4) {
@@ -191,22 +192,13 @@ var macro = config.macros.image = {
 			// check if we can access the json format of this url
 			var newplace = $('<div class="externalImage"/>').appendTo(place)[0];
 			try{
-				ajaxReq({ // deal with tiddlyweb binary images
-					url: imageSource,
-					beforeSend: function(xhr) {
-						xhr.setRequestHeader("Accept", "application/json,*/*");
-						xhr.setRequestHeader("X-ControlView", "false"); // for tiddlyspace usage
-					},
-					success: function(tiddler, status, xhr) {
-						if(!tiddler) {
-							return macro.renderBinaryImageUrl(newplace, imageSource, options);
-						}
-						var header = xhr.getResponseHeader("content-type");
-						var contentType;
-						if(header) {
-							header = header ? header.split(";") : [];
-							contentType = header[0] || false;
-						}
+				var img = new Image();
+				img.onload = function(ev) { 
+					return macro.renderBinaryImageUrl(newplace, imageSource, options);
+				}; 
+				img.onerror = function(ev) {
+					var renderTiddler = function(tiddler, contentType) {
+						macro._external_cache[imageSource] = {tiddler: tiddler, contentType: contentType};
 						if(contentType == 'application/json') { // assume tiddlyweb server
 							contentType = tiddler.type;
 						} else { // try and use the response as tiddler text
@@ -218,11 +210,37 @@ var macro = config.macros.image = {
 						} else {
 							return macro.renderSVGTiddler(newplace, tiddler, options);
 						}
-					},
-					error: function() {
-						return macro.renderBinaryImageUrl(newplace, imageSource, options);
+					};
+
+					var cached = macro._external_cache[imageSource];
+					if(cached) { // use cache where possible
+						renderTiddler(cached.tiddler, cached.contentType)
+					} else {
+						ajaxReq({ // deal with tiddlyweb binary images
+							url: imageSource,
+							beforeSend: function(xhr) {
+								xhr.setRequestHeader("Accept", "application/json,*/*");
+								xhr.setRequestHeader("X-ControlView", "false"); // for tiddlyspace usage
+							},
+							success: function(tiddler, status, xhr) {
+								if(!tiddler) {
+									return macro.renderBinaryImageUrl(newplace, imageSource, options);
+								}
+								var header = xhr.getResponseHeader("content-type");
+								var contentType;
+								if(header) {
+									header = header ? header.split(";") : [];
+									contentType = header[0] || false;
+								}
+								renderTiddler(tiddler, contentType);
+							},
+							error: function() {
+								return macro.renderBinaryImageUrl(newplace, imageSource, options);
+							}
+						});
 					}
-				});
+				};
+				img.src = imageSource;
 			} catch(e) { // the url is external thus our ajax request failed. we could try proxying..
 				return macro.renderBinaryImageUrl(newplace, imageSource, options); // attempt to render as image
 			}
