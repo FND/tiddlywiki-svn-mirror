@@ -15,7 +15,14 @@ The specific nature of this plugin depends on the respective server.
 * conflict detection/resolution
 * document deletion/renaming convention
 !StyleSheet
-.disabled {
+.cloak {
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 9999;
+	background-color: #000;
 	opacity: 0.5;
 }
 
@@ -211,18 +218,29 @@ var disable = function(tiddler) {
 	tiddler.isReadOnly = function() { return true; };
 	var el = story.getTiddler(tiddler.title);
 	if(el) {
-		tiddler._storyEl = el;
-		$(el).addClass("disabled");
+		var _el = $(el);
+		tiddler._ssspCache = {
+			storyEl: el,
+			styles: _el.attr("style") // XXX: cross-browser compatible?
+		};
+		_el.css("position", "relative");
+		$('<div class="cloak" />').appendTo(el);
 	}
 	return el;
 };
 
 var enable = function(tiddler) {
 	delete tiddler.isReadOnly; // TODO: restore previous instance method if any
-	var el = tiddler._storyEl;
-	delete tiddler._storyEl;
+	var el = tiddler._ssspCache.storyEl;
+	var styles = tiddler._ssspCache.styles;
+	delete tiddler._ssspCache;
 	if(el) {
-		$(el).removeClass("disabled");
+		var _el = $(el);
+		_el.removeAttr("style").
+			children(".cloak").remove();
+		if(styles) {
+			_el.attr("style", styles);
+		}
 	}
 	return el;
 };
