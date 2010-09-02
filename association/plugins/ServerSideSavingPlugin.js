@@ -11,24 +11,8 @@
 !Notes
 This plugin relies on a dedicated adaptor to be present.
 The specific nature of this plugin depends on the respective server.
-!Revision History
-!!v0.1 (2008-11-24)
-* initial release
-!!v0.2 (2008-12-01)
-* added support for local saving
-!!v0.3 (2008-12-03)
-* added Save to Web macro for manual synchronization
-!!v0.4 (2009-01-15)
-* removed ServerConfig dependency by detecting server type from the respective tiddlers
-!!v0.5 (2009-08-25)
-* raised CoreVersion to 2.5.3 to take advantage of core fixes
-!!v0.6 (2010-04-21)
-* added notification about cross-domain restrictions to ImportTiddlers
-!!v0.7 (2010-09-02)
-* replaced displayMessage with story-tiddler manipulation for save notifications
 !To Do
 * conflict detection/resolution
-* rename to ServerLinkPlugin?
 * document deletion/renaming convention
 !StyleSheet
 .disabled {
