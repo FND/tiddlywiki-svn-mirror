@@ -2,7 +2,7 @@
 |''Name''|ServerSideSavingPlugin|
 |''Description''|server-side saving|
 |''Author''|FND|
-|''Version''|0.6.4|
+|''Version''|0.7.0dev|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/plugins/ServerSideSavingPlugin.js|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
@@ -24,16 +24,31 @@ The specific nature of this plugin depends on the respective server.
 * raised CoreVersion to 2.5.3 to take advantage of core fixes
 !!v0.6 (2010-04-21)
 * added notification about cross-domain restrictions to ImportTiddlers
+!!v0.7 (2010-09-02)
+* replaced displayMessage with story-tiddler manipulation for save notifications
 !To Do
 * conflict detection/resolution
 * rename to ServerLinkPlugin?
 * document deletion/renaming convention
+!StyleSheet
+.disabled {
+	opacity: 0.5;
+}
+
+.error {
+	background-color: [[ColorPalette::Error]];
+}
 !Code
 ***/
 //{{{
 (function($) {
 
 readOnly = false; //# enable editing over HTTP
+
+var name = "StyleSheetServerSideSaving";
+config.shadowTiddlers[name] = store.getRecursiveTiddlerText(tiddler.title +
+	"##StyleSheet", "", 1);
+store.addNotification(name, refreshStyles);
 
 var plugin = config.extensions.ServerSideSavingPlugin = {};
 
@@ -64,6 +79,7 @@ plugin.sync = function(tiddlers) {
 };
 
 plugin.saveTiddler = function(tiddler) {
+	var el = disable(tiddler);
 	try {
 		var adaptor = this.getTiddlerServerAdaptor(tiddler);
 	} catch(ex) {
@@ -87,17 +103,19 @@ plugin.saveTiddler = function(tiddler) {
 
 plugin.saveTiddlerCallback = function(context, userParams) {
 	var tiddler = context.tiddler;
+	var el = enable(tiddler);
+	context.storyTiddler = el;
 	if(context.status) {
 		if(tiddler.fields.changecount == context.changecount) { //# check for changes since save was triggered
 			tiddler.clearChangeCount();
 		} else if(tiddler.fields.changecount > 0) {
 			tiddler.fields.changecount -= context.changecount;
 		}
-		plugin.reportSuccess("saved", tiddler);
+		plugin.reportSuccess("saved", tiddler, context);
 		store.setDirty(false);
 	} else {
 		if(context.httpStatus == 412) {
-			plugin.reportFailure("saveConflict", tiddler);
+			plugin.reportFailure("saveConflict", tiddler, context);
 		} else {
 			plugin.reportFailure("saveError", tiddler, context);
 		}
@@ -122,9 +140,9 @@ plugin.removeTiddlerCallback = function(context, userParams) {
 		if(tiddler.fields.deleted === "true") {
 			store.deleteTiddler(tiddler.title);
 		} else {
-			plugin.reportFailure("deleteLocalError", tiddler);
+			plugin.reportFailure("deleteLocalError", tiddler, context);
 		}
-		plugin.reportSuccess("deleted", tiddler);
+		plugin.reportSuccess("deleted", tiddler, context);
 		store.setDirty(false);
 	} else {
 		plugin.reportFailure("deleteError", tiddler, context);
@@ -136,11 +154,16 @@ plugin.getTiddlerServerAdaptor = function(tiddler) { // XXX: rename?
 	return new config.adaptors[type]();
 };
 
-plugin.reportSuccess = function(msg, tiddler) {
-	displayMessage(plugin.locale[msg].format([tiddler.title]));
+plugin.reportSuccess = function(msg, tiddler, context) {
+	if(!context.storyTiddler) {
+		displayMessage(plugin.locale[msg].format([tiddler.title]));
+	}
 };
 
 plugin.reportFailure = function(msg, tiddler, context) {
+	if(context.storyTiddler) {
+		$(context.storyTiddler).addClass("error");
+	}
 	var desc = (context && context.httpStatus) ? context.statusText :
 		plugin.locale.connectionError;
 	displayMessage(plugin.locale[msg].format([tiddler.title, desc]));
@@ -198,6 +221,26 @@ config.macros.importTiddlers.onOpen = function(ev) {
 		}
 	}
 	return _onOpen.apply(this, arguments);
+};
+
+var disable = function(tiddler) {
+	tiddler.isReadOnly = function() { return true; };
+	var el = story.getTiddler(tiddler.title);
+	if(el) {
+		tiddler._storyEl = el;
+		$(el).addClass("disabled");
+	}
+	return el;
+};
+
+var enable = function(tiddler) {
+	delete tiddler.isReadOnly; // TODO: restore previous instance method if any
+	var el = tiddler._storyEl;
+	delete tiddler._storyEl;
+	if(el) {
+		$(el).removeClass("disabled");
+	}
+	return el;
 };
 
 })(jQuery);
