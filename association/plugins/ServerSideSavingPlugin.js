@@ -152,12 +152,15 @@ plugin.reportSuccess = function(msg, tiddler, context) {
 };
 
 plugin.reportFailure = function(msg, tiddler, context) {
-	if(context.storyTiddler) {
-		$(context.storyTiddler).addClass("error");
-	}
 	var desc = (context && context.httpStatus) ? context.statusText :
 		plugin.locale.connectionError;
-	displayMessage(plugin.locale[msg].format([tiddler.title, desc]));
+	if(context.storyTiddler) {
+		var el = $(context.storyTiddler).addClass("error")[0];
+		window.scrollTo(0, ensureVisible(el)); // TODO: use animation?
+		$('<div class=annotation" />').text(desc).hide().prependTo(el).slideDown();
+	} else {
+		displayMessage(plugin.locale[msg].format([tiddler.title, desc]));
+	}
 };
 
 config.macros.saveToWeb = { // XXX: hijack existing sync macro?
