@@ -2,7 +2,7 @@
 |''Name''|RandomColorPalettePlugin|
 |''Description''|Adds a random color palette to TiddlyWiki|
 |''Author''|Jon Robson|
-|''Version''|1.2.3|
+|''Version''|1.2.4|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/contributors/JonRobson/plugins/RandomColorPalettePlugin/RandomColorPalettePlugin.js|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
@@ -204,6 +204,9 @@ Note parameters can be discovered by viewing the ColorPaletteParameter slice wit
 				tid = new Tiddler('ColorPalette');
 				tid.fields = merge({}, config.defaultCustomFields);
 				tid.modifier ='RandomColorPalette Macro';
+			} else {
+				// save location may be different
+				tid.fields = merge(tid.fields, config.defaultCustomFields);
 			}
 			tid.text = text.join("");
 			this.inprogress = false;
@@ -214,7 +217,8 @@ Note parameters can be discovered by viewing the ColorPaletteParameter slice wit
 		},
 		saveColorPalette: function(tid) {
 			// save the color palette in tid
-			tid = store.saveTiddler(tid.title, tid.title, tid.text, tid.modifier, tid.modified, tid.tags, tid.fields, false, tid.created, '');
+			tid = store.saveTiddler(tid.title, tid.title, tid.text, tid.modifier, tid.modified, 
+				tid.tags, tid.fields, false, tid.created, '');
 			// an interval is used to cope with users clicking on the palette button quickly.
 			if(macro._nextSave) {
 				window.clearTimeout(macro._nextSave);
