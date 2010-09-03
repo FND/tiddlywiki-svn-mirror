@@ -111,6 +111,16 @@ plugin.saveTiddlerCallback = function(context, userParams) {
 			plugin.reportFailure("saveError", tiddler, context);
 		}
 	}
+	var queue = refreshQueue[tiddler.title];
+	if(queue !== undefined) {
+		delete refreshQueue[tiddler.title];
+		var oldTitle = queue.shift();
+		for(var i = 0; i < queue.length; i++) {
+			var self = queue[i][0];
+			var args = queue[i][1];
+			_refreshTiddler.apply(self, args);
+		}
+	}
 };
 
 plugin.removeTiddler = function(tiddler) {
@@ -183,6 +193,24 @@ saveChanges = function(onlyIfDirty, tiddlers) {
 		_saveChanges.apply(this, arguments);
 	} else {
 		plugin.sync(tiddlers);
+	}
+};
+
+// hijack core methods to defer mode-switching (asynchronous)
+var refreshQueue = {};
+var _storeSave = TiddlyWiki.prototype.saveTiddler;
+TiddlyWiki.prototype.saveTiddler = function(title, newTitle, newBody, modifier,
+		modified, tags, fields, clearChangeCount, created, creator) {
+	refreshQueue[newTitle] = [title];
+	return _storeSave.apply(this, arguments);
+};
+var _refreshTiddler = Story.prototype.refreshTiddler;
+Story.prototype.refreshTiddler = function(title, template, force, customFields, defaultText) {
+	var queue = refreshQueue[title];
+	if(queue === undefined || window.location.protocol == "file:") {
+		return _refreshTiddler.apply(this, arguments);
+	} else {
+		queue.push([this, arguments]);
 	}
 };
 
