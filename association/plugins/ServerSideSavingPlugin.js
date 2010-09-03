@@ -217,12 +217,14 @@ config.macros.importTiddlers.onOpen = function(ev) {
 	return _onOpen.apply(this, arguments);
 };
 
+var cache = {};
+
 var disable = function(tiddler) {
 	tiddler.isReadOnly = function() { return true; };
 	var el = story.getTiddler(tiddler.title);
 	if(el) {
 		var _el = $(el);
-		tiddler._ssspCache = {
+		cache[tiddler.title] = {
 			storyEl: el,
 			styles: _el.attr("style") // XXX: cross-browser compatible?
 		};
@@ -234,9 +236,9 @@ var disable = function(tiddler) {
 
 var enable = function(tiddler) {
 	delete tiddler.isReadOnly; // TODO: restore previous instance method if any
-	var el = tiddler._ssspCache.storyEl;
-	var styles = tiddler._ssspCache.styles;
-	delete tiddler._ssspCache;
+	var el = cache[tiddler.title].storyEl;
+	var styles = cache[tiddler.title].styles;
+	delete cache[tiddler.title];
 	if(el) {
 		var _el = $(el);
 		_el.removeAttr("style").
