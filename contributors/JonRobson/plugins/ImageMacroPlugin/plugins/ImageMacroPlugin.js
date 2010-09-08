@@ -1,6 +1,6 @@
 /***
 |''Name''|ImageMacroPlugin|
-|''Version''|0.7.0|
+|''Version''|0.7.1|
 |''Description''|Allows the rendering of svg images in a TiddlyWiki|
 |''Author''|Osmosoft|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
@@ -29,6 +29,20 @@ var macro = config.macros.image = {
 	svgAvailable: document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1"),
 	_fixPrefix: 1,
 	_external_cache: {},
+	_image_tag_cache: {},
+	refreshImage: function(src) {
+		var elements = macro._image_tag_cache[src] ? macro._image_tag_cache[src] : [];
+		for(var i = 0; i < elements.length; i++) {
+			var el = $(elements[i]);
+			var src = el.attr("src");
+			var queryAt = src.indexOf("?");
+			if(queryAt > -1) {
+				src = src.substr(0, queryAt);
+			}
+			var newSrc = "%0?nocache=%1".format([src, Math.random()]);
+			el.attr("src", newSrc); // force reload
+		}
+	},
 	isBinaryImageType: function(contentType) {
 		if(contentType && contentType.indexOf("image") === 0 &&
 			contentType.indexOf("+xml") != contentType.length - 4) {
@@ -164,22 +178,23 @@ var macro = config.macros.image = {
 	},
 	supportsDataUris: false,
 	renderBinaryImageTiddler: function(place, tiddler, options) {
-		var ctype = tiddler.fields["server.content-type"] || tiddler.type;
+		var resourceURI;
+		var fields = tiddler.fields;
+		if(fields["server.type"] == 'tiddlyweb') { // construct an accurate url for the resource  
+			resourceURI = "%0%1/tiddlers/%2".format([fields['server.host'],
+				fields['server.workspace'],fields['server.title']]);
+		} else { // guess the url for the resource
+			resourceURI = tiddler.title;
+		}
+		var ctype = fields["server.content-type"] || tiddler.type;
 		if(macro.supportsDataUris && ctype) {
-			var uri = "data:%0;base64,%1".format([ctype, tiddler.text]); // TODO: fallback for legacy browsers
+			var uri = "data:%0;base64,%1".format([ctype, tiddler.text]);
+			options.src = resourceURI;
 			return macro.renderBinaryImageUrl(place, uri, options);
 		} else if(options.src) {
 			return macro.renderBinaryImageUrl(place, options.src, options);
 		} else {
-			var src;
-			var fields = tiddler.fields;
-			if(fields["server.type"] == 'tiddlyweb') { // construct an accurate url for the resource  
-				src = "%0%1/tiddlers/%2".format([fields['server.host'],
-					fields['server.workspace'],fields['server.title']]);
-			} else { // guess the url for the resource
-				src = tiddler.title;
-			}
-			return macro.renderBinaryImageUrl(place, src, options);
+			return macro.renderBinaryImageUrl(place, resourceURI, options);
 		}
 	},
 	renderImage: function(place, imageSource, options) {
@@ -278,6 +293,11 @@ var macro = config.macros.image = {
 			var img = $("<img />");
 			img.attr("src", src);
 			img.appendTo(container);
+			var srcUrl = options.src ? options.src : src;
+			if(!macro._image_tag_cache[srcUrl]) {
+				macro._image_tag_cache[srcUrl] = [];
+			}
+			macro._image_tag_cache[srcUrl].push(img);
 			if(userH) {
 				img.attr("height", userH);
 			}
