@@ -34,11 +34,6 @@ var macro = config.macros.image = {
 		var elements = macro._image_tag_cache[src] ? macro._image_tag_cache[src] : [];
 		for(var i = 0; i < elements.length; i++) {
 			var el = $(elements[i]);
-			var src = el.attr("src");
-			var queryAt = src.indexOf("?");
-			if(queryAt > -1) {
-				src = src.substr(0, queryAt);
-			}
 			var newSrc = "%0?nocache=%1".format([src, Math.random()]);
 			el.attr("src", newSrc); // force reload
 		}
