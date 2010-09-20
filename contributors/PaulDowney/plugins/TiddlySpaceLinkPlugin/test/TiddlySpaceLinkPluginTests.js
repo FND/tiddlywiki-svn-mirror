@@ -128,7 +128,10 @@
 		test('Wikifier: [[TiddlerTitle]]@SpaceName', function() {
 			var place = createWikifyTestElement("[[TiddlerTitle]]@SpaceName");
 			equals($(place).text(), "TiddlerTitle");
-			testTiddlySpaceLink($(place).find('a'), "http://spacename.tiddlyspace.com#TiddlerTitle", "TiddlerTitle");
+			var link = $(place).find('a');
+			testTiddlySpaceLink(link, "http://spacename.tiddlyspace.com#TiddlerTitle", "TiddlerTitle");
+			equals($(link).attr("tiddlyspace"), "SpaceName");
+			equals($(link).attr("tiddler"), "TiddlerTitle");
 		});
 
 		test('Wikifier: [[Tiddler Name]]@Space-Name99', function() {
@@ -228,7 +231,6 @@
 			equals($(place).text(), "Tiddler");
 			testTiddlyLink($(place).find('a'), "Tiddler", "Tiddler");
 		});
-
 
 	});
 

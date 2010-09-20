@@ -49,7 +49,7 @@ function createSpaceLink(place, spaceName, title, alt) {
 	} else {
 		a = createExternalLink(place, link, spaceName);
 	}
-	jQuery(a).addClass('tiddlySpaceLink');
+	jQuery(a).addClass('tiddlySpaceLink').attr('tiddlyspace', spaceName).attr('tiddler', title);
 	return a;
 }
 
