@@ -24,13 +24,23 @@ TiddlySpace includes the [[TiddlySpaceLinkPlugin]] which provides WikiText marku
 /*global jQuery config createTiddlyText createExternalLink */
 
 function createSpaceLink(place, spaceName, title, alt) {
-	var link, a;
+	var link, a, currentSpaceName;
 	try {
 		// seems safe to expect this to have been initialised within TiddlySpace
 		link = config.extensions.tiddlyweb.status.server_host.url;
 	} catch (ex) {
 		link = "http://tiddlyspace.com";
 	}
+	try {
+		if (spaceName === config.extensions.tiddlyspace.currentSpace.name) {
+			a = createTiddlyLink(place, title, false);
+			jQuery(a).text(alt || title);
+			return a;
+		}
+	} catch (ex) {
+		currentSpaceName = false;
+	}
+
 	// assumes a http URI without user:pass@ prefix
 	link = link.replace("http://", "http://" + spaceName.toLowerCase() + ".");
 
@@ -40,6 +50,7 @@ function createSpaceLink(place, spaceName, title, alt) {
 		a = createExternalLink(place, link, spaceName);
 	}
 	jQuery(a).addClass('tiddlySpaceLink');
+	return a;
 }
 
 (function ($) {

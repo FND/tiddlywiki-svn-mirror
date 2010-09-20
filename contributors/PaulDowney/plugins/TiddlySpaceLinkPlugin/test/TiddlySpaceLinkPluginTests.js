@@ -20,6 +20,14 @@
 			equals(a.attr("title"), "External link to " + url);
 		}
 
+		function testTiddlyLink(a, tiddler, text){
+			equals(a.attr("href"), "javascript:;");
+			equals(a.text(), text);
+			equals(a.attr("refresh"), "link");
+			equals(a.attr("tiddlylink"), tiddler, "tiddlylink attribute");
+			ok(a.hasClass("tiddlyLink"), "has class 'tiddlyLink'");
+		}
+
 		function testTiddlySpaceLink(a, url, text){
 			testExternalLink(a, url, text);
 			ok(a.hasClass("tiddlySpaceLink"), "has class 'tiddlySpaceLink'");
@@ -135,6 +143,12 @@
 			testTiddlySpaceLink($(place).find('a'), "http://space-name99.tiddlyspace.com#%5B%5BTiddler%20Name%5D%5D", "Alias for tiddler");
 		});
 
+		test('Wikifier: [[Alias for space|@space]]', function() {
+			var place = createWikifyTestElement("[[Alias for space|@space]]");
+			equals($(place).text(), "Alias for space");
+			testTiddlySpaceLink($(place).find('a'), "http://space.tiddlyspace.com", "Alias for space");
+		});
+
 		test('Wikifier: [[Tiddler Name]] some text', function() {
 			var place = createWikifyTestElement("[[Tiddler Name]] some text");
 			equals($(place).text(), "Tiddler Name some text");
@@ -182,6 +196,43 @@
 			equals($(place).text(), "foo@FooBar.com");
 			equals($(place).find('a').length, 0);
 		});
+
+    jQuery(document).ready(function () {
+        module("TiddlySpaceLinkPluginInSpace", {
+			setup: function () {
+				config.extensions.tiddlyspace = {
+					currentSpace: { 
+						name: "currentspace"
+					}
+				};
+			},
+			teardown: function () {
+				config.extensions.tiddlyspace = undefined;
+			}
+		});
+
+		test('Wikifier: [[Tiddler]]@spacename', function() {
+			var place = createWikifyTestElement("[[Tiddler]]@spacename");
+			equals($(place).text(), "Tiddler");
+			testTiddlySpaceLink($(place).find('a'), "http://spacename.tiddlyspace.com#Tiddler", "Tiddler");
+		});
+
+		test('Wikifier: [[TiddlySpaceLinkPlugin]]@currentspace', function() {
+			var place = createWikifyTestElement("[[TiddlySpaceLinkPlugin]]@currentspace");
+			equals($(place).text(), "TiddlySpaceLinkPlugin");
+			testTiddlyLink($(place).find('a'), "TiddlySpaceLinkPlugin", "TiddlySpaceLinkPlugin");
+		});
+
+		test('Wikifier: [[Tiddler]]@currentspace', function() {
+			var place = createWikifyTestElement("[[Tiddler]]@currentspace");
+			equals($(place).text(), "Tiddler");
+			testTiddlyLink($(place).find('a'), "Tiddler", "Tiddler");
+		});
+
+
+	});
+
+
 
     });
 })(jQuery);
