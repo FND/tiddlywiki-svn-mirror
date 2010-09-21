@@ -5,6 +5,7 @@
 |''Author''|Osmosoft|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
 |''Notes''|Currently only works in modern browsers (not IE)|
+|''Requires''|BinaryTiddlersPlugin|
 |''Usage''|{{{<<image SVG>>}}} will render the text of the tiddler with title SVG as an SVG image (but not in ie where it will fail silently)|
 !Notes
 Binary tiddlers in TiddlyWeb when passed through the wikifier will be shown as images.
