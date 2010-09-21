@@ -21,7 +21,7 @@ TiddlySpace includes the [[TiddlySpaceLinkPlugin]] which provides WikiText marku
 ***/
 //{{{
 /*jslint onevar: false nomen: false plusplus: false */
-/*global jQuery config createTiddlyText createExternalLink */
+/*global jQuery config createTiddlyText createExternalLink createTiddlyLink */
 
 function createSpaceLink(place, spaceName, title, alt) {
 	var link, a, currentSpaceName;
@@ -37,7 +37,7 @@ function createSpaceLink(place, spaceName, title, alt) {
 			jQuery(a).text(alt || title);
 			return a;
 		}
-	} catch (ex) {
+	} catch (ex1) {
 		currentSpaceName = false;
 	}
 
@@ -64,7 +64,7 @@ function createSpaceLink(place, spaceName, title, alt) {
 		match: config.textPrimitives.unWikiLink + "?" + config.textPrimitives.anyLetter + "*@" + config.textPrimitives.spaceName + ".?",
 		lookaheadRegExp: new RegExp(config.textPrimitives.unWikiLink + "?(" + config.textPrimitives.anyLetter + "*)@(" + config.textPrimitives.spaceName + ")", "mg"),
 		handler: function (w) {
-			if (w.matchText.substr(w.matchText.length-1, 1) === '.') {
+			if (w.matchText.substr(w.matchText.length - 1, 1) === '.') {
 				w.outputText(w.output, w.matchStart, w.nextMatch);
 				return;
 			}
