@@ -1,6 +1,6 @@
 /***
 |''Name''|ImageMacroPlugin|
-|''Version''|0.7.1|
+|''Version''|0.7.2|
 |''Description''|Allows the rendering of svg images in a TiddlyWiki|
 |''Author''|Osmosoft|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
@@ -382,7 +382,13 @@ config.macros.view.views.wikified = function(value, place, params, wikifier, par
 	}
 };
 config.macros.view.views.image = function(value, place, params, wikifier, paramString, tiddler) {
-	invokeMacro(place, "image", "%0 %1".format([value, params.splice(2).join(" ")]), null, tiddler);
+	var title;
+	if(params[0] == "text") {
+		title = tiddler.title; // in text case we are asking to render the current tiddler
+	} else {
+		title = value; // a field can point to another tiddler.
+	}
+	invokeMacro(place, "image", "%0 %1".format([title, params.splice(2).join(" ")]), null, tiddler);
 };
 
 config.shadowTiddlers.StyleSheetImageMacro = ".wikifiedImage svg, .wikifiedImage .image { width: 80%; }";
