@@ -47,7 +47,7 @@ function createSpaceLink(place, spaceName, title, alt) {
 	if (title) {
 		a = createExternalLink(place, link + "#" + encodeURIComponent(String.encodeTiddlyLink(title)), alt || title);
 	} else {
-		a = createExternalLink(place, link, spaceName);
+		a = createExternalLink(place, link, alt || spaceName);
 	}
 	jQuery(a).addClass('tiddlySpaceLink').attr('tiddlyspace', spaceName).attr('tiddler', title);
 	return a;
@@ -76,6 +76,22 @@ function createSpaceLink(place, spaceName, title, alt) {
 			var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 			if (lookaheadMatch && lookaheadMatch.index === w.matchStart) {
 				createSpaceLink(w.output, lookaheadMatch[2], lookaheadMatch[1]);
+				w.nextMatch = this.lookaheadRegExp.lastIndex;
+			}
+		}
+	},
+	{
+		name: "tiddlySpaceLink",
+		match: "\\[\\[[^\\|]*\\|*@" + config.textPrimitives.spaceName + "\\]",
+		lookaheadRegExp: new RegExp("\\[\\[(.*?)(?:\\|@*(.*?))?\\]\\]", "mg"),
+		handler: function (w) {
+			this.lookaheadRegExp.lastIndex = w.matchStart;
+			var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
+			if (lookaheadMatch && lookaheadMatch.index === w.matchStart) {
+				var space = lookaheadMatch[2] || lookaheadMatch[1];
+				space = space.replace(/^@/, "");
+				var alt = lookaheadMatch[1];
+				createSpaceLink(w.output, space, "", alt);
 				w.nextMatch = this.lookaheadRegExp.lastIndex;
 			}
 		}

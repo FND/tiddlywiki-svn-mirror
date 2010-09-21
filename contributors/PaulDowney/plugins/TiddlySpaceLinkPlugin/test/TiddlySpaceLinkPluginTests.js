@@ -12,17 +12,17 @@
 		}
 
 		function testExternalLink(a, url, text){
-			equals(a.attr("href"), url);
-			equals(a.text(), text);
-			equals(a.attr("refresh"), undefined);
-			equals(a.attr("tiddlyLink"), undefined);
+			equals(a.attr("href"), url, "href");
+			equals(a.text(), text, "text");
+			equals(a.attr("refresh"), undefined, "refresh");
+			equals(a.attr("tiddlylink"), undefined, "tiddlyLink");
 			ok(a.hasClass("externalLink"), "has class 'externalLink'");
-			equals(a.attr("title"), "External link to " + url);
+			equals(a.attr("title"), "External link to " + url, "title");
 		}
 
 		function testTiddlyLink(a, tiddler, text){
-			equals(a.attr("href"), "javascript:;");
-			equals(a.text(), text);
+			equals(a.attr("href"), "javascript:;", "href");
+			equals(a.text(), text, "text");
 			equals(a.attr("refresh"), "link");
 			equals(a.attr("tiddlylink"), tiddler, "tiddlylink attribute");
 			ok(a.hasClass("tiddlyLink"), "has class 'tiddlyLink'");
@@ -146,12 +146,6 @@
 			testTiddlySpaceLink($(place).find('a'), "http://space-name99.tiddlyspace.com#%5B%5BTiddler%20Name%5D%5D", "Alias for tiddler");
 		});
 
-		test('Wikifier: [[Alias for space|@space]]', function() {
-			var place = createWikifyTestElement("[[Alias for space|@space]]");
-			equals($(place).text(), "Alias for space");
-			testTiddlySpaceLink($(place).find('a'), "http://space.tiddlyspace.com", "Alias for space");
-		});
-
 		test('Wikifier: [[Tiddler Name]] some text', function() {
 			var place = createWikifyTestElement("[[Tiddler Name]] some text");
 			equals($(place).text(), "Tiddler Name some text");
@@ -234,7 +228,23 @@
 
 	});
 
+		test('Wikifier: [[@tiddlylinkedspace]]', function() {
+			var place = createWikifyTestElement("[[@tiddlylinkedspace]]");
+			equals($(place).text(), "@tiddlylinkedspace");
+			testTiddlySpaceLink($(place).find('a'), "http://tiddlylinkedspace.tiddlyspace.com", "@tiddlylinkedspace");
+		});
 
+		test('Wikifier: [[another space|@linkedspace]]', function() {
+			var place = createWikifyTestElement("[[another space|@linkedspace]]");
+			equals($(place).text(), "another space");
+			testTiddlySpaceLink($(place).find('a'), "http://linkedspace.tiddlyspace.com", "another space");
+		});
+
+		test('Wikifier: [[@another space|@linkedspace]]', function() {
+			var place = createWikifyTestElement("[[@another space|@linkedspace]]");
+			equals($(place).text(), "@another space");
+			testTiddlySpaceLink($(place).find('a'), "http://linkedspace.tiddlyspace.com", "@another space");
+		});
 
     });
 })(jQuery);
