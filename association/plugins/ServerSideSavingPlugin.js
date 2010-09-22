@@ -114,7 +114,6 @@ plugin.saveTiddlerCallback = function(context, userParams) {
 	var queue = refreshQueue[tiddler.title];
 	if(queue !== undefined) {
 		delete refreshQueue[tiddler.title];
-		var oldTitle = queue.shift();
 		for(var i = 0; i < queue.length; i++) {
 			var self = queue[i][0];
 			var args = queue[i][1];
@@ -201,7 +200,7 @@ var refreshQueue = {};
 var _storeSave = TiddlyWiki.prototype.saveTiddler;
 TiddlyWiki.prototype.saveTiddler = function(title, newTitle, newBody, modifier,
 		modified, tags, fields, clearChangeCount, created, creator) {
-	refreshQueue[newTitle] = [title];
+	refreshQueue[newTitle] = [];
 	return _storeSave.apply(this, arguments);
 };
 var _refreshTiddler = Story.prototype.refreshTiddler;
