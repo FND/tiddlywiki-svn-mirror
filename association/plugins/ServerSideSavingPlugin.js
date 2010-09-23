@@ -192,7 +192,7 @@ Story.prototype.saveTiddler = function(title, minorUpdate) {
 	var dirty = el ? el.getAttribute("dirty") : null;
 
 	var _template = DEFAULT_VIEW_TEMPLATE;
-	DEFAULT_VIEW_TEMPLATE = DEFAULT_EDIT_TEMPLATE;
+	DEFAULT_VIEW_TEMPLATE = el.getAttribute("template");
 
 	title = _storySave.apply(this, arguments);
 
