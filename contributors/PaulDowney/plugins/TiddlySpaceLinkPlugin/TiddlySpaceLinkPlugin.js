@@ -33,6 +33,7 @@ function createSpaceLink(place, spaceName, title, alt) {
 	}
 	try {
 		if (spaceName === config.extensions.tiddlyspace.currentSpace.name) {
+			title = title || spaceName;
 			a = createTiddlyLink(place, title, false);
 			jQuery(a).text(alt || title);
 			return a;

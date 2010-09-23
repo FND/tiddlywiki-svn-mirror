@@ -228,6 +228,18 @@
 			}
 		});
 
+		test('Wikifier: @spacename', function() {
+			var place = createWikifyTestElement("@spacename");
+			equals($(place).text(), "spacename");
+			testTiddlySpaceLink($(place).find('a'), "http://spacename.tiddlyspace.com", "spacename");
+		});
+
+		test('Wikifier: @currentspace', function() {
+			var place = createWikifyTestElement("@currentspace");
+			equals($(place).text(), "currentspace");
+			testTiddlyLink($(place).find('a'), "currentspace", "currentspace");
+		});
+
 		test('Wikifier: [[Tiddler]]@spacename', function() {
 			var place = createWikifyTestElement("[[Tiddler]]@spacename");
 			equals($(place).text(), "Tiddler");
@@ -244,20 +256,6 @@
 			var place = createWikifyTestElement("[[Tiddler]]@currentspace");
 			equals($(place).text(), "Tiddler");
 			testTiddlyLink($(place).find('a'), "Tiddler", "Tiddler");
-		});
-
-		test('Wikifier: @space-name', function() {
-			var place = createWikifyTestElement("@space-name");
-			equals($(place).text(), "space-name");
-			testTiddlySpaceLink($(place).find('a'), "http://space-name.tiddlyspace.com", "space-name");
-			$(place).find('a');
-		});
-
-		test('Wikifier: @space-name', function() {
-			var place = createWikifyTestElement("@space-name");
-			equals($(place).text(), "space-name");
-			testTiddlySpaceLink($(place).find('a'), "http://space-name.tiddlyspace.com", "space-name");
-			$(place).find('a');
 		});
 
 	});
