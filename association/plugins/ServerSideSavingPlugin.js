@@ -94,8 +94,7 @@ plugin.saveTiddler = function(tiddler) {
 
 plugin.saveTiddlerCallback = function(context, userParams) {
 	var tiddler = context.tiddler;
-	var el = enable(tiddler);
-	context.storyTiddler = el;
+	context.storyTiddler = enable(tiddler);
 	if(context.status) {
 		if(tiddler.fields.changecount == context.changecount) { //# check for changes since save was triggered
 			tiddler.clearChangeCount();
@@ -109,15 +108,6 @@ plugin.saveTiddlerCallback = function(context, userParams) {
 			plugin.reportFailure("saveConflict", tiddler, context);
 		} else {
 			plugin.reportFailure("saveError", tiddler, context);
-		}
-	}
-	var queue = refreshQueue[tiddler.title];
-	if(queue !== undefined) {
-		delete refreshQueue[tiddler.title];
-		for(var i = 0; i < queue.length; i++) {
-			var self = queue[i][0];
-			var args = queue[i][1];
-			_refreshTiddler.apply(self, args);
 		}
 	}
 };
@@ -196,21 +186,23 @@ saveChanges = function(onlyIfDirty, tiddlers) {
 };
 
 // hijack core methods to defer mode-switching (asynchronous)
-var refreshQueue = {};
-var _storeSave = TiddlyWiki.prototype.saveTiddler;
-TiddlyWiki.prototype.saveTiddler = function(title, newTitle, newBody, modifier,
-		modified, tags, fields, clearChangeCount, created, creator) {
-	refreshQueue[newTitle] = [];
-	return _storeSave.apply(this, arguments);
-};
-var _refreshTiddler = Story.prototype.refreshTiddler;
-Story.prototype.refreshTiddler = function(title, template, force, customFields, defaultText) {
-	var queue = refreshQueue[title];
-	if(queue === undefined || window.location.protocol == "file:") {
-		return _refreshTiddler.apply(this, arguments);
-	} else {
-		queue.push([this, arguments]);
+var _storySave = Story.prototype.saveTiddler;
+Story.prototype.saveTiddler = function(title, minorUpdate) {
+	var el = this.getTiddler(title);
+	var dirty = el ? el.getAttribute("dirty") : null;
+
+	var _template = DEFAULT_VIEW_TEMPLATE;
+	DEFAULT_VIEW_TEMPLATE = DEFAULT_EDIT_TEMPLATE;
+
+	title = _storySave.apply(this, arguments);
+
+	DEFAULT_VIEW_TEMPLATE = _template;
+	if(title) {
+		el = this.getTiddler(title);
+		el.setAttribute("dirty", dirty);
 	}
+
+	return title;
 };
 
 // override removeTiddler to flag tiddler as deleted -- XXX: use hijack to preserve compatibility?
@@ -267,12 +259,15 @@ var enable = function(tiddler) {
 	var styles = cache[tiddler.title].styles;
 	delete cache[tiddler.title];
 	if(el) {
+		el.setAttribute("template", DEFAULT_VIEW_TEMPLATE);
+		el.setAttribute("dirty", "false");
 		var _el = $(el);
 		_el.removeAttr("style").
 			children(".cloak").remove();
 		if(styles) {
 			_el.attr("style", styles);
 		}
+		story.refreshTiddler(tiddler.title);
 	}
 	return el;
 };
