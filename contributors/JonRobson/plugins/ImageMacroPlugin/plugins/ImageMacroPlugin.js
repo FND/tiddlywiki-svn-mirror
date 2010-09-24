@@ -1,6 +1,6 @@
 /***
 |''Name''|ImageMacroPlugin|
-|''Version''|0.7.2|
+|''Version''|0.8.0|
 |''Description''|Allows the rendering of svg images in a TiddlyWiki|
 |''Author''|Osmosoft|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
@@ -17,7 +17,8 @@ will create an image tag where the tiddler has content type beginning image and 
 will attempt to create svg object in other scenarios
 {{{<<image /photos/x.jpg>>}}}
 will create an image tag with src /photos/x.jpg as long as there is not a tiddler called /photos/x.jpg in 
-which case it will render that tiddler as an image.
+which case it will render that tiddler as an image. Note for the case of svg files it will attempt to render as an svg if possible via the image
+tag. It doesn't embed the svg in the dom for security reasons as svg code can contain javascript.
 
 !Code
 ***/
@@ -208,48 +209,8 @@ var macro = config.macros.image = {
 					return macro.renderBinaryImageUrl(newplace, imageSource, options);
 				}; 
 				img.onerror = function(ev) {
-					var renderTiddler = function(tiddler, contentType) {
-						macro._external_cache[imageSource] = {tiddler: tiddler, contentType: contentType};
-						if(contentType == 'application/json') { // assume tiddlyweb server
-							contentType = tiddler.type;
-						} else { // try and use the response as tiddler text
-							tiddler = {text: tiddler};
-						}
-						if(macro.isBinaryImageType(contentType)) {
-							options.src = imageSource;
-							return macro.renderBinaryImageTiddler(newplace, tiddler, options);
-						} else {
-							return macro.renderSVGTiddler(newplace, tiddler, options);
-						}
-					};
-
-					var cached = macro._external_cache[imageSource];
-					if(cached) { // use cache where possible
-						renderTiddler(cached.tiddler, cached.contentType)
-					} else {
-						ajaxReq({ // deal with tiddlyweb binary images
-							url: imageSource,
-							beforeSend: function(xhr) {
-								xhr.setRequestHeader("Accept", "application/json,*/*");
-								xhr.setRequestHeader("X-ControlView", "false"); // for tiddlyspace usage
-							},
-							success: function(tiddler, status, xhr) {
-								if(!tiddler) {
-									return macro.renderBinaryImageUrl(newplace, imageSource, options);
-								}
-								var header = xhr.getResponseHeader("content-type");
-								var contentType;
-								if(header) {
-									header = header ? header.split(";") : [];
-									contentType = header[0] || false;
-								}
-								renderTiddler(tiddler, contentType);
-							},
-							error: function() {
-								return macro.renderBinaryImageUrl(newplace, imageSource, options);
-							}
-						});
-					}
+					// image doesn't exist.
+					macro.renderAlternateText(newplace, options);
 				};
 				img.src = imageSource;
 			} catch(e) { // the url is external thus our ajax request failed. we could try proxying..
@@ -261,11 +222,11 @@ var macro = config.macros.image = {
 		var imageSource = params[0];
 		// collect named arguments
 		var args = macro.getArguments(paramString, params);
-		this.renderImage(place, imageSource, args);		
+		this.renderImage(place, imageSource, args);
 	},
 	renderAlternateText: function(place, options) {
 		if(options.alt) {
-			$("<div class='svgImageTest svgIconText' />").text(options.alt).appendTo(place);
+			$("<span class='svgImageText svgIconText' />").text(options.alt).appendTo(place);
 		}
 	},
 	renderSVGTiddler: function(place, tiddler, options) {
@@ -392,7 +353,9 @@ config.macros.view.views.image = function(value, place, params, wikifier, paramS
 	invokeMacro(place, "image", "%0 %1".format([title, params.splice(2).join(" ")]), null, tiddler);
 };
 
-config.shadowTiddlers.StyleSheetImageMacro = ".wikifiedImage svg, .wikifiedImage .image { width: 80%; }";
+config.shadowTiddlers.StyleSheetImageMacro = [".wikifiedImage svg, .wikifiedImage .image { width: 80%; }",
+	".svgImageText {background-color:[[ColorPalette::Error]]; color:#ddd; padding: 5px; display: inline-block; }"
+].join("");
 store.addNotification("StyleSheetImageMacro", refreshStyles);
 
 })(jQuery);
