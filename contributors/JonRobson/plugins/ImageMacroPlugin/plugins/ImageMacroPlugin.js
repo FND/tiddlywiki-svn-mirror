@@ -1,6 +1,6 @@
 /***
 |''Name''|ImageMacroPlugin|
-|''Version''|0.8.1|
+|''Version''|0.8.2|
 |''Description''|Allows the rendering of svg images in a TiddlyWiki|
 |''Author''|Osmosoft|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
@@ -32,8 +32,12 @@ var macro = config.macros.image = {
 	_fixPrefix: 1,
 	_external_cache: {},
 	_image_tag_cache: {},
+	_image_dimensions: {},
 	refreshImage: function(src) {
 		var elements = macro._image_tag_cache[src] ? macro._image_tag_cache[src] : [];
+		if(macro._image_dimensions[src]) {
+			macro._image_dimensions[src] = false;
+		}
 		for(var i = 0; i < elements.length; i++) {
 			var el = $(elements[i]);
 			var newSrc = "%0?nocache=%1".format([src, Math.random()]);
@@ -206,18 +210,22 @@ var macro = config.macros.image = {
 		} else { // we have a string representing a url
 			// check if we can access the json format of this url
 			var newplace = $('<div class="externalImage"/>').appendTo(place)[0];
-			try{
-				var img = new Image();
-				img.onload = function(ev) { 
-					return macro.renderBinaryImageUrl(newplace, imageSource, options);
-				}; 
-				img.onerror = function(ev) {
-					// image doesn't exist.
-					macro.renderAlternateText(newplace, options);
-				};
-				img.src = imageSource;
-			} catch(e) { // the url is external thus our ajax request failed. we could try proxying..
-				return macro.renderBinaryImageUrl(newplace, imageSource, options); // attempt to render as image
+			if(!macro._image_tag_cache[imageSource]) {
+				try{
+					var img = new Image();
+					img.onload = function(ev) { 
+						return macro.renderBinaryImageUrl(newplace, imageSource, options);
+					}; 
+					img.onerror = function(ev) {
+						// image doesn't exist.
+						macro.renderAlternateText(newplace, options);
+					};
+					img.src = imageSource;
+				} catch(e) { // the url is external thus our ajax request failed. we could try proxying..
+					return macro.renderBinaryImageUrl(newplace, imageSource, options); // attempt to render as image
+				}
+			} else {
+				return macro.renderBinaryImageUrl(newplace, imageSource, options);
 			}
 		}
 	},
@@ -247,13 +255,29 @@ var macro = config.macros.image = {
 		}
 	},
 	renderBinaryImageUrl: function(place, src, options) {
+		var srcUrl = options.src ? options.src : src;
 		var container = $('<div class="image" />').appendTo(place)[0];
+		var image_dimensions = macro._image_dimensions[srcUrl];
 		var image = new Image(); // due to weird scaling issues where you use just a width or just a height
-		var createImageTag = function(userW, userH) {
+		var createImageTag = function(dimensions) {
+			var userH = options.height;
+			var userW = options.width;
+			var w = dimensions && dimensions.width ? dimensions.width : userW;
+			var h = dimensions && dimensions.height ? dimensions.height : userH;
+			var ratio;
+			var preserveWidth = options.preserveAspectRatio && w > h;
+			var preserveHeight = options.preserveAspectRatio && h > w;
+			console.log("p",srcUrl, userW, userH, options.preserveAspectRatio, preserveWidth, preserveHeight)
+			if(userH && !userW) {
+				ratio = userH / h;
+				userW = ratio * w;
+			} else if (userW && !userH) {
+				ratio = userW / w;
+				userH = ratio * h;
+			} 
 			var img = $("<img />");
 			img.attr("src", src);
 			img.appendTo(container);
-			var srcUrl = options.src ? options.src : src;
 			if(!macro._image_tag_cache[srcUrl]) {
 				macro._image_tag_cache[srcUrl] = [];
 			}
@@ -267,25 +291,19 @@ var macro = config.macros.image = {
 			img.addClass(options.imageClass);
 		};
 		
-		image.onload = function() {
-			var w = image.width;
-			var h = image.height;
-			var userH = options.height;
-			var userW = options.width;
-			var ratio;
-			if(userH && !userW) {
-				ratio = userH / h;
-				userW = ratio * w;
-			} else if (userW && !userH) {
-				ratio = userW / w;
-				userH = ratio * h;
-			}
-			createImageTag(userW, userH);
-		};
-		image.onerror = function() {
-			createImageTag(options.width, options.height);
-		};
-		image.src = src;
+		if(!image_dimensions) {
+			image.onload = function() {
+				var dimensions = { w: image.width, height: image.height};
+				macro._image_dimensions[srcUrl] = dimensions;
+				createImageTag(dimensions);
+			};
+			image.onerror = function() {
+				createImageTag(false);
+			};
+			image.src = src;
+		} else {
+			createImageTag(image_dimensions);
+		}
 	},
 	getArguments: function(paramString, params) {
 		var args = paramString.parseParams("name", null, true, false, true)[0];
@@ -310,6 +328,8 @@ var macro = config.macros.image = {
 		}
 		options.width = macro.lookupArgument(options, "width", width);
 		options.height = macro.lookupArgument(options, "height", height);
+		options.preserveAspectRatio = args.preserveAspectRatio && args.preserveAspectRatio[0] == "yes" 
+			? true : false;
 		return options;
 	},
 	lookupArgument: function(args, id, ifEmpty) {
