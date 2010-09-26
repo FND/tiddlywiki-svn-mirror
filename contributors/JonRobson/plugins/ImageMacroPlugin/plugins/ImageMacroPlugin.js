@@ -1,6 +1,6 @@
 /***
 |''Name''|ImageMacroPlugin|
-|''Version''|0.8.0|
+|''Version''|0.8.1|
 |''Description''|Allows the rendering of svg images in a TiddlyWiki|
 |''Author''|Osmosoft|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
@@ -162,8 +162,11 @@ var macro = config.macros.image = {
 				place.appendChild(el);
 			}
 			// if a tiddler attribute is set this is read as a link
-			jQuery("[tiddler]", place).click(function(ev) {
-				var tiddler = $(ev.target).attr("tiddler");
+			$("[tiddler], [tiddlyLink]", place).attr("refresh", "link").click(function(ev) {
+				var tiddler = $(ev.target).attr("tiddlyLink");
+				if(!tiddler) { // backwards compatibility
+					tiddler = $(ev.target).attr("tiddler");
+				}
 				if(tiddler) {
 					story.displayTiddler(ev.target, tiddler);
 				}
