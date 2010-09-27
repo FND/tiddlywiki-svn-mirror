@@ -19,7 +19,6 @@ will attempt to create svg object in other scenarios
 will create an image tag with src /photos/x.jpg as long as there is not a tiddler called /photos/x.jpg in 
 which case it will render that tiddler as an image. Note for the case of svg files it will attempt to render as an svg if possible via the image
 tag. It doesn't embed the svg in the dom for security reasons as svg code can contain javascript.
-
 !Code
 ***/
 //{{{
@@ -262,16 +261,15 @@ var macro = config.macros.image = {
 		var createImageTag = function(dimensions) {
 			var userH = options.height;
 			var userW = options.width;
-			var w = dimensions && dimensions.width ? dimensions.width : userW;
-			var h = dimensions && dimensions.height ? dimensions.height : userH;
+			var w = dimensions ? dimensions.width : 0;
+			var h = dimensions ? dimensions.height : 0;
 			var ratio;
 			var preserveWidth = options.preserveAspectRatio && w > h;
 			var preserveHeight = options.preserveAspectRatio && h > w;
-			console.log("p",srcUrl, userW, userH, options.preserveAspectRatio, preserveWidth, preserveHeight)
-			if(userH && !userW) {
+			if(userH && !userW || preserveHeight) {
 				ratio = userH / h;
 				userW = ratio * w;
-			} else if (userW && !userH) {
+			} else if (userW && !userH || preserveWidth) {
 				ratio = userW / w;
 				userH = ratio * h;
 			} 
@@ -293,7 +291,7 @@ var macro = config.macros.image = {
 		
 		if(!image_dimensions) {
 			image.onload = function() {
-				var dimensions = { w: image.width, height: image.height};
+				var dimensions = { width: image.width, height: image.height};
 				macro._image_dimensions[srcUrl] = dimensions;
 				createImageTag(dimensions);
 			};
