@@ -1,12 +1,18 @@
 /***
 |''Name''|ImageMacroPlugin|
-|''Version''|0.8.2|
+|''Version''|0.8.3|
 |''Description''|Allows the rendering of svg images in a TiddlyWiki|
 |''Author''|Osmosoft|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
 |''Notes''|Currently only works in modern browsers (not IE)|
 |''Requires''|BinaryTiddlersPlugin|
-|''Usage''|{{{<<image SVG>>}}} will render the text of the tiddler with title SVG as an SVG image (but not in ie where it will fail silently)|
+!Usage
+{{{<<image SVG>>}}} will render the text of the tiddler with title SVG as an SVG image (but not in ie where it will fail silently)
+!!Parameters
+width/height: specify width/height parameters
+link: make the image link to a given location
+tiddlyLink: link to a tiddler
+
 !Notes
 Binary tiddlers in TiddlyWeb when passed through the wikifier will be shown as images.
 eg. {{{<<view text wikified>>}}} on a binary tiddler will show the image.
@@ -106,6 +112,11 @@ var macro = config.macros.image = {
 		if(!options) {
 			options = {};
 		}
+		if(options.link) {
+		  place = $("<a />").attr("href", options.link).appendTo(place)[0];
+		} else if(options.tiddlyLink) {
+		  place = createTiddlyLink(place, options.tiddlyLink, false);
+		}
 		var tiddlerText = options.tiddler.text;
 		var svgDoc;
 		if (window.DOMParser) {
@@ -202,6 +213,7 @@ var macro = config.macros.image = {
 	},
 	renderImage: function(place, imageSource, options) {
 		var imageTiddler = store.getTiddler(imageSource);
+		options = options ? options : {};
 		if(imageTiddler && macro.isBinaryImageTiddler(imageTiddler)) { // handle the case where we have an image url
 			return macro.renderBinaryImageTiddler(place, imageTiddler, options);
 		} else if(imageTiddler){ // handle the case where we have a tiddler
@@ -256,6 +268,11 @@ var macro = config.macros.image = {
 	renderBinaryImageUrl: function(place, src, options) {
 		var srcUrl = options.src ? options.src : src;
 		var container = $('<div class="image" />').appendTo(place)[0];
+		if(options.link) {
+		  container = $("<a />").attr("href", options.link).appendTo(container)[0];
+		} else if(options.tiddlyLink) {
+		  container = createTiddlyLink(container, options.tiddlyLink, false);
+		}
 		var image_dimensions = macro._image_dimensions[srcUrl];
 		var image = new Image(); // due to weird scaling issues where you use just a width or just a height
 		var createImageTag = function(dimensions) {
@@ -328,6 +345,8 @@ var macro = config.macros.image = {
 		options.height = macro.lookupArgument(options, "height", height);
 		options.preserveAspectRatio = args.preserveAspectRatio && args.preserveAspectRatio[0] == "yes" 
 			? true : false;
+		options.tiddlyLink = macro.lookupArgument(options, "tiddlyLink", false);
+		options.link = macro.lookupArgument(options, "link", false);
 		return options;
 	},
 	lookupArgument: function(args, id, ifEmpty) {
