@@ -113,9 +113,9 @@ var macro = config.macros.image = {
 			options = {};
 		}
 		if(options.link) {
-		  place = $("<a />").attr("href", options.link).appendTo(place)[0];
+			place = $("<a />").attr("href", options.link).appendTo(place)[0];
 		} else if(options.tiddlyLink) {
-		  place = createTiddlyLink(place, options.tiddlyLink, false);
+			place = createTiddlyLink(place, options.tiddlyLink, false);
 		}
 		var tiddlerText = options.tiddler.text;
 		var svgDoc;
@@ -194,7 +194,7 @@ var macro = config.macros.image = {
 	renderBinaryImageTiddler: function(place, tiddler, options) {
 		var resourceURI;
 		var fields = tiddler.fields;
-		if(fields["server.type"] == 'tiddlyweb') { // construct an accurate url for the resource  
+		if(fields["server.type"] == 'tiddlyweb') { // construct an accurate url for the resource	
 			resourceURI = "%0%1/tiddlers/%2".format([fields['server.host'],
 				fields['server.workspace'],fields['server.title']]);
 		} else { // guess the url for the resource
@@ -248,7 +248,16 @@ var macro = config.macros.image = {
 	},
 	renderAlternateText: function(place, options) {
 		if(options.alt) {
-			$("<span class='svgImageText svgIconText' />").text(options.alt).appendTo(place);
+			var classNames = "svgImageText svgIconText";
+			if(options.link) {
+				$("<a />").addClass(classNames).attr("href", options.link).
+					text(options.alt).appendTo(place); 
+			} else if(options.tiddlyLink) {
+				var btn = createTiddlyLink(place, options.tiddlyLink, false, classNames);
+				$(btn).text(options.alt);
+			} else {
+				$("<span />").addClass(classNames).text(options.alt).appendTo(place); 
+			}
 		}
 	},
 	renderSVGTiddler: function(place, tiddler, options) {
@@ -257,7 +266,7 @@ var macro = config.macros.image = {
 		}
 		options.tiddler = tiddler;
 		options.fix = true;
-		
+
 		if(macro.svgAvailable) {
 			this.importSVG(place, options); // display the svg
 		} else {
@@ -269,9 +278,9 @@ var macro = config.macros.image = {
 		var srcUrl = options.src ? options.src : src;
 		var container = $('<div class="image" />').appendTo(place)[0];
 		if(options.link) {
-		  container = $("<a />").attr("href", options.link).appendTo(container)[0];
+			container = $("<a />").attr("href", options.link).appendTo(container)[0];
 		} else if(options.tiddlyLink) {
-		  container = createTiddlyLink(container, options.tiddlyLink, false);
+			container = createTiddlyLink(container, options.tiddlyLink, false);
 		}
 		var image_dimensions = macro._image_dimensions[srcUrl];
 		var image = new Image(); // due to weird scaling issues where you use just a width or just a height
