@@ -4,7 +4,7 @@
 |''Author:''|PaulDowney (psd (at) osmosoft (dot) com) |
 |''Source:''|http://whatfettle.com/2008/07/TiddlySpaceLinkPlugin/ |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/plugins/TiddlySpaceLinkPlugin/ |
-|''Version:''|0.8|
+|''Version:''|0.9|
 |''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''~CoreVersion:''|2.4|
@@ -30,7 +30,7 @@ and these may be changed into a space link using {{{@@}}}:
 TiddlySpace includes the [[TiddlySpaceLinkPlugin]] which provides WikiText markup for linking to other spaces on the same server. For example @glossary is a link to the {{{glossary}}} space and [[Small Trusted Group]]@glossary a link to an individual tiddler in the @glossary space. Prefixing the link with a tilde escapes the link, for example {{{~@space}}}. 
 Email addresses, for example joe.bloggs@example.com and mary@had.a.little.lamb.org should be unaffected.
 !!Features
-A bare {{{@space}}} link forllowed by a period is ignored e.g. @space. Use {{{[[@@space]]}}} [[@@space]] as a work-round.
+A bare {{{@space}}} link forllowed by a period is ignored e.g. @space. Use {{{[[@@space]]}}} as a work-round: [[@@space]].
 The plugin provides external links decorated so that other plugins may be inclided to add features such as the ability to dynamically pull externally linked tiddlers into the current TiddlyWiki.
 Wikitext linking to a space on another server, for example from a tiddler in a space on tiddlyspace.com to a tiddler or a space on example.com, isn't supported. 
 !!Code
