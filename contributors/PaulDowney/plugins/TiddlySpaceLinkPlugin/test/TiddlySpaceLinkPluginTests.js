@@ -211,6 +211,12 @@
 			equals($(place).text(), "@another tiddler");
 			testTiddlyLink($(place).find('a'), "@another tiddler", "@tiddlylink");
 		});
+
+		test('Wikifier: [[@@currentspace]]', function() {
+			var place = createWikifyTestElement("[[@currentspace]]");
+			equals($(place).text(), "currentspace");
+			testTiddlyLink($(place).find('a'), "@currentspace", "@currentspace");
+		});
 	});
 
 
