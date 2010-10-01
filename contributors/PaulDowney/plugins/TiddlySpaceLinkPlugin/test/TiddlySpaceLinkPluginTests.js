@@ -55,9 +55,6 @@
 			equals(a.text(), "MissingWikiWord");
 		});
 
-		/*
-		 *  will live with this, for now ..
-		 *
 		test('Wikifier: test short Email address', function() {
 			var place = createWikifyTestElement("foo@example.com");
 			equals($(place).find('a').length, 0);
@@ -69,7 +66,6 @@
 			equals($(place).find('a').length, 0);
 			equals($(place).text(), "foo.bar@example.com");
 		});
-		*/
 
 		test('Wikifier: url should be an external link', function() {
 			var url = "http://example.com/foo/bar/baz.html";
