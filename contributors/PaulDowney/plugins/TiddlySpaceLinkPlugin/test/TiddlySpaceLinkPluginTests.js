@@ -55,16 +55,22 @@
 			equals(a.text(), "MissingWikiWord");
 		});
 
-		test('Wikifier: test short Email address', function() {
+		test('Wikifier: an Email address should be ignored', function() {
 			var place = createWikifyTestElement("foo@example.com");
 			equals($(place).find('a').length, 0);
 			equals($(place).text(), "foo@example.com");
 		});
 
-		test('Wikifier: test dotted Email address', function() {
+		test('Wikifier: a dotted Email address should be ignored', function() {
 			place = createWikifyTestElement("foo.bar@example.com");
 			equals($(place).find('a').length, 0);
 			equals($(place).text(), "foo.bar@example.com");
+		});
+
+		test('Wikifier: a full stop is ignored which is a known feature', function() {
+			place = createWikifyTestElement("@example. ");
+			equals($(place).find('a').length, 0);
+			equals($(place).text(), "@example. ");
 		});
 
 		test('Wikifier: url should be an external link', function() {
@@ -85,11 +91,12 @@
 			equals($(place).find('a').length, 0);
 		});
 
-		test('Wikifier: @spacename should be a spaceLink', function() {
+		test('Wikifier: @space-name should be a spaceLink', function() {
 			var place = createWikifyTestElement("@space-name");
 			equals($(place).text(), "space-name");
 			testTiddlySpaceLink($(place).find('a'), "http://space-name.tiddlyspace.com", "space-name");
 		});
+
 
 		test('Wikifier: @SpaceName should be a spaceLink', function() {
 			var place = createWikifyTestElement("@SpaceName");
