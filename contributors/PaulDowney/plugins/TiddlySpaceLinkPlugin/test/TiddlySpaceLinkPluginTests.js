@@ -212,10 +212,10 @@
 			testTiddlyLink($(place).find('a'), "@another tiddler", "@tiddlylink");
 		});
 
-		test('Wikifier: [[@@currentspace]] should be a tiddlyLink', function() {
-			var place = createWikifyTestElement("[[@currentspace]]");
-			equals($(place).text(), "@currentspace");
-			testTiddlyLink($(place).find('a'), "@currentspace", "@currentspace");
+		test('Wikifier: @spacename should be a spaceLink', function() {
+			var place = createWikifyTestElement("@spacename");
+			equals($(place).text(), "spacename");
+			testTiddlySpaceLink($(place).find('a'), "http://spacename.tiddlyspace.com", "spacename");
 		});
 	});
 
@@ -246,6 +246,18 @@
 			testTiddlyLink($(place).find('a'), "currentspace", "currentspace");
 		});
 
+		test('Wikifier: [[@currentspace]] should be a tiddlyLink', function() {
+			var place = createWikifyTestElement("[[@currentspace]]");
+			equals($(place).text(), "currentspace");
+			testTiddlyLink($(place).find('a'), "currentspace", "currentspace");
+		});
+
+		test('Wikifier: [[@@currentspace]] should be a tiddlyLink', function() {
+			var place = createWikifyTestElement("[[@@currentspace]]");
+			equals($(place).text(), "currentspace");
+			testTiddlyLink($(place).find('a'), "currentspace", "currentspace");
+		});
+
 		test('Wikifier: [[Tiddler]]@spacename should be a spaceLink', function() {
 			var place = createWikifyTestElement("[[Tiddler]]@spacename");
 			equals($(place).text(), "Tiddler");
@@ -258,7 +270,7 @@
 			testTiddlyLink($(place).find('a'), "TiddlySpaceLinkPlugin", "TiddlySpaceLinkPlugin");
 		});
 
-		test('Wikifier: [[Tiddler]]@currentspace should be a spaceLink', function() {
+		test('Wikifier: [[Tiddler]]@currentspace should be a tiddlyLink', function() {
 			var place = createWikifyTestElement("[[Tiddler]]@currentspace");
 			equals($(place).text(), "Tiddler");
 			testTiddlyLink($(place).find('a'), "Tiddler", "Tiddler");
