@@ -83,7 +83,7 @@ function createSpaceLink(place, spaceName, title, alt) {
 	},
 	{
 		name: "tiddlySpaceLink",
-		match: "\\[\\[[^\\|]*\\|*@" + config.textPrimitives.spaceName + "\\]",
+		match: "\\[\\[[^\\|]*\\|*@@" + config.textPrimitives.spaceName + "\\]",
 		lookaheadRegExp: new RegExp("\\[\\[(.*?)(?:\\|@*(.*?))?\\]\\]", "mg"),
 		handler: function (w) {
 			this.lookaheadRegExp.lastIndex = w.matchStart;
