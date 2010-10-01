@@ -10,13 +10,25 @@
 |''~CoreVersion:''|2.4|
 !!Documentation
 This plugin provides wikitext formatters for referencing another [[space|Space]] on the same TiddlySpace server, as in the following examples:
-{{{@space}}} -- @psd 
-{{{~@space}}} -- ~@psd 
-{{{Tiddler@space}}} -- Tiddler@glossary
-{{{[[Tiddler Name]]@space}}} -- [[How do I link to another space?]]@faq 
-{{{[[Link text|Tiddler Name]]@space}}} -- [[about spaces|Space]]@glossary
-
-TiddlySpace includes the [[TiddlySpaceLinkPlugin]] which provides WikiText markup for linking to other spaces on the same server. For example @glossary is a link to the {{{glossary}}} [[space|Space]] and [[Small Trusted Group]]@glossary a link to an individual tiddler in the @glossary space. Prefixing the link with a tilde escapes the link, for example {{{~@space}}}. Email addresses, for example joe.bloggs@example.com and mary@had.a.little.lamb.org should be unaffected.
+<<<
+  {{{@space}}} -- @space 
+  {{{~@space}}} -- ~@space 
+  {{{Tiddler@space}}} -- Tiddler@space
+  {{{[[Tiddler Title]]@space}}} -- [[Tiddler Title]]@space 
+  {{{[[Link text|Tiddler Title]]@space}}} -- [[Link text|Tiddler Title]]@space
+<<<
+Links to tiddlers with a title begining with an "@" remain as tiddlyLinks:
+<<<
+  {{{[[@tiddler]]}}} -- [[@tiddler]]
+<<<
+and these may be changed into a space link using {{{@@}}}:
+<<<
+  {{{[[@@space]]}}} -- [[@@space]]
+  {{{[[Link to an another space|@@space]]}}} -- [[Link to another space|@@space]]
+  {{{[[@space|@@space]]}}} -- [[@space|@@space]]
+<<<
+TiddlySpace includes the [[TiddlySpaceLinkPlugin]] which provides WikiText markup for linking to other spaces on the same server. For example @glossary is a link to the {{{glossary}}} space and [[Small Trusted Group]]@glossary a link to an individual tiddler in the @glossary space. Prefixing the link with a tilde escapes the link, for example {{{~@space}}}. 
+Email addresses, for example joe.bloggs@example.com and mary@had.a.little.lamb.org should be unaffected.
 !!Code
 ***/
 //{{{
@@ -84,14 +96,13 @@ function createSpaceLink(place, spaceName, title, alt) {
 	{
 		name: "tiddlySpaceLink",
 		match: "\\[\\[[^\\|]*\\|*@@" + config.textPrimitives.spaceName + "\\]",
-		lookaheadRegExp: new RegExp("\\[\\[(.*?)(?:\\|@*(.*?))?\\]\\]", "mg"),
+		lookaheadRegExp: new RegExp("\\[\\[(.*?)(?:\\|@@(.*?))?\\]\\]", "mg"),
 		handler: function (w) {
 			this.lookaheadRegExp.lastIndex = w.matchStart;
 			var lookaheadMatch = this.lookaheadRegExp.exec(w.source);
 			if (lookaheadMatch && lookaheadMatch.index === w.matchStart) {
-				var space = lookaheadMatch[2] || lookaheadMatch[1];
-				space = space.replace(/^@/, "");
-				var alt = lookaheadMatch[1];
+				var alt = lookaheadMatch[2] ? lookaheadMatch[1] : lookaheadMatch[1].replace(/^@@/, "");
+				var space = lookaheadMatch[2] || alt;
 				createSpaceLink(w.output, space, "", alt);
 				w.nextMatch = this.lookaheadRegExp.lastIndex;
 			}

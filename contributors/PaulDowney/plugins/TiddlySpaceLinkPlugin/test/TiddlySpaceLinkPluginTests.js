@@ -93,7 +93,6 @@
 			var place = createWikifyTestElement("@space-name");
 			equals($(place).text(), "space-name");
 			testTiddlySpaceLink($(place).find('a'), "http://space-name.tiddlyspace.com", "space-name");
-			$(place).find('a');
 		});
 
 		test('Wikifier: @SpaceName should be a spaceLink', function() {
@@ -248,14 +247,8 @@
 
 		test('Wikifier: [[@currentspace]] should be a tiddlyLink', function() {
 			var place = createWikifyTestElement("[[@currentspace]]");
-			equals($(place).text(), "currentspace");
-			testTiddlyLink($(place).find('a'), "currentspace", "currentspace");
-		});
-
-		test('Wikifier: [[@@currentspace]] should be a tiddlyLink', function() {
-			var place = createWikifyTestElement("[[@@currentspace]]");
-			equals($(place).text(), "currentspace");
-			testTiddlyLink($(place).find('a'), "currentspace", "currentspace");
+			equals($(place).text(), "@currentspace");
+			testTiddlyLink($(place).find('a'), "@currentspace", "@currentspace");
 		});
 
 		test('Wikifier: [[Tiddler]]@spacename should be a spaceLink', function() {
@@ -274,6 +267,24 @@
 			var place = createWikifyTestElement("[[Tiddler]]@currentspace");
 			equals($(place).text(), "Tiddler");
 			testTiddlyLink($(place).find('a'), "Tiddler", "Tiddler");
+		});
+
+		test('Wikifier: [[@@currentspace]] should be a tiddlyLink', function() {
+			var place = createWikifyTestElement("[[@@currentspace]]");
+			equals($(place).text(), "currentspace");
+			testTiddlyLink($(place).find('a'), "currentspace", "currentspace");
+		});
+
+		test('Wikifier: [[@@anotherspace]] should be a spaceLink "@anotherspace"', function() {
+			var place = createWikifyTestElement("[[@@anotherspace]]");
+			equals($(place).text(), "anotherspace");
+			testTiddlySpaceLink($(place).find('a'), "http://anotherspace.tiddlyspace.com", "anotherspace");
+		});
+
+		test('Wikifier: [[@anotherspace|@@anotherspace]] should be a spaceLink "@anotherspace"', function() {
+			var place = createWikifyTestElement("[[@anotherspace|@@anotherspace]]");
+			equals($(place).text(), "@anotherspace");
+			testTiddlySpaceLink($(place).find('a'), "http://anotherspace.tiddlyspace.com", "@anotherspace");
 		});
 
 	});
