@@ -3,10 +3,10 @@
 |''Descripción:''|Traducción de TiddlyWiki al español|
 |''Autores:''|Sergio González y Pedro Domínguez (sgm214 (at) gmail (dot) com / alpedro (at) hotmail (dot) com)|
 |''Correcciónes:''|Dave Gifford y Ton van Rooijen (giff (at) giffmex (dot) org / tonsweb (at) xs4all (dot) nl)|
-|''Fuente:''|http://www.ton-van-rooijen.nl/TW/locale041.es.js |
+|''Fuente:''|http://www.ton-van-rooijen.nl/TW/locale042.es.js |
 |''Código:''|http://svn.tiddlywiki.org/Trunk/association/locales/core/en/locale.en.js |
-|''Versión:''|0.4.1|
-|''Fecha:''|Abril 13, 2010|
+|''Versión:''|0.4.2|
+|''Fecha:''|October 2, 2010|
 |''Comentarios:''|Por favor deje sus comentarios en http://groups.google.co.uk/group/TiddlyWikiDev |
 |''Licencia:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
 |''~VersiónNúcleo:''|2.6.0|
@@ -94,7 +94,8 @@ merge(config.messages,{
 	invalidFieldName: "Nombre de apartado no válido %0",
 	fieldCannotBeChanged: "El apartado '%0' no se puede cambiar",
 	loadingMissingTiddler: "Intentando descargar el tiddler '%0' desde el servidor '%1' en:\n\n'%2' en el espacio de trabajo '%3'",
-	upgradeDone: "Actualización a la versión %0 completada\n\nPulse 'OK' para cargar la nueva versión de TiddlyWiki"});
+	upgradeDone: "Actualización a la versión %0 completada\n\nPulse 'OK' para cargar la nueva versión de TiddlyWiki",
+	invalidCookie: "Cookie no válido '%0'"});
 
 merge(config.messages.messageClose,{
 	text: "cerrar",
@@ -280,7 +281,6 @@ merge(config.macros.importTiddlers,{
 	step1Html: "Indique el tipo de servidor: <select name='selTypes'><option value=''>Elija...</option></select><br>Escriba la URL o la ruta aquí: <input type='text' size=50 name='txtPath'><br>...o navegue hasta un archivo: <input type='file' size=50 name='txtBrowse'><br><hr>...o elija una fuente predefinida: <select name='selFeeds'><option value=''>Elige...</option></select>",
 	openLabel: "abrir",
 	openPrompt: "Abrir la conexión a este archivo o servidor",
-	openError: "Hubo problemas obteniendo el archivo tiddlywiki",
 	statusOpenHost: "Accediendo al anfitrión",
 	statusGetWorkspaceList: "Obteniendo el listado de espacios de trabajo",
 	step2Title: "Segundo paso: Elegir el espacio de trabajo",

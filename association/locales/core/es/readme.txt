@@ -1,24 +1,25 @@
-﻿Spanish translation for TiddlyWiki
+Spanish translation for TiddlyWiki
 ----------------------------------
 
 This is a new version of the Spanish translation for TiddlyWiki in support of 
 TW version 2.6.0. and up.
 
-A completely ready to use empty Spanish TiddlyWiki v2.6.0 is provided,
+A completely ready to use empty Spanish TiddlyWiki v2.6.1 is provided,
 as well as the language-plugin (locale.es.js) on its own.
 
 So you can either download "locale.es.js" and apply it to your own TW as a 
-systemConfig-tagged tiddler or download "TW260emptyES.html", and create/import 
+systemConfig-tagged tiddler or download "TW261emptyES.html", and create/import 
 your own tiddlers in that empty Spanish TW.
 
 
-Your feedback is very much welcomed at "tonsweb (at) xs4all (dot) nl".
+Your feedback is very much welcomed at "tiddlywiki (at) ton-van-rooijen (dot) nl".
 
-Ton van Rooijen / 20100413
+Ton van Rooijen / 2010-Oct-2
 
 P.S.
 Complete ready to use older versions of a Spanish empty TiddlyWiki are still
-available too: 
+available too:
+TW260emptyES.html
 TW253emptyES.html
 TW243emptyES.html
 
