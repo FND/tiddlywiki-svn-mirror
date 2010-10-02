@@ -15,6 +15,7 @@
 | August 02, 2008 v0.2.6: |tweak->opties; tiddler opslaan->bewaar (opslaan is alleen de complete TW); onbedoelde ~WikiWords in dit documentatieblok ge"~"ed; all 2.4.0-changes (from "locale.en.js" v0.3.7).||
 | September 8, 2009 v0.3.0: |All 2.5.2-changes (from "locale.en.js" v0.4.0) for TW version 2.5.0 and up.||
 | April 13, 2010 v0.4.1: |TW 2.6.0-changes (from "locale.en.js" v0.4.1) for TW v2.6.0 and up. Version-no. synchronized||
+| October 2, 2010 v0.4.2: |TW 2.6.1-changes (from "locale.en.js" v0.4.2), backward compatible, so valid for TW v2.6.0 and up.||
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev, or directly to the author.|
 |''Acknowledgements:''|Special thanks to "Lourens van Quadsk8.nl" who created the very first Dutch translation, back in midst 2005 for versions 1.2 and up to 2.0, many parts of which were gratefully reused in here.|
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]]|
@@ -103,7 +104,8 @@ merge(config.messages,{
 	invalidFieldName: "Ongeldige veldnaam %0",
 	fieldCannotBeChanged: "Veld '%0' kan niet worden gewijzigd",
 	loadingMissingTiddler: "Bezig om tiddler '%0' op te halen van de '%1' server op:\n\n'%2' in werkruimte '%3'",
-	upgradeDone: "Het bijwerken naar versie %0 is gelukt\n\nKlik 'OK' om de nieuwe bijgewerkte TiddlyWiki te herladen"});
+	upgradeDone: "Het bijwerken naar versie %0 is gelukt\n\nKlik 'OK' om de nieuwe bijgewerkte TiddlyWiki te herladen",
+	invalidCookie: "Ongeldige cookie '%0'"});
 
 merge(config.messages.messageClose,{
 	text: "sluit",
@@ -289,7 +291,6 @@ merge(config.macros.importTiddlers,{
 	step1Html: "Specificeer het type server: <select name='selTypes'><option value=''>Kies...</option></select><br>Typ de URL of padnaam hier: <input type='text' size=50 name='txtPath'><br>...of navigeer naar het bestand: <input type='file' size=50 name='txtBrowse'><br><hr>...of selecteer een voor-gedefinieerde bron: <select name='selFeeds'><option value=''>Kies...</option></select>",
 	openLabel: "open",
 	openPrompt: "Open de verbinding naar dit bestand of deze server",
-	openError: "Het TiddlyWiki bestand kon niet worden gevonden",
 	statusOpenHost: "Bezig de host te verbinden",
 	statusGetWorkspaceList: "Verkrijg de lijst van beschikbare werkruimtes",
 	step2Title: "Stap 2: Kies de werkruimte",
