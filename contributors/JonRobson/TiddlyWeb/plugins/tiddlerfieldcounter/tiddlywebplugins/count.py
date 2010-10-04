@@ -29,7 +29,7 @@ def get_thing_from_bag(environ,start_response):
         limit = 0
     store = environ['tiddlyweb.store'] 
     bag = store.get(Bag(bagName))
-    tiddlers = control.filter_tiddlers_from_bag(bag,environ['tiddlyweb.filters'])
+    tiddlers = control.filter_tiddlers(control.get_tiddlers_from_bag(bag), environ['tiddlyweb.filters'])
     start_response('200 OK', [
     ('Content-Type', 'text/plain; charset=utf-8')
     ])

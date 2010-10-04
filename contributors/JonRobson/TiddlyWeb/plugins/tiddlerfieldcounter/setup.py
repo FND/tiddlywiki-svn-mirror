@@ -3,8 +3,7 @@ AUTHOR = 'Jon Robson'
 AUTHOR_EMAIL = 'jdlrobson@gmail.com'
 NAME = 'tiddlywebplugins.count'
 DESCRIPTION = 'Provides the ability to count tags and other fields (useful amongst other things for the construction of tag clouds)'
-VERSION = '0.9'
-
+VERSION = '0.9.2'
 
 import os
 from setuptools import setup, find_packages
@@ -20,6 +19,6 @@ setup(
     url = 'http://pypi.python.org/pypi/%s' % NAME,
     packages = find_packages(exclude=['test']),
     platforms = 'Posix; MacOS X; Windows',
-    install_requires = ['setuptools', 'tiddlyweb'],
+    install_requires = ['setuptools', 'tiddlyweb>=1.1'],
     zip_safe = False
     )
