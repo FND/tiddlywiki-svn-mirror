@@ -2,12 +2,18 @@
 |''Name:''|NiceTaggingPlugin|
 |''Description:''| creates a nicer interface for adding and removing TiddlyWiki. Ideal for tiddly novices. |
 |''Version:''|0.6.0|
-|''Date:''|April 2010|
-|''Source:''|http://www.jonrobson.me.uk/development/niceTagging|
+|''Date:''|October 2010|
+|''Source:''|http://svn.tiddlywiki.org/Trunk/contributors/JonRobson/plugins/niceTagging/plugins/NiceTaggingPlugin.js|
 |''Author:''|Jon Robson|
 |''License:''|[[BSD open source license]]|
 |''CoreVersion:''|2.3|
 |''Dependencies:''||
+!Usage
+{{{<<niceTagger tags>>}}}
+!!Parameters
+splitOn: <character>
+valuesSource: <tiddler title>
+textcase: <lower>
 !StyleSheet
 .tip {font-style:italic;font-weight:bold;}
 .dp-popup {position:absolute;background-color:white;}
@@ -53,8 +59,8 @@ var macro = config.macros.niceTagger = {
 			field = 'tags';
 		}
 		if(this.initialised[field]){
-			if(field =='tags'){
-				var numTags= store.getTags();
+			if(field == 'tags'){
+				var numTags = store.getTags();
 				if(numTags.length == this.twtags[field].length) return;
 			}
 			else{
@@ -181,7 +187,7 @@ var macro = config.macros.niceTagger = {
 		macro.refreshFieldDisplay(container, tiddler, field);
 		$(adder).val("");
 	},
-	getSuggestionsFromTiddler: function(srcTiddler,textcase){
+	getSuggestionsFromTiddler: function(srcTiddler, textcase){
 		var suggestions = [];
 		if(srcTiddler){
 			var src = store.getTiddler(srcTiddler);
@@ -236,8 +242,11 @@ var macro = config.macros.niceTagger = {
 			var textcase = getParam(params, "case");
 			var srcTiddler = getParam(params, "valuesSource");
 			var suggestions;
-			if(srcTiddler)suggestions = macro.getSuggestionsFromTiddler(srcTiddler,textcase);
-			else suggestions = [];
+			if(srcTiddler) {
+				suggestions = macro.getSuggestionsFromTiddler(srcTiddler, textcase);
+			} else {
+				suggestions = [];
+			}
 			var tagsoff = getParam(params,"nostoretags");
 			if(!tagsoff) suggestions = suggestions.concat(macro.twtags[options.field]);
 
@@ -255,7 +264,6 @@ var macro = config.macros.niceTagger = {
 			}
 			$("<input type='text' name=\""+options.field+"\" value=\"\"/>").autocomplete(suggestions,{matchContains: true,selectFirst:false}).result(addtaghandler).appendTo(tagplace);
 			adder = $("input", tagplace)[0];
-			
 		} else {
 			adder = document.createElement("input");
 			tagplace.appendChild(adder);
