@@ -1,4 +1,14 @@
-module("NICETAGGER");
+var _refreshers;
+config.refreshers.tiddler = function(ev, changeList) {};
+module("NICETAGGER", {
+	setup: function() {
+		_refreshers = config.refreshers;
+		config.refreshers = {};
+	},
+	teardown: function() {
+		config.refreshers = _refreshers;
+	}
+});
 //saving "   " works when it shouldn't..
 test("setup",function(){
   config.extensions.testUtils.addTiddlers([
@@ -25,7 +35,7 @@ test("refreshFieldDisplay",function(){
 test("save",function(){
   var tid;
   var place = document.createElement("div");
-  config.macros.niceTagger.save('nicetagger.2','x',['a','b to the d','c'],place);
+  config.macros.niceTagger.save('nicetagger.2', 'x', ['a','b to the d','c'], place);
   tid = store.getTiddler("nicetagger.2");
   same(tid.fields['x'],"a [[b to the d]] c","the values saved to the field correct in wiki format")
   
@@ -38,19 +48,19 @@ test("save",function(){
 test("saveNewTag",function(){
   var place = document.createElement("div");
   jQuery(place).html("<div class='niceTagger'></div>");
-  config.macros.niceTagger.saveNewTag(store.getTiddler("nicetagger.3"),"tags","doormouse",place,",");
+  config.macros.niceTagger.saveNewValue(store.getTiddler("nicetagger.3"),"tags","doormouse",place,",");
   tid = store.getTiddler("nicetagger.3");
   same(tid.tags,['mad hatter','alice','lewis','doormouse'],"now 4 tags on the tiddler")
   var tags = jQuery(".tag",place);
   same(tags.length,4,"4 tags visible in display");
   
-  config.macros.niceTagger.saveNewTag(store.getTiddler("nicetagger.3"),"tags","doormouse",place,",");
+  config.macros.niceTagger.saveNewValue(store.getTiddler("nicetagger.3"),"tags","doormouse",place,",");
   same(tid.tags.length,4,"should still be 4 tags (duplicate tag should be ignored)")
 
-  config.macros.niceTagger.saveNewTag(store.getTiddler("nicetagger.3"),"tags","cat,mouse",place,",");
+  config.macros.niceTagger.saveNewValue(store.getTiddler("nicetagger.3"),"tags","cat,mouse",place,",");
   same(tid.tags.length,6,"the separator should split the cat and mouse tags");
   
-  config.macros.niceTagger.saveNewTag(store.getTiddler("nicetagger.3"),"tags","   ",place,",");
+  config.macros.niceTagger.saveNewValue(store.getTiddler("nicetagger.3"),"tags","   ",place,",");
   same(tid.tags.length,6,"adding whitespace doesn't add a tag");
   
   
