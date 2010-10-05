@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:georss="http://www.georss.org/georss" xmlns:gml="http://www.opengis.net/gml">
+<channel>
+  <link>http://maps.google.com</link>
+  <title>1 week Europe</title>
+  <description><![CDATA[FRI night Gonnehem
+SAT Bethune->Paris->Zurich +1
+SUN Zurich->Munich (leave 08:40 arrive 12:36  Innsbruck change for Munich 14:25) +2
+MON Munich->Salzburg +3
+TUE salzburg watersports
+WED Salzburgh -> Vienna +4
+THUR Vienna
+FRI Day in Vienna Overnight train to Cologne (if after 7pm counts as Saturday travel)
+SAT Cologne to Brussels to Lille to gonnehem sleep +5
+SUN gonnehem->home]]></description>
+  <item>
+    <guid isPermaLink="false">00048598ec4da73c1e9bb</guid>
+    <pubDate>Sun, 02 May 2010 09:15:52 +0000</pubDate>
+
+    <title>Bethune</title>
+    <description><![CDATA[<div dir="ltr">Bethune	 Mo, 03.05.10	 dep	 08:02	  	TGV 7308	 TGV<br>Subject to compulsory reservation, Global price, space for wheelchairs<br>Paris Nord	 Mo, 03.05.10	 arr	 09:26	  <br>Paris Nord	 Mo, 03.05.10	 dep	 09:26	  	transfer	 30 min. walking distance 800 m<br>Paris Est	 Mo, 03.05.10	 arr	 09:56	  <br>Paris Est	 Mo, 03.05.10	 dep	 10:24	  	TGV 9215	 TGV<br>Subject to compulsory reservation, Bicycles conveyed - subject to reservation, Global price<br>Zürich HB	 Mo, 03.05.10	 arr	 15:00	  </div>]]></description>
+    <author>jdlrobson</author>
+    <georss:point>
+      50.520412 2.625732
+    </georss:point>
+    <georss:elev>0.000000</georss:elev>
+  </item>
+
+</channel>
+</rss>
