@@ -31,7 +31,7 @@ TiddlySpace includes the [[TiddlySpaceLinkPlugin]] which provides WikiText marku
 Email addresses, for example joe.bloggs@example.com and mary@had.a.little.lamb.org should be unaffected.
 !!Features
 A bare {{{@space}}} link followed by a period is ignored e.g. @space. Use {{{[[@@space]]}}} as a workaround: [[@@space]].
-The plugin provides external links decorated so that other plugins may be inclided to add features such as the ability to dynamically pull externally linked tiddlers into the current TiddlyWiki.
+The plugin provides external links decorated so that other plugins may be included to add features such as the ability to dynamically pull externally linked tiddlers into the current TiddlyWiki.
 Wikitext linking to a space on another server, for example from a tiddler in a space on tiddlyspace.com to a tiddler or a space on example.com, isn't supported. 
 !!Code
 ***/
@@ -99,7 +99,7 @@ function createSpaceLink(place, spaceName, title, alt) {
 	},
 	{
 		name: "tiddlySpaceLink",
-		match: "\\[\\[[^\\|]*\\|*@@" + config.textPrimitives.spaceName + "\\]",
+		match: "\\[\\[[^\\|\\]]*\\|*@@" + config.textPrimitives.spaceName + "\\]",
 		lookaheadRegExp: new RegExp("\\[\\[(.*?)(?:\\|@@(.*?))?\\]\\]", "mg"),
 		handler: function (w) {
 			this.lookaheadRegExp.lastIndex = w.matchStart;

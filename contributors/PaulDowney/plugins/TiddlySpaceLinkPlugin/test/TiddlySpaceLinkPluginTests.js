@@ -260,6 +260,12 @@
 			testTiddlySpaceLink($(place).find('a'), "http://spacename.tiddlyspace.com#Tiddler", "Tiddler");
 		});
 
+		test('Wikifier: [[TiddlySpaceLinkPlugin]]@anotherspace should be a spaceLink', function() {
+			var place = createWikifyTestElement("[[TiddlySpaceLinkPlugin]]@anotherspace");
+			equals($(place).text(), "TiddlySpaceLinkPlugin");
+			testTiddlySpaceLink($(place).find('a'), "http://anotherspace.tiddlyspace.com#TiddlySpaceLinkPlugin", "TiddlySpaceLinkPlugin");
+		});
+
 		test('Wikifier: [[TiddlySpaceLinkPlugin]]@currentspace should be a tiddlyLink', function() {
 			var place = createWikifyTestElement("[[TiddlySpaceLinkPlugin]]@currentspace");
 			equals($(place).text(), "TiddlySpaceLinkPlugin");
@@ -288,6 +294,41 @@
 			var place = createWikifyTestElement("[[@anotherspace|@@anotherspace]]");
 			equals($(place).text(), "@anotherspace");
 			testTiddlySpaceLink($(place).find('a'), "http://anotherspace.tiddlyspace.com", "@anotherspace");
+		});
+
+		test('Wikifier: "text text [[TiddlySpaceLinkPlugin]]@anotherspace text text" should be a spaceLink', function() {
+			var place = createWikifyTestElement("text text [[TiddlySpaceLinkPlugin]]@anotherspace text text");
+			equals($(place).text(), "text text TiddlySpaceLinkPlugin text text");
+			testTiddlySpaceLink($(place).find('a'), "http://anotherspace.tiddlyspace.com#TiddlySpaceLinkPlugin", "TiddlySpaceLinkPlugin");
+		});
+
+		test('Wikifier: [[Small Trusted Group]]@glossary should be a spaceLink', function() {
+			var place = createWikifyTestElement("[[Small Trusted Group]]@glossary");
+			equals($(place).text(), "Small Trusted Group");
+			testTiddlySpaceLink($(place).find('a'), "http://glossary.tiddlyspace.com#%5B%5BSmall%20Trusted%20Group%5D%5D", "Small Trusted Group");
+		});
+
+		// TiddlySpace issue#350
+		test('Wikifier: "[[tiddler]]@space followed by [[@@anotherspace]]', function() {
+			var place = createWikifyTestElement("[[tiddler]]@space followed by [[@@anotherspace]]");
+			equals($(place).text(), "tiddler followed by anotherspace");
+			var links = $(place).find('a');
+			equals(links.length, 2, "two links");
+			testTiddlySpaceLink($(links[0]), "http://space.tiddlyspace.com#tiddler", "tiddler");
+			testTiddlySpaceLink($(links[1]), "http://anotherspace.tiddlyspace.com", "anotherspace");
+		});
+
+		test('Wikifier: "a mixture of links', function() {
+			var place = createWikifyTestElement("@space-name TiddlyLink [[Tiddly Link]] [[@space]] [[Small Trusted Group]]@glossary [[@@anotherspace]] @space");
+			var links = $(place).find('a');
+			equals(links.length, 7, "three links");
+			testTiddlySpaceLink($(links[0]), "http://space-name.tiddlyspace.com", "space-name");
+			testTiddlyLink($(links[1]), "TiddlyLink", "TiddlyLink");
+			testTiddlyLink($(links[2]), "Tiddly Link", "Tiddly Link");
+			testTiddlyLink($(links[3]), "@space", "@space");
+			testTiddlySpaceLink($(links[4]), "http://glossary.tiddlyspace.com#%5B%5BSmall%20Trusted%20Group%5D%5D", "Small Trusted Group");
+			testTiddlySpaceLink($(links[5]), "http://anotherspace.tiddlyspace.com", "anotherspace");
+			testTiddlySpaceLink($(links[6]), "http://space.tiddlyspace.com", "space");
 		});
 
 	});
