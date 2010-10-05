@@ -1,7 +1,20 @@
 from tiddlywebplugins import imrss
 from tiddlyweb.model.tiddler import Tiddler
+from tiddlyweb.model.bag import Bag
 import os
+from tiddlyweb import config
+from tiddlywebplugins.utils import get_store
 
+def setup():
+    store = get_store(config)
+    store.put(Bag("foo"))
+def teardown():
+    store = get_store(config)
+    store.delete(Bag("foo"))
+def test_savetiddlerstobag():
+    tid = Tiddler("test")
+    #imrss.savetiddlerstobag([tid], "foo")
+    
 def test_imrss():
     imrss.init({})
     tiddlers = imrss.tiddlers_from_rss("%s/test/example.xml"%os.getcwd())

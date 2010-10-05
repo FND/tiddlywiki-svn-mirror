@@ -31,9 +31,8 @@ def tiddlers_from_rss(rss_url):
       content = open(rss_url,"r")
       content = "".join(content.readlines())
     except IOError:
-      pass
+      content = ""
     resp = {"status":200}
-    
   content = content.replace("media:thumbnail","media_thumbnail") #this is a workaround to allow media thumbnails to work.
   content = content.replace("media:content","media_thumbnail") #this is a workaround to allow media thumbnails to work.
   feed = feedparser.parse(content)
@@ -190,8 +189,6 @@ def imrsswithtags(args):
         pass
     tiddler.tags = newtags
     newtiddlers.append(tiddler)
-
-
 
   savetiddlerstobag(newtiddlers,bagname,overwrite=True)
 

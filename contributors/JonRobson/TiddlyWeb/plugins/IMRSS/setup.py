@@ -3,7 +3,7 @@ AUTHOR = 'Jon Robson'
 AUTHOR_EMAIL = 'jdlrobson@gmail.com'
 NAME = 'tiddlywebplugins.imrss'
 DESCRIPTION = 'Allows you to import rss/atom feeds into tiddlers on your TiddlyWeb through a twanager command imrss. Also provides imrsswithtags which provides a mechanism to tag non-tagged rss feeds.'
-VERSION = '0.921'
+VERSION = '0.9.3'
 
 import os
 from setuptools import setup, find_packages
