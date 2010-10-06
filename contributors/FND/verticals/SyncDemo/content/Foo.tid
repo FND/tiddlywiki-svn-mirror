@@ -1,0 +1,7 @@
+modifier: FND
+tags: sample
+server.type: tiddlyweb
+server.host: tiddlyspace.com
+server.workspace: bags/fnd
+
+lorem ipsum
