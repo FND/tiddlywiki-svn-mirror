@@ -132,7 +132,7 @@ config.macros.importTiddlers.onGetTiddler = function(context, wizard) {
 		merge(fields, config.defaultCustomFields);
 		delete fields['server.permissions'];
 		delete fields['server.bag'];
-		delete fields['server.page.revision'];
+		fields['server.page.revision'] = 'false';
 		delete fields['server.recipe'];
 		fields.changecount = 1;
 		store.saveTiddler(tiddler.title, tiddler.title, tiddler.text,
