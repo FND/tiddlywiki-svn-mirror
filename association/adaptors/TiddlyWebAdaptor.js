@@ -119,15 +119,7 @@ adaptor.getTiddlerListCallback = function(status, context, responseText, uri, xh
 			return;
 		}
 		for(var i = 0; i < tiddlers.length; i++) {
-			var t = tiddlers[i];
-			var tiddler = new Tiddler(t.title);
-			t.created = Date.convertFromYYYYMMDDHHMM(t.created);
-			t.modified = Date.convertFromYYYYMMDDHHMM(t.modified);
-			tiddler.assign(t.title, t.text, t.modifier, t.modified, t.tags, t.created, t.fields);
-			tiddler.fields["server.type"] = adaptor.serverType;
-			tiddler.fields["server.host"] = AdaptorBase.minHostName(context.host);
-			tiddler.fields["server.workspace"] = context.workspace;
-			tiddler.fields["server.page.revision"] = t.revision;
+			var tiddler = context.adaptor.toTiddler(tiddlers[i], context.host);
 			context.tiddlers.push(tiddler);
 		}
 	}
@@ -180,14 +172,7 @@ adaptor.getTiddlerRevisionListCallback = function(status, context, responseText,
 			return;
 		}
 		for(var i = 0; i < tiddlers.length; i++) {
-			var t = tiddlers[i];
-			var tiddler = new Tiddler(t.title);
-			tiddler.assign(t.title, null, t.modifier, Date.convertFromYYYYMMDDHHMM(t.modified),
-				t.tags, Date.convertFromYYYYMMDDHHMM(t.created), t.fields);
-			tiddler.fields["server.type"] = adaptor.serverType;
-			tiddler.fields["server.host"] = AdaptorBase.minHostName(context.host);
-			tiddler.fields["server.page.revision"] = t.revision;
-			tiddler.fields["server.workspace"] = "bags/" + t.bag;
+			var tiddler = context.adaptor.toTiddler(tiddlers[i], context.host);
 			context.revisions.push(tiddler);
 		}
 		var sortField = "server.page.revision";
@@ -224,7 +209,6 @@ adaptor.prototype.getTiddler = function(title, context, userParams, callback) {
 	}
 	context.tiddler.fields["server.type"] = adaptor.serverType;
 	context.tiddler.fields["server.host"] = AdaptorBase.minHostName(context.host);
-	context.tiddler.fields["server.title"] = title; //# required for detecting renames
 	context.tiddler.fields["server.workspace"] = context.workspace;
 	var workspace = adaptor.resolveWorkspace(context.workspace);
 	var uri = uriTemplate.format([context.host, workspace.type + "s",
@@ -241,7 +225,7 @@ adaptor.getTiddlerCallback = function(status, context, responseText, uri, xhr) {
 	context.httpStatus = xhr.status;
 	if(status) {
 		try {
-			var t = $.evalJSON(responseText); //# NB: not an actual tiddler instance
+			var tid = $.evalJSON(responseText);
 		} catch(ex) {
 			context.status = false;
 			context.statusText = exceptionText(ex, adaptor.parsingErrorMessage);
@@ -250,21 +234,9 @@ adaptor.getTiddlerCallback = function(status, context, responseText, uri, xhr) {
 			}
 			return;
 		}
-		context.tiddler.assign(context.tiddler.title, t.text, t.modifier,
-			Date.convertFromYYYYMMDDHHMM(t.modified), t.tags || [],
-			Date.convertFromYYYYMMDDHHMM(t.created), context.tiddler.fields,
-			t.creator); // XXX: merge extended fields!?
-		context.tiddler.fields["server.bag"] = t.bag;
-		context.tiddler.fields["server.etag"] = xhr.getResponseHeader("Etag");
-		if(t.recipe) {
-			context.tiddler.fields["server.recipe"] = t.recipe;
-		}
-		context.tiddler.fields["server.workspace"] = "bags/" + t.bag;
-		context.tiddler.fields["server.page.revision"] = t.revision;
-		context.tiddler.fields["server.permissions"] = t.permissions.join(", ");
-		if(t.type && t.type != "None") {
-			context.tiddler.fields["server.content-type"] = t.type;
-		}
+		var tiddler = context.adaptor.toTiddler(tid, context.host);
+		tiddler.title = context.tiddler.title;
+		tiddler.fields["server.etag"] = xhr.getResponseHeader("Etag");
 	}
 	if(context.callback) {
 		context.callback(context, context.userParams);
@@ -568,6 +540,30 @@ adaptor.prototype.generateTiddlerInfo = function(tiddler) {
 		adaptor.normalizeTitle(workspace.name),
 		adaptor.normalizeTitle(tiddler.title)]);
 	return info;
+};
+
+// create Tiddler instance from TiddlyWeb tiddler JSON
+adaptor.prototype.toTiddler = function(json, host) {
+	var created = Date.convertFromYYYYMMDDHHMM(json.created);
+	var modified = Date.convertFromYYYYMMDDHHMM(json.modified);
+	var fields = json.fields;
+	fields["server.type"] = this.serverType;
+	fields["server.host"] = AdaptorBase.minHostName(host);
+	fields["server.bag"] = json.bag;
+	fields["server.title"] = json.title;
+	if(json.recipe) {
+		fields["server.recipe"] = json.recipe;
+	}
+	if(json.type && json.type != "None") {
+		fields["server.content-type"] = json.type;
+	}
+	fields["server.permissions"] = json.permissions.join(", ");
+	fields["server.page.revision"] = json.revision;
+	fields["server.workspace"] = "bags/" + json.bag;
+	var tiddler = new Tiddler(json.title);
+	tiddler.assign(tiddler.title, json.text, json.modifier, modified, json.tags,
+		created, json.fields, json.creator);
+	return tiddler;
 };
 
 adaptor.resolveWorkspace = function(workspace) {
