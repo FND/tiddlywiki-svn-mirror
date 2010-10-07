@@ -5,8 +5,8 @@ type: None
 tags: systemConfig
 
 /***
-|TableViewPlugin|
-|Version|0.4|
+|TableViewPlugin||
+|Version|0.5|
 |Author|Ben Gillies|
 |Type|plugin|
 |Description|view tiddlers in a table suitable for copying into excel|
@@ -52,77 +52,79 @@ In this case, title is always used as the default first column.
 !Code
 ***/
 //{{{
-    if(!version.extensions.TableViewPlugin)
-    { //# ensure that the plugin is only installed once
-        version.extensions.TableViewPlugin = { installed: true }
-    };
-    
-    config.macros.table ={
-        handler: function(place, macroName, params, wikifier, paramString, tiddler){ 
-            
-            //parse the params into tableHeadings and excludeBags
-            params = paramString.parseParams()[0];
-            
-            var tiddlers = store.filterTiddlers(params['filter']);
-            var headings = params['heading'];
-            var columnTiddler = false;
-            if ('columnTiddler' in params) {
-                columnTiddler = store.getTiddler(params['columnTiddler']);
-                var pattern = new RegExp(headings + '$');
-                headings = columnTiddler.text.split('\n');
-                for (var i=0; i<headings.length; i++) {
-                    headings[i] = headings[i].split(pattern)[0];
-                }
-            }
-            
-            //set up the table
-            var table = jQuery('<table class="reportTable" />');
-            jQuery('<div class="reportContainer" />').append(table).appendTo(place);
-            
-            //construct the table heading
-            var tableHeading = jQuery('<tr />').appendTo(jQuery('<thead/>').appendTo(table));
-            if (columnTiddler) {
-                jQuery('<th />').text('title').appendTo(tableHeading);
-            }
-            for (var i=0; i<headings.length; i++) {
-                jQuery('<th />').text(headings[i]).appendTo(tableHeading);
-            }
-            
-            //construct the table body
-            var tableBody = jQuery('<tbody />').appendTo(table);
-            for (var i=0; i < tiddlers.length; i++) {
-                var tiddler = tiddlers[i];
-                var currentRow = jQuery('<tr />').appendTo(tableBody);
-                if (columnTiddler) {
-                    var titlePlace = jQuery('<td />').appendTo(currentRow);
-                    createTiddlyLink(titlePlace[0], tiddler.title, true);
-                }
-                for (var j=0; j<headings.length; j++) {
-                    var heading = headings[j];
-                    var currentCell = jQuery('<td />').appendTo(currentRow);
-                    //get the value for this cell from a similarly named tiddler (eg - Foo_fieldName)
-                    var fetchValue = function() {
-                        var subTiddlerName = tiddler.title + '_' + heading;
-                        var cellTiddler = store.getTiddler(subTiddlerName);
-                        if (cellTiddler) {
-                            return cellTiddler.text;
-                        } else {
-                           return '';
-                        }
-                    }
-                    if (heading === 'title') {
-                        createTiddlyLink(currentCell[0], tiddler.title, true);
-                    } else if (heading in tiddler) {
-                        wikify(tiddler[heading], currentCell[0]);
-                    } else if (heading in tiddler.fields) {
-                        wikify(tiddler.fields[heading], currentCell[0]);
-                    } else if (store.getTiddlerSlice(tiddler.title, heading)) {
-                        wikify(store.getTiddlerSlice(tiddler.title, heading), currentCell[0]);
-                    } else {
-                        wikify(fetchValue(), currentCell[0]);
-                    }
-                }
-            }
-        }
-    }
+	if(!version.extensions.TableViewPlugin)
+	{ //# ensure that the plugin is only installed once
+		version.extensions.TableViewPlugin = { installed: true }
+	};
+
+	config.macros.table ={
+		handler: function(place, macroName, params, wikifier, paramString, tiddler){ 
+
+			//parse the params into tableHeadings and excludeBags
+			params = paramString.parseParams()[0];
+
+			var tiddlers = store.filterTiddlers(params['filter']);
+			var headings = params['heading'];
+			var columnTiddler = false;
+			if ('columnTiddler' in params) {
+				columnTiddler = store.getTiddler(params['columnTiddler']);
+				var pattern = new RegExp(headings + '$');
+				headings = columnTiddler.text.split('\n');
+				for (var i=0; i<headings.length; i++) {
+					headings[i] = headings[i].split(pattern)[0];
+				}
+			}
+
+			//set up the table
+			var table = jQuery('<table class="reportTable" />');
+			jQuery('<div class="reportContainer" />').
+				append(table).appendTo(place);
+
+			//construct the table heading
+			var tableHeading = jQuery('<tr />').appendTo(jQuery('<thead/>').appendTo(table));
+			if (columnTiddler) {
+				jQuery('<th />').text('title').appendTo(tableHeading);
+			}
+			for (var i=0; i<headings.length; i++) {
+				jQuery('<th />').text(headings[i]).appendTo(tableHeading);
+			}
+
+			//construct the table body
+			var tableBody = jQuery('<tbody />').appendTo(table);
+			for (var i=0; i < tiddlers.length; i++) {
+				var tiddler = tiddlers[i];
+				var currentRow = jQuery('<tr />').appendTo(tableBody);
+				if (columnTiddler) {
+					var titlePlace = jQuery('<td />').appendTo(currentRow);
+					createTiddlyLink(titlePlace[0], tiddler.title, true);
+				}
+				for (var j=0; j<headings.length; j++) {
+					var heading = headings[j];
+					var currentCell = jQuery('<td />').appendTo(currentRow);
+					//get the value for this cell from a similarly named tiddler (eg - Foo_fieldName)
+					var fetchValue = function() {
+						var subTiddlerName = tiddler.title + '_' + heading;
+						var cellTiddler = store.getTiddler(subTiddlerName);
+						if (cellTiddler) {
+							return cellTiddler.text;
+						} else {
+						   return '';
+						}
+					}
+					if (heading === 'title') {
+						createTiddlyLink(currentCell[0], tiddler.title, true);
+					} else {
+						var text = tiddler[heading] ||
+							tiddler.fields[heading] ||
+							store.getTiddlerSlice(tiddler.title, heading) ||
+							store.getTiddlerText(tiddler.title +
+								config.textPrimitives.sectionSeparator +
+								heading) ||
+							fetchValue();
+						wikify(text, currentCell[0]);
+					}
+				}
+			}
+		}
+	}
 //}}}
