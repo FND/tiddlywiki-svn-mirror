@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|FND|
 |''Contributors''|Chris Dent, Martin Budden|
-|''Version''|1.4.1|
+|''Version''|1.4.2|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/|
@@ -119,7 +119,7 @@ adaptor.getTiddlerListCallback = function(status, context, responseText, uri, xh
 			return;
 		}
 		for(var i = 0; i < tiddlers.length; i++) {
-			var tiddler = context.adaptor.toTiddler(tiddlers[i], context.host);
+			var tiddler = adaptor.toTiddler(tiddlers[i], context.host);
 			context.tiddlers.push(tiddler);
 		}
 	}
@@ -172,7 +172,7 @@ adaptor.getTiddlerRevisionListCallback = function(status, context, responseText,
 			return;
 		}
 		for(var i = 0; i < tiddlers.length; i++) {
-			var tiddler = context.adaptor.toTiddler(tiddlers[i], context.host);
+			var tiddler = adaptor.toTiddler(tiddlers[i], context.host);
 			context.revisions.push(tiddler);
 		}
 		var sortField = "server.page.revision";
@@ -235,7 +235,7 @@ adaptor.getTiddlerCallback = function(status, context, responseText, uri, xhr) {
 			}
 			return;
 		}
-		var tiddler = context.adaptor.toTiddler(tid, context.host);
+		var tiddler = adaptor.toTiddler(tid, context.host);
 		tiddler.title = context.tiddler.title;
 		tiddler.fields["server.etag"] = xhr.getResponseHeader("Etag");
 		context.tiddler = tiddler;
@@ -546,11 +546,11 @@ adaptor.prototype.generateTiddlerInfo = function(tiddler) {
 };
 
 // create Tiddler instance from TiddlyWeb tiddler JSON
-adaptor.prototype.toTiddler = function(json, host) {
+adaptor.toTiddler = function(json, host) {
 	var created = Date.convertFromYYYYMMDDHHMM(json.created);
 	var modified = Date.convertFromYYYYMMDDHHMM(json.modified);
 	var fields = json.fields;
-	fields["server.type"] = this.serverType;
+	fields["server.type"] = adaptor.serverType;
 	fields["server.host"] = AdaptorBase.minHostName(host);
 	fields["server.bag"] = json.bag;
 	fields["server.title"] = json.title;
