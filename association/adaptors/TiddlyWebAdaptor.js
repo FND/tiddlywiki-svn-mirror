@@ -210,9 +210,10 @@ adaptor.prototype.getTiddler = function(title, context, userParams, callback) {
 	context.tiddler.fields["server.type"] = adaptor.serverType;
 	context.tiddler.fields["server.host"] = AdaptorBase.minHostName(context.host);
 	context.tiddler.fields["server.workspace"] = context.workspace;
+	var serverTitle = context.tiddler.fields["server.title"] || title;
 	var workspace = adaptor.resolveWorkspace(context.workspace);
 	var uri = uriTemplate.format([context.host, workspace.type + "s",
-		adaptor.normalizeTitle(workspace.name), adaptor.normalizeTitle(title),
+		adaptor.normalizeTitle(workspace.name), adaptor.normalizeTitle(serverTitle),
 		context.revision]);
 	var req = httpReq("GET", uri, adaptor.getTiddlerCallback, context,
 		merge({ accept: adaptor.mimeType }, context.headers), null, null, null, null, true);
