@@ -60,6 +60,25 @@ var macro = config.macros.esync = {
 				find(".tiddlyLink").replaceWith(link).end(). // XXX: hacky?
 				appendTo(table);
 		}
+
+		var cbs = table.find("input[type=checkbox]");
+		var globalcb = cbs.first();
+		cbs = cbs.slice(1);
+		globalcb.change(function(ev) { // TODO: use live?
+			var checked = $(this).attr("checked");
+			if(checked) {
+				cbs.attr("checked", "checked");
+			} else {
+				cbs.removeAttr("checked");
+			}
+		});
+		cbs.change(function(ev) { // TODO: use live?
+			var checked = $(this).attr("checked");
+			if(!checked) {
+				globalcb.removeAttr("checked");
+			}
+		});
+
 		table.appendTo(place);
 	},
 
