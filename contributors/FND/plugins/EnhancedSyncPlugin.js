@@ -39,9 +39,13 @@ var macro = config.macros.esync = {
 		this.display(candidates, place);
 	},
 
-	display: function(tiddlers, place) {
+	display: function(tiddlers, place) { // XXX: should use sync tasks
 		tiddlers.sort(function(a, b) {
-			return a.title < b.title ? -1 : (a.title == b.title ? 0 : +1);
+			a = "%0::%1::%2".format(a.fields["server.host"],
+				a.fields["server.workspace"], a.title);
+			b = "%0::%1::%2".format(b.fields["server.host"],
+				b.fields["server.workspace"], b.title);
+			return a < b ? -1 : (a == b ? 0 : +1);
 		});
 		var table = $(templates.table).addClass("wizard"); // XXX: class required for style compatibility
 		for(var i = 0; i < tiddlers.length; i++) {
@@ -137,7 +141,7 @@ var macro = config.macros.esync = {
 					};
 					var _callback = function(context, userParams) {
 						if(context.status) {
-							var tasks = macro.determineTasks(tiddlers, context.tiddlers);
+							var tasks = macro.generateTasks(tiddlers, context.tiddlers);
 							finalCallback(tasks);
 						} else {
 							// TODO: error handling
@@ -168,8 +172,8 @@ var macro = config.macros.esync = {
 	},
 
 	// generate sync tasks by comparing lists of tiddlers
-	determineTasks: function(locals, remotes) {
-		var cue = "server.page.revision"; // XXX: rename? unnecessary?
+	generateTasks: function(locals, remotes) {
+		var cue = "server.page.revision"; // TODO: configurable by adaptor?
 		var tasks = [];
 		var i;
 		for(i = 0; i < locals.length; i++) {
