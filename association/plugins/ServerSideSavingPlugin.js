@@ -2,7 +2,7 @@
 |''Name''|ServerSideSavingPlugin|
 |''Description''|server-side saving|
 |''Author''|FND|
-|''Version''|0.6.4|
+|''Version''|0.6.5|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/plugins/ServerSideSavingPlugin.js|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
@@ -56,7 +56,7 @@ plugin.sync = function(tiddlers) {
 		if(tiddler.fields.deleted === "true" && changecount === 1) {
 			plugin.removeTiddler(tiddler);
 		} else if(tiddler.isTouched() && !tiddler.doNotSave() &&
-				tiddler.getServerType() && tiddler.fields["server.host"]) {
+				tiddler.getServerType() && tiddler.fields["server.host"]) { // XXX: server.host could be empty string
 			delete tiddler.fields.deleted;
 			plugin.saveTiddler(tiddler);
 		}
@@ -110,8 +110,11 @@ plugin.removeTiddler = function(tiddler) {
 	} catch(ex) {
 		return false;
 	}
-	context = { tiddler: tiddler };
-	context.workspace = tiddler.fields["server.workspace"];
+	var context = {
+		host: tiddler.fields["server.host"],
+		workspace: tiddler.fields["server.workspace"],
+		tiddler: tiddler
+	};
 	var req = adaptor.deleteTiddler(tiddler, context, {}, this.removeTiddlerCallback);
 	return req ? tiddler : false;
 };
