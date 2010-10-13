@@ -33,6 +33,8 @@ var templates = { // TODO: proper (supplant-style) templating
 	row: store.getTiddlerText(tiddler.title + "##Row")
 };
 
+var doc = $(document);
+
 var macro = config.macros.esync = {
 	handler: function(place, macroName, params, wikifier, paramString, tiddler) {
 		var candidates = this.getCandidates(); // XXX: hides non-sync'able tiddlers, thus suppressing potential issues!?
@@ -86,6 +88,32 @@ var macro = config.macros.esync = {
 		table.appendTo(place);
 	},
 
+	// start the sync process
+	processTasks: function(tasks, callback) {
+		var pending = 0;
+		doc.bind("sync", function(ev, data) {
+			pending--;
+			if(pending == 0) {
+				callback(taskList);
+			}
+		});
+		for(var i = 0; i < tasks.length; i++) {
+			var task = tasks[i];
+			pending++;
+			switch(task.type) {
+				case "push":
+					this.push(task.tiddler);
+					break;
+				case "pull":
+					this.pull(task.tiddler);
+					break;
+				case "conflict":
+					doc.trigger("sync", { status: "conflict", tiddler: tiddler });
+					break;
+			}
+		}
+	},
+
 	// generate a list of sync tasks
 	// tiddlers argument is optional
 	// callback is passed list of sync tasks with members type and tiddler
@@ -122,7 +150,7 @@ var macro = config.macros.esync = {
 	getRemoteChanges: function(index, callback) { // XXX: misnamed (also takes into account local changes)
 		var taskList = []; // XXX: rename
 		var pending = 0;
-		var finalCallback = function(tasks) { // XXX: rename
+		var observer = function(tasks) { // TODO: rename?
 			pending--;
 			taskList = taskList.concat(tasks);
 			if(pending == 0) {
@@ -132,7 +160,7 @@ var macro = config.macros.esync = {
 		// determine remote changes for each workspace
 		for(var type in index) {
 			for(var host in index[type]) {
-				$.each(index[type][host], function(i, workspace) {
+				$.each(index[type][host], function(i, workspace) { // XXX: dangerous (cf. JSLint)
 					var tiddlers = index[type][host][workspace];
 					var adaptor = tiddlers[0].getAdaptor();
 					var context = {
@@ -142,7 +170,7 @@ var macro = config.macros.esync = {
 					var _callback = function(context, userParams) {
 						if(context.status) {
 							var tasks = macro.generateTasks(tiddlers, context.tiddlers);
-							finalCallback(tasks);
+							observer(tasks);
 						} else {
 							// TODO: error handling
 						}
@@ -201,11 +229,13 @@ var macro = config.macros.esync = {
 	push: function(tiddler) {
 		var adaptor = this.getAdaptor(tiddler);
 		var context = {
-			tiddler: tiddler,
-			changecount: tiddler.fields.changecount,
-			workspace: tiddler.fields["server.workspace"]
+			host: adaptor.fullHostName(tiddler.fields["server.host"]),
+			workspace: tiddler.fields["server.workspace"],
+			tiddler: tiddler
 		};
-
+		var userParams = {
+			changecount: tiddler.fields.changecount
+		};
 		var serverTitle = tiddler.fields["server.title"];
 		if(!serverTitle) {
 			tiddler.fields["server.title"] = tiddler.title;
@@ -213,26 +243,23 @@ var macro = config.macros.esync = {
 			return adaptor.moveTiddler({ title: serverTitle },
 				{ title: tiddler.title }, context, null, this.pushTiddlerCallback);
 		}
-
-		var req = adaptor.putTiddler(tiddler, context, {}, this.pushTiddlerCallback);
-		return req ? tiddler : false;
+		return adaptor.putTiddler(tiddler, context, userParams, this.pushTiddlerCallback); // XXX: return contract?
 	},
 	pushCallback: function(context, userParams) {
 		var tiddler = context.tiddler;
+		var status, msg;
 		if(context.status) {
-			if(tiddler.fields.changecount == context.changecount) { // detect changes since push was triggered
+			if(tiddler.fields.changecount == userParams.changecount) { // detect changes since push was triggered
 				tiddler.clearChangeCount();
 			} else if(tiddler.fields.changecount > 0) {
-				tiddler.fields.changecount -= context.changecount;
+				tiddler.fields.changecount -= userParams.changecount;
 			}
-			store.setDirty(false); // XXX: race condition
+			status = "success";
 		} else {
-			if(context.httpStatus == 412) {
-				plugin.reportFailure("saveConflict", tiddler);
-			} else {
-				plugin.reportFailure("saveError", tiddler, context);
-			}
+			status = context.httpStatus == 412 ? "conflict" : "error";
+			msg = context.statusText;
 		}
+		doc.trigger("sync", { status: status, message: msg, tiddler: tiddler }); // XXX: advantage over regular callback? (UI updates!?)
 	}
 };
 
