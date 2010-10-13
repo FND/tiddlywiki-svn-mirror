@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|FND|
 |''Contributors''|Chris Dent, Martin Budden|
-|''Version''|1.4.3|
+|''Version''|1.4.4|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/|
@@ -423,7 +423,10 @@ adaptor.prototype.moveTiddler = function(from, to, context, userParams, callback
 		} else if(context.workspace.substring(0, 4) != "bags") { // NB: target workspace must be a bag
 			context.workspace = "bags/" + rev.bag;
 		}
-		var subCallback = function(context, userparams) {
+		var subCallback = function(context, userParams) {
+			if(!context.status) {
+				return callback(context, userParams);
+			}
 			context.adaptor.getTiddler(newTiddler.title, context, userParams, _deleteTiddler);
 		};
 		return self.putTiddlerChronicle(revisions, context, context.userParams, subCallback);
