@@ -1,2 +1,2 @@
-ssh pauldowney@amp.dreamhost.com mkdir /home/pauldowney/whatfettle.com/2008/07/ProgressBarPlugin/
-scp index.html pauldowney@amp.dreamhost.com:/home/pauldowney/whatfettle.com/2008/07/ProgressBarPlugin/
+ssh ${TW_DEPLOY_HOST:?} mkdir ${TW_DEPLOY_DIR?:?}/ProgressBarPlugin/
+scp index.html ${TW_DEPLOY_HOST:?}:${TW_DEPLOY_DIR?:?}/ProgressBarPlugin/

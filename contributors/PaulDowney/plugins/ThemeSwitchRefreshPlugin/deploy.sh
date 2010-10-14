@@ -1,2 +1,2 @@
-ssh pauldowney@amp.dreamhost.com mkdir /home/pauldowney/whatfettle.com/2008/07/ThemeSwitchRefreshPlugin/
-scp index.html pauldowney@amp.dreamhost.com:/home/pauldowney/whatfettle.com/2008/07/ThemeSwitchRefreshPlugin/
+ssh ${TW_DEPLOY_HOST:?} mkdir ${TW_DEPLOY_DIR?:?}/ThemeSwitchRefreshPlugin/
+scp index.html ${TW_DEPLOY_HOST:?}:${TW_DEPLOY_DIR?:?}/ThemeSwitchRefreshPlugin/

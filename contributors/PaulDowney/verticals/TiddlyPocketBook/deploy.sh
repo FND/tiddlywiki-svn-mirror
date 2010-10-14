@@ -1,8 +1,8 @@
 
-scp index.html pauldowney@amp.dreamhost.com:/home/pauldowney/tiddlypocketbook.com/
+scp index.html ${TW_DEPLOY_HOST:?}:/home/pauldowney/tiddlypocketbook.com/
 
-#ssh pauldowney@amp.dreamhost.com mkdir -p /home/pauldowney/tiddlypocketbook.com/books/psd/
-scp TiddlyWikiPocketBook.pdf pauldowney@amp.dreamhost.com:/home/pauldowney/tiddlypocketbook.com/books/psd
+#ssh ${TW_DEPLOY_HOST:?} mkdir -p /home/pauldowney/tiddlypocketbook.com/books/psd/
+scp TiddlyWikiPocketBook.pdf ${TW_DEPLOY_HOST:?}:/home/pauldowney/tiddlypocketbook.com/books/psd
 
 (
 	cd ..
@@ -13,4 +13,4 @@ scp TiddlyWikiPocketBook.pdf pauldowney@amp.dreamhost.com:/home/pauldowney/tiddl
 	) | zip -@ TiddlyPocketBook/TiddlyPocketBook.zip
 )
 
-scp TiddlyPocketBook.zip pauldowney@amp.dreamhost.com:/home/pauldowney/tiddlypocketbook.com/
+scp TiddlyPocketBook.zip ${TW_DEPLOY_HOST:?}:/home/pauldowney/tiddlypocketbook.com/

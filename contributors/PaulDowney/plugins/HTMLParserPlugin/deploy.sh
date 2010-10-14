@@ -1,2 +1,2 @@
-#ssh pauldowney@amp.dreamhost.com mkdir /home/pauldowney/whatfettle.com/2008/07/HTMLParserPlugin/
-scp index.html simple.html HTMLParserPlugin.js pauldowney@amp.dreamhost.com:/home/pauldowney/whatfettle.com/2008/07/HTMLParserPlugin/
+#ssh ${TW_DEPLOY_HOST:?} mkdir ${TW_DEPLOY_DIR?:?}/HTMLParserPlugin/
+scp index.html simple.html HTMLParserPlugin.js ${TW_DEPLOY_HOST:?}:${TW_DEPLOY_DIR?:?}/HTMLParserPlugin/
