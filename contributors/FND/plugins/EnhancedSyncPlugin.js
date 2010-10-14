@@ -1,6 +1,15 @@
 /***
 !TODO
 * encapsulate fields access (server.{host,workspace}; cf. getServerType)?
+!Wizard
+<div class="wizard">
+	<h1></h1>
+	<div class="wizardBody">
+		<h2></h2>
+		<div class="wizardStep"></div>
+	</div>
+	<div class="wizardFooter"></div>
+</div>
 !Table
 <table>
 	<thead>
@@ -29,6 +38,7 @@
 (function($) {
 
 var templates = { // TODO: proper (supplant-style) templating
+	wizard: store.getTiddlerText(tiddler.title + "##Wizard"),
 	table: store.getTiddlerText(tiddler.title + "##Table"),
 	row: store.getTiddlerText(tiddler.title + "##Row")
 };
@@ -42,6 +52,13 @@ var macro = config.macros.esync = {
 	},
 
 	display: function(tiddlers, place) { // XXX: should use sync tasks
+		var btn = config.macros.sync.listViewTemplate.buttons[0];
+		btn = createTiddlyButton(null, btn.name, btn.caption, this.onStart);
+		var container = $(templates.wizard).appendTo(place). // required for styling compatibility
+			find("h1").text(config.macros.sync.wizardTitle).end().
+			find("h2").text(config.macros.sync.step1Title).end().
+			find(".wizardFooter").append(btn).end().
+			find(".wizardStep");
 		tiddlers.sort(function(a, b) {
 			a = "%0::%1::%2".format(a.fields["server.host"],
 				a.fields["server.workspace"], a.title);
@@ -49,7 +66,7 @@ var macro = config.macros.esync = {
 				b.fields["server.workspace"], b.title);
 			return a < b ? -1 : (a == b ? 0 : +1);
 		});
-		var table = $(templates.table).addClass("wizard"); // XXX: class required for style compatibility
+		var table = $(templates.table);
 		for(var i = 0; i < tiddlers.length; i++) {
 			var tiddler = tiddlers[i];
 			var adaptor = tiddler.getAdaptor();
@@ -85,7 +102,11 @@ var macro = config.macros.esync = {
 			}
 		});
 
-		table.appendTo(place);
+		table.appendTo(container);
+		console.log(table);
+	},
+	onStart: function(ev) {
+		// TODO: dispatch processTasks for selection
 	},
 
 	// start the sync process
@@ -263,7 +284,7 @@ var macro = config.macros.esync = {
 	}
 };
 
-var getSyncStatus = function(tiddler) {
+var getSyncStatus = function(tiddler) { // XXX: unused!?
 	if(!tiddler.isTouched()) {
 		return "none";
 	} else if(tiddler.fields["server.title"] &&
