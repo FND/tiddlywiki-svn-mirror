@@ -24,6 +24,7 @@ config.macros.fileImport = {
 	uploadLabel: 'Upload',
 	uploadLabelPrompt: 'Import tiddlers from this TiddlyWiki',
 	step1Text: 'Pick a TiddlyWiki file to Upload',
+	step1Subtext: 'In the next screen you will select the tiddlers to import.',
 	step1Title: 'Step 1: Upload a TiddlyWiki file',
 	step3Html: '<input type="hidden" name="markList" />'
 		+ '<input type="hidden" checked="true" name="chkSync" />'
@@ -46,6 +47,7 @@ config.macros.fileImport = {
 		uploadWrapper.setAttribute('refresh', 'macro');
 		uploadWrapper.getAttribute('macroName', 'fileImport');
 		$(uploadWrapper).append('<p>' + me.step1Text + '</p>');
+		$(uploadWrapper).append('<p>' + me.step1Subtext + '</p>');
 		var iframeName = 'reflectorImporter' + Math.random().toString();
 		me.createForm(uploadWrapper, wizard, iframeName);
 		wizard.setValue('serverType', 'tiddlyweb');
@@ -121,7 +123,7 @@ config.macros.fileImport = {
 	}
 };
 
-_onGetTiddler = config.macros.importTiddlers.onGetTiddler;
+var _onGetTiddler = config.macros.importTiddlers.onGetTiddler;
 config.macros.importTiddlers.onGetTiddler = function(context, wizard) {
 	if (wizard.getValue('inFileImport')) {
 		var me = config.macros.importTiddlers;
@@ -155,7 +157,7 @@ config.macros.importTiddlers.onGetTiddler = function(context, wizard) {
 	}
 };
 
-_onCancel = config.macros.importTiddlers.onCancel;
+var _onCancel = config.macros.importTiddlers.onCancel;
 config.macros.importTiddlers.onCancel = function(e)
 {
 	var wizard = new Wizard(this);
@@ -167,8 +169,8 @@ config.macros.importTiddlers.onCancel = function(e)
 	return false;
 };
 
-_step3Html = config.macros.importTiddlers.step3Html;
-_onGetTiddlerList = config.macros.importTiddlers.onGetTiddlerList;
+var _step3Html = config.macros.importTiddlers.step3Html;
+var _onGetTiddlerList = config.macros.importTiddlers.onGetTiddlerList;
 config.macros.importTiddlers.onGetTiddlerList = function(context, wizard) {
 	var fileImport = config.macros.fileImport;
 	var importTiddlers = config.macros.importTiddlers;
