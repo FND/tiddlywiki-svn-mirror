@@ -1,6 +1,6 @@
 /***
 |''Name''|ImageMacroPlugin|
-|''Version''|0.8.4|
+|''Version''|0.8.5|
 |''Description''|Allows the rendering of svg images in a TiddlyWiki|
 |''Author''|Osmosoft|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
@@ -121,6 +121,10 @@ var macro = config.macros.image = {
 
 		if(macro.svgAvailable) {
 			this._importSVG(place, options); // display the svg
+		} else if(options.altImage) {
+			var image = options.altImage;
+			delete options.altImage;
+			this._renderBinaryImageUrl(place, image, options);
 		} else {
 			this._renderAlternateText(place, options); // instead of showing the image show the alternate text.
 		}
@@ -151,7 +155,13 @@ var macro = config.macros.image = {
 		var image = new Image(); // due to weird scaling issues where you use just a width or just a height
 		var createImageTag = function(dimensions) {
 			if(!dimensions || !dimensions.width) {
-				macro._renderAlternateText(container, options);
+				var altImage = options.altImage;
+				if(altImage) {
+					delete options.altImage;
+					macro._renderBinaryImageUrl(container, altImage, options);
+				} else {
+					macro._renderAlternateText(container, options);
+				}
 			} else {
 				var userH = options.height;
 				var userW = options.width;
