@@ -110,7 +110,7 @@ var macro = config.macros.esync = {
 	},
 
 	// start the sync process
-	processTasks: function(tasks, callback) {
+	processTasks: function(tasks, callback) { // TODO: should trigger queue to avoid overlapping sync batches
 		var pending = 0;
 		doc.bind("sync", function(ev, data) {
 			pending--;
@@ -247,37 +247,61 @@ var macro = config.macros.esync = {
 	},
 
 	// send an individual tiddler to the server
+	// XXX: return contract?
 	push: function(tiddler) {
-		var adaptor = this.getAdaptor(tiddler);
-		var context = {
-			host: adaptor.fullHostName(tiddler.fields["server.host"]),
-			workspace: tiddler.fields["server.workspace"],
-			tiddler: tiddler
-		};
-		var userParams = {
-			changecount: tiddler.fields.changecount
-		};
+		var env = env(tiddler);
 		var serverTitle = tiddler.fields["server.title"];
 		if(!serverTitle) {
 			tiddler.fields["server.title"] = tiddler.title;
 		} else if(tiddler.title != serverTitle) {
-			return adaptor.moveTiddler({ title: serverTitle },
-				{ title: tiddler.title }, context, null, this.pushTiddlerCallback);
+			return env.adaptor.moveTiddler({ title: serverTitle }, // XXX: moveTiddler signature is bad; should use tiddler objects
+				{ title: tiddler.title }, env.context, env.cache,
+				this.pushCallback);
 		}
-		return adaptor.putTiddler(tiddler, context, userParams, this.pushTiddlerCallback); // XXX: return contract?
+		return env.adaptor.putTiddler(tiddler, env.context, env.cache,
+			this.pushCallback);
 	},
 	pushCallback: function(context, userParams) {
 		var tiddler = context.tiddler;
 		var status, msg;
 		if(context.status) {
-			if(tiddler.fields.changecount == userParams.changecount) { // detect changes since push was triggered
+			if(userParams.original.fields.changecount == userParams.changecount) {
 				tiddler.clearChangeCount();
-			} else if(tiddler.fields.changecount > 0) {
+			} else if(tiddler.fields.changecount > 0) { // local changes since request was triggered
 				tiddler.fields.changecount -= userParams.changecount;
 			}
+			// TODO: save tiddler back to store (based on server.title), without overwriting local changes occurred in the meantime
 			status = "success";
 		} else {
 			status = context.httpStatus == 412 ? "conflict" : "error";
+			msg = context.statusText;
+		}
+		doc.trigger("sync", { status: status, message: msg, tiddler: tiddler }); // XXX: advantage over regular callback? (UI updates!?)
+	},
+	// retrieve an individual tiddler from the server
+	// XXX: return contract?
+	pull: function(tiddler) {
+		var env = env(tiddler);
+		// TODO: support server.id for locally diverging titles
+		return env.adaptor.getTiddler(tiddler.title, env.context, env.chache,
+			this.pullCallback);
+	},
+	pullCallback: function(context, userParams) { // TODO: DRY (cf. pushCallback)?
+		var tiddler = context.tiddler;
+		var status, msg;
+		if(context.status) {
+			if(userParams.original.fields.changecount == userParams.changecount) {
+				tiddler = store.saveTiddler(tiddler.title, tiddler.title,
+					tiddler.text, tiddler.modifier, tiddler.modified,
+					tiddler.tags, tiddler.fields, true, tiddler.created,
+					tiddler.creator);
+				status = "success";
+			} else if(userParams.original.fields.changecount > 0) { // local changes since request was triggered
+				status = "conflict";
+				msg = "changed locally during retrieval" // XXX: phrasing, i18n
+			}
+		} else {
+			status = context.httpStatus == 404 ? "not found" : "error"; // 404 should not occur here!?
 			msg = context.statusText;
 		}
 		doc.trigger("sync", { status: status, message: msg, tiddler: tiddler }); // XXX: advantage over regular callback? (UI updates!?)
@@ -303,6 +327,20 @@ var isSyncable = function(tiddler) { // TODO: elevate to Tiddler method?
 	var type = tiddler.getServerType();
 	var host = tiddler.fields["server.host"]; // XXX: might be empty string (falsey)!?
 	return type && host && !tiddler.doNotSave();
+};
+
+var env = function(tiddler) {
+	var context = {
+		host: tiddler.fields["server.host"], // expanded in adaptor via setContext
+		workspace: tiddler.fields["server.workspace"],
+		tiddler: tiddler
+	};
+	var cache = {
+		original: tiddler, // XXX: relies on tiddler and fields objects not being replaced in store
+		changecount: tiddler.fields.changecount
+	};
+	return { adaptor: tiddler.getAdaptor(), context: context, cache: cache };
+
 };
 
 })(jQuery);
