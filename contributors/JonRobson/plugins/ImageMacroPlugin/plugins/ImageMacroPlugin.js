@@ -1,6 +1,6 @@
 /***
 |''Name''|ImageMacroPlugin|
-|''Version''|0.8.5|
+|''Version''|0.8.6|
 |''Description''|Allows the rendering of svg images in a TiddlyWiki|
 |''Author''|Osmosoft|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
@@ -102,8 +102,9 @@ var macro = config.macros.image = {
 	},
 	_renderAlternateText: function(container, options) {
 		var img;
+		var src = options.src || "";
 		if(options.width && options.height) {
-			img = $("<img />").attr("src", "").addClass("svgImageText").attr("width", options.width).
+			img = $("<img />").attr("src", src).addClass("svgImageText").attr("width", options.width).
 				attr("height", options.height).appendTo(container);
 		}
 		var alt = options.alt;
@@ -112,6 +113,7 @@ var macro = config.macros.image = {
 		} else if(alt) {
 			$(container).addClass("svgImageText").text(alt);
 		}
+		macro._image_tag_cache[src] = img;
 	},
 	_renderSVGTiddler: function(place, tiddler, options) {
 		if(!options) {
@@ -151,6 +153,7 @@ var macro = config.macros.image = {
 	},
 	_renderBinaryImageUrl: function(container, src, options) {
 		var srcUrl = options.src ? options.src : src;
+		srcUrl = srcUrl.indexOf("/") === -1 ? "/%0".format([srcUrl]) : srcUrl; // for IE. 
 		var image_dimensions = macro._image_dimensions[srcUrl];
 		var image = new Image(); // due to weird scaling issues where you use just a width or just a height
 		var createImageTag = function(dimensions) {
@@ -160,6 +163,7 @@ var macro = config.macros.image = {
 					delete options.altImage;
 					macro._renderBinaryImageUrl(container, altImage, options);
 				} else {
+					options.src = src;
 					macro._renderAlternateText(container, options);
 				}
 			} else {
