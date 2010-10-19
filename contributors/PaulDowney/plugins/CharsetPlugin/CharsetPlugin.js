@@ -28,7 +28,7 @@ Produces a characterset, as used by http://fonts.tiddlyspace.com
 	function leg(low, high) {
 		var text = "";
 		for (var i = low; i <= high; i++) {
-			text += String.fromCharCode(i);
+			text += String.fromCharCode(0x200b) + String.fromCharCode(i);
 		}
 		return text;
 	}
