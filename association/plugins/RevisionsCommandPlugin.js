@@ -3,7 +3,7 @@
 |''Description''|provides access to tiddler revisions|
 |''Author''|FND|
 |''Contributors''|Martin Budden|
-|''Version''|0.3.2|
+|''Version''|0.3.3|
 |''Status''|@@beta@@|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/plugins/RevisionsCommandPlugin.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/plugins/|
@@ -53,24 +53,15 @@ var cmd = config.commands.revisions = {
 	listError: "revisions could not be retrieved",
 
 	handlePopup: function(popup, title) {
-		stripSuffix = function(type, title) {
-			var str = cmd[type + "Suffix"];
-			var i = str.indexOf("%0");
-			i = title.indexOf(str.substr(0, i));
-			if(i != -1) {
-				title = title.substr(0, i);
-			}
-			return title;
-		};
-		title = stripSuffix("rev", title);
-		title = stripSuffix("diff", title);
+		title = this.stripSuffix("rev", title);
+		title = this.stripSuffix("diff", title);
 		var tiddler = store.getTiddler(title);
-		var type = this._getField("server.type", tiddler);
+		var type = _getField("server.type", tiddler);
 		var adaptor = new config.adaptors[type]();
 		var limit = null; // TODO: customizable
 		var context = {
-			host: this._getField("server.host", tiddler),
-			workspace: this._getField("server.workspace", tiddler)
+			host: _getField("server.host", tiddler),
+			workspace: _getField("server.workspace", tiddler)
 		};
 		var loading = createTiddlyButton(popup, cmd.loadLabel, cmd.loadTooltip);
 		var params = { popup: popup, loading: loading, origin: title };
@@ -182,9 +173,19 @@ var cmd = config.commands.revisions = {
 		story.displayTiddler(src, tiddler);
 	},
 
-	_getField: function(name, tiddler) {
-		return tiddler.fields[name] || config.defaultCustomFields[name];
+	stripSuffix: function(type, title) {
+		var str = cmd[type + "Suffix"];
+		var i = str.indexOf("%0");
+		i = title.indexOf(str.substr(0, i));
+		if(i != -1) {
+			title = title.substr(0, i);
+		}
+		return title;
 	}
+};
+
+var _getField = function(name, tiddler) {
+	return tiddler.fields[name] || config.defaultCustomFields[name];
 };
 
 })(jQuery);
