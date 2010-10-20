@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|FND|
 |''Contributors''|Chris Dent, Martin Budden|
-|''Version''|1.4.4|
+|''Version''|1.4.5|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/|
@@ -310,12 +310,12 @@ adaptor.putTiddlerCallback = function(status, context, responseText, uri, xhr) {
 	context.statusText = xhr.statusText;
 	context.httpStatus = xhr.status;
 	if(context.status) {
-		var bag = xhr.getResponseHeader("Location").
-			split("/bags/").pop().split("/")[0];
-		context.tiddler.fields["server.bag"] = bag;
-		context.tiddler.fields["server.workspace"] = "bags/" + bag;
+		var loc = xhr.getResponseHeader("Location");
 		var etag = xhr.getResponseHeader("Etag");
-		if(etag) {
+		if(loc && etag) {
+			var bag = loc.split("/bags/").pop().split("/")[0];
+			context.tiddler.fields["server.bag"] = bag;
+			context.tiddler.fields["server.workspace"] = "bags/" + bag;
 			context.tiddler.fields["server.etag"] = etag;
 			if(context.callback) {
 				context.callback(context, context.userParams);
