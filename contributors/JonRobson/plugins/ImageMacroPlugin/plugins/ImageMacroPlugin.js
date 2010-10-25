@@ -137,14 +137,15 @@ var macro = config.macros.image = {
 		var resourceURI;
 		var fields = tiddler.fields;
 		if(fields["server.type"] == "tiddlyweb") { // construct an accurate url for the resource	
-			resourceURI = "%0%1/tiddlers/%2".format([fields["server.host"],
+			resourceURI = "%0/%1/tiddlers/%2".format([config.defaultCustomFields["server.host"],
 				fields["server.workspace"], fields["server.title"]]);
 		} else { // guess the url for the resource
 			resourceURI = tiddler.title;
 		}
 		var ctype = fields["server.content-type"] || tiddler.type;
-		if(macro.supportsDataUris && ctype) {
-			var uri = "data:%0;base64,%1".format([ctype, tiddler.text]);
+		var text = tiddler.text;
+		if(macro.supportsDataUris && ctype && text.indexOf("<html") == -1) {
+			var uri = "data:%0;base64,%1".format([ctype, text]);
 			options.src = resourceURI;
 			return macro._renderBinaryImageUrl(place, uri, options);
 		} else if(options.src) {
@@ -173,20 +174,27 @@ var macro = config.macros.image = {
 				var userW = options.width;
 				var w = dimensions.width;
 				var h = dimensions.height;
-				var preserveWidth = options.preserveAspectRatio && w > h;
-				var preserveHeight = options.preserveAspectRatio && h > w;
-				var ratio;
-				if(userH && !userW || preserveHeight) {
-					ratio = userH / h;
-					userW = parseInt(ratio * w, 10);
-				} else if (userW && !userH || preserveWidth) {
-					ratio = userW / w;
-					userH = parseInt(ratio * h, 10);
+				if(w && h) {
+					var preserveWidth = options.preserveAspectRatio && w > h;
+					var preserveHeight = options.preserveAspectRatio && h > w;
+					var ratio;
+					if(userH && !userW || preserveHeight) {
+						ratio = userH / h;
+						userW = parseInt(ratio * w, 10);
+					} else if (userW && !userH || preserveWidth) {
+						ratio = userW / w;
+						userH = parseInt(ratio * h, 10);
+					}
+					userW = userW ? userW : w;
+					userH = userH ? userH : h;
 				}
-				userW = userW ? userW : w;
-				userH = userH ? userH : h;
-				var img = $("<img />").attr("height", userH).
-					attr("width", userW).addClass(options.imageClass).appendTo(container);
+				var img = $("<img />").addClass(options.imageClass).appendTo(container);
+				if(userH) {
+					img.attr("height", userH);
+				}
+				if(userW) {
+					img.attr("width", userW);
+				}
 				if(macro.ieVersion && macro.ieVersion < 7 && macro.shim) {
 					$(img).css({width: userW, height: userH,
 							filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='%0', sizingMethod='scale')".format([src])
@@ -376,7 +384,7 @@ var _oldwikifiedview = config.macros.view.views.wikified;
 config.macros.view.views.wikified = function(value, place, params, wikifier, paramString, tiddler) {
 	if(macro.isImageTiddler(tiddler) && params[0] == "text") {
 		var newplace = $("<div />").addClass("wikifiedImage").appendTo(place)[0];
-		macro.renderImage(newplace, "/" + tiddler.title, { alt: macro.locale.badImage });
+		macro.renderImage(newplace, tiddler.title, { alt: macro.locale.badImage });
 	} else {
 		_oldwikifiedview.apply(this, arguments);
 	}
