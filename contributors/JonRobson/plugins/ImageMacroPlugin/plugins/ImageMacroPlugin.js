@@ -1,6 +1,6 @@
 /***
 |''Name''|ImageMacroPlugin|
-|''Version''|0.8.6|
+|''Version''|0.8.7|
 |''Description''|Allows the rendering of svg images in a TiddlyWiki|
 |''Author''|Osmosoft|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
@@ -31,6 +31,8 @@ tag. It doesn't embed the svg in the dom for security reasons as svg code can co
 (function($) {
 
 var macro = config.macros.image = {
+	shim: "/bags/common/tiddlers/shim",
+	ieVersion: config.browser.isIE ? parseInt(config.browser.ieVersion[1]) : false,
 	svgns: "http://www.w3.org/2000/svg",
 	xlinkns: "http://www.w3.org/1999/xlink", 
 	svgAvailable: document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1"),
@@ -183,8 +185,15 @@ var macro = config.macros.image = {
 				}
 				userW = userW ? userW : w;
 				userH = userH ? userH : h;
-				var img = $("<img />").attr("src", src).attr("height", userH).
+				var img = $("<img />").attr("height", userH).
 					attr("width", userW).addClass(options.imageClass).appendTo(container);
+				if(macro.ieVersion && macro.ieVersion < 7) {
+					$(img).css({width: userW, height: userH,
+							filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='%0', sizingMethod='scale')".format([src])
+						}).attr("src", macro.shim);
+				} else {
+					img.attr("src", src);
+				}
 				if(!macro._image_tag_cache[srcUrl]) {
 					macro._image_tag_cache[srcUrl] = [];
 				}
