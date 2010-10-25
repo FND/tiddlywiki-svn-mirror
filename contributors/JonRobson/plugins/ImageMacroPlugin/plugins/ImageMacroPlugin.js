@@ -158,8 +158,8 @@ var macro = config.macros.image = {
 		srcUrl = srcUrl.indexOf("/") === -1 ? "/%0".format([srcUrl]) : srcUrl; // for IE. 
 		var image_dimensions = macro._image_dimensions[srcUrl];
 		var image = new Image(); // due to weird scaling issues where you use just a width or just a height
-		var createImageTag = function(dimensions) {
-			if(!dimensions || !dimensions.width) {
+		var createImageTag = function(dimensions, error) {
+			if(error) {
 				var altImage = options.altImage;
 				if(altImage) {
 					delete options.altImage;
@@ -187,7 +187,7 @@ var macro = config.macros.image = {
 				userH = userH ? userH : h;
 				var img = $("<img />").attr("height", userH).
 					attr("width", userW).addClass(options.imageClass).appendTo(container);
-				if(macro.ieVersion && macro.ieVersion < 7) {
+				if(macro.ieVersion && macro.ieVersion < 7 && macro.shim) {
 					$(img).css({width: userW, height: userH,
 							filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='%0', sizingMethod='scale')".format([src])
 						}).attr("src", macro.shim);
@@ -208,7 +208,7 @@ var macro = config.macros.image = {
 				createImageTag(dimensions);
 			};
 			image.onerror = function() {
-				createImageTag(false);
+				createImageTag(null, true);
 			};
 			image.src = src;
 		} else {
@@ -376,7 +376,7 @@ var _oldwikifiedview = config.macros.view.views.wikified;
 config.macros.view.views.wikified = function(value, place, params, wikifier, paramString, tiddler) {
 	if(macro.isImageTiddler(tiddler) && params[0] == "text") {
 		var newplace = $("<div />").addClass("wikifiedImage").appendTo(place)[0];
-		macro.renderImage(newplace, tiddler.title, { alt: macro.locale.badImage });
+		macro.renderImage(newplace, "/" + tiddler.title, { alt: macro.locale.badImage });
 	} else {
 		_oldwikifiedview.apply(this, arguments);
 	}
