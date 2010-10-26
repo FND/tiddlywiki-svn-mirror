@@ -105,7 +105,7 @@ TiddlyWiki.prototype.getTiddlerText = function(title,defaultText)
 	}
 	var tiddler = this.fetchTiddler(title);
 	var text = tiddler ? tiddler.text : null;
-	if (this.isShadowTiddler(title)) {
+	if(!tiddler && this.isShadowTiddler(title)) {
 		text = this.getShadowTiddlerText(title);
 	}
 	if(text) {
@@ -482,6 +482,11 @@ TiddlyWiki.prototype.getTaggedTiddlers = function(tag,sortField)
 	return this.reverseLookup("tags",tag,true,sortField);
 };
 
+TiddlyWiki.prototype.getValueTiddlers = function(field,value,sortField)
+{
+	return this.reverseLookup(field,value,true,sortField);
+};
+
 // Return an array of the tiddlers that link to a given tiddler
 TiddlyWiki.prototype.getReferringTiddlers = function(title,unusedParameter,sortField)
 {
@@ -497,8 +502,14 @@ TiddlyWiki.prototype.reverseLookup = function(lookupField,lookupValue,lookupMatc
 	var results = [];
 	this.forEachTiddler(function(title,tiddler) {
 		var f = !lookupMatch;
-		for(var lookup=0; lookup<tiddler[lookupField].length; lookup++) {
-			if(tiddler[lookupField][lookup] == lookupValue)
+		var values;
+		if(["links", "tags"].contains(lookupField)) {
+			values = tiddler[lookupField];
+		} else {
+			values = tiddler.fields[lookupField] ? [tiddler.fields[lookupField]] : [];
+		}
+		for(var lookup=0; lookup<values.length; lookup++) {
+			if(values[lookup] == lookupValue)
 				f = lookupMatch;
 		}
 		if(f)
@@ -506,7 +517,7 @@ TiddlyWiki.prototype.reverseLookup = function(lookupField,lookupValue,lookupMatc
 	});
 	if(!sortField)
 		sortField = "title";
-	return this.sortTiddlers(results,sortField);
+	return this.sortTiddlers(results,sortField); 
 };
 
 // Return the tiddlers as a sorted array
@@ -619,6 +630,14 @@ TiddlyWiki.prototype.filterTiddlers = function(filter)
 					case "sort":
 						results = this.sortTiddlers(results,match[3]);
 						break;
+					case "limit":
+						results = results.slice(0, parseInt(match[3],10));
+						break;
+					default:
+						var matched = this.getValueTiddlers(match[2],match[3]);
+						for(var m = 0; m < matched.length; m++)
+							results.pushUnique(matched[m]);
+						break;
 				}
 			}
 			match = re.exec(filter);
@@ -645,10 +664,11 @@ TiddlyWiki.prototype.sortTiddlers = function(tiddlers,field)
 		break;
 	}
 	if(TiddlyWiki.standardFieldAccess[field]) {
-		if(field=="title")
+		if(field=="title") {
 			tiddlers.sort(function(a,b) {return a[field].toLowerCase() < b[field].toLowerCase() ? -asc : (a[field].toLowerCase() == b[field].toLowerCase() ? 0 : asc);});
-		else
+		} else {
 			tiddlers.sort(function(a,b) {return a[field] < b[field] ? -asc : (a[field] == b[field] ? 0 : asc);});
+		}
 	} else {
 		tiddlers.sort(function(a,b) {return a.fields[field] < b.fields[field] ? -asc : (a.fields[field] == b.fields[field] ? 0 : +asc);});
 	}

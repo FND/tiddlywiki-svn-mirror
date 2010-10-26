@@ -2,7 +2,7 @@
 |''Name''|RandomColorPalettePlugin|
 |''Description''|Adds a random color palette to TiddlyWiki|
 |''Author''|Jon Robson|
-|''Version''|1.2.5|
+|''Version''|1.2.6|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/contributors/JonRobson/plugins/RandomColorPalettePlugin/RandomColorPalettePlugin.js|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
@@ -92,7 +92,7 @@ Note parameters can be discovered by viewing the ColorPaletteParameter slice wit
 		handler: function(place, macroName, params, wikifier, paramString, tiddler) {
 			paramString = paramString || "";
 			var options = paramString.parseParams("name", null, true, false, true)[0];
-			var tiddler = macro.generatePalette(options, true);
+			macro.generatePalette(options, true);
 		},
 		generateRandomNumber: function(min, max, info) {
 			var num = (Math.random() * 1);
@@ -193,31 +193,29 @@ Note parameters can be discovered by viewing the ColorPaletteParameter slice wit
 						colorcode = color.toRGBString();
 					} else {
 						colorcode = color.toString();
-					}	
+					}
 					text.push("%0: %1\n".format([id, colorcode]));
 				}
 			}
 			text.push("/*}}}*/");
-			
-			var tid = store.getTiddler('ColorPalette');
+
+			var tid = store.getTiddler("ColorPalette");
 			if(!tid) {
-				tid = new Tiddler('ColorPalette');
+				tid = new Tiddler("ColorPalette");
 				tid.fields = merge({}, config.defaultCustomFields);
-				tid.modifier ='RandomColorPalette Macro';
-			} else {
-				// TODO: detect that the ColorPalette in the space comes from elsewhere and use config.defaultCustomFields instead
-			}
+				tid.modifier = "RandomColorPalette Macro";
+			} // TODO: detect that the ColorPalette in the space comes from outside recipe
+			tid.fields["server.page.revision"] = "false";
 			tid.text = text.join("");
 			this.inprogress = false;
 			if(save) { 
-				macro.saveColorPalette(tid);
+				tid = macro.saveColorPalette(tid);
 			}
-			return tid;
 		},
 		saveColorPalette: function(tid) {
 			// save the color palette in tid
-			tid = store.saveTiddler(tid.title, tid.title, tid.text, tid.modifier, tid.modified, 
-				tid.tags, tid.fields, false, tid.created, '');
+			tid = store.saveTiddler(tid.title, tid.title, tid.text, tid.modifier, tid.modified,
+				tid.tags, tid.fields, false, tid.created, tid.creator);
 			// an interval is used to cope with users clicking on the palette button quickly.
 			if(macro._nextSave) {
 				window.clearTimeout(macro._nextSave);
@@ -227,6 +225,7 @@ Note parameters can be discovered by viewing the ColorPaletteParameter slice wit
 				}, 2000);
 			refreshAll();
 			macro.reportChange();
+			return tid;
 		},
 		reportChange: function() {
 			if(macro.messagesOn) { // only display message once..
@@ -243,8 +242,9 @@ Note parameters can be discovered by viewing the ColorPaletteParameter slice wit
 			text: "New ColorPalette",
 			tooltip: "Generate a random colour scheme for your TiddlyWiki",
 			handler: function(place, macroName, params, wikifier, paramString, tiddler) {
-				var btnHandler = function() {
-					config.macros.RandomColorPalette.handler(place, macroName, params, wikifier, paramString, tiddler);
+				var btnHandler = function(ev) {
+					macro.handler(place, macroName, params, wikifier, paramString, tiddler);
+					return false;
 				};
 				createTiddlyButton(place, this.text, this.tooltip, btnHandler);
 			}

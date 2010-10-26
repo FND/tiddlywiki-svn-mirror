@@ -1,6 +1,6 @@
 /***
 |''Name''|ImageMacroPlugin|
-|''Version''|0.8.4|
+|''Version''|0.8.7|
 |''Description''|Allows the rendering of svg images in a TiddlyWiki|
 |''Author''|Osmosoft|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
@@ -31,6 +31,8 @@ tag. It doesn't embed the svg in the dom for security reasons as svg code can co
 (function($) {
 
 var macro = config.macros.image = {
+	shim: "/bags/common/tiddlers/shim",
+	ieVersion: config.browser.isIE ? parseInt(config.browser.ieVersion[1]) : false,
 	svgns: "http://www.w3.org/2000/svg",
 	xlinkns: "http://www.w3.org/1999/xlink", 
 	svgAvailable: document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1"),
@@ -102,8 +104,9 @@ var macro = config.macros.image = {
 	},
 	_renderAlternateText: function(container, options) {
 		var img;
+		var src = options.src || "";
 		if(options.width && options.height) {
-			img = $("<img />").attr("src", "").addClass("svgImageText").attr("width", options.width).
+			img = $("<img />").attr("src", src).addClass("svgImageText").attr("width", options.width).
 				attr("height", options.height).appendTo(container);
 		}
 		var alt = options.alt;
@@ -112,6 +115,7 @@ var macro = config.macros.image = {
 		} else if(alt) {
 			$(container).addClass("svgImageText").text(alt);
 		}
+		macro._image_tag_cache[src] = img;
 	},
 	_renderSVGTiddler: function(place, tiddler, options) {
 		if(!options) {
@@ -121,6 +125,10 @@ var macro = config.macros.image = {
 
 		if(macro.svgAvailable) {
 			this._importSVG(place, options); // display the svg
+		} else if(options.altImage) {
+			var image = options.altImage;
+			delete options.altImage;
+			this._renderBinaryImageUrl(place, image, options);
 		} else {
 			this._renderAlternateText(place, options); // instead of showing the image show the alternate text.
 		}
@@ -129,14 +137,15 @@ var macro = config.macros.image = {
 		var resourceURI;
 		var fields = tiddler.fields;
 		if(fields["server.type"] == "tiddlyweb") { // construct an accurate url for the resource	
-			resourceURI = "%0%1/tiddlers/%2".format([fields["server.host"],
+			resourceURI = "%0/%1/tiddlers/%2".format([config.defaultCustomFields["server.host"],
 				fields["server.workspace"], fields["server.title"]]);
 		} else { // guess the url for the resource
 			resourceURI = tiddler.title;
 		}
 		var ctype = fields["server.content-type"] || tiddler.type;
-		if(macro.supportsDataUris && ctype) {
-			var uri = "data:%0;base64,%1".format([ctype, tiddler.text]);
+		var text = tiddler.text;
+		if(macro.supportsDataUris && ctype && text.indexOf("<html") == -1) {
+			var uri = "data:%0;base64,%1".format([ctype, text]);
 			options.src = resourceURI;
 			return macro._renderBinaryImageUrl(place, uri, options);
 		} else if(options.src) {
@@ -147,30 +156,52 @@ var macro = config.macros.image = {
 	},
 	_renderBinaryImageUrl: function(container, src, options) {
 		var srcUrl = options.src ? options.src : src;
+		srcUrl = srcUrl.indexOf("/") === -1 ? "/%0".format([srcUrl]) : srcUrl; // for IE. 
 		var image_dimensions = macro._image_dimensions[srcUrl];
 		var image = new Image(); // due to weird scaling issues where you use just a width or just a height
-		var createImageTag = function(dimensions) {
-			if(!dimensions || !dimensions.width) {
-				macro._renderAlternateText(container, options);
+		var createImageTag = function(dimensions, error) {
+			if(error) {
+				var altImage = options.altImage;
+				if(altImage) {
+					delete options.altImage;
+					macro._renderBinaryImageUrl(container, altImage, options);
+				} else {
+					options.src = src;
+					macro._renderAlternateText(container, options);
+				}
 			} else {
 				var userH = options.height;
 				var userW = options.width;
 				var w = dimensions.width;
 				var h = dimensions.height;
-				var preserveWidth = options.preserveAspectRatio && w > h;
-				var preserveHeight = options.preserveAspectRatio && h > w;
-				var ratio;
-				if(userH && !userW || preserveHeight) {
-					ratio = userH / h;
-					userW = parseInt(ratio * w, 10);
-				} else if (userW && !userH || preserveWidth) {
-					ratio = userW / w;
-					userH = parseInt(ratio * h, 10);
+				if(w && h) {
+					var preserveWidth = options.preserveAspectRatio && w > h;
+					var preserveHeight = options.preserveAspectRatio && h > w;
+					var ratio;
+					if(userH && !userW || preserveHeight) {
+						ratio = userH / h;
+						userW = parseInt(ratio * w, 10);
+					} else if (userW && !userH || preserveWidth) {
+						ratio = userW / w;
+						userH = parseInt(ratio * h, 10);
+					}
+					userW = userW ? userW : w;
+					userH = userH ? userH : h;
 				}
-				userW = userW ? userW : w;
-				userH = userH ? userH : h;
-				var img = $("<img />").attr("src", src).attr("height", userH).
-					attr("width", userW).addClass(options.imageClass).appendTo(container);
+				var img = $("<img />").addClass(options.imageClass).appendTo(container);
+				if(userH) {
+					img.attr("height", userH);
+				}
+				if(userW) {
+					img.attr("width", userW);
+				}
+				if(macro.ieVersion && macro.ieVersion < 7 && macro.shim) {
+					$(img).css({width: userW, height: userH,
+							filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='%0', sizingMethod='scale')".format([src])
+						}).attr("src", macro.shim);
+				} else {
+					img.attr("src", src);
+				}
 				if(!macro._image_tag_cache[srcUrl]) {
 					macro._image_tag_cache[srcUrl] = [];
 				}
@@ -185,7 +216,7 @@ var macro = config.macros.image = {
 				createImageTag(dimensions);
 			};
 			image.onerror = function() {
-				createImageTag(false);
+				createImageTag(null, true);
 			};
 			image.src = src;
 		} else {

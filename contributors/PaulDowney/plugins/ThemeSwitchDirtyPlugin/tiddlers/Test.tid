@@ -1,0 +1,7 @@
+tags: 
+
+<<themeButton DefaultTheme>> {{{<<themeButton DefaultTheme>>}}}
+
+<<themeButton DarkTheme "Dark Theme">> {{{<<themeButton DarkTheme "Dark Theme">>}}}
+
+<<themeButton DarkTheme "Dark Theme (Again)" "switch to the Dark Theme">> {{{<<themeButton DarkTheme "Dark Theme (Again)" "switch to the Dark Theme">>}}}

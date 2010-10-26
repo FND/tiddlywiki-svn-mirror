@@ -1,6 +1,9 @@
 # flipping between presenter and author modes comes from the switch themes UI 
 recipe: $TW_ROOT/contributors/PaulDowney/plugins/ThemeButtonPlugin/ThemeButtonPlugin.recipe
 
+# prevent theme switch when tiddlers are open for edit
+recipe: $TW_ROOT/contributors/PaulDowney/plugins/ThemeSwitchDirtyPlugin/ThemeSwitchDirtyPlugin.recipe
+
 # display one tiddler at a time
 recipe: $TW_ROOT/contributors/PaulDowney/plugins/SingleTiddlerPlugin/SingleTiddlerPlugin.recipe
 

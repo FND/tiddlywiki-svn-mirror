@@ -9,7 +9,7 @@ dir=/data/vhost/www.mediawikiunplugged.com/html
 #scp redirect.html $host:$dir/index.html
 
 # hosted on whatfettle.com
-host=pauldowney@amp.dreamhost.com
+host=${TW_DEPLOY_HOST:?}
 dir=/home/pauldowney/mediawikiunplugged.com
 
 #scp mwu.html index.xml $host:$dir

@@ -1,1 +1,1 @@
-scp index.html pauldowney@amp.dreamhost.com:/home/pauldowney/whatfettle.com/2008/07/FixedDisplayPlugin/
+scp index.html ${TW_DEPLOY_HOST:?}:${TW_DEPLOY_DIR?:?}/FixedDisplayPlugin/
