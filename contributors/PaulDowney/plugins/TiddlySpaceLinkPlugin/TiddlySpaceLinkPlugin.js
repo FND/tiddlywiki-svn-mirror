@@ -30,9 +30,8 @@ and these may be changed into a space link using {{{@@}}}:
 TiddlySpace includes the [[TiddlySpaceLinkPlugin]] which provides WikiText markup for linking to other spaces on the same server. For example @glossary is a link to the {{{glossary}}} space and [[Small Trusted Group]]@glossary a link to an individual tiddler in the @glossary space. Prefixing the link with a tilde escapes the link, for example {{{~@space}}}.
 Email addresses, for example joe.bloggs@example.com and mary@had.a.little.lamb.org should be unaffected.
 !!Features
-A bare {{{@space}}} link followed by a period is ignored e.g. @space. Use {{{[[@@space]]}}} as a workaround: [[@@space]].
 The plugin provides external links decorated so that other plugins may be included to add features such as the ability to dynamically pull externally linked tiddlers into the current TiddlyWiki.
-Wikitext linking to a space on another server, for example from a tiddler in a space on tiddlyspace.com to a tiddler or a space on example.com, isn't supported. 
+Wikitext linking to a space on another server, for example from a tiddler in a space on tiddlyspace.com to a tiddler or a space on example.com, isn't currently supported. 
 !!Code
 ***/
 //{{{
