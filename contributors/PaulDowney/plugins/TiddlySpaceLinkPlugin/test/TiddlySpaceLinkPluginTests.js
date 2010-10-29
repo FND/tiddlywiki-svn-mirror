@@ -240,7 +240,9 @@
 		test('Wikifier: --@spacename-- should be a spaceLink inside a strikethrough', function() {
 			place = createWikifyTestElement("--@spacename--");
 			equals($(place).text(), "spacename");
-			ok($(place).html().match(/^<strike>.*<\/strike>$/), "inside strikethrough");
+			var html = $(place).html();
+			equals(html.substr(0,8), "<strike>", "inside strikethrough");
+			equals(html.substr(html.length-9,9), "</strike>", "inside strikethrough");
 			testTiddlySpaceLink($(place).find('a'), "http://spacename.tiddlyspace.com", "spacename");
 		});
 
