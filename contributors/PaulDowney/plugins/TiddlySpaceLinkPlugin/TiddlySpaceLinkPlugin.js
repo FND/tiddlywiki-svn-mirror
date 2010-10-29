@@ -72,13 +72,14 @@ function createSpaceLink(place, spaceName, title, alt) {
 (function ($) {
 	version.extensions.TiddlySpaceLinkPlugin = {installed: true};
 
-	config.textPrimitives.spaceName = "[a-zA-Z][a-zA-Z0-9-]*";
+	config.textPrimitives.spaceName = "[a-zA-Z][a-zA-Z0-9-]*[a-zA-Z0-9]";
 	config.textPrimitives.spaceNameStrict = "[a-z][a-z0-9-]*";
+	config.textPrimitives.bareTiddlerLetter = config.textPrimitives.anyLetterStrict;
 
 	config.formatters.splice(0, 0, {
 		name: "spacenameLink",
-		match: config.textPrimitives.unWikiLink + "?" + config.textPrimitives.anyLetter + "*@" + config.textPrimitives.spaceName + "\\.?.?",
-		lookaheadRegExp: new RegExp(config.textPrimitives.unWikiLink + "?(" + config.textPrimitives.anyLetter + "*)@(" + config.textPrimitives.spaceName + ")", "mg"),
+		match: config.textPrimitives.unWikiLink + "?" + config.textPrimitives.bareTiddlerLetter + "*@" + config.textPrimitives.spaceName + "\\.?.?",
+		lookaheadRegExp: new RegExp(config.textPrimitives.unWikiLink + "?(" + config.textPrimitives.bareTiddlerLetter + "*)@(" + config.textPrimitives.spaceName + ")", "mg"),
 		handler: function (w) {
 			if (w.matchText.substr(w.matchText.length - 2, 1) === '.' && w.matchText.substr(w.matchText.length - 1, 1).match(/[a-zA-Z]/)) {
 				w.outputText(w.output, w.matchStart, w.nextMatch);
