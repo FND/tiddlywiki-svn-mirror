@@ -2,7 +2,7 @@
 |''Name''|RandomColorPalettePlugin|
 |''Description''|Adds a random color palette to TiddlyWiki|
 |''Author''|Jon Robson|
-|''Version''|1.2.6|
+|''Version''|1.2.7|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/contributors/JonRobson/plugins/RandomColorPalettePlugin/RandomColorPalettePlugin.js|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
@@ -150,10 +150,6 @@ Note parameters can be discovered by viewing the ColorPaletteParameter slice wit
 		},
 		generatePalette: function(options, save) {
 			var outputRGB = options.rgb && options.rgb[0];
-			if(this.inprogress) { 
-				return;
-			}
-			this.inprogress = true;
 			var palette = macro.getExistingPalette(true);
 			var hue = options.hue ? parseInt(options.hue[0]) : Math.floor(Math.random() * 359);
 			var saturation = options.saturation ? parseFloat(options.saturation[0]) : macro.generateRandomNumber(0.3, 0.7);
@@ -198,23 +194,23 @@ Note parameters can be discovered by viewing the ColorPaletteParameter slice wit
 				}
 			}
 			text.push("/*}}}*/");
-
+			text = text.join("");
+			if(save) {
+				macro.saveColorPalette(text);
+			}
+			return text;
+		},
+		saveColorPalette: function(text) {
 			var tid = store.getTiddler("ColorPalette");
 			if(!tid) {
 				tid = new Tiddler("ColorPalette");
 				tid.fields = merge({}, config.defaultCustomFields);
 				tid.modifier = "RandomColorPalette Macro";
 			} // TODO: detect that the ColorPalette in the space comes from outside recipe
-			tid.fields["server.page.revision"] = "false";
-			tid.text = text.join("");
-			this.inprogress = false;
-			if(save) { 
-				tid = macro.saveColorPalette(tid);
-			}
-		},
-		saveColorPalette: function(tid) {
+			tid.fields["server.page.revision"] = "false"; // edit conflicts dont matter
+
 			// save the color palette in tid
-			tid = store.saveTiddler(tid.title, tid.title, tid.text, tid.modifier, tid.modified,
+			tid = store.saveTiddler(tid.title, tid.title, text, tid.modifier, tid.modified,
 				tid.tags, tid.fields, false, tid.created, tid.creator);
 			// an interval is used to cope with users clicking on the palette button quickly.
 			if(macro._nextSave) {
