@@ -4,7 +4,7 @@
 |''Author:''|PaulDowney (psd (at) osmosoft (dot) com) |
 |''Source:''|http://whatfettle.com/2008/07/TiddlySpaceLinkPlugin/ |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/plugins/TiddlySpaceLinkPlugin/ |
-|''Version:''|1.0|
+|''Version:''|1.1|
 |''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''~CoreVersion:''|2.4|
@@ -78,10 +78,10 @@ function createSpaceLink(place, spaceName, title, alt) {
 
 	config.formatters.splice(0, 0, {
 		name: "spacenameLink",
-		match: config.textPrimitives.unWikiLink + "?" + config.textPrimitives.anyLetter + "*@" + config.textPrimitives.spaceName + ".?",
+		match: config.textPrimitives.unWikiLink + "?" + config.textPrimitives.anyLetter + "*@" + config.textPrimitives.spaceName + "\\.?.?",
 		lookaheadRegExp: new RegExp(config.textPrimitives.unWikiLink + "?(" + config.textPrimitives.anyLetter + "*)@(" + config.textPrimitives.spaceName + ")", "mg"),
 		handler: function (w) {
-			if (w.matchText.substr(w.matchText.length - 1, 1) === '.') {
+			if (w.matchText.substr(w.matchText.length - 2, 1) === '.' && w.matchText.substr(w.matchText.length - 1, 1).match(/[a-zA-Z]/)) {
 				w.outputText(w.output, w.matchStart, w.nextMatch);
 				return;
 			}
