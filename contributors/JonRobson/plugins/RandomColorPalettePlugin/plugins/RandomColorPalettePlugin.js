@@ -2,7 +2,7 @@
 |''Name''|RandomColorPalettePlugin|
 |''Description''|Adds a random color palette to TiddlyWiki|
 |''Author''|Jon Robson|
-|''Version''|1.2.7|
+|''Version''|1.2.8|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/contributors/JonRobson/plugins/RandomColorPalettePlugin/RandomColorPalettePlugin.js|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
@@ -219,6 +219,9 @@ Note parameters can be discovered by viewing the ColorPaletteParameter slice wit
 			macro._nextSave = window.setTimeout(function() {
 					autoSaveChanges(null, [tid]);
 				}, 2000);
+			// temporary workaround for IE.
+			$.twStylesheet.remove({ id: "StyleSheetColors" });
+			$.twStylesheet.remove({ id: "StyleSheet" });
 			refreshAll();
 			macro.reportChange();
 			return tid;
