@@ -273,7 +273,7 @@ var macro = config.macros.esync = {
 			// TODO: save tiddler back to store (based on server.title), without overwriting local changes occurred in the meantime
 			status = "success";
 		} else {
-			status = context.httpStatus == 412 ? "conflict" : "error";
+			status = [409, 412].contains(context.httpStatus) ? "conflict" : "error";
 			msg = context.statusText;
 		}
 		doc.trigger("sync", { status: status, message: msg, tiddler: tiddler }); // XXX: advantage over regular callback? (UI updates!?)
