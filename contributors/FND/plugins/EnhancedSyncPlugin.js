@@ -250,6 +250,14 @@ var macro = config.macros.esync = {
 	// XXX: return contract?
 	push: function(tiddler) {
 		var env = env(tiddler);
+
+		tiddler.fields._syncID = uid();
+		tiddler = store.saveTiddler(tiddler.title, tiddler.title, tiddler.text,
+			tiddler.modifier, tiddler.modified, tiddler.tags, tiddler.fields,
+			false, tiddler.created, tiddler.creator);
+		tiddler.fields.changecount = env.cache.changecount; // reset changecount due to saveTiddler
+		env.cache.syncID = tiddler.fields._syncID;
+
 		var serverTitle = tiddler.fields["server.title"];
 		if(!serverTitle) {
 			tiddler.fields["server.title"] = tiddler.title;
@@ -261,22 +269,46 @@ var macro = config.macros.esync = {
 		return env.adaptor.putTiddler(tiddler, env.context, env.cache,
 			this.pushCallback);
 	},
+	// expects context members title, httpStatus and statusText (if applicable),
+	// plus optionally a tiddler-like tiddlerData object -- TODO: elaborate
+	// triggers a "sync" event on document, providing status, message and tiddler -- TODO: elaborate
 	pushCallback: function(context, userParams) {
-		var tiddler = context.tiddler;
+		// retrieve tiddler from store based on sync ID
+		var tiddler = store.getTiddler(context.title);
+		if(!tiddler || tiddler.fields._syncID != userParams.syncID) {
+			tiddler = null;
+			store.forEachTiddler(function(title, tid) { // XXX: inefficient; cf. http://trac.tiddlywiki.org/ticket/1272
+				if(tid.fields._syncID == userParams.syncID) {
+					tiddler = tid;
+				}
+			});
+		}
+
 		var status, msg;
 		if(context.status) {
-			if(userParams.original.fields.changecount == userParams.changecount) {
-				tiddler.clearChangeCount();
-			} else if(tiddler.fields.changecount > 0) { // local changes since request was triggered
-				tiddler.fields.changecount -= userParams.changecount;
+			status = ["remoteSuccess"];
+			if(tiddler) {
+				delete tiddler.fields._syncID;
+				if(tiddler.fields.changecount == userParams.changecount) {
+					tiddler.clearChangeCount();
+				} else if(tiddler.fields.changecount > 0) { // local changes occurred during sync progress
+					tiddler.fields.changecount = (tiddler.fields.changecount -
+						userParams.changecount - 1).toString(); // XXX: hacky (use parseInt)?
+				}
+				$.extend(true, tiddler, context.tiddlerData);
+				tiddler = store.saveTiddler(tiddler.title, tiddler.title,
+					tiddler.text, tiddler.modifier, tiddler.modified,
+					tiddler.tags, tiddler.fields, false, tiddler.created,
+					tiddler.creator);
 			}
-			// TODO: save tiddler back to store (based on server.title), without overwriting local changes occurred in the meantime
-			status = "success";
 		} else {
-			status = [409, 412].contains(context.httpStatus) ? "conflict" : "error";
+			status = [[409, 412].contains(context.httpStatus) ?
+				"remoteConflict" : "remoteError"];
 			msg = context.statusText;
 		}
-		doc.trigger("sync", { status: status, message: msg, tiddler: tiddler }); // XXX: advantage over regular callback? (UI updates!?)
+		status.push(tiddler ? "localSuccess" : "localError");
+
+		doc.trigger("sync", { status: status, message: msg, tiddler: tiddler });
 	},
 	// retrieve an individual tiddler from the server
 	// XXX: return contract?
@@ -336,11 +368,14 @@ var env = function(tiddler) {
 		tiddler: tiddler
 	};
 	var cache = {
-		original: tiddler, // XXX: relies on tiddler and fields objects not being replaced in store
 		changecount: tiddler.fields.changecount
 	};
 	return { adaptor: tiddler.getAdaptor(), context: context, cache: cache };
+};
 
+var uid = function() {
+	var token = new Date().toString();
+	return $.encoding.digests.hexSha1Str(token); // XXX: function to be deprecated; use http://note19.com/2007/05/27/javascript-guid-generator/
 };
 
 })(jQuery);
