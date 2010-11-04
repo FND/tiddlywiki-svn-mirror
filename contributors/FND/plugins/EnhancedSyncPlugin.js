@@ -279,8 +279,7 @@ var macro = config.macros.esync = {
 				tiddler = store.saveTiddler(tiddler);
 			}
 		} else {
-			status = [[409, 412].contains(context.httpStatus) ?
-				"remoteConflict" : "remoteError"];
+			status = [determineStatus(context.httpStatus)];
 			msg = context.statusText;
 		}
 		status.push(tiddler ? "localSuccess" : "localError");
@@ -309,18 +308,7 @@ var macro = config.macros.esync = {
 				msg = "tiddler modified locally during retrieval"; // XXX: phrasing, i18n
 			}
 		} else { // XXX: no local status!?
-			switch(context.httpStatus) {
-				case 401:
-				case 403:
-					status = ["remoteDenied"]; // XXX: grammatical inconsistency
-					break;
-				case 404:
-					status = ["remoteMissing"];
-					break;
-				default:
-					status = ["remoteError"];
-					break;
-			}
+			status = [determineStatus(context.httpStatus)];
 			msg = context.statusText;
 		}
 		doc.trigger("sync", { status: status, message: msg, tiddler: tiddler });
@@ -391,6 +379,27 @@ var env = function(tiddler) {
 		changecount: tiddler.fields.changecount
 	};
 	return { adaptor: tiddler.getAdaptor(), context: context, cache: cache };
+};
+
+// determine remote status message based on HTTP response
+var determineStatus = function(httpStatus) {
+	switch(context.httpStatus) {
+		case 401:
+		case 403:
+			status = "remoteDenied"; // XXX: grammatical inconsistency
+			break;
+		case 404:
+			status = "remoteMissing";
+			break;
+		case 409:
+		case 412:
+			status = "remoteConflict";
+			break;
+		default:
+			status = "remoteError";
+			break;
+	}
+	return status;
 };
 
 var uid = function() {
