@@ -252,7 +252,7 @@ var macro = config.macros.esync = {
 	push: function(tiddler) {
 		var env = env(tiddler);
 		tiddler = setSyncID(tiddler, env);
-
+		// create/update or move tiddler -- TODO: deletion support
 		var serverTitle = tiddler.fields["server.title"];
 		if(!serverTitle) {
 			tiddler.fields["server.title"] = tiddler.title;
@@ -291,26 +291,39 @@ var macro = config.macros.esync = {
 	// XXX: return contract?
 	pull: function(tiddler) {
 		var env = env(tiddler);
-		// TODO: support server.id for locally diverging titles
+		tiddler = setSyncID(tiddler, env);
+		// TODO: support server.page.id for locally diverging titles?
 		return env.adaptor.getTiddler(tiddler.title, env.context, env.chache,
 			this.pullCallback);
 	},
-	pullCallback: function(context, userParams) { // TODO: DRY (cf. pushCallback)?
-		var tiddler = context.tiddler;
+	pullCallback: function(context, userParams) {
+		var tiddler = getSyncTiddler(context.title, userParams.syncID);
 		var status, msg;
 		if(context.status) {
-			if(userParams.original.fields.changecount == userParams.changecount) {
+			status = ["remoteSuccess"];
+			if(!tiddler || tiddler.fields.changecount == userParams.changecount) {
 				tiddler = store.saveTiddler(tiddler).clearChangeCount();
-				status = "success";
-			} else if(userParams.original.fields.changecount > 0) { // local changes since request was triggered
-				status = "conflict";
-				msg = "changed locally during retrieval" // XXX: phrasing, i18n
+				status.push("localSuccess");
+			} else {
+				status.push("localConflict");
+				msg = "tiddler modified locally during retrieval"; // XXX: phrasing, i18n
 			}
-		} else {
-			status = context.httpStatus == 404 ? "not found" : "error"; // 404 should not occur here!?
+		} else { // XXX: no local status!?
+			switch(context.httpStatus) {
+				case 401:
+				case 403:
+					status = ["remoteDenied"]; // XXX: grammatical inconsistency
+					break;
+				case 404:
+					status = ["remoteMissing"];
+					break;
+				default:
+					status = ["remoteError"];
+					break;
+			}
 			msg = context.statusText;
 		}
-		doc.trigger("sync", { status: status, message: msg, tiddler: tiddler }); // XXX: advantage over regular callback? (UI updates!?)
+		doc.trigger("sync", { status: status, message: msg, tiddler: tiddler });
 	}
 };
 
