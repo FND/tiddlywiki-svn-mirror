@@ -1,4 +1,5 @@
 /***
+|''CoreVersion''|2.6.2|
 !TODO
 * encapsulate fields access (server.{host,workspace}; cf. getServerType)?
 !Wizard
@@ -250,13 +251,7 @@ var macro = config.macros.esync = {
 	// XXX: return contract?
 	push: function(tiddler) {
 		var env = env(tiddler);
-
-		tiddler.fields._syncID = uid();
-		tiddler = store.saveTiddler(tiddler.title, tiddler.title, tiddler.text,
-			tiddler.modifier, tiddler.modified, tiddler.tags, tiddler.fields,
-			false, tiddler.created, tiddler.creator);
-		tiddler.fields.changecount = env.cache.changecount; // reset changecount due to saveTiddler
-		env.cache.syncID = tiddler.fields._syncID;
+		tiddler = setSyncID(tiddler, env);
 
 		var serverTitle = tiddler.fields["server.title"];
 		if(!serverTitle) {
@@ -273,33 +268,15 @@ var macro = config.macros.esync = {
 	// plus optionally a tiddler-like tiddlerData object -- TODO: elaborate
 	// triggers a "sync" event on document, providing status, message and tiddler -- TODO: elaborate
 	pushCallback: function(context, userParams) {
-		// retrieve tiddler from store based on sync ID
-		var tiddler = store.getTiddler(context.title);
-		if(!tiddler || tiddler.fields._syncID != userParams.syncID) {
-			tiddler = null;
-			store.forEachTiddler(function(title, tid) { // XXX: inefficient; cf. http://trac.tiddlywiki.org/ticket/1272
-				if(tid.fields._syncID == userParams.syncID) {
-					tiddler = tid;
-				}
-			});
-		}
-
+		var tiddler = getSyncTiddler(context.title, userParams.syncID);
 		var status, msg;
 		if(context.status) {
 			status = ["remoteSuccess"];
 			if(tiddler) {
 				delete tiddler.fields._syncID;
-				if(tiddler.fields.changecount == userParams.changecount) {
-					tiddler.clearChangeCount();
-				} else if(tiddler.fields.changecount > 0) { // local changes occurred during sync progress
-					tiddler.fields.changecount = (tiddler.fields.changecount -
-						userParams.changecount - 1).toString(); // XXX: hacky (use parseInt)?
-				}
+				resetChangeCount(tiddler, userParams.changecount);
 				$.extend(true, tiddler, context.tiddlerData);
-				tiddler = store.saveTiddler(tiddler.title, tiddler.title,
-					tiddler.text, tiddler.modifier, tiddler.modified,
-					tiddler.tags, tiddler.fields, false, tiddler.created,
-					tiddler.creator);
+				tiddler = store.saveTiddler(tiddler);
 			}
 		} else {
 			status = [[409, 412].contains(context.httpStatus) ?
@@ -323,10 +300,7 @@ var macro = config.macros.esync = {
 		var status, msg;
 		if(context.status) {
 			if(userParams.original.fields.changecount == userParams.changecount) {
-				tiddler = store.saveTiddler(tiddler.title, tiddler.title,
-					tiddler.text, tiddler.modifier, tiddler.modified,
-					tiddler.tags, tiddler.fields, true, tiddler.created,
-					tiddler.creator);
+				tiddler = store.saveTiddler(tiddler).clearChangeCount();
 				status = "success";
 			} else if(userParams.original.fields.changecount > 0) { // local changes since request was triggered
 				status = "conflict";
@@ -359,6 +333,39 @@ var isSyncable = function(tiddler) { // TODO: elevate to Tiddler method?
 	var type = tiddler.getServerType();
 	var host = tiddler.fields["server.host"]; // XXX: might be empty string (falsey)!?
 	return type && host && !tiddler.doNotSave();
+};
+
+// set sync ID on tiddler and in environment
+var setSyncID = function(tiddler, env) {
+	tiddler.fields._syncID = uid();
+	tiddler = store.saveTiddler(tiddler);
+	tiddler.fields.changecount = env.cache.changecount; // reset changecount due to saveTiddler
+	env.cache.syncID = tiddler.fields._syncID;
+	return tiddler;
+};
+
+// retrieve tiddler from store based on sync ID
+// returns null if no matching tiddler was found
+var getSyncTiddler = function(title, id) {
+	var tiddler = store.getTiddler(title);
+	if(!tiddler || tiddler.fields._syncID != id) {
+		tiddler = null;
+		store.forEachTiddler(function(title, tid) { // XXX: inefficient; cf. http://trac.tiddlywiki.org/ticket/1272
+			if(tid.fields._syncID == id) {
+				tiddler = tid;
+			}
+		});
+	}
+	return tiddler;
+};
+
+var resetChangeCount = function(tiddler, cached) {
+	if(tiddler.fields.changecount == chached) {
+		tiddler.clearChangeCount();
+	} else if(tiddler.fields.changecount > 0) { // local changes occurred during sync progress
+		tiddler.fields.changecount = (tiddler.fields.changecount - cached - 1). // XXX: hacky (use parseInt)?
+			toString();
+	}
 };
 
 var env = function(tiddler) {
