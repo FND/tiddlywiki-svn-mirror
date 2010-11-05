@@ -2,7 +2,7 @@
 |''Name:''|AET (Advanced Edit Template)|
 |''Description:''|Provides stuff the standard edit macro doesn't. First things first.. dropdowns!|
 |''Author:''|JonRobson |
-|''Version:''|0.8.3|
+|''Version:''|0.8.4|
 |''Date:''|Nov 2010|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
@@ -393,7 +393,7 @@ var aet = config.macros.AdvancedEditTemplate = {
 				merge(t.fields, config.defaultCustomFields);
 			}
 			t.fields[extField] = extFieldVal;
-			t = store.saveTiddler(t.title,t.title,t.text,t.modifier,t.modified,t.tags,t.fields,true,t.created,t.creator);
+			t = store.saveTiddler(t);
 			if(aet.savetimeout) {
 				window.clearTimeout(aet.savetimeout);
 			}
