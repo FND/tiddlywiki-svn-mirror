@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|FND|
 |''Contributors''|Chris Dent, Martin Budden|
-|''Version''|1.4.5|
+|''Version''|1.4.6|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/|
@@ -237,7 +237,11 @@ adaptor.getTiddlerCallback = function(status, context, responseText, uri, xhr) {
 		var tiddler = adaptor.toTiddler(tid, context.host);
 		tiddler.title = context.tiddler.title;
 		tiddler.fields["server.etag"] = xhr.getResponseHeader("Etag");
-		context.tiddler = tiddler;
+		// normally we'd assign context.tiddler = tiddler here - but we can't do
+		// that because of IE, which triggers getTiddler in putTiddlerCallback,
+		// and since ServerSideSavingPlugin foolishly relies on persistent
+		// object references, we need to merge the data into the existing object
+		$.extend(context.tiddler, tiddler);
 	}
 	if(context.callback) {
 		context.callback(context, context.userParams);

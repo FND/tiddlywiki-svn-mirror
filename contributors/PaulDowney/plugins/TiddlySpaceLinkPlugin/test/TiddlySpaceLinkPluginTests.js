@@ -67,10 +67,10 @@
 			equals($(place).text(), "foo.bar@example.com");
 		});
 
-		test('Wikifier: a full stop is ignored which is a known feature', function() {
-			place = createWikifyTestElement("@example. ");
-			equals($(place).find('a').length, 0);
-			equals($(place).text(), "@example. ");
+		test('Wikifier: a spacename followed by a full stop', function() {
+			place = createWikifyTestElement("@example.");
+			equals($(place).text(), "example.");
+			testTiddlySpaceLink($(place).find('a'), "http://example.tiddlyspace.com", "example");
 		});
 
 		test('Wikifier: url should be an external link', function() {
@@ -97,6 +97,23 @@
 			testTiddlySpaceLink($(place).find('a'), "http://space-name.tiddlyspace.com", "space-name");
 		});
 
+		test('Wikifier: @spacename. should be a spaceLink followed by a full stop', function() {
+			place = createWikifyTestElement("@spacename.");
+			equals($(place).text(), "spacename.");
+			testTiddlySpaceLink($(place).find('a'), "http://spacename.tiddlyspace.com", "spacename");
+		});
+
+		test('Wikifier: @space-name. should be a spaceLink followed by a full stop', function() {
+			place = createWikifyTestElement("@space-name.");
+			equals($(place).text(), "space-name.");
+			testTiddlySpaceLink($(place).find('a'), "http://space-name.tiddlyspace.com", "space-name");
+		});
+
+		test('Wikifier: @space-name. foo bar baz should be a spaceLink followed by a full stop and text', function() {
+			place = createWikifyTestElement("@space-name. foo bar baz");
+			equals($(place).text(), "space-name. foo bar baz");
+			testTiddlySpaceLink($(place).find('a'), "http://space-name.tiddlyspace.com", "space-name");
+		});
 
 		test('Wikifier: @SpaceName should be a spaceLink', function() {
 			var place = createWikifyTestElement("@SpaceName");
@@ -219,6 +236,16 @@
 			equals($(place).text(), "spacename");
 			testTiddlySpaceLink($(place).find('a'), "http://spacename.tiddlyspace.com", "spacename");
 		});
+
+		test('Wikifier: --@spacename-- should be a spaceLink inside a strikethrough', function() {
+			place = createWikifyTestElement("--@spacename--");
+			equals($(place).text(), "spacename");
+			var html = $(place).html();
+			equals(html.substr(0,8), "<strike>", "inside strikethrough");
+			equals(html.substr(html.length-9,9), "</strike>", "inside strikethrough");
+			testTiddlySpaceLink($(place).find('a'), "http://spacename.tiddlyspace.com", "spacename");
+		});
+
 	});
 
 
