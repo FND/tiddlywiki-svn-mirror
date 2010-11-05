@@ -140,7 +140,7 @@ var macro = config.macros.esync = {
 	// callback is passed list of sync tasks with members type and tiddler
 	// task.type is push, pull or conflict, push encapsulating all operations
 	//   where local changes are to be sent to the server (excluding conflicts)
-	gatherTasks: function(tiddlers, pushOnly, callback) { // XXX: bad API?
+	gatherTasks: function(tiddlers, pushOnly, callback) { // XXX: bad API!?
 		if(pushOnly) {
 			tiddlers = tiddlers || this.getLocalChanges();
 			var tasks = $.map(tiddlers, function(tiddler, i) {
@@ -155,7 +155,7 @@ var macro = config.macros.esync = {
 				var tiddler = tiddlers[i];
 				var type = tiddler.getServerType();
 				var host = tiddler.fields["server.host"];
-				var workspace = tiddler.fields["server.workspace"];
+				var workspace = tiddler.fields["server.workspace"] || "";
 				index[type] = index[type] || {};
 				index[type][host] = index[type][host] || {};
 				index[type][host][workspace] = index[type][host][workspace] || [];
