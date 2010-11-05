@@ -18,6 +18,10 @@ $.extend(Tiddler.prototype, {
 	getServerType: function() {
 		return this.fields["server.type"];
 	},
+	isTouched: function() {
+		var changecount = this.fields.changecount || 0;
+		return changecount > 0;
+	},
 	doNotSave: function() {
 		return this.fields.doNotSave;
 	}

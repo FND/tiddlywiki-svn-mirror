@@ -13,6 +13,70 @@ module("sync'able tiddlers", {
 	}
 });
 
+test("getLocalChanges", function() {
+	var localChanges, tiddler;
+	var tiddlers = [];
+
+	tiddler = new Tiddler("Foo");
+	tiddler.fields["server.type"] = "foo";
+	tiddler.fields["server.host"] = "http://example.org";
+	tiddlers.push(tiddler);
+
+	tiddler = new Tiddler("Bar");
+	tiddler.fields.changecount = "2";
+	tiddlers.push(tiddler);
+
+	tiddler = new Tiddler("Baz");
+	tiddler.fields["server.type"] = "foo";
+	tiddler.fields["server.host"] = "http://example.org";
+	tiddler.fields.changecount = "1";
+	tiddlers.push(tiddler);
+
+	localChanges = esync.getLocalChanges(tiddlers);
+	strictEqual(localChanges.length, 2); // includes non-sync'able tiddler
+
+	localChanges = esync.getLocalChanges();
+	strictEqual(localChanges.length, 0);
+
+	for(var i = 0; i < tiddlers.length; i++) {
+		store.saveTiddler(tiddlers[i]);
+	}
+
+	localChanges = esync.getLocalChanges();
+	strictEqual(localChanges.length, 1); // ignores non-sync'able tiddler
+});
+
+test("getCandidates", function() {
+	var candidates, tiddler;
+	var tiddlers = [];
+
+	tiddler = new Tiddler("Foo");
+	tiddler.fields["server.type"] = "foo";
+	tiddler.fields["server.host"] = "http://example.org";
+	tiddlers.push(tiddler);
+
+	tiddler = new Tiddler("Bar");
+	tiddlers.push(tiddler);
+
+	tiddler = new Tiddler("Baz");
+	tiddler.fields["server.type"] = "baz";
+	tiddler.fields["server.host"] = "http://example.com";
+	tiddlers.push(tiddler);
+
+	candidates = esync.getCandidates(tiddlers);
+	strictEqual(candidates.length, 2);
+
+	candidates = esync.getCandidates();
+	strictEqual(candidates.length, 0);
+
+	for(var i = 0; i < tiddlers.length; i++) {
+		store.saveTiddler(tiddlers[i]);
+	}
+
+	candidates = esync.getCandidates();
+	strictEqual(candidates.length, 2);
+});
+
 test("isSyncable", function() { // XXX: indirect due to private method
 	var candidates, tiddler;
 
@@ -45,32 +109,6 @@ test("isSyncable", function() { // XXX: indirect due to private method
 
 	candidates = esync.getCandidates([tiddler]);
 	strictEqual(candidates.length, 0);
-});
-
-test("getCandidates", function() {
-	var candidates, tiddler;
-
-	candidates = esync.getCandidates();
-	strictEqual(candidates.length, 0);
-
-	tiddler = new Tiddler("Foo");
-	tiddler.fields["server.type"] = "foo";
-	tiddler.fields["server.host"] = "http://example.org";
-	store.saveTiddler(tiddler);
-
-	tiddler = new Tiddler("Bar");
-	store.saveTiddler(tiddler);
-
-	tiddler = new Tiddler("Baz");
-	tiddler.fields["server.type"] = "foo";
-	tiddler.fields["server.host"] = "http://example.org";
-	store.saveTiddler(tiddler);
-
-	candidates = esync.getCandidates();
-	strictEqual(candidates.length, 2);
-
-	candidates = esync.getCandidates([tiddler]);
-	strictEqual(candidates.length, 1);
 });
 
 })(QUnit.module, jQuery);

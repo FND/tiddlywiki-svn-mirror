@@ -206,7 +206,7 @@ var macro = config.macros.esync = {
 	// determine sync'able tiddlers with local changes
 	// tiddlers argument is optional
 	getLocalChanges: function(tiddlers) {
-		tiddlers = tiddlers || this.getCandidates();
+		tiddlers = tiddlers || this.getCandidates(); // XXX: tiddlers not checked for sync'ability -- desirable?
 		return $.map(tiddlers, function(tiddler, i) {
 			return tiddler.isTouched() ? tiddler : null;
 		});
