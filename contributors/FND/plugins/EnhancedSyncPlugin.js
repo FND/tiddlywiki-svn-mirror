@@ -104,7 +104,6 @@ var macro = config.macros.esync = {
 		});
 
 		table.appendTo(container);
-		console.log(table);
 	},
 	onStart: function(ev) {
 		// TODO: dispatch processTasks for selection
