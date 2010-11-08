@@ -1,6 +1,6 @@
 /***
 |TiddlyFileImporter|
-|Version|0.3|
+|Version|0.4|
 |Author|Ben Gillies|
 |Type|plugin|
 |Description|Upload a TiddlyWiki file to TiddlyWeb, and import the tiddlers.|
@@ -59,6 +59,7 @@ config.macros.fileImport = {
 			caption: me.uploadLabel,
 			tooltip: me.uploadLabelPrompt,
 			onClick: function() {
+				wizard.formElem.action = me.reflectorURI;
 				if (wizard.importType == "file") {
 					var iframe = $('<iframe name="' + iframeName + '" '
 						+ 'style="display: none" />').appendTo(uploadWrapper);
@@ -93,7 +94,7 @@ config.macros.fileImport = {
 	createForm: function(place, wizard, iframeName) {
 		var form = wizard.formElem;
 		var me = config.macros.fileImport;
-		form.action = me.reflectorURI;
+		form.action = 'javascript:;';
 		form.enctype = 'multipart/form-data';
 		form.method = 'POST';
 		form.target = iframeName;
