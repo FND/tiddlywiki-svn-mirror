@@ -18,7 +18,7 @@ Refuses to open a tiddler if one is already open for edit.
 /*jslint onevar: false nomen: false plusplus: false */
 /*global jQuery window config Story story Tiddler document */
 (function ($) {
-    version.extensions.SingleTiddlerPlugin = {installed: true};
+	version.extensions.SingleTiddlerPlugin = {installed: true};
 	var displayTiddler = Story.prototype.displayTiddler;
 	Story.prototype.displayTiddler = function (src, t) {
 		var title = t instanceof Tiddler ? t.title : t;
