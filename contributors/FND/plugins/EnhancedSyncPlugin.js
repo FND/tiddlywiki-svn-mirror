@@ -219,20 +219,24 @@ var macro = config.macros.esync = {
 	},
 
 	// generate sync tasks by comparing lists of tiddlers
+	// returns a list of tasks of type "push", "pull" or "conflict"
 	generateTasks: function(locals, remotes) {
 		var cue = "server.page.revision"; // TODO: configurable by adaptor?
 		var tasks = [];
 		var i;
+		remotes = remotes.slice(0); // clone to avoid side-effects
 		for(i = 0; i < locals.length; i++) {
 			var local = locals[i];
 			var pos = remotes.findByField("title", local.title);
-			if(pos) { // tiddler present both locally and remotely
+			if(pos !== null) { // tiddler present both locally and remotely
 				var remote = remotes.splice(pos, 1)[0];
 				if(remote.fields[cue] != local.fields[cue]) {
 					tasks.push({
 						type: local.isTouched() ? "conflict" : "pull",
 						tiddler: local
 					});
+				} else if(local.isTouched()) { // tiddler modified locally only
+					tasks.push({ type: "push", tiddler: local });
 				}
 			} else { // local tiddler unknown remotely
 				tasks.push({ type: "push", tiddler: local });
