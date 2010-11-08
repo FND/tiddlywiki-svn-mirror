@@ -136,19 +136,17 @@ var macro = config.macros.esync = {
 	},
 
 	// generate a list of sync tasks
-	// tiddlers argument is optional
+	// tiddlers is a list of sync'able or locally changed tiddlers
 	// callback is passed list of sync tasks with members type and tiddler
-	// task.type is push, pull or conflict, push encapsulating all operations
-	//   where local changes are to be sent to the server (excluding conflicts)
-	gatherTasks: function(tiddlers, pushOnly, callback) { // XXX: bad API!?
+	// task.type is "push", "pull" or "conflict"; push encapsulating all
+	//   operations where local changes are to be sent to the server
+	gatherTasks: function(tiddlers, pushOnly, callback) { // XXX: bad API!? -- TODO: rename
 		if(pushOnly) {
-			tiddlers = tiddlers || this.getLocalChanges();
 			var tasks = $.map(tiddlers, function(tiddler, i) {
 				return { type: "push", tiddler: tiddler };
 			});
 			callback(tasks);
 		} else {
-			tiddlers = tiddlers || this.getCandidates();
 			var index = {};
 			// construct dictionary of tiddlers per workspace per host per server type
 			for(var i = 0; i < tiddlers.length; i++) {
@@ -203,16 +201,16 @@ var macro = config.macros.esync = {
 			}
 		}
 	},
-	// determine sync'able tiddlers with local changes
-	// tiddlers argument is optional
+	// determine tiddlers with local changes
+	// tiddlers argument is optional, defaulting to sync'able tiddlers
 	getLocalChanges: function(tiddlers) {
-		tiddlers = tiddlers || this.getCandidates(); // XXX: tiddlers not checked for sync'ability -- desirable?
+		tiddlers = tiddlers || this.getCandidates();
 		return $.map(tiddlers, function(tiddler, i) {
 			return tiddler.isTouched() ? tiddler : null;
 		});
 	},
 	// determine sync'able tiddlers
-	// tiddlers argument defaults to local store
+	// tiddlers argument is optional, defaulting to items in local store
 	getCandidates: function(tiddlers) {
 		tiddlers = tiddlers || store.getTiddlers(); // XXX: getTiddlers inefficient
 		return $.map(tiddlers, function(tiddler, i) {
