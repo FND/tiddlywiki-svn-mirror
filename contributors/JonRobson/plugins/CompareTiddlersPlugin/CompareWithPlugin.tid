@@ -1,9 +1,9 @@
-tags: systemConfig
+//tags: systemConfig
 
 /***
 |''Name:''| CompareWithPlugin|
 |''Description:''| Allows you to compare different versions of the same tiddler (tiddlers with the same name in different bags/revisions or a specific resource)|
-|''Version:''|0.32|
+|''Version:''|0.3.5|
 |''Date:''|April 2010|
 |''Source:''|http://svn.tiddlywiki.org/contributors/JonRobson/plugins|
 |''Author:''|Jon Robson|
@@ -21,132 +21,153 @@ A class comparewithmacro-highlighted is added to all fields that have changed.
 <<remoteviewbutton field:{field} title:{title} bag:{bag}>> creates a button that when clicked on shows you the value in the store. Good for comparing two tiddlers field values..
 |
 */
+//{{{
 config.macros.comparewith ={
-  cached_update_edit_template: {}
-  ,ajaxReq: ajaxReq //allow overriding for testing purposes
-  ,compareTiddlers: function(tiddler,json_revision){
-     var fieldname;
-      var changes = [];
-      var attributes = ["text","tags"];
-      for(var i=0; i < attributes.length;i++){
-        fieldname = attributes[i];
-        var last = json_revision[fieldname];
-        var thisval = tiddler[fieldname];
-        if(typeof(lastval)=='undefined')lastval= false;
-        if(typeof(thisval)=='undefined')thisval= false;
-        if(lastval != thisval){
-         changes.push(fieldname)
-        }
-      }
-      for(fieldname in tiddler.fields){
-        var lastval = json_revision.fields[fieldname];
-        var thisval = tiddler.fields[fieldname];
-        if(typeof(lastval)=='undefined')lastval= false;
-        if(typeof(thisval)=='undefined')thisval= false;
-        if(lastval != thisval){
-         changes.push(fieldname)
-        }
-      }
-      return changes;
-  }
-  ,update_edit_template: function(place,tiddler,compare_url){
-     var title=tiddler.title;
-     config.macros.comparewith.ajaxReq({url:compare_url,success:function(json_revision){
-        if(typeof(json_revision) =='string')json_revision = eval("("+json_revision+")");
-        var changes = config.macros.comparewith.compareTiddlers(tiddler,json_revision);
+	cached_update_edit_template: {},
+	ajaxReq: ajaxReq, //allow overriding for testing purposes
+	compareTiddlers: function(tiddler,json_revision){
+		var fieldname, lastval, thisval;
+		var changes = [];
+		var attributes = ["text","tags"];
+		for(var i=0; i < attributes.length;i++){
+			fieldname = attributes[i];
+			var last = json_revision[fieldname];
+			thisval = tiddler[fieldname];
+			if(typeof(lastval)=='undefined') {
+				lastval= false;
+			}
+			if(typeof(thisval)=='undefined') {
+				thisval= false;
+			}
+			if(lastval != thisval) {
+			 changes.push(fieldname);
+			}
+		}
+		for(fieldname in tiddler.fields){
+			lastval = json_revision.fields[fieldname];
+			thisval = tiddler.fields[fieldname];
+			if(typeof(lastval)=='undefined') {
+				lastval= false;
+			}
+			if(typeof(thisval)=='undefined') {
+				thisval= false;
+			}
+			if(lastval != thisval) {
+				changes.push(fieldname);
+			}
+		}
+		return changes;
+	},
+	update_edit_template: function(place,tiddler,compare_url){
+		var title=tiddler.title;
+		config.macros.comparewith.ajaxReq({
+			url:compare_url, dataType:"json",
+			success:function(json_revision){
+				var changes = config.macros.comparewith.compareTiddlers(tiddler,json_revision);
+				var color =function(){
+				var selector =[];
+					for(var i=0; i < changes.length; i++){
+						var fieldname = changes[i];
+						selector = selector.concat(["[name=",fieldname,"],[edit=",fieldname,"]"].join(""));
+					}
+					var selectorString = selector.join(",");
+					var matches = jQuery(selectorString,place.parentNode);
+					matches.addClass("comparewithmacro-highlighted");
+					return changes;
+				};
+			color();
+			}
+		});
+	},
+	handler: function(place,macroName,params,wikifier,paramString,tiddler){
+		//last revision is the last one copied
+		var type = params[0];
+		var compareWith = "";
+		var base = config.defaultCustomFields['server.host'];
+		if(base.charAt(base.length - 1) != "/") {
+			base += "/";
+		}
+		if(!type) {
+			type ="revision";
+		}
+		if(type == 'other'){
+			compareWith = base + "bags/"+params[1]+"/tiddlers/"+tiddler.title;
+		} else if(type == 'revision') {
+			var revision = params[1];
+			if(!revision){
+				revision = parseInt(tiddler.fields['server.page.revision'], 100) -1;
+				if(revision < 1) {
+					return;
+				}
+			}
+			compareWith = base + "bags/"+tiddler.fields['server.bag']+
+				"/tiddlers/"+tiddler.title+"/revisions/"+revision;
+		} else if(type == 'url'){
+			compareWith = params[1];
+		}
+		if(config.browser.isIE) {
+			return;
+		}
+		config.macros.comparewith.update_edit_template(place,tiddler,compareWith);
+	}
+};
+config.macros.remoteviewbutton = {
+	tidcache:{},
+	lingo:{
+		text:"view original",
+		tooltip:"view the original version of this text",
+		prefix: "The original text can be seen below:\n"
+	},
+	handler:function(place,macroName,params,wikifier,paramString,tiddler) {
+			var p = paramString.parseParams("anon",null,true);
+		var title = getParam(p,"title");
+		var bag = getParam(p,"bag");
+		var field = getParam(p,"field");
+		var url = config.defaultCustomFields['server.host']+"bags/"+bag+"/tiddlers/"+title+".json";
+		var macro = config.macros.remoteviewbutton;
+		var action = function(){
+			var tempPlace = document.createElement("div");
+			var cbag = macro.tidcache[bag];
+			if(!cbag) {
+				window.setTimeout(400,action);
+			}
+			var tid = cbag[title];
+			if(!tid) {
+				window.setTimeout(400,action);
+			}
+			if(tid){
+				var tidvalue = "";
+				if(field in tid.fields){
+					tidvalue =tid.fields[field];
+				}
+				else{
+					if(field in tid){
+						tidvalue =tid[field];
+					}
+				}
+				wikify(tidvalue,tempPlace);
+				alert(macro.lingo.prefix +jQuery(tempPlace).text());
+			}
+		};
+		createTiddlyButton(place,this.lingo.text,this.lingo.tooltip,action,"remoteViewButton");
 
-        var color =function(){
-           var selector =[];
-             for(var i=0; i < changes.length; i++){
-               var fieldname = changes[i];              
-              selector = selector.concat(["[name=",fieldname,"],[edit=",fieldname,"]"].join(""));
-            }
-            var selectorString = selector.join(",");
-            var matches = jQuery(selectorString,place.parentNode);
-            matches.addClass("comparewithmacro-highlighted");
-            return changes;
-        };
-        color();
-      }});
-  }
-  ,handler: function(place,macroName,params,wikifier,paramString,tiddler){
-    //last revision is the last one copied
-    var type = params[0];
-    var compareWith = "";
-    var base = config.defaultCustomFields['server.host']
-    if(!type)type ="revision";
-    if(type == 'other'){
-      compareWith = base + "bags/"+params[1]+"/tiddlers/"+tiddler.title+".json";
-    }
-    else if(type == 'revision'){
-      var revision = params[1];
-      if(!revision){
-        var revision = parseInt(tiddler.fields['server.page.revision']) -1;
-        if(revision < 1) return;
-      }
-      
-      compareWith = base + "bags/"+tiddler.fields['server.bag']+"/tiddlers/"+tiddler.title+"/revisions/"+revision+".json";
-    }
-    else if(type == 'url'){
-      compareWith = params[1];
-    }
-    if(config.browser.isIE) return;
-    //window.setTimeout(function(){
-      config.macros.comparewith.update_edit_template(place,tiddler,compareWith);
-    //},1500);
-  }
-}
-config.macros.remoteviewbutton={
-  tidcache:{
-  }
-  ,lingo:{
-    text:"view original",
-    tooltip:"view the original version of this text",
-    prefix: "The original text can be seen below:\n"
-  }
-  ,handler:function(place,macroName,params,wikifier,paramString,tiddler) {
-      var p = paramString.parseParams("anon",null,true);
-      var title = getParam(p,"title");
-      var bag = getParam(p,"bag");
-      var field = getParam(p,"field");
-      var url = config.defaultCustomFields['server.host']+"bags/"+bag+"/tiddlers/"+title+".json";
-      var macro = config.macros.remoteviewbutton;
-      var action = function(){
-        var tempPlace = document.createElement("div");
-        var cbag = macro.tidcache[bag];
-        if(!cbag)window.setTimeout(400,action);
-        var tid = cbag[title];
-        if(!tid)window.setTimeout(400,action);
-        if(tid){
-          var tidvalue = "";
-          if(field in tid.fields){
-            tidvalue =tid.fields[field];
-          }
-          else{
-            if(field in tid){
-              tidvalue =tid[field];
-            }
-          }
-          wikify(tidvalue,tempPlace);
-          alert(macro.lingo.prefix +jQuery(tempPlace).text());
-        }
-      }
-      createTiddlyButton(place,this.lingo.text,this.lingo.tooltip,action,"remoteViewButton");
-      
-      if(this.tidcache[bag] && this.tidcache[bag][title]) return;
-      if(!this.tidcache[bag]) this.tidcache[bag]={};
-      if(!this.tidcache[bag][title])this.tidcache[bag][title] = true;
-      ajaxReq({url:url,
-        success:function(tid){
-          if(typeof(tid)=='string')tid = eval("("+tid+")");
-          macro.tidcache[bag][title] = tid;
-
-        },
-        error: function(){
-          macro.tidcache[bag][title] = false;
-        }
-      });
-  }
+		if(this.tidcache[bag] && this.tidcache[bag][title]) {
+			return;
+		}
+		if(!this.tidcache[bag]) {
+			this.tidcache[bag]={};
+		}
+		if(!this.tidcache[bag][title]) {
+			this.tidcache[bag][title] = true;
+		}
+		ajaxReq({url:url, dataType: "json",
+			success:function(tid){
+				macro.tidcache[bag][title] = tid;
+			},
+			error: function(){
+				macro.tidcache[bag][title] = false;
+			}
+		});
+	}
 }; 
-
-
+//}}}
