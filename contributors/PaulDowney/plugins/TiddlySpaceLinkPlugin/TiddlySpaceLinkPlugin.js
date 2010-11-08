@@ -127,5 +127,26 @@ function createSpaceLink(place, spaceName, title, alt) {
 			}
 		}
 	});
+
+	// ensure space links don't appear as missing links
+	config.textPrimitives.brackettedLink = "\\[\\[([^\\]][^@\\]][^\\]]*)\\]\\](?=[^@])";
+	config.textPrimitives.titledBrackettedLink = "\\[\\[([^\\[\\]\\|]+)\\|([^\\[\\]\\|]+)\\]\\](?=[^@])";
+
+	// reevaluate derrived expressions ..
+	config.textPrimitives.tiddlerForcedLinkRegExp = new RegExp("(?:" + config.textPrimitives.titledBrackettedLink + ")|(?:" +
+		config.textPrimitives.brackettedLink + ")|(?:" +
+		config.textPrimitives.urlPattern + ")","mg");
+	config.textPrimitives.tiddlerAnyLinkRegExp = new RegExp("("+ config.textPrimitives.wikiLink + ")|(?:" +
+		config.textPrimitives.titledBrackettedLink + ")|(?:" +
+		config.textPrimitives.brackettedLink + ")|(?:" +
+		config.textPrimitives.urlPattern + ")","mg");
+
+	// treat space links in titledBracketedLink as external links
+	var missingTiddlySpaceLink = new RegExp("^@@" + config.textPrimitives.spaceName + "$", "");
+	var isExternalLink = config.formatterHelpers.isExternalLink;
+	config.formatterHelpers.isExternalLink = function(link) {
+		return missingTiddlySpaceLink.test(link) || isExternalLink(link);
+	};
+
 }(jQuery));
 //}}}

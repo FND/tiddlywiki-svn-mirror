@@ -358,6 +358,12 @@
 			testTiddlySpaceLink($(links[6]), "http://space.tiddlyspace.com", "space");
 		});
 
+		test('Wikifier: "missingLinks', function() {
+			var tiddler = store.getTiddler("ExampleLinks");
+			ok(tiddler, "ExampleLinks tiddler exists");
+			same(tiddler.getLinks(), ["TiddlySpaceLinkPlugin", "@tiddler", "xx@yy", "missing tiddler" ], "ExampleLinks tiddler links");
+			same(store.getMissingLinks(), ["@tiddler", "TiddlyWiki", "missing tiddler", "xx@yy"], "ExampleLinks tiddler does not generate missing links");
+		});
 	});
 
 })(jQuery);
