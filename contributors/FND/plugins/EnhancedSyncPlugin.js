@@ -147,26 +147,26 @@ var macro = config.macros.esync = {
 			});
 			callback(tasks);
 		} else {
-			var index = {};
+			var origins = {};
 			// construct dictionary of tiddlers per workspace per host per server type
 			for(var i = 0; i < tiddlers.length; i++) {
 				var tiddler = tiddlers[i];
 				var type = tiddler.getServerType();
 				var host = tiddler.fields["server.host"];
 				var workspace = tiddler.fields["server.workspace"] || "";
-				index[type] = index[type] || {};
-				index[type][host] = index[type][host] || {};
-				index[type][host][workspace] = index[type][host][workspace] || [];
-				index[type][host][workspace].push(tiddler);
+				origins[type] = origins[type] || {};
+				origins[type][host] = origins[type][host] || {};
+				origins[type][host][workspace] = origins[type][host][workspace] || [];
+				origins[type][host][workspace].push(tiddler);
 			}
-			this.getRemoteChanges(index, callback);
+			this.getRemoteChanges(origins, callback);
 		}
 	},
 
 	// determine remote changes
-	// index is a dictionary of tiddlers per workspace per host per server type
+	// origins is a dictionary of tiddlers per workspace per host per server type
 	// callback is passed a list of sync tasks
-	getRemoteChanges: function(index, callback) { // XXX: misnamed (also takes into account local changes)
+	getRemoteChanges: function(origins, callback) { // XXX: misnamed (also takes into account local changes)
 		var taskList = []; // XXX: rename
 		var pending = 0;
 		var observer = function(tasks) { // TODO: rename?
@@ -177,10 +177,10 @@ var macro = config.macros.esync = {
 			}
 		};
 		// determine remote changes for each workspace
-		for(var type in index) {
-			for(var host in index[type]) {
-				$.each(index[type][host], function(i, workspace) { // XXX: dangerous (cf. JSLint)
-					var tiddlers = index[type][host][workspace];
+		for(var type in origins) {
+			for(var host in origins[type]) {
+				$.each(origins[type][host], function(i, workspace) { // XXX: dangerous (cf. JSLint)
+					var tiddlers = origins[type][host][workspace];
 					var adaptor = tiddlers[0].getAdaptor();
 					var context = {
 						host: host,
