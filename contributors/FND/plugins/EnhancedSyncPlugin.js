@@ -166,27 +166,26 @@ var macro = config.macros.esync = {
 	// determine remote changes
 	// origins is a dictionary of tiddlers per workspace per host per server type
 	// callback is passed a list of sync tasks
-	getRemoteChanges: function(origins, callback) { // XXX: misnamed (also takes into account local changes)
+	getRemoteChanges: function(origins, callback) { // XXX: misnamed (also takes into account local changes via determineChanges)
 		var taskList = []; // XXX: rename
 		var pending = 0;
 		var observer = function(tasks) { // TODO: rename?
-			pending--;
 			taskList = taskList.concat(tasks);
 			if(pending == 0) { // XXX: possible race condition (if callbacks return before more requests are triggered)
 				callback(taskList);
 			}
 		};
-		// determine remote changes for each workspace
-		for(var type in origins) {
-			for(var host in origins[type]) {
-				$.each(origins[type][host], function(i, workspace) { // XXX: dangerous (cf. JSLint)
-					var tiddlers = origins[type][host][workspace];
+		// determine remote changes for each known origin
+		$.each(origins, function(type, hosts) {
+			$.each(hosts, function(host, workspaces) {
+				$.each(workspaces, function(workspace, tiddlers) {
 					var adaptor = tiddlers[0].getAdaptor();
 					var context = {
 						host: host,
 						workspace: workspace
 					};
 					var _callback = function(context, userParams) {
+						pending--;
 						if(context.status) {
 							var tasks = macro.generateTasks(tiddlers, context.tiddlers);
 							observer(tasks);
@@ -198,8 +197,8 @@ var macro = config.macros.esync = {
 					var req = adaptor.getTiddlerList(context, null, _callback);
 					// TODO: error handling (req might fail synchronously)
 				});
-			}
-		}
+			});
+		});
 	},
 	// determine tiddlers with local changes
 	// tiddlers argument is optional, defaulting to sync'able tiddlers
