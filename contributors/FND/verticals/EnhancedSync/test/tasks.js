@@ -1,17 +1,23 @@
 (function(module, $) {
 
+var _getRemoteChanges;
 var esync = config.macros.esync;
 
-var callbackData;
+var callbackData, originData;
 var callback = function() {
 	callbackData = arguments;
 };
 
 module("sync tasks", {
 	setup: function() {
+		_getRemoteChanges = esync.getRemoteChanges;
+		esync.getRemoteChanges = function(origins, callback) {
+			originData = origins;
+		};
 		callbackData = null;
 	},
 	teardown: function() {
+		esync.getRemoteChanges = _getRemoteChanges;
 	}
 });
 
@@ -30,6 +36,62 @@ test("gatherTasks: push only", function() {
 	strictEqual(tasks.length, 2);
 	strictEqual(tasks[0].type, "push");
 	strictEqual(tasks[0].tiddler, tiddlers[0]);
+});
+
+test("gatherTasks: origins", function() {
+	var tiddler;
+	var tiddlers = [];
+
+	tiddler = new Tiddler("Foo");
+	tiddler.fields["server.type"] = "tiddlyweb";
+	tiddler.fields["server.host"] = "http://example.org";
+	tiddler.fields["server.workspace"] = "default";
+	tiddlers.push(tiddler);
+
+	tiddler = new Tiddler("Bar");
+	tiddler.fields["server.type"] = "tiddlyweb";
+	tiddler.fields["server.host"] = "http://example.com";
+	tiddler.fields["server.workspace"] = "default";
+	tiddlers.push(tiddler);
+
+	tiddler = new Tiddler("Baz");
+	tiddler.fields["server.type"] = "tiddlyweb";
+	tiddler.fields["server.host"] = "http://example.org/wiki/";
+	tiddler.fields["server.workspace"] = "default";
+	tiddlers.push(tiddler);
+
+	tiddler = new Tiddler("Alpha");
+	tiddler.fields["server.type"] = "cctiddly";
+	tiddler.fields["server.host"] = "http://example.org";
+	tiddler.fields["server.workspace"] = "north";
+	tiddlers.push(tiddler);
+
+	tiddler = new Tiddler("Bravo");
+	tiddler.fields["server.type"] = "cctiddly";
+	tiddler.fields["server.host"] = "http://example.org";
+	tiddler.fields["server.workspace"] = "north";
+	tiddlers.push(tiddler);
+
+	tiddler = new Tiddler("Charlie");
+	tiddler.fields["server.type"] = "cctiddly";
+	tiddler.fields["server.host"] = "http://example.org";
+	tiddler.fields["server.workspace"] = "south";
+	tiddlers.push(tiddler);
+
+	tiddler = new Tiddler("Delta");
+	tiddler.fields["server.type"] = "mediawiki";
+	tiddler.fields["server.host"] = "http://example.org";
+	tiddler.fields["server.workspace"] = "default";
+	tiddlers.push(tiddler);
+
+	esync.gatherTasks(tiddlers, false, callback);
+	strictEqual(originData["tiddlyweb"]["http://example.org"]["default"][0].title, "Foo");
+	strictEqual(originData["tiddlyweb"]["http://example.com"]["default"][0].title, "Bar");
+	strictEqual(originData["tiddlyweb"]["http://example.org/wiki/"]["default"][0].title, "Baz");
+	strictEqual(originData["cctiddly"]["http://example.org"]["north"][0].title, "Alpha");
+	strictEqual(originData["cctiddly"]["http://example.org"]["north"][1].title, "Bravo");
+	strictEqual(originData["cctiddly"]["http://example.org"]["south"][0].title, "Charlie");
+	strictEqual(originData["mediawiki"]["http://example.org"]["default"][0].title, "Delta");
 });
 
 test("generateTasks", function() {

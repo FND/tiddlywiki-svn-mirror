@@ -172,7 +172,7 @@ var macro = config.macros.esync = {
 		var observer = function(tasks) { // TODO: rename?
 			pending--;
 			taskList = taskList.concat(tasks);
-			if(pending == 0) {
+			if(pending == 0) { // XXX: possible race condition (if callbacks return before more requests are triggered)
 				callback(taskList);
 			}
 		};
@@ -230,7 +230,7 @@ var macro = config.macros.esync = {
 			var pos = remotes.findByField("title", local.title);
 			if(pos !== null) { // tiddler present both locally and remotely
 				var remote = remotes.splice(pos, 1)[0];
-				if(remote.fields[cue] != local.fields[cue]) {
+				if(remote.fields[cue] != local.fields[cue]) { // tiddler modified remotely
 					tasks.push({
 						type: local.isTouched() ? "conflict" : "pull",
 						tiddler: local
