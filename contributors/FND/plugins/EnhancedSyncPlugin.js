@@ -167,15 +167,18 @@ var macro = config.macros.esync = {
 	// origins is a dictionary of tiddlers per workspace per host per server type
 	// callback is passed a list of sync tasks
 	getRemoteChanges: function(origins, callback) { // XXX: misnamed (also takes into account local changes via determineChanges)
-		var taskList = []; // XXX: rename
-		var pending = 0;
+		var _tasks = [];
+		var reqCount = 0;
+		var resCount = 0;
 		var observer = function(tasks) { // TODO: rename?
-			taskList = taskList.concat(tasks);
-			if(pending == 0) { // XXX: possible race condition (if callbacks return before more requests are triggered)
-				callback(taskList);
+			_tasks = _tasks.concat(tasks);
+			resCount++;
+			if(resCount == reqCount) {
+				callback(_tasks);
 			}
 		};
 		// determine remote changes for each known origin
+		var reqData = [];
 		$.each(origins, function(type, hosts) {
 			$.each(hosts, function(host, workspaces) {
 				$.each(workspaces, function(workspace, tiddlers) {
@@ -184,21 +187,28 @@ var macro = config.macros.esync = {
 						host: host,
 						workspace: workspace
 					};
-					var _callback = function(context, userParams) {
-						pending--;
-						if(context.status) {
-							var tasks = macro.generateTasks(tiddlers, context.tiddlers);
-							observer(tasks);
-						} else {
-							// TODO: error handling
-						}
-					};
-					pending++;
-					var req = adaptor.getTiddlerList(context, null, _callback);
-					// TODO: error handling (req might fail synchronously)
+					reqData.push([adaptor, context, tiddlers]);
 				});
 			});
 		});
+		reqCount = reqData.length;
+		var _callback = function(context, userParams) {
+			if(context.status) {
+				var tasks = macro.generateTasks(userParams.tiddlers,
+					context.tiddlers);
+				observer(tasks);
+			} else {
+				// TODO: error handling
+			}
+		};
+		for(var i = 0; i < reqCount; i++) { // XXX: needs throttling!?
+			var adaptor = reqData[i][0];
+			var context = reqData[i][1];
+			var tiddlers = reqData[i][2];
+			var req = adaptor.getTiddlerList(context, { tiddlers: tiddlers },
+				_callback);
+			// TODO: error handling (req might fail synchronously)
+		}
 	},
 	// determine tiddlers with local changes
 	// tiddlers argument is optional, defaulting to sync'able tiddlers

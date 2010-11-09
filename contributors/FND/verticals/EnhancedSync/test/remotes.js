@@ -57,13 +57,14 @@ test("getRemoteChanges: origins", function() {
 	tiddler.fields.changecount = "4";
 	origins["cctiddly"]["example.com"]["default"].push(tiddler);
 
+	var counter = 0;
 	esync.getRemoteChanges(origins, function(taskList) {
-		// NB: This function is actually called multiple times since we're not
-		//     simulating async delays. The eventual result is correct though.
+		counter++;
 		tasks = taskList;
 	});
 	strictEqual(tasks.length, 4);
 	strictEqual(tasks[tasks.length - 1].tiddler, tiddler);
+	strictEqual(counter, 1);
 });
 
 test("getRemoteChanges: tasks", function() {
