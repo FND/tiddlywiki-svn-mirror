@@ -110,17 +110,24 @@ var macro = config.macros.esync = {
 	},
 
 	// start the sync process
+	// callback is passed two lists, one for successes and another for errors -- TODO: elaborate (individual objects' members)
 	processTasks: function(tasks, callback) { // TODO: should trigger queue to avoid overlapping sync batches
-		var pending = 0;
+		var reqCount = tasks.length;
+		var successes = [], errors = [];
 		doc.bind("sync", function(ev, data) {
-			pending--;
-			if(pending == 0) {
-				callback(taskList);
+			reqCount--;
+			if(data.status[0] == "remoteSuccess" &&
+					data.status[1] == "localSuccess") {
+				successes.push(data);
+			} else {
+				errors.push(data);
+			}
+			if(reqCount == 0) {
+				callback(successes, errors);
 			}
 		});
 		for(var i = 0; i < tasks.length; i++) {
 			var task = tasks[i];
-			pending++;
 			switch(task.type) {
 				case "push":
 					this.push(task.tiddler);
@@ -129,7 +136,10 @@ var macro = config.macros.esync = {
 					this.pull(task.tiddler);
 					break;
 				case "conflict":
-					doc.trigger("sync", { status: "conflict", tiddler: tiddler });
+					doc.trigger("sync", {
+						status: ["conflict"],
+						tiddler: task.tiddler
+					});
 					break;
 			}
 		}
@@ -260,7 +270,7 @@ var macro = config.macros.esync = {
 	// send an individual tiddler to the server
 	// XXX: return contract?
 	push: function(tiddler) {
-		var env = env(tiddler);
+		var env = environ(tiddler);
 		tiddler = setSyncID(tiddler, env);
 		// create/update or move tiddler -- TODO: deletion support
 		var serverTitle = tiddler.fields["server.title"];
@@ -299,7 +309,7 @@ var macro = config.macros.esync = {
 	// retrieve an individual tiddler from the server
 	// XXX: return contract?
 	pull: function(tiddler) {
-		var env = env(tiddler);
+		var env = environ(tiddler);
 		tiddler = setSyncID(tiddler, env);
 		// TODO: support server.page.id for locally diverging titles?
 		return env.adaptor.getTiddler(tiddler.title, env.context, env.chache,
@@ -379,7 +389,7 @@ var resetChangeCount = function(tiddler, cached) {
 	}
 };
 
-var env = function(tiddler) {
+var environ = function(tiddler) {
 	var context = {
 		host: tiddler.fields["server.host"], // expanded in adaptor via setContext
 		workspace: tiddler.fields["server.workspace"],
