@@ -1,8 +1,8 @@
 #!/usr/bin/env sh
 
 cd "`dirname $0`/kopfloss"
-./run.sh $@ "fixtures/browser.js" \
+./run.sh -v $@ "fixtures/browser.js" \
 	"../../../../../../core/jquery/jquery.js" \
 	"../fixtures/kopfloss.js" "../fixtures/tiddlywiki.js" \
 	"../../../../plugins/EnhancedSyncPlugin.js" \
-	"../candidates.js" "../tasks.js" "../remotes.js" "../processing.js"
+	../*.js
