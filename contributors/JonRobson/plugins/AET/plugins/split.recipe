@@ -1,6 +1,7 @@
-tiddler: AET.tid
-tiddler: AETCheckboxes.tid
-tiddler: AETSearch.tid
-tiddler: AETRadio.tid
-tiddler: AETDate.tid
-tiddler: AETMedia.tid
+tiddler: AETPlugin.js
+tiddler: AETPluginCheckboxes.js
+tiddler: AETPluginSearch.js
+tiddler: AETPluginRadio.js
+tiddler: AETPluginDate.js
+tiddler: AETPluginVideo.js
+tiddler: AETPluginImage.js

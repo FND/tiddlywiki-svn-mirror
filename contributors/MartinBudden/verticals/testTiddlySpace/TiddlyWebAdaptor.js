@@ -175,7 +175,7 @@ adaptor.prototype.getTiddlerListN = function(context, userParams, callback) {
 	};
 	var callback = function(resource, status, xhr) {
 		context.status = true;
-		context.workspaces = resource.map(function(itm) { return { title: itm }; });
+		context.tiddlers = resource.map(function(itm) { return { title: itm }; });
 		console.log('gwlcbN',context.workspaces);
 		common2(xhr);
 	};
@@ -290,12 +290,6 @@ adaptor.prototype.getTiddler = function(title, context, userParams, callback) {
 	return typeof req == "string" ? req : true;
 };
 
-/*
-tiddler = new tiddlyweb.Tiddler("Foo");
-tiddler.bag = new tiddlyweb.Bag("sandbox", host);
-tiddler.get(callback, errback);
-*/
-
 adaptor.getTiddlerCallback = function(status, context, responseText, uri, xhr) {
 	context.status = status;
 	context.statusText = xhr.statusText;
@@ -331,6 +325,36 @@ adaptor.getTiddlerCallback = function(status, context, responseText, uri, xhr) {
 		context.callback(context, context.userParams);
 	}
 };
+
+adaptor.prototype.getTiddler = function(title, context, userParams, callback) {
+	context = this.setContext(context, userParams, callback);
+	console.log('gtN');
+
+	var common2 = function(xhr) {
+		context.statusText = xhr.statusText;
+		context.httpStatus = xhr.status;
+		if(context.callback)
+			context.callback(context, context.userParams);
+	};
+	var callback = function(resource, status, xhr) {
+		context.status = true;
+		context.workspaces = resource.map(function(itm) { return { title: itm }; });
+		console.log('gwlcbN',context.workspaces);
+		common2(xhr);
+	};
+	var errback = function(xhr, error, exc, resource) {
+		context.status = false;
+		context.statusText = adaptor.parsingErrorMessage;
+		common2(xhr);
+	};
+
+	var tiddler = new tiddlyweb.Tiddler(context.title);
+	tiddler.bag = new tiddlyweb.Bag(context.workspace, context.host);
+	tiddler.get(callback, errback);
+
+	return true;
+};
+
 
 // retrieve tiddler chronicle (all revisions)
 adaptor.prototype.getTiddlerChronicle = function(title, context, userParams, callback) {

@@ -10,7 +10,7 @@ export now=$(date +%Y%m%d%H%M%S)
 export author="PaulDowney"
 export email="psd (at) osmosoft (dot) com"
 export deploy_host='${TW_DEPLOY_HOST}'
-export deploy_dir='${TW_DEPLOY_USER}/$plugin/'
+export deploy_dir='${TW_DEPLOY_DIR}/$plugin/'
 export source="http://whatfettle.com/2008/07/$plugin/"
 
 if [ -z "$plugin" ]
@@ -40,15 +40,15 @@ function template
 #
 template "$plugin.js" <<!
 /***
-|''Name:''|$plugin|
+|''Name:''|$plugin |
 |''Description:''| @@@Description@@@ |
 |''Author:''|$author ($email) |
 |''Source:''|$source |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/$author/plugins/$plugin/ |
-|''Version:''|0.1|
+|''Version:''|0.1 |
 |''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
-|''~CoreVersion:''|2.4|
+|''~CoreVersion:''|2.4 |
 !!Documentation
 @@@blah blah@@@
 !!Code
@@ -57,7 +57,7 @@ template "$plugin.js" <<!
 /*jslint onevar: false nomen: false plusplus: false */
 /*global jQuery config */
 (function (\$) {
-    version.extensions.$plugin = {installed: true};
+	version.extensions.$plugin = {installed: true};
 
 	// stuff
 
@@ -180,11 +180,11 @@ jquery: ${plugin}Tests.js
 template "test/${plugin}Tests.js" <<!
 /*global story, jQuery, document, module, test, same */
 (function (\$) {
-    jQuery(document).ready(function () {
-        module("$plugin");
+	jQuery(document).ready(function () {
+		module("$plugin");
 
-    });
-})(jQuery);
+	});
+}(jQuery));
 !
 
 chmod +x deploy.sh go

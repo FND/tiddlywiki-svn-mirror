@@ -1,9 +1,9 @@
 /***
-|TiddlyFileImporter|
-|Version|0.3|
-|Author|Ben Gillies|
-|Type|plugin|
-|Description|Upload a TiddlyWiki file to TiddlyWeb, and import the tiddlers.|
+|''Name''|TiddlyFileImporter|
+|''Version''|0.3.1|
+|''Author''|Ben Gillies|
+|''Type''|plugin|
+|''Description''|Upload a TiddlyWiki file to TiddlyWeb, and import the tiddlers.|
 !Usage
 Upload a TiddlyWiki file to TiddlyWeb, and import the tiddlers.
 !Requires
@@ -55,39 +55,44 @@ config.macros.fileImport = {
 		wizard.setValue('adaptor', new config.adaptors.file());
 		wizard.setValue('host', config.defaultCustomFields['server.host']);
 		wizard.setValue('context', {});
+		var iframe = $('<iframe name="' + iframeName + '" '
+			+ 'style="display: none" />').appendTo(uploadWrapper);
+		var onSubmit = function(ev) {
+			if (wizard.importType == "file") {
+				// set an onload ready to hijack the form
+				me.setOnLoad(uploadWrapper, wizard, iframe[0]);
+				wizard.formElem.submit();
+			} else {
+				$.ajax({
+					url: "%0/reflector".format([
+						config.defaultCustomFields["server.host"]]),
+					type: "POST",
+					dataType: "text",
+					data: {
+						uri: $("input", ".importFrom", wizard.formElem).val()
+					},
+					success: function(data, txtStatus, xhr) {
+						wizard.POSTResponse = data;
+						me.importTiddlers(uploadWrapper, wizard);
+					},
+					error: function(xhr, txtStatus, error) {
+						displayMessage("There was an error fetching the "
+							+ 'url: ' + txtStatus);
+						me.restart(wizard);
+					}
+				});
+				return false;
+			}
+		};
 		wizard.setButtons([{
 			caption: me.uploadLabel,
 			tooltip: me.uploadLabelPrompt,
-			onClick: function() {
-				if (wizard.importType == "file") {
-					var iframe = $('<iframe name="' + iframeName + '" '
-						+ 'style="display: none" />').appendTo(uploadWrapper);
-					// set an onload ready to hijack the form
-					me.setOnLoad(uploadWrapper, wizard, iframe[0]);
-					wizard.formElem.submit();
-				} else {
-					$.ajax({
-						url: "%0/reflector".format([
-							config.defaultCustomFields["server.host"]]),
-						type: "POST",
-						dataType: "text",
-						data: {
-							uri: $("input", ".importFrom", wizard.formElem).val()
-						},
-						success: function(data, txtStatus, xhr) {
-							wizard.POSTResponse = data;
-							me.importTiddlers(uploadWrapper, wizard);
-						},
-						error: function(xhr, txtStatus, error) {
-							displayMessage("There was an error fetching the "
-								+ 'url: ' + txtStatus);
-							me.restart(wizard);
-						}
-					});
-					return false;
-				}
-			}
+			onClick: onSubmit
 		}]);
+		$(wizard.formElem).submit(function(ev) {
+			onSubmit(ev);
+			ev.preventDefault();
+		});
 	},
 
 	createForm: function(place, wizard, iframeName) {

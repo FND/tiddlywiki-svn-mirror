@@ -1,0 +1,21 @@
+tags: 
+
+Examples, taken from TiddlySpaceLinkPlugin used by the missing links tests:
+<<<
+  {{{@space}}} -- @space 
+  {{{~@space}}} -- ~@space 
+  {{{Tiddler@space}}} -- Tiddler@space
+  {{{[[Tiddler Title]]@space}}} -- [[Tiddler Title]]@space 
+  {{{[[Link text|Tiddler Title]]@space}}} -- [[Link text|Tiddler Title]]@space
+<<<
+Links to tiddlers with a title begining with an "@" remain as tiddlyLinks:
+<<<
+  {{{[[@tiddler]]}}} -- [[@tiddler]]
+<<<
+and these may be changed into a space link using {{{@@}}}:
+<<<
+  {{{[[@@tiddlyspace]]}}} -- [[@@tiddlyspace]]
+  {{{[[Link to an another space|@@space]]}}} -- [[Link to another space|@@space]]
+  {{{[[@space|@@space]]}}} -- [[@space|@@space]]
+<<<
+and [[xx@yy]] is a missing tiddler as is [[missing tiddler]]

@@ -1,6 +1,6 @@
 /***
 |''Name''|ImageMacroPlugin|
-|''Version''|0.8.8|
+|''Version''|0.8.9|
 |''Description''|Allows the rendering of svg images in a TiddlyWiki|
 |''Author''|Osmosoft|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
@@ -170,13 +170,14 @@ var macro = config.macros.image = {
 					macro._renderAlternateText(container, options);
 				}
 			} else {
-				var userH = options.height;
-				var userW = options.width;
+				var preserve = options.preserveAspectRatio;
 				var w = dimensions.width;
 				var h = dimensions.height;
+				var userH = preserve && h < options.height ? h : options.height;
+				var userW = preserve && w < options.width ? w : options.height;
 				if(w && h) {
-					var preserveWidth = options.preserveAspectRatio && w > h;
-					var preserveHeight = options.preserveAspectRatio && h > w;
+					var preserveWidth = preserve && w > h;
+					var preserveHeight = preserve && h > w;
 					var ratio;
 					if(userH && !userW || preserveHeight) {
 						ratio = userH / h;

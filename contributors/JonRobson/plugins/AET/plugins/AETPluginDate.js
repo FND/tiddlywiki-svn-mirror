@@ -1,70 +1,67 @@
-tags: systemConfig
-
 /***
-|''Requires:''|AETPlugin|
+|''Name:''|AETDates|
+|''Requires''|AETPlugin|
+|''Version:''|0.8.1|
+|''Description:''|Adds dates to the AdvancedEditTemplatePlugin|
+|''Author:''|JonRobson |
+|''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
+|''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
+|''Requires:''|[[AdvancedEditTemplate (core code)|http://svn.tiddlywiki.org/Trunk/contributors/JonRobson/plugins/AET/plugins/AET.js]]|
+!Usage
+{{{<<aet type:date field:fieldname>>}}}
 ***/
+//{{{
+(function($) {
+var aet = config.macros.aet;
 config.macros.aet.extensions.date ={
-  createDatePicker: function(place,title,metaDataName,autosavechanges){
-	        
-    var tiddler = store.getTiddler(title);
-    var params = [metaDataName];
-  
-    var div = document.createElement("div");
-    div.className  = "datePicker";
-    var input = document.createElement("input");
-    input.className = "date-pick";
-    input.setAttribute("name",metaDataName);
-    jQuery(div).append(input);
-    jQuery(div).append("<div class='clearboth'></div>");
-    jQuery(place).append(div);
-    jQuery(function()
-    {
-      var start =config.macros.AdvancedEditTemplate.getMetaData(title,metaDataName);
-      if(!start)start="";
-      else {
-        var y="0000",m="00",d="00";
-        if(start.length >= 4)y=start.substr(0,4);
-        if(start.length >= 6)m = start.substr(4,2);
-        if(start.length >= 8)d = start.substr(6,2)
-        start = d+"/"+m+"/"+y;
-      }
-    	jQuery(input).datePicker({startDate: '01/01/1600'}).val(start).trigger('change');
-    	jQuery(input).change(function(e){
-    	    //console.log(this.value,"before");
-  	   
-    	    var dmy = this.value;
-    	    var d="0",m="0",y="0";
-    	    if(dmy.indexOf("/") > -1){
-    	      dmy = dmy.split("/");
-    	      if(dmy[0])d = dmy[0];
-      	    if(dmy[1])m = dmy[1];
-      	    if(dmy[2])y = dmy[2];
-    	    }
-    	    else{
-    	      d = "00";
-    	      m = "00";
-    	      y = dmy;
-    	    }
-    	    if(d.length == 1) d= "0"+d;
-    	    if(m.length == 1) m= "0"+m;
-    	    //console.log(y,m,d,"togo");
-    	    var val = y+m+d+"0000";
-    	    //console.log("saving value " + val)
-    	    config.macros.AdvancedEditTemplate.setMetaData(title,metaDataName,val,autosavechanges);
-  	      
-    	});
-    	//jQuery("input").trigger('change');
-    });
-            
-	        //config.macros.edit.handler(place,false,params,false,false,tiddler)
-                      
+	createDatePicker: function(place,title,metaDataName,autosavechanges){
+		var tiddler = store.getTiddler(title);
+		var params = [metaDataName];
+		var div = $("<div />").addClass("datePicker").appendTo(place);
+		var input = $("<input />").addClass("date-pick").attr("name", metaDataName).appendTo(div);
+		$("<div />").addClass("clearboth").appendTo(div);
+		$(function() {
+			var start = aet.getMetaData(title,metaDataName);
+			if(!start) {
+				start = "";
+			} else {
+				var y = "0000", m = "00", d = "00";
+				y = start.length >= 4 ? start.substr(0,4) : y;
+				m = start.length >= 6 ? start.substr(4,2) : m;
+				d = start.length >= 8 ? start.substr(6,2) : d;
+				start = d+"/"+m+"/"+y;
+			}
+			$(input).datePicker({ startDate: '01/01/1600' }).val(start).trigger('change').
+				change(function(e){
+					var dmy = this.value;
+					var val;
+					if(dmy) {
+						var d = "0", m = "0", y = "0";
+						if(dmy.indexOf("/") > -1) {
+							dmy = dmy.split("/");
+							d = dmy[0] ? dmy[0] : d;
+							m = dmy[1] ? dmy[1] : m;
+							y = dmy[2] ? dmy[2] : y;
+						} else{
+							d = "00";
+							m = "00";
+							y = dmy;
+						}
+						d = d.length == 1 ? "0" + d : d;
+						m = m.length == 1 ? "0" + m : m;
+						val = y + m + d + "0000";
+					} else {
+						val = false;
+					}
+					aet.setMetaData(title, metaDataName, val, autosavechanges);
+			});
+		});
 	}
-	
-}
-config.macros.aet.controlTypes.date = function(place,tiddler,fieldName,options){
-  config.macros.aet.extensions.date.createDatePicker(place,tiddler.title,fieldName);
-}
-
+};
+config.macros.aet.controlTypes.date = function(place, tiddler, fieldName, options) {
+	config.macros.aet.extensions.date.createDatePicker(place, tiddler.title, fieldName);
+};
+})(jQuery);
 
 /*
  * Date prototype extensions. Doesn't depend on any
@@ -80,8 +77,8 @@ config.macros.aet.controlTypes.date = function(place,tiddler,fieldName,options){
  * I've added my name to these methods so you know who to blame if they are broken!
  * 
  * Dual licensed under the MIT and GPL licenses:
- *   http://www.opensource.org/licenses/mit-license.php
- *   http://www.gnu.org/licenses/gpl.html
+ *	 http://www.opensource.org/licenses/mit-license.php
+ *	 http://www.gnu.org/licenses/gpl.html
  *
  */
 
@@ -575,7 +572,7 @@ Date.fullYearStart = '20';
  **/
 
 (function($){
-    
+		
 	$.fn.extend({
 /**
  * Render a calendar table into any matched elements.
@@ -586,7 +583,7 @@ Date.fullYearStart = '20';
  * @option Function renderCallback A reference to a function that is called as each cell is rendered and which can add classes and event listeners to the created nodes. Default is no callback.
  * @option Number showHeader Whether or not to show the header row, possible values are: $.dpConst.SHOW_HEADER_NONE (no header), $.dpConst.SHOW_HEADER_SHORT (first letter of each day) and $.dpConst.SHOW_HEADER_LONG (full name of each day). Default is $.dpConst.SHOW_HEADER_SHORT.
  * @option String hoverClass The class to attach to each cell when you hover over it (to allow you to use hover effects in IE6 which doesn't support the :hover pseudo-class on elements other than links). Default is dp-hover. Pass false if you don't want a hover class.
- * @type jQuery
+ * @type $
  * @name renderCalendar
  * @cat plugins/datePicker
  * @author Kelvin Luck (http://www.kelvinluck.com/)
@@ -614,7 +611,7 @@ Date.fullYearStart = '20';
  * 
  * @desc Renders a calendar displaying January 2007 into the element with an id of calendar-me. Every Thursday in the current month has a class of "thursday" applied to it, is clickable and shows an alert when clicked. Every Friday on the calendar has the number inside replaced with text.
  **/
-		renderCalendar  :   function(s)
+		renderCalendar	:	 function(s)
 		{
 			var dc = function(a)
 			{
@@ -629,7 +626,7 @@ Date.fullYearStart = '20';
 					var weekday = i%7;
 					var day = Date.dayNames[weekday];
 					headRow.append(
-						jQuery(dc('th')).attr({'scope':'col', 'abbr':day, 'title':day, 'class':(weekday == 0 || weekday == 6 ? 'weekend' : 'weekday')}).html(s.showHeader == $.dpConst.SHOW_HEADER_SHORT ? day.substr(0, 1) : day)
+						$(dc('th')).attr({'scope':'col', 'abbr':day, 'title':day, 'class':(weekday == 0 || weekday == 6 ? 'weekend' : 'weekday')}).html(s.showHeader == $.dpConst.SHOW_HEADER_SHORT ? day.substr(0, 1) : day)
 					);
 				}
 			};
@@ -689,7 +686,7 @@ Date.fullYearStart = '20';
 
 			var w = 0;
 			while (w++<weeksToDraw) {
-				var r = jQuery(dc('tr'));
+				var r = $(dc('tr'));
 				var firstDayInBounds = s.dpController ? currentDate > s.dpController.startDate : false;
 				for (var i=0; i<7; i++) {
 					var thisMonth = currentDate.getMonth() == month;
@@ -759,7 +756,7 @@ Date.fullYearStart = '20';
  * @option Number horizontalOffset The number of pixels offset from the defined horizontalPosition of this date picker that it should pop up in. Default in 0.
  * @option (Function|Array) renderCallback A reference to a function (or an array of seperate functions) that is called as each cell is rendered and which can add classes and event listeners to the created nodes. Each callback function will receive four arguments; a jquery object wrapping the created TD, a Date object containing the date this TD represents, a number giving the currently rendered month and a number giving the currently rendered year. Default is no callback.
  * @option String hoverClass The class to attach to each cell when you hover over it (to allow you to use hover effects in IE6 which doesn't support the :hover pseudo-class on elements other than links). Default is dp-hover. Pass false if you don't want a hover class.
- * @type jQuery
+ * @type $
  * @name datePicker
  * @cat plugins/datePicker
  * @author Kelvin Luck (http://www.kelvinluck.com/)
@@ -863,7 +860,7 @@ Date.fullYearStart = '20';
  * Disables or enables this date picker
  *
  * @param Boolean s Whether to disable (true) or enable (false) this datePicker
- * @type jQuery
+ * @type $
  * @name dpSetDisabled
  * @cat plugins/datePicker
  * @author Kelvin Luck (http://www.kelvinluck.com/)
@@ -880,7 +877,7 @@ Date.fullYearStart = '20';
  * Updates the first selectable date for any date pickers on any matched elements.
  *
  * @param String d A string representing the first selectable date (formatted according to Date.format).
- * @type jQuery
+ * @type $
  * @name dpSetStartDate
  * @cat plugins/datePicker
  * @author Kelvin Luck (http://www.kelvinluck.com/)
@@ -897,7 +894,7 @@ Date.fullYearStart = '20';
  * Updates the last selectable date for any date pickers on any matched elements.
  *
  * @param String d A string representing the last selectable date (formatted according to Date.format).
- * @type jQuery
+ * @type $
  * @name dpSetEndDate
  * @cat plugins/datePicker
  * @author Kelvin Luck (http://www.kelvinluck.com/)
@@ -937,7 +934,7 @@ Date.fullYearStart = '20';
  * @param Boolean v Whether you want to select (true) or deselect (false) this date. Optional - default = true.
  * @param Boolean m Whether you want the date picker to open up on the month of this date when it is next opened. Optional - default = true.
  * @param Boolean e Whether you want the date picker to dispatch events related to this change of selection. Optional - default = true.
- * @type jQuery
+ * @type $
  * @name dpSetSelected
  * @cat plugins/datePicker
  * @author Kelvin Luck (http://www.kelvinluck.com/)
@@ -958,7 +955,7 @@ Date.fullYearStart = '20';
  *
  * @param Number m The month you want the date picker to display. Optional - defaults to the currently displayed month.
  * @param Number y The year you want the date picker to display. Optional - defaults to the currently displayed year.
- * @type jQuery
+ * @type $
  * @name dpSetDisplayedMonth
  * @cat plugins/datePicker
  * @author Kelvin Luck (http://www.kelvinluck.com/)
@@ -975,7 +972,7 @@ Date.fullYearStart = '20';
  * Displays the date picker associated with the matched elements. Since only one date picker can be displayed at once then the date picker associated with the last matched element will be the one that is displayed.
  *
  * @param HTMLElement e An element that you want the date picker to pop up relative in position to. Optional - default behaviour is to pop up next to the element associated with this date picker.
- * @type jQuery
+ * @type $
  * @name dpDisplay
  * @cat plugins/datePicker
  * @author Kelvin Luck (http://www.kelvinluck.com/)
@@ -992,7 +989,7 @@ Date.fullYearStart = '20';
  * Sets a function or array of functions that is called when each TD of the date picker popup is rendered to the page
  *
  * @param (Function|Array) a A function or an array of functions that are called when each td is rendered. Each function will receive four arguments; a jquery object wrapping the created TD, a Date object containing the date this TD represents, a number giving the currently rendered month and a number giving the currently rendered year.
- * @type jQuery
+ * @type $
  * @name dpSetRenderCallback
  * @cat plugins/datePicker
  * @author Kelvin Luck (http://www.kelvinluck.com/)
@@ -1013,7 +1010,7 @@ Date.fullYearStart = '20';
  *
  * @param Number v The vertical alignment of the created date picker to it's associated element. Possible values are $.dpConst.POS_TOP and $.dpConst.POS_BOTTOM
  * @param Number h The horizontal alignment of the created date picker to it's associated element. Possible values are $.dpConst.POS_LEFT and $.dpConst.POS_RIGHT
- * @type jQuery
+ * @type $
  * @name dpSetPosition
  * @cat plugins/datePicker
  * @author Kelvin Luck (http://www.kelvinluck.com/)
@@ -1031,7 +1028,7 @@ Date.fullYearStart = '20';
  *
  * @param Number v The vertical offset of the created date picker.
  * @param Number h The horizontal offset of the created date picker.
- * @type jQuery
+ * @type $
  * @name dpSetOffset
  * @cat plugins/datePicker
  * @author Kelvin Luck (http://www.kelvinluck.com/)
@@ -1047,7 +1044,7 @@ Date.fullYearStart = '20';
 /**
  * Closes the open date picker associated with this element.
  *
- * @type jQuery
+ * @type $
  * @name dpClose
  * @cat plugins/datePicker
  * @author Kelvin Luck (http://www.kelvinluck.com/)
@@ -1081,7 +1078,7 @@ Date.fullYearStart = '20';
 	});
 	
 	// private internal function to cut down on the amount of code needed where we forward
-	// dp* methods on the jQuery object on to the relevant DatePicker controllers...
+	// dp* methods on the $ object on to the relevant DatePicker controllers...
 	var _w = function(f, a1, a2, a3, a4)
 	{
 		return this.each(
@@ -1282,7 +1279,7 @@ Date.fullYearStart = '20';
 						}
 					}
 				);
-				$('td', this.context).not('.selected')[this.selectMultiple &&  this.numSelected == this.numSelectable ? 'addClass' : 'removeClass']('unselectable');
+				$('td', this.context).not('.selected')[this.selectMultiple &&	this.numSelected == this.numSelectable ? 'addClass' : 'removeClass']('unselectable');
 				
 				if (dispatchEvents)
 				{
@@ -1512,7 +1509,7 @@ Date.fullYearStart = '20';
 					{
 						$td.parent().addClass('selectedWeek');
 					}
-				} else  if (c.selectMultiple && c.numSelected == c.numSelectable) {
+				} else	if (c.selectMultiple && c.numSelected == c.numSelectable) {
 					$td.addClass('unselectable');
 				}
 				
