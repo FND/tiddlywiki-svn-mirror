@@ -44,8 +44,6 @@ var templates = { // TODO: proper (supplant-style) templating
 	row: store.getTiddlerText(tiddler.title + "##Row")
 };
 
-var doc = $(document);
-
 var macro = config.macros.esync = {
 	handler: function(place, macroName, params, wikifier, paramString, tiddler) {
 		var candidates = this.getCandidates(); // XXX: hides non-sync'able tiddlers, thus suppressing potential issues!?
@@ -111,35 +109,32 @@ var macro = config.macros.esync = {
 
 	// start the sync process
 	// callback is passed two lists, one for successes and another for errors -- TODO: elaborate (individual objects' members)
-	processTasks: function(tasks, callback) { // TODO: should trigger queue to avoid overlapping sync batches
+	processTasks: function(tasks, callback) { // TODO: should use queue to avoid overlapping sync batches
 		var reqCount = tasks.length;
 		var successes = [], errors = [];
-		doc.bind("sync", function(ev, data) {
+		var observer = function(tiddler, status, message) {
 			reqCount--;
-			if(data.status[0] == "remoteSuccess" &&
-					data.status[1] == "localSuccess") {
-				successes.push(data);
+			var item = { tiddler: tiddler, status: status, message: message }; // TODO: rename
+			if(status[0] == "remoteSuccess" && status[1] == "localSuccess") {
+				successes.push(item);
 			} else {
-				errors.push(data);
+				errors.push(item);
 			}
 			if(reqCount == 0) {
 				callback(successes, errors);
 			}
-		});
+		};
 		for(var i = 0; i < tasks.length; i++) {
 			var task = tasks[i];
 			switch(task.type) {
 				case "push":
-					this.push(task.tiddler);
+					this.push(task.tiddler, observer);
 					break;
 				case "pull":
-					this.pull(task.tiddler);
+					this.pull(task.tiddler, observer);
 					break;
 				case "conflict":
-					doc.trigger("sync", {
-						status: ["conflict"],
-						tiddler: task.tiddler
-					});
+					observer(task.tiddler, ["conflict"], null);
 					break;
 			}
 		}
@@ -268,9 +263,11 @@ var macro = config.macros.esync = {
 	},
 
 	// send an individual tiddler to the server
+	// callback is passed tiddler, status and message -- TODO: elaborate
 	// XXX: return contract?
-	push: function(tiddler) {
+	push: function(tiddler, callback) {
 		var env = environ(tiddler);
+		env.cache.callback = callback; // XXX: cache reuse hacky?
 		tiddler = setSyncID(tiddler, env);
 		// create/update or move tiddler -- TODO: deletion support
 		var serverTitle = tiddler.fields["server.title"];
@@ -284,9 +281,8 @@ var macro = config.macros.esync = {
 		return env.adaptor.putTiddler(tiddler, env.context, env.cache,
 			this.pushCallback);
 	},
-	// expects context members title, httpStatus and statusText (if applicable),
-	// plus optionally a tiddler-like tiddlerData object -- TODO: elaborate
-	// triggers a "sync" event on document, providing status, message and tiddler -- TODO: elaborate
+	// expects context members title, status, httpStatus and statusText (if
+	// applicable), plus optionally a tiddler-like tiddlerData object -- TODO: elaborate
 	pushCallback: function(context, userParams) {
 		var tiddler = getSyncTiddler(context.title, userParams.syncID);
 		var status, msg;
@@ -303,18 +299,20 @@ var macro = config.macros.esync = {
 			msg = context.statusText;
 		}
 		status.push(tiddler ? "localSuccess" : "localError");
-
-		doc.trigger("sync", { status: status, message: msg, tiddler: tiddler });
+		userParams.callback(tiddler, status, msg);
 	},
 	// retrieve an individual tiddler from the server
+	// callback is passed tiddler, status and message -- TODO: elaborate
 	// XXX: return contract?
-	pull: function(tiddler) {
+	pull: function(tiddler, callback) {
 		var env = environ(tiddler);
+		env.cache.callback = callback; // XXX: cache reuse hacky?
 		tiddler = setSyncID(tiddler, env);
 		// TODO: support server.page.id for locally diverging titles?
 		return env.adaptor.getTiddler(tiddler.title, env.context, env.chache,
 			this.pullCallback);
 	},
+	// expects context members title, status, httpStatus and statusText (if applicable)
 	pullCallback: function(context, userParams) {
 		var tiddler = getSyncTiddler(context.title, userParams.syncID);
 		var status, msg;
@@ -331,7 +329,7 @@ var macro = config.macros.esync = {
 			status = [determineStatus(context.httpStatus)];
 			msg = context.statusText;
 		}
-		doc.trigger("sync", { status: status, message: msg, tiddler: tiddler });
+		userParams.callback(tiddler, status, msg);
 	}
 };
 

@@ -9,11 +9,8 @@ module("task processing", {
 	setup: function() {
 		_push = esync.push;
 		_pull = esync.pull;
-		esync.push = esync.pull = function(tiddler) {
-			$(document).trigger("sync", {
-				status: ["remoteSuccess", "localSuccess"],
-				tiddler: tiddler
-			});
+		esync.push = esync.pull = function(tiddler, callback) {
+			callback(tiddler, ["remoteSuccess", "localSuccess"]);
 		};
 	},
 	teardown: function() {
