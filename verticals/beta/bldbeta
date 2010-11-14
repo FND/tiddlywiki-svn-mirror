@@ -3,7 +3,7 @@
 # Usage:
 #  bldbeta [release]
 
-DEFAULT_RELEASE=2.6.2.B1
+DEFAULT_RELEASE=2.6.2.B2
 RELEASE=${1:-$DEFAULT_RELEASE}
 DEST=$PWD
 RECIPE=$PWD/recipes/index.$RELEASE.html.recipe
