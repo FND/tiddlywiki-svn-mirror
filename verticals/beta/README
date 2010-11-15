@@ -20,9 +20,14 @@ In preparation for a release, the following steps need to be taken:
 
 After building, the "index" document needs to be saved in the browser once to
 set the title and generate the RSS feed.
+This step can be automated:
+    config.options.chkGenerateAnRssFeed = true; saveChanges();
+(e.g. executed via Firebug's JavaScript console)
+NB: This circumvents propagateOption, thus preventing a SystemSettings tiddler
+from being created - which is generally desirable.
 
-For 2.4.0 beta 2 these need to be cooked and the resultant TiddlyWikis copied onto the
-server as follows:
+For 2.4.0 beta 2 these need to be cooked and the resultant TiddlyWikis copied
+onto the server as follows:
     index.2.4.0.B2.html => http://www.tiddlywiki.com/beta/index.html
     empty.2.4.0.B2.html => http://www.tiddlywiki.com/beta/empty.html
     empty.2.4.0.B2.html => http://www.tiddlywiki.com/upgrade/index.html
