@@ -104,12 +104,14 @@ var macro = config.macros.esync = {
 		table.appendTo(container);
 	},
 	onStart: function(ev) {
-		// TODO: dispatch processTasks for selection
+		// TODO: dispatchTasks for selection
 	},
 
-	// start the sync process
+	// execute sync tasks
 	// callback is passed two lists, one for successes and another for errors -- TODO: elaborate (individual objects' members)
-	processTasks: function(tasks, callback) { // TODO: should use queue to avoid overlapping sync batches
+	dispatchTasks: function(tasks, callback) {
+		// TODO: split into two, with a separate function for handling individual tasks
+		// TODO: use queue to avoid overlapping sync batches
 		var reqCount = tasks.length;
 		var successes = [], errors = [];
 		var observer = function(tiddler, status, message) {
@@ -153,7 +155,7 @@ var macro = config.macros.esync = {
 			callback(tasks);
 		} else {
 			var origins = {};
-			// construct dictionary of tiddlers per workspace per host per server type
+			// construct dictionary of tiddlers per workspace per host per server type -- XXX: move into getRemoteChanges?
 			for(var i = 0; i < tiddlers.length; i++) {
 				var tiddler = tiddlers[i];
 				var type = tiddler.getServerType();

@@ -12,6 +12,7 @@ module("task processing", {
 		esync.push = esync.pull = function(tiddler, callback) {
 			callback(tiddler, ["remoteSuccess", "localSuccess"]);
 		};
+		callbackData = null;
 	},
 	teardown: function() {
 		esync.push = _push;
@@ -19,7 +20,7 @@ module("task processing", {
 	}
 });
 
-test("processTasks", function() {
+test("dispatchTasks", function() {
 	var tasks = [
 		{ type: "push", tiddler: new Tiddler("Foo") },
 		{ type: "pull", tiddler: new Tiddler("Bar") },
@@ -27,7 +28,7 @@ test("processTasks", function() {
 	];
 
 	var counter = 0;
-	esync.processTasks(tasks, function(successes, errors) {
+	esync.dispatchTasks(tasks, function(successes, errors) {
 		counter++;
 		callbackData = { successes: successes, errors: errors };
 	});
