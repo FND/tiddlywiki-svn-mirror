@@ -40,4 +40,22 @@ test("dispatchTasks", function() {
 	strictEqual(callbackData.errors[0].tiddler.title, "Baz");
 });
 
+test("push before pull", function() {
+	var tasks = [
+		{ type: "pull", tiddler: new Tiddler("Foo") },
+		{ type: "push", tiddler: new Tiddler("Bar") },
+		{ type: "pull", tiddler: new Tiddler("Baz") },
+		{ type: "push", tiddler: new Tiddler("Qux") }
+	];
+
+	esync.dispatchTasks(tasks, function(successes, errors) {
+		callbackData = { successes: successes, errors: errors };
+	});
+	strictEqual(callbackData.successes.length, 4);
+	strictEqual(callbackData.successes[0].tiddler.title, "Bar");
+	strictEqual(callbackData.successes[1].tiddler.title, "Qux");
+	strictEqual(callbackData.successes[2].tiddler.title, "Foo");
+	strictEqual(callbackData.successes[3].tiddler.title, "Baz");
+});
+
 })(QUnit.module, jQuery);

@@ -126,7 +126,13 @@ var macro = config.macros.esync = {
 				callback(successes, errors);
 			}
 		};
-		for(var i = 0; i < tasks.length; i++) {
+
+		// prioritize push tasks to reduce risk of conflicts
+		tasks.sort(function(a, b) {
+			return a.type == b.type ? 0 : (a.type == "push" ? -1 : 1);
+		});
+
+		for(var i = 0; i < tasks.length; i++) { // XXX: needs throttling!?
 			var task = tasks[i];
 			switch(task.type) {
 				case "push":
@@ -148,6 +154,7 @@ var macro = config.macros.esync = {
 	// task.type is "push", "pull" or "conflict"; push encapsulating all
 	//   operations where local changes are to be sent to the server
 	gatherTasks: function(tiddlers, pushOnly, callback) { // XXX: bad API!? -- TODO: rename
+		// TODO: automatically determine tiddlers (via getCandidates / getLocalChanges)? cf. diagram
 		if(pushOnly) {
 			var tasks = $.map(tiddlers, function(tiddler, i) {
 				return { type: "push", tiddler: tiddler };
