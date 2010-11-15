@@ -1,19 +1,26 @@
-<div title="PersistentOptions" modifier="MJB" created="201011100000" modified="201011100000">
+<div title="PersistentOptions" modifier="MJB" created="201011100000" modified="201011500000">
 <pre>
 TiddlyWiki now has the ability to save options in the TiddlyWiki document itself (in addition to the ability to save options in cookies). Persistent options are stored in the [[SystemSettings]] tiddler. Persistent options are also called "baked" options, since the value of the cookie is "baked" into the TiddlyWiki.
 
+As an example, let's look at the {{{chkAnimate}}} option; this is currently stored as a cookie. We can get its value to be persistent by editing the [[SystemSettings]] tiddler. Looking at the [[SystemSettings]] tiddler, we see it contains:
+<<<
+chkAnimate_cookie: true
+<<<
+Note the {{{_cookie}}} suffix: this controls how the option is stored.
+
+To persist the {{{chkAnimate}}} option, we need to change the above to:
+<<<
+chkAnimate: true
+<<<
+(Note the removal of the {{{_cookie}}} suffix.)
+
+Similarly, if we want to get a different option, say {{{chkCaseSensitiveSearch}}}, to be stored in a cookie, then we need to add the {{{_cookie}}} suffix to that option (in this case giving {{{chkCaseSensitiveSearch_cookie}}}).
+
+!Under the hood
 The "source" of an option is controlled by the {{{config.optionSource[optionName]}}} variable. This can take one of two values:
 # {{{cookie}}} - the option is stored in a cookie, the default value for the option comes from [[SystemSettings]].
 # {{{setting}}} - the option is stored in the [[SystemSettings]] tiddler. This is the ''default''.
-
-As an example, let's look at the {{{chkAnimate}}} option, this is currently stored as a cookie. To get its value to be persistent, {{{config.optionSource["chkAnimate"]}}} needs to the set to the value {{{"system"}}}. This can be done in code by a plugin, or alternatively by editing the [[SystemSettings]] tiddler. In a new TiddlyWiki, the [[SystemSettings]] tiddler will contain:
-<<<
-chkAnimate_cookie: false
-<<<
-Note the {{{_cookie}}}: this controls how the option is stored. To persist the {{{chkAnimate}}} option, change the above to:
-<<<
-chkAnimate: false
-<<<
-(Note the removal of the {{{_cookie}}} suffix.)
+The {{{config.optionSource[]}}} variable is controlled by the values in the [[SystemSettings]] tiddler. If the option has a {{{_cookie}}} suffix, then {{{config.optionSource[optionName]}}} is set to {{{cookie}}}, otherwise it is set to
+{{{setting}}}.
 </pre>
 </div>
