@@ -282,7 +282,7 @@ var macro = config.macros.esync = {
 		var serverTitle = tiddler.fields["server.title"];
 		if(!serverTitle) {
 			tiddler.fields["server.title"] = tiddler.title;
-		} else if(tiddler.title != serverTitle) {
+		} else if(tiddler.title != serverTitle) { // XXX: moveTiddler not universally supported
 			return env.adaptor.moveTiddler({ title: serverTitle }, // XXX: moveTiddler signature is bad; should use tiddler objects
 				{ title: tiddler.title }, env.context, env.cache,
 				this.pushCallback);
@@ -304,7 +304,7 @@ var macro = config.macros.esync = {
 				tiddler = store.saveTiddler(tiddler);
 			}
 		} else {
-			status = [determineStatus(context.httpStatus)];
+			status = [determineError(context.httpStatus)];
 			msg = context.statusText;
 		}
 		status.push(tiddler ? "localSuccess" : "localError");
@@ -335,7 +335,7 @@ var macro = config.macros.esync = {
 				msg = "tiddler modified locally during retrieval"; // XXX: phrasing, i18n
 			}
 		} else { // XXX: no local status!?
-			status = [determineStatus(context.httpStatus)];
+			status = [determineError(context.httpStatus)];
 			msg = context.statusText;
 		}
 		userParams.callback(tiddler, status, msg);
@@ -388,7 +388,7 @@ var getSyncTiddler = function(title, id) {
 };
 
 var resetChangeCount = function(tiddler, cached) {
-	if(tiddler.fields.changecount == chached) {
+	if(tiddler.fields.changecount == cached) {
 		tiddler.clearChangeCount();
 	} else if(tiddler.fields.changecount > 0) { // local changes occurred during sync progress
 		tiddler.fields.changecount = (tiddler.fields.changecount - cached - 1). // XXX: hacky (use parseInt)?
@@ -408,9 +408,9 @@ var environ = function(tiddler) {
 	return { adaptor: tiddler.getAdaptor(), context: context, cache: cache };
 };
 
-// determine remote status message based on HTTP response
-var determineStatus = function(httpStatus) {
-	switch(context.httpStatus) {
+// determine remote error message based on HTTP response
+var determineError = function(httpStatus) {
+	switch(httpStatus) {
 		case 401:
 		case 403:
 			status = "remoteDenied"; // XXX: grammatical inconsistency

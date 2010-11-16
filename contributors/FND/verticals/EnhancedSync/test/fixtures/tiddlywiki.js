@@ -9,6 +9,15 @@ config = {
 	macros: {}
 };
 
+// XXX: temporary mock; to be deprecated and replaced
+jQuery.encoding = {
+	digests: {
+		hexSha1Str: function(token) {
+			return token;
+		}
+	}
+};
+
 Tiddler = function(title) {
 	this.title = title;
 	this.tags = [];
@@ -17,6 +26,9 @@ Tiddler = function(title) {
 $.extend(Tiddler.prototype, {
 	getServerType: function() {
 		return this.fields["server.type"];
+	},
+	clearChangeCount: function() {
+		delete this.fields["changecount"];
 	},
 	isTouched: function() {
 		var changecount = this.fields.changecount || 0;
@@ -31,9 +43,18 @@ TiddlyWiki = function() {
 	this._tiddlers = {};
 };
 $.extend(TiddlyWiki.prototype, {
+	forEachTiddler: function(fn) {
+		for(var title in this._tiddlers) {
+			fn.call(this, title, this._tiddlers[title]);
+		}
+	},
 	getTiddlerText: function() {},
+	getTiddler: function(title) {
+		return this._tiddlers[title];
+	},
 	saveTiddler: function(tiddler) {
 		this._tiddlers[tiddler.title] = tiddler;
+		return tiddler;
 	},
 	getTiddlers: function() {
 		var tiddlers = [];

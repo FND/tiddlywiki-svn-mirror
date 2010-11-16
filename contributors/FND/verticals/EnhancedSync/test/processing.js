@@ -40,7 +40,7 @@ test("dispatchTasks", function() {
 	strictEqual(callbackData.errors[0].tiddler.title, "Baz");
 });
 
-test("push before pull", function() {
+test("dispatchTasks: push before pull", function() {
 	var tasks = [
 		{ type: "pull", tiddler: new Tiddler("Foo") },
 		{ type: "push", tiddler: new Tiddler("Bar") },
