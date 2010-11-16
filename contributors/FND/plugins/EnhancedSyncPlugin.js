@@ -391,7 +391,7 @@ var resetChangeCount = function(tiddler, cached) {
 	if(tiddler.fields.changecount == cached) {
 		tiddler.clearChangeCount();
 	} else if(tiddler.fields.changecount > 0) { // local changes occurred during sync progress
-		tiddler.fields.changecount = (tiddler.fields.changecount - cached - 1). // XXX: hacky (use parseInt)?
+		tiddler.fields.changecount = (tiddler.fields.changecount - cached). // XXX: hacky (use parseInt)?
 			toString();
 	}
 };

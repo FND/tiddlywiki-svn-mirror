@@ -78,8 +78,69 @@ test("push: put vs. move", function() {
 	strictEqual(funcName, "putTiddler");
 });
 
+test("push: changecount retention", function() {
+	var localTiddler, updatedTiddler;
+
+	// hijack putTiddler to simulate store modification between request and response
+	var putTiddlerWrapper = function(tiddler, context, userParams, callback) {
+		var tiddler = store.getTiddler(tiddler.title);
+		tiddler.fields.changecount = "7";
+		putTiddler.apply(this, arguments);
+	};
+	Tiddler.prototype.getAdaptor = function() {
+		return { putTiddler: putTiddlerWrapper };
+	};
+
+	localTiddler = new Tiddler("Foo");
+	localTiddler.fields.changecount = "3";
+	localTiddler = store.saveTiddler(localTiddler);
+
+	esync.push(localTiddler, function(tiddler, status, msg) {
+		updatedTiddler = tiddler;
+	});
+	strictEqual(updatedTiddler.fields.changecount, "4");
+});
+
 test("push: local conflicts", function() {
 	var tiddler, responseStatus;
+
+	// hijack putTiddler to simulate store modification between request and response
+	var putTiddlerWrapper = function(tiddler, context, userParams, callback) {
+		var tiddler = store.getTiddler(tiddler.title);
+		tiddler.fields._syncID = "...";
+		putTiddler.apply(this, arguments);
+	};
+	Tiddler.prototype.getAdaptor = function() {
+		return { putTiddler: putTiddlerWrapper };
+	};
+
+	tiddler = new Tiddler("Foo");
+	tiddler = store.saveTiddler(tiddler);
+
+	esync.push(tiddler, function(tiddler, status, msg) {
+		responseStatus = status;
+	});
+	strictEqual(responseStatus[0], "remoteSuccess");
+	strictEqual(responseStatus[1], "localError");
+
+	// hijack putTiddler to simulate store modification between request and response
+	var putTiddlerWrapper = function(tiddler, context, userParams, callback) {
+		var tiddler = store.getTiddler(tiddler.title);
+		delete tiddler.fields._syncID;
+		putTiddler.apply(this, arguments);
+	};
+	Tiddler.prototype.getAdaptor = function() {
+		return { putTiddler: putTiddlerWrapper };
+	};
+
+	tiddler = new Tiddler("Bar");
+	tiddler = store.saveTiddler(tiddler);
+
+	esync.push(tiddler, function(tiddler, status, msg) {
+		responseStatus = status;
+	});
+	strictEqual(responseStatus[0], "remoteSuccess");
+	strictEqual(responseStatus[1], "localError");
 
 	// hijack putTiddler to simulate store modification between request and response
 	var putTiddlerWrapper = function(tiddler, context, userParams, callback) {
@@ -90,7 +151,7 @@ test("push: local conflicts", function() {
 		return { putTiddler: putTiddlerWrapper };
 	};
 
-	tiddler = new Tiddler("Foo");
+	tiddler = new Tiddler("Baz");
 	tiddler = store.saveTiddler(tiddler);
 
 	esync.push(tiddler, function(tiddler, status, msg) {
