@@ -3,17 +3,17 @@
 var _getAdaptor;
 var esync = config.macros.esync;
 
+var getTiddlerList = function(context, userParams, callback) {
+	context.status = true;
+	context.tiddlers = [];
+	callback(context, userParams);
+};
+
 module("remote changes", {
 	setup: function() {
 		_getAdaptor = Tiddler.prototype.getAdaptor;
 		Tiddler.prototype.getAdaptor = function() {
-			return {
-				getTiddlerList: function(context, userParams, callback) {
-					context.status = true;
-					context.tiddlers = [];
-					callback(context, userParams);
-				}
-			};
+			return { getTiddlerList: getTiddlerList };
 		};
 	},
 	teardown: function() {

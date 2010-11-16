@@ -28,7 +28,7 @@ $.extend(Tiddler.prototype, {
 		return this.fields["server.type"];
 	},
 	clearChangeCount: function() {
-		delete this.fields["changecount"];
+		delete this.fields.changecount;
 	},
 	isTouched: function() {
 		var changecount = this.fields.changecount || 0;
@@ -55,6 +55,9 @@ $.extend(TiddlyWiki.prototype, {
 	saveTiddler: function(tiddler) {
 		this._tiddlers[tiddler.title] = tiddler;
 		return tiddler;
+	},
+	removeTiddler: function(title) {
+		delete this._tiddlers[title];
 	},
 	getTiddlers: function() {
 		var tiddlers = [];

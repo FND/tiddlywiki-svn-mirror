@@ -75,7 +75,7 @@ var macro = config.macros.esync = {
 			var status = getSyncStatus(tiddler);
 			status = config.macros.sync.syncStatusList[status]; // XXX: sync dependency
 			var row = templates.row.format(uri, serverTitle,
-				tiddler.getServerType(), adaptor.fullHostName(host), host,
+				tiddler.getServerType(), host, host,
 				tiddler.fields["server.workspace"], status.className, status.text); // TODO: linkify workspace
 			var link = createTiddlyLink(null, tiddler.title, true, null, null, tiddler);
 			$(row).
@@ -278,7 +278,7 @@ var macro = config.macros.esync = {
 		var env = environ(tiddler);
 		env.cache.callback = callback; // XXX: cache reuse hacky?
 		tiddler = setSyncID(tiddler, env);
-		// create/update or move tiddler -- TODO: deletion support
+		// dispatch create/update or move request -- TODO: deletion support
 		var serverTitle = tiddler.fields["server.title"];
 		if(!serverTitle) {
 			tiddler.fields["server.title"] = tiddler.title;
@@ -363,7 +363,7 @@ var isSyncable = function(tiddler) { // TODO: elevate to Tiddler method?
 	return type && host && !tiddler.doNotSave();
 };
 
-// set sync ID on tiddler and in environment
+// set sync ID on store tiddler and in environment
 var setSyncID = function(tiddler, env) {
 	tiddler.fields._syncID = uid();
 	tiddler = store.saveTiddler(tiddler);
@@ -398,7 +398,7 @@ var resetChangeCount = function(tiddler, cached) {
 
 var environ = function(tiddler) {
 	var context = {
-		host: tiddler.fields["server.host"], // expanded in adaptor via setContext
+		host: tiddler.fields["server.host"],
 		workspace: tiddler.fields["server.workspace"],
 		tiddler: tiddler
 	};
