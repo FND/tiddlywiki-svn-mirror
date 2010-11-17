@@ -1,0 +1,17 @@
+title: PermalinkViewPlugin
+modifier: jon
+created: 20101022101956
+modified: 20101022102700
+tags: systemConfig excludeLists
+server.bag: permalink_public
+server.etag: &quot;permalink_public/PermalinkViewPlugin/160037;3f5c3a54c91e508486a91626a50e970451138c82&quot;
+server.host: http://tiddlyspace.tiddlyspace.com/
+creator: jon
+_hash: 70d9f1b57d210653b82d845c4d6a7c9a907b6f1b
+server.title: PermalinkViewPlugin
+server.content-type: 
+server.page.revision: 160037
+server.type: tiddlyweb
+server.permissions: read
+server.recipe: tiddlyspace_private
+server.workspace: bags/permalink_public

@@ -1,0 +1,17 @@
+title: TiddlySpaceListPlugin
+modifier: osmosoft
+created: 20101116145637
+modified: 20101116145637
+tags: systemConfig excludeSearch excludeLists
+server.bag: system-plugins_public
+server.etag: &quot;system-plugins_public/TiddlySpaceListPlugin/218132;3f5c3a54c91e508486a91626a50e970451138c82&quot;
+server.host: http://tiddlyspace.tiddlyspace.com/
+creator: osmosoft
+_hash: f433218c1ad01510c7e7f3fa181293b111c2e127
+server.title: TiddlySpaceListPlugin
+server.content-type: text/javascript
+server.page.revision: 218132
+server.type: tiddlyweb
+server.permissions: read
+server.recipe: tiddlyspace_private
+server.workspace: bags/system-plugins_public

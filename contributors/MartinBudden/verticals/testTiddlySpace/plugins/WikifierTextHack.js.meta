@@ -1,0 +1,17 @@
+title: WikifierTextHack
+modifier: jon
+created: 20100928150907
+modified: 20101003103830
+tags: systemConfig excludeLists
+server.bag: tiddlers_public
+server.etag: &quot;tiddlers_public/WikifierTextHack/125272;3f5c3a54c91e508486a91626a50e970451138c82&quot;
+server.host: http://tiddlyspace.tiddlyspace.com/
+creator: jon
+_hash: 2701d7bc77e0f1632123e37e741f724d0b259806
+server.title: WikifierTextHack
+server.content-type: 
+server.page.revision: 125272
+server.type: tiddlyweb
+server.permissions: read
+server.recipe: tiddlyspace_private
+server.workspace: bags/tiddlers_public

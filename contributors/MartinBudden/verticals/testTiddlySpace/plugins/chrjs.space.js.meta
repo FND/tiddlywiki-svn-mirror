@@ -1,0 +1,17 @@
+title: chrjs.space
+modifier: None
+created: 20101116145644
+modified: 20101116145644
+tags: systemConfig excludeSearch excludeLists
+server.bag: tiddlyspace
+server.etag: &quot;tiddlyspace/chrjs.space/218167;3f5c3a54c91e508486a91626a50e970451138c82&quot;
+server.host: http://tiddlyspace.tiddlyspace.com/
+creator: None
+_hash: d217973e5d4a431f88e685e10788deec7066ff2e
+server.title: chrjs.space
+server.content-type: text/javascript
+server.page.revision: 218167
+server.type: tiddlyweb
+server.permissions: read
+server.recipe: tiddlyspace_private
+server.workspace: bags/tiddlyspace

@@ -1,0 +1,17 @@
+title: TiddlySpaceRevisionView
+modifier: ben
+created: 20101116145637
+modified: 20101116145637
+tags: systemConfig excludeLists excludeSearch excludeMissing
+server.bag: system-plugins_public
+server.etag: &quot;system-plugins_public/TiddlySpaceRevisionView/218135;3f5c3a54c91e508486a91626a50e970451138c82&quot;
+server.host: http://tiddlyspace.tiddlyspace.com/
+creator: ben
+_hash: 98d8be9f73ca654a13fd1ec76278af7e3e95caf3
+server.title: TiddlySpaceRevisionView
+server.content-type: text/javascript
+server.page.revision: 218135
+server.type: tiddlyweb
+server.permissions: read
+server.recipe: tiddlyspace_private
+server.workspace: bags/system-plugins_public
