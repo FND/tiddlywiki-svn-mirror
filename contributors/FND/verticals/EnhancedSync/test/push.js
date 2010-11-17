@@ -79,18 +79,21 @@ test("push: put vs. move", function() {
 });
 
 test("push: changecount retention", function() {
-	var localTiddler, updatedTiddler;
+	var localTiddler, updatedTiddler, beforePut;
 
 	// hijack putTiddler to simulate store modification between request and response
 	var putTiddlerWrapper = function(tiddler, context, userParams, callback) {
-		var tiddler = store.getTiddler(tiddler.title);
-		tiddler.fields.changecount = "7";
+		beforePut(tiddler);
 		putTiddler.apply(this, arguments);
 	};
 	Tiddler.prototype.getAdaptor = function() {
 		return { putTiddler: putTiddlerWrapper };
 	};
 
+	beforePut = function(tiddler) {
+		tiddler = store.getTiddler(tiddler.title);
+		tiddler.fields.changecount = "7";
+	};
 	localTiddler = new Tiddler("Foo");
 	localTiddler.fields.changecount = "3";
 	localTiddler = store.saveTiddler(localTiddler);
@@ -102,18 +105,21 @@ test("push: changecount retention", function() {
 });
 
 test("push: local conflicts", function() {
-	var tiddler, responseStatus;
+	var tiddler, responseStatus, beforePut;
 
 	// hijack putTiddler to simulate store modification between request and response
 	var putTiddlerWrapper = function(tiddler, context, userParams, callback) {
-		var tiddler = store.getTiddler(tiddler.title);
-		tiddler.fields._syncID = "...";
+		beforePut(tiddler);
 		putTiddler.apply(this, arguments);
 	};
 	Tiddler.prototype.getAdaptor = function() {
 		return { putTiddler: putTiddlerWrapper };
 	};
 
+	beforePut = function(tiddler) {
+		tiddler = store.getTiddler(tiddler.title);
+		tiddler.fields._syncID = "...";
+	};
 	tiddler = new Tiddler("Foo");
 	tiddler = store.saveTiddler(tiddler);
 
@@ -123,16 +129,10 @@ test("push: local conflicts", function() {
 	strictEqual(responseStatus[0], "remoteSuccess");
 	strictEqual(responseStatus[1], "localError");
 
-	// hijack putTiddler to simulate store modification between request and response
-	var putTiddlerWrapper = function(tiddler, context, userParams, callback) {
-		var tiddler = store.getTiddler(tiddler.title);
+	beforePut = function(tiddler) {
+		tiddler = store.getTiddler(tiddler.title);
 		delete tiddler.fields._syncID;
-		putTiddler.apply(this, arguments);
 	};
-	Tiddler.prototype.getAdaptor = function() {
-		return { putTiddler: putTiddlerWrapper };
-	};
-
 	tiddler = new Tiddler("Bar");
 	tiddler = store.saveTiddler(tiddler);
 
@@ -142,15 +142,9 @@ test("push: local conflicts", function() {
 	strictEqual(responseStatus[0], "remoteSuccess");
 	strictEqual(responseStatus[1], "localError");
 
-	// hijack putTiddler to simulate store modification between request and response
-	var putTiddlerWrapper = function(tiddler, context, userParams, callback) {
+	beforePut = function(tiddler) {
 		store.removeTiddler(tiddler.title);
-		putTiddler.apply(this, arguments);
 	};
-	Tiddler.prototype.getAdaptor = function() {
-		return { putTiddler: putTiddlerWrapper };
-	};
-
 	tiddler = new Tiddler("Baz");
 	tiddler = store.saveTiddler(tiddler);
 
