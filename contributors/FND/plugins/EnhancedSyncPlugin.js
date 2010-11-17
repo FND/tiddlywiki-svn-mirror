@@ -413,10 +413,10 @@ var determineError = function(httpStatus) {
 	switch(httpStatus) {
 		case 401:
 		case 403:
-			status = "remoteDenied"; // XXX: grammatical inconsistency
+			status = "remoteDenied"; // XXX: grammatical inconsistency (not a noun)
 			break;
 		case 404:
-			status = "remoteMissing";
+			status = "remoteMissing"; // XXX: grammatical inconsistency (not a noun)
 			break;
 		case 409:
 		case 412:

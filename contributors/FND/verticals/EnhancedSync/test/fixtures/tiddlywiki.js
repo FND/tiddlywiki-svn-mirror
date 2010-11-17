@@ -48,7 +48,7 @@ $.extend(TiddlyWiki.prototype, {
 			fn.call(this, title, this._tiddlers[title]);
 		}
 	},
-	getTiddlerText: function() {},
+	getTiddlerText: $.noop,
 	getTiddler: function(title) {
 		return this._tiddlers[title];
 	},

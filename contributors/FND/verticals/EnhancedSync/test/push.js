@@ -61,19 +61,19 @@ test("push: put vs. move", function() {
 	};
 
 	tiddler = new Tiddler("Foo");
-	esync.push(tiddler, function() {});
+	esync.push(tiddler, $.noop);
 
 	strictEqual(funcName, "putTiddler");
 
 	tiddler = new Tiddler("Foo");
 	tiddler.fields["server.title"] = "Bar";
-	esync.push(tiddler, function() {});
+	esync.push(tiddler, $.noop);
 
 	strictEqual(funcName, "moveTiddler");
 
 	tiddler = new Tiddler("Bar");
 	tiddler.fields["server.title"] = "Bar";
-	esync.push(tiddler, function() {});
+	esync.push(tiddler, $.noop);
 
 	strictEqual(funcName, "putTiddler");
 });
@@ -90,11 +90,21 @@ test("push: changecount retention", function() {
 		return { putTiddler: putTiddlerWrapper };
 	};
 
+	beforePut = $.noop;
+	localTiddler = new Tiddler("Foo");
+	localTiddler.fields.changecount = "5";
+	localTiddler = store.saveTiddler(localTiddler);
+
+	esync.push(localTiddler, function(tiddler, status, msg) {
+		updatedTiddler = tiddler;
+	});
+	strictEqual(updatedTiddler.fields.changecount, undefined);
+
 	beforePut = function(tiddler) {
 		tiddler = store.getTiddler(tiddler.title);
 		tiddler.fields.changecount = "7";
 	};
-	localTiddler = new Tiddler("Foo");
+	localTiddler = new Tiddler("Bar");
 	localTiddler.fields.changecount = "3";
 	localTiddler = store.saveTiddler(localTiddler);
 
@@ -153,6 +163,47 @@ test("push: local conflicts", function() {
 	});
 	strictEqual(responseStatus[0], "remoteSuccess");
 	strictEqual(responseStatus[1], "localError");
+});
+
+test("push: remote status", function() {
+	var tiddler, responseStatus, httpStatus;
+
+	tiddler = new Tiddler("Foo");
+	tiddler = store.saveTiddler(tiddler);
+
+	esync.push(tiddler, function(tiddler, status, msg) {
+		responseStatus = status;
+	});
+	strictEqual(responseStatus[0], "remoteSuccess");
+	strictEqual(responseStatus[1], "localSuccess");
+
+	var putTiddler = function(tiddler, context, userParams, callback) {
+		context.title = tiddler.title;
+		context.status = false;
+		context.httpStatus = httpStatus;
+		callback(context, userParams);
+	};
+	Tiddler.prototype.getAdaptor = function() {
+		return { putTiddler: putTiddler };
+	};
+
+	var cases = {
+		400: "remoteError",
+		401: "remoteDenied",
+		403: "remoteDenied",
+		404: "remoteMissing",
+		409: "remoteConflict",
+		412: "remoteConflict",
+		500: "remoteError"
+	};
+	$.each(cases, function(code, message) {
+		httpStatus = parseInt(code, 10);
+		esync.push(tiddler, function(tiddler, status, msg) {
+			responseStatus = status;
+		});
+		strictEqual(responseStatus[0], message);
+		strictEqual(responseStatus[1], "localSuccess");
+	});
 });
 
 })(QUnit.module, jQuery);
