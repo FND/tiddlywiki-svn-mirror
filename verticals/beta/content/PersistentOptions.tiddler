@@ -4,15 +4,15 @@ TiddlyWiki now has the ability to save options in the TiddlyWiki document itself
 
 As an example, let's look at the {{{chkAnimate}}} option; this is currently stored as a cookie. We can get its value to be persistent by editing the [[SystemSettings]] tiddler. Looking at the [[SystemSettings]] tiddler, we see it contains:
 <<<
-chkAnimate_cookie: true
+chkAnimate_cookie:
 <<<
-Note the {{{_cookie}}} suffix: this controls how the option is stored.
+Note the {{{_cookie}}} suffix: this controls how the option is stored. Note also the option has no value set, since this option is loaded from a cookie, so any value in the [[SystemSettings]] tiddler would be ignored. 
 
 To persist the {{{chkAnimate}}} option, we need to change the above to:
 <<<
 chkAnimate: true
 <<<
-(Note the removal of the {{{_cookie}}} suffix.)
+(Note the removal of the {{{_cookie}}} suffix and the addition of a value (true).)
 
 Similarly, if we want to get a different option, say {{{chkCaseSensitiveSearch}}}, to be stored in a cookie, then we need to add the {{{_cookie}}} suffix to that option (in this case giving {{{chkCaseSensitiveSearch_cookie}}}).
 
