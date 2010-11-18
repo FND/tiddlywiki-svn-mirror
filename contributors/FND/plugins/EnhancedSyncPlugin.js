@@ -287,8 +287,13 @@ var macro = config.macros.esync = {
 				{ title: tiddler.title }, env.context, env.cache,
 				this.pushCallback);
 		}
-		return env.adaptor.putTiddler(tiddler, env.context, env.cache,
-			this.pushCallback);
+		if(tiddler.fields.deleted == "true") {
+			return env.adaptor.deleteTiddler(tiddler, env.context, env.cache,
+				this.pushCallback);
+		} else {
+			return env.adaptor.putTiddler(tiddler, env.context, env.cache,
+				this.pushCallback);
+		}
 	},
 	// expects context members title, status, httpStatus and statusText (if
 	// applicable), plus optionally a tiddler-like tiddlerData object -- TODO: elaborate
@@ -298,10 +303,15 @@ var macro = config.macros.esync = {
 		if(context.status) {
 			status = ["remoteSuccess"];
 			if(tiddler) {
-				delete tiddler.fields._syncID;
-				resetChangeCount(tiddler, userParams.changecount);
-				$.extend(true, tiddler, context.tiddlerData);
-				tiddler = store.saveTiddler(tiddler);
+				if(tiddler.fields.deleted == "true") {
+					store.deleteTiddler(tiddler.title);
+					store.notify(tiddler.title, true);
+				} else {
+					delete tiddler.fields._syncID;
+					resetChangeCount(tiddler, userParams.changecount);
+					$.extend(true, tiddler, context.tiddlerData);
+					tiddler = store.saveTiddler(tiddler);
+				}
 			}
 		} else {
 			status = [determineError(context.httpStatus)];
@@ -348,7 +358,7 @@ var getSyncStatus = function(tiddler) { // XXX: unused!?
 	} else if(tiddler.fields["server.title"] &&
 			tiddler.title != tiddler.fields["server.title"]) {
 		return "renamedLocally"; // XXX: currently unsupported by TiddlyWiki
-	} else if(tiddler.fields.deleted === "true" &&
+	} else if(tiddler.fields.deleted == "true" &&
 			tiddler.fields.changecount == "1") {
 		return "deletedLocally"; // XXX: currently unsupported by TiddlyWiki
 	} else {

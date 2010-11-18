@@ -14,6 +14,11 @@ var putTiddler = function(tiddler, context, userParams, callback) {
 	callback(context, userParams);
 };
 
+var deleteTiddler = function(tiddler, context, userParams, callback) {
+	context.status = true;
+	callback(context, userParams);
+};
+
 module("push tasks", {
 	setup: function() {
 		_store = store;
@@ -21,7 +26,7 @@ module("push tasks", {
 
 		_getAdaptor = Tiddler.prototype.getAdaptor;
 		Tiddler.prototype.getAdaptor = function() {
-			return { putTiddler: putTiddler };
+			return { putTiddler: putTiddler, deleteTiddler: deleteTiddler };
 		};
 	},
 	teardown: function() {
@@ -47,17 +52,38 @@ test("push: merge response data", function() {
 	strictEqual(updatedTiddler.fields.foo, "lorem ipsum");
 });
 
-test("push: put vs. move", function() {
+test("push: deletion", function() {
+	var localTiddler, updatedTiddler;
+
+	localTiddler = new Tiddler("Foo");
+	localTiddler.fields.deleted = "true";
+	localTiddler = store.saveTiddler(localTiddler);
+
+	esync.push(localTiddler, function(tiddler, status, msg) {
+		updatedTiddler = tiddler;
+	});
+	strictEqual(updatedTiddler, localTiddler);
+	strictEqual(store.getTiddler("Foo"), null);
+});
+
+test("push: put vs. move vs. delete", function() {
 	var tiddler, funcName;
 
 	var putTiddler = function() {
 		funcName = "putTiddler";
 	};
+	var deleteTiddler = function() {
+		funcName = "deleteTiddler";
+	};
 	var moveTiddler = function() {
 		funcName = "moveTiddler";
 	};
 	Tiddler.prototype.getAdaptor = function() {
-		return { putTiddler: putTiddler, moveTiddler: moveTiddler };
+		return {
+			putTiddler: putTiddler,
+			deleteTiddler: deleteTiddler,
+			moveTiddler: moveTiddler
+		};
 	};
 
 	tiddler = new Tiddler("Foo");
@@ -76,6 +102,12 @@ test("push: put vs. move", function() {
 	esync.push(tiddler, $.noop);
 
 	strictEqual(funcName, "putTiddler");
+
+	tiddler = new Tiddler("Baz");
+	tiddler.fields.deleted = "true";
+	esync.push(tiddler, $.noop);
+
+	strictEqual(funcName, "deleteTiddler");
 });
 
 test("push: changecount retention", function() {
@@ -153,7 +185,7 @@ test("push: local conflicts", function() {
 	strictEqual(responseStatus[1], "localError");
 
 	beforePut = function(tiddler) {
-		store.removeTiddler(tiddler.title);
+		store.deleteTiddler(tiddler.title);
 	};
 	tiddler = new Tiddler("Baz");
 	tiddler = store.saveTiddler(tiddler);

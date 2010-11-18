@@ -41,6 +41,9 @@ $.extend(Tiddler.prototype, {
 
 TiddlyWiki = function() {
 	this._tiddlers = {};
+	this.deleteTiddler = function(title) {
+		delete this._tiddlers[title];
+	};
 };
 $.extend(TiddlyWiki.prototype, {
 	forEachTiddler: function(fn) {
@@ -50,14 +53,14 @@ $.extend(TiddlyWiki.prototype, {
 	},
 	getTiddlerText: $.noop,
 	getTiddler: function(title) {
-		return this._tiddlers[title];
+		return this._tiddlers[title] || null;
 	},
 	saveTiddler: function(tiddler) {
 		this._tiddlers[tiddler.title] = tiddler;
 		return tiddler;
 	},
 	removeTiddler: function(title) {
-		delete this._tiddlers[title];
+		this.deleteTiddler(title);
 	},
 	getTiddlers: function() {
 		var tiddlers = [];
@@ -65,7 +68,8 @@ $.extend(TiddlyWiki.prototype, {
 			tiddlers.push(tiddler);
 		});
 		return tiddlers;
-	}
+	},
+	notify: $.noop
 });
 
 Array.prototype.findByField = function(name, value) {
