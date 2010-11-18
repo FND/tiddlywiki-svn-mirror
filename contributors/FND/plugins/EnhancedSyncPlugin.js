@@ -287,13 +287,9 @@ var macro = config.macros.esync = {
 				{ title: tiddler.title }, env.context, env.cache,
 				this.pushCallback);
 		}
-		if(tiddler.fields.deleted == "true") {
-			return env.adaptor.deleteTiddler(tiddler, env.context, env.cache,
-				this.pushCallback);
-		} else {
-			return env.adaptor.putTiddler(tiddler, env.context, env.cache,
-				this.pushCallback);
-		}
+		var method = isDeleted(tiddler) ? "deleteTiddler" : "putTiddler";
+		return env.adaptor[method](tiddler, env.context, env.cache,
+			this.pushCallback);
 	},
 	// expects context members title, status, httpStatus and statusText (if
 	// applicable), plus optionally a tiddler-like tiddlerData object -- TODO: elaborate
@@ -303,7 +299,7 @@ var macro = config.macros.esync = {
 		if(context.status) {
 			status = ["remoteSuccess"];
 			if(tiddler) {
-				if(tiddler.fields.deleted == "true") {
+				if(isDeleted(tiddler)) {
 					store.deleteTiddler(tiddler.title);
 					store.notify(tiddler.title, true);
 				} else {
@@ -358,8 +354,7 @@ var getSyncStatus = function(tiddler) { // XXX: unused!?
 	} else if(tiddler.fields["server.title"] &&
 			tiddler.title != tiddler.fields["server.title"]) {
 		return "renamedLocally"; // XXX: currently unsupported by TiddlyWiki
-	} else if(tiddler.fields.deleted == "true" &&
-			tiddler.fields.changecount == "1") {
+	} else if(isDeleted(tiddler) && tiddler.fields.changecount == "1") {
 		return "deletedLocally"; // XXX: currently unsupported by TiddlyWiki
 	} else {
 	// TODO: take into account moved (between workspaces, even hosts?), changed remotely
@@ -371,6 +366,10 @@ var isSyncable = function(tiddler) { // TODO: elevate to Tiddler method?
 	var type = tiddler.getServerType();
 	var host = tiddler.fields["server.host"]; // XXX: might be empty string (falsey)!?
 	return type && host && !tiddler.doNotSave();
+};
+
+var isDeleted = function(tiddler) { // TODO: expose (e.g. as Tiddler method)?
+	return tiddler.fields.deleted == "true";
 };
 
 // set sync ID on store tiddler and in environment
