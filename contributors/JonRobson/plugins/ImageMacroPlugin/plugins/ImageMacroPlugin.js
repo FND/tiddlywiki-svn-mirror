@@ -1,6 +1,6 @@
 /***
 |''Name''|ImageMacroPlugin|
-|''Version''|0.8.9|
+|''Version''|0.8.10|
 |''Description''|Allows the rendering of svg images in a TiddlyWiki|
 |''Author''|Osmosoft|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
@@ -174,7 +174,7 @@ var macro = config.macros.image = {
 				var w = dimensions.width;
 				var h = dimensions.height;
 				var userH = preserve && h < options.height ? h : options.height;
-				var userW = preserve && w < options.width ? w : options.height;
+				var userW = preserve && w < options.width ? w : options.width;
 				if(w && h) {
 					var preserveWidth = preserve && w > h;
 					var preserveHeight = preserve && h > w;
@@ -228,9 +228,6 @@ var macro = config.macros.image = {
 		return "tw_svgfix_" + (this._fixPrefix++).toString() + "_";
 	},
 	_fixSVG: function(childNodes, idPrefix) {
-		if(!idPrefix) {
-			idPrefix = this._generateIdPrefix();
-		}
 		var urlPattern = /^\s*url\(\#([^\)]*)\)\s*$/ig;
 		var fixes = [
 		{ attr: "id", pattern: /^(.*)$/ig },
