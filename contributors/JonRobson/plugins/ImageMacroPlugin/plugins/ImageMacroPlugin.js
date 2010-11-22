@@ -1,6 +1,6 @@
 /***
 |''Name''|ImageMacroPlugin|
-|''Version''|0.8.10|
+|''Version''|0.8.11|
 |''Description''|Allows the rendering of svg images in a TiddlyWiki|
 |''Author''|Osmosoft|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
@@ -32,7 +32,7 @@ tag. It doesn't embed the svg in the dom for security reasons as svg code can co
 
 var macro = config.macros.image = {
 	shim: "/bags/common/tiddlers/shim",
-	ieVersion: config.browser.isIE ? parseInt(config.browser.ieVersion[1]) : false,
+	ieVersion: config.browser.isIE ? parseInt(config.browser.ieVersion[1], 10) : false,
 	svgns: "http://www.w3.org/2000/svg",
 	xlinkns: "http://www.w3.org/1999/xlink", 
 	svgAvailable: document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1"),
@@ -49,7 +49,14 @@ var macro = config.macros.image = {
 		var args = macro.getArguments(paramString, params);
 		this.renderImage(place, imageSource, args);
 	},
-
+	init: function() {
+		var startupImages = store.getTaggedTiddlers("systemImage");
+		var place = $("<div />").attr("id", "systemImageArea").appendTo("body").hide()[0];
+		for(var i = 0; i < startupImages.length; i++) {
+			var image = startupImages[i];
+			macro.renderImage(place, image.title, { idPrefix: "" });
+		}
+	},
 	refreshImage: function(src) {
 		var elements = macro._image_tag_cache[src] ? macro._image_tag_cache[src] : [];
 		if(macro._image_dimensions[src]) {
@@ -225,17 +232,18 @@ var macro = config.macros.image = {
 		}
 	},
 	_generateIdPrefix: function(){
-		return "tw_svgfix_" + (this._fixPrefix++).toString() + "_";
+		return "twsvgfix_" + (this._fixPrefix++).toString() + "_";
 	},
 	_fixSVG: function(childNodes, idPrefix) {
-		var urlPattern = /^\s*url\(\#([^\)]*)\)\s*$/ig;
+		var urlPattern = /url\(\#([^\)]*)\)*/ig;
 		var fixes = [
 		{ attr: "id", pattern: /^(.*)$/ig },
-		{ attr: "filter", pattern: urlPattern },
-		{ attr: "fill", pattern: urlPattern },
-		{ attr: "stroke", pattern: urlPattern },
 		{ attr: "href", namespace: macro.xlinkns, pattern: /^#(.*)$/ig }
 		];
+		var url_fixes = ["filter", "fill", "mask", "stroke", "style"];
+		for(var i = 0; i < url_fixes.length; i++) {
+			fixes.push({ attr: url_fixes[i], pattern: urlPattern });
+		}
 		for(var t = 0; t < childNodes.length; t++) {
 			var node = childNodes[t];
 			for(var a = 0; a < fixes.length; a++) {
@@ -248,8 +256,11 @@ var macro = config.macros.image = {
 					var match = fix.pattern.exec(v);
 					if(match) {
 						// Make sure replacement string doesn't contain any single dollar signs
-						var replacement = (idPrefix + match[1]).replace("$", "$$$$"); 
-						v = v.replace(match[1], replacement);
+						var toReplace = match[1];
+						if(toReplace.indexOf(idPrefix) !== 0 && toReplace.indexOf("twglobal_") !== 0) {
+							var replacement = (idPrefix + toReplace).replace("$", "$$$$"); 
+							v = v.replace(match[1], replacement);
+						}
 						node.setAttributeNS(ns, attr,v);
 					}
 				}
@@ -365,11 +376,7 @@ var macro = config.macros.image = {
 var datauriTest = function() {
 	var data = new Image();
 	data.onload = function() {
-		if(this.width != 1 || this.height != 1) {
-			macro.supportsDataUris = false;
-		} else {
-			macro.supportsDataUris = true;
-		}
+		macro.supportsDataUris = this.width != 1 || this.height != 1 ? false : true;
 	};
 	data.onerror = data.onload;
 	data.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
