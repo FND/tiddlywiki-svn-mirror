@@ -69,6 +69,9 @@ $.extend(TiddlyWiki.prototype, {
 		});
 		return tiddlers;
 	},
+	tiddlerExists: function(title) {
+		return this.getTiddler(title) !== null;
+	},
 	notify: $.noop
 });
 

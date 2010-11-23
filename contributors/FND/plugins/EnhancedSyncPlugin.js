@@ -324,17 +324,22 @@ var macro = config.macros.esync = {
 		env.cache.callback = callback; // XXX: cache reuse hacky?
 		tiddler = setSyncID(tiddler, env);
 		// TODO: support server.page.id for locally diverging titles?
-		return env.adaptor.getTiddler(tiddler.title, env.context, env.chache,
+		return env.adaptor.getTiddler(tiddler.title, env.context, env.cache,
 			this.pullCallback);
 	},
-	// expects context members title, status, httpStatus and statusText (if applicable)
+	// expects context members tiddler, status, httpStatus and statusText (if applicable)
 	pullCallback: function(context, userParams) {
-		var tiddler = getSyncTiddler(context.title, userParams.syncID);
+		var tiddler = getSyncTiddler(context.tiddler.title, userParams.syncID);
 		var status, msg;
 		if(context.status) {
 			status = ["remoteSuccess"];
-			if(!tiddler || tiddler.fields.changecount == userParams.changecount) {
-				tiddler = store.saveTiddler(tiddler).clearChangeCount();
+			// ensure that sync tiddler has not been replaced locally
+			var mismatch = tiddler === null &&
+				store.tiddlerExists(context.tiddler.title);
+			if(!mismatch && (!tiddler ||
+					tiddler.fields.changecount == userParams.changecount)) {
+				tiddler = store.saveTiddler(context.tiddler);
+				tiddler.clearChangeCount();
 				status.push("localSuccess");
 			} else {
 				status.push("localConflict");
