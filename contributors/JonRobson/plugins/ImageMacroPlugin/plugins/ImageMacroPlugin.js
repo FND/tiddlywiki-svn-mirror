@@ -1,6 +1,6 @@
 /***
 |''Name''|ImageMacroPlugin|
-|''Version''|0.8.12|
+|''Version''|0.9.0|
 |''Description''|Allows the rendering of svg images in a TiddlyWiki|
 |''Author''|Osmosoft|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
@@ -274,23 +274,6 @@ var macro = config.macros.image = {
 			var idPrefix = options.idPrefix || this._generateIdPrefix();
 			this._fixSVG([svgDoc], idPrefix);
 			var el = document.importNode(svgDoc, true);
-
-			var existingDefs = el.getElementsByTagNameNS(macro.svgns, "defs");
-			var elDef;
-			if(existingDefs.length === 0) {
-				elDef = document.createElementNS(macro.svgns, "defs");
-			} else {
-				elDef = existingDefs[0];
-			}
-			if(options.def) {
-				for(var i = 0; i < options.def.length; i++) {
-					var text = store.getTiddlerText(options.def[i]);
-					var def = new DOMParser().parseFromString(text, "application/xml").documentElement;
-					this._fixSVG([def], idPrefix);
-					elDef.appendChild(document.importNode(def, true));
-				}
-			}
-			el.insertBefore(elDef, el.firstChild);
 			var svgHolder = document.createElementNS(macro.svgns,"svg");
 			var width = options.width;
 			var height = options.height;
@@ -327,9 +310,6 @@ var macro = config.macros.image = {
 			// if a tiddler attribute is set this is read as a link
 			$("[tiddler], [tiddlyLink]", place).attr("refresh", "link").click(function(ev) {
 				var tiddler = $(ev.target).attr("tiddlyLink");
-				if(!tiddler) { // backwards compatibility
-					tiddler = $(ev.target).attr("tiddler");
-				}
 				if(tiddler) {
 					story.displayTiddler(ev.target, tiddler);
 				}
