@@ -1,6 +1,6 @@
 /***
 |''Name''|ImageMacroPlugin|
-|''Version''|0.8.11|
+|''Version''|0.8.12|
 |''Description''|Allows the rendering of svg images in a TiddlyWiki|
 |''Author''|Osmosoft|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
@@ -64,24 +64,19 @@ var macro = config.macros.image = {
 		}
 		for(var i = 0; i < elements.length; i++) {
 			var el = $(elements[i]);
-			var newSrc = "%0?nocache=%1".format([src, Math.random()]);
+			var newSrc = "%0?nocache=%1".format(src, Math.random());
 			el.attr("src", newSrc); // force reload
 		}
 	},
 	isBinaryImageType: function(contentType) {
-		if(contentType && contentType.indexOf("image") === 0 &&
-			contentType.indexOf("+xml") != contentType.length - 4) {
-			return true;
-		} else {
-			return false;
-		}
+		return (contentType && contentType.indexOf("image") === 0 &&
+			contentType.indexOf("+xml") != contentType.length - 4) ? true : false;
 	},
 	isImageTiddler: function(tiddler) {
 		return macro.isSVGTiddler(tiddler) || macro.isBinaryImageTiddler(tiddler);
 	},
 	isSVGTiddler: function(tiddler) {
-		var type;
-		type = tiddler ? tiddler.fields['server.content-type'] : false;
+		var type = tiddler ? tiddler.fields['server.content-type'] : false;
 		return type == "image/svg+xml";
 	},
 	isBinaryImageTiddler: function(tiddler) {
@@ -144,15 +139,15 @@ var macro = config.macros.image = {
 		var resourceURI;
 		var fields = tiddler.fields;
 		if(fields["server.type"] == "tiddlyweb") { // construct an accurate url for the resource	
-			resourceURI = "%0/%1/tiddlers/%2".format([config.defaultCustomFields["server.host"],
-				fields["server.workspace"], fields["server.title"]]);
+			resourceURI = "%0/%1/tiddlers/%2".format(config.defaultCustomFields["server.host"],
+				fields["server.workspace"], fields["server.title"]);
 		} else { // guess the url for the resource
 			resourceURI = tiddler.title;
 		}
 		var ctype = fields["server.content-type"] || tiddler.type;
 		var text = tiddler.text;
 		if(macro.supportsDataUris && ctype && text.indexOf("<html") == -1) {
-			var uri = "data:%0;base64,%1".format([ctype, text]);
+			var uri = "data:%0;base64,%1".format(ctype, text);
 			options.src = resourceURI;
 			return macro._renderBinaryImageUrl(place, uri, options);
 		} else if(options.src) {
@@ -163,7 +158,7 @@ var macro = config.macros.image = {
 	},
 	_renderBinaryImageUrl: function(container, src, options) {
 		var srcUrl = options.src ? options.src : src;
-		srcUrl = srcUrl.indexOf("/") === -1 ? "/%0".format([srcUrl]) : srcUrl; // for IE. 
+		srcUrl = srcUrl.indexOf("/") === -1 ? "/%0".format(srcUrl) : srcUrl; // for IE. 
 		var image_dimensions = macro._image_dimensions[srcUrl];
 		var image = new Image(); // due to weird scaling issues where you use just a width or just a height
 		var createImageTag = function(dimensions, error) {
@@ -205,7 +200,7 @@ var macro = config.macros.image = {
 				}
 				if(macro.ieVersion && macro.ieVersion < 7 && macro.shim) {
 					$(img).css({width: userW, height: userH,
-							filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='%0', sizingMethod='scale')".format([src])
+							filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='%0', sizingMethod='scale')".format(src)
 						}).attr("src", macro.shim);
 				} else {
 					img.attr("src", src);
@@ -306,7 +301,7 @@ var macro = config.macros.image = {
 					if(viewBox) {
 						topLeft = viewBox.replace(/([0-9]*) +([0-9]*) +([0-9]*) +([0-9]*) */gi,"$1 $2");
 					}
-					svgHolder.setAttributeNS(macro.svgns, "viewBox", "0 0 %0 %1".format([width, height]));
+					svgHolder.setAttributeNS(macro.svgns, "viewBox", "0 0 %0 %1".format(width, height));
 				} else {
 					if(!width) {
 						width = el.getAttribute("width");
@@ -320,12 +315,13 @@ var macro = config.macros.image = {
 
 				el.setAttribute("width", "100%");
 				el.setAttribute("height", "100%");
-				svgHolder.setAttribute("class", "svgImage svgIcon %0".format([options.imageClass || ""]));
+				svgHolder.setAttribute("class", "svgImage svgIcon %0".format(options.imageClass || ""));
 				svgHolder.appendChild(el);
 				place.appendChild(svgHolder);
 			}
 			else {
-				el.setAttribute("class","svgImage");
+				var existing = el.className ? el.className.baseVal : "";
+				el.setAttribute("class","svgImage %0".format(existing));
 				place.appendChild(el);
 			}
 			// if a tiddler attribute is set this is read as a link
@@ -365,11 +361,7 @@ var macro = config.macros.image = {
 		return options;
 	},
 	lookupArgument: function(args, id, ifEmpty) {
-		if(args[id]) {
-			return args[id];
-		} else {
-			return ifEmpty;
-		}
+		return args[id] ? args[id] : ifEmpty;
 	}
 };
 
@@ -397,7 +389,8 @@ config.macros.view.views.wikified = function(value, place, params, wikifier, par
 config.macros.view.views.image = function(value, place, params, wikifier, paramString, tiddler) {
 	// a field can point to another tiddler whereas text is the current tiddler.
 	var title = params[0] == "text" ? tiddler.title : value;
-	invokeMacro(place, "image", "\"%0\" %1".format([title, params.splice(2).join(" ")]), null, tiddler);
+	var paramString = '"%0" %1'.format(title, params.splice(2).join(" "))
+	invokeMacro(place, "image", paramString, null, tiddler);
 };
 
 config.shadowTiddlers.StyleSheetImageMacro = [".wikifiedImage svg, .wikifiedImage .image { width: 80%; }",
