@@ -1,0 +1,22 @@
+TiddlyWiki beta
+
+This directory contains what is required to build an alpha version of TiddlyWiki.
+There is one recipe:
+    empty.html.recipe
+
+This recipe is used to build the content of tiddlywiki.com/alpha TiddlyWiki document.
+The script "bldalpha" can be used to cook these recipes.
+
+In preparation for a release, the following steps need to be taken:
+* set version number in Trunk/core/js/Version.js
+* tag release to Tags/core/:
+  svn copy http://svn.tiddlywiki.org/Trunk/core http://svn.tiddlywiki.org/Tags/core/REL-2.x.y_Alpha2
+
+
+After building, the empty TiddlyWiki needs to be copied onto the server as follows:
+
+    empty.html => http://www.tiddlywiki.com/alpha/empty.html
+
+The script "uploadalpha" can be used to upload the empty documents onto the tiddlywiki.com server (you will be prompted for username and password twice).
+
+Immediately after a release, the alpha version number should be incremented.
