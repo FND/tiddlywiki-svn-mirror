@@ -1,4 +1,4 @@
-<div title="NewFeatures" modifier="MJB" created="200704141410" modified="201011100000">
+<div title="NewFeatures" modifier="MJB" created="200704141410" modified="201011300000">
 <pre>Release 2.6.2 is a maintenance release containing a variety of bugfixes and enhancements.
 
 It does have one major new feature: the ability to save options in the TiddlyWiki document itself (this is in addition to the current ability to save options in cookies). See [[PersistentOptions]] for more details.
