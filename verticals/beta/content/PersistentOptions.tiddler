@@ -17,10 +17,10 @@ chkAnimate: true
 Similarly, if we want to get a different option, say {{{chkCaseSensitiveSearch}}}, to be stored in a cookie, then we need to add the {{{_cookie}}} suffix to that option (in this case giving {{{chkCaseSensitiveSearch_cookie}}}).
 
 !Under the hood
-The "source" of an option is controlled by the {{{config.optionSource[optionName]}}} variable. This can take one of two values:
+The "source" of an option is controlled by the {{{config.optionsSource[optionName]}}} variable. This can take one of two values:
 # {{{cookie}}} - the option is stored in a cookie, the default value for the option comes from [[SystemSettings]].
 # {{{setting}}} - the option is stored in the [[SystemSettings]] tiddler. This is the ''default''.
-The {{{config.optionSource[]}}} variable is controlled by the values in the [[SystemSettings]] tiddler. If the option has a {{{_cookie}}} suffix, then {{{config.optionSource[optionName]}}} is set to {{{cookie}}}, otherwise it is set to
+The {{{config.optionsSource[]}}} variable is controlled by the values in the [[SystemSettings]] tiddler. If the option has a {{{_cookie}}} suffix, then {{{config.optionsSource[optionName]}}} is set to {{{cookie}}}, otherwise it is set to
 {{{setting}}}.
 </pre>
 </div>
