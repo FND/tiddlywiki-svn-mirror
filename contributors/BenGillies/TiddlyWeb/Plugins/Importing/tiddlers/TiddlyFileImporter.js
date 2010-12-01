@@ -1,6 +1,6 @@
 /***
 |''Name''|TiddlyFileImporter|
-|''Version''|0.3.2|
+|''Version''|0.3.3|
 |''Author''|Ben Gillies|
 |''Type''|plugin|
 |''Description''|Upload a TiddlyWiki file to TiddlyWeb, and import the tiddlers.|
@@ -65,7 +65,7 @@ config.macros.fileImport = {
 				wizard.importType = 'file';
 				wizard.formElem.submit();
 			} else {
-				var csrf_token = config.extensions.tiddlyspace.getCsrfToken();
+				var csrf_token = config.extensions.tiddlyspace.getCSRFToken();
 				$.ajax({
 					url: "%0/reflector?csrf_token=%1".format([
 						config.defaultCustomFields["server.host"], csrf_token]),
@@ -102,7 +102,7 @@ config.macros.fileImport = {
 		var form = wizard.formElem;
 		var me = config.macros.fileImport;
 		form.action = me.reflectorURI.format(
-			[config.extensions.tiddlyspace.getCsrfToken()]);
+			[config.extensions.tiddlyspace.getCSRFToken()]);
 		form.enctype = 'multipart/form-data';
 		form.method = 'POST';
 		form.target = iframeName;
