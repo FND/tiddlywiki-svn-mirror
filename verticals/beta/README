@@ -2,9 +2,9 @@ TiddlyWiki beta
 
 This directory contains what is required to build a beta version of TiddlyWiki.
 There are two recipes:
-    index.2.4.0.B2.html.recipe
-    empty.2.4.0.B2.html.recipe
-(This document assumes the release is version 2.4.0 beta 2.)
+    index.2.6.2.B5.html.recipe
+    empty.2.6.2.B5.html.recipe
+(This document assumes the release is version 2.6.2 beta 5.)
 
 These recipes are used to build the content of tiddlywiki.com/beta and an empty
 TiddlyWiki document.
@@ -16,7 +16,7 @@ In preparation for a release, the following steps need to be taken:
 * update beta vertical's recipes
 * update beta vertical's NewFeatures tiddler (including modified date)
 * tag release to Tags/core/:
-  svn copy http://svn.tiddlywiki.org/Trunk/core http://svn.tiddlywiki.org/Tags/core/REL-2.4.0_Beta2
+  svn copy http://svn.tiddlywiki.org/Trunk/core http://svn.tiddlywiki.org/Tags/core/REL-2.6.2_Beta5
 
 After building, the "index" document needs to be saved in the browser once to
 set the title and generate the RSS feed.
@@ -26,11 +26,12 @@ This step can be automated:
 NB: This circumvents propagateOption, thus preventing a SystemSettings tiddler
 from being created - which is generally desirable.
 
-For 2.4.0 beta 2 these need to be cooked and the resultant TiddlyWikis copied
+For 2.6.2 beta 5 these need to be cooked and the resultant TiddlyWikis copied
 onto the server as follows:
-    index.2.4.0.B2.html => http://www.tiddlywiki.com/beta/index.html
-    empty.2.4.0.B2.html => http://www.tiddlywiki.com/beta/empty.html
-    empty.2.4.0.B2.html => http://www.tiddlywiki.com/upgrade/index.html
+    index.2.6.2.B5.html => http://www.tiddlywiki.com/beta/index.html
+    empty.2.6.2.B5.html => http://www.tiddlywiki.com/beta/empty.html
+    empty.2.6.2.B5.html => http://www.tiddlywiki.com/upgrade/index.html
+    compressed.2.6.2.B5.html => http://www.tiddlywiki.com/beta/compressed.html
 The script "uploadbeta" can be used to upload the index and empty documents onto
 the tiddlywiki.com server (you will be prompted for username and password twice).
 
