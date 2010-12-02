@@ -1,4 +1,4 @@
-<div title="PersistentOptions" modifier="MJB" created="201011100000" modified="201011500000">
+<div title="PersistentOptions" modifier="MJB" created="201011100000" modified="201012020000">
 <pre>
 TiddlyWiki now has the ability to save options in the TiddlyWiki document itself (in addition to the ability to save options in cookies). Persistent options are stored in the [[SystemSettings]] tiddler. Persistent options are also called "baked" options, since the value of the cookie is "baked" into the TiddlyWiki.
 
