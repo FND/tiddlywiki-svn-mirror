@@ -11,7 +11,7 @@ TiddlyWiki document.
 The script "bldbeta" can be used to cook these recipes.
 
 In preparation for a release, the following steps need to be taken:
-* set version number in Trunk/core/js/Version.js
+* set version number and date in Trunk/core/js/Version.js
 * update build and upload scripts to use the respective version number
 * update beta vertical's recipes
 * update beta vertical's NewFeatures tiddler (including modified date)
