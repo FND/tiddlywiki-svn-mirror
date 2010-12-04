@@ -9,8 +9,12 @@
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''~CoreVersion:''|2.4 |
 !!Documentation
-A macro which should be used with caution as there is no recovery for deleted tiddler. 
-Only works from the same space, or a file URI:
+A macro to DELETE a TiddlySpace tiddler.
+
+''WARNING'': this should be used great care as it doesn't move tiddlers to the archive bag,
+it performs a HTTP DELETE which  removes all revisions -- there is no undelete of a tiddler.
+
+Only works when run from inside the target space, or from a file URI:
 
 <<deleteTiddler>>
 !!Code
