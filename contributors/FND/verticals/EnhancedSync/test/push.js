@@ -4,8 +4,8 @@ var _store, _getAdaptor;
 var esync = config.macros.esync;
 
 var putTiddler = function(tiddler, context, userParams, callback) {
-	context.title = tiddler.title;
 	context.status = true;
+	context.title = tiddler.title;
 	context.tiddlerData = {
 		fields: {
 			"server.page.revision": "19"

@@ -10,6 +10,14 @@ var getTiddler = function(title, context, userParams, callback) {
 	callback(context, userParams);
 };
 
+var putTiddler = function(tiddler, context, userParams, callback) {
+	requestData = { tiddler: $.extend(true, {}, tiddler) };
+	context.status = true;
+	context.title = tiddler.title;
+	context.tiddlerData = {};
+	callback(context, userParams);
+};
+
 module("diverging titles", {
 	setup: function() {
 		_store = store;
@@ -17,7 +25,7 @@ module("diverging titles", {
 
 		_getAdaptor = Tiddler.prototype.getAdaptor;
 		Tiddler.prototype.getAdaptor = function() {
-			return { getTiddler: getTiddler };
+			return { getTiddler: getTiddler, putTiddler: putTiddler };
 		};
 
 		requestData = null;
@@ -47,6 +55,19 @@ test("pull: get", function() {
 	});
 	strictEqual(requestData.title, "Bar");
 	strictEqual(responseData.title, "Bar [local]");
+});
+
+test("push: put", function() {
+	var localTiddler, updatedTiddler, responseData;
+
+	localTiddler = new Tiddler("Foo [local]");
+	localTiddler.fields["server.page.id"] = "Foo";
+
+	esync.push(localTiddler, function(tiddler, status, msg) {
+		updatedTiddler = tiddler;
+	});
+	strictEqual(requestData.tiddler.title, "Foo");
+	strictEqual(updatedTiddler.title, "Foo [local]");
 });
 
 })(QUnit.module, jQuery);

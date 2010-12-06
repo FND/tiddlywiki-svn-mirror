@@ -288,6 +288,9 @@ var macro = config.macros.esync = {
 				this.pushCallback);
 		}
 		var method = isDeleted(tiddler) ? "deleteTiddler" : "putTiddler";
+		tiddler = $.extend(true, {}, tiddler, {
+			title: tiddler.fields["server.page.id"] || tiddler.title
+		});
 		return env.adaptor[method](tiddler, env.context, env.cache,
 			this.pushCallback);
 	},
