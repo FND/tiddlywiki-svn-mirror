@@ -5,6 +5,7 @@ var esync = config.macros.esync;
 
 var getTiddler = function(title, context, userParams, callback) {
 	context.status = true;
+	context.title = title;
 	context.tiddler = new Tiddler(title);
 	context.tiddler.tags = ["bar", "baz"];
 	context.tiddler.fields = {
