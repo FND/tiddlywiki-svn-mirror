@@ -1,0 +1,17 @@
+title: TiddlyWebAdaptor
+modifier: FND
+created: 200811260000
+modified: 200811260000
+tags: systemConfig excludeLists excludeSearch
+server.bag: system
+server.etag: &quot;system/TiddlyWebAdaptor/218145;3f5c3a54c91e508486a91626a50e970451138c82&quot;
+server.host: http://tiddlyspace.tiddlyspace.com/
+creator: FND
+_hash: 607f6496d938e429aade6e4a905ed20b9277929a
+server.title: TiddlyWebAdaptor
+server.content-type: text/javascript
+server.page.revision: 218145
+server.type: tiddlyweb
+server.permissions: read
+server.recipe: tiddlyspace_private
+server.workspace: bags/system

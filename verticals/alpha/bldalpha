@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+# Usage:
+#  bldalpha
+
+DEST=$PWD
+RECIPE=$PWD/empty.html.recipe
+ruby -Ku -C ../../tools/cooker cook.rb $RECIPE -d$DEST -q $2 $3 $4 $5

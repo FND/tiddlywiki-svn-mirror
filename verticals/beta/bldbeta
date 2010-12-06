@@ -3,10 +3,12 @@
 # Usage:
 #  bldbeta [release]
 
-DEFAULT_RELEASE=2.6.2.B1
+DEFAULT_RELEASE=2.6.2.B7
 RELEASE=${1:-$DEFAULT_RELEASE}
 DEST=$PWD
 RECIPE=$PWD/recipes/index.$RELEASE.html.recipe
 ruby -Ku -C ../../tools/cooker cook.rb $RECIPE -d$DEST -q $2 $3 $4 $5
 RECIPE=$PWD/recipes/empty.$RELEASE.html.recipe
 ruby -Ku -C ../../tools/cooker cook.rb $RECIPE -d$DEST -q $2 $3 $4 $5
+ruby -Ku -C ../../tools/cooker cook.rb $RECIPE -d$DEST -q -o compressed.$RELEASE.html -cr -Cr -Dr $2 $3 $4 $5
+ruby -Ku -C ../../tools/cooker cook.rb $RECIPE -d$DEST -q -j -o twcore.$RELEASE.js $2 $3 $4 $5

@@ -3,11 +3,11 @@
 |''Description:''|Translation of TiddlyWiki into English|
 |''Author:''|MartinBudden (mjbudden (at) gmail (dot) com)|
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/association/locales/core/en/locale.en.js |
-|''Version:''|0.4.2|
-|''Date:''|Aug 20, 2010|
+|''Version:''|0.4.3|
+|''Date:''|Nov 22, 2010|
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''License:''|[[Creative Commons Attribution-ShareAlike 3.0 License|http://creativecommons.org/licenses/by-sa/3.0/]] |
-|''~CoreVersion:''|2.6.0|
+|''~CoreVersion:''|2.6.2|
 ***/
 
 //{{{
@@ -256,6 +256,21 @@ merge(config.macros.plugins,{
 		rowClasses: [
 			{className: 'error', field: 'error'},
 			{className: 'warning', field: 'warning'}
+			]},
+	listViewTemplateReadOnly: {
+		columns: [
+			{name: 'Tiddler', field: 'tiddler', title: "Tiddler", type: 'Tiddler'},
+			{name: 'Description', field: 'Description', title: "Description", type: 'String'},
+			{name: 'Version', field: 'Version', title: "Version", type: 'String'},
+			{name: 'Size', field: 'size', tiddlerLink: 'size', title: "Size", type: 'Size'},
+			{name: 'Executed', field: 'executed', title: "Loaded", type: 'Boolean', trueText: "Yes", falseText: "No"},
+			{name: 'Startup Time', field: 'startupTime', title: "Startup Time", type: 'String'},
+			{name: 'Error', field: 'error', title: "Status", type: 'Boolean', trueText: "Error", falseText: "OK"},
+			{name: 'Log', field: 'log', title: "Log", type: 'StringList'}
+			],
+		rowClasses: [
+			{className: 'error', field: 'error'},
+			{className: 'warning', field: 'warning'}
 			]}
 	});
 
@@ -367,7 +382,7 @@ merge(config.macros.sync,{
 	hasChanged: "Changed while unplugged",
 	hasNotChanged: "Unchanged while unplugged",
 	syncStatusList: {
-		none: {text: "...", display:null, className:'notChanged'},
+		none: {text: "...", display:'none', className:'notChanged'},
 		changedServer: {text: "Changed on server", display:null, className:'changedServer'},
 		changedLocally: {text: "Changed while unplugged", display:null, className:'changedLocally'},
 		changedBoth: {text: "Changed while unplugged and on server", display:null, className:'changedBoth'},
@@ -482,6 +497,7 @@ merge(config.annotations,{
 	StyleSheetLayout: "This shadow tiddler contains CSS definitions related to the layout of page elements. ''DO NOT EDIT THIS TIDDLER'', instead make your changes in the StyleSheet shadow tiddler",
 	StyleSheetLocale: "This shadow tiddler contains CSS definitions related to the translation locale",
 	StyleSheetPrint: "This shadow tiddler contains CSS definitions for printing",
+	SystemSettings: "This tiddler is used to store configuration options for this TiddlyWiki document",
 	TabAll: "This shadow tiddler contains the contents of the 'All' tab in the right-hand sidebar",
 	TabMore: "This shadow tiddler contains the contents of the 'More' tab in the right-hand sidebar",
 	TabMoreMissing: "This shadow tiddler contains the contents of the 'Missing' tab in the right-hand sidebar",

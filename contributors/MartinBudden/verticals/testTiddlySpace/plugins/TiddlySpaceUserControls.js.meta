@@ -1,0 +1,17 @@
+title: TiddlySpaceUserControls
+modifier: osmosoft
+created: 20101116145644
+modified: 20101116145644
+tags: systemConfig excludeSearch excludeLists
+server.bag: tiddlyspace
+server.etag: &quot;tiddlyspace/TiddlySpaceUserControls/218189;3f5c3a54c91e508486a91626a50e970451138c82&quot;
+server.host: http://tiddlyspace.tiddlyspace.com/
+creator: osmosoft
+_hash: b055f2f6f76257b4246ad26da08f18cb733988b3
+server.title: TiddlySpaceUserControls
+server.content-type: text/javascript
+server.page.revision: 218189
+server.type: tiddlyweb
+server.permissions: read
+server.recipe: tiddlyspace_private
+server.workspace: bags/tiddlyspace

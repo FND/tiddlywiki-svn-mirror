@@ -1,5 +1,5 @@
 //--
-//-- TiddlyWiki() object contains Tiddler()s
+//-- TiddlyWiki instance contains TiddlerS
 //--
 
 function TiddlyWiki()
@@ -327,6 +327,8 @@ TiddlyWiki.prototype.saveTiddler = function(title,newTitle,newBody,modifier,modi
 	var tiddler;
 	if(title instanceof Tiddler) {
 		tiddler = title;
+		title = tiddler.title;
+		newTitle = title;
 	} else {
 		tiddler = this.fetchTiddler(title);
 		if(tiddler) {

@@ -1,0 +1,17 @@
+title: SimpleSearchPlugin
+modifier: jon
+created: 20100707140142
+modified: 20100707140142
+tags: systemConfig
+server.bag: tiddlyspace_public
+server.etag: &quot;tiddlyspace_public/SimpleSearchPlugin/4506;3f5c3a54c91e508486a91626a50e970451138c82&quot;
+server.host: http://tiddlyspace.tiddlyspace.com/
+creator: jon
+_hash: 336d7bdf79ce7c187b26dc5f39fc4e224f3d5cf5
+server.title: SimpleSearchPlugin
+server.content-type: 
+server.page.revision: 4506
+server.type: tiddlyweb
+server.permissions: read, write, create, delete
+server.recipe: tiddlyspace_private
+server.workspace: bags/tiddlyspace_public

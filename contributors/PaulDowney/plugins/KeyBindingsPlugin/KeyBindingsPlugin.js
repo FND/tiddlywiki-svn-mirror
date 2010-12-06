@@ -4,7 +4,7 @@
 |''Author:''|PaulDowney (psd (at) osmosoft (dot) com) |
 |''Source:''|http://whatfettle.com/2008/07/KeyBindingsPlugin/ |
 |''CodeRepository:''|http://svn.tiddlywiki.org/Trunk/contributors/PaulDowney/plugins/KeyBindingsPlugin/ |
-|''Version:''|0.2|
+|''Version:''|0.3|
 |''License:''|[[BSD License|http://www.opensource.org/licenses/bsd-license.php]] |
 |''Comments:''|Please make comments at http://groups.google.co.uk/group/TiddlyWikiDev |
 |''~CoreVersion:''|2.4|
@@ -39,6 +39,7 @@
 			65: function (e) { story.firstTiddler(); },	//A
 			90: function (e) { story.lastTiddler(); },	//Z
 			187: function (e) { cecily.zoomIn(); },	//=+
+			107: function (e) { cecily.zoomIn(); },	//=+
 			61: function (e) { cecily.zoomIn(); },	//=+
 			189: function (e) { cecily.zoomOut(); },	//-
 			109: function (e) { cecily.zoomOut(); },	//-

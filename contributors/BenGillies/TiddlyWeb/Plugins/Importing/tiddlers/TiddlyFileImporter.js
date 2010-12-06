@@ -1,6 +1,6 @@
 /***
 |''Name''|TiddlyFileImporter|
-|''Version''|0.3.1|
+|''Version''|0.3.3|
 |''Author''|Ben Gillies|
 |''Type''|plugin|
 |''Description''|Upload a TiddlyWiki file to TiddlyWeb, and import the tiddlers.|
@@ -19,7 +19,7 @@ if(!version.extensions.TiddlyFileImporter)
 }
 
 config.macros.fileImport = {
-	reflectorURI: '/reflector',
+	reflectorURI: '/reflector?csrf_token=%0',
 	incorrectTypeError: 'Incorrect File Type. You must upload a TiddlyWiki',
 	uploadLabel: 'Upload',
 	uploadLabelPrompt: 'Import tiddlers from this TiddlyWiki',
@@ -58,14 +58,17 @@ config.macros.fileImport = {
 		var iframe = $('<iframe name="' + iframeName + '" '
 			+ 'style="display: none" />').appendTo(uploadWrapper);
 		var onSubmit = function(ev) {
-			if (wizard.importType == "file") {
+			var uploadType = $('select', wizard.formElem).val();
+			if (uploadType == "file") {
 				// set an onload ready to hijack the form
 				me.setOnLoad(uploadWrapper, wizard, iframe[0]);
+				wizard.importType = 'file';
 				wizard.formElem.submit();
 			} else {
+				var csrf_token = config.extensions.tiddlyspace.getCSRFToken();
 				$.ajax({
-					url: "%0/reflector".format([
-						config.defaultCustomFields["server.host"]]),
+					url: "%0/reflector?csrf_token=%1".format([
+						config.defaultCustomFields["server.host"], csrf_token]),
 					type: "POST",
 					dataType: "text",
 					data: {
@@ -98,7 +101,8 @@ config.macros.fileImport = {
 	createForm: function(place, wizard, iframeName) {
 		var form = wizard.formElem;
 		var me = config.macros.fileImport;
-		form.action = me.reflectorURI;
+		form.action = me.reflectorURI.format(
+			[config.extensions.tiddlyspace.getCSRFToken()]);
 		form.enctype = 'multipart/form-data';
 		form.method = 'POST';
 		form.target = iframeName;
@@ -107,11 +111,9 @@ config.macros.fileImport = {
 			if (changeTo == "file") {
 				$(".importFrom").html('%0 <input type="file" name="file" />'.
 					format([me.step1FileText]));
-				wizard.importType = "file";
 			} else {
 				$(".importFrom").html('%0 <input type="text" name="uri" />'.
 					format([me.step1URLText]));
-				wizard.importType = "uri";
 			}
 		};
 		$(place).append('<span>%0</span>'.format([me.step1TypeChooser])).
@@ -120,7 +122,6 @@ config.macros.fileImport = {
 			append('<div class="importFrom">%0<input type="file" name="file" />'.
 					format([me.step1FileText])
 				+ '</div>');
-		wizard.importType = "uri";
 	},
 
 	setOnLoad: function(place, wizard, iframe) {

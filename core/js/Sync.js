@@ -159,8 +159,7 @@ config.macros.sync.updateSyncStatus = function(syncItem)
 	var e = syncItem.colElements["status"];
 	removeChildren(e);
 	createTiddlyText(e,syncItem.syncStatus.text);
-	if(syncItem.syncStatus.display)
-		syncItem.rowElement.style.display = syncItem.syncStatus.display;
+	syncItem.rowElement.style.display = syncItem.syncStatus.display;
 	if(syncItem.syncStatus.className)
 		syncItem.rowElement.className = syncItem.syncStatus.className;
 };
@@ -194,7 +193,8 @@ config.macros.sync.doSync = function(e)
 				var r = true;
 				switch(si.syncStatus) {
 				case sl.changedServer:
-					r = si.adaptor.getTiddler(si.title,null,si,getTiddlerCallback);
+					var context = {"workspace": si.serverWorkspace};
+					r = si.adaptor.getTiddler(si.title,context,si,getTiddlerCallback);
 					break;
 				case sl.notFound:
 				case sl.changedLocally:

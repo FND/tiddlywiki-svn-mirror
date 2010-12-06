@@ -1,0 +1,17 @@
+title: TiddlySpaceTiddlerIconsPlugin
+modifier: jon
+created: 20101116145637
+modified: 20101116145637
+tags: systemConfig excludeSearch excludeLists
+server.bag: system-plugins_public
+server.etag: &quot;system-plugins_public/TiddlySpaceTiddlerIconsPlugin/218136;3f5c3a54c91e508486a91626a50e970451138c82&quot;
+server.host: http://tiddlyspace.tiddlyspace.com/
+creator: jon
+_hash: c92227c9a56230d3183493ed159a97af9ba5f2fc
+server.title: TiddlySpaceTiddlerIconsPlugin
+server.content-type: text/javascript
+server.page.revision: 218136
+server.type: tiddlyweb
+server.permissions: read
+server.recipe: tiddlyspace_private
+server.workspace: bags/system-plugins_public
