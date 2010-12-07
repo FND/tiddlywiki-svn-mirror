@@ -56,6 +56,12 @@ var macro = config.macros.image = {
 			var image = startupImages[i];
 			macro.renderImage(place, image.title, { idPrefix: "" });
 		}
+		var data = new Image();
+		data.onload = function() {
+			macro.supportsDataUris = this.width != 1 || this.height != 1 ? false : true;
+		};
+		data.onerror = data.onload;
+		data.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
 	},
 	refreshImage: function(src) {
 		var elements = macro._image_tag_cache[src] ? macro._image_tag_cache[src] : [];
@@ -365,35 +371,28 @@ var macro = config.macros.image = {
 	},
 	lookupArgument: function(args, id, ifEmpty) {
 		return args[id] ? args[id] : ifEmpty;
-	},
-	init: function() {
-		var data = new Image();
-		data.onload = function() {
-			macro.supportsDataUris = this.width != 1 || this.height != 1 ? false : true;
-		};
-		data.onerror = data.onload;
-		data.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
 	}
 };
 
 // update views
 var _oldwikifiedview = config.macros.view.views.wikified;
 // update wikifier to check tiddler type before rendering
-config.macros.view.views.wikified = function(value, place, params, wikifier, paramString, tiddler) {
-	if(macro.isImageTiddler(tiddler) && params[0] == "text") {
-		var newplace = $("<div />").addClass("wikifiedImage").appendTo(place)[0];
-		macro.renderImage(newplace, tiddler.title, { alt: macro.locale.badImage });
-	} else {
-		_oldwikifiedview.apply(this, arguments);
+merge(config.macros.view.views, {
+	wikified: function(value, place, params, wikifier, paramString, tiddler) {
+		if(macro.isImageTiddler(tiddler) && params[0] == "text") {
+			var newplace = $("<div />").addClass("wikifiedImage").appendTo(place)[0];
+			macro.renderImage(newplace, tiddler.title, { alt: macro.locale.badImage });
+		} else {
+			_oldwikifiedview.apply(this, arguments);
+		}
+	},
+	image: function(value, place, params, wikifier, paramString, tiddler) {
+		// a field can point to another tiddler whereas text is the current tiddler.
+		var title = params[0] == "text" ? tiddler.title : value;
+		paramString = '"%0" %1'.format(title, params.splice(2).join(" "))
+		invokeMacro(place, "image", paramString, null, tiddler);
 	}
-};
-config.macros.view.views.image = function(value, place, params, wikifier, paramString, tiddler) {
-	// a field can point to another tiddler whereas text is the current tiddler.
-	var title = params[0] == "text" ? tiddler.title : value;
-	var paramString = '"%0" %1'.format(title, params.splice(2).join(" "))
-	invokeMacro(place, "image", paramString, null, tiddler);
-};
-
+});
 config.shadowTiddlers.StyleSheetImageMacro = [".wikifiedImage svg, .wikifiedImage .image { width: 80%; }",
 	".svgImageText { background-color:[[ColorPalette::Error]]; color:#ddd; display: inline-block; }",
 	"span.svgImageText { display: inline-block; overflow-hidden; }"
