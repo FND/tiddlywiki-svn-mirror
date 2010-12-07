@@ -42,10 +42,10 @@ adaptor.prototype.getStatus = function(context, userParams, callback) {
 };
 
 adaptor.getStatusCallback = function(status, context, responseText, uri, xhr) {
-	context.status = status;
+	context.status = responseText ? status : false;
 	try {
 		context.statusText = xhr.statusText;
-	} catch(exc) { // offline
+	} catch(exc) { // offline (Firefox)
 		context.status = false;
 		context.statusText = null;
 	}

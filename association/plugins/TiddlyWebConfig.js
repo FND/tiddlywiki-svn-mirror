@@ -38,7 +38,7 @@ var plugin = config.extensions.tiddlyweb = {
 		this.getStatus(function(status) {
 			callback({
 				name: plugin.username,
-				anon: plugin.username ? plugin.username == "GUEST" : false
+				anon: plugin.username ? plugin.username == "GUEST" : true
 			});
 		});
 	},
