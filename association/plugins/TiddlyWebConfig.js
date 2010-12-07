@@ -2,7 +2,7 @@
 |''Name''|TiddlyWebConfig|
 |''Description''|configuration settings for TiddlyWebWiki|
 |''Author''|FND|
-|''Version''|1.3.1|
+|''Version''|1.3.2|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/plugins/TiddlyWebConfig.js|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
@@ -38,7 +38,7 @@ var plugin = config.extensions.tiddlyweb = {
 		this.getStatus(function(status) {
 			callback({
 				name: plugin.username,
-				anon: plugin.username == "GUEST"
+				anon: plugin.username ? plugin.username == "GUEST" : false
 			});
 		});
 	},

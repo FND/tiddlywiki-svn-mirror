@@ -3,7 +3,7 @@
 |''Description''|adaptor for interacting with TiddlyWeb|
 |''Author:''|FND|
 |''Contributors''|Chris Dent, Martin Budden|
-|''Version''|1.4.8|
+|''Version''|1.4.9|
 |''Status''|stable|
 |''Source''|http://svn.tiddlywiki.org/Trunk/association/adaptors/TiddlyWebAdaptor.js|
 |''CodeRepository''|http://svn.tiddlywiki.org/Trunk/association/|
@@ -43,9 +43,14 @@ adaptor.prototype.getStatus = function(context, userParams, callback) {
 
 adaptor.getStatusCallback = function(status, context, responseText, uri, xhr) {
 	context.status = status;
-	context.statusText = xhr.statusText;
+	try {
+		context.statusText = xhr.statusText;
+	} catch(exc) { // offline
+		context.status = false;
+		context.statusText = null;
+	}
 	context.httpStatus = xhr.status;
-	if(status) {
+	if(context.status) {
 		context.serverStatus = $.evalJSON(responseText); // XXX: error handling!?
 	}
 	if(context.callback) {
