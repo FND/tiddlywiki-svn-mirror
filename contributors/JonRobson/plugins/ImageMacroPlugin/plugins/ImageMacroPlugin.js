@@ -1,6 +1,6 @@
 /***
 |''Name''|ImageMacroPlugin|
-|''Version''|0.9.1|
+|''Version''|0.9.2|
 |''Description''|Allows the rendering of svg images in a TiddlyWiki|
 |''Author''|Osmosoft|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
@@ -88,7 +88,6 @@ var macro = config.macros.image = {
 	isBinaryImageTiddler: function(tiddler) {
 		return macro.isBinaryImageType(tiddler.fields['server.content-type']);
 	},
-	supportsDataUris: false,
 	renderImage: function(place, imageSource, options) {
 		var imageTiddler = store.getTiddler(imageSource);
 		var container;
@@ -164,7 +163,6 @@ var macro = config.macros.image = {
 	},
 	_renderImageTag: function(container, src, width, height, options) {
 		var img;
-		options.ieTransparency = true;
 		img = $("<img />").appendTo(container);
 		if(height) {
 			img.attr("height", height);
@@ -172,7 +170,7 @@ var macro = config.macros.image = {
 		if(width) {
 			img.attr("width", width);
 		}
-		if(macro.ieVersion && macro.ieVersion < 7 && macro.shim && options.ieTransparency) {
+		if(macro.ieVersion && macro.ieVersion < 7 && macro.shim && options.ie6png) {
 			$(img).css({width: userW, height: userH,
 					filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='%0', sizingMethod='scale')".format(src)
 				}).attr("src", macro.shim);
