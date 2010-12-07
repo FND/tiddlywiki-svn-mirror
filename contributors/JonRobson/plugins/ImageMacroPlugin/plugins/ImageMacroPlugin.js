@@ -1,6 +1,6 @@
 /***
 |''Name''|ImageMacroPlugin|
-|''Version''|0.9.0|
+|''Version''|0.9.1|
 |''Description''|Allows the rendering of svg images in a TiddlyWiki|
 |''Author''|Osmosoft|
 |''License''|[[BSD|http://www.opensource.org/licenses/bsd-license.php]]|
@@ -156,6 +156,62 @@ var macro = config.macros.image = {
 			return macro._renderBinaryImageUrl(place, resourceURI, options);
 		}
 	},
+	_renderImageTag: function(container, src, width, height, options) {
+		var img;
+		options.ieTransparency = true;
+		img = $("<img />").appendTo(container);
+		if(height) {
+			img.attr("height", height);
+		}
+		if(width) {
+			img.attr("width", width);
+		}
+		if(macro.ieVersion && macro.ieVersion < 7 && macro.shim && options.ieTransparency) {
+			$(img).css({width: userW, height: userH,
+					filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='%0', sizingMethod='scale')".format(src)
+				}).attr("src", macro.shim);
+		} else {
+			img.attr("src", src);
+		}
+		if(!macro._image_tag_cache[options.srcUrl]) {
+			macro._image_tag_cache[options.srcUrl] = [];
+		}
+		img = $(img).addClass(options.imageClass)[0];
+		macro._image_tag_cache[options.srcUrl].push(img);
+		return img;
+	},
+	_getDimensions: function(realDimensions, reqDimensions, preserve) {
+		var w = realDimensions.width;
+		var h = realDimensions.height;
+		var reqh = reqDimensions.height;
+		var reqw = reqDimensions.width;
+		var finalw = w, finalh = h;
+		var ratiow = reqw / w, ratioh = reqh / h;
+		var scaledw = ratioh * w;
+		var scaledh = ratiow * h;
+		if(!reqw && reqh) {
+			finalw = scaledw;
+			finalh = reqh;
+		} else if(reqw && !reqh) {
+			finalw = reqw;
+			finalh = scaledh;
+		} else if(reqh && reqw) {
+			var preserveWidth = w > h ? true : false;
+			if(preserve) {
+				if(preserveWidth && scaledh < reqh) {
+					finalh = scaledh;
+					finalw = reqw;
+				} else {
+					finalh = reqh;
+					finalw = scaledw;
+				}
+			} else {
+				finalw = reqw;
+				finalh = reqh;
+			}
+		}
+		return { width: parseInt(finalw, 10), height: parseInt(finalh, 10) };
+	},
 	_renderBinaryImageUrl: function(container, src, options) {
 		var srcUrl = options.src ? options.src : src;
 		srcUrl = srcUrl.indexOf("/") === -1 ? "/%0".format(srcUrl) : srcUrl; // for IE. 
@@ -172,43 +228,10 @@ var macro = config.macros.image = {
 					macro._renderAlternateText(container, options);
 				}
 			} else {
-				var preserve = options.preserveAspectRatio;
-				var w = dimensions.width;
-				var h = dimensions.height;
-				var userH = preserve && h < options.height ? h : options.height;
-				var userW = preserve && w < options.width ? w : options.width;
-				if(w && h) {
-					var preserveWidth = preserve && w > h;
-					var preserveHeight = preserve && h > w;
-					var ratio;
-					if(userH && !userW || preserveHeight) {
-						ratio = userH / h;
-						userW = parseInt(ratio * w, 10);
-					} else if (userW && !userH || preserveWidth) {
-						ratio = userW / w;
-						userH = parseInt(ratio * h, 10);
-					}
-					userW = userW ? userW : w;
-					userH = userH ? userH : h;
-				}
-				var img = $("<img />").addClass(options.imageClass).appendTo(container);
-				if(userH) {
-					img.attr("height", userH);
-				}
-				if(userW) {
-					img.attr("width", userW);
-				}
-				if(macro.ieVersion && macro.ieVersion < 7 && macro.shim) {
-					$(img).css({width: userW, height: userH,
-							filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='%0', sizingMethod='scale')".format(src)
-						}).attr("src", macro.shim);
-				} else {
-					img.attr("src", src);
-				}
-				if(!macro._image_tag_cache[srcUrl]) {
-					macro._image_tag_cache[srcUrl] = [];
-				}
-				macro._image_tag_cache[srcUrl].push(img);
+				var dim = macro._getDimensions(dimensions, { 
+					width: options.width, height: options.height }, options.preserveAspectRatio);
+				options.srcUrl = srcUrl;
+				macro._renderImageTag(container, src, dim.width, dim.height, options);
 			}
 		};
 
@@ -342,18 +365,16 @@ var macro = config.macros.image = {
 	},
 	lookupArgument: function(args, id, ifEmpty) {
 		return args[id] ? args[id] : ifEmpty;
+	},
+	init: function() {
+		var data = new Image();
+		data.onload = function() {
+			macro.supportsDataUris = this.width != 1 || this.height != 1 ? false : true;
+		};
+		data.onerror = data.onload;
+		data.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
 	}
 };
-
-var datauriTest = function() {
-	var data = new Image();
-	data.onload = function() {
-		macro.supportsDataUris = this.width != 1 || this.height != 1 ? false : true;
-	};
-	data.onerror = data.onload;
-	data.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
-};
-datauriTest();
 
 // update views
 var _oldwikifiedview = config.macros.view.views.wikified;
